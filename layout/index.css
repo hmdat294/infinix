@@ -1,0 +1,626 @@
+/* Local Variable */
+:root, [data-theme="light"] {
+    --text-primary: #000000E6;
+    --text-secondary: #0000009E;
+    --text-tertiary: #00000073;
+    --text-disabled: #0000005C;
+    --accent-text-primary: #003E92FF;
+    --accent-text-secondary: #001A68FF;
+    --accent-text-tertiary: #005FB8FF;
+    --accent-text-disabled: #0000005C;
+    --text-on-accent-primary: #FFFFFFFF;
+    --text-on-accent-secondary: #FFFFFFB3;
+    --text-on-accent-disabled: #FFFFFFFF;
+    --text-on-accent-selected: #FFFFFFFF;
+    --control-default: #FFFFFFB3;
+    --control-secondary: #F9F9F980;
+    --control-tertiary: #F9F9F94D;
+    --control-quarternary: #F3F3F3C2;
+    --control-disabled: #F9F9F94D;
+    --control-transparent: #FFFFFF00;
+    --control-input-active: #FFFFFFFF;
+    --control-alt-secondary: #00000005;
+    --control-alt-tertiary: #0000000F;
+    --control-alt-quarternary: #F3F3F3C2;
+    --control-alt-disabled: #F9F9F94D;
+    --control-alt-transparent: #FFFFFF00;
+    --control-solid-default: #FFFFFFFF;
+    --control-strong-default: #00000073;
+    --control-strong-disabled: #00000052;
+    --subtle-transparent: #00000000;
+    --subtle-secondary: #0000000A;
+    --subtle-tertiary: #00000005;
+    --subtle-disabled: #00000000;
+    --control-on-image-fill-default: #FFFFFFC9;
+    --control-on-image-fill-secondary: #F3F3F3FF;
+    --control-on-image-fill-tertiary: #EBEBEBFF;
+    --control-on-image-fill-disabled: #FFFFFF00;
+    --accent-default: #005FB8FF;
+    --accent-secondary: #005FB8E6;
+    --accent-tertiary: #005FB8CC;
+    --accent-disabled: #00000038;
+    --accent-selected-text-background: #0078D4FF;
+    --control-stroke-default: #0000000F;
+    --control-stroke-secondary: #00000029;
+    --control-stroke-on-accent-default: #FFFFFF14;
+    --control-stroke-on-accent-secondary: #00000066;
+    --control-stroke-on-accent-tertiary: #00000038;
+    --control-stroke-on-accent-disabled: #0000000F;
+    --control-stroke-for-strong-fill-when-on-image: #FFFFFF59;
+    --card-stroke-default: #0000000F;
+    --card-stroke-default-solid: #EBEBEBFF;
+    --control-strong-stroke-default: #00000073;
+    --control-strong-stroke-disabled: #00000038;
+    --surface-stroke-default: #75757566;
+    --surface-stroke-flyout: #0000000F;
+    --divider-stroke-default: #0000000F;
+    --focus-outer: #000000E6;
+    --focus-innter: #FFFFFFB3;
+    --card-background-default: #FFFFFFB3;
+    --card-background-secondary: #F6F6F680;
+    --card-background-tertiary: #FFFFFFFF;
+    --smoke-default: #0000004D;
+    --layer-default: #FFFFFF80;
+    --layer-alt: #FFFFFFFF;
+    --solid-background-base: #F3F3F3FF;
+    --solid-background-secondary: #EEEEEEFF;
+    --solid-background-tertiary: #F9F9F9FF;
+    --system-attention: #0070CBFF;
+    --system-success: #0F7B0FFF;
+    --system-caution: #9D5D00FF;
+    --system-critical: #C42B1CFF;
+    --system-attention-background: #F6F6F680;
+    --system-success-background: #DFF6DDFF;
+    --system-caution-background: #FFF4CEFF;
+    --system-critical-background: #FDE7E9FF;
+    --system-neutral: #00000073;
+    --system-solid-neutral: #8A8A8AFF;
+    --system-neutral-background: #00000005;
+    --system-solid-neutral-background: #F3F3F3FF;
+    --system-solid-attention-background: #F7F7F7FF;
+    --solid-background-quarternary: #FFFFFFFF;
+    --solid-background-quinary: #FDFDFDFF;
+    --solid-background-senary: #FFFFFFFF;
+    --solid-background-base-alt: #DADADAFF;
+    --shadow-card-rest: #0000000A;
+    --shadow-card-hover: #0000001A;
+    --shadow-tooltip: #00000024;
+    --shadow-flyout: #00000024;
+    --shadow-dialog: #00000026;
+    --acrylic-background-base: #EEEEEEE6;
+    --acrylic-background-default: #F9F9F9CC;
+}
+
+[data-theme="dark"] {
+    --text-primary: #FFFFFFFF;
+    --text-secondary: #FFFFFFC9;
+    --text-tertiary: #FFFFFF8A;
+    --text-disabled: #FFFFFF5C;
+    --accent-text-primary: #99EBFFFF;
+    --accent-text-secondary: #99EBFFFF;
+    --accent-text-tertiary: #60CDFFFF;
+    --accent-text-disabled: #FFFFFF5C;
+    --text-on-accent-primary: #000000FF;
+    --text-on-accent-secondary: #00000080;
+    --text-on-accent-disabled: #FFFFFF87;
+    --text-on-accent-selected: #FFFFFFFF;
+    --control-default: #FFFFFF0F;
+    --control-secondary: #FFFFFF0F;
+    --control-tertiary: #FFFFFF0A;
+    --control-quarternary: #FFFFFF0F;
+    --control-disabled: #F9F9F94D;
+    --control-transparent: #00000000;
+    --control-input-active: #1E1E1EB3;
+    --control-alt-secondary: #0000001A;
+    --control-alt-tertiary: #FFFFFF0A;
+    --control-alt-quarternary: #FFFFFF12;
+    --control-alt-disabled: #FFFFFF00;
+    --control-alt-transparent: #FFFFFF00;
+    --control-solid-default: #454545FF;
+    --control-strong-default: #FFFFFF8A;
+    --control-strong-disabled: #FFFFFF40;
+    --subtle-transparent: #FFFFFF00;
+    --subtle-secondary: #FFFFFF0F;
+    --subtle-tertiary: #FFFFFF05;
+    --subtle-disabled: #FFFFFF00;
+    --control-on-image-fill-default: #1C1C1CB3;
+    --control-on-image-fill-secondary: #1A1A1AFF;
+    --control-on-image-fill-tertiary: #131313FF;
+    --control-on-image-fill-disabled: #1E1E1EFF;
+    --accent-default: #60CDFFFF;
+    --accent-secondary: #5BBDE9FF;
+    --accent-tertiary: #56ADD5FF;
+    --accent-disabled: #FFFFFF29;
+    --accent-selected-text-background: #0078D4FF;
+    --control-stroke-default: #FFFFFF12;
+    --control-stroke-secondary: #FFFFFF17;
+    --control-stroke-on-accent-default: #FFFFFF14;
+    --control-stroke-on-accent-secondary: #00000024;
+    --control-stroke-on-accent-tertiary: #00000038;
+    --control-stroke-on-accent-disabled: #00000033;
+    --control-stroke-for-strong-fill-when-on-image: #0000006B;
+    --card-stroke-default: #0000001A;
+    --card-stroke-default-solid: #1C1C1CFF;
+    --control-strong-stroke-default: #FFFFFF99;
+    --control-strong-stroke-disabled: #FFFFFF29;
+    --surface-stroke-default: #75757566;
+    --surface-stroke-flyout: #00000033;
+    --divider-stroke-default: #FFFFFF14;
+    --focus-outer: #FFFFFFFF;
+    --focus-innter: #000000B3;
+    --card-background-default: #FFFFFF0D;
+    --card-background-secondary: #FFFFFF08;
+    --card-background-tertiary: #FFFFFF12;
+    --smoke-default: #0000004D;
+    --layer-default: #3A3A3A4D;
+    --layer-alt: #FFFFFF0D;
+    --solid-background-base: #202020FF;
+    --solid-background-secondary: #1C1C1CFF;
+    --solid-background-tertiary: #282828FF;
+    --system-attention: #60CDFFFF;
+    --system-success: #6CCB5FFF;
+    --system-caution: #FCE100FF;
+    --system-critical: #FF99A4FF;
+    --system-attention-background: #FFFFFF08;
+    --system-success-background: #393D1BFF;
+    --system-caution-background: #433519FF;
+    --system-critical-background: #442726FF;
+    --system-neutral: #FFFFFF8A;
+    --system-solid-neutral: #9D9D9DFF;
+    --system-neutral-background: #FFFFFF08;
+    --system-solid-neutral-background: #2E2E2EFF;
+    --system-solid-attention-background: #2E2E2EFF;
+    --solid-background-quarternary: #2C2C2CFF;
+    --solid-background-quinary: #333333FF;
+    --solid-background-senary: #373737FF;
+    --solid-background-base-alt: #0A0A0AFF;
+    --shadow-card-rest: #00000021;
+    --shadow-card-hover: #00000042;
+    --shadow-tooltip: #00000042;
+    --shadow-flyout: #00000042;
+    --shadow-dialog: #0000005E;
+    --acrylic-background-base: #202020D9;
+    --acrylic-background-default: #2C2C2CE6;
+}
+
+/* Text Styles  */
+.text-caption {
+    font-family: Segoe UI;
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 0%;
+    font-weight: 400;
+}
+
+.text-body {
+    font-family: Segoe UI;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0%;
+    font-weight: 400;
+}
+
+.text-body-strong {
+    font-family: Segoe UI;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0%;
+    font-weight: 600;
+}
+
+.text-body-large {
+    font-family: Segoe UI;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    font-weight: 400;
+}
+
+.text-subtitle {
+    font-family: Segoe UI;
+    font-size: 20px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    font-weight: 600;
+}
+
+.text-title {
+    font-family: Segoe UI;
+    font-size: 28px;
+    line-height: 36px;
+    letter-spacing: 0%;
+    font-weight: 600;
+}
+
+.text-title-large {
+    font-family: Segoe UI;
+    font-size: 40px;
+    line-height: 52px;
+    letter-spacing: 0%;
+    font-weight: 600;
+}
+
+.text-display {
+    font-family: Segoe UI;
+    font-size: 68px;
+    line-height: 92px;
+    letter-spacing: 0%;
+    font-weight: 600;
+}
+
+/* Effect Styles  */
+.shadow-card {
+    box-shadow: 0px 2px 4px 0px var(--shadow-card-rest);
+}
+
+.shadow-card:hover {
+    box-shadow: 0px 2px 4px 0px var(--shadow-card-hover);
+}
+
+.shadow-tooltip {
+    box-shadow: 0px 4px 8px 0px var(--shadow-tooltip);
+}
+
+.shadow-flyout {
+    box-shadow: 0px 8px 16px 0px var(--shadow-flyout);
+}
+
+.shadow-dialog {
+    box-shadow: 0px 2px 21px 0px var(--shadow-dialog);
+}
+
+.blur-acrylic {
+    backdrop-filter: blur(60px);
+}
+
+.blur-mica {
+    backdrop-filter: blur(240px);
+}
+
+/* Text Color */
+.text-primary {
+    color: var(--text-primary);
+}
+
+.text-secondary {
+    color: var(--text-secondary);
+}
+
+.text-tertiary {
+    color: var(--text-tertiary);
+}
+
+.text-disabled {
+    color: var(--text-disabled);
+}
+
+.accent-text-primary {
+    color: var(--accent-text-primary);
+}
+
+.accent-text-secondary {
+    color: var(--accent-text-secondary);
+}
+
+.accent-text-tertiary {
+    color: var(--accent-text-tertiary);
+}
+
+.accent-text-disabled {
+    color: var(--accent-text-disabled);
+}
+
+.text-on-accent-primary {
+    color: var(--text-on-accent-primary);
+}
+
+.text-on-accent-secondary {
+    color: var(--text-on-accent-secondary);
+}
+
+.text-on-accent-disabled {
+    color: var(--text-on-accent-disabled);
+}
+
+.text-on-accent-selected {
+    color: var(--text-on-accent-selected);
+}
+
+/* Control Color */
+.control-default {
+    background-color: var(--control-default);
+}
+
+.control-secondary {
+    background-color: var(--control-secondary);
+}
+
+.control-tertiary {
+    background-color: var(--control-tertiary);
+}
+
+.control-quarternary {
+    background-color: var(--control-quarternary);
+}
+
+.control-disabled {
+    background-color: var(--control-disabled);
+}
+
+.control-transparent {
+    background-color: var(--control-transparent);
+}
+
+.control-input-active {
+    background-color: var(--control-input-active);
+}
+
+.control-alt-secondary {
+    background-color: var(--control-alt-secondary);
+}
+
+.control-alt-tertiary {
+    background-color: var(--control-alt-tertiary);
+}
+
+.control-alt-quarternary {
+    background-color: var(--control-alt-quarternary);
+}
+
+.control-alt-disabled {
+    background-color: var(--control-alt-disabled);
+}
+
+.control-alt-transparent {
+    background-color: var(--control-alt-transparent);
+}
+
+.control-solid-default {
+    background-color: var(--control-solid-default);
+}
+
+.control-strong-default {
+    background-color: var(--control-strong-default);
+}
+
+.control-strong-disabled {
+    background-color: var(--control-strong-disabled);
+}
+
+/* Subtle Color */
+
+.subtle-transparent {
+    background-color: var(--subtle-transparent);
+}
+
+.subtle-secondary {
+    background-color: var(--subtle-secondary);
+}
+
+.subtle-tertiary {
+    background-color: var(--subtle-tertiary);
+}
+
+.subtle-disabled {
+    background-color: var(--subtle-disabled);
+}
+
+/* Control Fill Color */
+
+.control-on-image-fill-default {
+    background-color: var(--control-on-image-fill-default);
+}
+
+.control-on-image-fill-secondary {
+    background-color: var(--control-on-image-fill-secondary);
+}
+
+.control-on-image-fill-tertiary {
+    background-color: var(--control-on-image-fill-tertiary);
+}
+
+.control-on-image-fill-disabled {
+    background-color: var(--control-on-image-fill-disabled);
+}
+
+/* Accent Color */
+
+.accent-default {
+    background-color: var(--accent-default);
+}
+
+.accent-secondary {
+    background-color: var(--accent-secondary);
+}
+
+.accent-tertiary {
+    background-color: var(--accent-tertiary);
+}
+
+.accent-disabled {
+    background-color: var(--accent-disabled);
+}
+
+.accent-selected-text-background {
+    background-color: var(--accent-selected-text-background);
+}
+
+/* Control Stroke Color */
+
+.control-stroke-default {
+    border-color: var(--control-stroke-default);
+}
+
+.control-stroke-secondary {
+    border-color: var(--control-stroke-secondary);
+}
+
+.control-stroke-on-accent-default {
+    border-color: var(--control-stroke-on-accent-default);
+}
+
+.control-stroke-on-accent-secondary {
+    border-color: var(--control-stroke-on-accent-secondary);
+}
+
+.control-stroke-on-accent-tertiary {
+    border-color: var(--control-stroke-on-accent-tertiary);
+}
+
+.control-stroke-on-accent-disabled {
+    border-color: var(--control-stroke-on-accent-disabled);
+}
+
+.control-stroke-for-strong-fill-when-on-image {
+    border-color: var(--control-stroke-for-strong-fill-when-on-image);
+}
+
+/* Card Stroke Color */
+
+.card-stroke-default {
+    border-color: var(--card-stroke-default);
+}
+
+.card-stroke-default-solid {
+    border-color: var(--card-stroke-default-solid);
+}
+
+/* Control Strong Stroke Color */
+
+.control-strong-stroke-default {
+    border-color: var(--control-strong-stroke-default);
+}
+
+.control-strong-stroke-disabled {
+    border-color: var(--control-strong-stroke-disabled);
+}
+
+/* Surface Stroke Color */
+
+.surface-stroke-default {
+    border-color: var(--surface-stroke-default);
+}
+
+.surface-stroke-flyout {
+    border-color: var(--surface-stroke-flyout);
+}
+
+/* Divider Stroke Color */
+
+.divider-stroke-default {
+    border-color: var(--divider-stroke-default);
+}
+
+/* Card Background Color */
+
+.card-background-default {
+    background-color: var(--card-background-default);
+}
+
+.card-background-secondary {
+    background-color: var(--card-background-secondary);
+}
+
+.card-background-tertiary {
+    background-color: var(--card-background-tertiary);
+}
+
+/* Smoke Color */
+
+.smoke-default {
+    background-color: var(--smoke-default);
+}
+
+/* Layer Color */
+
+.layer-default {
+    background-color: var(--layer-default);
+}
+
+.layer-alt {
+    background-color: var(--layer-alt);
+}
+
+/* Solid Background Color */
+
+.solid-background-base {
+    background-color: var(--solid-background-base);
+}
+
+.solid-background-secondary {
+    background-color: var(--solid-background-secondary);
+}
+
+.solid-background-tertiary {
+    background-color: var(--solid-background-tertiary);
+}
+
+.solid-background-quarternary {
+    background-color: var(--solid-background-quarternary);
+}
+
+.solid-background-quinary {
+    background-color: var(--solid-background-quinary);
+}
+
+.solid-background-senary {
+    background-color: var(--solid-background-senary);
+}
+
+.solid-background-base-alt {
+    background-color: var(--solid-background-base-alt);
+}
+
+/* System Color */
+
+.system-attention {
+    background-color: var(--system-attention);
+}
+
+.system-success {
+    background-color: var(--system-success);
+}
+
+.system-caution {
+    background-color: var(--system-caution);
+}
+
+.system-critical {
+    background-color: var(--system-critical);
+}
+
+.system-attention-background {
+    background-color: var(--system-attention-background);
+}
+
+.system-success-background {
+    background-color: var(--system-success-background);
+}
+
+.system-caution-background {
+    background-color: var(--system-caution-background);
+}
+
+.system-critical-background {
+    background-color: var(--system-critical-background);
+}
+
+.system-neutral {
+    background-color: var(--system-neutral);
+}
+
+.system-solid-neutral {
+    background-color: var(--system-solid-neutral);
+}
+
+.system-neutral-background {
+    background-color: var(--system-neutral-background);
+}
+
+.system-solid-neutral-background {
+    background-color: var(--system-solid-neutral-background);
+}
+
+.system-solid-attention-background {
+    background-color: var(--system-solid-attention-background);
+}
