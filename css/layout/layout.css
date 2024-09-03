@@ -1,120 +1,120 @@
-.gap-5-px {
+.x-gap-5-px {
     gap: 5px;
 }
 
-.gap-10-px {
+.x-gap-10-px {
     gap: 10px;
 }
 
-.gap-15-px {
+.x-gap-15-px {
     gap: 15px;
 }
 
-.gap-20-px {
+.x-gap-20-px {
     gap: 20px;
 }
 
-.gap-auto {
+.x-gap-auto {
     justify-content: space-between !important;
 }
 
-.layout {
+.x-layout {
     display: flex;
 }
 
-.layout-vertical {
+.x-layout-vertical {
     flex-direction: column;
 }
 
-.layout-horizontal {
+.x-layout-horizontal {
     flex-direction: row;
 }
 
-.layout-wrap {
+.x-layout-wrap {
     flex-wrap: wrap;
 }
 
-.align-top-left {
+.x-align-top-left {
     align-items: flex-start;
     justify-content: flex-start;
 }
 
-.align-top-center {
+.x-align-top-center {
     align-items: flex-start;
     justify-content: center;
 }
 
-.align-top-right {
+.x-align-top-right {
     align-items: flex-start;
     justify-content: flex-end;
 }
 
-.align-center-left {
+.x-align-center-left {
     align-items: center;
     justify-content: flex-start;
 }
 
-.align-center-center {
+.x-align-center-center {
     align-items: center;
     justify-content: center;
 }
 
-.align-center-right {
+.x-align-center-right {
     align-items: center;
     justify-content: flex-end;
 }
 
-.align-bottom-left {
+.x-align-bottom-left {
     align-items: flex-end;
     justify-content: flex-start;
 }
 
-.align-bottom-center {
+.x-align-bottom-center {
     align-items: flex-end;
     justify-content: center;
 }
 
-.align-bottom-right {
+.x-align-bottom-right {
     align-items: flex-end;
     justify-content: flex-end;
 }
 
-.align-center {
+.x-align-center {
     align-items: center;
     justify-content: space-around;
 }
 
-.align-top {
+.x-align-top {
     align-items: flex-start;
     justify-content: space-around;
 }
 
-.align-bottom {
+.x-align-bottom {
     align-items: flex-end;
     justify-content: space-around;
 }
 
-.overflow-scroll-vertical {
+.x-overflow-scroll-vertical {
     overflow-y: scroll;
 }
 
-.overflow-scroll-horizontal {
+.x-overflow-scroll-horizontal {
     overflow-x: scroll;
 }
 
-.w-fill {
+.x-w-fill {
     width: 100%;
 }
 
-.w-hug {
-    width: auto;
+.x-w-hug {
+    width: auto !important;
 }
 
-.h-fill {
+.x-h-fill {
     height: 100%;
 }
 
-.h-hug {
+.x-h-hug {
     height: auto;
 }
 
