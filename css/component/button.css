@@ -1,0 +1,146 @@
+/* 
+    Accent Button
+*/
+
+.x-button-accent {
+    min-width: 98px;
+    height: 32px;
+    padding: 5px 12px 7px 12px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: var(--accent-default);
+    color: var(--text-on-accent-primary);
+    font-family: var(--font-family);
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0%;
+    font-weight: 400;
+    outline: none;
+    border-bottom: 1px inset var(--control-stroke-on-accent-secondary);
+    border-left: 1px inset var(--control-stroke-on-accent-default);
+    border-top: 1px inset var(--control-stroke-on-accent-default);
+    border-right: 1px inset var(--control-stroke-on-accent-default);
+}
+
+.x-button-accent > svg > path {
+    fill: var(--text-on-accent-primary);
+}
+
+.x-button-accent:hover {
+    background-color: var(--accent-secondary);
+}
+
+.x-button-accent:active {
+    background-color: var(--accent-tertiary);
+    color: var(--text-on-accent-secondary);
+    border:1px inset var(--control-stroke-on-accent-default);
+}
+
+.x-button-accent:active > svg > path {
+    fill: var(--text-on-accent-secondary);
+}
+
+.x-button-accent:disabled {
+    background-color: var(--accent-disabled);
+    border: none;
+    color: var(--text-on-accent-disabled);
+}
+
+.x-button-accent:disabled > svg > path {
+    fill: var(--text-on-accent-disabled);
+}
+
+/* 
+    Standard Button
+*/
+
+.x-button-standard {
+    min-width: 98px;
+    height: 32px;
+    padding: 5px 12px 7px 12px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: var(--control-default);
+    color: var(--text-primary);
+    font-family: var(--font-family);
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0%;
+    font-weight: 400;
+    outline: none;
+    border-bottom: 1px inset var(--control-stroke-secondary);
+    border-left: 1px inset var(--control-stroke-default);
+    border-top: 1px inset var(--control-stroke-default);
+    border-right: 1px inset var(--control-stroke-default);
+}
+
+.x-button-standard > svg > path {
+    fill: var(--text-primary);
+}
+
+.x-button-standard:hover {
+    background-color: var(--control-secondary);
+}
+
+.x-button-standard:active {
+    background-color: var(--control-tertiary);
+    color: var(--text-secondary);
+    border:1px inset var(--control-stroke-default);
+}
+
+.x-button-standard:active > svg > path {
+    fill: var(--text-secondary);
+}
+
+.x-button-standard:disabled {
+    background-color: var(--control-disabled);
+    border: none;
+    color: var(--text-disabled);
+    border: 1px inset var(--control-stroke-default);
+}
+
+.x-button-standard:disabled > svg > path {
+    fill: var(--text-disabled);
+}
+
+/* 
+    Icon Button
+*/
+
+
+.x-button-icon {
+    padding: 4px;
+    border-radius: 4px;
+    outline: none;
+    border: none;
+    color: var(--text-primary);
+    background-color: var(--subtle-transparent);
+    display: inline-flex;
+}
+
+.x-button-icon > svg > path {
+    fill: var(--text-primary);
+}
+
+.x-button-icon:hover {
+    color: var(--text-secondary);
+    background-color: var(--subtle-secondary);
+    box-shadow: inset 0 0 1px var(--subtle-secondary);
+}
+
+.x-button-icon:hover > svg > path {
+    fill: var(--text-secondary);
+}
+
+.x-button-icon.active svg path {
+    fill: var(--accent-text-primary);
+    stroke: var(--control-stroke-on-accent-default);
+}
+
+
