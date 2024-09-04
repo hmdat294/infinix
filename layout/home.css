@@ -114,15 +114,15 @@
     object-fit: cover;
     border-radius: 50%;
 }
-.c-mt{
+.box-comment{
     /* background-color: rgb(255, 0, 0); */
     padding: 10px;
     border-radius: 50px;
 }
-.c-mt>input{
+.box-comment>input{
     width: 550px;
 
 }
-.c-mt>div{
+.box-comment>div{
     font-size: 20px;
 }
