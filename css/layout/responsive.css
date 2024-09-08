@@ -1,0 +1,40 @@
+.show-in-mobile {
+    display: none;
+}
+
+.show-in-tablet {
+    display: none;
+}
+
+.hide-in-mobile {
+    display: block;
+}
+
+.hide-in-tablet {
+    display: block;
+}
+
+.hide-in-desktop {
+    display: none;
+}
+
+@media (min-width: 480px) and (max-width: 850px) {
+    .show-in-tablet {
+        display: block;
+    }
+
+    .hide-in-tablet {
+        display: none;
+    }
+}
+
+
+@media (max-width: 479px) {
+    .show-in-mobile {
+        display: block;
+    }
+
+    .hide-in-mobile {
+        display: none;
+    }
+}
