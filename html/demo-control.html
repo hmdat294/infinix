@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+<body class="solid-background-base">
+    <div class="w-fill card-background-default layout layout-vertical gap-20">
+        <!-- Button Sections -->
+        <div class="w-fill layout layout-horizontal p-20 gap-20">
+            <div class="w-fill card-stroke-default p-20 layout layout-wrap gap-20 align-center-center">
+
+                <button class="button-accent button-text-only text-body w-hug">
+                    Button
+                </button>
+
+                <button class="button-accent button-text-only text-body w-hug" disabled>
+                    Button
+                </button>
+                
+                <button class="button-accent button-text-with-icon text-body w-hug">
+                    Button
+                    <i class="icon-size-16 icon icon-ic_fluent_send_16_filled"></i>
+                </button>
+
+                <button class="button-accent button-icon-only text-body w-hug">
+                    <i class="icon-size-16 icon icon-ic_fluent_send_16_filled"></i>
+                </button>
+
+            </div>
+        
+            <div class="w-fill card-stroke-default p-20 layout layout-wrap gap-20 align-center-center">
+
+                <button class="button-standard button-text-only text-body w-hug">
+                    Button
+                </button>
+
+                <button class="button-standard button-text-only text-body w-hug" disabled>
+                    Button
+                </button>
+
+                <button class="button-standard button-text-with-icon text-body w-hug">
+                    Button
+                    <i class="icon-size-16 icon icon-ic_fluent_send_16_filled"></i>
+                </button>
+
+                <button class="button-standard button-icon-only text-body w-hug">
+                    <i class="icon-size-16 icon icon-ic_fluent_send_16_filled"></i>
+                </button>
+
+            </div>
+        </div>
+        <!-- End Button Sections -->
+         
+        <!-- Control Sections -->
+        <div class="w-fill layout layout-horizontal p-20 gap-20">
+            <div class="w-fill card-stroke-default p-20 layout layout-wrap gap-20 align-center-center">
+
+                <!-- Text Control -->
+                <div class="control text-control">
+                    <input type="text" placeholder="placeholder" spellcheck="false">
+                </div>
+
+                <div class="control text-control disabled">
+                    <input type="text" placeholder="placeholder" spellcheck="false" disabled>
+                </div>
+                <!-- End Text Control -->
+                
+                <!-- Search Control -->
+                <div class="control search-control">
+                    <input type="search" placeholder="placeholder" spellcheck="false">
+                    <button class="input-button clear-content-button">
+                        <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
+                    </button>
+                    <button class="input-button search-button">
+                        <i class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
+                    </button>
+                </div>
+                <!-- End Search Control -->
+
+                <!-- Number Control -->
+                <div class="control number-control">
+                    <input type="number" placeholder="placeholder" min="1" max="100" step="1">
+                    <button class="input-button increase-number-button">
+                        <i class="icon-size-16 icon icon-ic_fluent_chevron_up_16_regular"></i>
+                    </button>
+                    <button class="input-button decrease-number-button">
+                        <i class="icon-size-16 icon icon-ic_fluent_chevron_down_16_regular"></i>
+                    </button>
+                </div>
+                <!-- End Number Control -->
+
+                <!-- Search with Dropdown Control -->
+                <div class="search-dropdown-control">
+                    <div class="control search-control">
+                        <input type="search" placeholder="placeholder" spellcheck="false">
+                        <button class="input-button clear-content-button">
+                            <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
+                        </button>
+                        <button class="input-button search-button">
+                            <i class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
+                        </button>
+                    </div>
+                    <div class="dropdown-menu">
+                        <div class="list-item">
+                            <div class="text-body">Item 1</div>
+                        </div>
+                        <div class="list-item">
+                            <div class="text-body">Item 2</div>
+                        </div>
+                        <div class="list-item">
+                            <div class="text-body">Item 3</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Search with Dropdown Control -->
+
+            </div>
+        </div>
+        <div class="w-fill layout layout-horizontal p-20 gap-20">
+            <div class="w-fill card-stroke-default p-20 layout layout-wrap gap-20 align-center-center">
+
+                <!-- Password Control -->
+                <div class="control password-control">
+                    <input type="password" placeholder="placeholder" spellcheck="false">
+                    <button class="input-button show-password-button">
+                        <i class="icon-size-16 icon icon-ic_fluent_eye_16_regular"></i>
+                    </button>
+                </div>
+                <!-- End Password Control -->
+
+                <!-- 
+                    Dropdown Control
+
+                    Tự động khởi tạo giá trị cho button, tự thêm class "active" cho list-item
+                    Hoạt động tương tự như <select>
+                -->
+                <div class="dropdown-control">
+                    <button class="button button-standard button-text-with-icon  w-fill">
+                        <i class="icon-size-16 icon icon-ic_fluent_chevron_down_16_regular"></i>
+                    </button>
+                    <div class="dropdown-menu">
+                        <div class="list-item">
+                            <div class="text-body">Item 1</div>
+                        </div>
+                        <div class="list-item">
+                            <div class="text-body">Item 2</div>
+                        </div>
+                        <div class="list-item">
+                            <div class="text-body">Item 3</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Dropdown Control -->
+
+                <!-- Text Area Control -->
+                    <textarea class="control text-area-control" placeholder="placeholder" name="" id="" spellcheck="false"></textarea>
+                <!-- End Text Area Control -->
+
+            </div>
+        </div>
+        <!-- Control Sections -->
+    </div>
+
+    
+    <script type="module" src="/js/index.js"></script>
+</body>
+</html>
