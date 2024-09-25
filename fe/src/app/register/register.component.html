@@ -1,0 +1,13 @@
+<div class="container">
+    <div class="w-75 m-auto">
+        <form (submit)="register(frm.value)" #frm="ngForm" class="my-4 p-4 rounded shadow">
+            <h2 class="text-center">Register</h2>
+            <input class="form-control my-3" type="text" name="name" ngModel placeholder="Name" required>
+            <input class="form-control my-3" type="email" name="email" ngModel placeholder="Email" required>
+            <input class="form-control my-3" type="password" name="password" ngModel placeholder="Password" required>
+            <div class="text-center">
+                <button class="btn btn-outline-success fw-bold px-4" type="submit">Register</button>
+            </div>
+        </form>
+    </div>
+</div>
