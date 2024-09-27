@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterModule, RouterOutlet } from '@angular/router';
+import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { AuthService } from './auth.service';
 import { CommonModule } from '@angular/common';
 
@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
 export class AppComponent {
   user: any;
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private router: Router) {
     if (localStorage.getItem('auth_token')) {
 
       this.authService.getUser().subscribe(
@@ -24,7 +24,6 @@ export class AppComponent {
           console.error('Error:', error);
         }
       );
-     
     }
   }
 
@@ -32,7 +31,6 @@ export class AppComponent {
     this.authService.logout().subscribe(
       (response) => {
         console.log('Logout Success:', response);
-        // Xóa token khỏi localStorage
         localStorage.removeItem('auth_token');
         location.reload();
       },

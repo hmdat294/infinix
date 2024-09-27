@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -16,7 +16,9 @@ export class LoginComponent {
   constructor(private authService: AuthService, private router: Router) { }
 
   login(value: any) {
-    this.authService.login(value).subscribe(
+    // console.log(value.value);
+
+    this.authService.login(value.value).subscribe(
       (response) => {
         if (response.token) {
 
@@ -26,12 +28,8 @@ export class LoginComponent {
           setTimeout(() => location.reload(), 50);
 
         } else {
-          console.log('Đăng nhập thất bại!');
+          alert('Đăng nhập thất bại, tài khoản hoặc mật khẩu không chính xác!');
         }
-      },
-      (error) => {
-        console.log('Chưa nhập đủ thông tin!');
-        console.error('Login failed', error);
       }
     );
   }

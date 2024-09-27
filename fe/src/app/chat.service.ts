@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
-import Pusher from 'pusher-js';
 import { Observable } from 'rxjs';
+import Pusher from 'pusher-js';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -16,29 +16,24 @@ export class ChatService {
 
   constructor(private http: HttpClient, private authService: AuthService) {
     this.pusher = new Pusher('4e5599d0fbce181db90e', { cluster: 'ap1' });
-    // Pusher.logToConsole = true;
-
-    this.setPusher();
+    this.setPusherChat();
   }
 
-  setPusher() {
-    /* Here */
+  setPusherChat() {
     if (this.channel) {
       this.channel.unbind_all();
       this.pusher.unsubscribe(this.channel.name);
     }
 
-    this.channel = this.pusher.subscribe(`chat-${String(this.conversation_id)}`);
-    // console.log(this.channel);
+    this.channel = this.pusher.subscribe(`chat-${this.conversation_id}`);
   }
 
   setConversationId(id: string) {
-
     this.conversation_id = id;
-    this.setPusher();
+    this.setPusherChat();
   }
 
-  public bindEvent(eventName: string, callback: (data: any) => void): void {
+  public bindEventChat(eventName: string, callback: (data: any) => void): void {
     if (this.channel) {
       this.channel.bind(eventName, callback);
       console.log(`Bound event '${eventName}' to channel '${this.channel.name}'`);
@@ -46,6 +41,10 @@ export class ChatService {
       console.error('No channel to bind the event to.');
     }
   }
+
+
+
+
 
   private apiUrl = 'http://localhost:8000/api';
 

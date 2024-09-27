@@ -38,7 +38,7 @@ class RegisteredUserController extends Controller
 
         // Auth::login($user);
 
-        $user = User::create($request->all());
+        $user = User::create($request->only(['name', 'email', 'password']));
 
         $token = $user->createToken($user->id)->plainTextToken;
 

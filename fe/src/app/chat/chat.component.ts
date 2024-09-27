@@ -50,12 +50,11 @@ export class ChatComponent implements OnInit {
     this.chatService.getMessageUser(id).subscribe(
       (data: any) => {
         this.conversation = data;
-        console.log(data);
 
         this.chatService.setConversationId(this.conversation.conversation_id);
         this.conversation.messages.reverse();
 
-        this.chatService.bindEvent('App\\Events\\MessageSent', (data: any) => {
+        this.chatService.bindEventChat('App\\Events\\MessageSent', (data: any) => {
 
           console.log('Message received:', data);
 
@@ -82,6 +81,10 @@ export class ChatComponent implements OnInit {
 
     this.chatService.sendMessage(formData).subscribe(
       (response: any) => {
+
+        const textArea_Chat = document.querySelector('.textarea-chat') as HTMLTextAreaElement;
+        textArea_Chat.style.height = 'auto';
+
         this.message = '';
         this.onCancelSendImg();
         this.onCancelReply();
@@ -119,7 +122,12 @@ export class ChatComponent implements OnInit {
 
   getReply(id: number) {
     const reply = this.conversation.messages.filter((data: any) => data.id == id)[0];
-    return [reply.message, reply.image, reply.recalls];
+    return {
+      message: reply.message,
+      image: reply.image,
+      recalls: reply.recalls,
+      user_id: reply.user_id
+    };
   }
 
   onReply(id: number) {
@@ -158,5 +166,8 @@ export class ChatComponent implements OnInit {
     }
   }
 
-
+  autoResize(textArea: HTMLTextAreaElement): void {
+    textArea.style.height = 'auto';
+    textArea.style.height = textArea.scrollHeight + 'px';
+  }
 }

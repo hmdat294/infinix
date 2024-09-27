@@ -6,32 +6,42 @@
     overflow-y: scroll;
 }
 
+.textarea-chat::-webkit-scrollbar,
 .card-body::-webkit-scrollbar {
     width: 10px;
 }
 
+.textarea-chat::-webkit-scrollbar-track,
 .card-body::-webkit-scrollbar-track {
     background: #f1f1f1;
 }
 
+.textarea-chat::-webkit-scrollbar-thumb,
 .card-body::-webkit-scrollbar-thumb {
     background-color: #cef2ff;
     border-radius: 10px;
     border: 2px solid #f1f1f1;
 }
 
+.textarea-chat::-webkit-scrollbar-thumb:hover,
 .card-body::-webkit-scrollbar-thumb:hover {
     background-color: #0dcaf0;
+    cursor: pointer;
 }
 
-.list-group>a{
+.list-group>a {
     border-bottom: 1px solid #dee2e6;
 }
 
-.mess-hover>ul{
+.mess-hover>ul {
     visibility: hidden;
 }
 
-.mess-hover:hover>ul{
+.mess-hover:hover>ul {
     visibility: visible;
+}
+
+.textarea-chat {
+    resize: none;
+    max-height: 200px;
 }
