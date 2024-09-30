@@ -1,0 +1,14 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+header{
+    max-height: 50px;
+    background-color: aliceblue;
+}
+.box-img{
+    width: 45px;
+}
+.box-img>img{
+    width: 100%;
+}
