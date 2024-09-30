@@ -19,19 +19,19 @@ class MessageSent implements ShouldBroadcast
     public $message;
     public $conversation_id;
     public $user_id;
-    public $image;
+    public $images;
     public $reply_id;
     public $recalls;
     public $date;
     public $time;
 
-    public function __construct($id, $message, $conversation_id, $user_id, $image, $reply_id, $recalls, $date, $time)
+    public function __construct($id, $message, $conversation_id, $user_id, $images, $reply_id, $recalls, $date, $time)
     {
         $this->id = $id;
         $this->message = $message;
         $this->conversation_id = $conversation_id;
         $this->user_id = $user_id;
-        $this->image = $image;
+        $this->images = $images;
         $this->reply_id = $reply_id;
         $this->recalls = $recalls;
         $this->date = $date;

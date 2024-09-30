@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ChatService } from '../chat.service';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
@@ -17,21 +17,21 @@ export class ChatComponent implements OnInit {
   conversation: any;
   list: any;
   user: any;
-  selectedFile: File | null = null;
-  previewUrl: string | ArrayBuffer | null = null;
+
   reply_id: any = null;
   previewReply: any = null;
 
   constructor(private chatService: ChatService, private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.authService.getUser().subscribe(
-      (response) => this.user = response);
+    if (localStorage.getItem('auth_token')) {
+      this.authService.getUser().subscribe(
+        (response) => this.user = response);
+    }
 
     this.chatService.getList().subscribe(
       (data: any) => {
         this.list = data.users;
-
         this.MessageUser(this.list[0].id);
       });
   }
@@ -50,6 +50,9 @@ export class ChatComponent implements OnInit {
     this.chatService.getMessageUser(id).subscribe(
       (data: any) => {
         this.conversation = data;
+        console.log(data);
+        
+        (document.querySelector('.textarea-chat') as HTMLTextAreaElement).focus();
 
         this.chatService.setConversationId(this.conversation.conversation_id);
         this.conversation.messages.reverse();
@@ -65,7 +68,12 @@ export class ChatComponent implements OnInit {
       });
   }
 
+  selectedFiles: File[] = []; // Lưu các tệp đã chọn
+  previewUrls: string[] = []; // Lưu URL xem trước của từng tệp
+
   sendMessage(mess: any) {
+    console.log(this.selectedFiles);
+
     const formData = new FormData();
     formData.append('conversation_id', mess.conversation_id.toString());
     formData.append('message', mess.message);
@@ -74,22 +82,62 @@ export class ChatComponent implements OnInit {
       formData.append('reply_id', this.reply_id);
     }
 
-    if (this.selectedFile) {
-      formData.append('image', this.selectedFile, this.selectedFile.name);
-      mess['image'] = formData;
+    if (this.selectedFiles.length > 0) {
+
+      this.selectedFiles.forEach(image => {
+        formData.append('images[]', image, image.name);
+      });
+      // formData.append('image', this.selectedFile, this.selectedFile.name);
     }
+
 
     this.chatService.sendMessage(formData).subscribe(
       (response: any) => {
 
-        const textArea_Chat = document.querySelector('.textarea-chat') as HTMLTextAreaElement;
-        textArea_Chat.style.height = 'auto';
+        (document.querySelector('.textarea-chat') as HTMLTextAreaElement).style.height = 'auto';
 
         this.message = '';
         this.onCancelSendImg();
         this.onCancelReply();
         console.log(response);
       });
+  }
+
+  onCancelSendImg() {
+    this.selectedFiles = []; // Đặt lại mảng các tệp đã chọn
+    this.previewUrls = []; // Đặt lại mảng các URL xem trước
+    this.resetFileInput(); // Đặt lại input file nếu cần
+  }
+
+  fileInput: any;
+  private resetFileInput() {
+    if (this.fileInput) {
+      this.fileInput.nativeElement.value = '';
+    }
+  }
+
+  onFileSelected(event: any) {
+    const files: File[] = Array.from(event.target.files); // Chuyển thành một mảng các tệp
+    if (files && files.length > 0) {
+      this.selectedFiles = files; // Lưu trữ các tệp đã chọn
+      this.previewUrls = []; // Khởi tạo lại mảng URL xem trước
+
+      // Duyệt qua từng tệp và tạo URL xem trước
+      files.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = e => {
+          this.previewUrls.push(reader.result as string); // Thêm URL xem trước vào mảng
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+  }
+
+  handleKeydown(event: KeyboardEvent, frm: any) {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      this.sendMessage(frm);
+    }
   }
 
   countdownIntervals: any = {};
@@ -124,7 +172,7 @@ export class ChatComponent implements OnInit {
     const reply = this.conversation.messages.filter((data: any) => data.id == id)[0];
     return {
       message: reply.message,
-      image: reply.image,
+      images: reply.images,
       recalls: reply.recalls,
       user_id: reply.user_id
     };
@@ -134,36 +182,13 @@ export class ChatComponent implements OnInit {
     this.reply_id = id;
     const reply = this.conversation.messages.filter((data: any) => data.id == id)[0];
     this.previewReply = reply;
-    console.log(reply);
+
+    (document.querySelector('.textarea-chat') as HTMLTextAreaElement).focus();
   }
 
   onCancelReply() {
     this.reply_id = null;
     this.previewReply = null;
-  }
-
-  onCancelSendImg() {
-    this.selectedFile = null;
-    this.previewUrl = null;
-    this.resetFileInput();
-  }
-
-  fileInput: any;
-  private resetFileInput() {
-    if (this.fileInput) {
-      this.fileInput.nativeElement.value = '';
-    }
-  }
-
-  onFileSelected(event: any) {
-    const file: File = event.target.files[0];
-    if (file) {
-      this.selectedFile = file;
-
-      const reader = new FileReader();
-      reader.onload = e => this.previewUrl = reader.result;
-      reader.readAsDataURL(file);
-    }
   }
 
   autoResize(textArea: HTMLTextAreaElement): void {

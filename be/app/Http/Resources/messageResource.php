@@ -19,7 +19,7 @@ class messageResource extends JsonResource
             'conversation_id' => $this->conversation_id,
             'user_id' => $this->user_id,
             'message' => $this->message,
-            'image' => $this->image,
+            'images' => json_decode($this->images),
             'reply_id' => $this->reply_id,
             'recalls' => $this->recalls,
             'date' => $this->created_at->format('d/m/Y'),

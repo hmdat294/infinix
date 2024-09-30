@@ -1,9 +1,14 @@
-
-
-
 <nav class="navbar navbar-expand bg-body-tertiary">
     <div class="container">
         <a class="navbar-brand" [routerLink]="['/']">Chat</a>
+
+        <form class="d-flex w-50">
+            <input class="form-control rounded-start-5 rounded-end-0" (input)="search()" type="search" name="search"
+                [(ngModel)]="keyword" placeholder="Search..." required>
+            <button class="btn btn-light border rounded-end-5 rounded-start-0" type="button"><small
+                    class="bi bi-search"></small></button>
+        </form>
+
         <div class="d-flex">
             <ul class="navbar-nav" *ngIf="!user">
 
@@ -13,9 +18,9 @@
                 <li class="nav-item">
                     <a class="nav-link" [routerLink]="['/register']">Register</a>
                 </li>
-            
+
             </ul>
-            
+
             <ul class="navbar-nav" *ngIf="user">
 
                 <li class="nav-item">
@@ -27,13 +32,20 @@
                 <li class="nav-item">
                     <button class="nav-link" (click)="logout()">Logout</button>
                 </li>
-            
+
             </ul>
         </div>
     </div>
+
+
 </nav>
 
-
-
+<div *ngIf="friends.length > 0" class="w-50 m-auto bg-body-tertiary rounded-bottom shadow position-absolute start-50 translate-middle-x z-3">
+    <div class="mx-3 py-2 d-flex justify-content-between border-top" *ngFor="let friend of friends">
+        <b>{{friend.name}}</b>
+        <span>{{friend.email}}</span>
+        <button type="button" class="btn btn-sm btn-success">Add friend</button>
+    </div>
+</div>
 
 <router-outlet />

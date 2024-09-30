@@ -46,13 +46,19 @@ class Chat extends Controller
     public function send(Request $request)
     {
         $message_data = $request->only(['conversation_id', 'message', 'reply_id']);
+        $imagePaths = [];
 
-        $filePath = null;
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $filePath = asset('storage/' . $file->store('uploads', 'public'));
+        if ($request->hasFile('images')) {
+            $files = $request->file('images');
+    
+            foreach ($files as $file) {
+                // Lưu từng tệp vào thư mục 'uploads' trong storage
+                $filePath = asset('storage/' . $file->store('uploads', 'public'));
+                $imagePaths[] = $filePath; // Lưu đường dẫn vào mảng
+            }
         }
-        $message_data['image'] =  $filePath;
+
+        $message_data['images'] = !empty($imagePaths) ? json_encode($imagePaths) : null;
 
         $message_data['user_id'] = Auth::id();
         $message_data['recalls'] = 0;
@@ -63,7 +69,7 @@ class Chat extends Controller
             $message->message,
             $message->conversation_id,
             Auth::id(),
-            ($filePath != null) ? $filePath : null,
+            (!empty($imagePaths)) ? $imagePaths : null, 
             $message->reply_id,
             $message->recalls,
             $message->created_at->format('d/m/Y'),

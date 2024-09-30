@@ -17,26 +17,29 @@
             <div class="card h-100 shadow">
                 <ul class="card-body list-unstyled my-0 pb-2 d-flex flex-column-reverse">
                     <li *ngFor="let msg of conversation.messages; let i = index;">
-                        
+
                         <div class="text-center" *ngIf="isDifferentDate(i)">
                             <small>{{msg.date}}</small>
                         </div>
 
                         <div class="d-flex flex-column align-items-end my-1" *ngIf="(user.id == msg.user_id)">
-                            <b *ngIf="isDifferentUser(i, msg.user_id)" style="font-size: 0.8em;" 
+                            <b *ngIf="isDifferentUser(i, msg.user_id)" style="font-size: 0.8em;"
                                 class="mt-3">{{user.name}}</b>
                             <div *ngIf="msg.recalls == 0"
                                 class="mess-hover d-flex flex-row-reverse align-items-center gap-3">
-                                <div class="alert alert-primary d-inline-block p-0 m-0 overflow-hidden" style="max-width: 75%;">
+                                <div class="alert alert-primary d-inline-block p-0 m-0 overflow-hidden"
+                                    style="max-width: 75%;">
                                     <div *ngIf="msg.reply_id" class="bg-light">
                                         <span style="font-size: 0.8em;" class="fw-bold px-2">
-                                            {{(getReply(msg.reply_id).user_id == msg.user_id) ? user.name : conversation.receive_user_name}}
+                                            {{(getReply(msg.reply_id).user_id == msg.user_id) ? user.name :
+                                            conversation.receive_user_name}}
                                         </span>
                                         <div *ngIf="getReply(msg.reply_id).recalls == 0"
                                             class="d-flex align-items-center px-2">
                                             <i class="bi bi-arrow-return-right me-2"></i>
-                                            <img *ngIf="getReply(msg.reply_id).image" src="{{getReply(msg.reply_id).image}}"
-                                                alt="Image" height="50px" class="m-2 rounded">
+                                            <img *ngIf="getReply(msg.reply_id).images"
+                                                src="{{getReply(msg.reply_id).images[0]}}" alt="Image" height="50px"
+                                                class="m-2 rounded">
                                             <span style="white-space: pre-line;">
                                                 {{getReply(msg.reply_id).message}}
                                             </span>
@@ -46,7 +49,9 @@
                                         </div>
                                         <hr class="m-0">
                                     </div>
-                                    <img *ngIf="msg.image" src="{{msg.image}}" alt="Image" width="100%">
+                                    <div *ngIf="msg.images" class="d-flex flex-wrap gap-1">
+                                        <img  *ngFor="let image of msg.images" src="{{image}}" alt="Image" class="flex-fill border bg-white rounded">
+                                    </div>
                                     <div class="pb-1 px-2">
                                         <span *ngIf="msg.message" class="d-block pt-2" style="white-space: pre-line;">
                                             {{ msg.message }}
@@ -97,16 +102,19 @@
                             <b *ngIf="isDifferentUser(i, msg.user_id)" style="font-size: 0.8em;"
                                 class="mt-3">{{conversation.receive_user_name}}</b>
                             <div *ngIf="msg.recalls == 0" class="mess-hover d-flex flex-row align-items-center gap-3">
-                                <div class="alert alert-light d-inline-block p-0 m-0 overflow-hidden" style="max-width: 75%;">
+                                <div class="alert alert-light d-inline-block p-0 m-0 overflow-hidden"
+                                    style="max-width: 75%;">
                                     <div *ngIf="msg.reply_id" class="bg-light px-2">
                                         <span style="font-size: 0.8em;" class="fw-bold px-2">
-                                            {{(getReply(msg.reply_id).user_id == msg.user_id) ? conversation.receive_user_name : user.name}}
+                                            {{(getReply(msg.reply_id).user_id == msg.user_id) ?
+                                            conversation.receive_user_name : user.name}}
                                         </span>
                                         <div *ngIf="getReply(msg.reply_id).recalls == 0"
                                             class="d-flex align-items-center px-2">
                                             <i class="bi bi-arrow-return-right me-2"></i>
-                                            <img *ngIf="getReply(msg.reply_id).image" src="{{getReply(msg.reply_id).image}}"
-                                                alt="Image" height="50px" class="m-2 rounded">
+                                            <img *ngIf="getReply(msg.reply_id).images"
+                                                src="{{getReply(msg.reply_id).images[0]}}" alt="Image" height="50px"
+                                                class="m-2 rounded">
                                             <span style="white-space: pre-line;">
                                                 {{getReply(msg.reply_id).message}}
                                             </span>
@@ -116,7 +124,9 @@
                                         </div>
                                         <hr class="m-0">
                                     </div>
-                                    <img *ngIf="msg.image" src="{{msg.image}}" alt="Image" width="100%">
+                                    <div *ngIf="msg.images" class="d-flex flex-wrap gap-1">
+                                        <img  *ngFor="let image of msg.images" src="{{image}}" alt="Image" class="flex-fill border bg-white rounded">
+                                    </div>
                                     <div class="pb-1 px-2">
                                         <span *ngIf="msg.message" class="d-block pt-2" style="white-space: pre-line;">
                                             {{ msg.message }}
@@ -171,8 +181,12 @@
                                 class="bi bi-x-lg"></i></button>
                     </div>
 
-                    <div *ngIf="previewUrl" class="text-center position-relative">
-                        <img [src]="previewUrl" alt="Preview" style="height: 150px;" class="rounded">
+                    <div *ngIf="previewUrls.length > 0" class="text-center position-relative">
+                        <div class="d-flex flex-wrap gap-2">
+                            <div *ngFor="let previewUrl of previewUrls">
+                                <img [src]="previewUrl" alt="Image preview" style="height: 100px;" class="rounded">
+                            </div>
+                        </div>
                         <hr class="">
                         <button type="button" (click)="onCancelSendImg()"
                             class="btn btn-sm btn-light rounded-pill position-absolute top-0 end-0"><i
@@ -181,13 +195,18 @@
 
                     <div class="d-flex gap-3 align-items-center">
                         <input type="hidden" name="conversation_id" ngModel [(ngModel)]="conversation.conversation_id">
-                        <textarea [(ngModel)]="message" name="message" ngModel class="form-control textarea-chat" required rows="1" #textArea (input)="autoResize(textArea)"></textarea>
+                        <textarea [(ngModel)]="message" name="message" ngModel class="form-control textarea-chat"
+                            (keydown)="handleKeydown($event, frm.value)" rows="1" #textArea
+                            (input)="autoResize(textArea)" required></textarea>
                         <label style="cursor: pointer;">
                             <i class="bi bi-image text-info fs-3"></i>
                             <input type="file" [ngModel]="fileInput" (change)="onFileSelected($event)" accept="image/*"
-                                class="d-none">
+                                class="d-none" multiple>
                         </label>
-                        <button type="submit" class="btn btn-info fw-bold text-white">Send</button>
+                        <button type="submit" class="btn btn-info fw-bold text-white"
+                            [ngClass]="(!frm.invalid || previewUrls.length > 0)?'d-block':'d-none'">
+                            Send
+                        </button>
                     </div>
                 </form>
 

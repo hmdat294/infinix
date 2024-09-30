@@ -24,7 +24,7 @@ return new class extends Migration
             $table->foreignId('conversation_id')->constrained();
             $table->foreignId('user_id')->constrained();
             $table->text('message')->nullable();
-            $table->text('image')->nullable();
+            $table->json('images')->nullable();
             $table->integer('reply_id')->nullable();
             $table->tinyInteger('recalls')->default(0);
             $table->timestamps();
