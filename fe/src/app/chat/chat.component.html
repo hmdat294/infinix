@@ -1,14 +1,37 @@
 <div class="container my-3">
-    <div class="col-lg-9 m-auto row h-100">
+    <div class="col-lg-12 m-auto row h-100">
 
-        <div class="left col-3 h-100 border rounded p-0 overflow-hidden bg-white shadow">
+        <div
+            class="left col-3 h-100 border rounded p-0 overflow-hidden bg-white shadow d-flex flex-column justify-content-between">
             <div class="list-group rounded-0">
                 <a class="text-decoration-none list-group-item-action" style="cursor: pointer;"
-                    *ngFor="let user of list">
-                    <div (click)="MessageUser(user.id)" class="px-3 py-2">
-                        {{user.name}}
+                    *ngFor="let u of friend">
+                    <div (click)="MessageUser(u.id)" class="px-3 py-2">
+                        {{u.name}}
                     </div>
                 </a>
+            </div>
+            <div>
+                <div class="text-center">Friend request</div>
+                <div class="list-group rounded-0">
+                    <a class="text-decoration-none list-group-item-action" style="cursor: pointer;"
+                        *ngFor="let u of requestfriends">
+                        <div class="px-3 py-2 d-flex justify-content-between align-items-center">
+                            <div>
+                                <div>{{u.name}}</div>
+                                <small>({{u.status}})</small>
+                            </div>
+                            <div>
+                                <button type="button" (click)="refuseFriend(u.friend_request_id)"
+                                    class="btn btn-outline-danger px-1 py-0 mx-1"><i
+                                        class="bi bi-x-circle"></i></button>
+                                <button type="button" (click)="acceptFriend(u.friend_request_id)"
+                                    class="btn btn-outline-success px-1 py-0 mx-1"><i
+                                        class="bi bi-check-circle"></i></button>
+                            </div>
+                        </div>
+                    </a>
+                </div>
             </div>
         </div>
 
@@ -50,7 +73,8 @@
                                         <hr class="m-0">
                                     </div>
                                     <div *ngIf="msg.images" class="d-flex flex-wrap gap-1">
-                                        <img  *ngFor="let image of msg.images" src="{{image}}" alt="Image" class="flex-fill border bg-white rounded">
+                                        <img *ngFor="let image of msg.images" src="{{image}}" alt="Image"
+                                            class="flex-fill border bg-white rounded">
                                     </div>
                                     <div class="pb-1 px-2">
                                         <span *ngIf="msg.message" class="d-block pt-2" style="white-space: pre-line;">
@@ -125,7 +149,8 @@
                                         <hr class="m-0">
                                     </div>
                                     <div *ngIf="msg.images" class="d-flex flex-wrap gap-1">
-                                        <img  *ngFor="let image of msg.images" src="{{image}}" alt="Image" class="flex-fill border bg-white rounded">
+                                        <img *ngFor="let image of msg.images" src="{{image}}" alt="Image"
+                                            class="flex-fill border bg-white rounded">
                                     </div>
                                     <div class="pb-1 px-2">
                                         <span *ngIf="msg.message" class="d-block pt-2" style="white-space: pre-line;">

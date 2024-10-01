@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Chat;
+use App\Http\Controllers\Relationship;
 
 Route::middleware(['auth:sanctum'])->get('/user',
     function (Request $request) {
@@ -52,4 +53,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/chat/{id}', [Chat::class, 'user'])->name('chat.user');
     Route::post('/chat', [Chat::class, 'send'])->name('chat.send');
     Route::patch('/chat/{id}', [Chat::class, 'recall'])->name('chat.recall');
+    
+    Route::post('/add-friend', [Relationship::class, 'addfriend'])->name('add');
+    Route::patch('/accept-friend/{id}', [Relationship::class, 'acceptfriend'])->name('accept');
+    Route::patch('/refuse-friend/{id}', [Relationship::class, 'refusefriend'])->name('refuse');
+
+    Route::get('/friend', [Relationship::class, 'get_friend'])->name('friend');
+    Route::get('/requestfriend', [Relationship::class, 'get_requestfriend'])->name('requestfriend');
 });

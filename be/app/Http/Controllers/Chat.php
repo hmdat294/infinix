@@ -16,14 +16,14 @@ class Chat extends Controller
 
     public function list()
     {
-        $data['users'] = User::all()->except(Auth::id());
-        $data['receive_user_id'] = 0;
-        $data['receive_user_name'] = '';
-        $data['conversation_id'] = 0;
+        // $users = User::all()->except(Auth::id());
+        $users = User::leftJoin('friend_requests', 'friend_requests.receiver_id', '=', 'users.id')
+        ->where('users.id', '!=', Auth::id())
+        ->select('users.*', 'friend_requests.sender_id', 'friend_requests.receiver_id', 'friend_requests.status')
+        ->get();
 
-        return response()->json($data);
+        return response()->json($users);
     }
-
 
     public function user($id)
     {

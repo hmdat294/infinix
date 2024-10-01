@@ -15,7 +15,8 @@ import { AuthService } from '../auth.service';
 export class ChatComponent implements OnInit {
   message: string = '';
   conversation: any;
-  list: any;
+  friend: any;
+  requestfriends: any;
   user: any;
 
   reply_id: any = null;
@@ -29,10 +30,18 @@ export class ChatComponent implements OnInit {
         (response) => this.user = response);
     }
 
-    this.chatService.getList().subscribe(
+    this.authService.getFriend().subscribe(
       (data: any) => {
-        this.list = data.users;
-        this.MessageUser(this.list[0].id);
+        this.friend = data;
+        // console.log(this.friend);
+        
+        this.MessageUser(this.friend[0].id);
+      });
+
+    this.authService.getRequestFriend().subscribe(
+      (data: any) => {
+        this.requestfriends = data;
+        console.log(this.requestfriends);
       });
   }
 
@@ -50,7 +59,7 @@ export class ChatComponent implements OnInit {
     this.chatService.getMessageUser(id).subscribe(
       (data: any) => {
         this.conversation = data;
-        console.log(data);
+        // console.log(data);
         
         (document.querySelector('.textarea-chat') as HTMLTextAreaElement).focus();
 
@@ -66,6 +75,18 @@ export class ChatComponent implements OnInit {
 
         });
       });
+  }
+
+  acceptFriend(id: number): void {
+    this.authService.acceptFriend(id).subscribe(
+      (response) => console.log(response)
+    )
+  }
+
+  refuseFriend(id: number): void {
+    this.authService.refuseFriend(id).subscribe(
+      (response) => console.log(response)
+    )
   }
 
   selectedFiles: File[] = []; // Lưu các tệp đã chọn
@@ -89,7 +110,6 @@ export class ChatComponent implements OnInit {
       });
       // formData.append('image', this.selectedFile, this.selectedFile.name);
     }
-
 
     this.chatService.sendMessage(formData).subscribe(
       (response: any) => {

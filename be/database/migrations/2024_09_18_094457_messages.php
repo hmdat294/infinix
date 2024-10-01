@@ -37,6 +37,26 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        Schema::create('friend_requests', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('sender_id')->nullable();
+            $table->foreign('sender_id')->references('id')->on('users');
+            $table->unsignedBigInteger('receiver_id')->nullable();
+            $table->foreign('receiver_id')->references('id')->on('users');
+            $table->string('status', 100)->default('Đã gửi');
+            $table->timestamps();
+        });
+        
+        Schema::create('relationship', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->unsignedBigInteger('related_user_id')->nullable();
+            $table->foreign('related_user_id')->references('id')->on('users');
+            $table->string('relationship_type', 100)->nullable();
+            $table->timestamps();
+        });
+
     }
 
     /**
@@ -44,8 +64,10 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('conversations');
         Schema::dropIfExists('messages');
         Schema::dropIfExists('conversation_user');
-        Schema::dropIfExists('conversations');
+        Schema::dropIfExists('friend_request');
+        Schema::dropIfExists('relationship');
     }
 };

@@ -5,7 +5,7 @@
         <form class="d-flex w-50">
             <input class="form-control rounded-start-5 rounded-end-0" (input)="search()" type="search" name="search"
                 [(ngModel)]="keyword" placeholder="Search..." required>
-            <button class="btn btn-light border rounded-end-5 rounded-start-0" type="button"><small
+            <button class="btn btn-light border rounded-end-5 rounded-start-0" type="button" (click)="search()"><small
                     class="bi bi-search"></small></button>
         </form>
 
@@ -40,11 +40,12 @@
 
 </nav>
 
-<div *ngIf="friends.length > 0" class="w-50 m-auto bg-body-tertiary rounded-bottom shadow position-absolute start-50 translate-middle-x z-3">
+<div *ngIf="friends.length > 0"
+    class="w-50 m-auto bg-body-tertiary rounded-bottom shadow position-absolute start-50 translate-middle-x z-3">
     <div class="mx-3 py-2 d-flex justify-content-between border-top" *ngFor="let friend of friends">
         <b>{{friend.name}}</b>
         <span>{{friend.email}}</span>
-        <button type="button" class="btn btn-sm btn-success">Add friend</button>
+        <button type="button" class="btn btn-sm btn-success" (click)="addFriend(friend.id)">Add friend</button>
     </div>
 </div>
 

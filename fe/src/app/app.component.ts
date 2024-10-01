@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
   list: any;
   user: any;
   friends: any = [];
-  keyword:string = '';
+  keyword: string = '';
 
   constructor(private chatService: ChatService, private authService: AuthService, private router: Router) { }
   ngOnInit(): void {
@@ -25,34 +25,42 @@ export class AppComponent implements OnInit {
         (response) => this.user = response);
 
       this.chatService.getList().subscribe(
-        (data: any) => this.list = data.users);
+        (data: any) => this.list = data);
     }
   }
-  
+
   search(): void {
     if (this.keyword.trim()) {
       this.friends = this.list.filter((friend: any) =>
         friend.name.toLowerCase().includes(this.keyword.toLowerCase()) ||
         friend.email.toLowerCase().includes(this.keyword.toLowerCase())
       );
+      console.log(this.friends);
+      
     }
-    else{
+    else {
       this.friends = [];
     }
 
   }
 
-    logout(): void {
-      this.authService.logout().subscribe(
-        (response) => {
-          console.log('Logout Success:', response);
-          localStorage.removeItem('auth_token');
-          location.reload();
-        },
-        (error) => {
-          console.error('Logout Error:', error);
-        }
-      );
-    }
-
+  addFriend(receiver_id: number): void {
+    this.authService.addFriend(receiver_id).subscribe(
+      (response) => console.log(response)
+    )
   }
+
+  logout(): void {
+    this.authService.logout().subscribe(
+      (response) => {
+        console.log('Logout Success:', response);
+        localStorage.removeItem('auth_token');
+        location.reload();
+      },
+      (error) => {
+        console.error('Logout Error:', error);
+      }
+    );
+  }
+
+}
