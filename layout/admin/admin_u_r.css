@@ -50,3 +50,11 @@ td:last-child {
     align-items: center;
     gap: 10px; /* Khoảng cách giữa các biểu tượng */
 }
+.right{
+    height: 870px;
+    max-height:  870px;;
+    
+}
+.left{
+    max-height: 850px;
+}
