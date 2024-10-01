@@ -1,0 +1,58 @@
+<header
+    class="layout-horizontal in-mobile-layout-vertical w-fill gap-20 align-center-center layer-default px-10 in-mobile-gap-5 in-mobile-py-10">
+    <!-- Mặc định chia cột 4 - 4 - 4 (3 cột đều) nhưng gộp lại thành 8 - 4 để dễ responsive -->
+    <div class="w-fill-column-8 layout-horizontal in-mobile-w-fill">
+        <div class="w-fill hide-in-mobile hide-in-tablet">
+            <img src="assets/image/Logo.png" alt="">
+        </div>
+        <div class="w-fill layout gap-20 in-mobile-gap-10">
+            <div class="w-hug show-in-mobile show-in-tablet">
+                <img src="assets/image/Logo.png" alt="">
+            </div>
+            <div class="search-dropdown-control w-fill">
+                <div class="control search-control">
+                    <input type="search" placeholder="Tìm kiếm" spellcheck="false">
+                    <button type="button" class="input-button clear-content-button">
+                        <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
+                    </button>
+                    <button type="button" class="input-button search-button">
+                        <i class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
+                    </button>
+                </div>
+                <div class="dropdown-menu">
+                    <div class="list-item">
+                        <div class="text-body">Item 1</div>
+                    </div>
+                    <div class="list-item">
+                        <div class="text-body">Item 2</div>
+                    </div>
+                    <div class="list-item">
+                        <div class="text-body">Item 3</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="w-fill-column-4 in-mobile-w-fill">
+        <div class="layout-horizontal gap-20 align-center-right in-mobile-align-center-space-evenly">
+            <a [routerLink]="['/']" class="button-subtle button-icon-only text-accent-default">
+                <i class="icon-size-24 icon icon-ic_fluent_home_24_filled"></i>
+            </a>
+            <a href="#" class="button-subtle button-icon-only text-secondary">
+                <i class="icon-size-24 icon icon-ic_fluent_alert_24_regular"></i>
+            </a>
+            <a href="#" class="button-subtle button-icon-only text-secondary">
+                <i class="icon-size-24 icon icon-ic_fluent_settings_24_regular"></i>
+            </a>
+            <a href="#" class="button-subtle button-icon-only text-secondary">
+                <i class="icon-size-24 icon icon-ic_fluent_bookmark_24_regular"></i>
+            </a>
+            <a href="#" class="button-subtle button-icon-only text-secondary">
+                <i class="icon-size-24 icon icon-ic_fluent_chat_24_regular"></i>
+            </a>
+            <a href="#" class=" hide-in-desktop show-in-mobile button-subtle button-icon-only text-secondary">
+                <i class="icon-size-24 icon icon-ic_fluent_navigation_24_regular"></i>
+            </a>
+        </div>
+    </div>
+</header>
