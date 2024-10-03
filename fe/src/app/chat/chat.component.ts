@@ -33,15 +33,12 @@ export class ChatComponent implements OnInit {
     this.authService.getFriend().subscribe(
       (data: any) => {
         this.friend = data;
-        // console.log(this.friend);
-        
-        this.MessageUser(this.friend[0].id);
+        this.MessageUser((this.friend.length > 0) ? this.friend[0].id : '');
       });
 
     this.authService.getRequestFriend().subscribe(
       (data: any) => {
         this.requestfriends = data;
-        console.log(this.requestfriends);
       });
   }
 
@@ -60,7 +57,7 @@ export class ChatComponent implements OnInit {
       (data: any) => {
         this.conversation = data;
         // console.log(data);
-        
+
         (document.querySelector('.textarea-chat') as HTMLTextAreaElement).focus();
 
         this.chatService.setConversationId(this.conversation.conversation_id);

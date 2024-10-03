@@ -17,18 +17,41 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+        // if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
 
+        //     $user = User::where('email', $request->email)->first();
+
+        //     $token = $user->createToken($user->id)->plainTextToken;
+
+        //     return response()->json([
+        //         'message' => 'Đăng nhập thành công!',
+        //         'token' => $token
+        //     ]);
+        // } else {
+        //     return response()->json(['message' => 'Đăng nhập không thành công!']);
+        // }
+
+
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = User::where('email', $request->email)->first();
 
+            // Kiểm tra nếu email chưa được xác thực
+            // if (!$user->hasVerifiedEmail()) {
+            //     return response()->json([
+            //         'message' => 'Bạn cần xác nhận email trước khi đăng nhập.'
+            //     ]);
+            // }
+
+            // Tạo token nếu đăng nhập thành công và email đã xác thực
             $token = $user->createToken($user->id)->plainTextToken;
 
             return response()->json([
                 'message' => 'Đăng nhập thành công!',
                 'token' => $token
             ]);
-        } else {
-            return response()->json(['message' => 'Đăng nhập không thành công!']);
+        }
+        else{   
+            return response()->json(['message' => 'Đăng nhập không thành công.']);
         }
     }
 

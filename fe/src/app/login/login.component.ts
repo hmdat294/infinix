@@ -20,15 +20,15 @@ export class LoginComponent {
 
     this.authService.login(value.value).subscribe(
       (response) => {
+        console.log('Login successful', response);
         if (response.token) {
 
-          console.log('Login successful', response);
           localStorage.setItem('auth_token', response.token);
           this.router.navigate(['/']);
           setTimeout(() => location.reload(), 50);
 
         } else {
-          alert('Đăng nhập thất bại, tài khoản hoặc mật khẩu không chính xác!');
+          // alert('Đăng nhập thất bại, tài khoản hoặc mật khẩu không chính xác!');
         }
       }
     );

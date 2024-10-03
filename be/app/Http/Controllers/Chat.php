@@ -16,11 +16,15 @@ class Chat extends Controller
 
     public function list()
     {
-        // $users = User::all()->except(Auth::id());
+        $users = User::all()->except(Auth::id());
         $users = User::leftJoin('friend_requests', 'friend_requests.receiver_id', '=', 'users.id')
-        ->where('users.id', '!=', Auth::id())
-        ->select('users.*', 'friend_requests.sender_id', 'friend_requests.receiver_id', 'friend_requests.status')
-        ->get();
+            ->where('users.id', '!=', Auth::id())
+            ->where(function ($query) {
+                $query->whereNull('friend_requests.sender_id')
+                    ->orWhere('friend_requests.sender_id', Auth::id());
+            })
+            ->select('users.*', 'friend_requests.sender_id', 'friend_requests.receiver_id', 'friend_requests.status')
+            ->get();
 
         return response()->json($users);
     }
@@ -50,7 +54,7 @@ class Chat extends Controller
 
         if ($request->hasFile('images')) {
             $files = $request->file('images');
-    
+
             foreach ($files as $file) {
                 // Lưu từng tệp vào thư mục 'uploads' trong storage
                 $filePath = asset('storage/' . $file->store('uploads', 'public'));
@@ -69,7 +73,7 @@ class Chat extends Controller
             $message->message,
             $message->conversation_id,
             Auth::id(),
-            (!empty($imagePaths)) ? $imagePaths : null, 
+            (!empty($imagePaths)) ? $imagePaths : null,
             $message->reply_id,
             $message->recalls,
             $message->created_at->format('d/m/Y'),

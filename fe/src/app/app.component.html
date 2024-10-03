@@ -45,7 +45,9 @@
     <div class="mx-3 py-2 d-flex justify-content-between border-top" *ngFor="let friend of friends">
         <b>{{friend.name}}</b>
         <span>{{friend.email}}</span>
-        <button type="button" class="btn btn-sm btn-success" (click)="addFriend(friend.id)">Add friend</button>
+        <button type="button" class="btn btn-sm btn-success" (click)="addFriend(friend.id)"
+            [disabled]="friend.status == 'Đã gửi' || friend.status == 'Đã chấp nhận'">{{(friend.status == 'Đã gửi' ||
+            friend.status == 'Đã chấp nhận')?friend.status:'Add friend'}}</button>
     </div>
 </div>
 

@@ -50,6 +50,7 @@ class Relationship extends Controller
 
             $users = User::leftJoin('friend_requests', 'friend_requests.sender_id', '=', 'users.id')
                 ->where('friend_requests.sender_id', '=', $sender->sender_id)
+                ->where('friend_requests.status', '=', 'Đã gửi')
                 ->select('users.*', 'friend_requests.id as friend_request_id', 'friend_requests.sender_id', 'friend_requests.receiver_id', 'friend_requests.status')
                 ->get();
 
@@ -99,6 +100,8 @@ class Relationship extends Controller
             'related_user_id' => $req->sender_id,
             'relationship_type' => 'Bạn bè'
         ]);
+
+        ConversationModel::find(ConversationModel::createConversation([Auth::id(),  $req->sender_id]));
 
         return response()->json(['status' => 'Accept Friend', $req]);
     }

@@ -25,7 +25,11 @@ export class AppComponent implements OnInit {
         (response) => this.user = response);
 
       this.chatService.getList().subscribe(
-        (data: any) => this.list = data);
+        (data: any) => {
+          this.list = data;
+          console.log(this.list);
+          
+        });
     }
   }
 

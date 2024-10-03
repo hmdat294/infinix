@@ -10,8 +10,10 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Chat;
 use App\Http\Controllers\Relationship;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
-Route::middleware(['auth:sanctum'])->get('/user',
+Route::middleware(['auth:sanctum'])->get(
+    '/user',
     function (Request $request) {
         return $request->user();
     }
@@ -45,15 +47,22 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->middleware('auth:sanctum')
     ->name('logout');
 
-// Route::get('/message', [Chat::class, 'message']);
-// Route::post('/send-message', [Chat::class, 'sendMessage']);
+
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    // Xác nhận email thành công
+    $request->fulfill();
+    return response()->json(['message' => 'Email has been verified!']);
+})->middleware(['signed'])->name('verification.verify');
+
 
 Route::middleware(['auth:sanctum'])->group(function () {
+
     Route::get('/chat', [Chat::class, 'list'])->name('chat.list');
     Route::get('/chat/{id}', [Chat::class, 'user'])->name('chat.user');
     Route::post('/chat', [Chat::class, 'send'])->name('chat.send');
     Route::patch('/chat/{id}', [Chat::class, 'recall'])->name('chat.recall');
-    
+
     Route::post('/add-friend', [Relationship::class, 'addfriend'])->name('add');
     Route::patch('/accept-friend/{id}', [Relationship::class, 'acceptfriend'])->name('accept');
     Route::patch('/refuse-friend/{id}', [Relationship::class, 'refusefriend'])->name('refuse');

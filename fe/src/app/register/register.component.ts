@@ -23,11 +23,13 @@ export class RegisterComponent {
     this.authService.register(value.value).subscribe(
       (response) => {
         console.log('Register successful', response);
-        this.router.navigate(['/']);
-        alert('Đăng ký thành công!');
+        // localStorage.setItem('auth_token', response.token);
+
+        // this.router.navigate(['/']);
+        // alert('Đăng ký thành công!');
       },
       (error) => {
-        alert('Đăng ký thất bại, Email đã tồn tại!');
+        // alert('Đăng ký thất bại, Email đã tồn tại!');
       }
     );
   }

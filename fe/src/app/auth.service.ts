@@ -27,9 +27,15 @@ export class AuthService {
     console.log(value);
     return this.http.post(`${this.apiUrl}/login`, value);
   }
-
+  
   register(value: any): Observable<any> {
+    console.log(value);
     return this.http.post(`${this.apiUrl}/register`, value);
+  }
+
+  verifyEmail(id: string, hash: string): Observable<any> {
+    const headers = this.getToken();
+    return this.http.get(`${this.apiUrl}/email/verify/${id}/${hash}`, { headers });
   }
 
   logout(): Observable<any> {
