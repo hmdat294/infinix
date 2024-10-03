@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://chick2004.io.vn/css/index.css">
+</head>
+<body class="gradient-background layout align-top-center" style="height: 100vh;" >
+    <div class="h-fill layout-vertical overflow-scroll-vertical p-20 gap-20" style="width: 500px;">
+
+
+        
+        <p class="text-subtitle mt-20">has-media=false, has-file=false, has-vote=false</p>
+        <div class="layout p-10 rounded-8 card-background-default border border-card-default" id="create-post-section">
+            <div class="layout-horizontal gap-10 w-fill">
+                <img src="/layout/image/avatar.png" alt="" style="width: 35px; height: 35px;">
+                <form class="layout-vertical gap-10 w-fill" enctype="multipart/form-data">
+                    <!-- Vùng nhập chữ -->
+                    <textarea class="control text-area-control w-fill" placeholder="placeholder" name="" id="post-input" spellcheck="false" style="max-height: 110px;"></textarea>
+                    <!-- Vùng nhập chữ -->
+
+                    <!-- Vùng các nút tùy chọn và nút đăng bài -->
+                    <div class="layout-horizontal w-fill">
+                        <div class="layout horizontal w-fill gap-10">
+                            <input class="display-none" type="file" name="media[]" id="post_media_input" multiple>
+                            <label for="post_media_input" class="layout align-center-center border-none subtle-transparent text-accent-default">
+                                <i class="icon-size-20 icon icon-ic_fluent_image_20_regular"></i>
+                            </label>
+                            <button type="button" class="border-none subtle-transparent text-accent-default">
+                                <i class="icon-size-20 icon icon-ic_fluent_emoji_20_regular"></i>
+                            </button>
+                            <button type="button" class="speech-to-text border-none subtle-transparent text-accent-default" data-target="post-input">
+                                <i class="icon-size-20 icon icon-ic_fluent_mic_20_regular"></i>
+                            </button>
+                            <button type="button" class="border-none subtle-transparent text-accent-default">
+                                <i class="icon-size-20 icon icon-ic_fluent_attach_20_regular"></i>
+                            </button>
+                            <button type="button" class="border-none subtle-transparent text-accent-default">
+                                <i class="icon-size-20 icon icon-ic_fluent_data_histogram_20_regular"></i>
+                            </button>
+                        </div>
+                        <button type="button" class="button-accent button-text-with-icon">
+                            Đăng bài
+                            <i class="icon-size-16 icon icon-ic_fluent_send_16_filled"></i>
+                        </button>
+                    </div>
+                    <!-- Vùng các nút tùy chọn và nút đăng bài -->
+                </form>
+            </div>
+        </div>
+
+
+
+        <p class="text-subtitle mt-20">has-media=true, has-file=false, has-vote=false</p>
+        <div class="layout p-10 rounded-8 card-background-default border border-card-default" id="create-post-section">
+            <div class="layout-horizontal gap-10 w-fill">
+                <img src="/layout/image/avatar.png" alt="" style="width: 35px; height: 35px;">
+                <form class="layout-vertical gap-10 w-fill" enctype="multipart/form-data">
+                    <!-- Vùng nhập chữ -->
+                    <textarea class="control text-area-control w-fill" placeholder="placeholder" name="" id="post-input" spellcheck="false" style="max-height: 110px;"></textarea>
+                    <!-- Vùng nhập chữ -->
+
+                    <!-- Vùng hiển thị phương tiện -->
+                    <div class="carousel w-fill rounded-4 p-0">
+                        <div class="carousel-indicators">
+                            <button type="button" class="border-none rounded-circle active">
+                            </button>
+                            <button type="button" class="border-none rounded-circle">
+                            </button>
+                            <button type="button" class="border-none rounded-circle">
+                            </button>
+                        </div>
+                        <div class="carousel-inner">
+                            <div class="carousel-item">
+                                <video src="https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" controls autoplay></video>
+                        
+                                <button type="button" class="button-standard button-icon-only w-hug h-hug position-absolute" style="right: 10px; top: 10px; z-index: 1;">
+                                    <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_filled"></i>
+                                </button>
+                            </div>
+                            <div class="carousel-item">
+                                <img src="https://placehold.co/600x400/orange/white" alt="Image 1">
+                                <button type="button" class="button-standard button-icon-only w-hug h-hug position-absolute" style="right: 10px; top: 10px; z-index: 1;">
+                                    <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_filled"></i>
+                                </button>
+                            </div>
+                            <div class="carousel-item">
+                                <img src="https://placehold.co/600x400/white/red" alt="Image 3">
+                                <button type="button" class="button-standard button-icon-only w-hug h-hug position-absolute" style="right: 10px; top: 10px; z-index: 1;">
+                                    <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_filled"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <button type="button" class="carousel-button-previous p-5 rounded-circle">
+                            <i class="icon-size-20 icon icon-ic_fluent_chevron_left_20_filled"></i>
+                        </button>
+                    
+                    
+                        <button type="button" class="carousel-button-next p-5 rounded-circle">
+                            <i class="icon-size-20 icon icon-ic_fluent_chevron_right_20_filled"></i>
+                        </button>
+                    </div>  
+                    <!-- Vùng hiển thị phương tiện -->
+
+                    <!-- Vùng các nút tùy chọn và nút đăng bài -->
+                    <div class="layout-horizontal w-fill">
+                        <div class="layout horizontal w-fill gap-10">
+                            <input class="display-none" type="file" name="media[]" id="post_media_input" multiple>
+                            <label for="post_media_input" class="layout align-center-center border-none subtle-transparent text-accent-default">
+                                <i class="icon-size-20 icon icon-ic_fluent_image_20_regular"></i>
+                            </label>
+                            <button type="button" class="border-none subtle-transparent text-accent-default">
+                                <i class="icon-size-20 icon icon-ic_fluent_emoji_20_regular"></i>
+                            </button>
+                            <button type="button" class="speech-to-text border-none subtle-transparent text-accent-default" data-target="post-input">
+                                <i class="icon-size-20 icon icon-ic_fluent_mic_20_regular"></i>
+                            </button>
+                            <button type="button" class="border-none subtle-transparent text-accent-default">
+                                <i class="icon-size-20 icon icon-ic_fluent_attach_20_regular"></i>
+                            </button>
+                            <button type="button" class="border-none subtle-transparent text-accent-default">
+                                <i class="icon-size-20 icon icon-ic_fluent_data_histogram_20_regular"></i>
+                            </button>
+                        </div>
+                        <button type="button" class="button-accent button-text-with-icon">
+                            Đăng bài
+                            <i class="icon-size-16 icon icon-ic_fluent_send_16_filled"></i>
+                        </button>
+                    </div>
+                    <!-- Vùng các nút tùy chọn và nút đăng bài -->
+                </form>
+            </div>
+        </div>
+
+
+
+        <p class="text-subtitle mt-20">has-media=false, has-file=true, has-vote=false</p>
+        <div class="layout p-10 rounded-8 card-background-default border border-card-default" id="create-post-section">
+            <div class="layout-horizontal gap-10 w-fill">
+                <img src="/layout/image/avatar.png" alt="" style="width: 35px; height: 35px;">
+                <form class="layout-vertical gap-10 w-fill" enctype="multipart/form-data">
+                    <!-- Vùng nhập chữ -->
+                    <textarea class="control text-area-control w-fill" placeholder="placeholder" name="" id="post-input" spellcheck="false" style="max-height: 110px;"></textarea>
+                    <!-- Vùng nhập chữ -->
+
+                    <!-- Vùng hiển thị phương file -->
+                    <div class="w-fill rounded-4 p-10 gap-10 card-background-secondary border border-card-default layout-horizontal">
+                        <img src="/layout/image/file.png" alt="" style="width: 32px; height: 32px;">
+                        <div class="w-fill layout-vertical">
+                            <p class="text-body text-accent-default">Tên file</p>
+                            <p class="text-caption text-secondary">10MB</p>
+                        </div>
+                        <button type="button" class="button-subtle button-icon-only">
+                            <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_filled"></i>
+                        </button>
+                    </div>  
+                    <!-- Vùng hiển thị phương file -->
+
+                    <!-- Vùng các nút tùy chọn và nút đăng bài -->
+                    <div class="layout-horizontal w-fill">
+                        <div class="layout horizontal w-fill gap-10">
+                            <input class="display-none" type="file" name="media[]" id="post_media_input" multiple>
+                            <label for="post_media_input" class="layout align-center-center border-none subtle-transparent text-accent-default">
+                                <i class="icon-size-20 icon icon-ic_fluent_image_20_regular"></i>
+                            </label>
+                            <button type="button" class="border-none subtle-transparent text-accent-default">
+                                <i class="icon-size-20 icon icon-ic_fluent_emoji_20_regular"></i>
+                            </button>
+                            <button type="button" class="speech-to-text border-none subtle-transparent text-accent-default" data-target="post-input">
+                                <i class="icon-size-20 icon icon-ic_fluent_mic_20_regular"></i>
+                            </button>
+                            <button type="button" class="border-none subtle-transparent text-accent-default">
+                                <i class="icon-size-20 icon icon-ic_fluent_attach_20_regular"></i>
+                            </button>
+                            <button type="button" class="border-none subtle-transparent text-accent-default">
+                                <i class="icon-size-20 icon icon-ic_fluent_data_histogram_20_regular"></i>
+                            </button>
+                        </div>
+                        <button type="button" class="button-accent button-text-with-icon">
+                            Đăng bài
+                            <i class="icon-size-16 icon icon-ic_fluent_send_16_filled"></i>
+                        </button>
+                    </div>
+                    <!-- Vùng các nút tùy chọn và nút đăng bài -->
+                </form>
+            </div>
+        </div>
+
+
+
+        <p class="text-subtitle mt-20">has-media=false, has-file=true, has-vote=false</p>
+        <div class="layout p-10 rounded-8 card-background-default border border-card-default" id="create-post-section">
+            <div class="layout-horizontal gap-10 w-fill">
+                <img src="/layout/image/avatar.png" alt="" style="width: 35px; height: 35px;">
+                <form class="layout-vertical gap-10 w-fill" enctype="multipart/form-data">
+                    <!-- Vùng nhập chữ -->
+                    <textarea class="control text-area-control w-fill" placeholder="placeholder" name="" id="post-input" spellcheck="false" style="max-height: 110px;"></textarea>
+                    <!-- Vùng nhập chữ -->
+
+                    <!-- Vùng hiển thị bảng vote -->
+                    <div class="w-fill rounded-4 p-10 gap-10 card-background-secondary border border-card-default layout-vertical">
+                        <p class="text-body text-primary">Tạo bình chọn</p>
+                        <div class="w-fill layout-vertical gap-10">
+                            <div class="layout-horizontal gap-10 w-fill">
+                                <div class="control text-control w-fill">
+                                    <input type="text" placeholder="placeholder" spellcheck="false">
+                                </div>
+                                <button type="button" class="button-subtle button-icon-only">
+                                    <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_filled"></i>
+                                </button>
+                            </div>
+                            <div class="layout-horizontal gap-10 w-fill">
+                                <div class="control text-control w-fill">
+                                    <input type="text" placeholder="placeholder" spellcheck="false">
+                                </div>
+                                <button type="button" class="button-subtle button-icon-only">
+                                    <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_filled"></i>
+                                </button>
+                            </div>
+                            <div class="layout-horizontal gap-10 w-fill">
+                                <div class="control text-control w-fill">
+                                    <input type="text" placeholder="placeholder" spellcheck="false">
+                                </div>
+                                <button type="button" class="button-subtle button-icon-only">
+                                    <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_filled"></i>
+                                </button>
+                            </div>
+                            <div class="layout-horizontal gap-10 w-fill">
+                                <div class="control text-control w-fill">
+                                    <input type="text" placeholder="placeholder" spellcheck="false">
+                                </div>
+                                <button type="button" class="button-subtle button-icon-only">
+                                    <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_filled"></i>
+                                </button>
+                            </div>
+                            <button type="button" class="button-standard button-text-only w-hug">
+                                Thêm lựa chọn
+                            </button>
+                        </div>
+                    </div>  
+                    <!-- Vùng hiển thị bảng vote -->
+
+                    <!-- Vùng các nút tùy chọn và nút đăng bài -->
+                    <div class="layout-horizontal w-fill">
+                        <div class="layout horizontal w-fill gap-10">
+                            <input class="display-none" type="file" name="media[]" id="post_media_input" multiple>
+                            <label for="post_media_input" class="layout align-center-center border-none subtle-transparent text-accent-default">
+                                <i class="icon-size-20 icon icon-ic_fluent_image_20_regular"></i>
+                            </label>
+                            <button type="button" class="border-none subtle-transparent text-accent-default">
+                                <i class="icon-size-20 icon icon-ic_fluent_emoji_20_regular"></i>
+                            </button>
+                            <button type="button" class="speech-to-text border-none subtle-transparent text-accent-default" data-target="post-input">
+                                <i class="icon-size-20 icon icon-ic_fluent_mic_20_regular"></i>
+                            </button>
+                            <button type="button" class="border-none subtle-transparent text-accent-default">
+                                <i class="icon-size-20 icon icon-ic_fluent_attach_20_regular"></i>
+                            </button>
+                            <button type="button" class="border-none subtle-transparent text-accent-default">
+                                <i class="icon-size-20 icon icon-ic_fluent_data_histogram_20_regular"></i>
+                            </button>
+                        </div>
+                        <button type="button" class="button-accent button-text-with-icon">
+                            Đăng bài
+                            <i class="icon-size-16 icon icon-ic_fluent_send_16_filled"></i>
+                        </button>
+                    </div>
+                    <!-- Vùng các nút tùy chọn và nút đăng bài -->
+                </form>
+            </div>
+        </div>
+
+
+
+
+    </div>
+</body>
+<script src="https://chick2004.io.vn/js/index.js" type="module"></script>
+</html>
