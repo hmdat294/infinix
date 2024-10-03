@@ -70,8 +70,8 @@ $(function () {
 	};
 	var chart = new ApexCharts(document.querySelector("#chart1"), options);
 	chart.render();
-	
-	
+
+
 	// chart 2
 	// var optionsLine = {
 	// 	chart: {
@@ -144,7 +144,7 @@ $(function () {
 		chart: {
 			foreColor: '#9ba7b2',
 			height: 460,
-	
+
 			type: 'line',
 			zoom: {
 				enabled: false
@@ -208,11 +208,11 @@ $(function () {
 			offsetY: -20
 		}
 	}
-	
+
 	var chartLine = new ApexCharts(document.querySelector('#chart2'), optionsLine);
 	chartLine.render();
-	
-	
+
+
 	// chart 3
 	var options = {
 		series: [{
@@ -260,7 +260,7 @@ $(function () {
 	};
 	var chart = new ApexCharts(document.querySelector("#chart3"), options);
 	chart.render();
-	
+
 	// chart 4
 	var options = {
 		series: [{
@@ -322,8 +322,8 @@ $(function () {
 	};
 	var chart = new ApexCharts(document.querySelector("#chart4"), options);
 	chart.render();
-	
-	
+
+
 	// chart 5
 	var options = {
 		series: [{
@@ -351,8 +351,8 @@ $(function () {
 	};
 	var chart = new ApexCharts(document.querySelector("#chart5"), options);
 	chart.render();
-	
-	
+
+
 	// chart 6
 	var options = {
 		series: [{
@@ -410,8 +410,8 @@ $(function () {
 	};
 	var chart = new ApexCharts(document.querySelector("#chart6"), options);
 	chart.render();
-	
-	
+
+
 	// chart 7
 	var options = {
 		series: [{
@@ -488,8 +488,8 @@ $(function () {
 	};
 	var chart = new ApexCharts(document.querySelector("#chart7"), options);
 	chart.render();
-	
-	
+
+
 	// chart 8
 	var options = {
 		series: [44, 55, 13, 43, 22],
@@ -514,14 +514,14 @@ $(function () {
 	};
 	var chart = new ApexCharts(document.querySelector("#chart8"), options);
 	chart.render();
-	
-	
+
+
 	// chart 9
 	var options = {
 		series: [25, 25, 25, 25], // Phần trăm tương ứng với các loại report
 		chart: {
 			foreColor: '#9ba7b2',
-			
+
 			height: 240,
 			type: 'donut',
 		},
@@ -536,16 +536,16 @@ $(function () {
 				legend: {
 					position: 'bottom'
 				}
-				
+
 			}
 		}]
-		
+
 	};
-	
+
 	var chart = new ApexCharts(document.querySelector("#chart9"), options);
 	chart.render();
-	
-	
+
+
 	// chart 10
 	var options = {
 		series: [{
@@ -588,8 +588,8 @@ $(function () {
 	};
 	var chart = new ApexCharts(document.querySelector("#chart10"), options);
 	chart.render();
-	
-	
+
+
 	// chart 11
 	var options = {
 		series: [{
@@ -650,70 +650,70 @@ $(function () {
 	};
 	var chart = new ApexCharts(document.querySelector("#chart11"), options);
 	chart.render();
-	
-	
-	
+
+
+
 	// chart 12
-	
-	var options = {
-          series: [70],
-          chart: {
-			  foreColor: '#9ba7b2',
-          height: 350,
-          type: 'radialBar',
-        },
-        plotOptions: {
-          radialBar: {
-            hollow: {
-              size: '70%',
-            }
-          },
-        },
-        labels: ['Cricket'],
-        };
 
-        var chart = new ApexCharts(document.querySelector("#chart12"), options);
-        chart.render();
-		
-		
-		
+	var options = {
+		series: [70],
+		chart: {
+			foreColor: '#9ba7b2',
+			height: 350,
+			type: 'radialBar',
+		},
+		plotOptions: {
+			radialBar: {
+				hollow: {
+					size: '70%',
+				}
+			},
+		},
+		labels: ['Cricket'],
+	};
+
+	var chart = new ApexCharts(document.querySelector("#chart12"), options);
+	chart.render();
+
+
+
 	// chart 13
-	
-	var options = {
-          series: [44, 55, 67, 83],
-          chart: {
-			  foreColor: '#9ba7b2',
-          height: 350,
-          type: 'radialBar',
-        },
-        plotOptions: {
-          radialBar: {
-            dataLabels: {
-              name: {
-                fontSize: '22px',
-              },
-              value: {
-                fontSize: '16px',
-              },
-              total: {
-                show: true,
-                label: 'Total',
-                formatter: function (w) {
-                  // By default this function returns the average of all series. The below is just an example to show the use of custom formatter function
-                  return 249
-                }
-              }
-            }
-          }
-        },
-		colors: ["#0d6efd", "#17a00e", "#f41127", "#ffc107"],
-        labels: ['Apples', 'Oranges', 'Bananas', 'Berries'],
-        };
 
-        var chart = new ApexCharts(document.querySelector("#chart13"), options);
-        chart.render();
-		
-		
-	
-	
+	var options = {
+		series: [44, 55, 67, 83],
+		chart: {
+			foreColor: '#9ba7b2',
+			height: 350,
+			type: 'radialBar',
+		},
+		plotOptions: {
+			radialBar: {
+				dataLabels: {
+					name: {
+						fontSize: '22px',
+					},
+					value: {
+						fontSize: '16px',
+					},
+					total: {
+						show: true,
+						label: 'Total',
+						formatter: function (w) {
+							// By default this function returns the average of all series. The below is just an example to show the use of custom formatter function
+							return 249
+						}
+					}
+				}
+			}
+		},
+		colors: ["#17a00e", "#f41127", "#0d6efd", "#ffc107"],
+		labels: ['User report', 'Comment report', 'Post report', 'Post report'],
+	};
+
+	var chart = new ApexCharts(document.querySelector("#chart13"), options);
+	chart.render();
+
+
+
+
 });
