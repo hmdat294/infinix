@@ -53,7 +53,7 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
     // Xác nhận email thành công
     $request->fulfill();
     return response()->json(['message' => 'Email has been verified!']);
-})->middleware(['signed'])->name('verification.verify');
+})->middleware(['auth:sanctum'])->name('verification.verify'); //->middleware(['signed'])
 
 
 Route::middleware(['auth:sanctum'])->group(function () {

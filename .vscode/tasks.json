@@ -1,0 +1,52 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Frontend Server",
+            "type": "shell",
+            "command": "ng serve",
+            "problemMatcher": [],
+            "options": {
+                "cwd": "${workspaceFolder}/fe"
+            }
+        },
+        {
+            "label": "Backend Server",
+            "type": "shell",
+            "command": "php artisan serve",
+            "problemMatcher": [],
+            "options": {
+                "cwd": "${workspaceFolder}/be"
+            }
+        },
+        {
+            "label": "NPM Dev",
+            "type": "shell",
+            "command": "npm run dev",
+            "problemMatcher": [],
+            "options": {
+                "cwd": "${workspaceFolder}/be"
+            }
+        },
+        {
+            "label": "Queue Worker",
+            "type": "shell",
+            "command": "php artisan queue:work",
+            "problemMatcher": [],
+            "options": {
+                "cwd": "${workspaceFolder}/be"
+            }
+        },
+        {
+            "label": "Run All Tasks",
+            "dependsOn": [
+                "Frontend Server",
+                "Backend Server",
+                "NPM Dev",
+                "Queue Worker"
+            ],
+            "problemMatcher": []
+        }
+    ]
+  }
+  

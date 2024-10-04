@@ -27,14 +27,17 @@ export class AuthService {
     console.log(value);
     return this.http.post(`${this.apiUrl}/login`, value);
   }
-  
+
   register(value: any): Observable<any> {
     console.log(value);
     return this.http.post(`${this.apiUrl}/register`, value);
   }
 
   verifyEmail(id: string, hash: string): Observable<any> {
-    const headers = this.getToken();
+    const authToken = localStorage.getItem('auth_token_register') || '';
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${authToken}`
+    });
     return this.http.get(`${this.apiUrl}/email/verify/${id}/${hash}`, { headers });
   }
 

@@ -21,7 +21,7 @@ class RegisteredUserController extends Controller
     public function store(Request $request)
     {
         // Tạo người dùng mới
-        $user = User::create($request->only(['name', 'email', 'password']));
+        $user = User::create(attributes: $request->only(['name', 'email', 'password']));
 
         $token = $user->createToken($user->id)->plainTextToken;
         $user->sendEmailVerificationNotification();

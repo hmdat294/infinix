@@ -1,33 +1,124 @@
-<div class="container">
-    <div class="w-75 m-auto">
-        <form (submit)="register(frm)" #frm="ngForm" class="my-4 p-4 rounded shadow">
-            <h2 class="text-center">Register</h2>
+<section class="gradient-background layout-vertical" style="height: 100vh;">
+    <form (submit)="register(frm)" #frm="ngForm"
+        class="layout-vertical w-fill h-fill align-center-center overflow-scroll-vertical gap-25">
+        <!-- Article xóa class "overflow-scroll-vertical" và "gap-25" -->
 
-            <input class="form-control mt-3" type="text" name="name" #name="ngModel" ngModel placeholder="Họ tên"
-                required>
-            <small class="text-danger fst-italic" *ngIf="name.errors?.['required']">Chưa nhập Họ tên</small>
+        <!-- Nhập họ tên -->
+        <div class="{{(step_index == 1)?'display-block':'display-none'}}">
+            <div id="step_1"
+                class="step layout-vertical card-background-default border border-card-default rounded-8 p-25 gap-25 shadow-card"
+                style="width: 400px;">
 
-            <input class="form-control mt-3" type="email" name="email" #email="ngModel" ngModel placeholder="Email"
-                required email>
-            <small class="text-danger fst-italic" *ngIf="email.errors?.['required']">Chưa nhập email</small>
-            <small class="text-danger fst-italic" *ngIf="email.errors?.['email']">Chưa nhập đúng định dạng</small>
+                <div class="w-fill layout-horizontal gap-10 align-center-center">
+                    <img src="assets/image/Logo.png" alt="">
+                    <p class="text-subtitle text-primary">Infinix</p>
+                </div>
 
-            <input class="form-control mt-3" type="password" name="password" #password="ngModel" ngModel
-                placeholder="Password" required minlength="6">
-            <small class="text-danger fst-italic" *ngIf="password.errors?.['required']">Chưa nhập password</small>
-            <small class="text-danger fst-italic" *ngIf="password.errors?.['minlength']">Password phải trên 6 ký
-                tự</small>
+                <p class="text-body-large text-primary">Tạo tài khoản</p>
 
-            <input class="form-control mt-3" type="password" name="confirm" #confirm="ngModel" ngModel
-                placeholder="Confirm Password" required>
-            <small class="text-danger fst-italic" *ngIf="confirm.value !== password.value">
-                Password không khớp
-            </small>
+                <div class="w-fill layout-vertical gap-5">
+                    <label for="name" class="w-fill text-body text-primary">Họ và tên</label>
+                    <div class="control text-control w-fill ">
+                        <input type="text" spellcheck="false" id="name" name="name" #name="ngModel" ngModel required>
+                    </div>
+                    <small class="text-danger fst-italic" *ngIf="name.errors?.['required']">Chưa nhập Họ tên</small>
+                </div>
 
-            <div class="text-center mt-3">
-                <button class="btn btn-outline-success fw-bold px-4" type="submit"
-                    [disabled]="frm.invalid  || !checkPasswords(frm)">Register</button>
+
+                <p class="text-body text-tertiary">Bạn đã có tài khoản? <a [routerLink]="['/login']" class="link">Đăng
+                        nhập!</a></p>
+
+                <div class="w-fill layout-horizontal align-center-right">
+                    <button (click)="step()" type="button" class="button-accent button-text-only"
+                        [disabled]="name.errors?.['required']">Tiếp theo</button>
+                </div>
             </div>
-        </form>
-    </div>
-</div>
+        </div>
+
+
+        <!-- Nhập email hoặc số điện thoại -->
+        <div class="{{(step_index == 2)?'display-block':'display-none'}}">
+            <div id="step_2"
+                class="step layout-vertical card-background-default border border-card-default rounded-8 p-25 gap-25 shadow-card"
+                style="width: 400px;">
+
+                <div class="w-fill layout-horizontal gap-10 align-center-center">
+                    <img src="assets/image/Logo.png" alt="">
+                    <p class="text-subtitle text-primary">Infinix</p>
+                </div>
+
+                <p class="text-body-large text-primary">Tạo tài khoản</p>
+
+                <div class="w-fill layout-vertical gap-5">
+                    <label for="email" class="w-fill text-body text-primary">Email</label>
+                    <div class="control text-control w-fill ">
+                        <input type="email" spellcheck="false" id="email" name="email" #email="ngModel" ngModel required
+                            email>
+                    </div>
+                    <small class="text-danger fst-italic" *ngIf="email.errors?.['required']">Chưa nhập email</small>
+                    <small class="text-danger fst-italic" *ngIf="email.errors?.['email']">Chưa nhập đúng định
+                        dạng</small>
+                </div>
+
+                <p class="text-body text-tertiary">Bạn đã có tài khoản? <a [routerLink]="['/login']" class="link">Đăng
+                        nhập!</a></p>
+
+                <div class="w-fill layout-horizontal align-center-right">
+                    <button (click)="step()" type="button" class="button-accent button-text-only"
+                        [disabled]="email.errors?.['required']">Tiếp theo</button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Nhập mã xác minh -->
+        <div class="{{(step_index == 3)?'display-block':'display-none'}}">
+            <div id="step_3"
+                class="step layout-vertical card-background-default border border-card-default rounded-8 p-25 gap-25 shadow-card"
+                style="width: 400px;">
+
+                <div class="w-fill layout-horizontal gap-10 align-center-center">
+                    <img src="assets/image/Logo.png" alt="">
+                    <p class="text-subtitle text-primary">Infinix</p>
+                </div>
+
+                <p class="text-body-large text-primary">Tạo tài khoản</p>
+
+                <div class="w-fill layout-vertical gap-5">
+                    <label for="password" class="w-fill text-body text-primary">Đặt mật khẩu</label>
+                    <div class="control password-control w-fill">
+                        <input type="password" spellcheck="false" id="password" name="password" #password="ngModel"
+                            ngModel required minlength="6">
+                        <button type="button" class="input-button show-password-button">
+                            <i class="icon-size-16 icon icon-ic_fluent_eye_16_regular"></i>
+                        </button>
+                    </div>
+                    <small class="text-danger fst-italic" *ngIf="password.errors?.['required']">Chưa nhập
+                        password</small>
+                    <small class="text-danger fst-italic" *ngIf="password.errors?.['minlength']">Password phải trên 6 ký
+                        tự</small>
+                </div>
+
+                <div class="w-fill layout-vertical gap-5">
+                    <label for="confirm" class="w-fill text-body text-primary">Xác nhận mật khẩu</label>
+                    <div class="control password-control w-fill">
+                        <input type="password" spellcheck="false" id="confirm" name="confirm" #confirm="ngModel" ngModel
+                            required>
+                        <button type="button" class="input-button show-password-button">
+                            <i class="icon-size-16 icon icon-ic_fluent_eye_16_regular"></i>
+                        </button>
+                    </div>
+                    <small class="text-danger fst-italic" *ngIf="confirm.value !== password.value">
+                        Password không khớp
+                    </small>
+                </div>
+
+                <div class="w-fill layout-horizontal align-center-right">
+                    <button type="submit" class="button-accent button-text-only"
+                        [disabled]="frm.invalid || !checkPasswords(frm)">Hoàn tất</button>
+                </div>
+
+            </div>
+        </div>
+    </form>
+</section>

@@ -6,7 +6,8 @@ import { ChatComponent } from './chat/chat.component';
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
 
 export const routes: Routes = [
-    { path: '', component: ChatComponent, canActivate: [AuthGuard] },
+    // { path: '', component: ChatComponent, canActivate: [AuthGuard] },
+    { path: '', component: ChatComponent },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'email/verify/:id/:hash', component: VerifyEmailComponent },

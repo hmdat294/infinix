@@ -36,11 +36,11 @@ class AuthenticatedSessionController extends Controller
             $user = User::where('email', $request->email)->first();
 
             // Kiểm tra nếu email chưa được xác thực
-            // if (!$user->hasVerifiedEmail()) {
-            //     return response()->json([
-            //         'message' => 'Bạn cần xác nhận email trước khi đăng nhập.'
-            //     ]);
-            // }
+            if (!$user->hasVerifiedEmail()) {
+                return response()->json([
+                    'message' => 'Bạn cần xác nhận email trước khi đăng nhập.'
+                ]);
+            }
 
             // Tạo token nếu đăng nhập thành công và email đã xác thực
             $token = $user->createToken($user->id)->plainTextToken;
