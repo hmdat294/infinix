@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('target_user_id')->constrained('users')->onDelete('cascade')->nullable();
             $table->foreignId('conversation_id')->constrained('conversations')->onDelete('cascade')->nullable();
             $table->foreignId('post_id')->constrained('posts')->onDelete('cascade')->nullable();
+            $table->enum('type', ['conversation', 'post', 'user']);
             $table->timestamp('enabled_at')->nullable();
             $table->timestamps();
         });
