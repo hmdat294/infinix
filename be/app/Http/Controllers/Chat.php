@@ -17,14 +17,14 @@ class Chat extends Controller
     public function list()
     {
         $users = User::all()->except(Auth::id());
-        $users = User::leftJoin('friend_requests', 'friend_requests.receiver_id', '=', 'users.id')
-            ->where('users.id', '!=', Auth::id())
-            ->where(function ($query) {
-                $query->whereNull('friend_requests.sender_id')
-                    ->orWhere('friend_requests.sender_id', Auth::id());
-            })
-            ->select('users.*', 'friend_requests.sender_id', 'friend_requests.receiver_id', 'friend_requests.status')
-            ->get();
+        // $users = User::leftJoin('friend_requests', 'friend_requests.receiver_id', '=', 'users.id')
+        //     ->where('users.id', '!=', Auth::id())
+        //     ->where(function ($query) {
+        //         $query->whereNull('friend_requests.sender_id')
+        //             ->orWhere('friend_requests.sender_id', Auth::id());
+        //     })
+        //     ->select('users.*', 'friend_requests.sender_id', 'friend_requests.receiver_id', 'friend_requests.status')
+        //     ->get();
 
         return response()->json($users);
     }

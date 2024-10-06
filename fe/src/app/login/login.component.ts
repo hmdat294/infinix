@@ -20,7 +20,7 @@ export class LoginComponent {
 
     this.authService.login(value.value).subscribe(
       (response) => {
-        console.log('Login successful', response);
+        console.log(response);
         if (response.token) {
 
           localStorage.setItem('auth_token', response.token);
@@ -28,7 +28,7 @@ export class LoginComponent {
           setTimeout(() => location.reload(), 50);
 
         } else {
-          // alert('Đăng nhập thất bại, tài khoản hoặc mật khẩu không chính xác!');
+          alert(response.message);
         }
       }
     );

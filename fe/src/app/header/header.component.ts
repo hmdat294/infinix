@@ -21,14 +21,18 @@ export class HeaderComponent {
   constructor(private chatService: ChatService, private authService: AuthService, private router: Router) { }
   ngOnInit(): void {
     if (localStorage.getItem('auth_token')) {
-      this.authService.getUser().subscribe(
-        (response) => this.user = response);
+      // this.authService.getUser().subscribe(
+      //   (response) => {
+      //     this.user = response;
+      //     console.log(this.user);
+
+      //   });
 
       this.chatService.getList().subscribe(
         (data: any) => {
           this.list = data;
           console.log(this.list);
-          
+
         });
     }
   }
@@ -40,7 +44,7 @@ export class HeaderComponent {
         friend.email.toLowerCase().includes(this.keyword.toLowerCase())
       );
       console.log(this.friends);
-      
+
     }
     else {
       this.friends = [];
@@ -54,16 +58,5 @@ export class HeaderComponent {
     )
   }
 
-  logout(): void {
-    this.authService.logout().subscribe(
-      (response) => {
-        console.log('Logout Success:', response);
-        localStorage.removeItem('auth_token');
-        location.reload();
-      },
-      (error) => {
-        console.error('Logout Error:', error);
-      }
-    );
-  }
+
 }

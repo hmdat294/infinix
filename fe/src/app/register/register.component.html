@@ -21,7 +21,7 @@
                     <div class="control text-control w-fill ">
                         <input type="text" spellcheck="false" id="name" name="name" #name="ngModel" ngModel required>
                     </div>
-                    <small class="text-danger fst-italic" *ngIf="name.errors?.['required']">Chưa nhập Họ tên</small>
+                    <small style="color: red;" class="text-danger fst-italic" *ngIf="name.errors?.['required']">Chưa nhập Họ và tên</small>
                 </div>
 
 
@@ -55,8 +55,8 @@
                         <input type="email" spellcheck="false" id="email" name="email" #email="ngModel" ngModel required
                             email>
                     </div>
-                    <small class="text-danger fst-italic" *ngIf="email.errors?.['required']">Chưa nhập email</small>
-                    <small class="text-danger fst-italic" *ngIf="email.errors?.['email']">Chưa nhập đúng định
+                    <small style="color: red;" class="text-danger fst-italic" *ngIf="email.errors?.['required']">Chưa nhập email</small>
+                    <small style="color: red;" class="text-danger fst-italic" *ngIf="email.errors?.['email']">Chưa nhập đúng định
                         dạng</small>
                 </div>
 
@@ -93,9 +93,9 @@
                             <i class="icon-size-16 icon icon-ic_fluent_eye_16_regular"></i>
                         </button>
                     </div>
-                    <small class="text-danger fst-italic" *ngIf="password.errors?.['required']">Chưa nhập
+                    <small style="color: red;" class="text-danger fst-italic" *ngIf="password.errors?.['required']">Chưa nhập
                         password</small>
-                    <small class="text-danger fst-italic" *ngIf="password.errors?.['minlength']">Password phải trên 6 ký
+                    <small style="color: red;" class="text-danger fst-italic" *ngIf="password.errors?.['minlength']">Password phải trên 6 ký
                         tự</small>
                 </div>
 
@@ -108,7 +108,7 @@
                             <i class="icon-size-16 icon icon-ic_fluent_eye_16_regular"></i>
                         </button>
                     </div>
-                    <small class="text-danger fst-italic" *ngIf="confirm.value !== password.value">
+                    <small style="color: red;" class="text-danger fst-italic" *ngIf="confirm.value !== password.value">
                         Password không khớp
                     </small>
                 </div>

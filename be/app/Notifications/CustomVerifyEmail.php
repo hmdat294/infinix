@@ -36,14 +36,13 @@ class CustomVerifyEmail extends Notification
      */
 
 
-    public function toMail($notifiable)
-    {
-        return (new MailMessage)
-            ->subject('Verify Your Email Address')
-            ->line('Click the button below to verify your email address.')
-            ->action('Verify Email', $this->verificationUrl)
-            ->line('If you did not create an account, no further action is required.');
-    }
+     public function toMail($notifiable)
+     {
+         return (new MailMessage)
+             ->subject('Xác minh tài khoản')
+             ->view('emails.verify-email', ['verificationUrl' => $this->verificationUrl]);
+     }
+     
 
     /**
      * Get the array representation of the notification.

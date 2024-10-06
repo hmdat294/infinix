@@ -18,8 +18,8 @@
                     <input spellcheck="false" id="email" type="email" name="email" #email="ngModel" ngModel required
                         email>
                 </div>
-                <small class="text-danger fst-italic" *ngIf="email.errors?.['required']">Chưa nhập email</small>
-                <small class="text-danger fst-italic" *ngIf="email.errors?.['email']">Chưa nhập đúng định dạng</small>
+                <small style="color: red;" class="text-danger fst-italic" *ngIf="email.errors?.['required']">Chưa nhập email</small>
+                <small style="color: red;" class="text-danger fst-italic" *ngIf="email.errors?.['email']">Chưa nhập đúng định dạng</small>
             </div>
 
             <div class="w-fill layout-vertical gap-5">
@@ -31,8 +31,8 @@
                         <i class="icon-size-16 icon icon-ic_fluent_eye_16_regular"></i>
                     </button>
                 </div>
-                <small class="text-danger fst-italic" *ngIf="password.errors?.['required']">Chưa nhập password</small>
-                <small class="text-danger fst-italic" *ngIf="password.errors?.['minlength']">Password phải trên 6 ký tự</small>
+                <small style="color: red;" class="text-danger fst-italic" *ngIf="password.errors?.['required']">Chưa nhập password</small>
+                <small style="color: red;" class="text-danger fst-italic" *ngIf="password.errors?.['minlength']">Password phải trên 6 ký tự</small>
             </div>
 
 
