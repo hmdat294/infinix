@@ -22,8 +22,6 @@ return new class extends Migration
             $table->string('theme')->default('light');
             $table->timestamp('last_activity');
 
-            
-            $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
