@@ -31,8 +31,7 @@ export class HeaderComponent {
       this.chatService.getList().subscribe(
         (data: any) => {
           this.list = data;
-          console.log(this.list);
-
+          // console.log(this.list);
         });
     }
   }

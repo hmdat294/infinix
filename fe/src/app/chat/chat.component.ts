@@ -22,6 +22,9 @@ export class ChatComponent implements OnInit {
   reply_id: any = null;
   previewReply: any = null;
 
+  selectedFiles: File[] = [];
+  previewUrls: string[] = [];
+
   constructor(private chatService: ChatService, private authService: AuthService) { }
 
   ngOnInit(): void {
@@ -30,9 +33,11 @@ export class ChatComponent implements OnInit {
         (response) => this.user = response);
     }
 
-    this.authService.getFriend().subscribe(
+    this.chatService.getList().subscribe(
       (data: any) => {
         this.friend = data;
+        console.log(this.friend);
+
         this.MessageUser((this.friend.length > 0) ? this.friend[0].id : '');
       });
 
@@ -56,7 +61,7 @@ export class ChatComponent implements OnInit {
     this.chatService.getMessageUser(id).subscribe(
       (data: any) => {
         this.conversation = data;
-        // console.log(data);
+        console.log(data);
 
         (document.querySelector('.textarea-chat') as HTMLTextAreaElement).focus();
 
@@ -86,44 +91,36 @@ export class ChatComponent implements OnInit {
     )
   }
 
-  selectedFiles: File[] = []; // Lưu các tệp đã chọn
-  previewUrls: string[] = []; // Lưu URL xem trước của từng tệp
-
   sendMessage(mess: any) {
-    console.log(this.selectedFiles);
+    if (mess.message && mess.message != null && mess.message != ' ') {
 
-    const formData = new FormData();
-    formData.append('conversation_id', mess.conversation_id.toString());
-    formData.append('message', mess.message);
+      const formData = new FormData();
+      formData.append('conversation_id', mess.conversation_id.toString());
+      formData.append('message', mess.message);
 
-    if (this.reply_id) {
-      formData.append('reply_id', this.reply_id);
+      if (this.reply_id) {
+        formData.append('reply_id', this.reply_id);
+      }
+
+      if (this.selectedFiles.length > 0) {
+
+        this.selectedFiles.forEach(image => {
+          formData.append('images[]', image, image.name);
+        });
+        // formData.append('image', this.selectedFile, this.selectedFile.name);
+      }
+
+      this.chatService.sendMessage(formData).subscribe(
+        (response: any) => {
+
+          (document.querySelector('.textarea-chat') as HTMLTextAreaElement).style.height = 'auto';
+
+          this.message = '';
+          this.onCancelSendImg();
+          this.onCancelReply();
+          console.log(response);
+        });
     }
-
-    if (this.selectedFiles.length > 0) {
-
-      this.selectedFiles.forEach(image => {
-        formData.append('images[]', image, image.name);
-      });
-      // formData.append('image', this.selectedFile, this.selectedFile.name);
-    }
-
-    this.chatService.sendMessage(formData).subscribe(
-      (response: any) => {
-
-        (document.querySelector('.textarea-chat') as HTMLTextAreaElement).style.height = 'auto';
-
-        this.message = '';
-        this.onCancelSendImg();
-        this.onCancelReply();
-        console.log(response);
-      });
-  }
-
-  onCancelSendImg() {
-    this.selectedFiles = []; // Đặt lại mảng các tệp đã chọn
-    this.previewUrls = []; // Đặt lại mảng các URL xem trước
-    this.resetFileInput(); // Đặt lại input file nếu cần
   }
 
   fileInput: any;
@@ -134,20 +131,28 @@ export class ChatComponent implements OnInit {
   }
 
   onFileSelected(event: any) {
-    const files: File[] = Array.from(event.target.files); // Chuyển thành một mảng các tệp
+    const files: File[] = Array.from(event.target.files);
     if (files && files.length > 0) {
-      this.selectedFiles = files; // Lưu trữ các tệp đã chọn
-      this.previewUrls = []; // Khởi tạo lại mảng URL xem trước
-
-      // Duyệt qua từng tệp và tạo URL xem trước
       files.forEach(file => {
         const reader = new FileReader();
         reader.onload = e => {
-          this.previewUrls.push(reader.result as string); // Thêm URL xem trước vào mảng
+          this.previewUrls.push(reader.result as string);
         };
         reader.readAsDataURL(file);
+        this.selectedFiles.push(file);
       });
     }
+  }
+
+  onCancelSendImg() {
+    this.selectedFiles = [];
+    this.previewUrls = [];
+    this.resetFileInput();
+  }
+
+  removeImage(index: number): void {
+    this.previewUrls.splice(index, 1);
+    this.selectedFiles.splice(index, 1);
   }
 
   handleKeydown(event: KeyboardEvent, frm: any) {
@@ -197,6 +202,7 @@ export class ChatComponent implements OnInit {
 
   onReply(id: number) {
     this.reply_id = id;
+
     const reply = this.conversation.messages.filter((data: any) => data.id == id)[0];
     this.previewReply = reply;
 
@@ -206,10 +212,5 @@ export class ChatComponent implements OnInit {
   onCancelReply() {
     this.reply_id = null;
     this.previewReply = null;
-  }
-
-  autoResize(textArea: HTMLTextAreaElement): void {
-    textArea.style.height = 'auto';
-    textArea.style.height = textArea.scrollHeight + 'px';
   }
 }

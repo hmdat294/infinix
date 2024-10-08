@@ -1,4 +1,4 @@
-.container {
+/* .container {
     height: 85vh;
 }
 
@@ -6,38 +6,44 @@
     overflow-y: scroll;
 }
 
-.textarea-chat::-webkit-scrollbar,
-.card-body::-webkit-scrollbar {
-    width: 10px;
+.list-group>a {
+    border-bottom: 1px solid #dee2e6;
+} */
+
+.textarea-chat {
+    border: none;
+    overflow-y: scroll;
 }
 
-.textarea-chat::-webkit-scrollbar-track,
-.card-body::-webkit-scrollbar-track {
-    background: #f1f1f1;
+.textarea-chat::-webkit-scrollbar {
+    width: 5px;
 }
 
-.textarea-chat::-webkit-scrollbar-thumb,
-.card-body::-webkit-scrollbar-thumb {
-    background-color: #cef2ff;
+.textarea-chat::-webkit-scrollbar-thumb {
+    background-color: #a6e7ff;
     border-radius: 10px;
-    border: 2px solid #f1f1f1;
 }
 
-.textarea-chat::-webkit-scrollbar-thumb:hover,
-.card-body::-webkit-scrollbar-thumb:hover {
-    background-color: #0dcaf0;
+.textarea-chat::-webkit-scrollbar-thumb:hover {
+    background-color: #005FB8E6;
     cursor: pointer;
 }
 
-.list-group>a {
-    border-bottom: 1px solid #dee2e6;
+
+article {
+    margin-top: 45px;
 }
 
-.mess-hover>ul {
+.box-chat {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.mess-hover>.mess-menu {
     visibility: hidden;
 }
 
-.mess-hover:hover>ul {
+.mess-hover:hover>.mess-menu {
     visibility: visible;
 }
 
