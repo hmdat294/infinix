@@ -28,11 +28,8 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    protected function casts(): array
+    public function permissions()
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->belongsToMany(Permission::class, 'user_permissions', 'user_id', 'permission_id');
     }
 }
