@@ -7,36 +7,40 @@ use App\Events\UserLoggedInEvent;
 use App\Events\UserLoggedOutEvent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
 use App\Models\User as UserModel;
 use App\Models\Permission as PermissionModel;
+use App\Models\Profile as ProfileModel;
+use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
 {
 
     /**
-     * - 422: Thông tin đăng nhập không hợp lệ
-     * - 403: Người dùng không có quyền đăng nhập
-     * - 200: Đăng nhập thành công
+     * Đăng nhập
+     *
+     * @param Request $request
+     * 
+     * @bodyParam email : Tên đăng nhập của người dùng.
+     * @bodyParam password : Mật khẩu của người dùng.
+     *
+     * @response 200 : Đăng nhập thành công
+     * @response 403 : Không có quyền đăng nhập
+     * @response 422 : Thông tin đăng nhập không hợp lệ
+     *
+     * @return JsonResponse
      */
     public function login(Request $request)
     {
-        $request->validate([
-            'username' => 'required|string',
-            'password' => 'required|string',
-        ]);
     
-        if (!Auth::attempt($request->only('username', 'password'))) {
+        if (!Auth::attempt($request->only('email', 'password'))) {
             return response()->json([
                 'message' => 'Incorrect login information.',
             ], 422);
         }
 
         $user = UserModel::find(Auth::user()->id);
-        // check if user has permission to login
-        if (!$user->permissions->contains('name', 'login')) {
+        if (!$user->permissions->contains('name', 'can_login')) {
             return response()->json([
                 'message' => 'User does not have permission to login.',
             ], 403);
@@ -51,32 +55,37 @@ class AuthController extends Controller
 
 
     /**
-     * - 422: Người dùng đã tồn tại
-     * - 200: Đăng ký thành công
+     * Đăng ký
+     *
+     * @param Request $request
+     * 
+     * @bodyParam fullname : Tên hiển thị của người dùng.
+     * @bodyParam email : Email đăng nhập.
+     * @bodyParam password : Mật khẩu của người dùng.
+     *
+     * @response 200 : Đăng ký thành công
+     * @response 422 : Email đã tồn tại
+     *
+     * @return JsonResponse
      */
     public function register(Request $request)
     {
-        try {
-            $request->validate([
-                'username' => ['required', 'string', 'max:255', 'unique:'.UserModel::class],
-                'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.UserModel::class],
-                'phone_number' => ['nullable', 'string', 'max:255', 'unique:'.UserModel::class],
-                'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            ]);
-        } catch (ValidationException $e) {
+        if(UserModel::where('email', $request->email)->exists()){
             return response()->json([
-                'message' => 'User already exists.',
-                'errors' => $e->errors(),
+                'message' => 'Email already exists.',
             ], 422);
         }
 
-
         $user = UserModel::create([
-            'username' => $request->username,
             'email' => $request->email,
             'phone_number' => $request->phone_number,
             'password' => Hash::make($request->password),
             'last_activity' => now(),
+        ]);
+
+        $profile = ProfileModel::create([
+            'user_id' => $user->id,
+            'display_name' => $request->fullname,
         ]);
 
         $user->permissions()->attach(PermissionModel::all()->pluck('id')->toArray());
@@ -90,7 +99,13 @@ class AuthController extends Controller
     }
 
     /**
-     * - 200: Đăng xuất thành công
+     * Đăng xuất
+     *
+     * @param Request $request
+     *
+     * @response 200 : Đăng xuất thành công
+     *
+     * @return JsonResponse
      */
     public function logout(Request $request)
     {
