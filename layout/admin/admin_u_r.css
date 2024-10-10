@@ -56,5 +56,5 @@ td:last-child {
     
 }
 .left{
-    max-height: 850px;
+    height: 100vh;
 }
