@@ -20,7 +20,6 @@ export class RightHomeComponent implements OnInit {
       this.authService.getUser().subscribe(
         (response) => {
           this.user = response;
-          console.log(this.user);
         });
     }
 

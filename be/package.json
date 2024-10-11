@@ -10,13 +10,15 @@
     "laravel-echo": "^1.16.1",
     "package-name": "^0.1.0",
     "pusher-js": "^8.4.0-rc2",
-    "tweetnacl": "^1.0.3",
-    "vite": "^5.4.6"
+    "tweetnacl": "^1.0.3"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "vite"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "vite": "^5.4.8"
+  }
 }

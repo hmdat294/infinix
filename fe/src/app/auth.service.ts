@@ -70,4 +70,14 @@ export class AuthService {
     const headers = this.getToken();
     return this.http.patch(`${this.apiUrl}/refuse-friend/${id}`, {}, { headers });
   }
+
+  getCode(email: string): Observable<any> {
+    console.log(email);
+    return this.http.post(`${this.apiUrl}/verify-contact-info/`, {email});
+  }
+
+  postCode(email: string, code:number): Observable<any> {
+    console.log(email, code);
+    return this.http.post(`${this.apiUrl}/verify-verification-code/`, {email, code});
+  }
 }

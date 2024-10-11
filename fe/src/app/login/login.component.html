@@ -26,13 +26,13 @@
                 <label for="password" class="w-fill text-body text-primary">Mật khẩu</label>
                 <div class="control password-control w-fill">
                     <input spellcheck="false" id="password" type="password" name="password" #password="ngModel" ngModel
-                        required minlength="6">
+                        required minlength="8">
                     <button type="button" class="input-button show-password-button">
                         <i class="icon-size-16 icon icon-ic_fluent_eye_16_regular"></i>
                     </button>
                 </div>
                 <small style="color: red;" class="text-danger fst-italic" *ngIf="password.errors?.['required']">Chưa nhập password</small>
-                <small style="color: red;" class="text-danger fst-italic" *ngIf="password.errors?.['minlength']">Password phải trên 6 ký tự</small>
+                <small style="color: red;" class="text-danger fst-italic" *ngIf="password.errors?.['minlength']">Password phải trên 8 ký tự</small>
             </div>
 
 

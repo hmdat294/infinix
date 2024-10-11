@@ -107,14 +107,11 @@ export class ChatComponent implements OnInit {
         this.selectedFiles.forEach(image => {
           formData.append('images[]', image, image.name);
         });
-        // formData.append('image', this.selectedFile, this.selectedFile.name);
       }
 
       this.chatService.sendMessage(formData).subscribe(
         (response: any) => {
-
           (document.querySelector('.textarea-chat') as HTMLTextAreaElement).style.height = 'auto';
-
           this.message = '';
           this.onCancelSendImg();
           this.onCancelReply();
@@ -135,9 +132,7 @@ export class ChatComponent implements OnInit {
     if (files && files.length > 0) {
       files.forEach(file => {
         const reader = new FileReader();
-        reader.onload = e => {
-          this.previewUrls.push(reader.result as string);
-        };
+        reader.onload = e => this.previewUrls.push(reader.result as string);
         reader.readAsDataURL(file);
         this.selectedFiles.push(file);
       });

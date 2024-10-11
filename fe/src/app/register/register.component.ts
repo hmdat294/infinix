@@ -25,11 +25,30 @@ export class RegisterComponent {
         console.log(response);
         if (response.token) {
 
-          localStorage.setItem('auth_token_register', response.token);
           this.router.navigate(['/login']);
-          
+
         } else {
           alert(response.message);
+        }
+      }
+    );
+  }
+
+  getCode(email: string) {
+    this.authService.getCode(email).subscribe(
+      (response) => {
+        console.log(response);
+        this.step();
+      }
+    );
+  }
+
+  postCode(email: string, code: number) {
+    this.authService.postCode(email, code).subscribe(
+      (response) => {
+        if (response.verify) { 
+          console.log(response);
+          this.step();
         }
       }
     );
