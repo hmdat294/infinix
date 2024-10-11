@@ -6,7 +6,9 @@ use App\Http\Controllers\VerificationCodeController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\FriendRequestController;
+use App\Http\Controllers\CommentController;
 use App\Http\Middleware\UpdateUserLastActivity;
+
 
 
 Route::middleware(['guest'])->group(function () {
@@ -37,7 +39,10 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
         'post' => 'id'
     ]);
 
-    Route::get('user/{user_id}/posts', [PostController::class, 'index'])->name('posts.indexByUser');
+    Route::get('user/{user_id}/posts', [PostController::class, 'index'])->name('posts.index');
+
+    // Route cho bình luận
+    Route::resource('comment', CommentController::class);
 
     Route::get('test/{id}', function () {
         $user_id = request()->route('id');

@@ -17,10 +17,10 @@ class PostResource extends JsonResource
     {
         $data = [
             'id' => $this->id,
-            'user_id' => $this->user_id,
             'content' => $this->content,
             'post_type' => $this->post_type,
             'created_at' =>  Carbon::parse($this->created_at)->format('Y-m-d H:i:s'),
+            'user' => new UserResource($this->user),
             'comments' => CommentResource::collection($this->comments),
             'medias' => PostMediaResource::collection($this->medias),
 
