@@ -10,4 +10,10 @@ class Relationship extends Model
     use HasFactory;
 
     protected $table = 'relationships';
+
+    protected $fillable = [
+        'user_id',
+        'related_user_id',
+        'type',
+    ];
 }

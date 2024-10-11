@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\UserRegisteredEvent;
-use App\Events\UserLoggedInEvent;
-use App\Events\UserLoggedOutEvent;
+use App\Events\UserConnectionEvent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -45,7 +43,10 @@ class AuthController extends Controller
                 'message' => 'User does not have permission to login.',
             ], 403);
         }
-        event(new UserLoggedInEvent($user));
+
+        $user->update(['last_activity' => now()]);
+
+        broadcast(new UserConnectionEvent($user, 'online'))->toOthers();
     
         return response()->json([
             'token' => $user->createToken($user->id)->plainTextToken,
@@ -90,7 +91,7 @@ class AuthController extends Controller
 
         $user->permissions()->attach(PermissionModel::all()->pluck('id')->toArray());
 
-        event(new UserRegisteredEvent($user));
+        broadcast(new UserConnectionEvent($user, 'offline'))->toOthers();
 
         return response()->json([
             'token' => $user->createToken($user->id)->plainTextToken,
@@ -110,8 +111,6 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
-
-        event(new UserLoggedOutEvent($request->user()));
 
         return response()->json([
             'message' => 'Logout successful.',

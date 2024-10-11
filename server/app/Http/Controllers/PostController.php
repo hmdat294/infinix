@@ -17,9 +17,13 @@ class PostController extends Controller
      * Danh sách bài viết
      * @return AnonymousResourceCollection
      */
-    public function index()
+    public function index(string $user_id = null)
     {
-        $posts = PostModel::paginate(10);
+        if ($user_id) {
+            $posts = PostModel::where('user_id', $user_id)->orderBy('created_at', 'desc')->paginate(10);
+        } else {
+            $posts = PostModel::orderBy('created_at', 'desc')->paginate(10);
+        }
         return PostResource::collection($posts)->additional([
             'meta' => [
                 'current_page' => $posts->currentPage(),
@@ -35,19 +39,20 @@ class PostController extends Controller
      * Tạo bài viết
      * @param Request $request
      * 
-     * @bodyParam user_id : Id người tạo
      * @bodyParam content : Nội dung bài viết
      * @bodyParam post_type : Loại bài viết
      * @bodyParam medias : Các file phương tiện
      * 
      * @bodyParam poll_option : Mảng các lựa chọn cho bài viết (nếu post_type là with_poll)
-     * @bodyParam end_at : Thời gian kết thúc bài viết (nếu post_type là with_poll)
+     * @bodyParam end_at : Thời gian kết thúc bình chọn (nếu post_type là with_poll)
      * 
      * @return PostResource
      */
     public function store(Request $request)
     {
-        $post = PostModel::create($request->only(['user_id', 'content', 'post_type', 'medias']));
+        $post_data = $request->only(['content', 'post_type', 'medias']);
+        $post_data['user_id'] = $request->user()->id;
+        $post = PostModel::create($post_data);
 
         if ($request->post_type === 'with_poll' && $request->has('poll_option', 'end_at')) {
             $poll = $post->poll()->create([
@@ -139,5 +144,23 @@ class PostController extends Controller
         return response()->json([
             'message' => 'Post deleted successfully.',
         ], 200);
+    }
+
+    /**
+     * Danh sách bài viết theo người dùng
+     * @param string $user
+     * @return AnonymousResourceCollection
+     */
+    public function by_user_id(string $user_id)
+    {
+        $posts = PostModel::where('user_id', $user_id)->orderBy('created_at', 'desc')->paginate(10);
+        return PostResource::collection($posts)->additional([
+            'meta' => [
+                'current_page' => $posts->currentPage(),
+                'last_page' => $posts->lastPage(),
+                'per_page' => $posts->perPage(),
+                'total' => $posts->total(),
+            ]
+        ]);
     }
 }
