@@ -24,6 +24,7 @@ class UserResource extends JsonResource
             'theme' => $this->theme,
             'last_activity' => $this->last_activity,
             'updated_at' => $this->updated_at,
+            'profile' => new ProfileResource($this->profile),
         ];
     }
 }

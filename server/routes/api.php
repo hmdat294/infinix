@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\FriendRequestController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\UserController;
 use App\Http\Middleware\UpdateUserLastActivity;
 
 
@@ -39,7 +40,14 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
         'post' => 'id'
     ]);
 
-    Route::get('user/{user_id}/posts', [PostController::class, 'index'])->name('posts.index');
+    Route::resource('user', UserController::class)
+    ->only(['index', 'show'])
+    ->parameters(['user' => 'id']);
+
+    Route::post('user/{user_id}/posts', [PostController::class, 'index'])->name('posts.index');
+
+    // Route::post('get-user/{id}', [AuthController::class, 'getUser'])->name('get-user');
+    // Route::post('get-user', [AuthController::class, 'getUser'])->name('get-user');
 
     // Route cho bình luận
     Route::resource('comment', CommentController::class);

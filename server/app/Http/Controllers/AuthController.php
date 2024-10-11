@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\UserConnectionEvent;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -10,6 +11,7 @@ use App\Models\User as UserModel;
 use App\Models\Permission as PermissionModel;
 use App\Models\Profile as ProfileModel;
 use Illuminate\Http\JsonResponse;
+use App\Models\User;
 
 class AuthController extends Controller
 {
