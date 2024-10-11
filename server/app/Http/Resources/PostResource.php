@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Profile;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -20,7 +21,7 @@ class PostResource extends JsonResource
             'content' => $this->content,
             'post_type' => $this->post_type,
             'created_at' =>  Carbon::parse($this->created_at)->format('Y-m-d H:i:s'),
-            'user' => new UserResource($this->user),
+            'profile' => new ProfileResource($this->user->profile),
             'comments' => CommentResource::collection($this->comments),
             'medias' => PostMediaResource::collection($this->medias),
 
