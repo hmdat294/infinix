@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PostController;
+use App\Http\Middleware\UpdateUserLastActivity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Chat;
+use App\Http\Controllers\FriendRequestController;
 use App\Http\Controllers\Relationship;
 use App\Http\Controllers\VerificationCodeController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -33,15 +35,31 @@ Route::middleware(['guest'])->group(function () {
 });
 
 
-Route::middleware(['auth:sanctum'])->group(function () {
+Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(function () {
 
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
+    // Route cho gửi lời mời kết bạn
+    Route::resource('friend-request', FriendRequestController::class)
+    ->only(['index', 'store', 'show', 'update', 'destroy'])
+    ->parameters([
+        'friend-request' => 'id'
+    ]);
+
+    // Route cho bài viết
     Route::resource('post', PostController::class)
     ->only(['index', 'store', 'show', 'update', 'destroy'])
     ->parameters([
         'post' => 'id'
     ]);
+
+    Route::get('test/{id}', function () {
+        $user_id = request()->route('id');
+        $friends = App\Models\User::find($user_id)->getFriends();
+        return response()->json([
+            'friends' => $friends,
+        ], 200);
+    });
 });
 
 

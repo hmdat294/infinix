@@ -18,9 +18,13 @@ class PostController extends Controller
      * Danh sách bài viết
      * @return AnonymousResourceCollection
      */
-    public function index()
+    public function index(string $user_id = null)
     {
-        $posts = PostModel::paginate(10);
+        if ($user_id) {
+            $posts = PostModel::where('user_id', $user_id)->orderBy('created_at', 'desc')->paginate(10);
+        } else {
+            $posts = PostModel::orderBy('created_at', 'desc')->paginate(10);
+        }
         return PostResource::collection($posts)->additional([
             'meta' => [
                 'current_page' => $posts->currentPage(),
@@ -142,4 +146,5 @@ class PostController extends Controller
             'message' => 'Post deleted successfully.',
         ], 200);
     }
+
 }
