@@ -54,7 +54,7 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
     ->only(['index', 'store', 'show', 'update', 'destroy'])
     ->parameters(['comment' => 'id']);
 
-    // API cho hội thoại đơn
+    // API cho hội thoại đơn (theo user_id)
     Route::resource('chat', ConversationController::class)
     ->only(['index','store', 'show', 'update', 'destroy'])
     ->parameters(['chat' => 'id']);
