@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('sender_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('post_id')->constrained('posts')->onDelete('cascade')->nullable();
-            $table->foreignId('comment_id')->constrained('post_comments')->onDelete('cascade')->nullable();
-            $table->foreignId('message_id')->constrained('messages')->onDelete('cascade')->nullable();
-            $table->text('content')->nullable();
+            $table->foreignId('post_id')->constrained('posts')->nullable()->default(null);
+            $table->foreignId('comment_id')->constrained('post_comments')->nullable()->default(null);
+            $table->foreignId('message_id')->constrained('messages')->nullable()->default(null);
+            $table->text('content')->nullable()->default(null);
             $table->enum('type', ['user', 'post', 'comment', 'message'])->default('post');
             $table->enum('status', ['pending', 'resolved'])->default('pending');
             $table->timestamps();

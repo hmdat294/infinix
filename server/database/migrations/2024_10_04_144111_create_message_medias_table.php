@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('message_medias', function (Blueprint $table) {
             $table->id();
             $table->foreignId('message_id')->constrained('messages')->onDelete('cascade');
-            $table->string('media');
             $table->enum('type', ['image', 'video', 'file'])->default('image');
             $table->string('path');
             $table->timestamps();

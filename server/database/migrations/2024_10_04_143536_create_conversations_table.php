@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('conversations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->nullable();
-            $table->string('name');
-            $table->string('image')->nullable();
+            $table->foreignId('user_id')->nullable()->default(null)->constrained('users');
+            $table->string('name')->nullable()->default(null);
+            $table->string('image')->nullable()->default(null);
             $table->boolean('is_group')->default(false);
             $table->timestamps();
         });

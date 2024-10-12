@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
             $table->foreignId('conversation_id')->constrained('conversations')->onDelete('cascade');
-            $table->foreignId('reply_to_user_id')->nullable()->constrained('messages')->onDelete('cascade');
+            $table->foreignId('reply_to_message_id')->nullable()->constrained('messages')->default(null);
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->boolean('is_recalled')->default(false);
+            $table->boolean('is_edited')->default(false);
             $table->text('content');
             $table->timestamps();
         });
