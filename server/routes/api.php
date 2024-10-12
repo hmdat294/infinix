@@ -10,6 +10,8 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\UpdateUserLastActivity;
 
+use App\Http\Resources\UserResource;
+
 
 
 Route::middleware(['guest'])->group(function () {
@@ -33,6 +35,7 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
         'friend-request' => 'id'
     ]);
 
+
     // Route cho bài viết
     Route::resource('post', PostController::class)
     ->only(['index', 'store', 'show', 'update', 'destroy'])
@@ -40,23 +43,27 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
         'post' => 'id'
     ]);
 
+
+    // Route cho người dùng
     Route::resource('user', UserController::class)
-    ->only(['index', 'show'])
+    ->only(['index', 'show', 'update'])
     ->parameters(['user' => 'id']);
 
-    Route::post('user/{user_id}/posts', [PostController::class, 'index'])->name('posts.index');
+    Route::get('user/{user_id}/posts', [PostController::class, 'index'])->name('posts.index');
 
-    // Route::post('get-user/{id}', [AuthController::class, 'getUser'])->name('get-user');
-    // Route::post('get-user', [AuthController::class, 'getUser'])->name('get-user');
+    Route::get('/get-friends', function (Request $request) {
+        return UserResource::collection($request->user()->friendsOf->concat($request->user()->friendsOfMine));
+
+    });
+
 
     // Route cho bình luận
-    Route::resource('comment', CommentController::class);
+    Route::resource('comment', CommentController::class)
+    ->only(['index', 'store', 'show', 'update', 'destroy'])
+    ->parameters([
+        'comment' => 'id'
+    ]);
 
-    Route::get('test/{id}', function () {
-        $user_id = request()->route('id');
-        $friends = App\Models\User::find($user_id)->getFriends();
-        return response()->json([
-            'friends' => $friends,
-        ], 200);
-    });
+    Route::get('post/{post_id}/comments', [CommentController::class, 'index'])->name('comments.index');
+
 });

@@ -9,12 +9,16 @@ use App\Models\PostMedia as PostMediaModel;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\JsonResponse;
+use App\Events\UserPostEvent;
 
 class PostController extends Controller
 {
 
     /**
      * Danh sách bài viết
+     * 
+     * @param string $user_id : Id người dùng
+     * 
      * @return AnonymousResourceCollection
      */
     public function index(string $user_id = null)
@@ -37,6 +41,7 @@ class PostController extends Controller
 
     /**
      * Tạo bài viết
+     * 
      * @param Request $request
      * 
      * @bodyParam content : Nội dung bài viết
@@ -81,13 +86,20 @@ class PostController extends Controller
             }
         }
 
+        broadcast(new UserPostEvent($post->user_id, $post->id, $post->content))->toOthers();
+
         return new PostResource($post);
     }
 
 
     /**
      * Chi tiết bài viết
+     * 
      * @param string $id
+     * 
+     * @response 200 : Thông tin chi tiết bài viết
+     * @response 404 : Bài viết không tồn tại
+     * 
      * @return PostResource
      */
     public function show(string $id)
@@ -105,6 +117,7 @@ class PostController extends Controller
 
     /**
      * Cập nhật bài viết
+     * 
      * @param Request $request
      * @param string $id
      * 
@@ -134,7 +147,9 @@ class PostController extends Controller
 
     /**
      * Xóa bài viết
+     * 
      * @param string $id
+     * 
      * @return JsonResponse
      */
     public function destroy(string $id)
@@ -148,7 +163,9 @@ class PostController extends Controller
 
     /**
      * Danh sách bài viết theo người dùng
+     * 
      * @param string $user
+     * 
      * @return AnonymousResourceCollection
      */
     public function by_user_id(string $user_id)

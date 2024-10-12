@@ -28,23 +28,16 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    // public function getFriends()
-    // {
-    //     $id_array = [];
-        
-    //     // Lấy các ID bạn bè trong trường 'user_id'
-    //     Relationship::where('user_id', $this->id)->get()->each(function ($item) use (&$id_array) {
-    //         array_push($id_array, $item->related_user_id);
-    //     });
-        
-    //     // Lấy các ID bạn bè trong trường 'related_user_id'
-    //     Relationship::where('related_user_id', $this->id)->get()->each(function ($item) use (&$id_array) {
-    //         array_push($id_array, $item->user_id);
-    //     });
-        
-    //     // Trả về danh sách user khác mà người dùng hiện tại là bạn bè
-    //     return User::whereIn('id', $id_array)->where('id', '!=', $this->id)->get();
-    // }
+    public function friendsOf()
+    {
+        return $this->belongsToMany(User::class, 'relationships', 'user_id', 'related_user_id');
+    }
+
+    public function friendsOfMine()
+    {
+        return $this->belongsToMany(User::class, 'relationships', 'related_user_id', 'user_id');
+    }
+
 
     public function permissions()
     {

@@ -6,6 +6,12 @@ use Illuminate\Support\Facades\Broadcast;
 //     return (int) $user->id === (int) $id;
 // });
 
-Broadcast::channel('connection.{id}', function ($user, $id) {
-    return (int) $user->id === (int) $id || $user->friends->contains('id', $id) || $user->followers->contains('id', $id);
+Broadcast::channel('user.{id}', function ($user, $id) {
+    return (int) $user->id === (int) $id;
 });
+
+// Broadcast::channel('connection.{id}', function ($user, $id) {
+//     return (int) $user->id === (int) $id
+//     || $user->friendsOf->concat($user->friendsOfMine)->contains('id', $id)
+//     || $user->followers->contains('id', $id);
+// });

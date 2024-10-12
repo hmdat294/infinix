@@ -93,8 +93,6 @@ class AuthController extends Controller
 
         $user->permissions()->attach(PermissionModel::all()->pluck('id')->toArray());
 
-        broadcast(new UserConnectionEvent($user, 'offline'))->toOthers();
-
         return response()->json([
             'token' => $user->createToken($user->id)->plainTextToken,
             'message' => 'Registration successful.',
@@ -113,6 +111,8 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
+
+        broadcast(new UserConnectionEvent($$request->user(), 'offline'))->toOthers();
 
         return response()->json([
             'message' => 'Logout successful.',
