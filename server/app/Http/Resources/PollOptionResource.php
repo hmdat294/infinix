@@ -14,6 +14,10 @@ class PollOptionResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        $data = parent::toArray($request);
+
+        $data['option_total_votes'] = $this->votes->count();
+
+        return $data;
     }
 }

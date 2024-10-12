@@ -6,6 +6,7 @@ use App\Http\Resources\PostResource;
 use Illuminate\Http\Request;
 use App\Models\Post as PostModel;
 use App\Models\PostMedia as PostMediaModel;
+use App\Models\PollOption;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\JsonResponse;
@@ -178,6 +179,22 @@ class PostController extends Controller
                 'per_page' => $posts->perPage(),
                 'total' => $posts->total(),
             ]
+        ]);
+    }
+
+    public function vote(Request $request, string $id)
+    {
+        $option = PollOption::find($id);
+
+        if ($option->votes()->where('user_id', $request->user()->id)->exists()) {
+            return response()->json([
+                'message' => 'You have already voted for this option.',
+            ], 400);
+        }
+
+        $option->votes()->create([
+            'poll_option_id' => $option->id,
+            'user_id' => $request->user()->id,
         ]);
     }
 }

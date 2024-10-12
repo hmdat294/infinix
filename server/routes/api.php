@@ -83,5 +83,7 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
         return UserResource::collection($request->user()->friendsOf->concat($request->user()->friendsOfMine));
     });
 
+    // Bình chọn cho một bài viết có poll (theo poll_option_id)
+    Route::post('vote/{id}', [PostController::class, 'vote'])->name('post.vote');
 
 });
