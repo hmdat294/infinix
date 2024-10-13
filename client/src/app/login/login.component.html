@@ -1,0 +1,47 @@
+
+<section class="gradient-background layout-vertical" style="height: 100vh;">
+    <article class="layout-vertical w-fill h-fill align-center-center">
+        <form (submit)="login(frm)" #frm="ngForm"
+            class="layout-vertical card-background-default border border-card-default rounded-8 p-25 gap-25 shadow-card"
+            style="width: 400px;">
+
+            <div class="w-fill layout-horizontal gap-10 align-center-center">
+                <img src="assets/image/Logo.png" alt="">
+                <p class="text-subtitle text-primary">Infinix</p>
+            </div>
+
+            <p class="text-body-large text-primary">Đăng nhập</p>
+
+            <div class="w-fill layout-vertical gap-5">
+                <label for="email" class="w-fill text-body text-primary">Email hoặc số điện thoại</label>
+                <div class="control text-control w-fill ">
+                    <input spellcheck="false" id="email" type="email" name="email" #email="ngModel" ngModel required
+                        email>
+                </div>
+                <small style="color: red;" class="text-danger fst-italic" *ngIf="email.errors?.['email']">Chưa nhập đúng định dạng</small>
+            </div>
+
+            <div class="w-fill layout-vertical gap-5">
+                <label for="password" class="w-fill text-body text-primary">Mật khẩu</label>
+                <div class="control password-control w-fill">
+                    <input spellcheck="false" id="password" type="password" name="password" #password="ngModel" ngModel
+                        required minlength="8">
+                    <button type="button" class="input-button show-password-button">
+                        <i class="icon-size-16 icon icon-ic_fluent_eye_16_regular"></i>
+                    </button>
+                </div>
+                <small style="color: red;" class="text-danger fst-italic" *ngIf="password.errors?.['minlength']">Password phải trên 8 ký tự</small>
+            </div>
+
+
+            <p class="text-body text-tertiary">Bạn chưa có tài khoản? <a [routerLink]="['/register']" class="link">Tạo mới!</a></p>
+
+
+            <a href="" class="link">Quên tên đăng nhập hoặc mật khẩu?</a>
+
+            <div class="w-fill layout-horizontal align-center-right">
+                <button type="submit" class="button-accent button-text-only" [disabled]="frm.invalid">Đăng nhập</button>
+            </div>
+        </form>
+    </article>
+</section>

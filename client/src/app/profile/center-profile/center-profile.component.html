@@ -1,0 +1,155 @@
+<div class="layout p-10 rounded-8 card-background-default border border-card-default" id="create-post-section">
+    <div class="layout-horizontal gap-10 w-fill">
+        <img src="assets/image/avatar.png" alt="" style="width: 35px; height: 35px;">
+        <form class="layout-vertical gap-10 w-fill" enctype="multipart/form-data" (submit)="post(value.value)"
+            #value="ngForm">
+            <textarea class="control text-area-control w-fill textarea-post" placeholder="placeholder"
+                [(ngModel)]="content" name="content" ngModel id="post-input" spellcheck="false"
+                style="max-height: 110px;"></textarea>
+
+            <div *ngIf="previewPostImages.length > 0" class="p-10 position-relative border rounded-6">
+                <div class="layout-wrap gap-10">
+                    <div *ngFor="let previewImage of previewPostImages; let i = index" class="w-fill">
+                        <img [src]="previewImage" alt="Image preview" width="100%" class="rounded-4">
+                        <button type="button" (click)="removePostImage(i)"
+                            class="button-standard button-icon-only position-absolute top-0 end-0">
+                            <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="showPoll"
+                class="w-fill rounded-4 p-10 gap-10 card-background-secondary border border-card-default layout-vertical">
+                <p class="text-body text-primary">Tạo bình chọn</p>
+                <div class="w-fill layout-vertical gap-10">
+                    <div class="layout-horizontal gap-10 w-fill"
+                        *ngFor="let option of poll_input; let i = index; trackBy: trackByFn">
+                        <div class="control text-control w-fill">
+                            <input type="text" placeholder="placeholder" spellcheck="false" [(ngModel)]="poll_input[i]"
+                                name="poll-option-{{i}}">
+                        </div>
+                        <button type="button" class="button-subtle button-icon-only" (click)="removeChoice(i)">
+                            <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_filled"></i>
+                        </button>
+                    </div>
+                    <div class="layout align-center-space-between">
+                        <button type="button" class="button-standard button-text-only w-hug" (click)="addChoice()">
+                            Thêm lựa chọn
+                        </button>
+                        <input type="date" class="control" name="end_at" ngModel>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layout-horizontal w-fill">
+                <div class="layout horizontal w-fill gap-10">
+                    <input class="display-none" type="file" [ngModel]="filePost" (change)="onFilePostSelected($event)"
+                        accept="image/*" id="post_media_input" multiple>
+                    <label for="post_media_input"
+                        class="layout align-center-center border-none subtle-transparent text-accent-default">
+                        <i class="icon-size-20 icon icon-ic_fluent_image_20_regular"></i>
+                    </label>
+                    <button type="button" class="border-none subtle-transparent text-accent-default">
+                        <i class="icon-size-20 icon icon-ic_fluent_emoji_20_regular"></i>
+                    </button>
+                    <button type="button" class="speech-to-text border-none subtle-transparent text-accent-default"
+                        data-target="post-input">
+                        <i class="icon-size-20 icon icon-ic_fluent_mic_20_regular"></i>
+                    </button>
+                    <button type="button" class="border-none subtle-transparent text-accent-default">
+                        <i class="icon-size-20 icon icon-ic_fluent_attach_20_regular"></i>
+                    </button>
+
+                    <button type="button" class="border-none subtle-transparent text-accent-default"
+                        (click)="showPolls()">
+                        <i *ngIf="showPoll" class='icon-size-20 icon icon-ic_fluent_data_histogram_20_filled'></i>
+                        <i *ngIf="!showPoll" class='icon-size-20 icon icon-ic_fluent_data_histogram_20_regular'></i>
+                    </button>
+
+                </div>
+                <button type="submit" class="button-accent button-text-with-icon">
+                    Đăng bài
+                    <i class="icon-size-16 icon icon-ic_fluent_send_16_filled"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div *ngFor="let post of listPost.data"
+    class="layout-vertical gap-20 pt-20 ps-20 pe-20 pb-10 card-background-default border border-card-default rounded-8">
+    <div class="layout-horizontal gap-20">
+        <img src="assets/image/avatar.png" alt="" style="width: 35px; height: 35px;">
+        <div class="layout-vertical w-fill">
+            <p class="text-body-strong text-primary">{{post.profile.display_name}}</p>
+            <p class="text-body text-secondary">{{formatTime(post.created_at)}}</p>
+        </div>
+        <button type="button" class="button-subtle button-icon-only">
+            <i class="icon-size-24 icon icon-ic_fluent_more_horizontal_24_filled"></i>
+        </button>
+    </div>
+    <div class="layout w-fill">
+        <p class="text-body text-primary" style="white-space: pre-line;">{{post.content}}</p>
+    </div>
+
+
+    <div class="layout w-fill" *ngIf="post.medias.length>0">
+        <div class="carousel w-fill rounded-4">
+            <div class="carousel-indicators" #indicatorsContainer>
+                <button type="button" class="border-none rounded-circle" *ngFor="let img of post.medias; let i = index">
+                </button>
+            </div>
+            <div class="carousel-inner" #carouselInner>
+                <div class="carousel-item" *ngFor="let img of post.medias">
+                    <img [src]="img.path" alt="Image 1">
+                </div>
+            </div>
+
+            <button type="button" class="carousel-button-previous p-5 rounded-circle" #prevButton>
+                <i class="icon-size-20 icon icon-ic_fluent_chevron_left_20_filled"></i>
+            </button>
+
+            <button type="button" class="carousel-button-next p-5 rounded-circle" #nextButton>
+                <i class="icon-size-20 icon icon-ic_fluent_chevron_right_20_filled"></i>
+            </button>
+        </div>
+    </div>
+
+
+    <div *ngIf="post.post_type == 'with_poll'"
+        class="layout-vertical p-10 gap-10 rounded-8 card-background-secondary border border-card-default">
+        <p class="text-body text-primary">Bình chọn - kết thúc vào {{post.poll.end_at | date:'dd-MM-yyyy'}}</p>
+        <div class="layout-vertical gap-10">
+
+            <div class="layout-horizontal gap-10" *ngFor="let option of post.poll.options">
+                <button type="button" class="button-standard button-text-only w-fill text-left">
+                    {{option.option}}
+                </button>
+                <p class="text-body text-primary">0%</p>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="layout-horizontal w-fill">
+        <div class="layout-horizontal w-fill">
+            <button type="button" class="button-subtle button-text-with-icon text-secondary">
+                100
+                <i class="icon-size-20 icon icon-ic_fluent_heart_20_regular"></i>
+            </button>
+            <button type="button" class="button-subtle button-text-with-icon text-secondary">
+                100
+                <i class="icon-size-20 icon icon-ic_fluent_chat_empty_20_regular"></i>
+            </button>
+            <button type="button" class="button-subtle button-text-with-icon text-secondary">
+                100
+                <i class="icon-size-20 icon icon-ic_fluent_share_20_regular"></i>
+            </button>
+        </div>
+        <button type="button" class="button-subtle button-icon-only text-secondary">
+            <i class="icon-size-20 icon icon-ic_fluent_bookmark_20_regular"></i>
+        </button>
+    </div>
+</div>

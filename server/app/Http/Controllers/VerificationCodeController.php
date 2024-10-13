@@ -16,30 +16,12 @@ class VerificationCodeController extends Controller
      */
     public function verify(Request $request)
     {
-        $request->validate([
-            'code' => 'required|numeric|digits:6',
-            'contact_info' => ['required', function($attribute, $value, $fail) {
-                if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
-                    if (!preg_match('/^0[0-9]{9,10}$/', $value)) {
-                        $fail($attribute . ' is not a valid email or phone number.');
-                    }
-                }
-            }],
-        ]);
 
-        $phone_number = preg_match('/^0[0-9]{9,10}$/', $request->contact_info) ? $request->contact_info : null;
-        $email = filter_var($request->contact_info, FILTER_VALIDATE_EMAIL) ? $request->contact_info : null;
-    
-        if (!$phone_number && !$email) {
-            return response()->json([
-                'message' => 'Invalid contact info',
-            ], 400);
-        }
-
-        $verifyCode = (new VerificationCode)->verifyCode($request->code, $email, $phone_number);
+        $verifyCode = (new VerificationCode)->verifyCode($request->code, $request->email, null);
 
         return response()->json([
             'message' => $verifyCode ? 'Verification code is correct' : 'Verification code is incorrect',
+            'verify' => $verifyCode ? true : false,
         ], $verifyCode ? 200 : 400);
     }
 
@@ -49,26 +31,9 @@ class VerificationCodeController extends Controller
      */
     public function create(Request $request)
     {
-        $request->validate([
-            'contact_info' => ['required', function($attribute, $value, $fail) {
-                if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
-                    if (!preg_match('/^0[0-9]{9,10}$/', $value)) {
-                        $fail($attribute . ' is not a valid email or phone number.');
-                    }
-                }
-            }],
-        ]);
+        $email = $request->email;
     
-        $phone_number = preg_match('/^0[0-9]{9,10}$/', $request->contact_info) ? $request->contact_info : null;
-        $email = filter_var($request->contact_info, FILTER_VALIDATE_EMAIL) ? $request->contact_info : null;
-    
-        if (!$phone_number && !$email) {
-            return response()->json([
-                'message' => 'Invalid contact info',
-            ], 400);
-        }
-    
-        $code = (new VerificationCode)->generateVerificationCode($email, $phone_number);
+        $code = (new VerificationCode())->generateVerificationCode($email, null);
         if ($email) {
             Mail::to($email)->queue(new VerificationCodeNotification($code));
         }
