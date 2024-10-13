@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+
+    <!-- Sử dụng link bạn cung cấp -->
+    <link rel="stylesheet" href="https://chick2004.io.vn/css/index.css">
+
+    <!-- Giữ Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+
+    <!-- Custom style -->
+    <link rel="stylesheet" href="admin.css">
+</head>
+
+<body>
+    <header
+        class="layout-horizontal in-mobile-layout-vertical w-fill gap-20 align-center-center layer-default px-10 in-mobile-gap-5 in-mobile-py-10 ">
+        <!-- Mặc định chia cột 4 - 4 - 4 (3 cột đều) nhưng gộp lại thành 8 - 4 để dễ responsive -->
+        <div class="w-fill-column-8 layout-horizontal in-mobile-w-fill">
+            <div class="w-fill hide-in-mobile hide-in-tablet">
+                <img src="../image/Logo.png" alt="">
+            </div>
+            <div class="w-fill layout gap-20 in-mobile-gap-10">
+                <div class="w-hug show-in-mobile show-in-tablet">
+                    <img src="../image/Logo.png" alt="">
+                </div>
+                <div class="search-dropdown-control w-fill">
+                    <div class="control search-control">
+                        <input type="search" placeholder="Tìm kiếm" spellcheck="false">
+                        <button type="button" class="input-button clear-content-button">
+                            <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
+                        </button>
+                        <button type="button" class="input-button search-button">
+                            <i class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
+                        </button>
+                    </div>
+                    <div class="dropdown-menu">
+                        <div class="list-item">
+                            <div class="text-body">Item 1</div>
+                        </div>
+                        <div class="list-item">
+                            <div class="text-body">Item 2</div>
+                        </div>
+                        <div class="list-item">
+                            <div class="text-body">Item 3</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="w-fill-column-4 in-mobile-w-fill">
+            <div class="layout-horizontal gap-20 align-center-right in-mobile-align-center-space-evenly me-20">
+
+                <div class="user layout-horizontal align-center-center gap-10">
+                    <div class="rounded-circle w-hug">
+                        <img src="../image/avatar.png" alt="">
+                    </div>
+                    <div class="text-body layout-vertical w-hug">
+                        <p class="mb-0 fw-bold">Phạm Hồng Thái</p>
+                        <p class="text-muted mb-0">Admin</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container-fluid">
+
+        <!-- Sidebar -->
+        <div class="row">
+            <nav id="sidebar"
+                class="gradient-background w-fill-column-3 col-lg-2 d-md-block bg-light sidebar collapse ">
+                <div class="position-sticky pt-3 ">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="admin.html">
+                                <i class="bi bi-house-door"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="bi bi-person"></i> User</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="bi bi-menu-button-wide"></i> Content</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="bi bi-clipboard-data"></i> Report</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="event.html"><i class="bi bi-card-checklist"></i> Event</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="mt-4">
+                    <a class="btn btn-danger w-100 d-flex align-items-center justify-content-center" href="#">
+                        <i class="bi bi-box-arrow-right me-2"></i> Exit
+                    </a>
+                </div>
+            </nav>
+
+            <!-- Main content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 solid-background-secondary ">
+                <!-- <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Dashboard</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <div class="d-flex align-items-center">
+                            <img src="https://moc247.com/wp-content/uploads/2023/12/loa-mat-voi-101-hinh-anh-avatar-meo-cute-dang-yeu-dep-mat_2.jpg" 
+                                 alt="" 
+                                 class="rounded-circle me-2" 
+                                 style="width: 40px; height: 40px;">
+                            <div>
+                                <p class="mb-0 fw-bold">Phạm Hồng Thái</p>
+                                <p class="text-muted mb-0">Admin</p>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+
+                <!-- Stats Cards -->
+                <div class="mt-2 layout-horizontal gap-20">
+                    <div class="w-fill-column-3">
+                        <div class="card">
+                            <div class="d-flex align-items-center justify-content-between p-3">
+                                <div>
+                                    <h5 class="card-title mb-0">100</h5>
+                                    <p class="card-text">Total number of users</p>
+                                </div>
+                                <div>
+                                    <i class="bi bi-person-circle" style="font-size: 30px; color: #007bff;"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-fill-column-3">
+                        <div class="card">
+                            <div class=" d-flex align-items-center justify-content-between p-3">
+                                <div>
+                                    <h5 class="card-title mb-0">100</h5>
+                                    <p class="card-text">Total number of messages</p>
+                                </div>
+                                <div>
+                                    <i class="bi bi-chat-left-text" style="font-size: 30px; color: #007bff;"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-fill-column-3">
+                        <div class="card">
+                            <div class="d-flex align-items-center justify-content-between p-3">
+                                <div>
+                                    <h5 class="card-title mb-0">100</h5>
+                                    <p class="card-text">Total number of groups</p>
+                                </div>
+                                <div>
+                                    <i class="bi bi-people" style="font-size: 30px; color: #007bff;"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-fill-column-3">
+                        <div class="card">
+                            <div class="d-flex align-items-center justify-content-between p-3">
+                                <div>
+                                    <h5 class="card-title mb-0">100</h5>
+                                    <p class="card-text">Total interactions</p>
+                                </div>
+                                <div>
+                                    <i class="bi bi-heart" style="font-size: 30px; color: #007bff;"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mt-4 card-background-tertiary ">
+                    <div class="card-body solid-background-secondary ">
+                        <div class="layout-horizontal gap-20 ">
+                            <div class="w-fill-column-8 solid-background-tertiary rounded-6">
+                                <div id="chart2"></div>
+
+                            </div>
+                            <div class="w-fill-column-4 solid-background-tertiary rounded-6 ">
+                                <div id="chart9"></div>
+                                <ul class="list-group list-group-flush">
+                                    <li
+                                        class="list-group-item d-flex bg-transparent justify-content-between align-items-center">
+                                        User report <span class="badge bg-success rounded-pill">25</span>
+                                    </li>
+                                    <li
+                                        class="list-group-item d-flex bg-transparent justify-content-between align-items-center">
+                                        Comment report <span class="badge bg-danger rounded-pill">10</span>
+                                    </li>
+                                    <li
+                                        class="list-group-item d-flex bg-transparent justify-content-between align-items-center">
+                                        Post report <span class="badge bg-primary rounded-pill">65</span>
+                                    </li>
+                                    <li
+                                        class="list-group-item d-flex bg-transparent justify-content-between align-items-center">
+                                        Group report <span class="badge bg-warning text-dark rounded-pill">14</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="card mt-4 card-background-tertiary ">
+                    <div class="card-body solid-background-secondary ">
+                        <div class="layout-horizontal gap-20 ">
+                            <div class="w-fill-column-4 solid-background-tertiary rounded-6">
+                                <div id="chart13"></div>
+                                <ul class="list-group list-group-flush">
+                                    <li
+                                        class="list-group-item d-flex bg-transparent justify-content-between align-items-center">
+                                        User report <span class="badge bg-success rounded-pill">25</span>
+                                    </li>
+                                    <li
+                                        class="list-group-item d-flex bg-transparent justify-content-between align-items-center">
+                                        Comment report <span class="badge bg-danger rounded-pill">10</span>
+                                    </li>
+                                    <li
+                                        class="list-group-item d-flex bg-transparent justify-content-between align-items-center">
+                                        Post report <span class="badge bg-primary rounded-pill">65</span>
+                                    </li>
+                                    <li
+                                        class="list-group-item d-flex bg-transparent justify-content-between align-items-center">
+                                        Post report <span class="badge bg-warning text-dark rounded-pill">14</span>
+                                    </li>
+                                </ul>
+
+                            </div>
+                            <div class="w-fill-column-8 solid-background-tertiary rounded-6 ">
+                                <div id="chart1"></div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+            </main>
+        </div>
+    </div>
+
+    <script src="https://chick2004.io.vn/js/index.js" type="module"></script>
+
+    <script src="assets/jquery.min.js"></script>
+    <script src="assets/apexcharts.min.js"></script>
+    <script>
+
+        $(function () {
+
+            //chart 2
+            new ApexCharts(document.querySelector('#chart2'), {
+                chart: {
+                    foreColor: '#9ba7b2',
+                    height: 460,
+                    type: 'line',
+                    zoom: { enabled: false },
+                    dropShadow: { enabled: true, top: 3, left: 2, blur: 4, opacity: 0.1 }
+                },
+                stroke: { width: 5, curve: 'smooth' },
+                colors: ["#5283FF", '#F1C40F', '#FF4C92', "#17a00e"],
+                series: [{
+                    name: "Users",
+                    data: [55, 74, 64, 84, 54, 92]
+                }, {
+                    name: "Post",
+                    data: [54, 55, 55, 54, 54, 54]
+                }, {
+                    name: "React",
+                    data: [83, 84, 74, 92, 73, 73]
+                }, {
+                    name: "Total",
+                    data: [100, 110, 90, 120, 90, 100]
+                }],
+                xaxis: {
+                    type: 'datetime',
+                    categories: ['1/11/2000', '2/11/2000', '3/11/2000', '4/11/2000', '5/11/2000', '6/11/2000'],
+                },
+                title: {
+                    text: 'Growth statistics',
+                    offsetY: 0,
+                    offsetX: 20
+                },
+                markers: {
+                    size: 5,
+                    strokeColors: "#fff",
+                    strokeWidth: 1,
+                    hover: {
+                        size: 7
+                    }
+                },
+                yaxis: {
+                    title: {
+                        text: 'Engagement',
+                    },
+                }
+            }).render();
+
+            // chart 9
+            new ApexCharts(document.querySelector("#chart9"), {
+                series: [25, 25, 25, 25],
+                chart: {
+                    foreColor: '#9ba7b2',
+                    height: 240,
+                    type: 'donut',
+                    dropShadow: { enabled: true, top: 3, left: 2, blur: 4, opacity: 0.1 }
+                },
+                colors: ["#ffc107", "#0d6efd", "#17a00e", "#f41127"],
+                labels: ['User report', 'Comment report', 'Post report', 'Group report']
+            }).render();
+
+            //chart 13
+            new ApexCharts(document.querySelector("#chart13"), {
+                series: [44, 55, 67, 83],
+                chart: {
+                    height: 350,
+                    type: 'radialBar',
+                    dropShadow: { enabled: true, top: 3, left: 2, blur: 4, opacity: 0.1 }
+                },
+                plotOptions: {
+                    radialBar: {
+                        dataLabels: {
+                            total: { show: true, label: 'Tổng quan' }
+                        }
+                    }
+                },
+                colors: ["#17a00e", "#f41127", "#0d6efd", "#ffc107"],
+                labels: ['User report', 'Comment report', 'Post report', 'Post report'],
+            }).render();
+
+            // chart 1
+            new ApexCharts(document.querySelector("#chart1"), {
+                chart: {
+                    height: 460,
+                    type: 'line',
+                    zoom: { enabled: false },
+                    dropShadow: { enabled: true, top: 3, left: 2, blur: 4, opacity: 0.1 }
+                },
+                stroke: { width: 5, curve: 'smooth' },
+                colors: ["#f41127"],
+                series: [{
+                    name: 'Likes',
+                    data: [14, 3, 20, 9, 29]
+                }],
+                xaxis: {
+                    type: 'datetime',
+                    categories: ['1/11/2000', '2/11/2000', '3/11/2000', '4/11/2000', '5/11/2000'],
+                },
+                title: {
+                    text: 'Line Chart'
+                },
+                markers: {
+                    size: 5,
+                    colors: ["#f41127"],
+                    strokeColors: "#fff",
+                    strokeWidth: 2,
+                    hover: {
+                        size: 7,
+                    }
+                },
+                yaxis: {
+                    title: {
+                        text: 'Engagement',
+                    },
+                }
+            }).render();
+
+        });
+
+    </script>
+</body>
+
+</html>
