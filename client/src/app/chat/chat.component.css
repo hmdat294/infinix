@@ -1,0 +1,53 @@
+/* .container {
+    height: 85vh;
+}
+
+.card-body {
+    overflow-y: scroll;
+}
+
+.list-group>a {
+    border-bottom: 1px solid #dee2e6;
+} */
+
+.textarea-chat {
+    border: none;
+    overflow-y: scroll;
+}
+
+.textarea-chat::-webkit-scrollbar {
+    width: 5px;
+}
+
+.textarea-chat::-webkit-scrollbar-thumb {
+    background-color: #a6e7ff;
+    border-radius: 10px;
+}
+
+.textarea-chat::-webkit-scrollbar-thumb:hover {
+    background-color: #005FB8E6;
+    cursor: pointer;
+}
+
+
+article {
+    margin-top: 45px;
+}
+
+.box-chat {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.mess-hover>.mess-menu {
+    visibility: hidden;
+}
+
+.mess-hover:hover>.mess-menu {
+    visibility: visible;
+}
+
+.textarea-chat {
+    resize: none;
+    max-height: 200px;
+}
