@@ -1,0 +1,106 @@
+<div class="p-20">
+    <div class="layout-horizontal  align-center-space-between gap-10 mb-10">
+        <div class>
+            <div class="search-dropdown-control">
+                <div class="control search-control">
+                    <input type="search"
+                        placeholder="placeholder"
+                        spellcheck="false">
+                    <button type="button"
+                        class="input-button clear-content-button">
+                        <i
+                            class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
+                    </button>
+                    <button type="button"
+                        class="input-button search-button">
+                        <i
+                            class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
+                    </button>
+                </div>
+                <div class="dropdown-menu">
+                    <div class="list-item">
+                        <div class="text-body">Item 1</div>
+                    </div>
+                    <div class="list-item">
+                        <div class="text-body">Item 2</div>
+                    </div>
+                    <div class="list-item">
+                        <div class="text-body">Item 3</div>
+                    </div>
+                </div>
+            </div>
+            <div class="fillter">
+
+            </div>
+
+        </div>
+        <div class="me-25">
+            <div class="pagination layout-horizontal">
+                <button
+                    class="pagination-item button-subtle button-icon-only text-accent-default"><i
+                        class="icon-size-24 icon icon-ic_fluent_caret_left_24_filled"></i></button>
+                <button
+                    class="pagination-item button-subtle button-icon-only text-accent-default">1</button>
+                <button
+                    class="pagination-item button-subtle button-icon-only text-accent-default">2</button>
+                <button
+                    class="pagination-item button-subtle button-icon-only text-accent-default">3</button>
+                <button
+                    class="pagination-item button-subtle button-icon-only text-accent-default">4</button>
+                <button
+                    class="pagination-item button-subtle button-icon-only text-accent-default">5</button>
+                <button
+                    class="pagination-item button-subtle button-icon-only text-accent-default"><i
+                        class="icon-size-24 icon icon-ic_fluent_caret_right_24_filled"></i></button>
+            </div>
+        </div>
+    </div>
+    <div class>
+        <div class="table-container solid-background-senary p-10  rounded-8 ">
+            <table class="table w-fill text-center">
+                <thead class>
+                    <tr class="border-bottom  border-card-solid p-10">
+                        <th class="p-10"><input type="checkbox"></th>
+                        <th>Avatar</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Phone number</th>
+                        <th>Registration date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody >
+                    <tr class="border-bottom  border-card-solid" *ngFor="let item of listUser">
+                        <td><input type="checkbox"></td>
+                        <td class="p-10"><img src="assets/image/avatar.png"
+                                alt="Avatar"
+                                class="avatar"></td>
+                        <td>{{item.value.username}}</td>
+                        <td>{{item.email}}</td>
+                        <td>{{item.value.phone_number}}</td>
+                        <td>{{item.value.created_at}}</td>
+                        <td>
+                            <div
+                                class="layout align-center-center  w-fill h-fill">
+
+                                <a href="#"
+                                    class="button-subtle button-icon-only text-accent-default">
+                                    <i
+                                        class="icon-size-24 icon icon-ic_fluent_settings_24_filled"></i>
+                                </a>
+                                <a href="#"
+                                    class="button-subtle button-icon-only text-accent-default">
+                                    <i
+                                        class="icon-size-24 icon icon-ic_fluent_info_24_filled"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    
+
+                    <!-- Các hàng tiếp theo -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -3,12 +3,13 @@ import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './header/header.component';
 import { CommonModule } from '@angular/common';
 import { HeaderDefaultComponent } from "./header-default/header-default.component";
+import { HeaderAdminComponent } from "./header-admin/header-admin.component";
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, CommonModule, HeaderDefaultComponent],
+  imports: [RouterOutlet, HeaderComponent, CommonModule, HeaderDefaultComponent, HeaderAdminComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

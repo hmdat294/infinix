@@ -6,6 +6,10 @@ import { ChatComponent } from './chat/chat.component';
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
 import { MainHomeComponent } from './home/main-home/main-home.component';
 import { MainProfileComponent } from './profile/main-profile/main-profile.component';
+import { AdminMainComponent } from './admin/admin-main/admin-main.component';
+import { AdminMainUserComponent } from './admin/admin-main-user/admin-main-user.component';
+import { AdminMainReportComponent } from './admin/admin-main-report/admin-main-report.component';
+import { AdminMainEventComponent } from './admin/admin-main-event/admin-main-event.component';
 
 export const routes: Routes = [
     { path: '', component: MainHomeComponent, canActivate: [AuthGuard] },
@@ -14,4 +18,8 @@ export const routes: Routes = [
     { path: 'register', component: RegisterComponent },
     { path: 'email/verify/:id/:hash', component: VerifyEmailComponent },
     { path: 'chat', component: ChatComponent, canActivate: [AuthGuard] },
+    {path: 'admin', component: AdminMainComponent},
+    {path: 'admin/user', component: AdminMainUserComponent},
+    {path: 'admin/report', component: AdminMainReportComponent},
+    {path: 'admin/event', component: AdminMainEventComponent},
 ];
