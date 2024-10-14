@@ -23,7 +23,6 @@ class FriendRequestController extends Controller
     public function index(Request $request)
     {
         $friend_requests = FriendRequestModel::where('receiver_id', $request->user()->id)->where('status', 'pending')->get();
-
         return FriendRequestResource::collection($friend_requests);
     }
 
