@@ -15,8 +15,8 @@ class ConversationResource extends JsonResource
     public function toArray(Request $request): array
     {
         $data = parent::toArray($request);
-        $data['messages'] = $this->messages;
-        $data['users'] = $this->users;
+        $data['messages'] = MessageResource::collection($this->messages);
+        $data['users'] = MessageResource::collection($this->users);
 
         return $data;
     }
