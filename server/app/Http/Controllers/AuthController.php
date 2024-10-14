@@ -112,7 +112,7 @@ class AuthController extends Controller
     {
         $request->user()->currentAccessToken()->delete();
 
-        broadcast(new UserConnectionEvent($$request->user(), 'offline'))->toOthers();
+        broadcast(new UserConnectionEvent($request->user(), 'offline'))->toOthers();
 
         return response()->json([
             'message' => 'Logout successful.',
