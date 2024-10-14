@@ -11,7 +11,18 @@ use App\Models\Message as MessageModel;
 class MessageController extends Controller
 {
 
-    
+    /**
+     * Tạo tin nhắn trong hội thoại
+     * 
+     * @param Request $request
+     * 
+     * @bodyParam conversation_id : Id của cuộc trò chuyện
+     * @bodyParam reply_to_message_id : Id của tin nhắn mà tin nhắn này trả lời
+     * @bodyParam content : Nội dung tin nhắn
+     * @bodyParam medias : các phương tiện đi kèm
+     * 
+     * @return MessageResource
+     */
     public function store(Request $request)
     {
         $conversation = ConversationModel::find($request->conversation_id);
@@ -36,6 +47,13 @@ class MessageController extends Controller
     }
     
 
+    /**
+     * Xem thông tin tin nhắn
+     * 
+     * @param string $id
+     * 
+     * @return MessageResource
+     */
     public function show(string $id)
     {
         $message = MessageModel::find($id);
@@ -44,7 +62,17 @@ class MessageController extends Controller
     }
 
 
-    
+    /**
+     * Cập nhật tin nhắn
+     * 
+     * @param Request $request
+     * @param string $id
+     * 
+     * @bodyParam content : Nội dung tin nhắn
+     * @bodyParam is_recalled : Tin nhắn đã bị thu hồi hay chưa
+     * 
+     * @return MessageResource
+     */
     public function update(Request $request, string $id)
     {
         $message = MessageModel::find($id);
