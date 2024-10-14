@@ -127,7 +127,7 @@ class FriendRequestController extends Controller
         }
 
         return response()->json([
-            'message' => 'Friend request accepted.',
+            'message' => $request->status === 'accepted' ? 'Friend request accepted.' : 'Friend request rejected.',
         ], 200);
     }
 }
