@@ -182,9 +182,19 @@ class PostController extends Controller
         ]);
     }
 
-    public function vote(Request $request, string $id)
+    /**
+     * Bình chọn cho một lựa chọn trong bài viết có poll
+     * 
+     * @param Request $request
+     * @param string $id : Id của lựa chọn (poll_option)
+     * 
+     * @response 400 : Bạn đã bình chọn cho lựa chọn này rồi
+     * 
+     * @return PostResource
+     */
+    public function vote(Request $request, string $poll_option_id)
     {
-        $option = PollOption::find($id);
+        $option = PollOption::find($poll_option_id);
 
         if ($option->votes()->where('user_id', $request->user()->id)->exists()) {
             return response()->json([
@@ -196,5 +206,7 @@ class PostController extends Controller
             'poll_option_id' => $option->id,
             'user_id' => $request->user()->id,
         ]);
+
+        return new PostResource($option->poll->post);
     }
 }
