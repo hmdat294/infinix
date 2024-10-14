@@ -9,7 +9,14 @@ use App\Models\User as UserModel;
 use App\Models\FriendRequest as FriendRequestModel;
 use App\Models\Relationship as RelationshipModel;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-
+/**
+ * Bị từ chối có thể gửi tiếp
+ * là bạn bè không thể gửi
+ * check chấp nhận nhiều lần
+ * 
+ * user resource thêm is_friend
+ * chỉnh múi giờ
+ */
 class FriendRequestController extends Controller
 {
     /**
