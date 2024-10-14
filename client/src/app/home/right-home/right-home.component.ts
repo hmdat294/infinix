@@ -1,16 +1,18 @@
 import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-right-home',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, CommonModule],
   templateUrl: './right-home.component.html',
   styleUrl: './right-home.component.css'
 })
 export class RightHomeComponent implements OnInit {
-  user: any;
+  user: any = [];
+  friends: any = [];
 
   constructor(private el: ElementRef, private renderer: Renderer2, private authService: AuthService, private router: Router) { }
 
@@ -19,15 +21,12 @@ export class RightHomeComponent implements OnInit {
     if (localStorage.getItem('auth_token')) {
       this.authService.getUser(0).subscribe(
         (response) => this.user = response);
-        
-      this.authService.getListUser().subscribe(
-        (response) => {
-          console.log(response);
-        });
     }
 
-    this.accordion();
+    this.authService.getFriend().subscribe(
+      (response) => this.friends = response)
 
+    this.accordion();
   }
 
   accordion() {
@@ -50,7 +49,6 @@ export class RightHomeComponent implements OnInit {
       (response) => {
         console.log('Logout Success:', response);
         localStorage.removeItem('auth_token');
-        this.router.navigate(['/']);
         location.reload();
       },
       (error) => {

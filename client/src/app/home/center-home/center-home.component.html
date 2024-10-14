@@ -4,7 +4,7 @@
         <form class="layout-vertical gap-10 w-fill" enctype="multipart/form-data" (submit)="post(value.value)"
             #value="ngForm">
             <textarea class="control text-area-control w-fill textarea-post" placeholder="placeholder"
-                [(ngModel)]="content" name="content" ngModel id="post-input" spellcheck="false"
+                [(ngModel)]="content" name="content" ngModel id="post-input" spellcheck="false" required
                 style="max-height: 110px;"></textarea>
 
             <div *ngIf="previewPostImages.length > 0" class="p-10 position-relative border rounded-6">
@@ -68,7 +68,7 @@
                     </button>
 
                 </div>
-                <button type="submit" class="button-accent button-text-with-icon">
+                <button type="submit" class="button-accent button-text-with-icon" [disabled]="spaceCheck.test(value.value.content)">
                     Đăng bài
                     <i class="icon-size-16 icon icon-ic_fluent_send_16_filled"></i>
                 </button>

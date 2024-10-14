@@ -47,26 +47,33 @@
                         <div class="d-flex flex-column align-items-end my-1" *ngIf="(user.id == msg.user_id)">
                             <b *ngIf="isDifferentUser(i, msg.user_id)" style="font-size: 0.8em;"
                                 class="mt-3">{{user.name}}</b>
-                            <div *ngIf="msg.recalls == 0"
+                            <div *ngIf="msg.is_recalled == 0"
                                 class="mess-hover d-flex flex-row-reverse align-items-center gap-3">
                                 <div class="alert alert-primary d-inline-block p-0 m-0 overflow-hidden"
                                     style="max-width: 75%;">
-                                    <div *ngIf="msg.reply_id" class="bg-light">
+                                    <div *ngIf="msg.reply_to_message_id
+" class="bg-light">
                                         <span style="font-size: 0.8em;" class="fw-bold px-2">
-                                            {{(getReply(msg.reply_id).user_id == msg.user_id) ? user.name :
+                                            {{(getReply(msg.reply_to_message_id
+).user_id == msg.user_id) ? user.name :
                                             conversation.receive_user_name}}
                                         </span>
-                                        <div *ngIf="getReply(msg.reply_id).recalls == 0"
+                                        <div *ngIf="getReply(msg.reply_to_message_id
+).is_recalled == 0"
                                             class="d-flex align-items-center px-2">
                                             <i class="bi bi-arrow-return-right me-2"></i>
-                                            <img *ngIf="getReply(msg.reply_id).images"
-                                                src="{{getReply(msg.reply_id).images[0]}}" alt="Image" height="50px"
+                                            <img *ngIf="getReply(msg.reply_to_message_id
+).images"
+                                                src="{{getReply(msg.reply_to_message_id
+).images[0]}}" alt="Image" height="50px"
                                                 class="m-2 rounded">
                                             <span style="white-space: pre-line;">
-                                                {{getReply(msg.reply_id).message}}
+                                                {{getReply(msg.reply_to_message_id
+).message}}
                                             </span>
                                         </div>
-                                        <div *ngIf="getReply(msg.reply_id).recalls == 1" class="px-2">
+                                        <div *ngIf="getReply(msg.reply_to_message_id
+).is_recalled == 1" class="px-2">
                                             <small>Tin nhắn đã được thu hồi</small>
                                         </div>
                                         <hr class="m-0">
@@ -76,8 +83,8 @@
                                             class="flex-fill border bg-white rounded">
                                     </div>
                                     <div class="pb-1 px-2">
-                                        <span *ngIf="msg.message" class="d-block pt-2" style="white-space: pre-line;">
-                                            {{ msg.message }}
+                                        <span *ngIf="msg.content" class="d-block pt-2" style="white-space: pre-line;">
+                                            {{ msg.content }}
                                         </span>
                                         <small style="font-size: 0.7em;">
                                             {{ msg.time }}
@@ -100,7 +107,7 @@
                             </div>
 
 
-                            <div *ngIf="msg.recalls == 1" class="d-flex flex-row-reverse align-items-center gap-3">
+                            <div *ngIf="msg.is_recalled == 1" class="d-flex flex-row-reverse align-items-center gap-3">
                                 <div class="alert alert-primary d-inline-block p-0 m-0">
                                     <div class="pb-1 px-2">
                                         <span class="d-block pt-2 text-secondary">
@@ -124,25 +131,32 @@
                         <div class="d-flex flex-column align-items-start my-1" *ngIf="(user.id != msg.user_id)">
                             <b *ngIf="isDifferentUser(i, msg.user_id)" style="font-size: 0.8em;"
                                 class="mt-3">{{conversation.receive_user_name}}</b>
-                            <div *ngIf="msg.recalls == 0" class="mess-hover d-flex flex-row align-items-center gap-3">
+                            <div *ngIf="msg.is_recalled == 0" class="mess-hover d-flex flex-row align-items-center gap-3">
                                 <div class="alert alert-light d-inline-block p-0 m-0 overflow-hidden"
                                     style="max-width: 75%;">
-                                    <div *ngIf="msg.reply_id" class="bg-light px-2">
+                                    <div *ngIf="msg.reply_to_message_id
+" class="bg-light px-2">
                                         <span style="font-size: 0.8em;" class="fw-bold px-2">
-                                            {{(getReply(msg.reply_id).user_id == msg.user_id) ?
+                                            {{(getReply(msg.reply_to_message_id
+).user_id == msg.user_id) ?
                                             conversation.receive_user_name : user.name}}
                                         </span>
-                                        <div *ngIf="getReply(msg.reply_id).recalls == 0"
+                                        <div *ngIf="getReply(msg.reply_to_message_id
+).is_recalled == 0"
                                             class="d-flex align-items-center px-2">
                                             <i class="bi bi-arrow-return-right me-2"></i>
-                                            <img *ngIf="getReply(msg.reply_id).images"
-                                                src="{{getReply(msg.reply_id).images[0]}}" alt="Image" height="50px"
+                                            <img *ngIf="getReply(msg.reply_to_message_id
+).images"
+                                                src="{{getReply(msg.reply_to_message_id
+).images[0]}}" alt="Image" height="50px"
                                                 class="m-2 rounded">
                                             <span style="white-space: pre-line;">
-                                                {{getReply(msg.reply_id).message}}
+                                                {{getReply(msg.reply_to_message_id
+).message}}
                                             </span>
                                         </div>
-                                        <div *ngIf="getReply(msg.reply_id).recalls == 1" class="px-2">
+                                        <div *ngIf="getReply(msg.reply_to_message_id
+).is_recalled == 1" class="px-2">
                                             <small>Tin nhắn đã được thu hồi</small>
                                         </div>
                                         <hr class="m-0">
@@ -152,8 +166,8 @@
                                             class="flex-fill border bg-white rounded">
                                     </div>
                                     <div class="pb-1 px-2">
-                                        <span *ngIf="msg.message" class="d-block pt-2" style="white-space: pre-line;">
-                                            {{ msg.message }}
+                                        <span *ngIf="msg.content" class="d-block pt-2" style="white-space: pre-line;">
+                                            {{ msg.content }}
                                         </span>
                                         <small style="font-size: 0.7em;">
                                             {{ msg.time }}
@@ -169,7 +183,7 @@
                                 </ul>
                             </div>
 
-                            <div *ngIf="msg.recalls == 1" class="d-flex flex-row-reverse align-items-center gap-3">
+                            <div *ngIf="msg.is_recalled == 1" class="d-flex flex-row-reverse align-items-center gap-3">
                                 <div class="alert alert-light d-inline-block p-0 m-0">
                                     <div class="pb-1 px-2">
                                         <span class="d-block pt-2 text-secondary">
@@ -268,11 +282,11 @@
                     </div>
                 </div>
                 <div class="overflow-scroll-vertical">
-                    <div class="border-top" *ngFor="let u of friend">
+                    <div class="border-top" *ngFor="let friend of friends.data">
                         <button type="button" class="button-subtle w-fill gap-15 px-20 py-15"
-                            (click)="MessageUser(u.id)" style="cursor: pointer;">
+                            (click)="MessageUser(friend.id)" style="cursor: pointer;">
                             <img src="assets/image/avatar.png" alt="" style="width: 35px; height: 35px;">
-                            <p class="text-secondary text-body-strong w-fill layout">{{u.name}}</p>
+                            <p class="text-secondary text-body-strong w-fill layout">{{friend.profile.display_name}}</p>
                         </button>
                     </div>
 
@@ -323,7 +337,7 @@
                                 <div>
                                     <p class="text-tertiary text-caption mb-5 layout align-top-right">{{ msg.time }}
                                     </p>
-                                    <div class="mess-hover layout align-center-right" *ngIf="msg.recalls == 0">
+                                    <div class="mess-hover layout align-center-right" *ngIf="msg.is_recalled == 0">
                                         <div class="mess-menu layout mx-15">
                                             <button type="button" (click)="onReply(msg.id)"
                                                 class="button-subtle button-icon-only">
@@ -337,20 +351,22 @@
                                         </div>
                                         <div>
                                             <div>
-                                                <div *ngIf="msg.reply_id">
-                                                    <div *ngIf="getReply(msg.reply_id).recalls == 0"
+                                                <div *ngIf="msg.reply_to_message_id">
+                                                    <div *ngIf="getReply(msg.reply_to_message_id).is_recalled == 0"
                                                         style="border-right: 3px solid #005FB8E6;">
 
                                                         <p class="px-10 py-5 my-5 text-secondary">
-                                                            <!-- <img *ngIf="getReply(msg.reply_id).images"
-                                                            src="{{getReply(msg.reply_id).images[0]}}" alt="Image" height="50px"
+                                                            <!-- <img *ngIf="getReply(msg.reply_to_message_id).images"
+                                                            src="{{getReply(msg.reply_to_message_id).images[0]}}" 
+                                                            alt="Image" height="50px"
                                                             class="m-2 rounded"> -->
                                                             <span style="white-space: pre-line;">
-                                                                {{getReply(msg.reply_id).message}}
+                                                                {{getReply(msg.reply_to_message_id
+                                                                ).message}}
                                                             </span>
                                                         </p>
                                                     </div>
-                                                    <div *ngIf="getReply(msg.reply_id).recalls == 1"
+                                                    <div *ngIf="getReply(msg.reply_to_message_id).is_recalled == 1"
                                                         style="border-right: 3px solid #005FB8E6;">
 
                                                         <p class="px-10 py-5 my-5 text-secondary">
@@ -366,7 +382,7 @@
                                                 </div>
                                                 <p style="background-color: #005FB8E6; color: white; white-space: pre-line;"
                                                     class="border border-card-default px-15 py-10 {{(msg.images)?'rounded-bottom-8':'rounded-8'}}">
-                                                    {{ msg.message }}
+                                                    {{ msg.content }}
                                                 </p>
                                             </div>
                                         </div>
@@ -374,7 +390,7 @@
                                     </div>
 
 
-                                    <div *ngIf="msg.recalls == 1" class="layout align-center-left">
+                                    <div *ngIf="msg.is_recalled == 1" class="layout align-center-left">
                                         <div *ngIf="msg.showUndoBtn" class="layout mx-15">
                                             <button type="button" (click)="undoRecall(msg.id)" class="button-subtle">
                                                 Hoàn tác ({{msg.countdown}})
@@ -401,25 +417,27 @@
                                 <div>
                                     <p class="text-tertiary text-caption mb-5 layout align-top-left">{{ msg.time }}
                                     </p>
-                                    <div class="mess-hover layout align-center-left" *ngIf="msg.recalls == 0">
+                                    <div class="mess-hover layout align-center-left" *ngIf="msg.is_recalled == 0">
                                         <div>
                                             <div>
-                                                <div *ngIf="msg.reply_id">
-                                                    <div *ngIf="getReply(msg.reply_id).recalls == 0"
+                                                <div *ngIf="msg.reply_to_message_id">
+                                                    <div *ngIf="getReply(msg.reply_to_message_id).is_recalled == 0"
                                                         style="border-left: 3px solid #0000001F;">
 
                                                         <p class="px-10 py-5 my-5 text-secondary">
 
-                                                            <!-- <img *ngIf="getReply(msg.reply_id).images"
-                                                            src="{{getReply(msg.reply_id).images[0]}}" alt="Image" height="50px"
+                                                            <!-- <img *ngIf="getReply(msg.reply_to_message_id).images"
+                                                            src="{{getReply(msg.reply_to_message_id).images[0]}}" 
+                                                            alt="Image" height="50px"
                                                             class="m-2 rounded"> -->
 
                                                             <span style="white-space: pre-line;">
-                                                                {{getReply(msg.reply_id).message}}
+                                                                {{getReply(msg.reply_to_message_id
+                                                                ).message}}
                                                             </span>
                                                         </p>
                                                     </div>
-                                                    <div *ngIf="getReply(msg.reply_id).recalls == 1"
+                                                    <div *ngIf="getReply(msg.reply_to_message_id).is_recalled == 1"
                                                         style="border-left: 3px solid #0000001F;">
 
                                                         <p class="px-10 py-5 my-5 text-secondary">
@@ -436,7 +454,7 @@
 
                                                 <p style="white-space: pre-line;"
                                                     class="border border-card-default card-background-default px-15 py-10 rounded-8">
-                                                    {{ msg.message }}
+                                                    {{ msg.content }}
                                                 </p>
                                             </div>
                                         </div>
@@ -454,7 +472,7 @@
                                     </div>
 
 
-                                    <div *ngIf="msg.recalls == 1" class="layout align-center-left">
+                                    <div *ngIf="msg.is_recalled == 1" class="layout align-center-left">
                                         <p
                                             class="border border-card-default card-background-default px-15 py-10 rounded-8 text-secondary">
                                             Tin nhắn đã được thu hồi
@@ -508,14 +526,13 @@
                             <img src="assets/image/avatar.png" alt="" style="width: 35px; height: 35px;">
 
                             <div class="control w-fill h-hug" style="padding: 0;">
-                                <input type="hidden" name="conversation_id" ngModel
-                                    [(ngModel)]="conversation.conversation_id">
+                                <input type="hidden" name="id" ngModel [(ngModel)]="conversation.id">
 
                                 <textarea [(ngModel)]="message" name="message" ngModel
                                     class="textarea-chat control text-area-control w-fill"
                                     (keydown)="handleKeydown($event, frm.value)" #textArea spellcheck="false"
                                     required></textarea>
- 
+
                                 <button type="button" class="input-button">
                                     <i class="icon-size-16 icon icon-ic_fluent_mic_16_regular"></i>
                                 </button>
@@ -531,7 +548,7 @@
                             </div>
 
                             <button type="submit" class="button-accent button-text-with-icon"
-                                *ngIf="!frm.invalid || previewUrls.length > 0">
+                                *ngIf="(!frm.invalid && !spaceCheck.test(frm.value.message)) || previewUrls.length > 0">
                                 Send
                                 <i class="icon-size-16 icon icon-ic_fluent_send_16_filled"></i>
                             </button>
