@@ -1,16 +1,18 @@
 import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-right-home',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, CommonModule],
   templateUrl: './right-home.component.html',
   styleUrl: './right-home.component.css'
 })
 export class RightHomeComponent implements OnInit {
-  user: any;
+  user: any = [];
+  friends: any = [];
 
   constructor(private el: ElementRef, private renderer: Renderer2, private authService: AuthService, private router: Router) { }
 
@@ -21,8 +23,10 @@ export class RightHomeComponent implements OnInit {
         (response) => this.user = response);
     }
 
-    this.accordion();
+    this.authService.getFriend().subscribe(
+      (response) => this.friends = response)
 
+    this.accordion();
   }
 
   accordion() {

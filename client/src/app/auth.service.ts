@@ -12,7 +12,7 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   getToken(): HttpHeaders {
-    return new HttpHeaders({'Authorization': `Bearer ${localStorage.getItem('auth_token') || ''}`});
+    return new HttpHeaders({ 'Authorization': `Bearer ${localStorage.getItem('auth_token') || ''}` });
   }
 
   getUser(id: number): Observable<any> {
@@ -50,7 +50,7 @@ export class AuthService {
 
   getFriend(): Observable<any> {
     const headers = this.getToken();
-    return this.http.get(`${this.apiUrl}/friend`, { headers });
+    return this.http.get(`${this.apiUrl}/get-friends`, { headers });
   }
 
   getRequestFriend(): Observable<any> {
@@ -63,9 +63,11 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/friend-request`, { 'receiver_id': receiver_id }, { headers });
   }
 
-  acceptFriend(id: number): Observable<any> {
+  acceptFriend(request:any): Observable<any> {
+    console.log(request);
+    
     const headers = this.getToken();
-    return this.http.patch(`${this.apiUrl}/accept-friend/${id}`, {}, { headers });
+    return this.http.patch(`${this.apiUrl}/friend-request/${request.id}`, { 'status': request.status }, { headers });
   }
 
   refuseFriend(id: number): Observable<any> {
