@@ -15,9 +15,10 @@ import { AuthService } from '../auth.service';
 export class ChatComponent implements OnInit {
   message: string = '';
   conversation: any;
-  friend: any;
+  friends: any;
   requestfriends: any;
   user: any;
+  spaceCheck: any = /^\s*$/;
 
   reply_id: any = null;
   previewReply: any = null;
@@ -30,21 +31,21 @@ export class ChatComponent implements OnInit {
   ngOnInit(): void {
     if (localStorage.getItem('auth_token')) {
       this.authService.getUser(0).subscribe(
-        (response) => this.user = response);
+        (response) => {
+          this.user = response.data;
+          console.log(this.user);
+        });
     }
 
-    this.chatService.getList().subscribe(
-      (data: any) => {
-        this.friend = data;
-        console.log(this.friend);
 
-        this.MessageUser((this.friend.length > 0) ? this.friend[0].id : '');
+    this.authService.getFriend().subscribe(
+      (data: any) => {
+        this.friends = data;
+        console.log(this.friends.data);
+
+        this.MessageUser((this.friends.data.length > 0) ? this.friends.data[0].id : '');
       });
 
-    this.authService.getRequestFriend().subscribe(
-      (data: any) => {
-        this.requestfriends = data;
-      });
   }
 
   isDifferentDate(i: number): boolean {
@@ -58,22 +59,24 @@ export class ChatComponent implements OnInit {
   }
 
   MessageUser(id: number) {
+    console.log(id);
+
     this.chatService.getMessageUser(id).subscribe(
       (data: any) => {
-        this.conversation = data;
-        console.log(data);
+        this.conversation = data.data;
+        console.log(this.conversation.messages);
 
         (document.querySelector('.textarea-chat') as HTMLTextAreaElement).focus();
 
-        this.chatService.setConversationId(this.conversation.conversation_id);
+        this.chatService.setConversationId(this.conversation.id);
         this.conversation.messages.reverse();
 
         this.chatService.bindEventChat('App\\Events\\MessageSent', (data: any) => {
 
           console.log('Message received:', data);
 
-          if (data.recalls == 0) this.conversation.messages.unshift(data);
-          else if (data.recalls == 1) this.conversation.messages.find((item: any) => item.id === data.id).recalls = data.recalls;
+          if (data.is_recalled == 0) this.conversation.messages.unshift(data);
+          else if (data.is_recalled == 1) this.conversation.messages.find((item: any) => item.id === data.id).is_recalled = data.is_recalled;
 
         });
       });
@@ -92,32 +95,30 @@ export class ChatComponent implements OnInit {
   }
 
   sendMessage(mess: any) {
-    if (mess.message && mess.message != null && mess.message != ' ') {
+    console.log(this.selectedFiles);
 
-      const formData = new FormData();
-      formData.append('conversation_id', mess.conversation_id.toString());
-      formData.append('message', mess.message);
+    const formData = new FormData();
+    formData.append('conversation_id', mess.id.toString());
+    formData.append('content', mess.message);
 
-      if (this.reply_id) {
-        formData.append('reply_id', this.reply_id);
-      }
-
-      if (this.selectedFiles.length > 0) {
-
-        this.selectedFiles.forEach(image => {
-          formData.append('images[]', image, image.name);
-        });
-      }
-
-      this.chatService.sendMessage(formData).subscribe(
-        (response: any) => {
-          (document.querySelector('.textarea-chat') as HTMLTextAreaElement).style.height = 'auto';
-          this.message = '';
-          this.onCancelSendImg();
-          this.onCancelReply();
-          console.log(response);
-        });
+    if (this.reply_id) {
+      formData.append('reply_to_message_id', this.reply_id);
     }
+
+    if (this.selectedFiles.length > 0) {
+      this.selectedFiles.forEach(image => {
+        formData.append('medias[]', image, image.name);
+      });
+    }
+
+    this.chatService.sendMessage(formData).subscribe(
+      (response: any) => {
+        console.log(response);
+        (document.querySelector('.textarea-chat') as HTMLTextAreaElement).style.height = 'auto';
+        this.message = '';
+        this.onCancelSendImg();
+        this.onCancelReply();
+      });
   }
 
   fileInput: any;
@@ -161,7 +162,7 @@ export class ChatComponent implements OnInit {
 
   recallMessage(id: number) {
     const message = this.conversation.messages.find((item: any) => item.id === id);
-    message.recalls = 1;
+    message.is_recalled = 1;
     message.showUndoBtn = true;
     message.countdown = 3;
 
@@ -180,7 +181,7 @@ export class ChatComponent implements OnInit {
 
   undoRecall(id: number) {
     const message = this.conversation.messages.find((item: any) => item.id === id);
-    message.recalls = 0;
+    message.is_recalled = 0;
     message.showUndoBtn = false;
     clearInterval(this.countdownIntervals[id]);
   }
@@ -190,7 +191,7 @@ export class ChatComponent implements OnInit {
     return {
       message: reply.message,
       images: reply.images,
-      recalls: reply.recalls,
+      is_recalled: reply.is_recalled,
       user_id: reply.user_id
     };
   }
