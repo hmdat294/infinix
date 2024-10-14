@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use App\Models\User as UserModel;
 use App\Models\FriendRequest as FriendRequestModel;
 use App\Models\Relationship as RelationshipModel;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class FriendRequestController extends Controller
 {
@@ -17,15 +18,13 @@ class FriendRequestController extends Controller
      * 
      * @response 200 : Danh sách lời mời kết bạn được gửi đến người dùng hiện tại
      * 
-     * @return JsonResponse
+     * @return AnonymousResourceCollection
      */
     public function index(Request $request)
     {
         $friend_requests = FriendRequestModel::where('receiver_id', $request->user()->id)->get();
 
-        return response()->json([
-            'friend_requests' => $friend_requests,
-        ], 200);
+        return FriendRequestResource::collection($friend_requests);
     }
 
 
