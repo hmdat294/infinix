@@ -4,23 +4,23 @@
         <div
             class="nav layout-vertical align-left gap-20">
 
-            <a class=" layout-horizontal gap-20 w-fill-column-10 text-body-secondary text-decoration-none" href="#">
+            <a class=" layout-horizontal gap-20 w-fill-column-10 text-body-secondary text-decoration-none" [routerLink]="['/admin']" >
                 <i class="accent-text-tertiary icon-size-24 icon icon-ic_fluent_home_24_regular"></i>
                 Dashboard
             </a>
 
-            <a class=" layout-horizontal gap-20 text-body-secondary text-decoration-none" href="#"><i
+            <a class=" layout-horizontal gap-20 text-body-secondary text-decoration-none" [routerLink]="['/admin/user']" ><i
                     class="accent-text-tertiary icon-size-24 icon icon-ic_fluent_person_24_regular"></i> User</a>
 
-            <a class=" layout-horizontal gap-20 text-body-secondary text-decoration-none" href="#"><i
+            <a class=" layout-horizontal gap-20 text-body-secondary text-decoration-none" [routerLink]="['#']" ><i
                 
                     class="accent-text-tertiary icon-size-24 icon icon-ic_fluent_content_view_28_regular"></i>
                 Content</a>
 
-            <a class=" layout-horizontal gap-20 text-body-secondary text-decoration-none" href="#"><i
+            <a class=" layout-horizontal gap-20 text-body-secondary text-decoration-none" [routerLink]="['/admin/report']" ><i
                     class="accent-text-tertiary icon-size-24 icon icon-ic_fluent_chat_warning_24_regular"></i> Report</a>
 
-            <a class=" layout-horizontal gap-20 text-body-secondary text-decoration-none" href="#"><i
+            <a class=" layout-horizontal gap-20 text-body-secondary text-decoration-none" [routerLink]="['/admin/event']" ><i
                     class="accent-text-tertiary icon-size-24 icon icon-ic_fluent_calendar_48_regular"></i> Event</a>
 
         </div>
