@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\FriendRequestResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Models\User as UserModel;
@@ -22,7 +23,9 @@ class FriendRequestController extends Controller
     {
         $friend_requests = FriendRequestModel::where('receiver_id', $request->user()->id)->get();
 
-        return response()->json($friend_requests, 200);
+        return response()->json([
+            'friend_requests' => $friend_requests,
+        ], 200);
     }
 
 
@@ -45,9 +48,7 @@ class FriendRequestController extends Controller
             ], 404);
         }
 
-        return response()->json([
-            'friend_request' => $friend_request,
-        ], 200);
+        return response()->json(FriendRequestResource::collection($friend_request));
     }
 
 
@@ -71,7 +72,7 @@ class FriendRequestController extends Controller
             ], 404);
         }
 
-        if (FriendRequestModel::where('sender_id', $request->user()->id)->where('receiver_id', $request->receiver_id)->where('status', 'pending')->exists()) {
+        if(FriendRequestModel::where('sender_id', $request->user()->id)->where('receiver_id', $request->receiver_id)->where('status', 'pending')->exists()){
             return response()->json([
                 'message' => 'Friend request already sent.',
             ], 400);
@@ -118,7 +119,7 @@ class FriendRequestController extends Controller
         FriendRequestModel::find($id)->update([
             'status' => $request->status,
         ]);
-
+        
         if ($request->status === 'accepted') {
             RelationshipModel::create([
                 'user_id' => FriendRequestModel::find($id)->sender_id,
