@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\FriendRequestResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Models\User as UserModel;
@@ -47,7 +48,7 @@ class FriendRequestController extends Controller
             ], 404);
         }
 
-        // return response()->json('friend_request' => $friend_request, 200);
+        return response()->json(FriendRequestResource::collection($friend_request));
     }
 
 
