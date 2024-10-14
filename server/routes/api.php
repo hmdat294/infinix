@@ -84,6 +84,6 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
     });
 
     // Bình chọn cho một bài viết có poll (theo poll_option_id)
-    Route::post('vote/{poll_option_id}', [PostController::class, 'vote'])->name('post.vote');
+    Route::post('vote/{id}', [PostController::class, 'vote'])->name('post.vote');
 
 });
