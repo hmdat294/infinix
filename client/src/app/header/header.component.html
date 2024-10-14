@@ -41,10 +41,10 @@
                 </div> -->
                 
                 <div class="dropdown-menu" *ngIf="friends.length > 0">
-                    <div class="list-item layout-horizontal align-center-center" *ngFor="let friend of friends">
+                    <form class="list-item layout-horizontal align-center-center" *ngFor="let friend of friends" (submit)="addFriend(friend.id)">
                         <div class="text-body w-fill">{{friend.profile.display_name}}</div>
-                        <button type="button" class="button-accent w-hug py-5 px-10" (click)="addFriend(friend.id)">Thêm</button>
-                    </div>
+                        <button type="submit" class="button-accent w-hug py-5 px-10">Thêm</button>
+                    </form>
                 </div>
             </div>
         </div>

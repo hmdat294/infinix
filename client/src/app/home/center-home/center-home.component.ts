@@ -30,8 +30,6 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
     this.postService.getPost().subscribe(
       (data) => {
         this.listPost = data;
-        console.log(this.listPost);
-
       });
   }
 

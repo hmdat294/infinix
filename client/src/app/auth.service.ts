@@ -55,12 +55,12 @@ export class AuthService {
 
   getRequestFriend(): Observable<any> {
     const headers = this.getToken();
-    return this.http.get(`${this.apiUrl}/requestfriend`, { headers });
+    return this.http.get(`${this.apiUrl}/friend-request`, { headers });
   }
 
   addFriend(receiver_id: number): Observable<any> {
     const headers = this.getToken();
-    return this.http.post(`${this.apiUrl}/add-friend`, { 'receiver_id': receiver_id }, { headers });
+    return this.http.post(`${this.apiUrl}/friend-request`, { 'receiver_id': receiver_id }, { headers });
   }
 
   acceptFriend(id: number): Observable<any> {

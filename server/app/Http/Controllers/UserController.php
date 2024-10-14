@@ -15,7 +15,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = UserModel::paginate(10);
+        $users = UserModel::paginate(20);
         return UserResource::collection($users)->additional([
             'meta' => [
                 'current_page' => $users->currentPage(),

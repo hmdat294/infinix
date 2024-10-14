@@ -13,7 +13,7 @@ import { AuthService } from '../auth.service';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
-  listUser: any;
+  listUser: any = [];;
   user: any;
   friends: any = [];
   keyword: string = '';
@@ -31,7 +31,6 @@ export class HeaderComponent {
       this.authService.getListUser().subscribe(
         (response) => {
           this.listUser = response.data;
-          console.log(this.listUser);
         });
     }
   }
@@ -42,7 +41,7 @@ export class HeaderComponent {
       this.friends = this.listUser.filter((friend: any) =>
         friend.profile.display_name.toLowerCase().includes(this.keyword.trim().toLowerCase()) || friend.email.toLowerCase().includes(this.keyword.trim().toLowerCase())
       );
-      console.log(this.listUser);
+      // console.log(this.listUser);
     }
     else {
       this.friends = [];
@@ -51,10 +50,10 @@ export class HeaderComponent {
 
   addFriend(receiver_id: number): void {
     console.log(receiver_id);
-
-    // this.authService.addFriend(receiver_id).subscribe(
-    //   (response) => console.log(response)
-    // )
+    
+    this.authService.addFriend(receiver_id).subscribe(
+      (response) => console.log(response)
+    )
   }
 
 
