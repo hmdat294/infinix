@@ -47,9 +47,7 @@ class FriendRequestController extends Controller
             ], 404);
         }
 
-        return response()->json([
-            'friend_request' => $friend_request,
-        ], 200);
+        // return response()->json('friend_request' => $friend_request, 200);
     }
 
 
@@ -73,7 +71,7 @@ class FriendRequestController extends Controller
             ], 404);
         }
 
-        if(FriendRequestModel::where('sender_id', $request->receiver_id)->where('receiver_id', $request->user()->id)->where('status', 'pending')->exists()){
+        if(FriendRequestModel::where('sender_id', $request->user()->id)->where('receiver_id', $request->receiver_id)->where('status', 'pending')->exists()){
             return response()->json([
                 'message' => 'Friend request already sent.',
             ], 400);
