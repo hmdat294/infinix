@@ -13,7 +13,7 @@ import { AuthService } from '../auth.service';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
-  list: any;
+  listUser: any;
   user: any;
   friends: any = [];
   keyword: string = '';
@@ -28,33 +28,33 @@ export class HeaderComponent {
 
       //   });
 
-      this.chatService.getList().subscribe(
-        (data: any) => {
-          this.list = data;
-          // console.log(this.list);
+      this.authService.getListUser().subscribe(
+        (response) => {
+          this.listUser = response.data;
+          console.log(this.listUser);
         });
     }
   }
 
   search(): void {
-    if (this.keyword.trim()) {
-      this.friends = this.list.filter((friend: any) =>
-        friend.name.toLowerCase().includes(this.keyword.toLowerCase()) ||
-        friend.email.toLowerCase().includes(this.keyword.toLowerCase())
-      );
-      console.log(this.friends);
 
+    if (this.keyword && !/^\s*$/.test(this.keyword)) {
+      this.friends = this.listUser.filter((friend: any) =>
+        friend.profile.display_name.toLowerCase().includes(this.keyword.trim().toLowerCase()) || friend.email.toLowerCase().includes(this.keyword.trim().toLowerCase())
+      );
+      console.log(this.listUser);
     }
     else {
       this.friends = [];
     }
-
   }
 
   addFriend(receiver_id: number): void {
-    this.authService.addFriend(receiver_id).subscribe(
-      (response) => console.log(response)
-    )
+    console.log(receiver_id);
+
+    // this.authService.addFriend(receiver_id).subscribe(
+    //   (response) => console.log(response)
+    // )
   }
 
 

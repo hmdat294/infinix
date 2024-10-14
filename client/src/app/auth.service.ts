@@ -12,15 +12,12 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   getToken(): HttpHeaders {
-    const authToken = localStorage.getItem('auth_token') || '';
-    return new HttpHeaders({
-      'Authorization': `Bearer ${authToken}`
-    });
+    return new HttpHeaders({'Authorization': `Bearer ${localStorage.getItem('auth_token') || ''}`});
   }
 
   getUser(id: number): Observable<any> {
     const headers = this.getToken();
-    return this.http.get(`${this.apiUrl}/user/${(id>=0) ? id : ''}`, { headers });
+    return this.http.get(`${this.apiUrl}/user/${(id >= 0) ? id : ''}`, { headers });
   }
 
   getListUser(): Observable<any> {

@@ -22,6 +22,8 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   showPoll: boolean = false;
   poll_input: any[] = [];
 
+  spaceCheck:any = /^\s*$/;
+
   constructor(private postService: PostService, private carouselService: CarouselService) { }
 
   ngOnInit(): void {
@@ -29,37 +31,40 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
       (data) => {
         this.listPost = data;
         console.log(this.listPost);
-        
+
       });
   }
 
   post(value: any) {
 
-    const formData = new FormData();
-    formData.append('content', value.content);
-    
-    if (this.selectedFilesPost.length > 0)
-      this.selectedFilesPost.forEach(image => formData.append('medias[]', image, image.name));
+    if (value.content && !this.spaceCheck.test(value.content)) {
+      const formData = new FormData();
+      formData.append('content', value.content);
 
-    if (this.poll_input.length > 0) {
-      formData.append('end_at', value.end_at);
-      formData.append('post_type', 'with_poll');
-      this.poll_input.forEach(option => formData.append('poll_option[]', option));
+      if (this.selectedFilesPost.length > 0)
+        this.selectedFilesPost.forEach(image => formData.append('medias[]', image, image.name));
+
+      if (this.poll_input.length > 0) {
+        formData.append('end_at', value.end_at);
+        formData.append('post_type', 'with_poll');
+        this.poll_input.forEach(option => formData.append('poll_option[]', option));
+      }
+
+      this.postService.postPost(formData).subscribe(
+        (response) => {
+          (document.querySelector('.textarea-post') as HTMLTextAreaElement).style.height = '32px';
+          this.content = '';
+          this.poll_input = [];
+          this.showPoll = false;
+          this.onCancelPostImg();
+          console.log(response);
+        });
     }
-
-    this.postService.postPost(formData).subscribe(
-      (response) => {
-        (document.querySelector('.textarea-post') as HTMLTextAreaElement).style.height = '32px';
-        this.content = '';
-        this.poll_input = [];
-        this.showPoll = false;
-        this.onCancelPostImg();
-        console.log(response);
-      });
   }
 
   showPolls() {
     this.showPoll = (this.showPoll == false) ? true : false;
+    this.poll_input = [];
   }
 
   addChoice(): void {

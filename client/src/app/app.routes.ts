@@ -6,12 +6,14 @@ import { ChatComponent } from './chat/chat.component';
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
 import { MainHomeComponent } from './home/main-home/main-home.component';
 import { MainProfileComponent } from './profile/main-profile/main-profile.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 export const routes: Routes = [
     { path: '', component: MainHomeComponent, canActivate: [AuthGuard] },
     { path: 'profile', component: MainProfileComponent, canActivate: [AuthGuard] },
-    { path: 'login', component: LoginComponent },
-    { path: 'register', component: RegisterComponent },
+    { path: 'landing-page', component: LandingPageComponent, canActivate: [AuthGuard] },
+    { path: 'login', component: LoginComponent, canActivate: [AuthGuard] },
+    { path: 'register', component: RegisterComponent, canActivate: [AuthGuard] },
     { path: 'email/verify/:id/:hash', component: VerifyEmailComponent },
     { path: 'chat', component: ChatComponent, canActivate: [AuthGuard] },
 ];

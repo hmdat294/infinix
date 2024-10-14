@@ -19,11 +19,6 @@ export class RightHomeComponent implements OnInit {
     if (localStorage.getItem('auth_token')) {
       this.authService.getUser(0).subscribe(
         (response) => this.user = response);
-        
-      this.authService.getListUser().subscribe(
-        (response) => {
-          console.log(response);
-        });
     }
 
     this.accordion();
@@ -50,7 +45,6 @@ export class RightHomeComponent implements OnInit {
       (response) => {
         console.log('Logout Success:', response);
         localStorage.removeItem('auth_token');
-        this.router.navigate(['/']);
         location.reload();
       },
       (error) => {
