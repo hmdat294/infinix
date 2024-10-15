@@ -1,24 +1,43 @@
 import { Component, OnInit } from '@angular/core';
 import ApexCharts, { ApexOptions } from 'apexcharts';
+import { AdminService } from '../../admin.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './admin-dashboard.component.html',
   styleUrl: './admin-dashboard.component.css'
 })
 export class AdminDashboardComponent implements OnInit {
-  constructor() { }
+ 
+  listUser:any;
+  constructor(private adminService: AdminService) { }
+ 
 
   ngOnInit(): void {
-    this.renderChart();
     this.renderDonutChart();
     this.renderRadialBarChart();
     this.renderLineChart1();
+  
+    this.adminService.getUser().subscribe(
+      (response) => {
+        this.listUser = response.data;  // Gán dữ liệu API vào listUser
+        console.log(this.listUser);  // In ra console để kiểm tra cấu trúc
+    
+        // Sử dụng độ dài của mảng để lấy tổng số người dùng
+        const userData = [this.listUser.length];  // Dùng .length để lấy số lượng người dùng
+        console.log(userData);  // In ra console để kiểm tra dữ liệu
+        this.renderChart(userData);  // Vẽ biểu đồ với dữ liệu
+      },
+      (error) => {
+        console.error('Lỗi khi gọi API:', error);
+      }
+    );
   }
-
-  renderChart(): void {
+  
+  renderChart(userData: number[]): void {
     const chartOptions: ApexOptions = {
       chart: {
         foreColor: '#9ba7b2',
@@ -31,17 +50,20 @@ export class AdminDashboardComponent implements OnInit {
       colors: ["#5283FF", '#F1C40F', '#FF4C92', "#17a00e"],
       series: [{
         name: "Users",
-        data: [55, 74, 64, 84, 54, 92]
-      }, {
+        data: userData  // Sử dụng userData từ API
+      },{
         name: "Post",
-        data: [54, 55, 55, 54, 54, 54]
-      }, {
-        name: "React",
-        data: [83, 84, 74, 92, 73, 73]
-      }, {
-        name: "Total",
-        data: [100, 110, 90, 120, 90, 100]
-      }],
+        data: [14,100,35,25]  // Sử dụng userData từ API
+      },
+      {
+        name: "Content",
+        data: [14,22,35,40]  // Sử dụng userData từ API
+      },
+      {
+        name: "Report",
+        data: [42,25,23,31]  // Sử dụng userData từ API
+      }
+    ],
       xaxis: {
         type: 'datetime',
         categories: ['1/11/2000', '2/11/2000', '3/11/2000', '4/11/2000', '5/11/2000', '6/11/2000'],
@@ -65,11 +87,11 @@ export class AdminDashboardComponent implements OnInit {
         },
       }
     };
-
+  
     const chart = new ApexCharts(document.querySelector('#chart2'), chartOptions);
     chart.render();
   }
-
+  
   renderDonutChart(): void {
     const donutChartOptions: ApexOptions = {
       series: [25, 25, 25, 25],
