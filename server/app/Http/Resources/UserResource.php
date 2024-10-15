@@ -30,9 +30,9 @@ class UserResource extends JsonResource
             'theme' => $this->theme,
             'last_activity' => $this->last_activity,
             'updated_at' => $this->updated_at,
-            'friends' => UserResource::collection($friends),
-            'followers' => UserResource::collection($followers),
-            'followings' => UserResource::collection($followings),
+            'friends' => $friends,
+            'followers' => $followers,
+            'followings' => $followings,
             'profile' => new ProfileResource($this->profile),
         ];
     }
