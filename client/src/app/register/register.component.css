@@ -2,8 +2,11 @@
     transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
-.step-hidden {
-    /* transform: scale(0.5); */
-    transform: translateY(-300px);
+.step-hidden-next {
+    transform: translateX(-300px);
+    opacity: 0;
+}
+.step-hidden-prev {
+    transform: translateX(300px);
     opacity: 0;
 }

@@ -32,28 +32,28 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-    
+
         if (!Auth::attempt($request->only('email', 'password'))) {
             return response()->json([
-                'message' => 'Incorrect login information.',
-            ], 422);
+                'message' => 'Tài khoản hoặc mật khẩu không chính xác!',
+            ]); //status: 422
         }
 
         $user = UserModel::find(Auth::user()->id);
         if (!$user->permissions->contains('name', 'can_login')) {
             return response()->json([
-                'message' => 'User does not have permission to login.',
-            ], 403);
+                'message' => 'Tài khoản hiện đang bị hạn chế!',
+            ]); //status: 403
         }
 
         $user->update(['last_activity' => now()]);
 
         broadcast(new UserConnectionEvent($user, 'online'))->toOthers();
-    
+
         return response()->json([
             'token' => $user->createToken($user->id)->plainTextToken,
-            'message' => 'Login successful.',
-        ], 200);
+            'message' => 'Đăng nhập thành công!',
+        ]); //status: 200
     }
 
 
@@ -73,11 +73,11 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
-        if(UserModel::where('email', $request->email)->exists()){
-            return response()->json([
-                'message' => 'Email already exists.',
-            ], 422);
-        }
+        // if (UserModel::where('email', $request->email)->exists()) {
+        //     return response()->json([
+        //         'message' => 'Email đã được đăng ký!',
+        //     ]); // status: 422
+        // }
 
         $user = UserModel::create([
             'email' => $request->email,
@@ -95,8 +95,8 @@ class AuthController extends Controller
 
         return response()->json([
             'token' => $user->createToken($user->id)->plainTextToken,
-            'message' => 'Registration successful.',
-        ], 200);
+            'message' => 'Đăng ký thành công!',
+        ]); // status: 200
     }
 
     /**

@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
 })
 export class RegisterComponent {
 
+  error: string = '';
   constructor(private authService: AuthService, private router: Router) { }
 
   checkPasswords(form: NgForm): boolean {
@@ -23,13 +24,7 @@ export class RegisterComponent {
     this.authService.register(value.value).subscribe(
       (response) => {
         console.log(response);
-        if (response.token) {
-
-          this.router.navigate(['/login']);
-
-        } else {
-          alert(response.message);
-        }
+        if (response.token) this.router.navigate(['/login']);
       }
     );
   }
@@ -38,7 +33,21 @@ export class RegisterComponent {
     this.authService.getCode(email).subscribe(
       (response) => {
         console.log(response);
-        this.step();
+        if (response.verify) {
+          this.stepNext();
+          this.error =
+            `<p class="validation-message validation-sucess text-body text-primary">
+                <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
+                <span>${response.message}</span>
+            </p>`;
+        }
+        else {
+          this.error =
+            `<p class="validation-message validation-critical text-body text-primary">
+                <i class="icon-size-16 icon icon-ic_fluent_dismiss_circle_16_filled"></i>
+                <span>${response.message}</span>
+            </p>`;
+        }
       }
     );
   }
@@ -46,9 +55,21 @@ export class RegisterComponent {
   postCode(email: string, code: number) {
     this.authService.postCode(email, code).subscribe(
       (response) => {
-        if (response.verify) { 
-          console.log(response);
-          this.step();
+        console.log(response);
+        if (response.verify) {
+          this.stepNext();
+          this.error =
+            `<p class="validation-message validation-sucess text-body text-primary">
+                <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
+                <span>${response.message}</span>
+            </p>`;
+        }
+        else {
+          this.error =
+            `<p class="validation-message validation-critical text-body text-primary">
+                <i class="icon-size-16 icon icon-ic_fluent_dismiss_circle_16_filled"></i>
+                <span>${response.message}</span>
+            </p>`;
         }
       }
     );
@@ -56,13 +77,28 @@ export class RegisterComponent {
 
   step_index: number = 1;
 
-  step() {
-
-    const form = document.querySelector('#step_' + this.step_index) as HTMLElement;
-    if (form) {
-      form.classList.add('step-hidden');
-      form.addEventListener('transitionend', () => this.step_index++, { once: true });
+  stepNext() {
+    const currentForm = document.querySelector('.step_' + this.step_index) as HTMLElement;
+    if (currentForm) {
+      currentForm.classList.add('step-hidden-next');
+      currentForm.addEventListener('transitionend', () => {
+        this.step_index++;
+        const nextForm = document.querySelector('.step_' + this.step_index) as HTMLElement;
+        if (nextForm) nextForm.classList.remove('step-hidden-next', 'step-hidden-prev');
+      }, { once: true });
     }
-
   }
+
+  stepPrev() {
+    const currentForm = document.querySelector('.step_' + this.step_index) as HTMLElement;
+    if (currentForm) {
+      currentForm.classList.add('step-hidden-prev');
+      currentForm.addEventListener('transitionend', () => {
+        this.step_index--;
+        const previousForm = document.querySelector('.step_' + this.step_index) as HTMLElement;
+        if (previousForm) previousForm.classList.remove('step-hidden-prev', 'step-hidden-next');
+      }, { once: true });
+    }
+  }
+
 }
