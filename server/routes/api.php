@@ -61,8 +61,13 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
 
     // API cho hội thoại nhóm
     Route::resource('chat-group', ConversationGroupController::class)
-    ->only(['store', 'show', 'update', 'destroy'])
+    ->only(['index', 'store', 'show', 'update', 'destroy'])
     ->parameters(['chat-group' => 'id']);
+
+    // API cho lời mời tham gia hội thoại nhóm
+    Route::resource('join-group', ConversationGroupController::class)
+    ->only(['store', 'show', 'update', 'destroy'])
+    ->parameters(['join-group' => 'id']);
 
     // API cho tin nhắn
     Route::resource('message', MessageController::class)
@@ -81,6 +86,16 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
     // Lấy danh sách bạn bè
     Route::get('/get-friends', function (Request $request) {
         return UserResource::collection($request->user()->friendsOf->concat($request->user()->friendsOfMine));
+    });
+
+    // Lấy danh sách người theo dõi user
+    Route::get('/get-followers', function (Request $request) {
+        return UserResource::collection($request->user()->followers);
+    });
+
+    // Lấy danh sách người user đang theo dõi
+    Route::get('/get-following', function (Request $request) {
+        return UserResource::collection($request->user()->followings);
     });
 
     // Bình chọn cho một bài viết có poll (theo poll_option_id)
