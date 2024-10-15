@@ -14,6 +14,10 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $friends = $request->user()->friendsOf->concat($request->user()->friendsOfMine);
+        $is_friend = $friends->contains('id', $this->id);
+
+
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -24,6 +28,7 @@ class UserResource extends JsonResource
             'theme' => $this->theme,
             'last_activity' => $this->last_activity,
             'updated_at' => $this->updated_at,
+            'is_friend' => $is_friend,
             'profile' => new ProfileResource($this->profile),
         ];
     }

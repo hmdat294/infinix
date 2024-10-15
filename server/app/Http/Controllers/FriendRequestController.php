@@ -9,14 +9,7 @@ use App\Models\User as UserModel;
 use App\Models\FriendRequest as FriendRequestModel;
 use App\Models\Relationship as RelationshipModel;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-/**
- * Bị từ chối có thể gửi tiếp
- * là bạn bè không thể gửi
- * check chấp nhận nhiều lần
- * 
- * user resource thêm is_friend
- * chỉnh múi giờ
- */
+
 class FriendRequestController extends Controller
 {
     /**
@@ -83,6 +76,12 @@ class FriendRequestController extends Controller
             ], 400);
         }
 
+        if(RelationshipModel::where('user_id', $request->user()->id)->where('related_user_id', $request->receiver_id)->where('type', 'friend')->exists()){
+            return response()->json([
+                'message' => 'You are already friend with this user.',
+            ], 400);
+        }
+
         FriendRequestModel::create([
             'sender_id' => $request->user()->id,
             'receiver_id' => $request->receiver_id,
@@ -119,6 +118,12 @@ class FriendRequestController extends Controller
             return response()->json([
                 'message' => 'Friend request not found.',
             ], 404);
+        }
+
+        if (FriendRequestModel::find($id)->status !== 'pending') {
+            return response()->json([
+                'message' => 'Friend request already ' . FriendRequestModel::find($id)->status . '.',
+            ], 400);
         }
 
         FriendRequestModel::find($id)->update([

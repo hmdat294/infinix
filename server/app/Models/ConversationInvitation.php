@@ -5,17 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class FriendRequest extends Model
+class ConversationInvitation extends Model
 {
     use HasFactory;
 
-    protected $table = 'friend_requests';
+    protected $table = 'conversation_invitations';
 
     protected $fillable = [
+        'conversation_id',
         'sender_id',
         'receiver_id',
         'status',
     ];
+
+    public function conversation()
+    {
+        return $this->belongsTo(Conversation::class, 'conversation_id');
+    }
 
     public function sender()
     {
@@ -26,5 +32,4 @@ class FriendRequest extends Model
     {
         return $this->belongsTo(User::class, 'receiver_id');
     }
-
 }
