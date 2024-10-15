@@ -23,7 +23,7 @@ class UserController extends Controller
             return UserResource::collection($users);
         }
         
-        $users = UserModel::all()->paginate(10);
+        $users = UserModel::paginate(10);
         return UserResource::collection($users)->additional([
             'meta' => [
                 'current_page' => $users->currentPage(),
