@@ -73,11 +73,11 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
-        if (UserModel::where('email', $request->email)->exists()) {
-            return response()->json([
-                'message' => 'Email đã được đăng ký!',
-            ], 422);
-        }
+        // if (UserModel::where('email', $request->email)->exists()) {
+        //     return response()->json([
+        //         'message' => 'Email đã được đăng ký!',
+        //     ]); // status: 422
+        // }
 
         $user = UserModel::create([
             'email' => $request->email,
@@ -96,7 +96,7 @@ class AuthController extends Controller
         return response()->json([
             'token' => $user->createToken($user->id)->plainTextToken,
             'message' => 'Đăng ký thành công!',
-        ], 200);
+        ]); // status: 200
     }
 
     /**

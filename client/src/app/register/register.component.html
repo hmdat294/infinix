@@ -4,7 +4,7 @@
         <div class="layout-vertical card-background-default border border-card-default rounded-8 p-25 gap-25 shadow-card overflow-hidden"
             style="width: 400px;">
 
-            <small style="color: red;" class="text-center" *ngIf="error">{{error}}</small>
+            <div *ngIf="error != ''" [innerHTML]="error"></div>
 
             <div class="w-fill layout-horizontal gap-10 align-center-center">
                 <img src="assets/image/Logo.png" alt="">
@@ -65,8 +65,8 @@
                     <div class="w-fill layout-vertical gap-5">
                         <label for="code" class="w-fill text-body text-primary">Mã xác nhận</label>
                         <div class="control text-control w-fill">
-                            <input type="text" spellcheck="false" id="code" name="code" #code="ngModel" ngModel
-                                required (input)="error = ''">
+                            <input type="text" spellcheck="false" id="code" name="code" #code="ngModel" ngModel required
+                                (input)="error = ''">
                         </div>
                     </div>
 

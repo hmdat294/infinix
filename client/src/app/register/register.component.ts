@@ -25,7 +25,6 @@ export class RegisterComponent {
       (response) => {
         console.log(response);
         if (response.token) this.router.navigate(['/login']);
-        else this.error = response.message;
       }
     );
   }
@@ -34,8 +33,21 @@ export class RegisterComponent {
     this.authService.getCode(email).subscribe(
       (response) => {
         console.log(response);
-        this.stepNext();
-        this.error = response.message;
+        if (response.verify) {
+          this.stepNext();
+          this.error =
+            `<p class="validation-message validation-sucess text-body text-primary">
+                <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
+                <span>${response.message}</span>
+            </p>`;
+        }
+        else {
+          this.error =
+            `<p class="validation-message validation-critical text-body text-primary">
+                <i class="icon-size-16 icon icon-ic_fluent_dismiss_circle_16_filled"></i>
+                <span>${response.message}</span>
+            </p>`;
+        }
       }
     );
   }
@@ -43,11 +55,22 @@ export class RegisterComponent {
   postCode(email: string, code: number) {
     this.authService.postCode(email, code).subscribe(
       (response) => {
+        console.log(response);
         if (response.verify) {
-          console.log(response);
           this.stepNext();
+          this.error =
+            `<p class="validation-message validation-sucess text-body text-primary">
+                <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
+                <span>${response.message}</span>
+            </p>`;
         }
-        this.error = response.message;
+        else {
+          this.error =
+            `<p class="validation-message validation-critical text-body text-primary">
+                <i class="icon-size-16 icon icon-ic_fluent_dismiss_circle_16_filled"></i>
+                <span>${response.message}</span>
+            </p>`;
+        }
       }
     );
   }
