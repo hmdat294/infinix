@@ -17,11 +17,13 @@ class UserController extends Controller
     public function index()
     {
         if (request()->has('search')) {
-            $profiles = ProfileModel::where('display_name', 'like', '%' . request('search') . '%');
-            return UserResource::collection($profiles->user());
+            $users = UserModel::whereHas('profile', function ($query) {
+                $query->where('display_name', 'like', '%' . request('search') . '%');
+            })->get();
+            return UserResource::collection($users);
         }
         
-        $users = UserModel::paginate(10);
+        $users = UserModel::all()->paginate(10);
         return UserResource::collection($users)->additional([
             'meta' => [
                 'current_page' => $users->currentPage(),
