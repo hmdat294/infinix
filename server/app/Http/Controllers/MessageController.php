@@ -75,6 +75,7 @@ class MessageController extends Controller
      */
     public function update(Request $request, string $id)
     {
+
         $message = MessageModel::find($id);
 
         if ($request->has('content')) {
