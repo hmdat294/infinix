@@ -78,12 +78,20 @@ class MessageController extends Controller
 
         $message = MessageModel::find($id);
 
-        if ($request->only('content')) {
-            $message->update([
-                'content' => $request->only('content'),
-                'is_edited' => 1
-            ]);
-        } else $message->update(['is_recalled' => 1]);
+        if ($request->has('content')) {
+            $message->update($request->only('content'));
+        }
+
+        if ($request->has('is_recalled')) {
+            $message->is_recalled = $request->is_recalled;
+        }
+
+        $message->is_edited = true;
+
+        if($message->is_recalled) {
+            $message->medias()->delete();
+        }
+
 
         return new MessageResource($message);
     }

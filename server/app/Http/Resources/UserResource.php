@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -15,7 +16,8 @@ class UserResource extends JsonResource
     public function toArray(Request $request): array
     {
         $friends = $request->user()->friendsOf->concat($request->user()->friendsOfMine);
-        $is_friend = $friends->contains('id', $this->id);
+        $followers = $request->user()->followers;
+        $followings = $request->user()->followings;
 
 
         return [
@@ -28,7 +30,9 @@ class UserResource extends JsonResource
             'theme' => $this->theme,
             'last_activity' => $this->last_activity,
             'updated_at' => $this->updated_at,
-            'is_friend' => $is_friend,
+            'friends' => $friends,
+            'followers' => $followers,
+            'followings' => $followings,
             'profile' => new ProfileResource($this->profile),
         ];
     }
