@@ -45,7 +45,7 @@ class MessageController extends Controller
 
         return new MessageResource($message);
     }
-    
+
 
     /**
      * Xem thông tin tin nhắn
@@ -75,18 +75,15 @@ class MessageController extends Controller
      */
     public function update(Request $request, string $id)
     {
+
         $message = MessageModel::find($id);
 
-        $message->update($request->only('content'));
-        if ($request->is_recalled) {
-            $message->update(['is_recalled' => true]);
-        }
-        $message->is_edited = true;
-
-        if($message->is_recalled) {
-            $message->medias()->delete();
-        }
-
+        if ($request->only('content')) {
+            $message->update([
+                'content' => $request->only('content'),
+                'is_edited' => 1
+            ]);
+        } else $message->update(['is_recalled' => 1]);
 
         return new MessageResource($message);
     }
