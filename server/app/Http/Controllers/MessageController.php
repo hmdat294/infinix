@@ -45,7 +45,7 @@ class MessageController extends Controller
 
         return new MessageResource($message);
     }
-    
+
 
     /**
      * Xem thông tin tin nhắn
@@ -80,17 +80,17 @@ class MessageController extends Controller
         if ($request->has('content')) {
             $message->update($request->only('content'));
         }
-
+        
         if ($request->has('is_recalled')) {
-            $message->is_recalled = $request->is_recalled;
+            $message->update($request->only('is_recalled'));
         }
-
-        $message->is_edited = true;
+        
+        $message->is_edited = 1;
+        $message->save();
 
         if($message->is_recalled) {
             $message->medias()->delete();
         }
-
 
         return new MessageResource($message);
     }
