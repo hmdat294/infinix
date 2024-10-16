@@ -36,7 +36,9 @@ article {
 
 .box-chat {
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
+    /* flex-direction: column-reverse; */
+    overflow-y: scroll;
 }
 
 .mess-hover>.mess-menu {

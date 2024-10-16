@@ -323,14 +323,12 @@
                                 class="icon-size-24 icon icon-ic_fluent_panel_left_contract_24_filled"></i></a>
                     </div>
                 </div>
-                <div class="h-fill w-fill overflow-scroll-vertical box-chat">
+                <div #scrollBox class="h-fill w-fill box-chat">
 
-                    <div *ngFor="let msg of conversation.messages; let i = index;">
+                    <div *ngFor="let msg of conversation.messages; let i = index;" [attr.id]="'item-' + i">
                         <div class="text-center" *ngIf="isDifferentDate(i)">
                             <small>{{msg.date}}</small>
                         </div>
-
-
 
                         <div class="w-fill layout align-top-right" *ngIf="(user.id == msg.user_id)">
                             <div class="layout-horizontal gap-15 p-20" style="max-width: 80%;">
@@ -348,6 +346,10 @@
                                                 <i
                                                     class="icon-size-20 icon icon-ic_fluent_arrow_counterclockwise_20_regular"></i>
                                             </button>
+                                            <button type="button" (click)="editMessage(msg.id)"
+                                                class="button-subtle button-icon-only">
+                                                <i class="icon-size-20 icon icon-ic_fluent_edit_20_regular"></i>
+                                            </button>
                                         </div>
                                         <div>
                                             <div>
@@ -355,14 +357,15 @@
                                                     <div *ngIf="getReply(msg.reply_to_message_id).is_recalled == 0"
                                                         style="border-right: 3px solid #005FB8E6;">
 
-                                                        <p class="px-10 py-5 my-5 text-secondary">
-                                                            <!-- <img *ngIf="getReply(msg.reply_to_message_id).images"
-                                                            src="{{getReply(msg.reply_to_message_id).images[0]}}" 
-                                                            alt="Image" height="50px"
-                                                            class="m-2 rounded"> -->
+                                                        <p class="px-10 py-5 my-5 text-secondary button-subtle"
+                                                            (click)="scrollToElement(msg.reply_to_message_id)">
+                                                            <img *ngIf="getReply(msg.reply_to_message_id).images"
+                                                                src="{{getReply(msg.reply_to_message_id).images.path}}"
+                                                                alt="Image" height="50px" class="m-2 rounded-4">
+
                                                             <span style="white-space: pre-line;">
                                                                 {{getReply(msg.reply_to_message_id
-                                                                ).message}}
+                                                                ).content}}
                                                             </span>
                                                         </p>
                                                     </div>
@@ -375,14 +378,19 @@
 
                                                     </div>
                                                 </div>
-                                                <div *ngIf="msg.images"
+                                                <div *ngIf="msg.medias"
                                                     class="layout-wrap rounded-top-8 overflow-hidden">
-                                                    <img *ngFor="let image of msg.images" src="{{image}}" alt="Image"
-                                                        class="w-hug" style="max-height: 150px;">
+                                                    <img *ngFor="let image of msg.medias" src="{{image.path}}"
+                                                        alt="Image" class="w-hug" style="max-height: 150px;">
                                                 </div>
+
                                                 <p style="background-color: #005FB8E6; color: white; white-space: pre-line;"
-                                                    class="border border-card-default px-15 py-10 {{(msg.images)?'rounded-bottom-8':'rounded-8'}}">
+                                                    class="border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
                                                     {{ msg.content }}
+                                                </p>
+
+                                                <p *ngIf="msg.is_edited == 1" style="font-size: 0.9em;" class="text-secondary text-right">
+                                                    Đã sửa
                                                 </p>
                                             </div>
                                         </div>
@@ -424,16 +432,15 @@
                                                     <div *ngIf="getReply(msg.reply_to_message_id).is_recalled == 0"
                                                         style="border-left: 3px solid #0000001F;">
 
-                                                        <p class="px-10 py-5 my-5 text-secondary">
-
-                                                            <!-- <img *ngIf="getReply(msg.reply_to_message_id).images"
-                                                            src="{{getReply(msg.reply_to_message_id).images[0]}}" 
-                                                            alt="Image" height="50px"
-                                                            class="m-2 rounded"> -->
+                                                        <p class="px-10 py-5 my-5 text-secondary"
+                                                        (click)="scrollToElement(msg.reply_to_message_id)">
+                                                            <img *ngIf="getReply(msg.reply_to_message_id).images"
+                                                                src="{{getReply(msg.reply_to_message_id).images.path}}"
+                                                                alt="Image" height="50px" class="m-2 rounded-4">
 
                                                             <span style="white-space: pre-line;">
                                                                 {{getReply(msg.reply_to_message_id
-                                                                ).message}}
+                                                                ).content}}
                                                             </span>
                                                         </p>
                                                     </div>
@@ -447,14 +454,19 @@
                                                     </div>
                                                 </div>
 
-                                                <!-- <div *ngIf="msg.images" class="d-flex flex-wrap gap-1">
-                                                    <img *ngFor="let image of msg.images" src="{{image}}" alt="Image"
-                                                        class="flex-fill border bg-white rounded">
-                                                </div> -->
+                                                <div *ngIf="msg.medias"
+                                                    class="layout-wrap rounded-top-8 overflow-hidden">
+                                                    <img *ngFor="let image of msg.medias" src="{{image.path}}"
+                                                        alt="Image" class="w-hug" style="max-height: 150px;">
+                                                </div>
 
                                                 <p style="white-space: pre-line;"
-                                                    class="border border-card-default card-background-default px-15 py-10 rounded-8">
+                                                    class="card-background-default border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
                                                     {{ msg.content }}
+                                                </p>
+
+                                                <p *ngIf="msg.is_edited == 1" style="font-size: 0.9em;" class="text-secondary text-left">
+                                                    Đã sửa
                                                 </p>
                                             </div>
                                         </div>
@@ -494,10 +506,10 @@
 
                         <div *ngIf="previewReply" class="p-10 position-relative">
                             <div style="border-left: 3px solid #005FB8E6;" class="p-10">
-                                <img *ngIf="previewReply.images" src="{{previewReply.images[0]}}" alt="Image"
-                                    height="50px" class="rounded-4">
+                                <img *ngIf="previewReply.medias.length > 0" src="{{previewReply.medias[0].path}}"
+                                    alt="Image" height="50px" class="rounded-4">
                                 <span style="white-space: pre-line;">
-                                    {{previewReply.message}}
+                                    {{previewReply.content}}
                                 </span>
                             </div>
                             <button type="button" (click)="onCancelReply()"
@@ -528,7 +540,7 @@
                             <div class="control w-fill h-hug" style="padding: 0;">
                                 <input type="hidden" name="id" ngModel [(ngModel)]="conversation.id">
 
-                                <textarea [(ngModel)]="message" name="message" ngModel
+                                <textarea [(ngModel)]="content" name="content" ngModel
                                     class="textarea-chat control text-area-control w-fill"
                                     (keydown)="handleKeydown($event, frm.value)" #textArea spellcheck="false"
                                     required></textarea>
@@ -548,7 +560,7 @@
                             </div>
 
                             <button type="submit" class="button-accent button-text-with-icon"
-                                *ngIf="(!frm.invalid && !spaceCheck.test(frm.value.message)) || previewUrls.length > 0">
+                                *ngIf="(!frm.invalid && !spaceCheck.test(frm.value.content)) || previewUrls.length > 0">
                                 Send
                                 <i class="icon-size-16 icon icon-ic_fluent_send_16_filled"></i>
                             </button>

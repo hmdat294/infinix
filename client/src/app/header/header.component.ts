@@ -31,6 +31,8 @@ export class HeaderComponent {
       this.authService.getListUser().subscribe(
         (response) => {
           this.listUser = response.data;
+          // console.log(this.listUser);
+          
         });
     }
   }
@@ -41,7 +43,6 @@ export class HeaderComponent {
       this.friends = this.listUser.filter((friend: any) =>
         friend.profile.display_name.toLowerCase().includes(this.keyword.trim().toLowerCase()) || friend.email.toLowerCase().includes(this.keyword.trim().toLowerCase())
       );
-      // console.log(this.listUser);
     }
     else {
       this.friends = [];
