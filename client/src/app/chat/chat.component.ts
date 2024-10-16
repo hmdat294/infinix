@@ -4,13 +4,14 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../auth.service';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-chat',
   standalone: true,
   imports: [FormsModule, CommonModule],
   templateUrl: './chat.component.html',
-  styleUrl: './chat.component.css'
+  styleUrl: './chat.component.css',
 })
 export class ChatComponent implements OnInit {
   content: string = '';
@@ -29,11 +30,20 @@ export class ChatComponent implements OnInit {
   is_edit_message: boolean = false;
   id_message: number = 0;
 
+  isScrollingToElement: boolean = false;
+
   constructor(private chatService: ChatService, private authService: AuthService) { }
 
   @ViewChild('scrollBox') private scrollBox!: ElementRef;
 
-  isScrollingToElement: boolean = false;
+
+
+  isVisible = false;
+
+  toggle() {
+    this.isVisible = !this.isVisible;
+  }
+
 
   ngAfterViewChecked() {
     if (!this.isScrollingToElement) {
