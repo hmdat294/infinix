@@ -43,6 +43,8 @@ export class ChatComponent implements OnInit {
   }
 
   scrollToElement(index: number) {
+    console.log(index);
+    
     this.isScrollingToElement = true;
     const targetElement = document.getElementById(`item-${index - 1}`);
     if (targetElement) {
@@ -133,20 +135,24 @@ export class ChatComponent implements OnInit {
       this.chatService.sendMessage(formData).subscribe(
         (response: any) => {
           console.log(response);
-          (document.querySelector('.textarea-chat') as HTMLTextAreaElement).style.height = 'auto';
+          (document.querySelector('.textarea-chat') as HTMLTextAreaElement).style.height = '32px';
           this.content = '';
           this.onCancelSendImg();
           this.onCancelReply();
-        });
-
-    }
-    else{
-      
-      this.chatService.recallMessage(this.id_message, mess.content).subscribe(
-        (response) => console.log(response),
-        (error) => console.error('Error recalling message', error)
+        }
       );
-      this.is_edit_message = false;
+    }
+    else {
+      this.chatService.recallMessage(this.id_message, { 'content': mess.content }).subscribe(
+        (response) => {
+          console.log(response);
+          (document.querySelector('.textarea-chat') as HTMLTextAreaElement).style.height = '32px';
+          this.content = '';
+          this.onCancelSendImg();
+          this.onCancelReply();
+          this.is_edit_message = false;
+        }
+      );
     }
 
   }
@@ -199,7 +205,7 @@ export class ChatComponent implements OnInit {
     this.countdownIntervals[id] = setInterval(() => {
       if (message.countdown > 0) message.countdown--;
       else {
-        this.chatService.recallMessage(id, '').subscribe(
+        this.chatService.recallMessage(id, { 'is_recalled': 1 }).subscribe(
           (response) => console.log(response),
           (error) => console.error('Error recalling message', error)
         );

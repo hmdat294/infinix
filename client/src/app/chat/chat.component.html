@@ -343,7 +343,8 @@
                                             </button>
                                             <button type="button" (click)="recallMessage(msg.id)"
                                                 class="button-subtle button-icon-only">
-                                                <i class="icon-size-20 icon icon-ic_fluent_arrow_counterclockwise_20_regular"></i>
+                                                <i
+                                                    class="icon-size-20 icon icon-ic_fluent_arrow_counterclockwise_20_regular"></i>
                                             </button>
                                             <button type="button" (click)="editMessage(msg.id)"
                                                 class="button-subtle button-icon-only">
@@ -356,11 +357,11 @@
                                                     <div *ngIf="getReply(msg.reply_to_message_id).is_recalled == 0"
                                                         style="border-right: 3px solid #005FB8E6;">
 
-                                                        <p class="px-10 py-5 my-5 text-secondary button-subtle" (click)="scrollToElement(msg.reply_to_message_id)">
+                                                        <p class="px-10 py-5 my-5 text-secondary button-subtle"
+                                                            (click)="scrollToElement(msg.reply_to_message_id)">
                                                             <img *ngIf="getReply(msg.reply_to_message_id).images"
-                                                            src="{{getReply(msg.reply_to_message_id).images.path}}" 
-                                                            alt="Image" height="50px"
-                                                            class="m-2 rounded-4">
+                                                                src="{{getReply(msg.reply_to_message_id).images.path}}"
+                                                                alt="Image" height="50px" class="m-2 rounded-4">
 
                                                             <span style="white-space: pre-line;">
                                                                 {{getReply(msg.reply_to_message_id
@@ -382,9 +383,14 @@
                                                     <img *ngFor="let image of msg.medias" src="{{image.path}}"
                                                         alt="Image" class="w-hug" style="max-height: 150px;">
                                                 </div>
+
                                                 <p style="background-color: #005FB8E6; color: white; white-space: pre-line;"
                                                     class="border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
                                                     {{ msg.content }}
+                                                </p>
+
+                                                <p *ngIf="msg.is_edited == 1" style="font-size: 0.9em;" class="text-secondary text-right">
+                                                    Đã sửa
                                                 </p>
                                             </div>
                                         </div>
@@ -426,12 +432,11 @@
                                                     <div *ngIf="getReply(msg.reply_to_message_id).is_recalled == 0"
                                                         style="border-left: 3px solid #0000001F;">
 
-                                                        <p class="px-10 py-5 my-5 text-secondary">
-
+                                                        <p class="px-10 py-5 my-5 text-secondary"
+                                                        (click)="scrollToElement(msg.reply_to_message_id)">
                                                             <img *ngIf="getReply(msg.reply_to_message_id).images"
-                                                            src="{{getReply(msg.reply_to_message_id).images.path}}" 
-                                                            alt="Image" height="50px"
-                                                            class="m-2 rounded-4">
+                                                                src="{{getReply(msg.reply_to_message_id).images.path}}"
+                                                                alt="Image" height="50px" class="m-2 rounded-4">
 
                                                             <span style="white-space: pre-line;">
                                                                 {{getReply(msg.reply_to_message_id
@@ -458,6 +463,10 @@
                                                 <p style="white-space: pre-line;"
                                                     class="card-background-default border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
                                                     {{ msg.content }}
+                                                </p>
+
+                                                <p *ngIf="msg.is_edited == 1" style="font-size: 0.9em;" class="text-secondary text-left">
+                                                    Đã sửa
                                                 </p>
                                             </div>
                                         </div>
@@ -497,8 +506,8 @@
 
                         <div *ngIf="previewReply" class="p-10 position-relative">
                             <div style="border-left: 3px solid #005FB8E6;" class="p-10">
-                                <img *ngIf="previewReply.medias.length > 0" src="{{previewReply.medias[0].path}}" alt="Image"
-                                    height="50px" class="rounded-4">
+                                <img *ngIf="previewReply.medias.length > 0" src="{{previewReply.medias[0].path}}"
+                                    alt="Image" height="50px" class="rounded-4">
                                 <span style="white-space: pre-line;">
                                     {{previewReply.content}}
                                 </span>

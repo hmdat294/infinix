@@ -64,11 +64,8 @@ export class ChatService {
     return this.http.post(`${this.apiUrl}/message`, mess, { headers });
   }
 
-  recallMessage(id: number, content: string): Observable<any> {
-    console.log(id);
-    console.log(content);
-
+  recallMessage(id: number, value: any): Observable<any> {
     const headers = this.authService.getToken();
-    return this.http.patch(`${this.apiUrl}/message/${id}`, { content }, { headers });
+    return this.http.patch(`${this.apiUrl}/message/${id}`, value , { headers });
   }
 }
