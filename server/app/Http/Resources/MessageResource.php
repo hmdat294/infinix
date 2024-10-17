@@ -22,7 +22,7 @@ class MessageResource extends JsonResource
         $data['updated_at_date'] = $this->updated_at->format('Y-m-d');
 
         $data['conversation'] = $this->conversation;
-        $data['user'] = $this->user;
+        $data['user'] = new UserResource($this->user);
         $data['reply_to_message'] = $this->replyToMessage;
         $data['medias'] = $this->medias;
 
