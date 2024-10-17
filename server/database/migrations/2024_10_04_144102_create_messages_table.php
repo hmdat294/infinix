@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->boolean('is_recalled')->default(false);
             $table->boolean('is_edited')->default(false);
-            $table->text('content');
+            $table->text('content')->nullable()->default(null);
             $table->timestamps();
         });
         

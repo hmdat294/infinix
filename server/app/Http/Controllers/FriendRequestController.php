@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\FriendRequestResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Models\User as UserModel;
 use App\Models\FriendRequest as FriendRequestModel;
 use App\Models\Relationship as RelationshipModel;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class FriendRequestController extends Controller
 {
@@ -16,15 +18,12 @@ class FriendRequestController extends Controller
      * 
      * @response 200 : Danh sách lời mời kết bạn được gửi đến người dùng hiện tại
      * 
-     * @return JsonResponse
+     * @return AnonymousResourceCollection
      */
     public function index(Request $request)
     {
-        $friend_requests = FriendRequestModel::where('receiver_id', $request->user()->id)->get();
-
-        return response()->json([
-            'friend_requests' => $friend_requests,
-        ], 200);
+        $friend_requests = FriendRequestModel::where('receiver_id', $request->user()->id)->where('status', 'pending')->get();
+        return FriendRequestResource::collection($friend_requests);
     }
 
 
@@ -47,9 +46,7 @@ class FriendRequestController extends Controller
             ], 404);
         }
 
-        return response()->json([
-            'friend_request' => $friend_request,
-        ], 200);
+        return response()->json(FriendRequestResource::collection($friend_request));
     }
 
 
@@ -73,9 +70,15 @@ class FriendRequestController extends Controller
             ], 404);
         }
 
-        if(FriendRequestModel::where('sender_id', $request->receiver_id)->where('receiver_id', $request->user()->id)->where('status', 'pending')->exists()){
+        if(FriendRequestModel::where('sender_id', $request->user()->id)->where('receiver_id', $request->receiver_id)->where('status', 'pending')->exists()){
             return response()->json([
                 'message' => 'Friend request already sent.',
+            ], 400);
+        }
+
+        if(RelationshipModel::where('user_id', $request->user()->id)->where('related_user_id', $request->receiver_id)->where('type', 'friend')->exists()){
+            return response()->json([
+                'message' => 'You are already friend with this user.',
             ], 400);
         }
 
@@ -117,6 +120,12 @@ class FriendRequestController extends Controller
             ], 404);
         }
 
+        if (FriendRequestModel::find($id)->status !== 'pending') {
+            return response()->json([
+                'message' => 'Friend request already ' . FriendRequestModel::find($id)->status . '.',
+            ], 400);
+        }
+
         FriendRequestModel::find($id)->update([
             'status' => $request->status,
         ]);
@@ -130,7 +139,7 @@ class FriendRequestController extends Controller
         }
 
         return response()->json([
-            'message' => 'Friend request accepted.',
+            'message' => $request->status === 'accepted' ? 'Friend request accepted.' : 'Friend request rejected.',
         ], 200);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\UserResource;
+use App\Models\Profile as ProfileModel;
 use Illuminate\Http\Request;
 use App\Models\User as UserModel;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -15,6 +16,13 @@ class UserController extends Controller
      */
     public function index()
     {
+        if (request()->has('search')) {
+            $users = UserModel::whereHas('profile', function ($query) {
+                $query->where('display_name', 'like', '%' . request('search') . '%');
+            })->get();
+            return UserResource::collection($users);
+        }
+        
         $users = UserModel::paginate(10);
         return UserResource::collection($users)->additional([
             'meta' => [

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\VerificationCode;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\VerificationCodeNotification;
+use App\Models\User as UserModel;
 
 class VerificationCodeController extends Controller
 {
@@ -20,9 +21,9 @@ class VerificationCodeController extends Controller
         $verifyCode = (new VerificationCode)->verifyCode($request->code, $request->email, null);
 
         return response()->json([
-            'message' => $verifyCode ? 'Verification code is correct' : 'Verification code is incorrect',
+            'message' => $verifyCode ? 'Xác minh thành công!' : 'Xác minh không thành công!',
             'verify' => $verifyCode ? true : false,
-        ], $verifyCode ? 200 : 400);
+        ]); // $verifyCode ? 200 : 400
     }
 
     /**
@@ -32,15 +33,22 @@ class VerificationCodeController extends Controller
     public function create(Request $request)
     {
         $email = $request->email;
-    
+
+        if (UserModel::where('email', $email)->exists()) {
+            return response()->json([
+                'message' => 'Email đã được đăng ký!',
+                'verify' => false,
+            ]); // status: 422
+        }
+        
         $code = (new VerificationCode())->generateVerificationCode($email, null);
         if ($email) {
             Mail::to($email)->queue(new VerificationCodeNotification($code));
         }
-    
+
         return response()->json([
-            'message' => 'Verification code has been sent to your contact info',
-        ], 200);
+            'message' => 'Mã xác minh đã được gửi, vui lòng kiểm tra email để nhận mã!',
+            'verify' => true,
+        ]); // status: 200
     }
-    
 }
