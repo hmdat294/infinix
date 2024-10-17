@@ -11,6 +11,7 @@ import { AdminMainUserComponent } from './admin/admin-main-user/admin-main-user.
 import { AdminMainReportComponent } from './admin/admin-main-report/admin-main-report.component';
 import { AdminMainEventComponent } from './admin/admin-main-event/admin-main-event.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
+import { AdminMainContentComponent } from './admin/admin-main-content/admin-main-content.component';
 
 export const routes: Routes = [
     { path: '', component: MainHomeComponent, canActivate: [AuthGuard] },
@@ -24,4 +25,5 @@ export const routes: Routes = [
     {path: 'admin/user', component: AdminMainUserComponent},
     {path: 'admin/report', component: AdminMainReportComponent},
     {path: 'admin/event', component: AdminMainEventComponent},
+    {path: 'admin/content', component: AdminMainContentComponent},
 ];
