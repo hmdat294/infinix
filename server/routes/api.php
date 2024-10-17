@@ -11,6 +11,9 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\ConversationGroupController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\DashboardStatisticsController;
+use App\Http\Controllers\Statistics\GrowthStatisticsController;
+use App\Http\Controllers\Statistics\TotalController;
 use App\Http\Middleware\UpdateUserLastActivity;
 
 use App\Http\Resources\UserResource;
@@ -100,5 +103,25 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
 
     // Bình chọn cho một bài viết có poll (theo poll_option_id)
     Route::post('vote/{id}', [PostController::class, 'vote'])->name('post.vote');
+
+    // thống kê
+    Route::prefix('statistics')->group(function () {
+        Route::get('total-users', [TotalController::class, 'totalUsers']);
+        Route::get('total-posts', [TotalController::class, 'totalPosts']);
+        Route::get('total-conversations', [TotalController::class, 'totalConversations']);
+
+        Route::get('total-post-likes', [TotalController::class, 'totalPostLikes']);
+        Route::get('total-post-shares', [TotalController::class, 'totalPostShares']);
+        Route::get('total-post-bookmarks', [TotalController::class, 'totalPostBookmarks']);
+        Route::get('total-comments', [TotalController::class, 'totalPostComments']);
+
+        Route::get('total-interactions', [TotalController::class, 'totalInteractions']);
+
+        Route::get('users-growth', [GrowthStatisticsController::class, 'usersGrowthStatistics']);
+        Route::get('posts-growth', [GrowthStatisticsController::class, 'postsGrowthStatistics']);
+        Route::get('conversations-growth', [GrowthStatisticsController::class, 'conversationsGrowthStatistics']);
+        
+        
+    });
 
 });
