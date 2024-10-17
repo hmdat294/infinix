@@ -60,24 +60,27 @@
                         <a href="" class="accent-text-primary"><i
                                 class="icon-size-24 icon icon-ic_fluent_more_circle_24_filled"></i></a>
                     </div>
-                    <div class="w-hug" (click)="toggle()">
+                    <div class="w-hug" (click)="toggleBoxchat()">
                         <a class="accent-text-primary">
-                            <i *ngIf="!isVisible" class="icon-size-24 icon icon-ic_fluent_panel_left_contract_24_filled"></i>
-                            <i *ngIf="isVisible" class="icon-size-24 icon icon-ic_fluent_panel_right_contract_24_filled"></i>
+                            <i *ngIf="!isVisible"
+                                class="icon-size-24 icon icon-ic_fluent_panel_left_contract_24_filled"></i>
+                            <i *ngIf="isVisible"
+                                class="icon-size-24 icon icon-ic_fluent_panel_right_contract_24_filled"></i>
                         </a>
                     </div>
                 </div>
                 <div #scrollBox class="h-fill w-fill box-chat">
 
-                    <div *ngFor="let msg of conversation.messages; let i = index;" [attr.id]="'item-' + i">
+                    <div *ngFor="let msg of conversation.messages; let i = index;" [attr.id]="'item-' + msg.id">
                         <div class="text-center" *ngIf="isDifferentDate(i)">
-                            <small>{{msg.date}}</small>
+                            <small>{{msg.created_at_date}}</small>
                         </div>
 
                         <div class="w-fill layout align-top-right" *ngIf="(user.id == msg.user_id)">
                             <div class="layout-horizontal gap-15 p-20" style="max-width: 80%;">
                                 <div>
-                                    <p class="text-tertiary text-caption mb-5 layout align-top-right">{{ msg.time }}
+                                    <p class="text-tertiary text-caption mb-5 layout align-top-right">{{
+                                        msg.created_at_time }}
                                     </p>
                                     <div class="mess-hover layout align-center-right" *ngIf="msg.is_recalled == 0">
                                         <div class="mess-menu layout mx-15">
@@ -317,19 +320,57 @@
             </div>
         </div>
         <div *ngIf="isVisible" class="w-fill-column-3 layout-vertical gap-20 py-20 overflow-scroll-vertical">
-            <div
-                class="layout-vertical card-background-default border rounded-8 align-center-center py-20">
+            <div class="layout-vertical card-background-default border rounded-8 align-center-center py-20">
                 <img src="assets/image/avatar.png" alt="" class="mb-15" style="width: 100px; height: 100px;">
                 <p class="text-primary text-body">Châu Thành Cường</p>
                 <p class="text-primary text-caption">Chick2004</p>
             </div>
-            <div class="layout-vertical card-background-default border rounded-8">
 
-                <a href=""
-                    class="layout-horizontal gap-15 px-20 py-15 align-center-center text-accent-default">
-                    <i class="icon-size-20 icon icon-ic_fluent_search_20_regular"></i>
-                    <p class="text-primary text-body w-fill">Search message</p>
-                </a>
+            <div class="layout-vertical card-background-default border rounded-8">
+                <div class="accordion">
+                    <div class="accordion-item">
+                        <div class="a-accordion-header layout-horizontal gap-15 px-20 py-15 align-center-center text-accent-default"
+                            style="cursor: pointer;">
+                            <i *ngIf="!showBoxSearch" class="icon-size-20 icon icon-ic_fluent_search_20_regular"></i>
+                            <p class="text-primary text-body w-fill">Search message</p>
+                            <i *ngIf="showBoxSearch" class="icon-size-20 icon icon-ic_fluent_dismiss_20_regular"></i>
+                        </div>
+                        <div class="accordion-panel">
+                            <div class="layout-vertical p-5 gap-15 px-15 py-10">
+
+                                <div class="control search-control w-fill">
+                                    <input type="search w-fill" (input)="searchMessage()" [(ngModel)]="keyword" placeholder="Tìm kiếm" spellcheck="false" required="">
+                                    <button type="button" class="input-button clear-content-button">
+                                        <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
+                                    </button>
+                                    <button type="button" class="input-button search-button" (click)="searchMessage()">
+                                        <i class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
+                                    </button>
+                                </div>
+
+                                <div class="layout-vertical gap-5" *ngIf="valueSearch.length > 0">
+
+                                    <div *ngFor="let message of valueSearch">
+                                        <div style="cursor: pointer;" (click)="scrollToElement(message.id)"
+                                            class="layout-horizontal align-center-left gap-15 button-standard px-15 py-10">
+                                            <div>
+                                                <img src="assets/image/avatar.png" alt=""
+                                                    style="width: 35px; height: 35px;">
+                                            </div>
+                                            <div class="w-fill">
+                                                <p class="text-body-strong">Châu Thành Cường</p>
+                                                <p class="text-body">{{message.content}}</p>
+                                                <p class="text-caption">{{message.created_at_date}} - {{message.created_at_time}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <a href=""
                     class="layout-horizontal gap-15 px-20 py-15 border-top align-center-center text-accent-default">
                     <i class="icon-size-20 icon icon-ic_fluent_alert_20_regular"></i>
@@ -349,31 +390,31 @@
                     <a href="" class="">
                         <img src="assets/image/hinh.jpg" alt="" class="rounded-4 border w-fill">
                     </a>
-                    
+
                     <a href="" class="">
                         <img src="assets/image/hinh.jpg" alt="" class="rounded-4 border w-fill">
                     </a>
-                    
+
                     <a href="" class="">
                         <img src="assets/image/hinh.jpg" alt="" class="rounded-4 border w-fill">
                     </a>
-                    
+
                     <a href="" class="">
                         <img src="assets/image/hinh.jpg" alt="" class="rounded-4 border w-fill">
                     </a>
-                    
+
                     <a href="" class="">
                         <img src="assets/image/hinh.jpg" alt="" class="rounded-4 border w-fill">
                     </a>
-                    
+
                     <a href="" class="">
                         <img src="assets/image/hinh.jpg" alt="" class="rounded-4 border w-fill">
                     </a>
-                    
+
                     <a href="" class="">
                         <img src="assets/image/hinh.jpg" alt="" class="rounded-4 border w-fill">
                     </a>
-                    
+
                 </div>
             </div>
         </div>

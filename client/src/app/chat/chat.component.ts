@@ -1,10 +1,11 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ChatService } from '../chat.service';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { RightHomeComponent } from '../home/right-home/right-home.component';
 
 @Component({
   selector: 'app-chat',
@@ -13,7 +14,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css',
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   content: string = '';
   conversation: any;
   friends: any;
@@ -31,45 +32,19 @@ export class ChatComponent implements OnInit {
   id_message: number = 0;
 
   isScrollingToElement: boolean = false;
+  isVisible = true;
+  showBoxSearch = false;
 
-  constructor(private chatService: ChatService, private authService: AuthService) { }
+  constructor(private el: ElementRef, private renderer: Renderer2, private chatService: ChatService, private authService: AuthService) { }
 
   @ViewChild('scrollBox') private scrollBox!: ElementRef;
 
-
-
-  isVisible = false;
-
-  toggle() {
-    this.isVisible = !this.isVisible;
-  }
-
-
-  ngAfterViewChecked() {
-    if (!this.isScrollingToElement) {
-      this.scrollBox.nativeElement.scrollTop = this.scrollBox.nativeElement.scrollHeight;
-      this.isScrollingToElement = true;
-    }
-  }
-
-  scrollToElement(index: number) {
-    console.log(index);
-    
-    this.isScrollingToElement = true;
-    const targetElement = document.getElementById(`item-${index - 1}`);
-    if (targetElement) {
-      targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  }
-
   ngOnInit(): void {
 
-    if (localStorage.getItem('auth_token')) {
-      this.authService.getUser(0).subscribe(
-        (response) => {
-          this.user = response.data;
-        });
-    }
+    this.authService.getUser(0).subscribe(
+      (response) => {
+        this.user = response.data;
+      });
 
     this.authService.getFriend().subscribe(
       (data: any) => {
@@ -79,10 +54,49 @@ export class ChatComponent implements OnInit {
 
   }
 
-  isDifferentDate(i: number): boolean {
-    if (i === this.conversation.messages.length - 1) return true;
-    return this.conversation.messages[i].date !== this.conversation.messages[i + 1].date;
+  ngAfterViewInit() {
+    const accordion = this.el.nativeElement.querySelector('.a-accordion-header') as HTMLElement;
+    const panel = this.el.nativeElement.querySelector('.accordion-panel') as HTMLElement;
+
+    accordion.addEventListener('click', () => {
+
+      accordion.classList.toggle('active');
+      panel.classList.toggle('open');
+      this.showBoxSearch = !this.showBoxSearch;
+
+      panel.style.maxHeight = (panel.classList.contains('open')) ? `${panel.scrollHeight}px` : '0px';
+    });
   }
+
+  ngAfterViewChecked() {
+    if (!this.isScrollingToElement) {
+      this.scrollBox.nativeElement.scrollTop = this.scrollBox.nativeElement.scrollHeight;
+      this.isScrollingToElement = true;
+    }
+  }
+
+  toggleBoxchat() {
+    this.isVisible = !this.isVisible;
+  }
+
+
+  scrollToElement(index: number) {
+    console.log(index);
+
+    this.isScrollingToElement = true;
+    const targetElement = document.getElementById(`item-${index}`);
+    
+    if (targetElement) {
+      targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+
+  isDifferentDate(i: number): boolean {
+    if (i === 0) return true;
+    return this.conversation.messages[i].created_at_date !== this.conversation.messages[i - 1].created_at_date;
+  }
+
 
   isDifferentUser(i: number, id: number): boolean {
     if (i === this.conversation.messages.length - 1) return true;
@@ -264,4 +278,19 @@ export class ChatComponent implements OnInit {
     this.previewReply = null;
   }
 
+  keyword: string = '';
+  valueSearch: any = [];
+
+  searchMessage(): void {
+    if (this.keyword && !/^\s*$/.test(this.keyword)) {
+      this.valueSearch = this.conversation.messages.filter((msg: any) =>
+        msg.content && msg.content.toLowerCase().includes(this.keyword.toLowerCase().trim())
+      );
+      this.valueSearch.reverse();
+      // console.log(this.valueSearch);
+    }
+    else {
+      this.valueSearch = [];
+    }
+  }
 }

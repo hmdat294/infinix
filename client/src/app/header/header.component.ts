@@ -13,7 +13,7 @@ import { AuthService } from '../auth.service';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
-  listUser: any = [];;
+  listUser: any = [];
   user: any;
   friends: any = [];
   keyword: string = '';

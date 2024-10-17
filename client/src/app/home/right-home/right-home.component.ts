@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../auth.service';
 import { CommonModule } from '@angular/common';
@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './right-home.component.html',
   styleUrl: './right-home.component.css'
 })
-export class RightHomeComponent implements OnInit {
+export class RightHomeComponent implements OnInit, AfterViewInit {
   user: any = [];
   friends: any = [];
 
@@ -24,25 +24,23 @@ export class RightHomeComponent implements OnInit {
     }
 
     this.authService.getFriend().subscribe(
-      (response) => this.friends = response)
+      (response) => this.friends = response);
 
-    this.accordion();
   }
 
-  accordion() {
-    const headers = this.el.nativeElement.querySelectorAll('.a-accordion-header') as NodeListOf<HTMLElement>;
+  ngAfterViewInit() {
+    const accordion = this.el.nativeElement.querySelector('.a-accordion-header') as HTMLElement;
+    const panel = this.el.nativeElement.querySelector('.accordion-panel') as HTMLElement;
 
-    headers.forEach((header: HTMLElement) => {
-      this.renderer.listen(header, 'click', () => {
-        const panel = header.nextElementSibling as HTMLElement;
+    accordion.addEventListener('click', () => {
 
-        header.classList.toggle('active');
-        panel.classList.toggle('open');
+      accordion.classList.toggle('active');
+      panel.classList.toggle('open');
 
-        panel.style.maxHeight = (panel.classList.contains('open')) ? `${panel.scrollHeight}px` : '0px';
-      });
+      panel.style.maxHeight = (panel.classList.contains('open')) ? `${panel.scrollHeight}px` : '0px';
     });
   }
+
 
   logout(): void {
     this.authService.logout().subscribe(
