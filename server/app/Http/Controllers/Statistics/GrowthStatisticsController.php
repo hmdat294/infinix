@@ -21,24 +21,72 @@ class GrowthStatisticsController extends Controller
      * @param Request $request
      * 
      * @paramBody type : Loại thống kê (date, month, year)
+     * @paramBody from : Ngày bắt đầu
+     * @paramBody to : Ngày kết thúc
      * 
      * @return JsonResponse
      */
     public function usersGrowthStatistics(Request $request)
     {
         $type = $request->get('type', 'date');
+        $from = $request->get('from');
+        $to = $request->get('to');
 
+        $query = UserModel::query();
+    
+        if ($from && $to) {
+            $query->whereBetween('created_at', [$from, $to]);
+        }
+    
         switch ($type) {
             case 'date':
-                return response()->json(UserModel::selectRaw('DATE(created_at) as date, COUNT(*) as total') ->groupBy('date') ->get());
+                $statistics = $query->selectRaw('DATE(created_at) as date, COUNT(*) as total')
+                    ->groupBy('date')
+                    ->orderBy('date', 'asc')
+                    ->get();
+                break;
+    
             case 'month':
-                return response()->json(UserModel::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, COUNT(*) as total') ->groupBy('year', 'month') ->get());
+                $statistics = $query->selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, COUNT(*) as total')
+                    ->groupBy('year', 'month')
+                    ->orderByRaw('year, month')
+                    ->get();
+                break;
+    
             case 'year':
-                return response()->json(UserModel::selectRaw('YEAR(created_at) as year, COUNT(*) as total') ->groupBy('year') ->get());
+                $statistics = $query->selectRaw('YEAR(created_at) as year, COUNT(*) as total')
+                    ->groupBy('year')
+                    ->orderBy('year', 'asc')
+                    ->get();
+                break;
+    
             default:
                 return response()->json(['error' => 'Invalid type'], 400);
         }
+    
+        $cumulativeTotal = 0;
+        $statistics = $statistics->map(function ($item) use (&$cumulativeTotal, $type) {
+            $cumulativeTotal += $item->total;
+    
+            
+            if ($type === 'date') {
+                $formattedDate = $item->date;
+            } elseif ($type === 'month') {
+                $formattedDate = sprintf('%d-%02d', $item->year, $item->month);
+            } elseif ($type === 'year') {
+                $formattedDate = $item->year;
+            }
+    
+            return [
+                'date' => $formattedDate,
+                'total' => $item->total,
+                'cumulative_total' => $cumulativeTotal,
+            ];
+        });
+    
+        return response()->json($statistics);
     }
+    
 
     /**
      * Thống kê tăng trưởng bài viết
@@ -52,17 +100,62 @@ class GrowthStatisticsController extends Controller
     public function postsGrowthStatistics(Request $request)
     {
         $type = $request->get('type', 'date');
+        $from = $request->get('from');
+        $to = $request->get('to');
 
+        $query = PostModel::query();
+    
+        if ($from && $to) {
+            $query->whereBetween('created_at', [$from, $to]);
+        }
+    
         switch ($type) {
             case 'date':
-                return response()->json(PostModel::selectRaw('DATE(created_at) as date, COUNT(*) as total') ->groupBy('date') ->get());
+                $statistics = $query->selectRaw('DATE(created_at) as date, COUNT(*) as total')
+                    ->groupBy('date')
+                    ->orderBy('date', 'asc')
+                    ->get();
+                break;
+    
             case 'month':
-                return response()->json(PostModel::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, COUNT(*) as total') ->groupBy('year', 'month') ->get());
+                $statistics = $query->selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, COUNT(*) as total')
+                    ->groupBy('year', 'month')
+                    ->orderByRaw('year, month')
+                    ->get();
+                break;
+    
             case 'year':
-                return response()->json(PostModel::selectRaw('YEAR(created_at) as year, COUNT(*) as total') ->groupBy('year') ->get());
+                $statistics = $query->selectRaw('YEAR(created_at) as year, COUNT(*) as total')
+                    ->groupBy('year')
+                    ->orderBy('year', 'asc')
+                    ->get();
+                break;
+    
             default:
                 return response()->json(['error' => 'Invalid type'], 400);
         }
+    
+        $cumulativeTotal = 0;
+        $statistics = $statistics->map(function ($item) use (&$cumulativeTotal, $type) {
+            $cumulativeTotal += $item->total;
+    
+            
+            if ($type === 'date') {
+                $formattedDate = $item->date;
+            } elseif ($type === 'month') {
+                $formattedDate = sprintf('%d-%02d', $item->year, $item->month);
+            } elseif ($type === 'year') {
+                $formattedDate = $item->year;
+            }
+    
+            return [
+                'date' => $formattedDate,
+                'total' => $item->total,
+                'cumulative_total' => $cumulativeTotal,
+            ];
+        });
+    
+        return response()->json($statistics);
     }
 
     /**
@@ -77,16 +170,61 @@ class GrowthStatisticsController extends Controller
     public function conversationsGrowthStatistics(Request $request)
     {
         $type = $request->get('type', 'date');
+        $from = $request->get('from');
+        $to = $request->get('to');
 
+        $query = ConversationModel::query();
+    
+        if ($from && $to) {
+            $query->whereBetween('created_at', [$from, $to]);
+        }
+    
         switch ($type) {
             case 'date':
-                return response()->json(ConversationModel::selectRaw('DATE(created_at) as date, COUNT(*) as total') ->groupBy('date') ->get());
+                $statistics = $query->selectRaw('DATE(created_at) as date, COUNT(*) as total')
+                    ->groupBy('date')
+                    ->orderBy('date', 'asc')
+                    ->get();
+                break;
+    
             case 'month':
-                return response()->json(ConversationModel::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, COUNT(*) as total') ->groupBy('year', 'month') ->get());
+                $statistics = $query->selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, COUNT(*) as total')
+                    ->groupBy('year', 'month')
+                    ->orderByRaw('year, month')
+                    ->get();
+                break;
+    
             case 'year':
-                return response()->json(ConversationModel::selectRaw('YEAR(created_at) as year, COUNT(*) as total') ->groupBy('year') ->get());
+                $statistics = $query->selectRaw('YEAR(created_at) as year, COUNT(*) as total')
+                    ->groupBy('year')
+                    ->orderBy('year', 'asc')
+                    ->get();
+                break;
+    
             default:
                 return response()->json(['error' => 'Invalid type'], 400);
         }
+    
+        $cumulativeTotal = 0;
+        $statistics = $statistics->map(function ($item) use (&$cumulativeTotal, $type) {
+            $cumulativeTotal += $item->total;
+    
+            
+            if ($type === 'date') {
+                $formattedDate = $item->date;
+            } elseif ($type === 'month') {
+                $formattedDate = sprintf('%d-%02d', $item->year, $item->month);
+            } elseif ($type === 'year') {
+                $formattedDate = $item->year;
+            }
+    
+            return [
+                'date' => $formattedDate,
+                'total' => $item->total,
+                'cumulative_total' => $cumulativeTotal,
+            ];
+        });
+    
+        return response()->json($statistics);
     }
 }
