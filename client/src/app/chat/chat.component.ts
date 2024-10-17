@@ -63,9 +63,31 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
       accordion.classList.toggle('active');
       panel.classList.toggle('open');
       this.showBoxSearch = !this.showBoxSearch;
+      // this.keywordSearch = '';
+      // this.searchMessage();
 
       panel.style.maxHeight = (panel.classList.contains('open')) ? `${panel.scrollHeight}px` : '0px';
     });
+
+
+
+
+    // document.querySelectorAll('.dialog').forEach(dialog => {
+    //   var button = dialog.querySelector('button');
+    //   var panel = dialog.querySelector('.dialog-panel');
+
+    //   button.addEventListener('click', function () {
+    //     dialog.classList.toggle('visible');
+    //   });
+
+    //   panel.querySelectorAll('button').forEach(button => {
+    //     button.addEventListener('click', function () {
+    //       dialog.classList.remove('visible');
+    //     });
+    //   });
+    // });
+
+
   }
 
   ngAfterViewChecked() {
@@ -85,7 +107,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
     this.isScrollingToElement = true;
     const targetElement = document.getElementById(`item-${index}`);
-    
+
     if (targetElement) {
       targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
@@ -278,13 +300,13 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     this.previewReply = null;
   }
 
-  keyword: string = '';
+  keywordSearch: string = '';
   valueSearch: any = [];
 
   searchMessage(): void {
-    if (this.keyword && !/^\s*$/.test(this.keyword)) {
+    if (this.keywordSearch && !/^\s*$/.test(this.keywordSearch)) {
       this.valueSearch = this.conversation.messages.filter((msg: any) =>
-        msg.content && msg.content.toLowerCase().includes(this.keyword.toLowerCase().trim())
+        msg.content && msg.content.toLowerCase().includes(this.keywordSearch.toLowerCase().trim())
       );
       this.valueSearch.reverse();
       // console.log(this.valueSearch);

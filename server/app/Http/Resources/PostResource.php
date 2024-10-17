@@ -24,6 +24,7 @@ class PostResource extends JsonResource
             'created_at_date' => $this->created_at->format('Y-m-d'),
             'updated_at_time' => $this->updated_at->format('H:i'),
             'updated_at_date' => $this->updated_at->format('Y-m-d'),
+            'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'profile' => new ProfileResource($this->user->profile),
             'comments' => CommentResource::collection($this->comments),
             'medias' => PostMediaResource::collection($this->medias),
