@@ -1,25 +1,28 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
-
 export class AuthGuard implements CanActivate {
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
-  canActivate(): boolean {
-    // Kiểm tra xem người dùng đã đăng nhập hay chưa
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     const token = localStorage.getItem('auth_token');
 
     if (token) {
-      // Nếu có token, cho phép truy cập route
+      if (state.url === '/landing-page' || state.url === '/login' || state.url === '/register') {
+        this.router.navigate(['/']);
+        return false;
+      }
       return true;
     } else {
-      // Nếu không có token, chuyển hướng về trang login
-      this.router.navigate(['/login']);
-      return false;
+      if (state.url != '/landing-page' && state.url != '/login' && state.url != '/register') {
+        this.router.navigate(['/landing-page']);
+        return false;
+      }
+      return true;
     }
   }
 }

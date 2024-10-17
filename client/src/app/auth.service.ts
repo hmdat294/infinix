@@ -12,15 +12,12 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   getToken(): HttpHeaders {
-    const authToken = localStorage.getItem('auth_token') || '';
-    return new HttpHeaders({
-      'Authorization': `Bearer ${authToken}`
-    });
+    return new HttpHeaders({ 'Authorization': `Bearer ${localStorage.getItem('auth_token') || ''}` });
   }
 
   getUser(id: number): Observable<any> {
     const headers = this.getToken();
-    return this.http.get(`${this.apiUrl}/user/${(id>=0) ? id : ''}`, { headers });
+    return this.http.get(`${this.apiUrl}/user/${(id >= 0) ? id : ''}`, { headers });
   }
 
   getListUser(): Observable<any> {
@@ -53,22 +50,24 @@ export class AuthService {
 
   getFriend(): Observable<any> {
     const headers = this.getToken();
-    return this.http.get(`${this.apiUrl}/friend`, { headers });
+    return this.http.get(`${this.apiUrl}/get-friends`, { headers });
   }
 
   getRequestFriend(): Observable<any> {
     const headers = this.getToken();
-    return this.http.get(`${this.apiUrl}/requestfriend`, { headers });
+    return this.http.get(`${this.apiUrl}/friend-request`, { headers });
   }
 
   addFriend(receiver_id: number): Observable<any> {
     const headers = this.getToken();
-    return this.http.post(`${this.apiUrl}/add-friend`, { 'receiver_id': receiver_id }, { headers });
+    return this.http.post(`${this.apiUrl}/friend-request`, { 'receiver_id': receiver_id }, { headers });
   }
 
-  acceptFriend(id: number): Observable<any> {
+  acceptFriend(request:any): Observable<any> {
+    console.log(request);
+    
     const headers = this.getToken();
-    return this.http.patch(`${this.apiUrl}/accept-friend/${id}`, {}, { headers });
+    return this.http.patch(`${this.apiUrl}/friend-request/${request.id}`, { 'status': request.status }, { headers });
   }
 
   refuseFriend(id: number): Observable<any> {

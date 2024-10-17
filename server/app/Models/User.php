@@ -30,12 +30,12 @@ class User extends Authenticatable
 
     public function friendsOf()
     {
-        return $this->belongsToMany(User::class, 'relationships', 'user_id', 'related_user_id');
+        return $this->belongsToMany(User::class, 'relationships', 'user_id', 'related_user_id')->wherePivot('type', 'friend');
     }
 
     public function friendsOfMine()
     {
-        return $this->belongsToMany(User::class, 'relationships', 'related_user_id', 'user_id');
+        return $this->belongsToMany(User::class, 'relationships', 'related_user_id', 'user_id')->wherePivot('type', 'friend');
     }
 
 
@@ -47,12 +47,12 @@ class User extends Authenticatable
 
     public function followings()
     {
-        return $this->belongsToMany(User::class, 'relationships', 'related_user_id', 'user_id');
+        return $this->belongsToMany(User::class, 'relationships', 'related_user_id', 'user_id')->wherePivot('type', 'follow');
     }
 
     public function followers()
     {
-        return $this->belongsToMany(User::class, 'relationships', 'user_id', 'related_user_id');
+        return $this->belongsToMany(User::class, 'relationships', 'user_id', 'related_user_id')->wherePivot('type', 'follow');
     }
 
     public function posts()

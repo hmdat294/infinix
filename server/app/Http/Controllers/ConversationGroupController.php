@@ -5,11 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Resources\ConversationResource;
 use App\Models\Conversation as ConversationModel;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\JsonResponse;
 
 class ConversationGroupController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Danh sách cuộc trò chuyện của người dùng
+     * 
+     * @param Request $request
+     * 
+     * @return AnonymousResourceCollection
      */
     public function index(Request $request)
     {
@@ -18,7 +24,16 @@ class ConversationGroupController extends Controller
         return ConversationResource::collection($conversations);
     }
 
-    
+    /**
+     * Tạo cuộc trò chuyện nhóm
+     * 
+     * @param Request $request
+     * 
+     * @bodyParam name : Tên cuộc trò chuyện
+     * @bodyParam image : file Hình ảnh đại diện cho cuộc trò chuyện
+     * 
+     * @return ConversationResource
+     */
     public function store(Request $request)
     {
         $conversation_data = $request->only(['name', 'image']);
@@ -36,6 +51,13 @@ class ConversationGroupController extends Controller
     }
 
     
+    /**
+     * Xem thông tin cuộc trò chuyện nhóm
+     * 
+     * @param string $id
+     * 
+     * @return ConversationResource
+     */
     public function show(string $id)
     {
         $conversation = ConversationModel::find($id);
@@ -43,6 +65,17 @@ class ConversationGroupController extends Controller
     }
 
     
+    /**
+     * Cập nhật thông tin cuộc trò chuyện nhóm
+     * 
+     * @param Request $request
+     * @param string $id
+     * 
+     * @bodyParam name : Tên cuộc trò chuyện
+     * @bodyParam image : file Hình ảnh đại diện cho cuộc trò chuyện
+     * 
+     * @return ConversationResource
+     */
     public function update(Request $request, string $id)
     {
         $conversation = ConversationModel::find($id);
@@ -57,6 +90,13 @@ class ConversationGroupController extends Controller
     }
 
     
+    /**
+     * Xóa cuộc trò chuyện nhóm
+     * 
+     * @param string $id
+     * 
+     * @return JsonResponse
+     */
     public function destroy(string $id)
     {
         $conversation = ConversationModel::find($id);

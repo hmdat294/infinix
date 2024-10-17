@@ -10,4 +10,10 @@ class MessageMedia extends Model
     use HasFactory;
 
     protected $table = 'message_medias';
+
+    protected $fillable = [
+        'message_id',
+        'type',
+        'path',
+    ];
 }

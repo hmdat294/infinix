@@ -13,23 +13,18 @@ import { Router, RouterModule } from '@angular/router';
 })
 export class LoginComponent {
 
+  error: string = '';
   constructor(private authService: AuthService, private router: Router) { }
 
   login(value: any) {
-    // console.log(value.value);
-
     this.authService.login(value.value).subscribe(
       (response) => {
         console.log(response);
         if (response.token) {
-
           localStorage.setItem('auth_token', response.token);
           this.router.navigate(['/']);
           setTimeout(() => location.reload(), 50);
-
-        } else {
-          alert(response.message);
-        }
+        } else this.error = response.message;
       }
     );
   }

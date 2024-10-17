@@ -11,6 +11,8 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\JsonResponse;
 use App\Events\UserPostEvent;
+use App\Models\DisabledNotification as DisabledNotificationModel;
+use App\Models\Notification;
 
 class PostController extends Controller
 {
@@ -88,6 +90,8 @@ class PostController extends Controller
         }
 
         broadcast(new UserPostEvent($post->user_id, $post->id, $post->content))->toOthers();
+
+        $this->sendNotification($post);
 
         return new PostResource($post);
     }
@@ -182,9 +186,19 @@ class PostController extends Controller
         ]);
     }
 
-    public function vote(Request $request, string $id)
+    /**
+     * Bình chọn cho một lựa chọn trong bài viết có poll
+     * 
+     * @param Request $request
+     * @param string $id : Id của lựa chọn (poll_option)
+     * 
+     * @response 400 : Bạn đã bình chọn cho lựa chọn này rồi
+     * 
+     * @return PostResource
+     */
+    public function vote(Request $request, string $poll_option_id)
     {
-        $option = PollOption::find($id);
+        $option = PollOption::find($poll_option_id);
 
         if ($option->votes()->where('user_id', $request->user()->id)->exists()) {
             return response()->json([
@@ -196,5 +210,48 @@ class PostController extends Controller
             'poll_option_id' => $option->id,
             'user_id' => $request->user()->id,
         ]);
+
+        return new PostResource($option->poll->post);
+    }
+
+    public function sendNotification($post)
+    {
+        $user = $post->user;
+        $user_id = $user->id;
+
+        $friends = $user->friendsOf->concat($user->friendsOfMine);
+        $followers = $user->followers;
+
+        $recipients = $friends->concat($followers);
+
+        $recipient_ids = $recipients->pluck('id');
+
+        Log::info('friends and follower ids: '.$recipient_ids);
+
+        $disabled_notification_users = DisabledNotificationModel::whereNotIn('user_id', $recipient_ids)
+            ->orWhere(function ($query) use ($user_id) {
+                $query->where('target_user_id', '!=', $user_id);
+            })->pluck('user_id');
+
+        Log::info('disabled_notification_users: '.$disabled_notification_users);
+
+        $recipients_id = $recipient_ids->diff($disabled_notification_users);
+
+        Log::info('recipients_id: '.$recipients_id);
+
+        $recipients = $recipients->whereIn('id', $recipients_id);
+
+        Log::info('recipients: '.$recipients);
+
+        foreach ($recipients as $recipient) {
+            Notification::create([
+                'user_id' => $recipient->id,
+                'target_user_id' => $user_id,
+                'post_id' => $post->id,
+                'type' => 'user',
+                'action_type' => 'user_create_post',
+                'content' => $post->content,
+            ]);
+        }
     }
 }
