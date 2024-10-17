@@ -16,6 +16,8 @@ use App\Http\Controllers\Statistics\GrowthStatisticsController;
 use App\Http\Controllers\Statistics\TotalController;
 use App\Http\Middleware\UpdateUserLastActivity;
 
+use App\Models\User as UserModel;
+
 use App\Http\Resources\UserResource;
 
 
@@ -33,6 +35,13 @@ Route::middleware(['guest'])->group(function () {
 });
 
 Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(function () {
+
+    Route::get('test', function (Request $request) {
+        $recipient_id_array = UserModel::find($request->user()->id)->friendsOf->concat(UserModel::find($request->user()->id)->friendsOfMine)->pluck('id');
+        $recipient_id_array[] = $request->user()->id;
+        $recipient_id_array = $recipient_id_array->concat(UserModel::find($request->user()->id)->followers->pluck('id'));
+        return response()->json($recipient_id_array);
+    });
 
     // Đăng xuất
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
@@ -123,5 +132,9 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
         
         
     });
-
+    /**
+     * 
+     *  Lấy danh sách bài đăng của bạn bè
+     * 
+     */
 });

@@ -20,7 +20,7 @@ class ConversationResource extends JsonResource
         $data['updated_at_time'] = $this->updated_at->format('H:i');
         $data['updated_at_date'] = $this->updated_at->format('Y-m-d');
         $data['messages'] = MessageResource::collection($this->messages);
-        $data['users'] = MessageResource::collection($this->users);
+        $data['users'] = UserResource::collection($this->users);
 
         return $data;
     }

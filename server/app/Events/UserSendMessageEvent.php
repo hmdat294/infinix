@@ -12,23 +12,23 @@ use Illuminate\Queue\SerializesModels;
 use App\Models\User as UserModel;
 use Illuminate\Support\Facades\Log;
 
-use function Pest\Laravel\json;
-
-class UserPostEvent implements ShouldBroadcast
+class UserSendMessageEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     protected $user_id;
-    protected $post_id;
+    protected $message_id;
     protected $content;
-    public function __construct($user_id, $post_id, $content)
+
+
+    public function __construct($user_id, $message_id, $content)
     {
         $this->user_id = $user_id;
-        $this->post_id = $post_id;
+        $this->message_id = $message_id;
         $this->content = $content;
     }
 
-    
+
     public function broadcastOn(): array
     {
         $recipient_id_array = UserModel::find($this->user_id)->friendsOf->concat(UserModel::find($this->user_id)->friendsOfMine)->pluck('id');
@@ -37,18 +37,10 @@ class UserPostEvent implements ShouldBroadcast
         
         $channel_array = [];
         foreach ($recipient_id_array as $recipient_id) {
-            $channel_array[] = new Channel('user.' . $recipient_id);
+            $channel_array[] = new PrivateChannel('user.' . $recipient_id);
         }
-
         return $channel_array;
     }
 
-    public function broadcastWith(): array
-    {
-        return [
-            'user_id' => $this->user_id,
-            'post_id' => $this->post_id,
-            'content' => $this->content,
-        ];
-    }
+
 }

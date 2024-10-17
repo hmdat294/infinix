@@ -89,7 +89,7 @@ class PostController extends Controller
             }
         }
 
-        broadcast(new UserPostEvent($post->user_id, $post->id, $post->content))->toOthers();
+        event(new UserPostEvent($post->user_id, $post->id, $post->content));
 
         $this->sendNotification($post);
 
