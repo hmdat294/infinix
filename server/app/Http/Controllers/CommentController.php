@@ -120,8 +120,21 @@ class CommentController extends Controller
         return new CommentResource($comment);
     }
     
+    /**
+     * Xóa bình luận
+     * 
+     * @param string $id
+     * 
+     * @response 204 : Bình luận được xóa thành công
+     * 
+     * @return void | JsonResponse
+     */
     public function destroy(string $id)
     {
         CommentModel::destroy($id);
+
+        return response()->json([
+            'message' => 'Comment deleted.',
+        ], 204);
     }
 }

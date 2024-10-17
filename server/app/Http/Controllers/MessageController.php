@@ -11,7 +11,18 @@ use App\Models\Message as MessageModel;
 class MessageController extends Controller
 {
 
-    
+    /**
+     * Tạo tin nhắn trong hội thoại
+     * 
+     * @param Request $request
+     * 
+     * @bodyParam conversation_id : Id của cuộc trò chuyện
+     * @bodyParam reply_to_message_id : Id của tin nhắn mà tin nhắn này trả lời
+     * @bodyParam content : Nội dung tin nhắn
+     * @bodyParam medias : các phương tiện đi kèm
+     * 
+     * @return MessageResource
+     */
     public function store(Request $request)
     {
         $conversation = ConversationModel::find($request->conversation_id);
@@ -34,8 +45,15 @@ class MessageController extends Controller
 
         return new MessageResource($message);
     }
-    
 
+
+    /**
+     * Xem thông tin tin nhắn
+     * 
+     * @param string $id
+     * 
+     * @return MessageResource
+     */
     public function show(string $id)
     {
         $message = MessageModel::find($id);
@@ -44,21 +62,36 @@ class MessageController extends Controller
     }
 
 
-    
+    /**
+     * Cập nhật tin nhắn
+     * 
+     * @param Request $request
+     * @param string $id
+     * 
+     * @bodyParam content : Nội dung tin nhắn
+     * @bodyParam is_recalled : Tin nhắn đã bị thu hồi hay chưa
+     * 
+     * @return MessageResource
+     */
     public function update(Request $request, string $id)
     {
+
         $message = MessageModel::find($id);
 
-        $message->update($request->only('content'));
-        if ($request->is_recalled) {
-            $message->update(['is_recalled' => true]);
+        if ($request->has('content')) {
+            $message->update($request->only('content'));
         }
-        $message->is_edited = true;
+        
+        if ($request->has('is_recalled')) {
+            $message->update($request->only('is_recalled'));
+        }
+        
+        $message->is_edited = 1;
+        $message->save();
 
         if($message->is_recalled) {
             $message->medias()->delete();
         }
-
 
         return new MessageResource($message);
     }
