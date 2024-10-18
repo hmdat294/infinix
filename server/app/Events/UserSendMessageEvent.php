@@ -2,6 +2,8 @@
 
 namespace App\Events;
 
+use App\Http\Resources\MessageResource;
+use App\Models\Message as MessageModel;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -31,16 +33,23 @@ class UserSendMessageEvent implements ShouldBroadcast
 
     public function broadcastOn(): array
     {
-        $recipient_id_array = UserModel::find($this->user_id)->friendsOf->concat(UserModel::find($this->user_id)->friendsOfMine)->pluck('id');
-        $recipient_id_array[] = $this->user_id;
-        $recipient_id_array = $recipient_id_array->concat(UserModel::find($this->user_id)->followers->pluck('id'));
-        
+
+        $conversation = MessageModel::find($this->message_id)->conversation;
+        $recipient_id_array = $conversation->users->pluck('id');
+
         $channel_array = [];
         foreach ($recipient_id_array as $recipient_id) {
-            $channel_array[] = new PrivateChannel('user.' . $recipient_id);
+            $channel_array[] = new Channel('user.' . $recipient_id);
         }
+        
         return $channel_array;
     }
 
-
+    public function broadcastWith()
+    {
+        $message = MessageModel::find($this->message_id);
+        return [
+            "data" => new MessageResource($message),
+        ];
+    }
 }

@@ -7,6 +7,7 @@ use App\Models\Conversation;
 use Illuminate\Http\Request;
 use App\Models\Conversation as ConversationModel;
 use App\Models\Message as MessageModel;
+use App\Events\UserSendMessageEvent;
 
 class MessageController extends Controller
 {
@@ -42,7 +43,7 @@ class MessageController extends Controller
                 ]);
             }
         }
-
+        event(new UserSendMessageEvent($request->user()->id, $message->id, $message->content));
         return new MessageResource($message);
     }
 
