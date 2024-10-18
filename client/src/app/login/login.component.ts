@@ -27,7 +27,13 @@ export class LoginComponent {
         console.log(response);
         if (response.token) {
           localStorage.setItem('auth_token', response.token);
-          this.router.navigate(['/']);
+
+          this.authService.getUser(0).subscribe(
+            (response) => {
+              if (response.data.permissions[4]) this.router.navigate(['/admin']);
+              else this.router.navigate(['/']);
+            });
+
         } else this.error = response.message;
       }
     );

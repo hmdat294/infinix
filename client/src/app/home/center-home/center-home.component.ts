@@ -29,10 +29,12 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.postService.getPost().subscribe(
       (data) => {
-        this.listPost = data;
+        this.listPost = data.data;
+        console.log(this.listPost);
 
         this.postService.bindEventPost('App\\Events\\UserPostEvent', (data: any) => {
           console.log('Post event:', data);
+          this.listPost.unshift(data.data);
         });
       });
   }

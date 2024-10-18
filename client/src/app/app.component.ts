@@ -6,7 +6,7 @@ import { HeaderDefaultComponent } from "./header-default/header-default.componen
 import { HeaderAdminComponent } from "./admin/header-admin/header-admin.component";
 import { AuthService } from './auth.service';
 import { NavComponent } from "./admin/nav/nav.component";
-
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -17,21 +17,23 @@ import { NavComponent } from "./admin/nav/nav.component";
 })
 export class AppComponent implements OnInit {
   isLoggedIn: boolean = false;
+  isAdmin: boolean = false;
 
   constructor(private router: Router, private authService: AuthService) { }
   ngOnInit(): void {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.isLoggedIn = (localStorage.getItem('auth_token')) ? true : false;
-        // console.log(this.isLoggedIn);
-        if (localStorage.getItem('auth_token')) {
-          this.authService.getUser(0).subscribe(
-            (response) => {
-              // console.log(response);
-            });
-        }
       }
     });
+
+    this.router.events.pipe(
+      filter((event: any) => event instanceof NavigationEnd)).subscribe(
+        (event: any) => {
+          const urlSegments = event.urlAfterRedirects.split('/');
+          this.isAdmin = (urlSegments[1] == 'admin') ? true : false;
+        }
+      );
   }
 
 }
