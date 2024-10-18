@@ -1,0 +1,7 @@
+.css-grid-5{
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+}
+.css-grid-5>div{
+    text-align: center;
+}
