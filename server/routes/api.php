@@ -6,12 +6,15 @@ use App\Http\Controllers\VerificationCodeController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\FriendRequestController;
-use App\Http\Controllers\CommentController;
+use App\Http\Controllers\PostCommentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\ConversationGroupController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\DashboardStatisticsController;
+use App\Http\Controllers\PostLikeController;
+use App\Http\Controllers\PostBookmarkController;
+use App\Http\Controllers\PostShareController;
 use App\Http\Controllers\Statistics\GrowthStatisticsController;
 use App\Http\Controllers\Statistics\TotalController;
 use App\Http\Middleware\UpdateUserLastActivity;
@@ -62,9 +65,24 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
     ->parameters(['user' => 'id']);
 
     // API cho bình luận
-    Route::resource('comment', CommentController::class)
+    Route::resource('comment', PostCommentController::class)
     ->only(['index', 'store', 'show', 'update', 'destroy'])
     ->parameters(['comment' => 'id']);
+
+    // Like bài viết
+    Route::resource('like', PostLikeController::class)
+    ->only(['index', 'store', 'destroy'])
+    ->parameters(['like' => 'post-id']);
+
+    // Share bài viết
+    Route::resource('share', PostShareController::class)
+    ->only(['index', 'store', 'destroy'])
+    ->parameters(['share' => 'post-id']);
+
+    // Bookmark bài viết
+    Route::resource('bookmark', PostBookmarkController::class)
+    ->only(['index', 'store', 'destroy'])
+    ->parameters(['bookmark' => 'post-id']);
 
     // API cho hội thoại đơn (theo user_id)
     Route::resource('chat', ConversationController::class)
@@ -86,11 +104,8 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
     ->only(['store', 'show', 'update'])
     ->parameters(['message' => 'id']);
 
-
-    
-
     // Lấy bình luận của một bài viết
-    Route::get('post/{post_id}/comments', [CommentController::class, 'index'])->name('comments.index');
+    Route::get('post/{post_id}/comments', [PostCommentController::class, 'index'])->name('comments.index');
 
     // Lấy bài viết của một người dùng
     Route::get('user/{user_id}/posts', [PostController::class, 'index'])->name('posts.index');
@@ -112,6 +127,7 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
 
     // Bình chọn cho một bài viết có poll (theo poll_option_id)
     Route::post('vote/{id}', [PostController::class, 'vote'])->name('post.vote');
+
 
     // thống kê
     Route::prefix('statistics')->group(function () {
@@ -136,9 +152,4 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
         Route::get('report/{type}', [TotalController::class, 'show']);
         
     });
-    /**
-     * 
-     *  Lấy danh sách bài đăng của bạn bè
-     * 
-     */
 });
