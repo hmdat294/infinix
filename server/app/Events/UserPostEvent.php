@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Http\Resources\PostResource;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -11,6 +12,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\User as UserModel;
 use Illuminate\Support\Facades\Log;
+use App\Models\Post as PostModel;
 
 use function Pest\Laravel\json;
 
@@ -43,12 +45,9 @@ class UserPostEvent implements ShouldBroadcast
         return $channel_array;
     }
 
-    public function broadcastWith(): array
+    public function broadcastWith()
     {
-        return [
-            'user_id' => $this->user_id,
-            'post_id' => $this->post_id,
-            'content' => $this->content,
-        ];
+        $post = PostModel::find($this->post_id);
+        return new PostResource($post);
     }
 }
