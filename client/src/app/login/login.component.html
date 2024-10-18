@@ -1,7 +1,23 @@
-<section class="gradient-background layout-vertical" style="height: 100vh;">
+<section class="gradient-background layout-vertical overflow-hidden" style="height: 100vh;">
+
+    <div class="bg-page-login-left">
+        <img style="left: 550px; top: 450px;" src="assets/image/3d-glassy-wide-wavy-gradient-ribbon 1.png" alt=""
+            class="position-absolute moving moving-delay-1">
+        <img style="left: 350px; top: 150px;" src="assets/image/3d-glassy-two-deformed-thin-lenses 2.png" alt=""
+            class="position-absolute moving moving-delay-2">
+        <img style="left: 250px; top: 500px;" src="assets/image/3d-glassy-bent-transparent-striped-plastic-card 1.png"
+            alt="" class="position-absolute moving moving-delay-3">
+    </div>
+    <div class="bg-page-login-right">
+        <img style="right: 200px; top: 250px;" src="assets/image/3d-glassy-flexible-display-with-contact-list 1.png"
+            alt="" class="position-absolute moving moving-delay-1">
+        <img style="right: 550px; top: 100px;" src="assets/image/3d-glassy-bent-plastic-card 2.png" alt=""
+            class="position-absolute moving moving-delay-2">
+    </div>
+
     <article class="layout-vertical w-fill h-fill align-center-center">
         <form (submit)="login(frm)" #frm="ngForm"
-            class="layout-vertical card-background-default border border-card-default rounded-8 p-25 gap-25 shadow-card"
+            class="layout-vertical acrylic-background-default blur-acrylic border border-card-default rounded-8 p-25 gap-25 shadow-card"
             style="width: 400px;">
 
             <p *ngIf="error" class="validation-message validation-critical text-body text-primary">

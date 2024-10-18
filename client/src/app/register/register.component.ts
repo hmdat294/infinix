@@ -21,10 +21,18 @@ export class RegisterComponent {
   }
 
   register(value: any) {
+    const bg_left = document.querySelector('.bg-page-login-left') as HTMLElement;
+    const bg_right = document.querySelector('.bg-page-login-right') as HTMLElement;
+    bg_left.classList.add('bg-animation-left');
+    bg_right.classList.add('bg-animation-right');
+
     this.authService.register(value.value).subscribe(
       (response) => {
         console.log(response);
-        if (response.token) this.router.navigate(['/login']);
+        if (response.token) {
+          localStorage.setItem('auth_token', response.token);
+          this.router.navigate(['/']);
+        }
       }
     );
   }

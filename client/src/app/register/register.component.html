@@ -1,7 +1,23 @@
-<section class="gradient-background layout-vertical" style="height: 100vh;">
+<section class="gradient-background layout-vertical overflow-hidden" style="height: 100vh;">
+
+    <div class="bg-page-login-left">
+        <img src="assets/image/3d-glassy-flexible-display-with-contact-list 1.png" alt=""
+            class="position-absolute moving moving-delay-1 left-1-step-{{(step_index == 4)?1:step_index}}">
+        <img src="assets/image/3d-glassy-bent-plastic-card 2.png" alt=""
+            class="position-absolute moving moving-delay-2 left-2-step-{{(step_index == 4)?1:step_index}}">
+        <img src="assets/image/3d-glassy-bent-transparent-striped-plastic-card 1.png" alt=""
+            class="position-absolute moving moving-delay-3 left-3-step-{{(step_index == 4)?1:step_index}}">
+    </div>
+    <div class="bg-page-login-right">
+        <img src="assets/image/3d-glassy-two-deformed-thin-lenses 2.png" alt=""
+            class="position-absolute moving moving-delay-1 right-1-step-{{(step_index == 4)?1:step_index}}">
+        <img src="assets/image/3d-glassy-wide-wavy-gradient-ribbon 1.png" alt=""
+            class="position-absolute moving moving-delay-2 right-2-step-{{(step_index == 4)?1:step_index}}">
+    </div>
+
     <form (submit)="register(frm)" #frm="ngForm"
         class="layout-vertical w-fill h-fill align-center-center overflow-scroll-vertical gap-25">
-        <div class="layout-vertical card-background-default border border-card-default rounded-8 p-25 gap-25 shadow-card overflow-hidden"
+        <div class="layout-vertical acrylic-background-default blur-acrylic border border-card-default rounded-8 p-25 gap-25 shadow-card overflow-hidden"
             style="width: 400px;">
 
             <div *ngIf="error != ''" [innerHTML]="error"></div>

@@ -13,7 +13,7 @@ import { AuthService } from '../auth.service';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
-  listUser: any = [];;
+  listUser: any = [];
   user: any;
   friends: any = [];
   keyword: string = '';
@@ -21,19 +21,8 @@ export class HeaderComponent {
   constructor(private chatService: ChatService, private authService: AuthService, private router: Router) { }
   ngOnInit(): void {
     if (localStorage.getItem('auth_token')) {
-      // this.authService.getUser().subscribe(
-      //   (response) => {
-      //     this.user = response;
-      //     console.log(this.user);
-
-      //   });
-
       this.authService.getListUser().subscribe(
-        (response) => {
-          this.listUser = response.data;
-          // console.log(this.listUser);
-          
-        });
+        (response) => this.listUser = response.data);
     }
   }
 
@@ -50,11 +39,8 @@ export class HeaderComponent {
   }
 
   addFriend(receiver_id: number): void {
-    console.log(receiver_id);
-    
     this.authService.addFriend(receiver_id).subscribe(
-      (response) => console.log(response)
-    )
+      (response) => console.log(response));
   }
 
 
