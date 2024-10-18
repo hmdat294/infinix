@@ -35,6 +35,7 @@ class UserResource extends JsonResource
             'followings' => $followings,
             'profile' => new ProfileResource($this->profile),
             'permissions' => $this->permissions,
+            'is_friend' => $friends->contains($this->id),
         ];
     }
 }

@@ -16,7 +16,7 @@ class ReportStatisticsController extends Controller
      * 
      * @return JsonResponse
      */
-    public function totalReports(Request $request)
+    public function index(Request $request)
     {
         $totalReports = ReportModel::count();
         return response()->json(['data' => $totalReports]);
@@ -32,9 +32,8 @@ class ReportStatisticsController extends Controller
      * 
      * @return JsonResponse
      */
-    public function reportsByType(Request $request)
+    public function show(Request $request, string $type)
     {
-        $type = $request->get('type', 'post');
 
         $reports = ReportModel::where('type', $type)->get();
         return response()->json(['data' => $reports]);

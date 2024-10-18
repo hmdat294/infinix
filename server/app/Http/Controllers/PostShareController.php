@@ -3,62 +3,60 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Post as PostModel;
+use App\Models\PostShare as PostShareModel;
+use App\Http\Resources\UserResource;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class PostShareController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Danh sách user đã share bài viết
+     *
+     * @param Request $request
+     * 
+     * @bodyParam post_id : id của bài viết.
+     * 
+     * @return AnonymousResourceCollection
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $post = PostModel::find($request->post_id);
+        $post_shares = $post->shares;
+        $users = $post_shares->user;
+
+        return UserResource::collection($users);
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * Share bài viết
+     *
+     * @param Request $request
+     * 
+     * @bodyParam post_id : id của bài viết.
+     * 
+     * @return 
      */
     public function store(Request $request)
     {
-        //
-    }
+        $post_share = PostShareModel::where('post_id', $request->post_id)
+            ->where('user_id', $request->user()->id)
+            ->first();
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+        if ($post_share) {
+            $post_share->delete();
+            return response()->json([
+                'message' => 'Đã hủy chia sẻ bài viết',
+            ], 200);
+        } else {
+            PostShareModel::create([
+                'post_id' => $request->post_id,
+                'user_id' => $request->user()->id,
+            ]);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+            return response()->json([
+                'message' => 'Chia sẻ thành công',
+            ], 200);
+        }
     }
 }

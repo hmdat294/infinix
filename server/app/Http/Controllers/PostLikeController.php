@@ -2,63 +2,68 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
+use App\Models\Post as PostModel;
+use App\Models\PostLike as PostLikeModel;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\JsonResponse;
 
 class PostLikeController extends Controller
 {
+    
     /**
-     * Display a listing of the resource.
+     * Danh sách user đã like bài viết
+     *
+     * @param Request $request
+     * 
+     * @bodyParam post_id : id của bài viết.
+     * 
+     * @return AnonymousResourceCollection
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $post = PostModel::find($request->post_id);
+        $post_likes = $post->likes;
+        $users = $post_likes->user;
+
+        return UserResource::collection($users);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
-     * Store a newly created resource in storage.
+     * Like bài viết
+     *
+     * @param Request $request
+     * 
+     * @bodyParam post_id : id của bài viết.
+     * 
+     * @return JsonResponse
      */
     public function store(Request $request)
     {
-        //
-    }
+        $post_like = PostLikeModel::where('post_id', $request->post_id)
+            ->where('user_id', $request->user()->id)
+            ->first();
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+        if ($post_like) {
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+            $post_like->delete();
+            
+            return response()->json([
+                'message' => 'Đã hủy thích bài viết',
+            ], 200);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+        } else {
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+            PostLikeModel::create([
+                'post_id' => $request->post_id,
+                'user_id' => $request->user()->id,
+            ]);
+
+            return response()->json([
+                'message' => 'Đã thích bài viết',
+            ], 200);
+        }
     }
 }

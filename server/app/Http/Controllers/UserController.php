@@ -12,6 +12,7 @@ class UserController extends Controller
 {
     /**
      * Danh sách người dùng
+     * 
      * @return AnonymousResourceCollection
      */
     public function index()
@@ -36,7 +37,9 @@ class UserController extends Controller
 
     /**
      * Hiển thị thông tin người dùng
+     * 
      * @param string $id : Id người dùng, mặc định là người dùng hiện tại đang đăng nhập nếu không truyền id
+     * 
      * @return UserResource
      */
     public function show($id = 0)

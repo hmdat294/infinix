@@ -11,6 +11,7 @@ use App\Models\PostLike as PostLikeModel;
 use App\Models\PostComment as PostCommentModel;
 use App\Models\PostShare as PostShareModel;
 use App\Models\PostBookmark as PostBookmarkModel;
+use App\Models\Report as ReportModel;
 
 class TotalController extends Controller
 {
@@ -68,5 +69,11 @@ class TotalController extends Controller
         return response()->json([
             'data' => PostLikeModel::count() + PostCommentModel::count() + PostShareModel::count() + PostBookmarkModel::count()
         ]);
+    }
+
+    public function totalReports()
+    {
+        $totalReports = ReportModel::count();
+        return response()->json(['data' => $totalReports]);
     }
 }

@@ -115,6 +115,7 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
 
     // thống kê
     Route::prefix('statistics')->group(function () {
+        // thống kê theo tổng số (thống kê tổng)
         Route::get('total-users', [TotalController::class, 'totalUsers']);
         Route::get('total-posts', [TotalController::class, 'totalPosts']);
         Route::get('total-conversations', [TotalController::class, 'totalConversations']);
@@ -122,14 +123,17 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
         Route::get('total-post-likes', [TotalController::class, 'totalPostLikes']);
         Route::get('total-post-shares', [TotalController::class, 'totalPostShares']);
         Route::get('total-post-bookmarks', [TotalController::class, 'totalPostBookmarks']);
-        Route::get('total-comments', [TotalController::class, 'totalPostComments']);
+        Route::get('total-post-comments', [TotalController::class, 'totalPostComments']);
 
         Route::get('total-interactions', [TotalController::class, 'totalInteractions']);
-
+        // thống kê theo biểu đồ tăng trưởng (thống kê tăng trưởng)
         Route::get('users-growth', [GrowthStatisticsController::class, 'usersGrowthStatistics']);
         Route::get('posts-growth', [GrowthStatisticsController::class, 'postsGrowthStatistics']);
         Route::get('conversations-growth', [GrowthStatisticsController::class, 'conversationsGrowthStatistics']);
         
+        // thống kê theo biểu đồ tròn (thống kê báo cáo)
+        Route::get('total-reports', [TotalController::class, 'totalReports']);
+        Route::get('report/{type}', [TotalController::class, 'show']);
         
     });
     /**
