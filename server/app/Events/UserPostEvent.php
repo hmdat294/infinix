@@ -48,6 +48,8 @@ class UserPostEvent implements ShouldBroadcast
     public function broadcastWith()
     {
         $post = PostModel::find($this->post_id);
-        return new PostResource($post);
+        return [
+            "data" => new PostResource($post),
+        ];
     }
 }
