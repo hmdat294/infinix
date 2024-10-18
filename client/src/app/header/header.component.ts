@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { Router, RouterModule, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterModule, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChatService } from '../chat.service';
 import { AuthService } from '../auth.service';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -17,17 +18,22 @@ export class HeaderComponent {
   user: any;
   friends: any = [];
   keyword: string = '';
+  currentRoute: string | undefined;
 
-  constructor(private chatService: ChatService, private authService: AuthService, private router: Router) { }
+  constructor(private router: Router, private authService: AuthService) { }
   ngOnInit(): void {
-    if (localStorage.getItem('auth_token')) {
-      this.authService.getListUser().subscribe(
-        (response) => this.listUser = response.data);
-    }
+    this.authService.getListUser().subscribe(
+      (response) => this.listUser = response.data);
+
+    this.currentRoute = this.router.url.split('/').pop();
+
+    this.router.events.pipe(
+      filter((event) => event instanceof NavigationEnd)).subscribe(
+        (event: any) => this.currentRoute = event.urlAfterRedirects.split('/').pop());
+
   }
 
   search(): void {
-
     if (this.keyword && !/^\s*$/.test(this.keyword)) {
       this.friends = this.listUser.filter((friend: any) =>
         friend.profile.display_name.toLowerCase().includes(this.keyword.trim().toLowerCase()) || friend.email.toLowerCase().includes(this.keyword.trim().toLowerCase())

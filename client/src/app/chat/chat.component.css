@@ -53,3 +53,7 @@ article {
     resize: none;
     max-height: 200px;
 }
+
+.border-focus{
+    border: 1px solid orangered;
+}

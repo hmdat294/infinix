@@ -31,8 +31,6 @@ export class PostService {
 
   public bindEventPost(eventName: string, callback: (data: any) => void): void {
     if (this.channel) {
-      console.log(this.channel);
-      
       this.channel.bind(eventName, callback);
       console.log(`Bound event '${eventName}' to channel '${this.channel.name}'`);
     } else {

@@ -1,6 +1,5 @@
 <header
     class="layout-horizontal in-mobile-layout-vertical w-fill gap-20 align-center-center layer-default px-10 py-5 in-mobile-gap-5 in-mobile-py-10">
-    <!-- Mặc định chia cột 4 - 4 - 4 (3 cột đều) nhưng gộp lại thành 8 - 4 để dễ responsive -->
     <div class="w-fill-column-8 layout-horizontal in-mobile-w-fill">
         <div class="w-fill hide-in-mobile hide-in-tablet">
             <img src="assets/image/Logo.png" alt="">
@@ -33,11 +32,13 @@
     </div>
     <div class="w-fill-column-4 in-mobile-w-fill">
         <div class="layout-horizontal gap-20 align-center-right in-mobile-align-center-space-evenly">
-            <a [routerLink]="['/']" class="button-subtle button-icon-only text-accent-default">
-                <i class="icon-size-24 icon icon-ic_fluent_home_24_filled"></i>
+            <a [routerLink]="['/']" class="button-subtle button-icon-only {{(currentRoute == '')?'text-accent-default':'text-secondary'}}">
+                <i *ngIf="(currentRoute == '')" class="icon-size-24 icon icon-ic_fluent_home_24_filled"></i>
+                <i *ngIf="(currentRoute != '')" class="icon-size-24 icon icon-ic_fluent_home_24_regular"></i>
             </a>
-            <a href="#" class="button-subtle button-icon-only text-secondary">
-                <i class="icon-size-24 icon icon-ic_fluent_alert_24_regular"></i>
+            <a [routerLink]="['/notification']" class="button-subtle button-icon-only {{(currentRoute == 'notification')?'text-accent-default':'text-secondary'}}">
+                <i *ngIf="(currentRoute == 'notification')" class="icon-size-24 icon icon-ic_fluent_alert_24_filled"></i>
+                <i *ngIf="(currentRoute != 'notification')" class="icon-size-24 icon icon-ic_fluent_alert_24_regular"></i>
             </a>
             <a href="#" class="button-subtle button-icon-only text-secondary">
                 <i class="icon-size-24 icon icon-ic_fluent_settings_24_regular"></i>
@@ -45,8 +46,9 @@
             <a href="#" class="button-subtle button-icon-only text-secondary">
                 <i class="icon-size-24 icon icon-ic_fluent_bookmark_24_regular"></i>
             </a>
-            <a [routerLink]="['/chat']" class="button-subtle button-icon-only text-secondary">
-                <i class="icon-size-24 icon icon-ic_fluent_chat_24_filled"></i>
+            <a [routerLink]="['/chat']" class="button-subtle button-icon-only {{(currentRoute == 'chat')?'text-accent-default':'text-secondary'}}">
+                <i *ngIf="(currentRoute == 'chat')" class="icon-size-24 icon icon-ic_fluent_chat_24_filled"></i>
+                <i *ngIf="(currentRoute != 'chat')" class="icon-size-24 icon icon-ic_fluent_chat_24_regular"></i>
             </a>
             <a href="#" class="hide-in-desktop show-in-mobile button-subtle button-icon-only text-secondary">
                 <i class="icon-size-24 icon icon-ic_fluent_navigation_24_regular"></i>
