@@ -80,11 +80,11 @@
             </div>
         </div>
     </div>
-    <div class>
+    <div>
         <div class="table-container solid-background-senary p-10 rounded-8  ">
-            <table class="table w-fill text-center">
+            <!-- <table class="table w-fill text-center">
                 <thead>
-                    <tr class>
+                    <tr>
                         <th><input type="checkbox"></th>
                         <th>Link Post</th>
                         <th>Images Post</th>
@@ -94,12 +94,13 @@
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody >
-                    <tr class="">
+                <tbody>
+                    <tr>
                         <td><input type="checkbox"></td>
                         <td class="p-10"><a
                                 href="#">https://www.facebook.com/profile.php?id=100050636555101</a></td>
-                        <td class="p-15"><img style="max-width: 200px;" src="assets/image/hinh.jpg"
+                        <td class="p-15"><img style="max-width: 200px;"
+                                src="assets/image/hinh.jpg"
                                 alt="Avatar"
                                 class="avatar"></td>
                         <td>chick2004</td>
@@ -123,9 +124,203 @@
                         </td>
                     </tr>
 
-                    <!-- Các hàng tiếp theo -->
+                    
                 </tbody>
-            </table>
+            </table> -->
+            <!-- Account Section-->
+            <div
+                class="w-fill layout-vertical card-background-default border rounded-8 border-card-default">
+                <div
+                    class="w-fill p-10 css-grid-5"
+                    style="cursor: pointer;">
+
+                    <div>
+                        <p class="text-body-strong text-primary">Username</p>
+                    </div>
+                    <div>
+                        <p class="text-body-strong text-primary">Nội Dung</p>
+                    </div>
+                    <div>
+                        <p class="text-body-strong text-primary">Ngày đăng</p>
+                    </div>
+                    <div>
+                        <p class="text-body-strong text-primary">Trạng thái</p>
+                    </div>
+                    <div class>
+                        <p class="text-body-strong text-primary">#</p>
+                    </div>
+
+                </div>
+
+                <div class="accordion" >
+                    <div class="accordion-item">
+                        <div
+                            class="accordion-header w-fill p-10 css-grid-5"
+                            style="cursor: pointer;" *ngFor="let item of listPost">
+                            <div>
+                                <p
+                                    class="text-body text-primary">{{item.profile.display_name}}</p>
+                            </div>
+                            <div>
+                                <p class="text-body text-primary">{{item.content}} </p>
+                            </div>
+                            <div>
+                                <p class="text-body text-primary">{{item.updated_at_date}}</p>
+                            </div>
+                            <div>
+                                <p class="text-body text-primary">Hoạt động</p>
+                            </div>
+                            <button type="button"
+                                class="button-subtle button-icon-only">
+                                <i
+                                    class="icon-size-20 icon icon-ic_fluent_chevron_down_20_filled"></i>
+                            </button>
+                        </div>
+                        <div class="accordion-panel">
+                            <div class="w-fill p-10 gap-10 layout-horizontal h-hug">
+                                <div class="w-fill-column-6 layout-vertical gap-10 border rounded-8 p-10 h-hug">
+                                    <div class="img gap-10  layout-horizontal border-bottom pb-10">
+                                        <img style="max-width: 200px;"
+                                            src="assets/image/hinh.jpg"
+                                            alt="Avatar"
+                                            class="avatar rounded-8">
+                                        <img style="max-width: 200px;"
+                                            src="assets/image/hinh.jpg"
+                                            alt="Avatar"
+                                            class="avatar rounded-8">
+                                            
+                                    </div>
+                                    <div class="content text-justify text-body">
+                                        <p>
+
+                                            Lorem ipsum dolor, sit amet consectetur
+                                            adipisicing elit. Culpa optio sequi
+                                            quaerat dolorum cumque, esse itaque
+                                            necessitatibus suscipit voluptas et quas
+                                            possimus sint error soluta corrupti odio
+                                            nostrum illo debitis explicabo fugit
+                                            praesentium! Quibusdam ducimus debitis
+                                            tempora, eaque iure ipsam deleniti
+                                            minima autem iusto.
+                                        </p>
+                                        
+                                    </div>
+                                    <div class="layout-horizontal w-fill">
+                                        <div class="layout-horizontal w-fill border-top pt-10 gap-25">
+                                            <div class="text-secondary layout-horizontal align-center-center gap-5">
+                                                100
+                                                <i class="icon-size-20 icon icon-ic_fluent_heart_20_regular"></i>
+                                            </div>
+                                            <div class="text-secondary layout-horizontal align-center-center gap-5">
+                                                100
+                                                <i class="icon-size-20 icon icon-ic_fluent_chat_empty_20_regular"></i>
+                                            </div>
+                                            <div class="text-secondary layout-horizontal align-center-center gap-5">
+                                                100
+                                                <i class="icon-size-20 icon icon-ic_fluent_share_20_regular"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="w-fill-column-6 layout-vertical gap-10 overflow-scroll-vertical h-hug">
+                                    <div class="layout-vertical gap-10 p-10 border rounded-8">
+                                        <div class="layout-horizontal gap-10 border-bottom pb-10">
+                                            <div class="w-fill text-body-strong">Minh dat</div>
+                                            <div class="w-hug text-body">1/1/2000</div>
+                                        </div>
+                                        <div class="w-fill text-body text-justify">Lorem ipsum dolor sit amet, consectetur adipisicing elit. In odit aut neque minus consequatur officia nemo esse cupiditate iure veritatis amet sunt nesciunt, ullam inventore totam dolor tempore ducimus soluta.</div>
+                                        <div class="layout-horizontal w-fill">
+                                            <div class="layout-horizontal w-fill border-top pt-10 gap-25">
+                                                <div class="text-secondary layout-horizontal align-center-center gap-5">
+                                                    100
+                                                    <i class="icon-size-20 icon icon-ic_fluent_heart_20_regular"></i>
+                                                </div>
+                                                <div class="text-secondary layout-horizontal align-center-center gap-5">
+                                                    100
+                                                    <i class="icon-size-20 icon icon-ic_fluent_chat_empty_20_regular"></i>
+                                                </div>
+                                                <div class="text-secondary layout-horizontal align-center-center gap-5">
+                                                    100
+                                                    <i class="icon-size-20 icon icon-ic_fluent_share_20_regular"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layout-vertical gap-10 p-10 border rounded-8">
+                                        <div class="layout-horizontal gap-10 border-bottom pb-10">
+                                            <div class="w-fill text-body-strong">Minh dat</div>
+                                            <div class="w-hug text-body">1/1/2000</div>
+                                        </div>
+                                        <div class="w-fill text-body text-justify">Lorem ipsum dolor sit amet, consectetur adipisicing elit. In odit aut neque minus consequatur officia nemo esse cupiditate iure veritatis amet sunt nesciunt, ullam inventore totam dolor tempore ducimus soluta.</div>
+                                        <div class="layout-horizontal w-fill">
+                                            <div class="layout-horizontal w-fill border-top pt-10 gap-25">
+                                                <div class="text-secondary layout-horizontal align-center-center gap-5">
+                                                    100
+                                                    <i class="icon-size-20 icon icon-ic_fluent_heart_20_regular"></i>
+                                                </div>
+                                                <div class="text-secondary layout-horizontal align-center-center gap-5">
+                                                    100
+                                                    <i class="icon-size-20 icon icon-ic_fluent_chat_empty_20_regular"></i>
+                                                </div>
+                                                <div class="text-secondary layout-horizontal align-center-center gap-5">
+                                                    100
+                                                    <i class="icon-size-20 icon icon-ic_fluent_share_20_regular"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layout-vertical gap-10 p-10 border rounded-8">
+                                        <div class="layout-horizontal gap-10 border-bottom pb-10">
+                                            <div class="w-fill text-body-strong">Minh dat</div>
+                                            <div class="w-hug text-body">1/1/2000</div>
+                                        </div>
+                                        <div class="w-fill text-body text-justify">Lorem ipsum dolor sit amet, consectetur adipisicing elit. In odit aut neque minus consequatur officia nemo esse cupiditate iure veritatis amet sunt nesciunt, ullam inventore totam dolor tempore ducimus soluta.</div>
+                                        <div class="layout-horizontal w-fill">
+                                            <div class="layout-horizontal w-fill border-top pt-10 gap-25">
+                                                <div class="text-secondary layout-horizontal align-center-center gap-5">
+                                                    100
+                                                    <i class="icon-size-20 icon icon-ic_fluent_heart_20_regular"></i>
+                                                </div>
+                                                <div class="text-secondary layout-horizontal align-center-center gap-5">
+                                                    100
+                                                    <i class="icon-size-20 icon icon-ic_fluent_chat_empty_20_regular"></i>
+                                                </div>
+                                                <div class="text-secondary layout-horizontal align-center-center gap-5">
+                                                    100
+                                                    <i class="icon-size-20 icon icon-ic_fluent_share_20_regular"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layout-vertical gap-10 p-10 border rounded-8">
+                                        <div class="layout-horizontal gap-10 border-bottom pb-10">
+                                            <div class="w-fill text-body-strong">Minh dat</div>
+                                            <div class="w-hug text-body">1/1/2000</div>
+                                        </div>
+                                        <div class="w-fill text-body text-justify">Lorem ipsum dolor sit amet, consectetur adipisicing elit. In odit aut neque minus consequatur officia nemo esse cupiditate iure veritatis amet sunt nesciunt, ullam inventore totam dolor tempore ducimus soluta.</div>
+                                        <div class="layout-horizontal w-fill">
+                                            <div class="layout-horizontal w-fill border-top pt-10 gap-25">
+                                                <div class="text-secondary layout-horizontal align-center-center gap-5">
+                                                    100
+                                                    <i class="icon-size-20 icon icon-ic_fluent_heart_20_regular"></i>
+                                                </div>
+                                                <div class="text-secondary layout-horizontal align-center-center gap-5">
+                                                    100
+                                                    <i class="icon-size-20 icon icon-ic_fluent_chat_empty_20_regular"></i>
+                                                </div>
+                                                <div class="text-secondary layout-horizontal align-center-center gap-5">
+                                                    100
+                                                    <i class="icon-size-20 icon icon-ic_fluent_share_20_regular"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

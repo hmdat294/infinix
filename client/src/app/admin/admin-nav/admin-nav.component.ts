@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
+
 @Component({
   selector: 'app-admin-nav',
   standalone: true,
@@ -9,5 +10,5 @@ import { RouterModule } from '@angular/router';
   styleUrl: './admin-nav.component.css'
 })
 export class AdminNavComponent {
-
+  
 }
