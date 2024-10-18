@@ -30,6 +30,9 @@ export class HeaderComponent {
     this.router.events.pipe(
       filter((event) => event instanceof NavigationEnd)).subscribe(
         (event: any) => this.currentRoute = event.urlAfterRedirects.split('/').pop());
+
+        console.log(this.currentRoute);
+        
   }
 
   search(): void {

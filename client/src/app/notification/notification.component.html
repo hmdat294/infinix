@@ -1,0 +1,295 @@
+<section class="gradient-background layout-vertical" style="height: 100vh;" >
+    <!-- Header -->
+    <header class="layout-horizontal in-mobile-layout-vertical w-fill gap-20 align-center-center layer-default px-10 in-mobile-gap-5 in-mobile-py-10" style="min-height: 45px;">
+        <!-- Mặc định chia cột 4 - 4 - 4 (3 cột đều) nhưng gộp lại thành 8 - 4 để dễ responsive -->
+        <div class="w-fill-column-8 layout-horizontal in-mobile-w-fill">
+            <div class="w-fill hide-in-mobile hide-in-tablet">
+                <img src="assets/image/Logo.png" alt="">
+            </div>
+            <div class="w-fill layout gap-20 in-mobile-gap-10">
+                <div class="w-hug show-in-mobile show-in-tablet">
+                    <img src="assets/image/Logo.png" alt="">
+                </div>
+                <div class="search-dropdown-control w-fill">
+                    <div class="control search-control">
+                        <input type="search" placeholder="Tìm kiếm" spellcheck="false">
+                        <button type="button" class="input-button clear-content-button">
+                            <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
+                        </button>
+                        <button type="button" class="input-button search-button">
+                            <i class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
+                        </button>
+                    </div>
+                    <div class="dropdown-menu">
+                        <div class="list-item">
+                            <div class="text-body">Item 1</div>
+                        </div>
+                        <div class="list-item">
+                            <div class="text-body">Item 2</div>
+                        </div>
+                        <div class="list-item">
+                            <div class="text-body">Item 3</div>
+                        </div>
+                        <div class="divider-horizontal w-fill"></div>
+                        <div class="list-item layout-horizontal align-center-left gap-5">
+                            <i class="icon-size-16 icon icon-ic_fluent_history_16_filled"></i>
+                            <div class="text-body display-inline">Item 1</div>
+                        </div>
+                        <div class="list-item layout-horizontal align-center-left gap-5">
+                            <i class="icon-size-16 icon icon-ic_fluent_history_16_filled"></i>
+                            <div class="text-body display-inline">Item 1</div>
+                        </div>
+                        <div class="list-item layout-horizontal align-center-left gap-5">
+                            <i class="icon-size-16 icon icon-ic_fluent_history_16_filled"></i>
+                            <div class="text-body display-inline">Item 1</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="w-fill-column-4 in-mobile-w-fill">
+            <div class="layout-horizontal gap-20 align-center-right in-mobile-align-center-space-evenly">
+                <a href="#" class="button-subtle button-icon-only text-accent-default">
+                    <i class="icon-size-24 icon icon-ic_fluent_home_24_filled"></i>
+                </a>
+                <a href="#" class="button-subtle button-icon-only text-secondary">
+                    <i class="icon-size-24 icon icon-ic_fluent_alert_24_regular"></i>
+                </a>
+                <a href="#" class="button-subtle button-icon-only text-secondary">
+                    <i class="icon-size-24 icon icon-ic_fluent_settings_24_regular"></i>
+                </a>
+                <a href="#" class="button-subtle button-icon-only text-secondary">
+                    <i class="icon-size-24 icon icon-ic_fluent_bookmark_24_regular"></i>
+                </a>
+                <a href="#" class="button-subtle button-icon-only text-secondary">
+                    <i class="icon-size-24 icon icon-ic_fluent_chat_24_regular"></i>
+                </a>
+                <a href="#" class=" hide-in-desktop show-in-mobile button-subtle button-icon-only text-secondary">
+                    <i class="icon-size-24 icon icon-ic_fluent_navigation_24_regular"></i>
+                </a>
+            </div>
+        </div>
+    </header>
+    <!-- End Header -->
+     <!-- Article -->
+     <article class="layout-horizontal gap-20 px-20 w-fill h-fill overflow-hidden align-top-center">
+        <div class="w-fill-column-3"></div>
+        <div class="w-fill-column-6 h-fill layout-vertical gap-20 pt-20">
+            <div class="layout-vertical h-fill rounded-8 border border-card-default card-background-default">
+
+                <div class="layout-vertical gap-10 p-10 border-bottom border-card-default">
+                    <p class="text-subtitle text-primary">Thông báo</p>
+                    <div class="layout-horizontal align-center-space-between">
+                        <div class="layout-horizontal gap-10">
+                            <button type="button" class="button-accent button-text-only">Tất cả</button>
+                            <button type="button" class="button-standard button-text-only">Chưa đọc</button>
+                        </div>
+                        <button type="button" class="button-standard button-text-only">Đánh dấu tất cả là đã đọc</button>
+                    </div>
+                </div>
+
+                <div class="layout-vertical gap-10 p-10 h-fill overflow-scroll-vertical">
+
+                    <!-- Thông báo like bài viết -->
+                    <div class="list-item layout px-20 py-10 gap-20">
+
+                        <!-- Đánh dấu là thông báo chưa đọc -->
+                        <div class="position-absolute accent-default rounded-2 start-0" style="width: 3px; height: 30px; top: 13px;"></div>
+
+                        <!-- Nội dung thông báo -->
+                        <div class="layout-horizontal gap-20 w-fill align-top-center">
+                            <img src="assets/image/avatar.png" alt="" style="width: 35px; height: 35px;">
+                            <div class="layout-vertical gap-5 w-fill">
+                                <p class="text-body"><span class="text-body-strong">Châu Thành Cường</span> đã thích bài viết của bạn</p>
+                                <p class="text-secondary text-caption">10:10 10/10/10</p>
+                            </div>
+                            <i class="icon-size-20 icon icon-ic_fluent_heart_20_filled" style="color: #C42B1C;"></i>
+                        </div>
+                    </div>
+
+                    <!-- Thông báo comment bài viết -->
+                    <div class="list-item layout px-20 py-10 gap-20">
+
+                        <!-- Đánh dấu là thông báo chưa đọc -->
+                        <div class="position-absolute accent-default rounded-2 start-0" style="width: 3px; height: 30px; top: 13px;"></div>
+                        <!-- Nội dung thông báo -->
+                        <div class="layout-horizontal gap-20 w-fill align-top-center">
+                            <img src="assets/image/avatar.png" alt="" style="width: 35px; height: 35px;">
+                            <div class="layout-vertical gap-5 w-fill">
+                                <p class="text-body"><span class="text-body-strong">Châu Thành Cường</span> đã bình luận vào bài viết của bạn</p>
+                                <p class="text-secondary text-caption">10:10 10/10/10</p>
+
+                                <!-- Nội dung bình luận -->
+                                <p class="text-tertiary text-caption">
+                                    Lorem ipsum dolor sit amet consectetur. Purus elit sollicitudin proin ullamcorper. Consectetur in quis diam lacinia vitae aliquam et amet.
+                                </p>
+                            </div>
+                            <i class="icon-size-20 icon icon-ic_fluent_comment_20_filled" style="color: #25CD25;"></i>
+                        </div>
+                    </div>
+
+                    <!-- Thông báo share bài viết -->
+                    <div class="list-item layout px-20 py-10 gap-20">
+
+                        <!-- Đánh dấu là thông báo chưa đọc -->
+                        <div class="position-absolute accent-default rounded-2 start-0" style="width: 3px; height: 30px; top: 13px;"></div>
+
+                        <!-- Nội dung thông báo -->
+                        <div class="layout-horizontal gap-20 w-fill align-top-center">
+                            <img src="assets/image/avatar.png" alt="" style="width: 35px; height: 35px;">
+                            <div class="layout-vertical gap-5 w-fill">
+                                <p class="text-body"><span class="text-body-strong">Châu Thành Cường</span> đã chia sẻ bài viết của bạn</p>
+                                <p class="text-secondary text-caption">10:10 10/10/10</p>
+                            </div>
+                            <i class="icon-size-20 icon icon-ic_fluent_share_20_filled" style="color: #0070CB;"></i>
+                        </div>
+                    </div>
+
+                    <!-- Thông báo hoạt theo dõi -->
+                    <div class="list-item layout px-20 py-10 gap-20">
+
+                        <!-- Đánh dấu là thông báo chưa đọc -->
+                        <div class="position-absolute accent-default rounded-2 start-0" style="width: 3px; height: 30px; top: 13px;"></div>
+
+                        <!-- Nội dung thông báo -->
+                        <div class="layout-horizontal gap-20 w-fill align-top-center">
+                            <img src="assets/image/avatar.png" alt="" style="width: 35px; height: 35px;">
+                            <div class="layout-vertical gap-5 w-fill">
+                                <p class="text-body"><span class="text-body-strong">Châu Thành Cường</span> đã theo dõi bạn</p>
+                                <p class="text-secondary text-caption">10:10 10/10/10</p>
+                            </div>
+                            <i class="icon-size-20 icon icon-ic_fluent_person_heart_20_filled" style="color: #0070CB;"></i>
+                        </div>
+                    </div>
+
+                    <!-- Thông báo gửi lời mời kết bạn -->
+                    <div class="list-item layout px-20 py-10 gap-20">
+
+                        <!-- Đánh dấu là thông báo chưa đọc -->
+                        <div class="position-absolute accent-default rounded-2 start-0" style="width: 3px; height: 30px; top: 13px;"></div>
+
+                        <!-- Nội dung thông báo -->
+                        <div class="layout-horizontal gap-20 w-fill align-top-center">
+                            <img src="assets/image/avatar.png" alt="" style="width: 35px; height: 35px;">
+                            <div class="layout-vertical gap-5 w-fill">
+                                <p class="text-body"><span class="text-body-strong">Châu Thành Cường</span> muốn trở thành bạn bè với bạn.</p>
+                                <p class="text-secondary text-caption">10:10 10/10/10</p>
+                                <div class="layout-horizontal gap-10">
+                                    <button type="button" class="button-accent button-text-only">Chấp nhận</button>
+                                    <button type="button" class="button-standard button-text-only">Từ chối</button>
+                                </div>
+                            </div>
+                            <i class="icon-size-20 icon icon-ic_fluent_person_add_20_filled" style="color: #0070CB;"></i>
+                        </div>
+                    </div>
+
+                    <!-- Thông báo chấp nhận kết bạn -->
+                    <div class="list-item layout px-20 py-10 gap-20">
+
+                        <!-- Đánh dấu là thông báo chưa đọc -->
+                        <div class="position-absolute accent-default rounded-2 start-0" style="width: 3px; height: 30px; top: 13px;"></div>
+
+                        <!-- Nội dung thông báo -->
+                        <div class="layout-horizontal gap-20 w-fill align-top-center">
+                            <img src="assets/image/avatar.png" alt="" style="width: 35px; height: 35px;">
+                            <div class="layout-vertical gap-5 w-fill">
+                                <p class="text-body"><span class="text-body-strong">Châu Thành Cường</span> đã trở thành bạn bè với bạn.</p>
+                                <p class="text-secondary text-caption">10:10 10/10/10</p>
+                            </div>
+                            <i class="icon-size-20 icon icon-ic_fluent_person_available_20_filled" style="color: #25CD25;"></i>
+                        </div>
+                    </div>
+
+                    <!-- Thông báo tin nhắn -->
+                    <div class="list-item layout px-20 py-10 gap-20">
+
+                        <!-- Đánh dấu là thông báo chưa đọc -->
+                        <div class="position-absolute accent-default rounded-2 start-0" style="width: 3px; height: 30px; top: 13px;"></div>
+
+                        <!-- Nội dung thông báo -->
+                        <div class="layout-horizontal gap-20 w-fill align-top-center">
+                            <img src="assets/image/avatar.png" alt="" style="width: 35px; height: 35px;">
+                            <div class="layout-vertical gap-5 w-fill">
+                                <p class="text-body"><span class="text-body-strong">Châu Thành Cường</span> đã gửi tin nhắn cho bạn</p>
+                                <p class="text-secondary text-caption">10:10 10/10/10</p>
+                            </div>
+                            <i class="icon-size-20 icon icon-ic_fluent_chat_20_filled" style="color: #0070CB;"></i>
+                        </div>
+                    </div>
+
+
+
+
+
+
+                                        <!-- Thông báo tin nhắn -->
+                                        <div class="list-item layout px-20 py-10 gap-20">
+
+                                            <!-- Đánh dấu là thông báo chưa đọc -->
+                                            <div class="position-absolute accent-default rounded-2 start-0" style="width: 3px; height: 30px; top: 13px;"></div>
+                    
+                                            <!-- Nội dung thông báo -->
+                                            <div class="layout-horizontal gap-20 w-fill align-top-center">
+                                                <img src="assets/image/avatar.png" alt="" style="width: 35px; height: 35px;">
+                                                <div class="layout-vertical gap-5 w-fill">
+                                                    <p class="text-body"><span class="text-body-strong">Châu Thành Cường</span> đã gửi tin nhắn cho bạn</p>
+                                                    <p class="text-secondary text-caption">10:10 10/10/10</p>
+                                                </div>
+                                                <i class="icon-size-20 icon icon-ic_fluent_chat_20_filled" style="color: #0070CB;"></i>
+                                            </div>
+                                        </div>
+                                                            <!-- Thông báo tin nhắn -->
+                    <div class="list-item layout px-20 py-10 gap-20">
+
+                        <!-- Đánh dấu là thông báo chưa đọc -->
+                        <div class="position-absolute accent-default rounded-2 start-0" style="width: 3px; height: 30px; top: 13px;"></div>
+
+                        <!-- Nội dung thông báo -->
+                        <div class="layout-horizontal gap-20 w-fill align-top-center">
+                            <img src="assets/image/avatar.png" alt="" style="width: 35px; height: 35px;">
+                            <div class="layout-vertical gap-5 w-fill">
+                                <p class="text-body"><span class="text-body-strong">Châu Thành Cường</span> đã gửi tin nhắn cho bạn</p>
+                                <p class="text-secondary text-caption">10:10 10/10/10</p>
+                            </div>
+                            <i class="icon-size-20 icon icon-ic_fluent_chat_20_filled" style="color: #0070CB;"></i>
+                        </div>
+                    </div>
+                                        <!-- Thông báo tin nhắn -->
+                                        <div class="list-item layout px-20 py-10 gap-20">
+
+                                            <!-- Đánh dấu là thông báo chưa đọc -->
+                                            <div class="position-absolute accent-default rounded-2 start-0" style="width: 3px; height: 30px; top: 13px;"></div>
+                    
+                                            <!-- Nội dung thông báo -->
+                                            <div class="layout-horizontal gap-20 w-fill align-top-center">
+                                                <img src="assets/image/avatar.png" alt="" style="width: 35px; height: 35px;">
+                                                <div class="layout-vertical gap-5 w-fill">
+                                                    <p class="text-body"><span class="text-body-strong">Châu Thành Cường</span> đã gửi tin nhắn cho bạn</p>
+                                                    <p class="text-secondary text-caption">10:10 10/10/10</p>
+                                                </div>
+                                                <i class="icon-size-20 icon icon-ic_fluent_chat_20_filled" style="color: #0070CB;"></i>
+                                            </div>
+                                        </div>
+                                                            <!-- Thông báo tin nhắn -->
+                    <div class="list-item layout px-20 py-10 gap-20">
+
+                        <!-- Đánh dấu là thông báo chưa đọc -->
+                        <div class="position-absolute accent-default rounded-2 start-0" style="width: 3px; height: 30px; top: 13px;"></div>
+
+                        <!-- Nội dung thông báo -->
+                        <div class="layout-horizontal gap-20 w-fill align-top-center">
+                            <img src="assets/image/avatar.png" alt="" style="width: 35px; height: 35px;">
+                            <div class="layout-vertical gap-5 w-fill">
+                                <p class="text-body"><span class="text-body-strong">Châu Thành Cường</span> đã gửi tin nhắn cho bạn</p>
+                                <p class="text-secondary text-caption">10:10 10/10/10</p>
+                            </div>
+                            <i class="icon-size-20 icon icon-ic_fluent_chat_20_filled" style="color: #0070CB;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="w-fill-column-3"></div>
+    </article>
+     <!-- End Article -->
+</section>
