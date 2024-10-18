@@ -9,6 +9,7 @@ import { MainProfileComponent } from './profile/main-profile/main-profile.compon
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { NotificationComponent } from './notification/notification.component';
 import { DashboardComponent } from './admin/dashboard/dashboard.component';
+import { UserComponent } from './admin/user/user.component';
 
 export const routes: Routes = [
     { path: '', component: MainHomeComponent, canActivate: [AuthGuard] },
@@ -22,6 +23,7 @@ export const routes: Routes = [
     { path: 'email/verify/:id/:hash', component: VerifyEmailComponent },
 
     { path: 'admin', component: DashboardComponent, canActivate: [AuthGuard] },
+    { path: 'admin/user', component: UserComponent, canActivate: [AuthGuard] },
     // { path: 'admin/user', component: AdminMainUserComponent },
     // { path: 'admin/report', component: AdminMainReportComponent },
     // { path: 'admin/event', component: AdminMainEventComponent },
