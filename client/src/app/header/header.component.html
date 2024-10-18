@@ -33,8 +33,9 @@
     </div>
     <div class="w-fill-column-4 in-mobile-w-fill">
         <div class="layout-horizontal gap-20 align-center-right in-mobile-align-center-space-evenly">
-            <a [routerLink]="['/']" class="button-subtle button-icon-only text-accent-default">
-                <i class="icon-size-24 icon icon-ic_fluent_home_24_filled"></i>
+            <a [routerLink]="['/']" class="button-subtle button-icon-only {{(currentRoute == '')?'text-accent-default':'text-secondary'}}">
+                <i *ngIf="(currentRoute == '')" class="icon-size-24 icon icon-ic_fluent_home_24_filled"></i>
+                <i *ngIf="(currentRoute != '')" class="icon-size-24 icon icon-ic_fluent_home_24_regular"></i>
             </a>
             <a href="#" class="button-subtle button-icon-only text-secondary">
                 <i class="icon-size-24 icon icon-ic_fluent_alert_24_regular"></i>
@@ -45,8 +46,9 @@
             <a href="#" class="button-subtle button-icon-only text-secondary">
                 <i class="icon-size-24 icon icon-ic_fluent_bookmark_24_regular"></i>
             </a>
-            <a [routerLink]="['/chat']" class="button-subtle button-icon-only text-secondary">
-                <i class="icon-size-24 icon icon-ic_fluent_chat_24_filled"></i>
+            <a [routerLink]="['/chat']" class="button-subtle button-icon-only {{(currentRoute == 'chat')?'text-accent-default':'text-secondary'}}">
+                <i *ngIf="(currentRoute == 'chat')" class="icon-size-24 icon icon-ic_fluent_chat_24_filled"></i>
+                <i *ngIf="(currentRoute != 'chat')" class="icon-size-24 icon icon-ic_fluent_chat_24_regular"></i>
             </a>
             <a href="#" class="hide-in-desktop show-in-mobile button-subtle button-icon-only text-secondary">
                 <i class="icon-size-24 icon icon-ic_fluent_navigation_24_regular"></i>

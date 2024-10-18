@@ -20,11 +20,13 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   friends: any;
   requestfriends: any;
   user: any;
+
   spaceCheck: any = /^\s*$/;
 
   reply_id: any = null;
   previewReply: any = null;
 
+  fileInput: any;
   selectedFiles: File[] = [];
   previewUrls: string[] = [];
 
@@ -32,13 +34,16 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   id_message: number = 0;
 
   isScrollingToElement: boolean = false;
-  isVisible = true;
+  isVisible = false;
   showBoxSearch = false;
 
   keywordSearch: string = '';
   valueSearch: any = [];
 
-  fitContent: boolean = false;
+  idDialog: number = 0;
+
+  previousElement: HTMLElement | null = null;
+  focusTimeout: any;
 
   constructor(private el: ElementRef, private renderer: Renderer2, private chatService: ChatService, private authService: AuthService) { }
 
@@ -74,6 +79,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     search_input.addEventListener('input', () => {
       panel.style.maxHeight = (panel.classList.contains('open')) ? `${panel.scrollHeight}px` : '0px';
     });
+
   }
 
   ngAfterViewChecked() {
@@ -87,18 +93,34 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     this.isVisible = !this.isVisible;
   }
 
+  toggleDialog(id: number) {
+    this.idDialog = id;
+  }
 
   scrollToElement(index: number) {
-    console.log(index);
-
     this.isScrollingToElement = true;
+
     const targetElement = document.getElementById(`item-${index}`);
+    const messChild = targetElement?.querySelector('.mess-child') as HTMLElement;
+
+    if (this.previousElement) this.previousElement.classList.remove('border-focus');
 
     if (targetElement) {
       targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      if (messChild) {
+        messChild.classList.add('border-focus');
+        this.previousElement = messChild;
+
+        if (this.focusTimeout) clearTimeout(this.focusTimeout);
+
+        this.focusTimeout = setTimeout(() => {
+          messChild.classList.remove('border-focus');
+          this.previousElement = null; 
+        }, 3000);
+      }
     }
   }
-
 
   isDifferentDate(i: number): boolean {
     if (i === 0) return true;
@@ -116,6 +138,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
         this.conversation = data.data;
         console.log(this.conversation);
 
+        this.isScrollingToElement = false;
         (document.querySelector('.textarea-chat') as HTMLTextAreaElement).focus();
 
         this.chatService.setConversationId(this.conversation.id);
@@ -186,7 +209,6 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
   }
 
-  fileInput: any;
   private resetFileInput() {
     if (this.fileInput) {
       this.fileInput.nativeElement.value = '';
@@ -290,7 +312,6 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
         msg.content && msg.content.toLowerCase().includes(this.keywordSearch.toLowerCase().trim())
       );
       this.valueSearch.reverse();
-      this.fitContent = true;
     }
     else {
       this.valueSearch = [];
