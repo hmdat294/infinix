@@ -85,13 +85,12 @@ class PostController extends Controller
                     'path' => asset('storage/' . $media_path),
                     'type' => $media_type,
                 ]);
-
             }
         }
 
         event(new UserPostEvent($post->user_id, $post->id, $post->content));
 
-        $this->sendNotification($post);
+        // $this->sendNotification($post);
 
         return new PostResource($post);
     }

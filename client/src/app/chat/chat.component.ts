@@ -1,19 +1,21 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ChatService } from '../chat.service';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../auth.service';
+import { trigger, state, style, transition, animate } from '@angular/animations';
+import { RightHomeComponent } from '../home/right-home/right-home.component';
 
 @Component({
   selector: 'app-chat',
   standalone: true,
   imports: [FormsModule, CommonModule],
   templateUrl: './chat.component.html',
-  styleUrl: './chat.component.css'
+  styleUrl: './chat.component.css',
 })
-export class ChatComponent implements OnInit {
-  message: string = '';
+export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
+  content: string = '';
   conversation: any;
   friends: any;
   requestfriends: any;
@@ -26,31 +28,81 @@ export class ChatComponent implements OnInit {
   selectedFiles: File[] = [];
   previewUrls: string[] = [];
 
-  constructor(private chatService: ChatService, private authService: AuthService) { }
+  is_edit_message: boolean = false;
+  id_message: number = 0;
+
+  isScrollingToElement: boolean = false;
+  isVisible = true;
+  showBoxSearch = false;
+
+  keywordSearch: string = '';
+  valueSearch: any = [];
+
+  fitContent: boolean = false;
+
+  constructor(private el: ElementRef, private renderer: Renderer2, private chatService: ChatService, private authService: AuthService) { }
+
+  @ViewChild('scrollBox') private scrollBox!: ElementRef;
 
   ngOnInit(): void {
-    if (localStorage.getItem('auth_token')) {
-      this.authService.getUser(0).subscribe(
-        (response) => {
-          this.user = response.data;
-          console.log(this.user);
-        });
-    }
 
+    this.authService.getUser(0).subscribe(
+      (response) => {
+        this.user = response.data;
+      });
 
     this.authService.getFriend().subscribe(
       (data: any) => {
         this.friends = data;
-        console.log(this.friends.data);
-
         this.MessageUser((this.friends.data.length > 0) ? this.friends.data[0].id : '');
       });
 
   }
 
+  ngAfterViewInit() {
+    const accordion = this.el.nativeElement.querySelector('.a-accordion-header') as HTMLElement;
+    const panel = this.el.nativeElement.querySelector('.accordion-panel-search-chat') as HTMLElement;
+
+    accordion.addEventListener('click', () => {
+      accordion.classList.toggle('active');
+      panel.classList.toggle('open');
+      this.showBoxSearch = !this.showBoxSearch;
+      panel.style.maxHeight = (panel.classList.contains('open')) ? `${panel.scrollHeight}px` : '0px';
+    });
+
+    const search_input = panel.querySelector('.search-control-chat > input') as HTMLElement;
+    search_input.addEventListener('input', () => {
+      panel.style.maxHeight = (panel.classList.contains('open')) ? `${panel.scrollHeight}px` : '0px';
+    });
+  }
+
+  ngAfterViewChecked() {
+    if (!this.isScrollingToElement) {
+      this.scrollBox.nativeElement.scrollTop = this.scrollBox.nativeElement.scrollHeight;
+      this.isScrollingToElement = true;
+    }
+  }
+
+  toggleBoxchat() {
+    this.isVisible = !this.isVisible;
+  }
+
+
+  scrollToElement(index: number) {
+    console.log(index);
+
+    this.isScrollingToElement = true;
+    const targetElement = document.getElementById(`item-${index}`);
+
+    if (targetElement) {
+      targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+
   isDifferentDate(i: number): boolean {
-    if (i === this.conversation.messages.length - 1) return true;
-    return this.conversation.messages[i].date !== this.conversation.messages[i + 1].date;
+    if (i === 0) return true;
+    return this.conversation.messages[i].created_at_date !== this.conversation.messages[i - 1].created_at_date;
   }
 
   isDifferentUser(i: number, id: number): boolean {
@@ -59,24 +111,22 @@ export class ChatComponent implements OnInit {
   }
 
   MessageUser(id: number) {
-    console.log(id);
-
     this.chatService.getMessageUser(id).subscribe(
       (data: any) => {
         this.conversation = data.data;
-        console.log(this.conversation.messages);
+        console.log(this.conversation);
 
         (document.querySelector('.textarea-chat') as HTMLTextAreaElement).focus();
 
         this.chatService.setConversationId(this.conversation.id);
-        this.conversation.messages.reverse();
+        // this.conversation.messages.reverse();
 
         this.chatService.bindEventChat('App\\Events\\MessageSent', (data: any) => {
 
           console.log('Message received:', data);
 
-          if (data.is_recalled == 0) this.conversation.messages.unshift(data);
-          else if (data.is_recalled == 1) this.conversation.messages.find((item: any) => item.id === data.id).is_recalled = data.is_recalled;
+          // if (data.is_recalled == 0) this.conversation.messages.unshift(data);
+          // else if (data.is_recalled == 1) this.conversation.messages.find((item: any) => item.id === data.id).is_recalled = data.is_recalled;
 
         });
       });
@@ -95,30 +145,45 @@ export class ChatComponent implements OnInit {
   }
 
   sendMessage(mess: any) {
-    console.log(this.selectedFiles);
+    if (!this.is_edit_message) {
 
-    const formData = new FormData();
-    formData.append('conversation_id', mess.id.toString());
-    formData.append('content', mess.message);
+      const formData = new FormData();
+      formData.append('conversation_id', mess.id.toString());
+      formData.append('content', mess.content);
 
-    if (this.reply_id) {
-      formData.append('reply_to_message_id', this.reply_id);
+      if (this.reply_id) {
+        formData.append('reply_to_message_id', this.reply_id);
+      }
+
+      if (this.selectedFiles.length > 0) {
+        this.selectedFiles.forEach(image => {
+          formData.append('medias[]', image, image.name);
+        });
+      }
+
+      this.chatService.sendMessage(formData).subscribe(
+        (response: any) => {
+          console.log(response);
+          (document.querySelector('.textarea-chat') as HTMLTextAreaElement).style.height = '32px';
+          this.content = '';
+          this.onCancelSendImg();
+          this.onCancelReply();
+        }
+      );
+    }
+    else {
+      this.chatService.recallMessage(this.id_message, { 'content': mess.content }).subscribe(
+        (response) => {
+          console.log(response);
+          (document.querySelector('.textarea-chat') as HTMLTextAreaElement).style.height = '32px';
+          this.content = '';
+          this.onCancelSendImg();
+          this.onCancelReply();
+          this.is_edit_message = false;
+        }
+      );
     }
 
-    if (this.selectedFiles.length > 0) {
-      this.selectedFiles.forEach(image => {
-        formData.append('medias[]', image, image.name);
-      });
-    }
-
-    this.chatService.sendMessage(formData).subscribe(
-      (response: any) => {
-        console.log(response);
-        (document.querySelector('.textarea-chat') as HTMLTextAreaElement).style.height = 'auto';
-        this.message = '';
-        this.onCancelSendImg();
-        this.onCancelReply();
-      });
   }
 
   fileInput: any;
@@ -169,7 +234,7 @@ export class ChatComponent implements OnInit {
     this.countdownIntervals[id] = setInterval(() => {
       if (message.countdown > 0) message.countdown--;
       else {
-        this.chatService.recallMessage(id).subscribe(
+        this.chatService.recallMessage(id, { 'is_recalled': 1 }).subscribe(
           (response) => console.log(response),
           (error) => console.error('Error recalling message', error)
         );
@@ -187,10 +252,11 @@ export class ChatComponent implements OnInit {
   }
 
   getReply(id: number) {
-    const reply = this.conversation.messages.filter((data: any) => data.id == id)[0];
+    const reply = this.conversation.messages.find((data: any) => data.id == id);
+
     return {
-      message: reply.message,
-      images: reply.images,
+      content: reply.content,
+      images: reply.medias[0],
       is_recalled: reply.is_recalled,
       user_id: reply.user_id
     };
@@ -198,15 +264,36 @@ export class ChatComponent implements OnInit {
 
   onReply(id: number) {
     this.reply_id = id;
-
-    const reply = this.conversation.messages.filter((data: any) => data.id == id)[0];
+    const reply = this.conversation.messages.find((data: any) => data.id == id);
     this.previewReply = reply;
-
     (document.querySelector('.textarea-chat') as HTMLTextAreaElement).focus();
+  }
+
+  editMessage(id: number) {
+    const message = this.conversation.messages.find((item: any) => item.id === id);
+    console.log(message);
+    this.previewReply = message;
+    this.content = message.content;
+    this.is_edit_message = true;
+    this.id_message = message.id;
   }
 
   onCancelReply() {
     this.reply_id = null;
     this.previewReply = null;
+  }
+
+
+  searchMessage(): void {
+    if (this.keywordSearch && !/^\s*$/.test(this.keywordSearch)) {
+      this.valueSearch = this.conversation.messages.filter((msg: any) =>
+        msg.content && msg.content.toLowerCase().includes(this.keywordSearch.toLowerCase().trim())
+      );
+      this.valueSearch.reverse();
+      this.fitContent = true;
+    }
+    else {
+      this.valueSearch = [];
+    }
   }
 }

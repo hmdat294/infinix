@@ -22,7 +22,7 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   showPoll: boolean = false;
   poll_input: any[] = [];
 
-  spaceCheck:any = /^\s*$/;
+  spaceCheck: any = /^\s*$/;
 
   constructor(private postService: PostService, private carouselService: CarouselService) { }
 
@@ -30,6 +30,10 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
     this.postService.getPost().subscribe(
       (data) => {
         this.listPost = data;
+
+        this.postService.bindEventPost('App\\Events\\UserPostEvent', (data: any) => {
+          console.log('Post event:', data);
+        });
       });
   }
 
