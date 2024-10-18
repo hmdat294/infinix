@@ -31,8 +31,6 @@ export class HeaderComponent {
       filter((event) => event instanceof NavigationEnd)).subscribe(
         (event: any) => this.currentRoute = event.urlAfterRedirects.split('/').pop());
 
-        console.log(this.currentRoute);
-        
   }
 
   search(): void {

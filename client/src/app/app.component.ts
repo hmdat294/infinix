@@ -3,24 +3,33 @@ import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './header/header.component';
 import { CommonModule } from '@angular/common';
 import { HeaderDefaultComponent } from "./header-default/header-default.component";
-import { HeaderAdminComponent } from "./header-admin/header-admin.component";
+import { HeaderAdminComponent } from "./admin/header-admin/header-admin.component";
+import { AuthService } from './auth.service';
+import { NavComponent } from "./admin/nav/nav.component";
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, CommonModule, HeaderDefaultComponent, HeaderAdminComponent],
+  imports: [RouterOutlet, HeaderComponent, CommonModule, HeaderDefaultComponent, HeaderAdminComponent, NavComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
   isLoggedIn: boolean = false;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private authService: AuthService) { }
   ngOnInit(): void {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        this.isLoggedIn = (localStorage.getItem('auth_token')) ? true : false; // kiểm tra xem đã đăng nhập chưa
+        this.isLoggedIn = (localStorage.getItem('auth_token')) ? true : false;
+        // console.log(this.isLoggedIn);
+        if (localStorage.getItem('auth_token')) {
+          this.authService.getUser(0).subscribe(
+            (response) => {
+              // console.log(response);
+            });
+        }
       }
     });
   }
