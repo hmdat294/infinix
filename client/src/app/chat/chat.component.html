@@ -367,10 +367,10 @@
                             <p class="text-primary text-body w-fill">Search message</p>
                             <i *ngIf="showBoxSearch" class="icon-size-20 icon icon-ic_fluent_dismiss_20_regular"></i>
                         </div>
-                        <div class="accordion-panel">
+                        <div class="accordion-panel accordion-panel-search-chat">
                             <div class="layout-vertical p-5 gap-15 px-15 py-10">
 
-                                <div class="control search-control w-fill">
+                                <div class="control search-control search-control-chat w-fill">
                                     <input type="search w-fill" (input)="searchMessage()" [(ngModel)]="keywordSearch" placeholder="Tìm kiếm" spellcheck="false" required="">
                                     <button type="button" class="input-button clear-content-button">
                                         <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
@@ -384,7 +384,7 @@
 
                                     <div *ngFor="let message of valueSearch">
                                         <div style="cursor: pointer;" (click)="scrollToElement(message.id)"
-                                            class="layout-horizontal align-center-left gap-15 button-standard px-15 py-10">
+                                            class="layout-horizontal align-center-left gap-15 px-15 py-15 list-item">
                                             <div>
                                                 <img src="assets/image/avatar.png" alt=""
                                                     style="width: 35px; height: 35px;">

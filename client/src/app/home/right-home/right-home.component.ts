@@ -47,7 +47,8 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
       (response) => {
         console.log('Logout Success:', response);
         localStorage.removeItem('auth_token');
-        location.reload();
+        this.router.navigate(['/landing-page']);
+        // location.reload();
       },
       (error) => {
         console.error('Logout Error:', error);

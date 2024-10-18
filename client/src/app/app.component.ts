@@ -12,11 +12,11 @@ import { HeaderDefaultComponent } from "./header-default/header-default.componen
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   isLoggedIn: boolean = false;
 
-  constructor(private router: Router) {
-
+  constructor(private router: Router) { }
+  ngOnInit(): void {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.isLoggedIn = (localStorage.getItem('auth_token')) ? true : false; // kiểm tra xem đã đăng nhập chưa
