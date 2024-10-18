@@ -21,7 +21,7 @@ export class LeftHomeComponent implements OnInit {
     this.authService.getRequestFriend().subscribe(
       (response) => {
         this.userRequest = response;
-        console.log(this.userRequest);
+        // console.log(this.userRequest);
       });
 
   }

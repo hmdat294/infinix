@@ -72,6 +72,7 @@
                 <div #scrollBox class="h-fill w-fill box-chat">
 
                     <div *ngFor="let msg of conversation.messages; let i = index;" [attr.id]="'item-' + msg.id">
+                        
                         <div class="text-center" *ngIf="isDifferentDate(i)">
                             <small>{{msg.created_at_date}}</small>
                         </div>
@@ -84,6 +85,38 @@
                                     </p>
                                     <div class="mess-hover layout align-center-right" *ngIf="msg.is_recalled == 0">
                                         <div class="mess-menu layout mx-15">
+                                            
+
+
+
+
+
+                                            <!-- <div class="dialog">
+                                                <button type="button" 
+                                                    class="button-subtle button-icon-only">
+                                                    <i class="icon-size-20 icon icon-ic_fluent_more_horizontal_20_filled"></i>
+                                                </button>
+                                                <div class="dialog-panel">
+                                                    <div class="solid-background-senary rounded-4 p-20 gap-20 layout-vertical border border-card-default">
+                                                        <p class="text-title">Dialog title</p>
+                                                        <p class="text-body">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam exercitationem cumque repellendus eaque est dolor eius expedita nulla ullam? Tenetur reprehenderit aut voluptatum impedit voluptates in natus iure cumque eaque?</p>
+                                                        <div class="layout-horizontal gap-10 w-fill align-center-right">
+                                                            <button type="button" class="button-standard button-text-only">
+                                                                Cancel
+                                                            </button>
+                                                            <button type="button" class="button-accent button-text-only">
+                                                                Confirm
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+
+
+
+
+
+
                                             <button type="button" (click)="onReply(msg.id)"
                                                 class="button-subtle button-icon-only">
                                                 <i class="icon-size-20 icon icon-ic_fluent_arrow_reply_20_regular"></i>
@@ -224,11 +257,10 @@
                                                 class="button-subtle button-icon-only">
                                                 <i class="icon-size-20 icon icon-ic_fluent_arrow_reply_20_regular"></i>
                                             </button>
-                                            <!-- <button type="button" (click)="recallMessage(msg.id)"
+                                            <button type="button" 
                                                 class="button-subtle button-icon-only">
-                                                <i
-                                                    class="icon-size-20 icon icon-ic_fluent_arrow_counterclockwise_20_regular"></i>
-                                            </button> -->
+                                                <i class="icon-size-20 icon icon-ic_fluent_more_horizontal_20_filled"></i>
+                                            </button>
                                         </div>
                                     </div>
 
@@ -335,11 +367,11 @@
                             <p class="text-primary text-body w-fill">Search message</p>
                             <i *ngIf="showBoxSearch" class="icon-size-20 icon icon-ic_fluent_dismiss_20_regular"></i>
                         </div>
-                        <div class="accordion-panel">
+                        <div class="accordion-panel accordion-panel-search-chat">
                             <div class="layout-vertical p-5 gap-15 px-15 py-10">
 
-                                <div class="control search-control w-fill">
-                                    <input type="search w-fill" (input)="searchMessage()" [(ngModel)]="keyword" placeholder="Tìm kiếm" spellcheck="false" required="">
+                                <div class="control search-control search-control-chat w-fill">
+                                    <input type="search w-fill" (input)="searchMessage()" [(ngModel)]="keywordSearch" placeholder="Tìm kiếm" spellcheck="false" required="">
                                     <button type="button" class="input-button clear-content-button">
                                         <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
                                     </button>
@@ -352,7 +384,7 @@
 
                                     <div *ngFor="let message of valueSearch">
                                         <div style="cursor: pointer;" (click)="scrollToElement(message.id)"
-                                            class="layout-horizontal align-center-left gap-15 button-standard px-15 py-10">
+                                            class="layout-horizontal align-center-left gap-15 px-15 py-15 list-item">
                                             <div>
                                                 <img src="assets/image/avatar.png" alt=""
                                                     style="width: 35px; height: 35px;">
