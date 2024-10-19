@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Http\Resources\CommentResource;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -10,6 +11,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\User as UserModel;
+use App\Models\PostComment as PostCommentModel;
 
 class UserCommentEvent
 {
@@ -37,5 +39,12 @@ class UserCommentEvent
             $channel_array[] = new PrivateChannel('user.' . $friend_id);
         }
         return $channel_array;
+    }
+
+    public function broadcastWith()
+    {
+        return [
+            "data" => new CommentResource(PostCommentModel::find($this->comment_id)),
+        ];
     }
 }
