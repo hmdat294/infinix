@@ -3,7 +3,7 @@
 
     <article class="py-20 mt-20 mx-20 w-fill overflow-scroll-vertical">
 
-        <div class="layout-horizontal  align-center-space-between gap-10 mb-10">
+        <div class="layout-horizontal align-center-space-between gap-10 mb-10">
             <div class="layout-horizontal align-left-center w-fill gap-10">
                 <div class="search-dropdown-control">
                     <div class="control search-control">
@@ -27,14 +27,24 @@
                         </div>
                     </div>
                 </div>
-                <div class="fillter">
-                    <select name="" id="" class="control">
-                        <option value="0">Search by username</option>
-                        <option value="1">Search by email</option>
-                    </select>
-                </div>
-
+                <button type="button" class="button-standard button-text-with-icon gap-10">
+                    <i class="icon-size-16 icon icon-ic_fluent_document_one_page_multiple_16_regular"></i>
+                    Post
+                </button>
+                <button type="button" class="button-standard button-text-with-icon gap-10">
+                    <i class="icon-size-20 icon icon-ic_fluent_check_20_regular"></i>
+                    Comment
+                </button>
+                <button type="button" class="button-standard button-text-with-icon gap-10">
+                    <i class="icon-size-16 icon icon-ic_fluent_person_16_regular"></i>
+                    User
+                </button>
+                <button type="button" class="button-standard button-text-only gap-10">
+                    <i class="icon-size-16 icon icon-ic_fluent_person_24_regular"></i>
+                    See All
+                </button>
             </div>
+
             <div class="me-25">
                 <div class="pagination layout-horizontal">
                     <button class="pagination-item button-subtle button-icon-only text-accent-default"><i
@@ -51,29 +61,34 @@
         </div>
         <div class>
             <div class="solid-background-senary p-10 rounded-6">
+
+
                 <table class="w-fill text-center">
                     <thead>
-                        <tr>
+                        <tr class>
                             <th class="text-body-strong py-10"><input class="checkbox-control" type="checkbox"></th>
-                            <th class="text-body-strong">Avatar</th>
+                            <th class="text-body-strong">Post</th>
                             <th class="text-body-strong">Username</th>
-                            <th class="text-body-strong">Email</th>
-                            <th class="text-body-strong">Phone number</th>
-                            <th class="text-body-strong">Registration date</th>
+                            <th class="text-body-strong">Report Content</th>
+                            <th class="text-body-strong">Status</th>
+                            <th class="text-body-strong">Report date</th>
                             <th class="text-body-strong">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="border-top" *ngFor="let item of listUser">
-                            <td class="text-body"><input class="checkbox-control" type="checkbox"></td>
-                            <td class="text-body py-10"><img src="assets/image/avatar.png" alt="Avatar" class="avatar">
+                        <tr class="border-top">
+                            <td class="text-body py-10"><input class="checkbox-control" type="checkbox"></td>
+                            <td class="text-body layout align-center-center py-10">
+                                <button type="button" class="button-standard button-text-only">View Post</button>
                             </td>
-                            <td class="text-body">{{item.profile.display_name}}</td>
-                            <td class="text-body">{{item.email}}</td>
-                            <td class="text-body">{{item.phone_number}}</td>
-                            <td class="text-body">{{item.created_at}}</td>
+                            <td class="text-body">chick2004</td>
                             <td class="text-body">
-                                <div class="layout-horizontal gap-10 align-center-center ">
+                                Nội dung nhạy cảm gây hiểu lầm!
+                            </td>
+                            <td class="text-body">BANNED</td>
+                            <td class="text-body">01/10/2024</td>
+                            <td class="text-body">
+                                <div class="layout-horizontal gap-10 align-center-center">
                                     <a href="#" class="button-standard button-icon-only text-accent-default">
                                         <i class="icon-size-24 icon icon-ic_fluent_settings_24_filled"></i>
                                     </a>
@@ -85,6 +100,8 @@
                         </tr>
                     </tbody>
                 </table>
+
+
             </div>
         </div>
 

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PostService } from '../../post.service';
 import { CommonModule } from '@angular/common';
@@ -24,32 +24,39 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   spaceCheck: any = /^\s*$/;
   idDialog: number = 0;
 
-  constructor(private postService: PostService, private carouselService: CarouselService) {}
-
+  constructor(private cdr: ChangeDetectorRef, private postService: PostService, private carouselService: CarouselService) {}
+ 
   ngOnInit(): void {
     this.postService.getPost().subscribe(
       (data) => {
         this.listPost = data.data;
         console.log(this.listPost);
-
+  
         this.postService.bindEventPost('App\\Events\\UserPostEvent', (data: any) => {
           console.log('Post event:', data);
           this.listPost.unshift(data.data);
+  
+          this.cdr.detectChanges();
+          this.initCarousels();
         });
       });
   }
-
+  
   @ViewChildren('carouselInner') carouselInners!: QueryList<ElementRef<HTMLDivElement>>;
   @ViewChildren('nextButton') nextButtons!: QueryList<ElementRef<HTMLButtonElement>>;
   @ViewChildren('prevButton') prevButtons!: QueryList<ElementRef<HTMLButtonElement>>;
   @ViewChildren('indicatorsContainer') indicatorsContainers!: QueryList<ElementRef<HTMLDivElement>>;
-
+  
   ngAfterViewInit(): void {
+    this.initCarousels();
+  }
+  
+  initCarousels(): void {
     this.carouselInners.forEach((carouselInner, index) => {
       const nextButton = this.nextButtons.toArray()[index];
       const prevButton = this.prevButtons.toArray()[index];
       const indicators = this.indicatorsContainers.toArray()[index].nativeElement.querySelectorAll('button') as NodeListOf<HTMLButtonElement>;
-
+  
       this.carouselService.initCarousel(carouselInner, nextButton, prevButton, indicators);
     });
   }
