@@ -1,5 +1,5 @@
 <nav class="h-fill solid-background-senary">
-    <div class="layout-vertical h-fill" style="min-width: 200px;">
+    <div class="layout-vertical h-fill pb-10" style="min-width: 200px;">
         <div class="h-fill">
             <div class="nav layout-vertical gap-10">
                 <button type="button" class="button-subtle button-text-with-icon text-left"><i
@@ -14,7 +14,11 @@
                         class="ms-15 accent-text-tertiary icon-size-24 icon icon-ic_fluent_calendar_48_regular"></i>Event</button>
             </div>
         </div>
-        <div class="h-hug layout-vertical">
+        <div class="h-hug layout-vertical gap-10">
+            <button type="button" class="button-subtle button-text-with-icon text-left" [routerLink]="['/']">
+                <i class="ms-15 accent-text-tertiary icon-size-24 icon icon-ic_fluent_home_24_regular"></i>
+                Home
+            </button>
             <button type="button" class="button-subtle button-text-with-icon text-left" (click)="logout();">
                 <i class="ms-15 accent-text-tertiary icon-size-24 icon icon-ic_fluent_door_arrow_left_24_regular"></i>
                 Logout
