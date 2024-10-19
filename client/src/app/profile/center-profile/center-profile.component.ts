@@ -22,24 +22,56 @@ export class CenterProfileComponent {
   filePost: any;
   showPoll: boolean = false;
   poll_input: any[] = [];
+  spaceCheck: any = /^\s*$/;
+  idDialog: number = 0;
+
 
   constructor(private postService: PostService, private authService: AuthService, private carouselService: CarouselService) { }
 
   ngOnInit(): void {
 
-    if (localStorage.getItem('auth_token')) {
-      this.authService.getUser(0).subscribe(
-        (res) => this.postService.getPostByUser(res.data.id).subscribe(
-          (data) => this.listPost = data));
-    }
+    this.authService.getUser(0).subscribe(
+      (res) => this.postService.getPostByUser(res.data.id).subscribe(
+        (data) => {
+          this.listPost = data.data;
 
+          this.postService.bindEventPost('App\\Events\\UserPostEvent', (data: any) => {
+            console.log('Post event:', data);
+            this.listPost.unshift(data.data);
+          });
+        }));
+
+
+  }
+
+  @ViewChildren('carouselInner') carouselInners!: QueryList<ElementRef<HTMLDivElement>>;
+  @ViewChildren('indicatorsContainer') indicatorsContainers!: QueryList<ElementRef<HTMLDivElement>>;
+  @ViewChildren('nextButton') nextButtons!: QueryList<ElementRef<HTMLButtonElement>>;
+  @ViewChildren('prevButton') prevButtons!: QueryList<ElementRef<HTMLButtonElement>>;
+
+  ngAfterViewInit(): void {
+    this.carouselInners.forEach((carouselInner, index) => {
+      const nextButton = this.nextButtons.toArray()[index];
+      const prevButton = this.prevButtons.toArray()[index];
+      const indicators = this.indicatorsContainers.toArray()[index].nativeElement.querySelectorAll('button') as NodeListOf<HTMLButtonElement>;
+
+      this.carouselService.initCarousel(carouselInner, nextButton, prevButton, indicators);
+    });
+  }
+
+  getPathImg(img: any) {
+    return img.path;
+  }
+
+  toggleDialog(id: number) {
+    this.idDialog = id;
   }
 
   post(value: any) {
 
     const formData = new FormData();
     formData.append('content', value.content);
-    
+
     if (this.selectedFilesPost.length > 0)
       this.selectedFilesPost.forEach(image => formData.append('medias[]', image, image.name));
 
@@ -109,20 +141,5 @@ export class CenterProfileComponent {
     if (diffInHours >= 12) return givenTime.format('YYYY-MM-DD');
     else if (diffInMinutes < 60) return `${diffInMinutes} phút trước`;
     else return `${diffInHours} giờ trước`;
-  }
-  
-  @ViewChildren('carouselInner') carouselInners!: QueryList<ElementRef<HTMLDivElement>>;
-  @ViewChildren('nextButton') nextButtons!: QueryList<ElementRef<HTMLButtonElement>>;
-  @ViewChildren('prevButton') prevButtons!: QueryList<ElementRef<HTMLButtonElement>>;
-  @ViewChildren('indicatorsContainer') indicatorsContainers!: QueryList<ElementRef<HTMLDivElement>>;
-
-  ngAfterViewInit(): void {
-    this.carouselInners.forEach((carouselInner, index) => {
-      const nextButton = this.nextButtons.toArray()[index];
-      const prevButton = this.prevButtons.toArray()[index];
-      const indicators = this.indicatorsContainers.toArray()[index].nativeElement.querySelectorAll('button') as NodeListOf<HTMLButtonElement>;
-
-      this.carouselService.initCarousel(carouselInner, nextButton, prevButton, indicators);
-    });
   }
 }

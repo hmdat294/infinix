@@ -9,7 +9,7 @@
 
             <div *ngIf="previewPostImages.length > 0" class="p-10 position-relative border rounded-6">
                 <div class="layout-wrap gap-10">
-                    <div *ngFor="let previewImage of previewPostImages; let i = index" class="w-fill">
+                    <div *ngFor="let previewImage of previewPostImages; let i = index" class="w-fill-column-6">
                         <img [src]="previewImage" alt="Image preview" width="100%" class="rounded-4">
                         <button type="button" (click)="removePostImage(i)"
                             class="button-standard button-icon-only position-absolute top-0 end-0">
@@ -68,7 +68,8 @@
                     </button>
 
                 </div>
-                <button type="submit" class="button-accent button-text-with-icon" [disabled]="spaceCheck.test(value.value.content)">
+                <button type="submit" class="button-accent button-text-with-icon"
+                    [disabled]="spaceCheck.test(value.value.content)">
                     Đăng bài
                     <i class="icon-size-16 icon icon-ic_fluent_send_16_filled"></i>
                 </button>
@@ -77,7 +78,7 @@
     </div>
 </div>
 
-<div *ngFor="let post of listPost.data"
+<div *ngFor="let post of listPost; let postIndex = index"
     class="layout-vertical gap-20 pt-20 ps-20 pe-20 pb-10 card-background-default border border-card-default rounded-8">
     <div class="layout-horizontal gap-20">
         <img src="assets/image/avatar.png" alt="" style="width: 35px; height: 35px;">
@@ -94,27 +95,91 @@
     </div>
 
 
-    <div class="layout w-fill" *ngIf="post.medias.length>0">
-        <div class="carousel w-fill rounded-4">
-            <div class="carousel-indicators" #indicatorsContainer>
-                <button type="button" class="border-none rounded-circle" *ngFor="let img of post.medias; let i = index">
-                </button>
+    <div class="layout w-fill h-fill" *ngIf="post.medias.length>0">
+        <div class="w-fill h-fill {{(post.medias.length<6)?'layout-'+post.medias.length:'layout-6'}}">
+            <div class="w-fill h-fill rounded-6 overflow-hidden" *ngFor="let img of post.medias | slice:0:5"
+                (click)="toggleDialog(post.id)">
+                <img class="w-fill h-fill object-fit-cover object-position-center" [src]="getPathImg(img)" alt="Image">
             </div>
-            <div class="carousel-inner" #carouselInner>
-                <div class="carousel-item" *ngFor="let img of post.medias">
-                    <img [src]="img.path" alt="Image 1">
-                </div>
-            </div>
-
-            <button type="button" class="carousel-button-previous p-5 rounded-circle" #prevButton>
-                <i class="icon-size-20 icon icon-ic_fluent_chevron_left_20_filled"></i>
-            </button>
-
-            <button type="button" class="carousel-button-next p-5 rounded-circle" #nextButton>
-                <i class="icon-size-20 icon icon-ic_fluent_chevron_right_20_filled"></i>
-            </button>
         </div>
     </div>
+
+
+
+    <div class="position-fixed top-0 start-0  {{(idDialog == post.id) ? 'display-block' : 'display-none'}}"
+        style="width: 100%; height: 100vh; z-index: 10; background-color: rgba(0, 0, 0, 0.3);">
+        <div class="dialog-panel position-absolute top-50 start-50 translate-middle" style="width: 80%;">
+            <div
+                class="solid-background-senary rounded-8 overflow-hidden gap-15 layout-horizontal border border-card-default">
+                <div class="w-fill-column-8">
+
+                    <div class="layout w-fill" *ngIf="post.medias.length>0">
+                        <div class="carousel w-fill rounded-4">
+                            <div class="carousel-indicators" #indicatorsContainer *ngIf="post.medias.length>1">
+                                <button type="button" class="border-none rounded-circle"
+                                    *ngFor="let img of post.medias; let i = index">
+                                </button>
+                            </div>
+                            <div class="carousel-inner" #carouselInner>
+                                <div class="carousel-item" *ngFor="let img of post.medias">
+                                    <img [src]="img.path" alt="Image 1">
+                                </div>
+                            </div>
+
+                            <button *ngIf="post.medias.length>1" type="button" class="carousel-button-previous p-5 rounded-circle" #prevButton>
+                                <i class="icon-size-20 icon icon-ic_fluent_chevron_left_20_filled"></i>
+                            </button>
+
+                            <button *ngIf="post.medias.length>1" type="button" class="carousel-button-next p-5 rounded-circle" #nextButton>
+                                <i class="icon-size-20 icon icon-ic_fluent_chevron_right_20_filled"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="layout-vertical w-fill-column-4">
+                    <div class="layout-vertical w-flll">
+                        <div class="border-bottom w-fill py-10 layout-horizontal align-center-space-between">
+                            <div class="layout-horizontal gap-20">
+                                <img src="assets/image/avatar.png" alt="" style="width: 35px; height: 35px;">
+                                <div class="layout-vertical w-fill">
+                                    <p class="text-body-strong text-primary">{{post.profile.display_name}}</p>
+                                    <p class="text-body text-secondary">{{formatTime(post.created_at)}}</p>
+                                </div>
+                            </div>
+                            <button type="button" class="button-subtle button-icon-only" (click)="toggleDialog(0)">
+                                <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="layout w-fill h-fill py-10">
+                        <p class="text-body text-primary" style="white-space: pre-line;">{{post.content}}</p>
+                    </div>
+                    <div class="layout-horizontal w-fill py-10 border-top">
+                        <div class="layout-horizontal w-fill align-center-left">
+                            <button type="button" class="button-subtle button-text-with-icon text-secondary">
+                                100
+                                <i class="icon-size-20 icon icon-ic_fluent_heart_20_regular"></i>
+                            </button>
+                            <button type="button" class="button-subtle button-text-with-icon text-secondary">
+                                100
+                                <i class="icon-size-20 icon icon-ic_fluent_chat_empty_20_regular"></i>
+                            </button>
+                            <button type="button" class="button-subtle button-text-with-icon text-secondary">
+                                100
+                                <i class="icon-size-20 icon icon-ic_fluent_share_20_regular"></i>
+                            </button>
+                        </div>
+                        <button type="button" class="button-subtle button-icon-only text-secondary">
+                            <i class="icon-size-20 icon icon-ic_fluent_bookmark_20_regular"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 
 
     <div *ngIf="post.post_type == 'with_poll'"
