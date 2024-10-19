@@ -82,6 +82,10 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
   }
 
+  getPathImg(img: any) {
+    return img.path;
+  }
+
   ngAfterViewChecked() {
     if (!this.isScrollingToElement) {
       this.scrollBox.nativeElement.scrollTop = this.scrollBox.nativeElement.scrollHeight;

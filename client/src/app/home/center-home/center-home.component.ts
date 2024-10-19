@@ -21,10 +21,10 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   filePost: any;
   showPoll: boolean = false;
   poll_input: any[] = [];
-
   spaceCheck: any = /^\s*$/;
+  idDialog: number = 0;
 
-  constructor(private postService: PostService, private carouselService: CarouselService) { }
+  constructor(private postService: PostService, private carouselService: CarouselService) {}
 
   ngOnInit(): void {
     this.postService.getPost().subscribe(
@@ -37,6 +37,29 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
           this.listPost.unshift(data.data);
         });
       });
+  }
+
+  @ViewChildren('carouselInner') carouselInners!: QueryList<ElementRef<HTMLDivElement>>;
+  @ViewChildren('nextButton') nextButtons!: QueryList<ElementRef<HTMLButtonElement>>;
+  @ViewChildren('prevButton') prevButtons!: QueryList<ElementRef<HTMLButtonElement>>;
+  @ViewChildren('indicatorsContainer') indicatorsContainers!: QueryList<ElementRef<HTMLDivElement>>;
+
+  ngAfterViewInit(): void {
+    this.carouselInners.forEach((carouselInner, index) => {
+      const nextButton = this.nextButtons.toArray()[index];
+      const prevButton = this.prevButtons.toArray()[index];
+      const indicators = this.indicatorsContainers.toArray()[index].nativeElement.querySelectorAll('button') as NodeListOf<HTMLButtonElement>;
+
+      this.carouselService.initCarousel(carouselInner, nextButton, prevButton, indicators);
+    });
+  }
+
+  getPathImg(img: any) {
+    return img.path;
+  }
+
+  toggleDialog(id: number) {
+    this.idDialog = id;
   }
 
   post(value: any) {
@@ -115,20 +138,5 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
     if (diffInHours >= 12) return givenTime.format('YYYY-MM-DD');
     else if (diffInMinutes < 60) return `${diffInMinutes} phút trước`;
     else return `${diffInHours} giờ trước`;
-  }
-
-  @ViewChildren('carouselInner') carouselInners!: QueryList<ElementRef<HTMLDivElement>>;
-  @ViewChildren('nextButton') nextButtons!: QueryList<ElementRef<HTMLButtonElement>>;
-  @ViewChildren('prevButton') prevButtons!: QueryList<ElementRef<HTMLButtonElement>>;
-  @ViewChildren('indicatorsContainer') indicatorsContainers!: QueryList<ElementRef<HTMLDivElement>>;
-
-  ngAfterViewInit(): void {
-    this.carouselInners.forEach((carouselInner, index) => {
-      const nextButton = this.nextButtons.toArray()[index];
-      const prevButton = this.prevButtons.toArray()[index];
-      const indicators = this.indicatorsContainers.toArray()[index].nativeElement.querySelectorAll('button') as NodeListOf<HTMLButtonElement>;
-
-      this.carouselService.initCarousel(carouselInner, nextButton, prevButton, indicators);
-    });
   }
 }

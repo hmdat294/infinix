@@ -89,8 +89,8 @@
                                     <div>
 
                                         <div class="w-fill layout align-top-right" *ngIf="(user.id == msg.user_id)">
-                                            <div class="layout-horizontal gap-15 p-5">
-                                                <div>
+                                            <div class="layout-horizontal gap-15 p-5 align-top-right">
+                                                <div style="width: calc(100% - 100px);">
                                                     <p class="text-tertiary text-caption mb-5 layout align-top-right">
                                                         {{msg.created_at_time}} - {{msg.updated_at_date}}
                                                     </p>
@@ -124,11 +124,17 @@
 
                                                                     </div>
                                                                 </div>
-                                                                <div *ngIf="msg.medias"
-                                                                    class="layout-wrap rounded-top-8 overflow-hidden">
-                                                                    <img *ngFor="let image of msg.medias"
-                                                                        src="{{image.path}}" alt="Image" class="w-hug"
-                                                                        style="max-height: 150px;">
+
+                                                                <div class="layout w-fill gradient-background p-10 rounded-top-8"
+                                                                    *ngIf="msg.medias.length>0">
+                                                                    <div style="max-height: 60vh;"
+                                                                        class="w-fill {{(msg.medias.length<6)?'layout-'+msg.medias.length:(msg.medias.length%2==0)?'layout-6':'layout-5'}}">
+                                                                        <div class="w-fill h-fill rounded-6 overflow-hidden"
+                                                                            *ngFor="let img of msg.medias">
+                                                                            <img class="w-fill h-fill object-fit-cover object-position-center"
+                                                                                [src]="getPathImg(img)" alt="Image">
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
 
                                                                 <p style="background-color: #005FB8E6; color: white; white-space: pre-line;"
@@ -185,11 +191,16 @@
                                                                     </div>
                                                                 </div>
 
-                                                                <div *ngIf="msg.medias"
-                                                                    class="layout-wrap rounded-top-8 overflow-hidden">
-                                                                    <img *ngFor="let image of msg.medias"
-                                                                        src="{{image.path}}" alt="Image" class="w-hug"
-                                                                        style="max-height: 150px;">
+                                                                <div class="layout w-fill h-fill"
+                                                                    *ngIf="msg.medias.length>0">
+                                                                    <div style="max-height: 60vh;"
+                                                                        class="w-fill h-fill {{(msg.medias.length<6)?'layout-'+msg.medias.length:(msg.medias.length%2==0)?'layout-6':'layout-5'}}">
+                                                                        <div class="w-fill h-fill rounded-6 overflow-hidden"
+                                                                            *ngFor="let img of msg.medias">
+                                                                            <img class="w-fill h-fill object-fit-cover object-position-center"
+                                                                                [src]="getPathImg(img)" alt="Image">
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
 
                                                                 <p style="white-space: pre-line;"
@@ -278,10 +289,16 @@
 
                                                     </div>
                                                 </div>
-                                                <div *ngIf="msg.medias"
-                                                    class="layout-wrap rounded-top-8 overflow-hidden">
-                                                    <img *ngFor="let image of msg.medias" src="{{image.path}}"
-                                                        alt="Image" class="w-hug" style="max-height: 150px;">
+                                                <div class="layout w-fill gradient-background p-10 rounded-top-8"
+                                                    *ngIf="msg.medias.length>0">
+                                                    <div style="max-width: 500px;"
+                                                        class="w-fill {{(msg.medias.length<6)?'layout-'+msg.medias.length:(msg.medias.length%2==0)?'layout-6':'layout-5'}}">
+                                                        <div class="w-fill h-fill rounded-6 overflow-hidden"
+                                                            *ngFor="let img of msg.medias">
+                                                            <img class="w-fill h-fill object-fit-cover object-position-center"
+                                                                [src]="getPathImg(img)" alt="Image">
+                                                        </div>
+                                                    </div>
                                                 </div>
 
                                                 <p style="background-color: #005FB8E6; color: white; white-space: pre-line;"
@@ -353,10 +370,16 @@
                                                     </div>
                                                 </div>
 
-                                                <div *ngIf="msg.medias"
-                                                    class="layout-wrap rounded-top-8 overflow-hidden">
-                                                    <img *ngFor="let image of msg.medias" src="{{image.path}}"
-                                                        alt="Image" class="w-hug" style="max-height: 150px;">
+                                                <div class="layout w-fill gradient-background p-10 rounded-top-8"
+                                                    *ngIf="msg.medias.length>0">
+                                                    <div style="max-width: 500px;"
+                                                        class="w-fill {{(msg.medias.length<6)?'layout-'+msg.medias.length:(msg.medias.length%2==0)?'layout-6':'layout-5'}}">
+                                                        <div class="w-fill h-fill rounded-6 overflow-hidden"
+                                                            *ngFor="let img of msg.medias">
+                                                            <img class="w-fill h-fill object-fit-cover object-position-center"
+                                                                [src]="getPathImg(img)" alt="Image">
+                                                        </div>
+                                                    </div>
                                                 </div>
 
                                                 <p style="white-space: pre-line;"
@@ -470,7 +493,8 @@
                 </div>
             </div>
         </div>
-        <div class="{{(isVisible)?'display-flex':'display-none'}} w-fill-column-3 layout-vertical gap-20 py-20 overflow-scroll-vertical">
+        <div
+            class="{{(isVisible)?'display-flex':'display-none'}} w-fill-column-3 layout-vertical gap-20 py-20 overflow-scroll-vertical">
             <div class="layout-vertical card-background-default border rounded-8 align-center-center py-20">
                 <img src="assets/image/avatar.png" alt="" class="mb-15" style="width: 100px; height: 100px;">
                 <p class="text-primary text-body">Châu Thành Cường</p>
