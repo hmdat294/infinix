@@ -55,7 +55,7 @@ class PostCommentController extends Controller
         $comment_data['user_id'] = $request->user()->id;
         $comment = CommentModel::create($comment_data);
 
-        broadcast(new UserCommentEvent($comment->user_id, $comment->post_id, $comment->id, $comment->content))->toOthers();
+        event(new UserCommentEvent($comment->user_id, $comment->post_id, $comment->id, $comment->content));
 
         return new CommentResource($comment);
     }
