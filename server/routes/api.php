@@ -71,17 +71,17 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
 
     // Like bài viết
     Route::resource('like', PostLikeController::class)
-    ->only(['index', 'store', 'destroy'])
+    ->only(['index', 'store'])
     ->parameters(['like' => 'post-id']);
 
     // Share bài viết
     Route::resource('share', PostShareController::class)
-    ->only(['index', 'store', 'destroy'])
+    ->only(['index', 'store'])
     ->parameters(['share' => 'post-id']);
 
     // Bookmark bài viết
     Route::resource('bookmark', PostBookmarkController::class)
-    ->only(['index', 'store', 'destroy'])
+    ->only(['index', 'store'])
     ->parameters(['bookmark' => 'post-id']);
 
     // API cho hội thoại đơn (theo user_id)

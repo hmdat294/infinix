@@ -2,7 +2,8 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Profile;
+use App\Models\PostComment as PostCommentModel;
+use App\Models\Profile as ProfileModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -27,8 +28,11 @@ class PostResource extends JsonResource
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
             'profile' => new ProfileResource($this->user->profile),
-            'comments' => CommentResource::collection($this->comments),
             'medias' => PostMediaResource::collection($this->medias),
+
+            "comments_count" => $this->comments->count(),
+            "likes_count" => $this->likes->count(),
+            "shares_count" => $this->shares->count(),
 
         ];
 
