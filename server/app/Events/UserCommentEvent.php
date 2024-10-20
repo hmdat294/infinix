@@ -13,7 +13,7 @@ use Illuminate\Queue\SerializesModels;
 use App\Models\User as UserModel;
 use App\Models\PostComment as PostCommentModel;
 
-class UserCommentEvent
+class UserCommentEvent implements ShouldBroadcast 
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
