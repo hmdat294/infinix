@@ -12,6 +12,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\User as UserModel;
 use App\Models\PostComment as PostCommentModel;
+use App\Models\Post as PostModel;
 
 class UserCommentEvent
 {
@@ -33,12 +34,13 @@ class UserCommentEvent
     
     public function broadcastOn(): array
     {
-        $friend_id_array = UserModel::find($this->user_id)->friendsOf->concat(UserModel::find($this->user_id)->friendsOfMine)->pluck('id');
-        $channel_array = [];
-        foreach ($friend_id_array as $friend_id) {
-            $channel_array[] = new PrivateChannel('user.' . $friend_id);
-        }
-        return $channel_array;
+        $user_comment_id = $this->user_id;
+        $user_post_id = PostModel::find($this->post_id)->user->id;
+
+        return [
+            new Channel('user.'.$user_comment_id),
+            new Channel('user.'.$user_post_id),
+        ];
     }
 
     public function broadcastWith()
