@@ -31,7 +31,10 @@ class UserSharePostEvent
 
         $recipient_id_array = UserModel::find($this->user_id)->friendsOf->concat(UserModel::find($this->user_id)->friendsOfMine)->pluck('id');
         $recipient_id_array[] = $this->user_id;
+
         $recipient_id_array = $recipient_id_array->concat(UserModel::find($this->user_id)->followers->pluck('id'));
+
+        $recipient_id_array[] = PostModel::find($this->post_id)->user->id;
         
         $channel_array = [];
         foreach ($recipient_id_array as $recipient_id) {
@@ -45,6 +48,7 @@ class UserSharePostEvent
     {
         $post = PostModel::find($this->post_id);
         return [
+            "user_share_id" => $this->user_id,
             "data" => new PostResource($post),
         ];
     }

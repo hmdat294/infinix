@@ -46,6 +46,7 @@ class UserCommentEvent
     public function broadcastWith()
     {
         return [
+            "user_comment_id" => $this->user_id,
             "data" => new CommentResource(PostCommentModel::find($this->comment_id)),
         ];
     }
