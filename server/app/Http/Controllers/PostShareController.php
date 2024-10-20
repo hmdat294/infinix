@@ -7,6 +7,8 @@ use App\Models\Post as PostModel;
 use App\Models\PostShare as PostShareModel;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\JsonResponse;
+use App\Events\UserSharePostEvent;
 
 class PostShareController extends Controller
 {
@@ -53,6 +55,8 @@ class PostShareController extends Controller
                 'post_id' => $request->post_id,
                 'user_id' => $request->user()->id,
             ]);
+
+            event(new UserSharePostEvent($request->post_id, $request->user()->id));
 
             return response()->json([
                 'message' => 'Chia sẻ thành công',

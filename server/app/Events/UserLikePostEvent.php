@@ -11,6 +11,8 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Post as PostModel;
+use App\Models\User as UserModel;
+use App\Http\Resources\UserResource;
 
 class UserLikePostEvent
 {
@@ -19,7 +21,7 @@ class UserLikePostEvent
     protected $post_id;
     protected $user_id;
 
-    public function __construct($user_id, $post_id)
+    public function __construct($post_id, $user_id)
     {
         $this->post_id = $post_id;
         $this->user_id = $user_id;
@@ -41,7 +43,7 @@ class UserLikePostEvent
     {
         $post = PostModel::find($this->post_id);
         return [
-            "user_like_id" => $this->user_id,
+            "user_like" => new UserResource(UserModel::find($this->user_id)),
             "data" => new PostResource($post),
         ];
     }

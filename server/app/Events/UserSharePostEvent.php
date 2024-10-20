@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Broadcast;
 use App\Models\Post as PostModel;
 use App\Models\User as UserModel;
 use App\Http\Resources\PostResource;
+use App\Http\Resources\UserResource;
 
 class UserSharePostEvent
 {
@@ -48,7 +49,7 @@ class UserSharePostEvent
     {
         $post = PostModel::find($this->post_id);
         return [
-            "user_share_id" => $this->user_id,
+            "user_share" => new UserResource(UserModel::find($this->user_id)),
             "data" => new PostResource($post),
         ];
     }

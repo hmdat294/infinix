@@ -3,6 +3,7 @@
 namespace App\Events;
 
 use App\Http\Resources\CommentResource;
+use App\Http\Resources\UserResource;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -14,7 +15,7 @@ use App\Models\User as UserModel;
 use App\Models\PostComment as PostCommentModel;
 use App\Models\Post as PostModel;
 
-class UserCommentEvent
+class UserCommentPostEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -46,7 +47,7 @@ class UserCommentEvent
     public function broadcastWith()
     {
         return [
-            "user_comment_id" => $this->user_id,
+            "user_comment" => new UserResource(UserModel::find($this->user_id)),
             "data" => new CommentResource(PostCommentModel::find($this->comment_id)),
         ];
     }
