@@ -96,6 +96,14 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
     }
   }
 
+  postComment(value:any){
+    this.postService.postComment(value.value).subscribe(
+      (response) => {
+        console.log(response);
+      }
+    )
+  }
+
   showPolls() {
     this.showPoll = (this.showPoll == false) ? true : false;
     this.poll_input = [];

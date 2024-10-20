@@ -61,6 +61,12 @@ export class PostService {
     return this.http.post(`${this.apiUrl}/post`, value, { headers });
   }
 
+  getComment(value: any): Observable<any> {
+    console.log(value);
+    const headers = this.authService.getToken();
+    return this.http.get(`${this.apiUrl}/comment/`, { headers });
+  }
+
   postComment(value: any): Observable<any> {
     console.log(value);
     const headers = this.authService.getToken();
