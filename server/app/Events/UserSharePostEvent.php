@@ -22,17 +22,10 @@ class UserSharePostEvent
     protected $user_id;
 
     public function __construct($post_id, $user_id)
-    {        
-        $channel_array = [];
-
+    {       
         $this->post_id = $post_id;
         $this->user_id = $user_id;
     }
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return array<int, \Illuminate\Broadcasting\Channel>
-     */
     public function broadcastOn(): array
     {
 
