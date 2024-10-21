@@ -11,6 +11,8 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Post as PostModel;
+use App\Models\User as UserModel;
+use App\Http\Resources\UserResource;
 
 class UserLikePostEvent
 {
@@ -27,8 +29,22 @@ class UserLikePostEvent
 
     public function broadcastOn()
     {
-        $post_user_id = PostModel::find($this->post_id)->user->id;
-        return new Channel('user.' . $post_user_id);
+        $user_like_id = $this->user_id;
+        $user_post_id = PostModel::find($this->post_id)->user->id;
 
+        return [
+            new Channel('user.'.$user_like_id),
+            new Channel('user.'.$user_post_id),
+        ];
+
+    }
+
+    public function broadcastWith()
+    {
+        $post = PostModel::find($this->post_id);
+        return [
+            "user_like" => new UserResource(UserModel::find($this->user_id)),
+            "data" => new PostResource($post),
+        ];
     }
 }

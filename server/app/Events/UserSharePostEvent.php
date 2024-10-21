@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Broadcast;
 use App\Models\Post as PostModel;
 use App\Models\User as UserModel;
 use App\Http\Resources\PostResource;
+use App\Http\Resources\UserResource;
 
 class UserSharePostEvent
 {
@@ -31,7 +32,10 @@ class UserSharePostEvent
 
         $recipient_id_array = UserModel::find($this->user_id)->friendsOf->concat(UserModel::find($this->user_id)->friendsOfMine)->pluck('id');
         $recipient_id_array[] = $this->user_id;
+
         $recipient_id_array = $recipient_id_array->concat(UserModel::find($this->user_id)->followers->pluck('id'));
+
+        $recipient_id_array[] = PostModel::find($this->post_id)->user->id;
         
         $channel_array = [];
         foreach ($recipient_id_array as $recipient_id) {
@@ -45,6 +49,7 @@ class UserSharePostEvent
     {
         $post = PostModel::find($this->post_id);
         return [
+            "user_share" => new UserResource(UserModel::find($this->user_id)),
             "data" => new PostResource($post),
         ];
     }

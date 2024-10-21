@@ -8,6 +8,7 @@ use App\Models\Post as PostModel;
 use App\Models\PostLike as PostLikeModel;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\JsonResponse;
+use App\Events\UserLikePostEvent;
 
 class PostLikeController extends Controller
 {
@@ -60,6 +61,8 @@ class PostLikeController extends Controller
                 'post_id' => $request->post_id,
                 'user_id' => $request->user()->id,
             ]);
+
+            event(new UserLikePostEvent($request->post_id, $request->user()->id));
 
             return response()->json([
                 'message' => 'Đã thích bài viết',

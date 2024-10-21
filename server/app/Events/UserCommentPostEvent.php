@@ -3,6 +3,7 @@
 namespace App\Events;
 
 use App\Http\Resources\CommentResource;
+use App\Http\Resources\UserResource;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -12,8 +13,9 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\User as UserModel;
 use App\Models\PostComment as PostCommentModel;
+use App\Models\Post as PostModel;
 
-class UserCommentEvent implements ShouldBroadcast 
+class UserCommentPostEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -33,17 +35,19 @@ class UserCommentEvent implements ShouldBroadcast
     
     public function broadcastOn(): array
     {
-        $friend_id_array = UserModel::find($this->user_id)->friendsOf->concat(UserModel::find($this->user_id)->friendsOfMine)->pluck('id');
-        $channel_array = [];
-        foreach ($friend_id_array as $friend_id) {
-            $channel_array[] = new PrivateChannel('user.' . $friend_id);
-        }
-        return $channel_array;
+        $user_comment_id = $this->user_id;
+        $user_post_id = PostModel::find($this->post_id)->user->id;
+
+        return [
+            new Channel('user.'.$user_comment_id),
+            new Channel('user.'.$user_post_id),
+        ];
     }
 
     public function broadcastWith()
     {
         return [
+            "user_comment" => new UserResource(UserModel::find($this->user_id)),
             "data" => new CommentResource(PostCommentModel::find($this->comment_id)),
         ];
     }

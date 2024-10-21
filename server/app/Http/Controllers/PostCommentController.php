@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\CommentResource;
-use App\Events\UserCommentEvent;
+use App\Events\UserCommentPostEvent;
 use Illuminate\Http\Request;
 use App\Models\PostComment as CommentModel;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -55,7 +55,7 @@ class PostCommentController extends Controller
         $comment_data['user_id'] = $request->user()->id;
         $comment = CommentModel::create($comment_data);
 
-        event(new UserCommentEvent($comment->user_id, $comment->post_id, $comment->id, $comment->content));
+        event(new UserCommentPostEvent($comment->user_id, $comment->post_id, $comment->id, $comment->content));
 
         return new CommentResource($comment);
     }
