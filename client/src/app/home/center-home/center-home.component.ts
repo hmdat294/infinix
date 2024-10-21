@@ -17,7 +17,7 @@ export class CenterHomeComponent implements AfterViewInit {
   content: string = '';
   selectedFilesPost: File[] = [];
   previewPostImages: string[] = [];
-  listPost: any;
+  listPost: any[] = [];
   filePost: any;
   showPoll: boolean = false;
   poll_input: any[] = [];
