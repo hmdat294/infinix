@@ -133,7 +133,7 @@ class UserController extends Controller
      */
     public function self(Request $request)
     {
-        return new UserResource(UserModel::find(1));
+        return new UserResource($request->user());
     }
 
     
