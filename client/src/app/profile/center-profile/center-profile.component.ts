@@ -30,7 +30,7 @@ export class CenterProfileComponent {
 
   ngOnInit(): void {
 
-    this.authService.getUser(0).subscribe(
+    this.authService.getUser().subscribe(
       (res) => this.postService.getPostByUser(res.data.id).subscribe(
         (data) => {
           this.listPost = data.data;

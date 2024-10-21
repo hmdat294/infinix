@@ -16,7 +16,7 @@ export class LeftProfileComponent implements OnInit {
   ngOnInit(): void {
 
     if (localStorage.getItem('auth_token')) {
-      this.authService.getUser(0).subscribe(
+      this.authService.getUser().subscribe(
         (response) => {
           this.user = response;
         });
