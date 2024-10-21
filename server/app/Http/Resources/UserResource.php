@@ -8,8 +8,34 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserResource extends JsonResource
 {
+    /**
+     * Transform the resource into an array.
+     *
+     * @return array<string, mixed>
+     */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        $friends = $request->user()->friendsOf->concat($request->user()->friendsOfMine);
+        $followers = $request->user()->followers;
+        $followings = $request->user()->followings;
+
+
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'email' => $this->email,
+            'phone_number' => $this->phone_number,
+            'status' => $this->status,
+            'language' => $this->language,
+            'theme' => $this->theme,
+            'last_activity' => $this->last_activity,
+            'updated_at' => $this->updated_at,
+            'friends' => $friends,
+            'followers' => $followers,
+            'followings' => $followings,
+            'profile' => new ProfileResource($this->profile),
+            'permissions' => $this->permissions,
+            'is_friend' => $friends->contains($this->id),
+        ];
     }
 }

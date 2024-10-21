@@ -16,6 +16,7 @@ export class UserComponent implements OnInit {
   ngOnInit(): void {
     this.adminService.getUser().subscribe(
       (response) => {
+        // Gán mảng `data` từ response vào `listUser`
         this.listUser = response.data;
         console.log(this.listUser);
       },

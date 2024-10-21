@@ -15,12 +15,7 @@ export class AuthService {
     return new HttpHeaders({ 'Authorization': `Bearer ${localStorage.getItem('auth_token') || ''}` });
   }
 
-  getUser(): Observable<any> {
-    const headers = this.getToken();
-    return this.http.get(`${this.apiUrl}/user/self`, { headers });
-  }
-
-  getUserById(id: number): Observable<any> {
+  getUser(id: number): Observable<any> {
     const headers = this.getToken();
     return this.http.get(`${this.apiUrl}/user/${(id >= 0) ? id : ''}`, { headers });
   }

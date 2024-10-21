@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\PostCommentResource;
+use App\Http\Resources\CommentResource;
 use App\Events\UserCommentPostEvent;
 use Illuminate\Http\Request;
 use App\Models\PostComment as CommentModel;
@@ -25,7 +25,7 @@ class PostCommentController extends Controller
     {
         $post_id = $request->post_id;
         $comments = CommentModel::where('post_id', $post_id)->orderBy('created_at', 'desc')->get();
-        return PostCommentResource::collection($comments);
+        return CommentResource::collection($comments);
 
     }
 
@@ -41,7 +41,7 @@ class PostCommentController extends Controller
      * @response 201 : Bình luận được tạo thành công
      * @response 404 : Bài viết không tồn tại
      * 
-     * @return PostCommentResource | JsonResponse
+     * @return CommentResource | JsonResponse
      */
     public function store(Request $request)
     {
@@ -57,7 +57,7 @@ class PostCommentController extends Controller
 
         event(new UserCommentPostEvent($comment->user_id, $comment->post_id, $comment->id, $comment->content));
 
-        return new PostCommentResource($comment);
+        return new CommentResource($comment);
     }
 
 
@@ -69,7 +69,7 @@ class PostCommentController extends Controller
      * @response 200 : Thông tin chi tiết bình luận
      * @response 404 : Bình luận không tồn tại
      * 
-     * @return PostCommentResource | JsonResponse
+     * @return CommentResource | JsonResponse
      */
     public function show(string $id)
     {
@@ -81,7 +81,7 @@ class PostCommentController extends Controller
 
         $comment = CommentModel::find($id);
 
-        return new PostCommentResource($comment);
+        return new CommentResource($comment);
     }
 
     /**
@@ -95,7 +95,7 @@ class PostCommentController extends Controller
      * @response 200 : Bình luận được cập nhật thành công
      * @response 404 : Bình luận không tồn tại
      * 
-     * @return PostCommentResource | JsonResponse 
+     * @return CommentResource | JsonResponse 
      */
     public function update(Request $request, string $id)
     {
@@ -108,7 +108,7 @@ class PostCommentController extends Controller
         $comment = CommentModel::find($id);
         $comment->update($request->only('content'));
 
-        return new PostCommentResource($comment);
+        return new CommentResource($comment);
     }
     
     /**
@@ -127,45 +127,5 @@ class PostCommentController extends Controller
         return response()->json([
             'message' => 'Comment deleted.',
         ], 204);
-    }
-
-    /**
-     * Danh sách người dùng thích bình luận
-     * 
-     * @param string $id
-     * 
-     * @return JsonResponse
-     */
-    public function likes(string $id)
-    {
-        $comment = CommentModel::find($id);
-        $likes = $comment->likes;
-        return response()->json($likes);
-    }
-
-    /**
-     * Thích bình luận
-     * 
-     * @param string $id
-     * 
-     * @return JsonResponse
-     */
-    public function like_post(Request $request, string $id)
-    {
-        $comment = CommentModel::find($id);
-
-        if ($comment->likes->contains($request->user()->id)) {
-            $comment->likes()->detach($request->user()->id);
-            return response()->json([
-                'message' => 'Unlike comment successfully.',
-            ], 200);
-
-        } else {
-            $comment->likes()->attach($request->user()->id);
-            return response()->json([
-                'message' => 'Like comment successfully.',
-            ], 200);
-
-        }
     }
 }

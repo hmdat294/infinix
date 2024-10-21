@@ -27,11 +27,4 @@ class Conversation extends Model
     {
         return $this->belongsToMany(User::class, 'user_conversations', 'conversation_id', 'user_id');
     }
-
-    public function toArray()
-    {
-        $array = parent::toArray();
-        $array['users'] = $this->users;
-        return $array;
-    }
 }

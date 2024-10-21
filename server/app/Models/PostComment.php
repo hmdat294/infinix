@@ -26,30 +26,4 @@ class PostComment extends Model
     {
         return $this->belongsTo(Post::class, 'post_id');
     }
-
-    public function likes()
-    {
-        return $this->hasMany(PostCommentLike::class, 'comment_id');
-    }
-
-    public function toArray()
-    {
-        $data = parent::toArray();
-
-        $data['user'] = $this->user;
-        $data['post'] = $this->post;
-
-        $data['likes_count'] = $this->likes()->count();      
-
-        $data['created_at'] = $this->created_at->format('Y-m-d H:i:s');
-        $data['updated_at'] = $this->updated_at->format('Y-m-d H:i:s');
-
-        $data['created_at_time'] = $this->created_at->format('H:i:s');
-        $data['updated_at_time'] = $this->updated_at->format('H:i:s');
-
-        $data['created_at_date'] = $this->created_at->format('Y-m-d');
-        $data['updated_at_date'] = $this->updated_at->format('Y-m-d');
-
-        return $data;
-    }
 }

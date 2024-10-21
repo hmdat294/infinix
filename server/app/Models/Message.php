@@ -38,14 +38,4 @@ class Message extends Model
     {
         return $this->hasMany(MessageMedia::class, 'message_id', 'id');
     }
-
-    public function toArray()
-    {
-        $array = parent::toArray();
-        $array['user'] = $this->user;
-        $array['medias'] = $this->medias;
-        $array['reply_to_message'] = $this->replyToMessage;
-        $array['conversation'] = $this->conversation;
-        return $array;
-    }
 }

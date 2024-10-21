@@ -51,7 +51,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
   ngOnInit(): void {
 
-    this.authService.getUser().subscribe(
+    this.authService.getUser(0).subscribe(
       (response) => {
         this.user = response.data;
       });

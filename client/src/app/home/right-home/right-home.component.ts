@@ -19,7 +19,7 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
 
     if (localStorage.getItem('auth_token')) {
-      this.authService.getUser().subscribe(
+      this.authService.getUser(0).subscribe(
         (response) => this.user = response);
     }
 

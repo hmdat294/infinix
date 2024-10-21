@@ -16,7 +16,7 @@ export class PostService {
   constructor(private http: HttpClient, private authService: AuthService) {
     this.pusher = new Pusher('74a1b74fdf0afc6b5833', { cluster: 'ap1' });
 
-    this.authService.getUser().subscribe(
+    this.authService.getUser(0).subscribe(
       (response) => {
         this.user = response.data;
 
@@ -59,17 +59,5 @@ export class PostService {
     console.log(value);
     const headers = this.authService.getToken();
     return this.http.post(`${this.apiUrl}/post`, value, { headers });
-  }
-
-  getComment(post_id: number): Observable<any> {
-    // console.log(post_id);
-    const headers = this.authService.getToken();
-    return this.http.get(`${this.apiUrl}/post/${post_id}/comments`, { headers });
-  }
-
-  postComment(value: any): Observable<any> {
-    console.log(value);
-    const headers = this.authService.getToken();
-    return this.http.post(`${this.apiUrl}/comment`, value, { headers });
   }
 }
