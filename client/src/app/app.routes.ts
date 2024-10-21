@@ -10,6 +10,7 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
 import { NotificationComponent } from './notification/notification.component';
 import { DashboardComponent } from './admin/dashboard/dashboard.component';
 import { UserComponent } from './admin/user/user.component';
+import { AdminEventComponent } from './admin/event/event.component';
 
 export const routes: Routes = [
     { path: '', component: MainHomeComponent, canActivate: [AuthGuard] },
@@ -24,6 +25,11 @@ export const routes: Routes = [
 
     { path: 'admin', component: DashboardComponent, canActivate: [AuthGuard] },
     { path: 'admin/user', component: UserComponent, canActivate: [AuthGuard] },
+    // { path: 'admin/content', component: UserComponent, canActivate: [AuthGuard] },
+    // { path: 'admin/report', component: UserComponent, canActivate: [AuthGuard] },
+    { path: 'admin/event', component: AdminEventComponent, canActivate: [AuthGuard] },
+
+
     // { path: 'admin/user', component: AdminMainUserComponent },
     // { path: 'admin/report', component: AdminMainReportComponent },
     // { path: 'admin/event', component: AdminMainEventComponent },

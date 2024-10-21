@@ -17,6 +17,7 @@ export class AdminDashboardComponent implements OnInit {
  
 
   ngOnInit(): void {
+    this.loadUserGrowthData();
     this.renderDonutChart();
     this.renderRadialBarChart();
     this.renderLineChart1();
@@ -37,8 +38,20 @@ export class AdminDashboardComponent implements OnInit {
     );
   }
   
+  loadUserGrowthData(): void {
+    this.adminService.getUsersGrowth().subscribe((data: any) => {
+      const userData = data.map((item: any) => item.total);  // Chuyển đổi dữ liệu lấy từ API
+      this.renderChart(userData);  // Hiển thị biểu đồ với dữ liệu tăng trưởng người dùng
+    });
+  }
+
+ 
+
+  
+
+  // Phương thức render biểu đồ
   renderChart(userData: number[]): void {
-    const chartOptions: ApexOptions = {
+    const chartOptions: ApexCharts.ApexOptions = {
       chart: {
         foreColor: '#9ba7b2',
         height: 460,
@@ -51,22 +64,19 @@ export class AdminDashboardComponent implements OnInit {
       series: [{
         name: "Users",
         data: userData  // Sử dụng userData từ API
-      },{
+      }, {
         name: "Post",
-        data: [14,100,35,25]  // Sử dụng userData từ API
-      },
-      {
+        data: [14, 100, 35, 25]  // Dữ liệu mẫu cho bài viết
+      }, {
         name: "Content",
-        data: [14,22,35,40]  // Sử dụng userData từ API
-      },
-      {
+        data: [14, 22, 35, 40]  // Dữ liệu mẫu cho nội dung
+      }, {
         name: "Report",
-        data: [42,25,23,31]  // Sử dụng userData từ API
-      }
-    ],
+        data: [42, 25, 23, 31]  // Dữ liệu mẫu cho báo cáo
+      }],
       xaxis: {
         type: 'datetime',
-        categories: ['1/11/2000', '2/11/2000', '3/11/2000', '4/11/2000', '5/11/2000', '6/11/2000'],
+        categories: ['1/11/2000', '2/11/2000', '3/11/2000', '4/11/2000', '5/11/2000', '6/11/2000'], // Ngày mẫu
       },
       title: {
         text: 'Growth statistics',
@@ -87,11 +97,12 @@ export class AdminDashboardComponent implements OnInit {
         },
       }
     };
-  
+
     const chart = new ApexCharts(document.querySelector('#chart2'), chartOptions);
     chart.render();
   }
-  
+
+
   renderDonutChart(): void {
     const donutChartOptions: ApexOptions = {
       series: [25, 25, 25, 25],
