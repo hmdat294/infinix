@@ -14,6 +14,10 @@ class PostCommentResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        $data = parent::toArray($request);
+
+        $data['likes_count'] = $this->likes->count();
+
+        return $data;
     }
 }
