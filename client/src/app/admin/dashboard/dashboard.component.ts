@@ -17,59 +17,111 @@ export class DashboardComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.renderChart();
+    this.adminService.getUserGrowthData().subscribe(data => {
+      this.listUser = data;  // Lưu trữ dữ liệu từ API
+      this.renderChart();    // Sau khi có dữ liệu, vẽ biểu đồ
+    }, error => {
+      console.error('Lỗi khi lấy dữ liệu:', error);
+    });
     this.renderDonutChart();
     this.renderRadialBarChart();
     this.renderLineChart1();
 
   }
+   // Hàm vẽ biểu đồ Line chính
+   renderChart(): void {
+    // Lấy dữ liệu từ API để đưa vào biểu đồ
+    const totals = this.listUser.map((item: any) => item.total);  // Lấy 'total' từ API
+    const dates = this.listUser.map((item: any) => item.date);    // Lấy 'date' từ API
 
-  renderChart(): void {
-    const chartOptions: ApexOptions = {
+    const options: ApexOptions = {
       chart: {
-        foreColor: '#9ba7b2',
-        height: 460,
         type: 'line',
-        zoom: { enabled: false },
-        dropShadow: { enabled: true, top: 3, left: 2, blur: 4, opacity: 0.1 }
+        height: 350
       },
-      stroke: { width: 5, curve: 'smooth' },
-      colors: ["#5283FF", '#F1C40F', '#FF4C92', "#17a00e"],
-      series: [{
-        name: "Post",
-        data: [14, 100, 35, 25]  // Sử dụng userData từ API
+      stroke: {
+        curve: 'smooth' // Làm cho đường biểu đồ trở thành đường cong
       },
-      {
-        name: "Content",
-        data: [14, 22, 35, 40]  // Sử dụng userData từ API
-      },
-      {
-        name: "Report",
-        data: [42, 25, 23, 31]  // Sử dụng userData từ API
-      }
+      series: [
+        {
+          name: 'User',
+          data: totals
+        },
+        {
+          name: 'Content',
+          data: [14, 22, 35, 40] 
+        },
+        {
+          name: 'Report',
+          data: [0, 12, 15, 80]
+        }
       ],
       xaxis: {
-        type: 'datetime',
-        categories: ['1/11/2000', '2/11/2000', '3/11/2000', '4/11/2000', '5/11/2000', '6/11/2000'],
+        categories: dates, // Dữ liệu từ API (date)
+        type: 'datetime'
       },
       title: {
-        text: 'Growth statistics',
-        offsetY: 0,
-        offsetX: 20
+        text: 'User Growth Statistics'
       },
+      colors: ['#007bff', '#ffc107', '#ff005e'], // Màu cho các đường biểu đồ
       markers: {
-        size: 5,
-        strokeColors: "#fff",
-        strokeWidth: 1,
-        hover: {
-          size: 7
-        }
+        size: 5 // Kích thước của điểm trên biểu đồ
       },
+      yaxis: {
+        min: 0
+      }
+
     };
 
-    const chart = new ApexCharts(document.querySelector('#chart2'), chartOptions);
+    const chart = new ApexCharts(document.querySelector('#chart2'), options);
     chart.render();
   }
+  // renderChart(): void {
+  //   const chartOptions: ApexOptions = {
+  //     chart: {
+  //       foreColor: '#9ba7b2',
+  //       height: 460,
+  //       type: 'line',
+  //       zoom: { enabled: false },
+  //       dropShadow: { enabled: true, top: 3, left: 2, blur: 4, opacity: 0.1 }
+  //     },
+  //     stroke: { width: 5, curve: 'smooth' },
+  //     colors: ["#5283FF", '#F1C40F', '#FF4C92', "#17a00e"],
+  //     series: [{
+  //       name: "Post",
+  //       data: [14, 100, 35, 25]  // Sử dụng userData từ API
+  //     },
+  //     {
+  //       name: "Content",
+  //       data: [14, 22, 35, 40]  // Sử dụng userData từ API
+  //     },
+  //     {
+  //       name: "Report",
+  //       data: [42, 25, 23, 31]  // Sử dụng userData từ API
+  //     }
+  //     ],
+  //     xaxis: {
+  //       type: 'datetime',
+  //       categories: ['1/11/2000', '2/11/2000', '3/11/2000', '4/11/2000', '5/11/2000', '6/11/2000'],
+  //     },
+  //     title: {
+  //       text: 'Growth statistics',
+  //       offsetY: 0,
+  //       offsetX: 20
+  //     },
+  //     markers: {
+  //       size: 5,
+  //       strokeColors: "#fff",
+  //       strokeWidth: 1,
+  //       hover: {
+  //         size: 7
+  //       }
+  //     },
+  //   };
+
+  //   const chart = new ApexCharts(document.querySelector('#chart2'), chartOptions);
+  //   chart.render();
+  // }
 
   renderDonutChart(): void {
     const donutChartOptions: ApexOptions = {

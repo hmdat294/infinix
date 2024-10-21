@@ -19,11 +19,8 @@ export class AdminService {
     const headers = this.authService.getToken();
     return this.http.get(`${this.apiUrl}/post/${(id > 0) ? id : ''}`, { headers });
   }
-
-
-  getUsersGrowth(): Observable<any> {
+  getUserGrowthData(): Observable<any> {
     const headers = this.authService.getToken();
     return this.http.get(`${this.apiUrl}/statistics/users-growth`, { headers });
   }
-
 }
