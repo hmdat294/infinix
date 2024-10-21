@@ -1,15 +1,16 @@
 import { Component } from '@angular/core';
-import { AdminService } from '../../admin.service';
+import { NavComponent } from "../nav/nav.component";
 import { CommonModule } from '@angular/common';
+import { AdminService } from '../../admin.service';
 
 @Component({
-  selector: 'app-admin-content',
+  selector: 'app-post',
   standalone: true,
-  imports: [CommonModule],
-  templateUrl: './admin-content.component.html',
-  styleUrl: './admin-content.component.css'
+  imports: [NavComponent, CommonModule],
+  templateUrl: './post.component.html',
+  styleUrl: './post.component.css'
 })
-export class AdminContentComponent {
+export class PostComponent {
   listPost:any;
   constructor(private adminService: AdminService) { }
   ngOnInit(): void {

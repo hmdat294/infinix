@@ -28,10 +28,11 @@ export class LoginComponent {
         if (response.token) {
           localStorage.setItem('auth_token', response.token);
 
-          this.authService.getUser(0).subscribe(
+          this.authService.getUser().subscribe(
             (response) => {
-              if (response.data.permissions[4]) this.router.navigate(['/admin']);
-              else this.router.navigate(['/']);
+              console.log(response);
+              // if (response.data.permissions[4]) this.router.navigate(['/admin']);
+              // else this.router.navigate(['/']);
             });
 
         } else this.error = response.message;
