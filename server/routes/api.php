@@ -73,11 +73,11 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
      */
 
     Route::get('user', [UserController::class, 'index']); // Danh sách người dùng
-    Route::get('user/{id}', [UserController::class, 'show']); // Hiển thị thông tin người dùng
     Route::get('user/self', [UserController::class, 'self']);  // Hiển thị thông tin người dùng hiện tại
+    Route::get('user/search', [UserController::class, 'search']);  // Tìm kiếm người dùng
+    Route::get('user/{id}', [UserController::class, 'show']); // Hiển thị thông tin người dùng
     Route::put('user/{id}', [UserController::class, 'update']); // Cập nhật thông tin người dùng
     Route::delete('user/{id}', [UserController::class, 'destroy']);  // Xóa người dùng
-    Route::get('user/search', [UserController::class, 'search']);  // Tìm kiếm người dùng
 
     // Todo: notification, disabled-notification, vote trả về vote resource
     Route::get('user/{id}/friends' , [UserController::class, 'friends']); // Danh sách bạn bè của người dùng

@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\User as UserModel;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -132,7 +133,7 @@ class UserController extends Controller
      */
     public function self(Request $request)
     {
-        return new UserResource($request->user());
+        return new UserResource(UserModel::find(1));
     }
 
     
