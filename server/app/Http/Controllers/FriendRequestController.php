@@ -14,9 +14,6 @@ class FriendRequestController extends Controller
 {
     /**
      * Danh sách lời mời kết bạn
-     * @param Request $request
-     * 
-     * @response 200 : Danh sách lời mời kết bạn được gửi đến người dùng hiện tại
      * 
      * @return AnonymousResourceCollection
      */
@@ -29,10 +26,10 @@ class FriendRequestController extends Controller
 
     /**
      * Chi tiết lời mời kết bạn
-     * @param string $id
      * 
-     * @response 200 : Chi tiết lời mời kết bạn
-     * @response 404 : Lời mời kết bạn không tồn tại
+     * @param      $id            :  string  :  Id người dùng
+     * 
+     * @response   404            :          :  Lời mời kết bạn không tồn tại
      * 
      * @return JsonResponse
      */
@@ -52,13 +49,12 @@ class FriendRequestController extends Controller
 
     /**
      * Gửi lời mời kết bạn
-     * @param Request $request
      * 
-     * @bodyParam receiver_id : ID người nhận lời mời
+     * @bodyParam  receiver_id    :  string  : Id người nhận lời mời
      * 
-     * @response 200 : Lời mời kết bạn đã được gửi
-     * @response 400 : Lời mời kết bạn đã được gửi trước đó (đã tồn tại và status = pending)
-     * @response 404 : Người nhận không tồn tại
+     * @response   200            :          : Lời mời kết bạn đã được gửi
+     * @response   400            :          : Lời mời kết bạn đã được gửi trước đó (đã tồn tại và status = pending)
+     * @response   404            :          : Người nhận không tồn tại
      * 
      * @return JsonResponse
      */
@@ -95,14 +91,14 @@ class FriendRequestController extends Controller
 
     /**
      * Thay đổi trạng thái của lời mời kết bạn (chấp nhận, từ chối)
-     * @param Request $request
      * 
-     * @bodyParam id : ID của lời mời kết bạn
-     * @bodyParam status : Trạng thái mới (accepted, rejected)
+     * @param      $id            :  string  :  Id lời mời
      * 
-     * @response 200 : Lời mời kết bạn đã được chấp nhận
-     * @response 400 : Trạng thái không hợp lệ
-     * @response 404 : Lời mời kết bạn không tồn tại
+     * @bodyParam  status         :  string  :  Trạng thái mới (accepted, rejected)
+     * 
+     * @response   200            :          :  Lời mời kết bạn đã được chấp nhận
+     * @response   400            :          :  Trạng thái không hợp lệ
+     * @response   404            :          :  Lời mời kết bạn không tồn tại
      * 
      * @return JsonResponse
      */

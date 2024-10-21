@@ -39,98 +39,10 @@ Route::middleware(['guest'])->group(function () {
 
 Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(function () {
 
-    Route::get('test', function (Request $request) {
-        $recipient_id_array = UserModel::find($request->user()->id)->friendsOf->concat(UserModel::find($request->user()->id)->friendsOfMine)->pluck('id');
-        $recipient_id_array[] = $request->user()->id;
-        $recipient_id_array = $recipient_id_array->concat(UserModel::find($request->user()->id)->followers->pluck('id'));
-        return response()->json($recipient_id_array);
-    });
-
-    // Đăng xuất
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
-
-    // API cho Lời mời kết bạn
-    Route::resource('friend-request', FriendRequestController::class)
-    ->only(['index', 'store', 'show', 'update', 'destroy'])
-    ->parameters(['friend-request' => 'id']);
-
-    // API cho Bài viết
-    Route::resource('post', PostController::class)
-    ->only(['index', 'store', 'show', 'update', 'destroy'])
-    ->parameters(['post' => 'id']);
-
-    // Người dùng
-    Route::resource('user', UserController::class)
-    ->only(['index', 'show', 'update'])
-    ->parameters(['user' => 'id']);
-
-    // API cho bình luận
-    Route::resource('comment', PostCommentController::class)
-    ->only(['index', 'store', 'show', 'update', 'destroy'])
-    ->parameters(['comment' => 'id']);
-
-    // Like bài viết
-    Route::resource('like', PostLikeController::class)
-    ->only(['index', 'store'])
-    ->parameters(['like' => 'post-id']);
-
-    // Share bài viết
-    Route::resource('share', PostShareController::class)
-    ->only(['index', 'store'])
-    ->parameters(['share' => 'post-id']);
-
-    // Bookmark bài viết
-    Route::resource('bookmark', PostBookmarkController::class)
-    ->only(['index', 'store'])
-    ->parameters(['bookmark' => 'post-id']);
-
-    // API cho hội thoại đơn (theo user_id)
-    Route::resource('chat', ConversationController::class)
-    ->only(['index','store', 'show', 'update', 'destroy'])
-    ->parameters(['chat' => 'id']);
-
-    // API cho hội thoại nhóm
-    Route::resource('chat-group', ConversationGroupController::class)
-    ->only(['index', 'store', 'show', 'update', 'destroy'])
-    ->parameters(['chat-group' => 'id']);
-
-    // API cho lời mời tham gia hội thoại nhóm
-    Route::resource('join-group', ConversationGroupController::class)
-    ->only(['store', 'show', 'update', 'destroy'])
-    ->parameters(['join-group' => 'id']);
-
-    // API cho tin nhắn
-    Route::resource('message', MessageController::class)
-    ->only(['store', 'show', 'update'])
-    ->parameters(['message' => 'id']);
-
-    // Lấy bình luận của một bài viết
-    Route::get('post/{post_id}/comments', [PostCommentController::class, 'index'])->name('comments.index');
-
-    // Lấy bài viết của một người dùng
-    Route::get('user/{user_id}/posts', [PostController::class, 'index'])->name('posts.index');
-
-    // Lấy danh sách bạn bè
-    Route::get('/get-friends', function (Request $request) {
-        return UserResource::collection($request->user()->friendsOf->concat($request->user()->friendsOfMine));
-    });
-
-    // Lấy danh sách người theo dõi user
-    Route::get('/get-followers', function (Request $request) {
-        return UserResource::collection($request->user()->followers);
-    });
-
-    // Lấy danh sách người user đang theo dõi
-    Route::get('/get-following', function (Request $request) {
-        return UserResource::collection($request->user()->followings);
-    });
-
-    // Bình chọn cho một bài viết có poll (theo poll_option_id)
-    Route::post('vote/{id}', [PostController::class, 'vote'])->name('post.vote');
-
-
-    // thống kê
+    
     Route::prefix('statistics')->group(function () {
+
         // thống kê theo tổng số (thống kê tổng)
         Route::get('total-users', [TotalController::class, 'totalUsers']);
         Route::get('total-posts', [TotalController::class, 'totalPosts']);
@@ -142,6 +54,7 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
         Route::get('total-post-comments', [TotalController::class, 'totalPostComments']);
 
         Route::get('total-interactions', [TotalController::class, 'totalInteractions']);
+
         // thống kê theo biểu đồ tăng trưởng (thống kê tăng trưởng)
         Route::get('users-growth', [GrowthStatisticsController::class, 'usersGrowthStatistics']);
         Route::get('posts-growth', [GrowthStatisticsController::class, 'postsGrowthStatistics']);
@@ -152,4 +65,106 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
         Route::get('report/{type}', [TotalController::class, 'show']);
         
     });
+
+
+
+    /**
+     * Người dùng
+     */
+
+    Route::get('user', [UserController::class, 'index']); // Danh sách người dùng
+    Route::get('user/{id}', [UserController::class, 'show']); // Hiển thị thông tin người dùng
+    Route::get('user/self', [UserController::class, 'self']);  // Hiển thị thông tin người dùng hiện tại
+    Route::put('user/{id}', [UserController::class, 'update']); // Cập nhật thông tin người dùng
+    Route::delete('user/{id}', [UserController::class, 'destroy']);  // Xóa người dùng
+    Route::get('user/search', [UserController::class, 'search']);  // Tìm kiếm người dùng
+
+    // Todo: notification, disabled-notification, vote trả về vote resource
+    Route::get('user/{id}/friends' , [UserController::class, 'friends']); // Danh sách bạn bè của người dùng
+    Route::get('user/{id}/followers' , [UserController::class, 'followers']); // Danh sách người theo dõi người dùng
+    Route::get('user/{id}/following' , [UserController::class, 'following']); // Danh sách người dùng đang theo dõi
+    Route::get('user/{id}/posts' , [UserController::class, 'posts']); // Danh sách bài đăng của người dùng
+    Route::get('user/{id}/notifications');
+    Route::get('user/{id}/disabled-notifications');
+    Route::get('user/{id}/conversations' , [UserController::class, 'conversations']); // Danh sách cuộc trò chuyện của người dùng
+    Route::get('user/{id}/votes' , [UserController::class, 'votes']); // Danh sách bình chọn của người dùng
+
+
+
+    /**
+     * Lời mời kết bạn
+     */
+    Route::get('friend-request', [FriendRequestController::class, 'index']); // Danh sách lời mời kết bạn
+    Route::post('friend-request', [FriendRequestController::class, 'store']); // Gửi lời mời kết bạn
+    Route::get('friend-request/{id}', [FriendRequestController::class, 'show']); // Hiển thị thông tin lời mời kết bạn
+    Route::put('friend-request/{id}', [FriendRequestController::class, 'update']); // Cập nhật thông tin lời mời kết bạn
+    Route::delete('friend-request/{id}', [FriendRequestController::class, 'destroy']); // Xóa lời mời kết bạn
+
+
+    /**
+     * Bài đăng
+     */
+    Route::get('post', [PostController::class, 'index']); // Danh sách bài viết
+    Route::post('post', [PostController::class, 'store']); // Tạo bài viết
+    Route::get('post/{id}', [PostController::class, 'show']); // Hiển thị thông tin bài viết
+    Route::put('post/{id}', [PostController::class, 'update']); // Cập nhật thông tin bài viết
+    Route::delete('post/{id}', [PostController::class, 'destroy']); // Xóa bài viết
+
+    Route::get('post/{id}/comment', [PostController::class, 'comments']); // Danh sách bình luận của bài viết
+    Route::post('post/{id}/comment', [PostController::class, 'comment_post']); // Tạo bình luận cho bài viết
+
+    Route::get('post/{id}/like', [PostController::class, 'likes']); // Danh sách người dùng thích bài viết
+    Route::post('post/{id}/like', [PostController::class, 'like_post']); // Thích bài viết
+
+    Route::get('post/{id}/share', [PostController::class, 'shares']); // Danh sách người dùng chia sẻ bài viết
+    Route::post('post/{id}/share', [PostController::class, 'share_post']); // Chia sẻ bài viết
+
+    Route::get('post/{id}/bookmark', [PostController::class, 'bookmarks']); // Danh sách người dùng đánh dấu bài viết
+    Route::post('post/{id}/bookmark', [PostController::class, 'bookmark_post']); // Đánh dấu bài viết
+
+    Route::get('post/{id}/vote');
+    Route::post('post/{id}/vote' , [PostController::class, 'vote']);
+
+    Route::get('comment', [PostCommentController::class, 'index']); // Danh sách bình luận
+    Route::get('comment/{id}', [PostCommentController::class, 'show']); // Hiển thị thông tin bình luận
+    Route::put('comment/{id}', [PostCommentController::class, 'update']); // Cập nhật thông tin bình luận
+    Route::delete('comment/{id}', [PostCommentController::class, 'destroy']); // Xóa bình luận
+
+    Route::get('comment/{id}/like', [PostCommentController::class, 'likes']); // Danh sách người dùng thích bình luận
+    Route::post('comment/{id}/like', [PostCommentController::class, 'like_comment']); // Thích bình luận
+
+
+    /**
+     * Trò chuyện
+     */
+
+    Route::get('conversation', [ConversationController::class, 'index']); // Danh sách cuộc trò chuyện
+
+    Route::post('chat', [ConversationController::class, 'store']);
+    Route::get('conversation/{user_id}', [ConversationController::class, 'show']); // Hiển thị thông tin cuộc trò chuyện với người dùng
+
+
+    Route::get('chat-group', [ConversationGroupController::class, 'index'])->name('chat-group.index');
+    Route::get('chat-group/{id}', [ConversationGroupController::class, 'show'])->name('chat-group.show');
+    Route::post('chat-group', [ConversationGroupController::class, 'store'])->name('chat-group.store');
+    Route::put('chat-group/{id}', [ConversationGroupController::class, 'update'])->name('chat-group.update');
+    Route::delete('chat-group/{id}', [ConversationGroupController::class, 'destroy'])->name('chat-group.destroy');
+
+    Route::get('conversation/{id}/message');
+    Route::post('conversation/{id}/message');
+
+    Route::get('conversation/{id}/user');
+    Route::post('conversation/{id}/user');
+
+
+    /**
+     * Lời mời tham gia nhóm
+     */
+    Route::get('join-group', [ConversationGroupController::class, 'index'])->name('join-group.index');
+    Route::get('join-group/{id}', [ConversationGroupController::class, 'show'])->name('join-group.show');
+    Route::post('join-group', [ConversationGroupController::class, 'store'])->name('join-group.store');
+    Route::put('join-group/{id}', [ConversationGroupController::class, 'update'])->name('join-group.update');
+    Route::delete('join-group/{id}', [ConversationGroupController::class, 'destroy'])->name('join-group.destroy');
+
+
 });
