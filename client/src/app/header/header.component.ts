@@ -25,8 +25,6 @@ export class HeaderComponent {
     this.authService.getListUser().subscribe(
       (response) => {
         this.listUser = response.data;
-        // console.log(this.listUser);
-        
       });
 
     this.currentRoute = this.router.url.split('/').pop();

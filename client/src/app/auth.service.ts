@@ -53,9 +53,9 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/logout`, {}, { headers });
   }
 
-  getFriend(): Observable<any> {
+  getFriend(user_id: number = 0): Observable<any> {
     const headers = this.getToken();
-    return this.http.get(`${this.apiUrl}/get-friends`, { headers });
+    return this.http.get(`${this.apiUrl}/user/${user_id}/friends`, { headers });
   }
 
   getRequestFriend(): Observable<any> {
@@ -68,9 +68,9 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/friend-request`, { 'receiver_id': receiver_id }, { headers });
   }
 
-  acceptFriend(request:any): Observable<any> {
+  acceptFriend(request: any): Observable<any> {
     // console.log(request);
-    
+
     const headers = this.getToken();
     return this.http.patch(`${this.apiUrl}/friend-request/${request.id}`, { 'status': request.status }, { headers });
   }

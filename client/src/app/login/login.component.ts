@@ -31,8 +31,8 @@ export class LoginComponent {
           this.authService.getUser().subscribe(
             (response) => {
               console.log(response);
-              // if (response.data.permissions[4]) this.router.navigate(['/admin']);
-              // else this.router.navigate(['/']);
+              if (response.data.permissions[4]) this.router.navigate(['/admin']);
+              else this.router.navigate(['/']);
             });
 
         } else this.error = response.message;

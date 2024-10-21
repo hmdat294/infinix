@@ -23,6 +23,7 @@ export class CenterHomeComponent implements AfterViewInit {
   poll_input: any[] = [];
   spaceCheck: any = /^\s*$/;
   idDialog: number = 0;
+  commentByPostId: any[] = [];
 
   constructor(private cdr: ChangeDetectorRef, private postService: PostService, private carouselService: CarouselService) { }
 
@@ -98,7 +99,6 @@ export class CenterHomeComponent implements AfterViewInit {
     }
   }
 
-  commentByPostId: any[] = [];
   getComment(post_id: number): any {
     if (!this.commentByPostId[post_id]) {
       this.postService.getComment(post_id).subscribe(
