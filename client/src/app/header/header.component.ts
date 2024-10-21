@@ -44,6 +44,11 @@ export class HeaderComponent {
     }
   }
 
+  clearSearch(){
+    this.keyword = '';
+    this.friends = [];
+  }
+
   addFriend(receiver_id: number): void {
     this.authService.addFriend(receiver_id).subscribe(
       (response) => console.log(response));

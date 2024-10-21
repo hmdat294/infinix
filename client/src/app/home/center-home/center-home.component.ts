@@ -116,7 +116,7 @@ export class CenterHomeComponent implements AfterViewInit {
   }
 
   postComment(value: any) {
-    this.postService.postComment(value.value.post_id, value.value).subscribe(
+    this.postService.postComment(value.value).subscribe(
       (response) => {
         console.log(response);
       }
@@ -137,7 +137,7 @@ export class CenterHomeComponent implements AfterViewInit {
   }
 
   trackByFn(index: number, item: string) {
-    return index; // Sử dụng index để theo dõi các phần tử
+    return index;
   }
 
   onFilePostSelected(event: any) {
