@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\PostComment as PostCommentModel;
 
 class Post extends Model
 {
@@ -60,5 +61,19 @@ class Post extends Model
     public function disabled_notifications()
     {
         return $this->hasMany(DisabledNotification::class, 'post_id', 'id');
+    }
+
+    public function toArray()
+    {
+        $data = parent::toArray();
+
+        $data['likes_count'] = $this->likes()->count();
+        $data['comments_count'] = $this->comments()->count();
+        $data['shares_count'] = $this->shares()->count();
+        $data['bookmarks_count'] = $this->bookmarks()->count();
+
+        $data['newest_comment'] = $this->comments()->orderBy('created_at', 'desc')->first();
+
+        return $data;
     }
 }
