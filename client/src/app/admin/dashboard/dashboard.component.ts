@@ -76,53 +76,7 @@ export class DashboardComponent implements OnInit {
     const chart = new ApexCharts(document.querySelector('#chart2'), options);
     chart.render();
   }
-  // renderChart(): void {
-  //   const chartOptions: ApexOptions = {
-  //     chart: {
-  //       foreColor: '#9ba7b2',
-  //       height: 460,
-  //       type: 'line',
-  //       zoom: { enabled: false },
-  //       dropShadow: { enabled: true, top: 3, left: 2, blur: 4, opacity: 0.1 }
-  //     },
-  //     stroke: { width: 5, curve: 'smooth' },
-  //     colors: ["#5283FF", '#F1C40F', '#FF4C92', "#17a00e"],
-  //     series: [{
-  //       name: "Post",
-  //       data: [14, 100, 35, 25]  // Sử dụng userData từ API
-  //     },
-  //     {
-  //       name: "Content",
-  //       data: [14, 22, 35, 40]  // Sử dụng userData từ API
-  //     },
-  //     {
-  //       name: "Report",
-  //       data: [42, 25, 23, 31]  // Sử dụng userData từ API
-  //     }
-  //     ],
-  //     xaxis: {
-  //       type: 'datetime',
-  //       categories: ['1/11/2000', '2/11/2000', '3/11/2000', '4/11/2000', '5/11/2000', '6/11/2000'],
-  //     },
-  //     title: {
-  //       text: 'Growth statistics',
-  //       offsetY: 0,
-  //       offsetX: 20
-  //     },
-  //     markers: {
-  //       size: 5,
-  //       strokeColors: "#fff",
-  //       strokeWidth: 1,
-  //       hover: {
-  //         size: 7
-  //       }
-  //     },
-  //   };
-
-  //   const chart = new ApexCharts(document.querySelector('#chart2'), chartOptions);
-  //   chart.render();
-  // }
-
+ 
   renderDonutChart(): void {
     const donutChartOptions: ApexOptions = {
       series: [25, 25, 25, 25],
