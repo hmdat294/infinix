@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PollOptionResource extends JsonResource
+class PostCommentResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,11 +14,10 @@ class PollOptionResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        // $data = parent::toArray($request);
+        $data = parent::toArray($request);
 
-        // $data['option_total_votes'] = $this->votes->count();
+        $data['likes_count'] = $this->likes->count();
 
-        // return $data;
-        return parent::toArray($request);
+        return $data;
     }
 }

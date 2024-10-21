@@ -13,6 +13,9 @@ use Illuminate\Http\JsonResponse;
 use App\Events\UserPostEvent;
 use App\Models\DisabledNotification as DisabledNotificationModel;
 use App\Models\Notification;
+use App\Http\Resources\PostCommentResource;
+use App\Models\PostComment as CommentModel;
+use App\Events\UserCommentPostEvent;
 
 class PostController extends Controller
 {
@@ -20,17 +23,12 @@ class PostController extends Controller
     /**
      * Danh sách bài viết
      * 
-     * @param string $user_id : Id người dùng
-     * 
      * @return AnonymousResourceCollection
      */
-    public function index(string $user_id = null)
+    public function index()
     {
-        if ($user_id) {
-            $posts = PostModel::where('user_id', $user_id)->orderBy('created_at', 'desc')->paginate(10);
-        } else {
-            $posts = PostModel::orderBy('created_at', 'desc')->paginate(10);
-        }
+        $posts = PostModel::orderBy('created_at', 'desc')->paginate(10);
+
         return PostResource::collection($posts)->additional([
             'meta' => [
                 'current_page' => $posts->currentPage(),
@@ -44,15 +42,13 @@ class PostController extends Controller
 
     /**
      * Tạo bài viết
+     * @bodyParam  username       :  string  :  Tên đăng nhập
+     * @bodyParam  content        :  string  :  Nội dung bài viết
+     * @bodyParam  post_type      :  string  :  Loại bài viết
+     * @bodyParam  medias         :  file    :  Các file phương tiện
      * 
-     * @param Request $request
-     * 
-     * @bodyParam content : Nội dung bài viết
-     * @bodyParam post_type : Loại bài viết
-     * @bodyParam medias : Các file phương tiện
-     * 
-     * @bodyParam poll_option : Mảng các lựa chọn cho bài viết (nếu post_type là with_poll)
-     * @bodyParam end_at : Thời gian kết thúc bình chọn (nếu post_type là with_poll)
+     * @bodyParam  poll_option    :  string  :  Mảng các lựa chọn cho bài viết (nếu post_type là with_poll)
+     * @bodyParam  end_at         :  date    :  Thời gian kết thúc bình chọn (nếu post_type là with_poll)
      * 
      * @return PostResource
      */
@@ -99,7 +95,7 @@ class PostController extends Controller
     /**
      * Chi tiết bài viết
      * 
-     * @param string $id
+     * @param string $id Id bài viết
      * 
      * @response 200 : Thông tin chi tiết bài viết
      * @response 404 : Bài viết không tồn tại
@@ -121,12 +117,11 @@ class PostController extends Controller
 
     /**
      * Cập nhật bài viết
+
+     * @param string $id Id bài viết
      * 
-     * @param Request $request
-     * @param string $id
-     * 
-     * @bodyParam content : Nội dung bài viết
-     * @bodyParam post_type : Loại bài viết
+     * @bodyParam  content        :  string  : Nội dung bài viết
+     * @bodyParam  post_type      :  string  : Loại bài viết
      * 
      * @return PostResource
      */
@@ -152,7 +147,7 @@ class PostController extends Controller
     /**
      * Xóa bài viết
      * 
-     * @param string $id
+     * @param string $id Id bài viết
      * 
      * @return JsonResponse
      */
@@ -165,33 +160,115 @@ class PostController extends Controller
         ], 200);
     }
 
-    /**
-     * Danh sách bài viết theo người dùng
-     * 
-     * @param string $user
-     * 
-     * @return AnonymousResourceCollection
-     */
-    public function by_user_id(string $user_id)
+    public function comments(string $id)
     {
-        $posts = PostModel::where('user_id', $user_id)->orderBy('created_at', 'desc')->paginate(10);
-        return PostResource::collection($posts)->additional([
-            'meta' => [
-                'current_page' => $posts->currentPage(),
-                'last_page' => $posts->lastPage(),
-                'per_page' => $posts->perPage(),
-                'total' => $posts->total(),
-            ]
-        ]);
+        $post = PostModel::find($id);
+        return $post->comments;
     }
+
+    public function likes(string $id)
+    {
+        $post = PostModel::find($id);
+        return $post->likes;
+    }
+
+    public function shares(string $id)
+    {
+        $post = PostModel::find($id);
+        return $post->shares;
+    }
+
+    public function bookmarks(string $id)
+    {
+        $post = PostModel::find($id);
+        return $post->bookmarks;
+    }
+
+    public function comment_post(Request $request, string $id)
+    {
+        $comment = CommentModel::create([
+            'post_id' => $id,
+            'user_id' => $request->user()->id,
+            'content' => $request->input('content'),
+        ]);
+
+        event(new UserCommentPostEvent($comment->user_id, $comment->post_id, $comment->id, $comment->content));
+
+        return new PostCommentResource($comment);
+    }
+
+    public function like_post(Request $request, string $id)
+    {
+        $post = PostModel::find($id);
+        if ($post->likes()->where('user_id', $request->user()->id)->exists())
+        {
+            $post->likes()->where('user_id', $request->user()->id)->delete();
+        } else {
+            $post->likes()->create([
+                'post_id' => $post->id,
+                'user_id' => $request->user()->id,
+            ]);
+        }
+    }
+
+    public function share_post(Request $request, string $id)
+    {
+        $post = PostModel::find($id);
+        if ($post->shares()->where('user_id', $request->user()->id)->exists())
+        {
+            $post->shares()->where('user_id', $request->user()->id)->delete();
+        } else {
+            $post->shares()->create([
+                'post_id' => $post->id,
+                'user_id' => $request->user()->id,
+            ]);
+        }
+    }
+
+    public function bookmark_post(Request $request, string $id)
+    {
+        $post = PostModel::find($id);
+        if ($post->bookmarks()->where('user_id', $request->user()->id)->exists())
+        {
+            $post->bookmarks()->where('user_id', $request->user()->id)->delete();
+        } else {
+            $post->bookmarks()->create([
+                'post_id' => $post->id,
+                'user_id' => $request->user()->id,
+            ]);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Bình chọn cho một lựa chọn trong bài viết có poll
+     * @param string $id Id của lựa chọn (poll_option)
      * 
-     * @param Request $request
-     * @param string $id : Id của lựa chọn (poll_option)
-     * 
-     * @response 400 : Bạn đã bình chọn cho lựa chọn này rồi
+     * @response 400 Bạn đã bình chọn cho lựa chọn này rồi
      * 
      * @return PostResource
      */
