@@ -73,11 +73,11 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
      */
 
     Route::get('user', [UserController::class, 'index']); // Danh sách người dùng
-    Route::get('user/{id}', [UserController::class, 'show']); // Hiển thị thông tin người dùng
     Route::get('user/self', [UserController::class, 'self']);  // Hiển thị thông tin người dùng hiện tại
+    Route::get('user/search', [UserController::class, 'search']);  // Tìm kiếm người dùng
+    Route::get('user/{id}', [UserController::class, 'show']); // Hiển thị thông tin người dùng
     Route::put('user/{id}', [UserController::class, 'update']); // Cập nhật thông tin người dùng
     Route::delete('user/{id}', [UserController::class, 'destroy']);  // Xóa người dùng
-    Route::get('user/search', [UserController::class, 'search']);  // Tìm kiếm người dùng
 
     // Todo: notification, disabled-notification, vote trả về vote resource
     Route::get('user/{id}/friends' , [UserController::class, 'friends']); // Danh sách bạn bè của người dùng
@@ -139,9 +139,14 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
      */
 
     Route::get('conversation', [ConversationController::class, 'index']); // Danh sách cuộc trò chuyện
+    Route::get('conversation/{user_id}', [ConversationController::class, 'show']); // Hiển thị thông tin cuộc trò chuyện với người dùng
+    Route::get('conversation/{id}/messages' , [ConversationController::class, 'messages']); // Danh sách tin nhắn của cuộc trò chuyện
+
 
     Route::post('chat', [ConversationController::class, 'store']);
-    Route::get('conversation/{user_id}', [ConversationController::class, 'show']); // Hiển thị thông tin cuộc trò chuyện với người dùng
+    Route::get('chat/{id}', [ConversationController::class, 'show']);
+    Route::put('chat/{id}', [ConversationController::class, 'update']);
+    Route::delete('chat/{id}', [ConversationController::class, 'destroy']);
 
 
     Route::get('chat-group', [ConversationGroupController::class, 'index'])->name('chat-group.index');
@@ -150,11 +155,7 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
     Route::put('chat-group/{id}', [ConversationGroupController::class, 'update'])->name('chat-group.update');
     Route::delete('chat-group/{id}', [ConversationGroupController::class, 'destroy'])->name('chat-group.destroy');
 
-    Route::get('conversation/{id}/message');
-    Route::post('conversation/{id}/message');
 
-    Route::get('conversation/{id}/user');
-    Route::post('conversation/{id}/user');
 
 
     /**

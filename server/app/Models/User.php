@@ -75,6 +75,11 @@ class User extends Authenticatable
         return $this->hasMany(Vote::class, 'user_id');
     }
 
+    public function comment_likes()
+    {
+        return $this->hasMany(PostCommentLike::class, 'user_id');
+    }
+
     public function toArray()
     {
         $data = parent::toArray();
@@ -82,6 +87,8 @@ class User extends Authenticatable
         $data['profile'] = $this->profile;
 
         $data['permissions'] = $this->permissions;
+
+        $data['is_friend'] = ($this->friendsOf->concat($this->friendsOfMine))->contains($this->id);
 
         $data['created_at'] = $this->created_at->format('Y-m-d H:i:s');
         $data['updated_at'] = $this->updated_at->format('Y-m-d H:i:s');

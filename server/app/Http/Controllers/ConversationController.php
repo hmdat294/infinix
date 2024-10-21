@@ -79,4 +79,10 @@ class ConversationController extends Controller
     {
 
     }
+
+    public function messages(string $id)
+    {
+        $conversation = ConversationModel::find($id);
+        return $conversation->messages;
+    }
 }
