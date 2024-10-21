@@ -17,15 +17,6 @@ class PostResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $data = parent::toArray($request);
-
-        $data['likes_count'] = $this->likes()->count();
-        $data['comments_count'] = $this->comments()->count();
-        $data['shares_count'] = $this->shares()->count();
-        $data['bookmarks_count'] = $this->bookmarks()->count();
-
-        $data['newest_comment'] =PostCommentModel::where('post_id', $this->id)->orderBy('created_at', 'desc')->first();
-
-        return $data;
+        return parent::toArray($request);
     }
 }

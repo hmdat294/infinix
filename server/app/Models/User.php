@@ -75,6 +75,11 @@ class User extends Authenticatable
         return $this->hasMany(Vote::class, 'user_id');
     }
 
+    public function comment_likes()
+    {
+        return $this->hasMany(PostCommentLike::class, 'user_id');
+    }
+
     public function toArray()
     {
         $data = parent::toArray();

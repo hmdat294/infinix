@@ -67,6 +67,11 @@ class Post extends Model
     {
         $data = parent::toArray();
 
+        $data['user'] = $this->user;
+        $data['medias'] = $this->medias;
+
+        $data['poll'] = $this->poll;
+
         $data['likes_count'] = $this->likes()->count();
         $data['comments_count'] = $this->comments()->count();
         $data['shares_count'] = $this->shares()->count();

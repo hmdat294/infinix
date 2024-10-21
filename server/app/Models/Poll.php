@@ -25,4 +25,17 @@ class Poll extends Model
     {
         return $this->hasMany(PollOption::class, 'poll_id', 'id');
     }
+
+    public function votes()
+    {
+        return $this->hasMany(Vote::class, 'poll_id', 'id');
+    }
+
+    public function toArray()
+    {
+        $data = parent::toArray();
+        $data['options'] = $this->options;
+        $data['total_votes'] = $this->votes->count();
+        return $data;
+    }
 }
