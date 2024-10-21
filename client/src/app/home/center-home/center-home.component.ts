@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PostService } from '../../post.service';
 import { CommonModule } from '@angular/common';
@@ -12,19 +12,20 @@ import { CarouselService } from '../../carousel.service';
   templateUrl: './center-home.component.html',
   styleUrl: './center-home.component.css'
 })
-export class CenterHomeComponent implements OnInit, AfterViewInit {
+export class CenterHomeComponent implements AfterViewInit {
 
   content: string = '';
   selectedFilesPost: File[] = [];
   previewPostImages: string[] = [];
-  listPost: any;
+  listPost: any[] = [];
   filePost: any;
   showPoll: boolean = false;
   poll_input: any[] = [];
   spaceCheck: any = /^\s*$/;
   idDialog: number = 0;
+  commentByPostId: any[] = [];
 
-  constructor(private postService: PostService, private carouselService: CarouselService) {}
+  constructor(private cdr: ChangeDetectorRef, private postService: PostService, private carouselService: CarouselService) { }
 
   ngOnInit(): void {
     this.postService.getPost().subscribe(
@@ -36,6 +37,7 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
           console.log('Post event:', data);
           this.listPost.unshift(data.data);
         });
+
       });
   }
 
@@ -45,7 +47,12 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   @ViewChildren('indicatorsContainer') indicatorsContainers!: QueryList<ElementRef<HTMLDivElement>>;
 
   ngAfterViewInit(): void {
+    this.initCarousels();
+  }
+
+  initCarousels(): void {
     this.carouselInners.forEach((carouselInner, index) => {
+
       const nextButton = this.nextButtons.toArray()[index];
       const prevButton = this.prevButtons.toArray()[index];
       const indicators = this.indicatorsContainers.toArray()[index].nativeElement.querySelectorAll('button') as NodeListOf<HTMLButtonElement>;
@@ -60,6 +67,9 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
 
   toggleDialog(id: number) {
     this.idDialog = id;
+
+    this.cdr.detectChanges();
+    this.initCarousels();
   }
 
   post(value: any) {
@@ -87,6 +97,30 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
           console.log(response);
         });
     }
+  }
+
+  getComment(post_id: number): any {
+    if (!this.commentByPostId[post_id]) {
+      this.postService.getComment(post_id).subscribe(
+        (response) => {
+          this.commentByPostId[post_id] = response.data;
+        })
+    }
+    else {
+      this.commentByPostId[post_id] = null;
+    }
+  }
+
+  getCommentByPostId(post_id: number) {
+    return this.commentByPostId[post_id];
+  }
+
+  postComment(value: any) {
+    this.postService.postComment(value.value.post_id, value.value).subscribe(
+      (response) => {
+        console.log(response);
+      }
+    )
   }
 
   showPolls() {
