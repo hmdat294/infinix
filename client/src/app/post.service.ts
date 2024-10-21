@@ -16,7 +16,7 @@ export class PostService {
   constructor(private http: HttpClient, private authService: AuthService) {
     this.pusher = new Pusher('74a1b74fdf0afc6b5833', { cluster: 'ap1' });
 
-    this.authService.getUser(0).subscribe(
+    this.authService.getUser().subscribe(
       (response) => {
         this.user = response.data;
 

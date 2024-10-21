@@ -17,7 +17,7 @@ export class AuthGuard implements CanActivate {
 
     return new Observable<boolean>((observer) => {
       if (this.isLoggedIn) {
-        this.authService.getUser(0).subscribe(
+        this.authService.getUser().subscribe(
           (response) => {
             this.isAdmin = !!response.data.permissions[4];
 
