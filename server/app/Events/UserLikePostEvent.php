@@ -34,10 +34,14 @@ class UserLikePostEvent implements ShouldBroadcast
         $user_like_id = $this->user_id;
         $user_post_id = PostModel::find($this->post_id)->user->id;
 
-        return [
+        $channel_array = [
             new Channel('user.'.$user_like_id),
-            new Channel('user.'.$user_post_id),
         ];
+
+        if ($user_like_id != $user_post_id) {
+            $channel_array[] = new Channel('user.'.$user_post_id);
+        }
+        return $channel_array;
 
     }
 
@@ -47,7 +51,7 @@ class UserLikePostEvent implements ShouldBroadcast
         return [
             "user_like" => new UserResource(UserModel::find($this->user_id)),
             "data" => new PostResource($post),
-            "like_count" => $post->likes->count(),
+            "likes_count" => $post->likes->count(),
             "type" => $this->type,
         ];
     }

@@ -40,10 +40,14 @@ class UserCommentPostEvent implements ShouldBroadcast
         $user_comment_id = $this->user_id;
         $user_post_id = PostModel::find($this->post_id)->user->id;
 
-        return [
+        $channel_array = [
             new Channel('user.'.$user_comment_id),
-            new Channel('user.'.$user_post_id),
         ];
+
+        if ($user_comment_id != $user_post_id) {
+            $channel_array[] = new Channel('user.'.$user_post_id);
+        }
+        return $channel_array;
     }
 
     public function broadcastWith()
@@ -51,7 +55,7 @@ class UserCommentPostEvent implements ShouldBroadcast
         return [
             "user_comment" => new UserResource(UserModel::find($this->user_id)),
             "data" => new CommentResource(PostCommentModel::find($this->comment_id)),
-            "comment_count" => PostModel::find($this->post_id)->comments->count(),
+            "comments_count" => PostModel::find($this->post_id)->comments->count(),
             "type" => $this->type,
         ];
     }

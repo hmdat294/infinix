@@ -37,8 +37,6 @@ class PostResource extends JsonResource
 
         if ($request->user())
         {
-            
-
             $data["liked"] = $this->likes->contains('user_id', $request->user()->id);
             $data["shared"] = $this->shares->contains('user_id', $request->user()->id);
             $data["commented"] = $this->comments->contains('user_id', $request->user()->id);

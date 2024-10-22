@@ -37,7 +37,10 @@ class UserSharePostEvent implements ShouldBroadcast
 
         $recipient_id_array = $recipient_id_array->concat(UserModel::find($this->user_id)->followers->pluck('id'));
 
-        $recipient_id_array[] = PostModel::find($this->post_id)->user->id;
+        // $recipient_id_array[] = PostModel::find($this->post_id)->user->id;
+        if (PostModel::find($this->post_id)->user->id != $this->user_id) {
+            $recipient_id_array[] = PostModel::find($this->post_id)->user->id;
+        }
         
         $channel_array = [];
         foreach ($recipient_id_array as $recipient_id) {
@@ -53,7 +56,7 @@ class UserSharePostEvent implements ShouldBroadcast
         return [
             "user_share" => new UserResource(UserModel::find($this->user_id)),
             "data" => new PostResource($post),
-            "share_count" => $post->shares->count(),
+            "shares_count" => $post->shares->count(),
             "type" => $this->type,
         ];
     }
