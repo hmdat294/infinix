@@ -198,7 +198,7 @@
 
     <div class="layout-horizontal w-fill">
         <div class="layout-horizontal w-fill">
-            <button type="button" class="button-subtle button-text-with-icon text-secondary">
+            <button type="button" class="button-subtle button-text-with-icon text-secondary" (click)="likePost(post.id)">
                 {{post.likes_count}}
                 <i class="icon-size-20 icon icon-ic_fluent_heart_20_regular"></i>
             </button>
@@ -218,7 +218,7 @@
     </div>
 
     <div *ngIf="getCommentByPostId(post.id)"
-        class="layout-vertical h-hug w-fill overflow-scroll-vertical border-top border-bottom border-card-default">
+        class="layout-vertical w-fill overflow-scroll-vertical border-top border-bottom border-card-default" style="max-height: 300px;">
 
         <div *ngFor="let item of getCommentByPostId(post.id)" class="layout-horizontal w-fill h-hug p-10 gap-15">
             <img src="assets/image/avatar.png" alt="" style="width: 35px; height: 35px;">
@@ -248,6 +248,7 @@
                     id="comment-input" spellcheck="false" style="max-height: 110px;">
                 </textarea>
                 <input type="hidden" name="post_id" ngModel [(ngModel)]="post.id">
+                <input type="hidden" name="user_id" ngModel [(ngModel)]="post.profile.user_id">
                 <div class="layout-horizontal w-fill">
                     <div class="layout horizontal w-fill gap-10">
                         <input class="display-none" type="file" id="post_media_input" multiple>

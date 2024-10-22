@@ -38,6 +38,13 @@ export class CenterHomeComponent implements AfterViewInit {
           this.listPost.unshift(data.data);
         });
 
+        this.postService.bindEventPost('App\\Events\\UserCommentPostEvent', (data: any) => {
+          console.log('Comment event:', data);
+        });
+
+        this.postService.bindEventPost('App\\Events\\UserLikePostEvent', (data: any) => {
+          console.log('Like event:', data);
+        });
       });
   }
 
@@ -117,6 +124,14 @@ export class CenterHomeComponent implements AfterViewInit {
 
   postComment(value: any) {
     this.postService.postComment(value.value).subscribe(
+      (response) => {
+        console.log(response);
+      }
+    )
+  }
+
+  likePost(post_id: number) {
+    this.postService.likePost(post_id).subscribe(
       (response) => {
         console.log(response);
       }

@@ -24,7 +24,7 @@ export class PostService {
           this.channel.unbind_all();
           this.pusher.unsubscribe(this.channel.name);
         }
-        
+
         this.channel = this.pusher.subscribe(`user.${this.user.id}`);
       });
   }
@@ -60,7 +60,7 @@ export class PostService {
     const headers = this.authService.getToken();
     return this.http.post(`${this.apiUrl}/post`, value, { headers });
   }
-  
+
   getComment(post_id: number): Observable<any> {
     const headers = this.authService.getToken();
     return this.http.get(`${this.apiUrl}/post/${post_id}/comments`, { headers });
@@ -69,5 +69,10 @@ export class PostService {
   postComment(value: any): Observable<any> {
     const headers = this.authService.getToken();
     return this.http.post(`${this.apiUrl}/comment`, value, { headers });
+  }
+
+  likePost(post_id: number): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.post(`${this.apiUrl}/like`, { 'post_id': post_id }, { headers });
   }
 }
