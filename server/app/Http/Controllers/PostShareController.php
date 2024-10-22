@@ -47,6 +47,9 @@ class PostShareController extends Controller
 
         if ($post_share) {
             $post_share->delete();
+
+            event(new UserSharePostEvent($request->post_id, $request->user()->id, "unshare"));
+
             return response()->json([
                 'message' => 'Đã hủy chia sẻ bài viết',
             ], 200);
@@ -56,7 +59,7 @@ class PostShareController extends Controller
                 'user_id' => $request->user()->id,
             ]);
 
-            event(new UserSharePostEvent($request->post_id, $request->user()->id));
+            event(new UserSharePostEvent($request->post_id, $request->user()->id, "share"));
 
             return response()->json([
                 'message' => 'Chia sẻ thành công',

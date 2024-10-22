@@ -65,7 +65,7 @@ class PostCommentController extends Controller
         }
 
         $comment = CommentModel::create($comment_data);
-        event(new UserCommentPostEvent($comment->user_id, $comment->post_id, $comment->id, $comment->content));
+        event(new UserCommentPostEvent($comment->user_id, $comment->post_id, $comment->id, $comment->content, "comment"));
 
         return new CommentResource($comment);
     }
@@ -131,8 +131,14 @@ class PostCommentController extends Controller
      * @return void | JsonResponse
      */
     public function destroy(string $id)
-    {
-        CommentModel::destroy($id);
+        {
+
+            $comment = CommentModel::find($id);
+    
+            event(new UserCommentPostEvent($comment->user_id, $comment->post_id, $comment->id, $comment->content, "delete_comment"));
+            
+            CommentModel::destroy($id);
+
 
         return response()->json([
             'message' => 'Comment deleted.',

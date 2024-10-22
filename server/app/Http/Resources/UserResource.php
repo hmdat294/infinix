@@ -16,12 +16,20 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $friendsOf = $this->friendsOf ?: collect();
-        $friendsOfMine = $this->friendsOfMine ?: collect();
-        $friends = $friendsOf->concat($friendsOfMine);
         
-        $followers = $this->followers;
-        $followings = $this->followings;
+        $friends = collect();
+        
+        $followers = collect();
+        $followings = collect();
+
+        if ($request->user()) {
+            $friendsOf =  $request->user()->friendsOf ?: collect();
+            $friendsOfMine =$request->user()->friendsOfMine ?: collect();
+            $friends = $friendsOf->concat($friendsOfMine);
+            
+            $followers = $this->followers;
+            $followings = $this->followings;
+        }
 
 
         return [

@@ -21,11 +21,13 @@ class UserSharePostEvent implements ShouldBroadcast
 
     protected $post_id;
     protected $user_id;
+    protected $type;
 
-    public function __construct($post_id, $user_id)
+    public function __construct($post_id, $user_id, $type)
     {       
         $this->post_id = $post_id;
         $this->user_id = $user_id;
+        $this->type = $type;
     }
     public function broadcastOn(): array
     {
@@ -51,6 +53,8 @@ class UserSharePostEvent implements ShouldBroadcast
         return [
             "user_share" => new UserResource(UserModel::find($this->user_id)),
             "data" => new PostResource($post),
+            "share_count" => $post->shares->count(),
+            "type" => $this->type,
         ];
     }
 }
