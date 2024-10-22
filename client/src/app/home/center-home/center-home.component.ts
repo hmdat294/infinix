@@ -94,7 +94,23 @@ export class CenterHomeComponent implements AfterViewInit {
 
   toggleDialog(id: number) {
     this.idDialog = id;
-
+    // if (!this.commentByPostId[post_id]) {
+    //   this.postService.getComment(post_id).subscribe(
+    //     (response) => {
+    //       this.commentByPostId[post_id] = response.data;
+    //     })
+    // }
+    // else {
+    //   this.commentByPostId[post_id] = null;
+    // }
+    if (this.idDialog == 0) {
+      this.commentByPostId[id] = null;
+    } else {
+      this.postService.getComment(id).subscribe(
+        (response) => {
+          this.commentByPostId[id] = response.data;
+        });
+    }
     this.cdr.detectChanges();
     this.initCarousels();
   }
