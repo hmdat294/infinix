@@ -53,7 +53,7 @@ class UserSharePostEvent implements ShouldBroadcast
         return [
             "user_share" => new UserResource(UserModel::find($this->user_id)),
             "data" => new PostResource($post),
-            "share_count" => $post->shares->count(),
+            "shares_count" => $post->shares->count(),
             "type" => $this->type,
         ];
     }

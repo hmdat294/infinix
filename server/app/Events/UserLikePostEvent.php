@@ -47,7 +47,7 @@ class UserLikePostEvent implements ShouldBroadcast
         return [
             "user_like" => new UserResource(UserModel::find($this->user_id)),
             "data" => new PostResource($post),
-            "like_count" => $post->likes->count(),
+            "likes_count" => $post->likes->count(),
             "type" => $this->type,
         ];
     }
