@@ -12,7 +12,7 @@ export class ChatService {
 
   private pusher: Pusher;
   private channel: any;
-  private conversation_id: string = '0';
+  private conversation_id: number = 0;
 
   constructor(private http: HttpClient, private authService: AuthService) {
     this.pusher = new Pusher('4e5599d0fbce181db90e', { cluster: 'ap1' });
@@ -28,7 +28,7 @@ export class ChatService {
     this.channel = this.pusher.subscribe(`chat-${this.conversation_id}`);
   }
 
-  setConversationId(id: string) {
+  setConversationId(id: number) {
     this.conversation_id = id;
     this.setPusherChat();
   }

@@ -9,6 +9,7 @@ use App\Models\PostLike as PostLikeModel;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\JsonResponse;
 use App\Events\UserLikePostEvent;
+use Illuminate\Support\Facades\Log;
 
 class PostLikeController extends Controller
 {
@@ -43,6 +44,7 @@ class PostLikeController extends Controller
      */
     public function store(Request $request)
     {
+        Log::info('abc');
         $post_like = PostLikeModel::where('post_id', $request->post_id)
             ->where('user_id', $request->user()->id)
             ->first();
@@ -50,6 +52,8 @@ class PostLikeController extends Controller
         if ($post_like) {
 
             $post_like->delete();
+
+            event(new UserLikePostEvent($request->post_id, $request->user()->id, "unlike"));
             
             return response()->json([
                 'message' => 'Đã hủy thích bài viết',
@@ -62,7 +66,7 @@ class PostLikeController extends Controller
                 'user_id' => $request->user()->id,
             ]);
 
-            event(new UserLikePostEvent($request->post_id, $request->user()->id));
+            event(new UserLikePostEvent($request->post_id, $request->user()->id, "like"));
 
             return response()->json([
                 'message' => 'Đã thích bài viết',

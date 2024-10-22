@@ -4,6 +4,7 @@ import { PostService } from '../../post.service';
 import { CommonModule } from '@angular/common';
 import moment from 'moment';
 import { CarouselService } from '../../carousel.service';
+import { AuthService } from '../../auth.service';
 
 @Component({
   selector: 'app-center-home',
@@ -25,7 +26,7 @@ export class CenterHomeComponent implements AfterViewInit {
   idDialog: number = 0;
   commentByPostId: any[] = [];
 
-  constructor(private cdr: ChangeDetectorRef, private postService: PostService, private carouselService: CarouselService) { }
+  constructor(private cdr: ChangeDetectorRef, private postService: PostService, private carouselService: CarouselService, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.postService.getPost().subscribe(
@@ -38,9 +39,35 @@ export class CenterHomeComponent implements AfterViewInit {
           this.listPost.unshift(data.data);
         });
 
+        this.postService.bindEventPost('App\\Events\\UserCommentPostEvent', (data: any) => {
+          const post = this.listPost.find(item => item.id === data.data.post.id);
+          post.comments_count = data.comment_count;
+
+          this.authService.getUser(0).subscribe(
+            (user) => {
+              if (user.data.id == data.user_comment.id && !this.getCommentByPostId(data.data.post.id)) {
+                this.getComment(data.data.post.id);
+                this.commentInput.nativeElement.value = '';
+              }
+              else
+                this.getCommentByPostId(data.data.post.id).unshift(data.data);
+            }
+          )
+
+          console.log('Comment event:', data);
+        });
+
+        this.postService.bindEventPost('App\\Events\\UserLikePostEvent', (data: any) => {
+          const post = this.listPost.find(item => item.id === data.data.id);
+          post.likes_count = data.like_count;
+
+          console.log('Like event:', data);
+
+        });
       });
   }
 
+  @ViewChild('commentInput') commentInput!: ElementRef;
   @ViewChildren('carouselInner') carouselInners!: QueryList<ElementRef<HTMLDivElement>>;
   @ViewChildren('nextButton') nextButtons!: QueryList<ElementRef<HTMLButtonElement>>;
   @ViewChildren('prevButton') prevButtons!: QueryList<ElementRef<HTMLButtonElement>>;
@@ -67,7 +94,23 @@ export class CenterHomeComponent implements AfterViewInit {
 
   toggleDialog(id: number) {
     this.idDialog = id;
-
+    // if (!this.commentByPostId[post_id]) {
+    //   this.postService.getComment(post_id).subscribe(
+    //     (response) => {
+    //       this.commentByPostId[post_id] = response.data;
+    //     })
+    // }
+    // else {
+    //   this.commentByPostId[post_id] = null;
+    // }
+    if (this.idDialog == 0) {
+      this.commentByPostId[id] = null;
+    } else {
+      this.postService.getComment(id).subscribe(
+        (response) => {
+          this.commentByPostId[id] = response.data;
+        });
+    }
     this.cdr.detectChanges();
     this.initCarousels();
   }
@@ -117,6 +160,14 @@ export class CenterHomeComponent implements AfterViewInit {
 
   postComment(value: any) {
     this.postService.postComment(value.value).subscribe(
+      (response) => {
+        console.log(response);
+      }
+    )
+  }
+
+  likePost(post_id: number) {
+    this.postService.likePost(post_id).subscribe(
       (response) => {
         console.log(response);
       }
