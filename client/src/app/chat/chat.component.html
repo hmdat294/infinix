@@ -69,7 +69,7 @@
                         </a>
                     </div>
                 </div>
-                <div #scrollBox class="h-fill w-fill box-chat gap-20 layout-vertical">
+                <div #scrollBox class="h-fill w-fill box-chat gap-20 layout-vertical" style="padding-bottom: 100px;">
 
                     <div *ngFor="let msg of conversation.messages; let i = index;" [attr.id]="'item-' + msg.id">
 

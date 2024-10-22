@@ -55,7 +55,8 @@ article {
 }
 
 .border-focus{
-    border: 1px solid orangered;
+    outline: 3px solid rgb(0, 0, 0, 0.9);
+    outline-offset: 3px;
 }
 
 
