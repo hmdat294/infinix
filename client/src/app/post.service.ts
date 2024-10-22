@@ -60,4 +60,14 @@ export class PostService {
     const headers = this.authService.getToken();
     return this.http.post(`${this.apiUrl}/post`, value, { headers });
   }
+  
+  getComment(post_id: number): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.get(`${this.apiUrl}/post/${post_id}/comments`, { headers });
+  }
+
+  postComment(value: any): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.post(`${this.apiUrl}/comment`, value, { headers });
+  }
 }

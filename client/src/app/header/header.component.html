@@ -8,12 +8,12 @@
             <div class="w-hug show-in-mobile show-in-tablet">
                 <img src="assets/image/Logo.png" alt="">
             </div>
-            <div class="search-dropdown-control w-fill">
+            <div class="search-dropdown-control w-fill visible">
                
                 <div class="control search-control">
                     <input (input)="search()" type="search" name="search"
                     [(ngModel)]="keyword" placeholder="Tìm kiếm" spellcheck="false" required>
-                    <button type="button" class="input-button clear-content-button">
+                    <button type="button" class="input-button clear-content-button" (click)="clearSearch()">
                         <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
                     </button>
                     <button type="button" class="input-button search-button" (click)="search()">

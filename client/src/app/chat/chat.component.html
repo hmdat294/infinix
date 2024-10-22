@@ -88,9 +88,9 @@
                                     </div>
                                     <div>
 
-                                        <div class="w-fill layout align-top-right" *ngIf="(user.id == msg.user_id)">
+                                        <div class="w-fill layout align-top-right" *ngIf="(user.id == msg.user_id)" style="max-height: 65vh;" class="overflow-scroll-vertical">
                                             <div class="layout-horizontal gap-15 p-5 align-top-right">
-                                                <div style="width: calc(100% - 100px);">
+                                                <div style="max-width: calc(100% - 100px);">
                                                     <p class="text-tertiary text-caption mb-5 layout align-top-right">
                                                         {{msg.created_at_time}} - {{msg.updated_at_date}}
                                                     </p>
@@ -127,11 +127,11 @@
 
                                                                 <div class="layout w-fill gradient-background p-10 rounded-top-8"
                                                                     *ngIf="msg.medias.length>0">
-                                                                    <div style="max-height: 60vh;"
-                                                                        class="w-fill {{(msg.medias.length<6)?'layout-'+msg.medias.length:(msg.medias.length%2==0)?'layout-6':'layout-5'}}">
-                                                                        <div class="w-fill h-fill rounded-6 overflow-hidden"
+                                                                    <div
+                                                                        class="w-fill h-fill {{(msg.medias.length<6)?'layout-3-'+msg.medias.length:(msg.medias.length%2==0)?'layout-3-6':'layout-3-5'}}">
+                                                                        <div class="w-fill h-fill rounded-6"
                                                                             *ngFor="let img of msg.medias">
-                                                                            <img class="w-fill h-fill object-fit-cover object-position-center"
+                                                                            <img class="w-fill object-fit-cover object-position-center"
                                                                                 [src]="getPathImg(img)" alt="Image">
                                                                         </div>
                                                                     </div>
@@ -140,6 +140,7 @@
                                                                 <p style="background-color: #005FB8E6; color: white; white-space: pre-line;"
                                                                     class="border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
                                                                     {{ msg.content }}
+                                                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit animi in soluta maiores! Provident cupiditate in obcaecati fuga dolore, quam magnam aliquam earum culpa perspiciatis repudiandae soluta, vero ex deleniti?
                                                                 </p>
 
                                                             </div>
@@ -194,7 +195,7 @@
                                                                 <div class="layout w-fill h-fill"
                                                                     *ngIf="msg.medias.length>0">
                                                                     <div style="max-height: 60vh;"
-                                                                        class="w-fill h-fill {{(msg.medias.length<6)?'layout-'+msg.medias.length:(msg.medias.length%2==0)?'layout-6':'layout-5'}}">
+                                                                        class="w-fill h-fill {{(msg.medias.length<6)?'layout-3-'+msg.medias.length:(msg.medias.length%2==0)?'layout-3-6':'layout-3-5'}}">
                                                                         <div class="w-fill h-fill rounded-6 overflow-hidden"
                                                                             *ngFor="let img of msg.medias">
                                                                             <img class="w-fill h-fill object-fit-cover object-position-center"
