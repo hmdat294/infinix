@@ -36,9 +36,13 @@ export class DashboardComponent implements OnInit {
 
     const options: ApexOptions = {
       chart: {
-        type: 'line',
-        height: 350
-      },
+              foreColor: '#9ba7b2',
+              height: 460,
+              type: 'line',
+              zoom: { enabled: false },
+              dropShadow: { enabled: true, top: 3, left: 2, blur: 4, opacity: 0.1 }
+            },
+      
       stroke: {
         curve: 'smooth' // Làm cho đường biểu đồ trở thành đường cong
       },
