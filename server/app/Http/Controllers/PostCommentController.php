@@ -58,7 +58,7 @@ class PostCommentController extends Controller
         // if has media
         if ($request->hasFile('media')) {
             $media = $request->file('media');
-            $media_path =  asset($media->store('uploads', 'public'));
+            $media_path =  asset('storage/', $media->store('uploads', 'public'));
             $media_type = $media->getClientMimeType();
             $comment_data['media'] = $media_path;
             $comment_data['media_type'] = $media_type;
