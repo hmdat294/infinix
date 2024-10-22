@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ConversationInvitationEvent;
 use Illuminate\Http\Request;
 use App\Http\Resources\ConversationInvitationResource;
 use App\Models\ConversationInvitation as ConversationInvitationModel;
@@ -68,6 +69,8 @@ class ConversationInvitationController extends Controller
             'conversation_id' => $request->conversation_id,
         ]);
 
+        event(new ConversationInvitationEvent($request->sender_id, $request->receiver_id, 'pending', $request->conversation_id));
+
         return response()->json([
             'message' => 'Conversation invitation has been sent.',
         ]);
@@ -105,6 +108,13 @@ class ConversationInvitationController extends Controller
         $conversation_invitation->update([
             'status' => $request->status,
         ]);
+
+        if ($request->status === 'accepted') {
+            event(new ConversationInvitationEvent($conversation_invitation->sender_id, $conversation_invitation->receiver_id, 'accepted', $conversation_invitation->conversation_id));
+            $conversation_invitation->conversation->users()->attach($conversation_invitation->receiver_id);
+        } else {
+            event(new ConversationInvitationEvent($conversation_invitation->sender_id, $conversation_invitation->receiver_id, 'rejected', $conversation_invitation->conversation_id));
+        }
 
         return response()->json([
             'message' => $conversation_invitation->status === 'accepted' ? 'Conversation invitation has been accepted.' : 'Conversation invitation has been rejected.',

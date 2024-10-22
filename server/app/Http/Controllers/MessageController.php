@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Models\Conversation as ConversationModel;
 use App\Models\Message as MessageModel;
 use App\Events\UserSendMessageEvent;
+use App\Events\UserRecallMessageEvent;
+use App\Events\UserEditMessageEvent;
 
 class MessageController extends Controller
 {
@@ -93,7 +95,11 @@ class MessageController extends Controller
         if($message->is_recalled) {
             $message->medias()->delete();
         }
-
+        if ($request->has('is_recalled')) {
+            event(new UserRecallMessageEvent($request->user()->id, $message->id));
+        } else {
+            event(new UserEditMessageEvent($request->user()->id, $message->id, $message->content));
+        }
         return new MessageResource($message);
     }
 }

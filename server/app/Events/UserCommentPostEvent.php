@@ -35,15 +35,17 @@ class UserCommentPostEvent implements ShouldBroadcast
     }
 
     
-    public function broadcastOn(): array
+    public function broadcastOn()
     {
         $user_comment_id = $this->user_id;
         $user_post_id = PostModel::find($this->post_id)->user->id;
 
-        $channel_array = [
-            new Channel('user.'.$user_comment_id),
-        ];
+        
 
+        $channel_array = [
+            new Channel('post.' . $this->post_id),
+        ];
+        
         if ($user_comment_id != $user_post_id) {
             $channel_array[] = new Channel('user.'.$user_post_id);
         }

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->string('content');
+            $table->text('content');
             $table->enum('post_type', ['with_media', 'with_poll', 'with_file'])->default('with_media');
             $table->timestamps();
         });

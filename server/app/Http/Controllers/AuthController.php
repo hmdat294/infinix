@@ -91,7 +91,9 @@ class AuthController extends Controller
             'display_name' => $request->fullname,
         ]);
 
-        $user->permissions()->attach(PermissionModel::all()->pluck('id')->toArray());
+        // $user->permissions()->attach(PermissionModel::all()->pluck('id')->toArray());
+        // attach permission expect can_access_dashboard
+        $user->permissions()->attach(PermissionModel::where('name', '!=', 'can_access_dashboard')->pluck('id')->toArray());
 
         return response()->json([
             'token' => $user->createToken($user->id)->plainTextToken,
