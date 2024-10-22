@@ -23,13 +23,15 @@ class UserCommentPostEvent implements ShouldBroadcast
     protected $post_id;
     protected $comment_id;
     protected $content;
+    protected $type;
 
-    public function __construct($user_id, $post_id, $comment_id, $content)
+    public function __construct($user_id, $post_id, $comment_id, $content, $type)
     {
         $this->user_id = $user_id;
         $this->post_id = $post_id;
         $this->comment_id = $comment_id;
         $this->content = $content;
+        $this->type = $type;
     }
 
     
@@ -49,6 +51,8 @@ class UserCommentPostEvent implements ShouldBroadcast
         return [
             "user_comment" => new UserResource(UserModel::find($this->user_id)),
             "data" => new CommentResource(PostCommentModel::find($this->comment_id)),
+            "comment_count" => PostModel::find($this->post_id)->comments->count(),
+            "type" => $this->type,
         ];
     }
 }

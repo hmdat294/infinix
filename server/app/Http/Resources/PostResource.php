@@ -33,8 +33,16 @@ class PostResource extends JsonResource
             "comments_count" => $this->comments->count(),
             "likes_count" => $this->likes->count(),
             "shares_count" => $this->shares->count(),
-
         ];
+
+        if ($request->user())
+        {
+            
+
+            $data["liked"] = $this->likes->contains('user_id', $request->user()->id);
+            $data["shared"] = $this->shares->contains('user_id', $request->user()->id);
+            $data["commented"] = $this->comments->contains('user_id', $request->user()->id);
+        }
 
         if ($this->poll) {
             $data['poll'] = new PollResource($this->poll);

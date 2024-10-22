@@ -14,17 +14,19 @@ use App\Models\Post as PostModel;
 use App\Models\User as UserModel;
 use App\Http\Resources\UserResource;
 
-class UserLikePostEvent
+class UserLikePostEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     protected $post_id;
     protected $user_id;
+    protected $type;
 
-    public function __construct($post_id, $user_id)
+    public function __construct($post_id, $user_id, $type)
     {
         $this->post_id = $post_id;
         $this->user_id = $user_id;
+        $this->type = $type;
     }
 
     public function broadcastOn()
@@ -45,6 +47,8 @@ class UserLikePostEvent
         return [
             "user_like" => new UserResource(UserModel::find($this->user_id)),
             "data" => new PostResource($post),
+            "like_count" => $post->likes->count(),
+            "type" => $this->type,
         ];
     }
 }

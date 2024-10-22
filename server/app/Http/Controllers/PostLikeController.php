@@ -50,6 +50,8 @@ class PostLikeController extends Controller
         if ($post_like) {
 
             $post_like->delete();
+
+            event(new UserLikePostEvent($request->post_id, $request->user()->id, "unlike"));
             
             return response()->json([
                 'message' => 'Đã hủy thích bài viết',
@@ -62,7 +64,7 @@ class PostLikeController extends Controller
                 'user_id' => $request->user()->id,
             ]);
 
-            event(new UserLikePostEvent($request->post_id, $request->user()->id));
+            event(new UserLikePostEvent($request->post_id, $request->user()->id, "like"));
 
             return response()->json([
                 'message' => 'Đã thích bài viết',
