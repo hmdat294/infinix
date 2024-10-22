@@ -41,11 +41,11 @@ article {
     overflow-y: scroll;
 }
 
-.mess-hover>.mess-menu {
+.mess-hover .mess-menu {
     visibility: hidden;
 }
 
-.mess-hover:hover>.mess-menu {
+.mess-hover:hover .mess-menu {
     visibility: visible;
 }
 
