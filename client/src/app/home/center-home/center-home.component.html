@@ -232,7 +232,7 @@
                         <!-- <i class="icon-size-16 icon icon-ic_fluent_heart_16_filled" style="color: #C42B1C;"></i> -->
                     </button>
                 </div>
-                <p class="text-caption text-secondary">1 giờ trước - 100 lượt like</p>
+                <p class="text-caption text-secondary">{{formatTime(item.created_at)}} - 100 lượt like</p>
             </div>
         </div>
 
@@ -244,7 +244,7 @@
             <!-- (submit)="postComment(frm)" -->
             <form class="layout-vertical gap-10 w-fill" enctype="multipart/form-data" #frm="ngForm"
                 (submit)="postComment(frm)">
-                <textarea class="control text-area-control w-fill" placeholder="placeholder" name="content" ngModel
+                <textarea class="control text-area-control w-fill" placeholder="placeholder" name="content" ngModel #commentInput
                     id="comment-input" spellcheck="false" style="max-height: 110px;">
                 </textarea>
                 <input type="hidden" name="post_id" ngModel [(ngModel)]="post.id">
@@ -264,7 +264,8 @@
                             <i class="icon-size-20 icon icon-ic_fluent_mic_20_regular"></i>
                         </button>
                     </div>
-                    <button type="submit" class="button-accent button-text-with-icon">
+                    <button type="submit" class="button-accent button-text-with-icon"
+                    [disabled]="spaceCheck.test(frm.value.content)">
                         Đăng
                         <i class="icon-size-16 icon icon-ic_fluent_send_16_filled"></i>
                     </button>

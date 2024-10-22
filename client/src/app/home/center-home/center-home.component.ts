@@ -4,6 +4,7 @@ import { PostService } from '../../post.service';
 import { CommonModule } from '@angular/common';
 import moment from 'moment';
 import { CarouselService } from '../../carousel.service';
+import { AuthService } from '../../auth.service';
 
 @Component({
   selector: 'app-center-home',
@@ -25,7 +26,7 @@ export class CenterHomeComponent implements AfterViewInit {
   idDialog: number = 0;
   commentByPostId: any[] = [];
 
-  constructor(private cdr: ChangeDetectorRef, private postService: PostService, private carouselService: CarouselService) { }
+  constructor(private cdr: ChangeDetectorRef, private postService: PostService, private carouselService: CarouselService, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.postService.getPost().subscribe(
@@ -39,15 +40,35 @@ export class CenterHomeComponent implements AfterViewInit {
         });
 
         this.postService.bindEventPost('App\\Events\\UserCommentPostEvent', (data: any) => {
+          const post = this.listPost.find(item => item.id === data.data.post.id);
+          post.comments_count = data.comment_count;
+
+
+          this.authService.getUser(0).subscribe(
+            (user) => {
+              if (user.data.id == data.user_comment.id) {
+                if (!this.getCommentByPostId(data.data.post.id)) this.getComment(data.data.post.id);
+                else this.getCommentByPostId(data.data.post.id).unshift(data.data);
+                this.commentInput.nativeElement.value = '';
+              }
+            }
+          )
+
           console.log('Comment event:', data);
+
         });
 
         this.postService.bindEventPost('App\\Events\\UserLikePostEvent', (data: any) => {
+          const post = this.listPost.find(item => item.id === data.data.id);
+          post.likes_count = data.like_count;
+
           console.log('Like event:', data);
+
         });
       });
   }
 
+  @ViewChild('commentInput') commentInput!: ElementRef;
   @ViewChildren('carouselInner') carouselInners!: QueryList<ElementRef<HTMLDivElement>>;
   @ViewChildren('nextButton') nextButtons!: QueryList<ElementRef<HTMLButtonElement>>;
   @ViewChildren('prevButton') prevButtons!: QueryList<ElementRef<HTMLButtonElement>>;
