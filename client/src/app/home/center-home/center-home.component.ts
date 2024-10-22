@@ -43,19 +43,18 @@ export class CenterHomeComponent implements AfterViewInit {
           const post = this.listPost.find(item => item.id === data.data.post.id);
           post.comments_count = data.comment_count;
 
-
           this.authService.getUser(0).subscribe(
             (user) => {
-              if (user.data.id == data.user_comment.id) {
-                if (!this.getCommentByPostId(data.data.post.id)) this.getComment(data.data.post.id);
-                else this.getCommentByPostId(data.data.post.id).unshift(data.data);
+              if (user.data.id == data.user_comment.id && !this.getCommentByPostId(data.data.post.id)) {
+                this.getComment(data.data.post.id);
                 this.commentInput.nativeElement.value = '';
               }
+              else
+                this.getCommentByPostId(data.data.post.id).unshift(data.data);
             }
           )
 
           console.log('Comment event:', data);
-
         });
 
         this.postService.bindEventPost('App\\Events\\UserLikePostEvent', (data: any) => {
