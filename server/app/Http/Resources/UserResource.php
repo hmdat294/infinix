@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Log;
 
 class UserResource extends JsonResource
 {
@@ -15,9 +16,12 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $friends = $request->user()->friendsOf->concat($request->user()->friendsOfMine);
-        $followers = $request->user()->followers;
-        $followings = $request->user()->followings;
+        $friendsOf = $this->friendsOf ?: collect();
+        $friendsOfMine = $this->friendsOfMine ?: collect();
+        $friends = $friendsOf->concat($friendsOfMine);
+        
+        $followers = $this->followers;
+        $followings = $this->followings;
 
 
         return [

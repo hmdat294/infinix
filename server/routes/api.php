@@ -12,6 +12,7 @@ use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\ConversationGroupController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\DashboardStatisticsController;
+use App\Http\Controllers\ConversationInvitationController;
 use App\Http\Controllers\PostLikeController;
 use App\Http\Controllers\PostBookmarkController;
 use App\Http\Controllers\PostShareController;
@@ -38,13 +39,6 @@ Route::middleware(['guest'])->group(function () {
 });
 
 Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(function () {
-
-    Route::get('test', function (Request $request) {
-        $recipient_id_array = UserModel::find($request->user()->id)->friendsOf->concat(UserModel::find($request->user()->id)->friendsOfMine)->pluck('id');
-        $recipient_id_array[] = $request->user()->id;
-        $recipient_id_array = $recipient_id_array->concat(UserModel::find($request->user()->id)->followers->pluck('id'));
-        return response()->json($recipient_id_array);
-    });
 
     // Đăng xuất
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
@@ -95,9 +89,9 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
     ->parameters(['chat-group' => 'id']);
 
     // API cho lời mời tham gia hội thoại nhóm
-    Route::resource('join-group', ConversationGroupController::class)
-    ->only(['store', 'show', 'update', 'destroy'])
-    ->parameters(['join-group' => 'id']);
+    Route::resource('chat-group-invititaion', ConversationInvitationController::class)
+    ->only(['index', 'store', 'show', 'update', 'destroy'])
+    ->parameters(['chat-group-invititaion' => 'id']);
 
     // API cho tin nhắn
     Route::resource('message', MessageController::class)

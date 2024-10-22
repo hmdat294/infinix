@@ -15,7 +15,7 @@ use App\Models\User as UserModel;
 use App\Http\Resources\PostResource;
 use App\Http\Resources\UserResource;
 
-class UserSharePostEvent
+class UserSharePostEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 

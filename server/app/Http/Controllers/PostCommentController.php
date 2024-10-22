@@ -9,6 +9,7 @@ use App\Models\PostComment as CommentModel;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\JsonResponse;
 use App\Models\Post as PostModel;
+use Illuminate\Support\Facades\Log;
 
 class PostCommentController extends Controller
 {
@@ -53,8 +54,17 @@ class PostCommentController extends Controller
 
         $comment_data = $request->only('post_id', 'content');
         $comment_data['user_id'] = $request->user()->id;
-        $comment = CommentModel::create($comment_data);
 
+        // if has media
+        if ($request->hasFile('media')) {
+            $media = $request->file('media');
+            $media_path =  asset($media->store('uploads', 'public'));
+            $media_type = $media->getClientMimeType();
+            $comment_data['media'] = $media_path;
+            $comment_data['media_type'] = $media_type;
+        }
+
+        $comment = CommentModel::create($comment_data);
         event(new UserCommentPostEvent($comment->user_id, $comment->post_id, $comment->id, $comment->content));
 
         return new CommentResource($comment);

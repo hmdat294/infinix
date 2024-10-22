@@ -15,7 +15,7 @@ use App\Models\User as UserModel;
 use App\Models\PostComment as PostCommentModel;
 use App\Models\Post as PostModel;
 
-class UserCommentPostEvent
+class UserCommentPostEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
