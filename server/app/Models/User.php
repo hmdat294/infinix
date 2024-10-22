@@ -38,6 +38,11 @@ class User extends Authenticatable
         return $this->belongsToMany(User::class, 'relationships', 'related_user_id', 'user_id')->wherePivot('type', 'friend');
     }
 
+    // public function friends()
+    // {
+    //     return $this->friendsOf()->wherePivot('type', 'friend')->get()->merge($this->friendsOfMine()->wherePivot('type', 'friend')->get());
+    // }
+
 
     public function permissions()
     {

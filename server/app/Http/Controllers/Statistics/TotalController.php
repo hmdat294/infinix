@@ -76,4 +76,6 @@ class TotalController extends Controller
         $totalReports = ReportModel::count();
         return response()->json(['data' => $totalReports]);
     }
+
+    
 }

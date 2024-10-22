@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('post_id')->constrained('posts')->onDelete('cascade');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->string('media')->nullable()->default(null);
+            $table->string('media_type')->nullable()->default(null);
             $table->string('content');
             $table->timestamps();
         });
