@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { RightHomeComponent } from '../home/right-home/right-home.component';
+import { EventService } from '../event.service';
 
 @Component({
   selector: 'app-chat',
@@ -45,9 +46,16 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   previousElement: HTMLElement | null = null;
   focusTimeout: any;
 
-  constructor(private el: ElementRef, private renderer: Renderer2, private chatService: ChatService, private authService: AuthService) { }
+  constructor(
+    private el: ElementRef,
+    private renderer: Renderer2,
+    private chatService: ChatService,
+    private authService: AuthService,
+    private eventService: EventService
+  ) { }
 
   @ViewChild('scrollBox') private scrollBox!: ElementRef;
+  private hasBeenCalled = false;
 
   ngOnInit(): void {
 
@@ -59,7 +67,20 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     this.authService.getFriend().subscribe(
       (data: any) => {
         this.friends = data;
+
         this.MessageUser((this.friends.data.length > 0) ? this.friends.data[0].id : '');
+
+        this.eventService.bindEvent('App\\Events\\UserSendMessageEvent', (data: any) => {
+
+          this.isScrollingToElement = false;
+          console.log('Message received:', data);
+
+          if (this.conversation.id == data.data.conversation_id) this.conversation.messages.push(data.data);
+          // if (data.is_recalled == 0) this.conversation.messages.unshift(data);
+          // else if (data.is_recalled == 1) this.conversation.messages.find((item: any) => item.id === data.id).is_recalled = data.is_recalled;
+
+        });
+
       });
 
   }
@@ -120,7 +141,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
         this.focusTimeout = setTimeout(() => {
           messChild.classList.remove('border-focus');
-          this.previousElement = null; 
+          this.previousElement = null;
         }, 3000);
       }
     }
@@ -140,22 +161,9 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     this.chatService.getMessageUser(id).subscribe(
       (data: any) => {
         this.conversation = data.data;
-        console.log(this.conversation);
-
+        // console.log(this.conversation);
         this.isScrollingToElement = false;
         (document.querySelector('.textarea-chat') as HTMLTextAreaElement).focus();
-
-        this.chatService.setConversationId(this.conversation.id);
-        // this.conversation.messages.reverse();
-
-        this.chatService.bindEventChat('App\\Events\\MessageSent', (data: any) => {
-
-          console.log('Message received:', data);
-
-          // if (data.is_recalled == 0) this.conversation.messages.unshift(data);
-          // else if (data.is_recalled == 1) this.conversation.messages.find((item: any) => item.id === data.id).is_recalled = data.is_recalled;
-
-        });
       });
   }
 

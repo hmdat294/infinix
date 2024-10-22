@@ -9,39 +9,7 @@ import { AuthService } from './auth.service';
 })
 export class PostService {
 
-  private pusher: Pusher;
-  private channel: any;
-  private user: any;
-
-  constructor(private http: HttpClient, private authService: AuthService) {
-    this.pusher = new Pusher('74a1b74fdf0afc6b5833', { cluster: 'ap1' });
-
-    this.authService.getUser(0).subscribe(
-      (response) => {
-        this.user = response.data;
-
-        if (this.channel) {
-          this.channel.unbind_all();
-          this.pusher.unsubscribe(this.channel.name);
-        }
-
-        this.channel = this.pusher.subscribe(`user.${this.user.id}`);
-      });
-  }
-
-  public bindEventPost(eventName: string, callback: (data: any) => void): void {
-    if (this.channel) {
-      this.channel.bind(eventName, callback);
-      console.log(`Bound event '${eventName}' to channel '${this.channel.name}'`);
-    } else {
-      console.error('No channel to bind the event to.');
-    }
-  }
-
-
-
-
-
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   private apiUrl = 'http://localhost:8000/api';
 

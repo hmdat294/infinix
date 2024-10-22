@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import moment from 'moment';
 import { CarouselService } from '../../carousel.service';
 import { AuthService } from '../../auth.service';
+import { EventService } from '../../event.service';
 
 @Component({
   selector: 'app-center-home',
@@ -26,7 +27,13 @@ export class CenterHomeComponent implements AfterViewInit {
   idDialog: number = 0;
   commentByPostId: any[] = [];
 
-  constructor(private cdr: ChangeDetectorRef, private postService: PostService, private carouselService: CarouselService, private authService: AuthService) { }
+  constructor(
+    private cdr: ChangeDetectorRef, 
+    private postService: PostService, 
+    private carouselService: CarouselService, 
+    private authService: AuthService,
+    private eventService: EventService,
+  ) { }
 
   ngOnInit(): void {
     this.postService.getPost().subscribe(
@@ -34,12 +41,12 @@ export class CenterHomeComponent implements AfterViewInit {
         this.listPost = data.data;
         console.log(this.listPost);
 
-        this.postService.bindEventPost('App\\Events\\UserPostEvent', (data: any) => {
+        this.eventService.bindEvent('App\\Events\\UserPostEvent', (data: any) => {
           console.log('Post event:', data);
           this.listPost.unshift(data.data);
         });
 
-        this.postService.bindEventPost('App\\Events\\UserCommentPostEvent', (data: any) => {
+        this.eventService.bindEvent('App\\Events\\UserCommentPostEvent', (data: any) => {
           const post = this.listPost.find(item => item.id === data.data.post.id);
           post.comments_count = data.comment_count;
 
@@ -57,7 +64,7 @@ export class CenterHomeComponent implements AfterViewInit {
           console.log('Comment event:', data);
         });
 
-        this.postService.bindEventPost('App\\Events\\UserLikePostEvent', (data: any) => {
+        this.eventService.bindEvent('App\\Events\\UserLikePostEvent', (data: any) => {
           const post = this.listPost.find(item => item.id === data.data.id);
           post.likes_count = data.like_count;
 

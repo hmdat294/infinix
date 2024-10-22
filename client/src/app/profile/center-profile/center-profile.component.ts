@@ -1,10 +1,11 @@
-import { Component, ElementRef, QueryList, ViewChildren } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { PostService } from '../../post.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import moment from 'moment';
 import { AuthService } from '../../auth.service';
 import { CarouselService } from '../../carousel.service';
+import { EventService } from '../../event.service';
 
 @Component({
   selector: 'app-center-profile',
@@ -18,39 +19,74 @@ export class CenterProfileComponent {
   content: string = '';
   selectedFilesPost: File[] = [];
   previewPostImages: string[] = [];
-  listPost: any;
+  listPost: any[] = [];
   filePost: any;
   showPoll: boolean = false;
   poll_input: any[] = [];
   spaceCheck: any = /^\s*$/;
   idDialog: number = 0;
+  commentByPostId: any[] = [];
 
-
-  constructor(private postService: PostService, private authService: AuthService, private carouselService: CarouselService) { }
+  constructor(
+    private cdr: ChangeDetectorRef, 
+    private postService: PostService, 
+    private carouselService: CarouselService, 
+    private authService: AuthService,
+    private eventService: EventService,
+  ) { }
 
   ngOnInit(): void {
+    this.postService.getPost().subscribe(
+      (data) => {
+        this.listPost = data.data;
+        console.log(this.listPost);
 
-    this.authService.getUser(0).subscribe(
-      (res) => this.postService.getPostByUser(res.data.id).subscribe(
-        (data) => {
-          this.listPost = data.data;
+        this.eventService.bindEvent('App\\Events\\UserPostEvent', (data: any) => {
+          console.log('Post event:', data);
+          this.listPost.unshift(data.data);
+        });
 
-          this.postService.bindEventPost('App\\Events\\UserPostEvent', (data: any) => {
-            console.log('Post event:', data);
-            this.listPost.unshift(data.data);
-          });
-        }));
+        this.eventService.bindEvent('App\\Events\\UserCommentPostEvent', (data: any) => {
+          const post = this.listPost.find(item => item.id === data.data.post.id);
+          post.comments_count = data.comment_count;
 
+          this.authService.getUser(0).subscribe(
+            (user) => {
+              if (user.data.id == data.user_comment.id && !this.getCommentByPostId(data.data.post.id)) {
+                this.getComment(data.data.post.id);
+                this.commentInput.nativeElement.value = '';
+              }
+              else
+                this.getCommentByPostId(data.data.post.id).unshift(data.data);
+            }
+          )
 
+          console.log('Comment event:', data);
+        });
+
+        this.eventService.bindEvent('App\\Events\\UserLikePostEvent', (data: any) => {
+          const post = this.listPost.find(item => item.id === data.data.id);
+          post.likes_count = data.like_count;
+
+          console.log('Like event:', data);
+
+        });
+      });
   }
 
+  @ViewChild('commentInput') commentInput!: ElementRef;
   @ViewChildren('carouselInner') carouselInners!: QueryList<ElementRef<HTMLDivElement>>;
-  @ViewChildren('indicatorsContainer') indicatorsContainers!: QueryList<ElementRef<HTMLDivElement>>;
   @ViewChildren('nextButton') nextButtons!: QueryList<ElementRef<HTMLButtonElement>>;
   @ViewChildren('prevButton') prevButtons!: QueryList<ElementRef<HTMLButtonElement>>;
+  @ViewChildren('indicatorsContainer') indicatorsContainers!: QueryList<ElementRef<HTMLDivElement>>;
 
   ngAfterViewInit(): void {
+    this.initCarousels();
+  }
+
+  initCarousels(): void {
     this.carouselInners.forEach((carouselInner, index) => {
+
       const nextButton = this.nextButtons.toArray()[index];
       const prevButton = this.prevButtons.toArray()[index];
       const indicators = this.indicatorsContainers.toArray()[index].nativeElement.querySelectorAll('button') as NodeListOf<HTMLButtonElement>;
@@ -65,35 +101,73 @@ export class CenterProfileComponent {
 
   toggleDialog(id: number) {
     this.idDialog = id;
+
+    this.cdr.detectChanges();
+    this.initCarousels();
   }
 
   post(value: any) {
 
-    const formData = new FormData();
-    formData.append('content', value.content);
+    if (value.content && !this.spaceCheck.test(value.content)) {
+      const formData = new FormData();
+      formData.append('content', value.content);
 
-    if (this.selectedFilesPost.length > 0)
-      this.selectedFilesPost.forEach(image => formData.append('medias[]', image, image.name));
+      if (this.selectedFilesPost.length > 0)
+        this.selectedFilesPost.forEach(image => formData.append('medias[]', image, image.name));
 
-    if (this.poll_input.length > 0) {
-      formData.append('end_at', value.end_at);
-      formData.append('post_type', 'with_poll');
-      this.poll_input.forEach(option => formData.append('poll_option[]', option));
+      if (this.poll_input.length > 0) {
+        formData.append('end_at', value.end_at);
+        formData.append('post_type', 'with_poll');
+        this.poll_input.forEach(option => formData.append('poll_option[]', option));
+      }
+
+      this.postService.postPost(formData).subscribe(
+        (response) => {
+          (document.querySelector('.textarea-post') as HTMLTextAreaElement).style.height = '32px';
+          this.content = '';
+          this.poll_input = [];
+          this.showPoll = false;
+          this.onCancelPostImg();
+          console.log(response);
+        });
     }
+  }
 
-    this.postService.postPost(formData).subscribe(
+  getComment(post_id: number): any {
+    if (!this.commentByPostId[post_id]) {
+      this.postService.getComment(post_id).subscribe(
+        (response) => {
+          this.commentByPostId[post_id] = response.data;
+        })
+    }
+    else {
+      this.commentByPostId[post_id] = null;
+    }
+  }
+
+  getCommentByPostId(post_id: number) {
+    return this.commentByPostId[post_id];
+  }
+
+  postComment(value: any) {
+    this.postService.postComment(value.value).subscribe(
       (response) => {
-        (document.querySelector('.textarea-post') as HTMLTextAreaElement).style.height = '32px';
-        this.content = '';
-        this.poll_input = [];
-        this.showPoll = false;
-        this.onCancelPostImg();
         console.log(response);
-      });
+      }
+    )
+  }
+
+  likePost(post_id: number) {
+    this.postService.likePost(post_id).subscribe(
+      (response) => {
+        console.log(response);
+      }
+    )
   }
 
   showPolls() {
     this.showPoll = (this.showPoll == false) ? true : false;
+    this.poll_input = [];
   }
 
   addChoice(): void {
@@ -105,14 +179,13 @@ export class CenterProfileComponent {
   }
 
   trackByFn(index: number, item: string) {
-    return index; // Sử dụng index để theo dõi các phần tử
+    return index;
   }
 
   onFilePostSelected(event: any) {
     const files: File[] = Array.from(event.target.files);
     if (files && files.length > 0) {
       files.forEach(file => {
-
         const reader = new FileReader();
         reader.onload = e => this.previewPostImages.push(reader.result as string);
         reader.readAsDataURL(file);

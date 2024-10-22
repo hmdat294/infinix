@@ -8,43 +8,8 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class ChatService {
-  // Pusher.logToConsole = true;
 
-  private pusher: Pusher;
-  private channel: any;
-  private conversation_id: number = 0;
-
-  constructor(private http: HttpClient, private authService: AuthService) {
-    this.pusher = new Pusher('4e5599d0fbce181db90e', { cluster: 'ap1' });
-    this.setPusherChat();
-  }
-
-  setPusherChat() {
-    if (this.channel) {
-      this.channel.unbind_all();
-      this.pusher.unsubscribe(this.channel.name);
-    }
-
-    this.channel = this.pusher.subscribe(`chat-${this.conversation_id}`);
-  }
-
-  setConversationId(id: number) {
-    this.conversation_id = id;
-    this.setPusherChat();
-  }
-
-  public bindEventChat(eventName: string, callback: (data: any) => void): void {
-    if (this.channel) {
-      this.channel.bind(eventName, callback);
-      console.log(`Bound event '${eventName}' to channel '${this.channel.name}'`);
-    } else {
-      console.error('No channel to bind the event to.');
-    }
-  }
-
-
-
-
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   private apiUrl = 'http://localhost:8000/api';
 
@@ -59,13 +24,12 @@ export class ChatService {
   }
 
   sendMessage(mess: any): Observable<any> {
-    console.log(mess);
     const headers = this.authService.getToken();
     return this.http.post(`${this.apiUrl}/message`, mess, { headers });
   }
 
   recallMessage(id: number, value: any): Observable<any> {
     const headers = this.authService.getToken();
-    return this.http.patch(`${this.apiUrl}/message/${id}`, value , { headers });
+    return this.http.patch(`${this.apiUrl}/message/${id}`, value, { headers });
   }
 }
