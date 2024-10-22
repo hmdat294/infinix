@@ -69,7 +69,7 @@
                         </a>
                     </div>
                 </div>
-                <div #scrollBox class="h-fill w-fill box-chat">
+                <div #scrollBox class="h-fill w-fill box-chat gap-20 layout-vertical">
 
                     <div *ngFor="let msg of conversation.messages; let i = index;" [attr.id]="'item-' + msg.id">
 
@@ -241,7 +241,7 @@
                                         msg.created_at_time }}
                                     </p>
                                     <div class="mess-hover layout align-top-right" *ngIf="msg.is_recalled == 0">
-                                        <div style="height: 45px;">
+                                        <div style="height: 45px; overflow: visible; z-index: 1;">
                                             <div class="mess-menu layout-vertical mx-15 gap-5 p-5 acrylic-background-default blur-acrylic border border-card-default rounded-8">
                                                 <div class="list-item layout-horizontal gap-10 align-center-left" (click)="toggleDialog(msg.id)">
                                                     <i class="icon-size-20 accent-text-primary icon icon-ic_fluent_more_horizontal_20_regular"></i>
@@ -417,7 +417,7 @@
                                             </div>
                                         </div>
 
-                                        <div style="height: 45px;">
+                                        <div style="height: 45px; overflow: visible; z-index: 1;">
                                             <div class="mess-menu mx-15 layout-vertical mx-15 gap-5 p-5 acrylic-background-default blur-acrylic border border-card-default rounded-8">
                                                 <div class="list-item layout-horizontal gap-10 align-center-left" (click)="toggleDialog(msg.id)">
                                                     <i class="icon-size-20 accent-text-primary icon icon-ic_fluent_more_horizontal_20_regular"></i>
