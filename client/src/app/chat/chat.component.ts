@@ -15,6 +15,9 @@ import { RightHomeComponent } from '../home/right-home/right-home.component';
   styleUrl: './chat.component.css',
 })
 export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
+
+
+
   content: string = '';
   conversation: any;
   friends: any;
@@ -147,6 +150,11 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
         this.chatService.setConversationId(this.conversation.id);
         // this.conversation.messages.reverse();
+
+        if (this.conversation.is_group == 0) {
+          this.conversation.name = this.conversation.users.find((user: any) => user.id !== this.user.id).profile.display_name;
+          this.conversation.image = this.conversation.users.find((user: any) => user.id !== this.user.id).profile.profile_photo;
+        }
 
         this.chatService.bindEventChat('App\\Events\\MessageSent', (data: any) => {
 
