@@ -38,6 +38,7 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
         console.log(this.friends);
 
         this.friends.reverse();
+        this.friends_limit = this.friends.slice(0, 5);
 
         this.eventService.bindEvent('App\\Events\\FriendRequestEvent', (data: any) => {
           console.log('Friend request event:', data);
@@ -45,15 +46,18 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
           if (data.status == "accepted") {
             if (data.sender_id == this.user.id) {
               this.friends.unshift(data.receiver);
+              this.friends_limit.unshift(data.receiver);
+              this.friends_limit = this.friends.slice(0, 5);
             }
             if (data.receiver_id == this.user.id) {
               this.friends.unshift(data.sender);
+              this.friends_limit.unshift(data.sender);
+              this.friends_limit = this.friends.slice(0, 5);
             }
           }
 
         });
 
-        this.friends_limit = this.friends.slice(0, 5);
       });
 
   }
