@@ -27,7 +27,7 @@ class UserTableSeeder extends Seeder
                 'display_name' => 'User ' . $i,
             ]);
 
-            $user->permissions()->attach(PermissionModel::all()->pluck('id')->toArray());
+            $user->permissions()->attach(PermissionModel::where('name', '!=', 'can_access_dashboard')->pluck('id')->toArray());
 
         }
     }

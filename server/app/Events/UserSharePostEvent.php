@@ -29,12 +29,14 @@ class UserSharePostEvent implements ShouldBroadcast
         $this->user_id = $user_id;
         $this->type = $type;
     }
-    public function broadcastOn(): array
+    public function broadcastOn()
     {
 
         $recipient_id_array = UserModel::find($this->user_id)->friendsOf->concat(UserModel::find($this->user_id)->friendsOfMine)->pluck('id');
-        $recipient_id_array[] = $this->user_id;
 
+        if (PostModel::find($this->post_id)->user->id != $this->user_id) {
+            $recipient_id_array[] = $this->user_id;
+        }
         $recipient_id_array = $recipient_id_array->concat(UserModel::find($this->user_id)->followers->pluck('id'));
 
         // $recipient_id_array[] = PostModel::find($this->post_id)->user->id;
@@ -46,6 +48,8 @@ class UserSharePostEvent implements ShouldBroadcast
         foreach ($recipient_id_array as $recipient_id) {
             $channel_array[] = new Channel('user.' . $recipient_id);
         }
+
+        $channel_array[] = new Channel('post.' . $this->post_id);
 
         return $channel_array;
     }

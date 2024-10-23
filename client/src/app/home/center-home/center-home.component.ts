@@ -231,4 +231,16 @@ export class CenterHomeComponent implements AfterViewInit {
     else if (diffInMinutes < 60) return `${diffInMinutes} phút trước`;
     else return `${diffInHours} giờ trước`;
   }
+
+  // Cập nhật height cho textarea theo content, quá 110px thì thành cuộn dọc
+  resizeTextarea(event: any): void {
+    const textarea = event.target;
+    if (textarea.scrollHeight < 110) {
+      textarea.style.height = 'fit-content';
+      textarea.style.height = textarea.scrollHeight + 'px';
+    } else {
+      textarea.style.height = '110px';
+      textarea.style.overflowY = 'auto';
+    }
+  }
 }

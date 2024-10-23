@@ -9,6 +9,7 @@ use App\Models\User as UserModel;
 use App\Models\FriendRequest as FriendRequestModel;
 use App\Models\Relationship as RelationshipModel;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use App\Events\FriendRequestEvent;
 
 class FriendRequestController extends Controller
 {
@@ -87,6 +88,8 @@ class FriendRequestController extends Controller
             'receiver_id' => $request->receiver_id,
         ]);
 
+        event(new FriendRequestEvent($request->user()->id, $request->receiver_id, 'pending'));
+
         return response()->json([
             'message' => 'Friend request sent.',
         ], 200);
@@ -131,11 +134,14 @@ class FriendRequestController extends Controller
         ]);
         
         if ($request->status === 'accepted') {
+            event(new FriendRequestEvent(FriendRequestModel::find($id)->sender_id, FriendRequestModel::find($id)->receiver_id, 'accepted'));
             RelationshipModel::create([
                 'user_id' => FriendRequestModel::find($id)->sender_id,
                 'related_user_id' => FriendRequestModel::find($id)->receiver_id,
                 'type' => 'friend',
             ]);
+        } else {
+            event(new FriendRequestEvent(FriendRequestModel::find($id)->sender_id, FriendRequestModel::find($id)->receiver_id, 'rejected'));
         }
 
         return response()->json([
