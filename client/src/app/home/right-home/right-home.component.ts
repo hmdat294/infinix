@@ -41,7 +41,16 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
 
         this.eventService.bindEvent('App\\Events\\FriendRequestEvent', (data: any) => {
           console.log('Friend request event:', data);
-          if (data.status == "accepted") this.friends.unshift(data.sender);
+          // nếu status là accepted thì data có sender và receiver, bản thân là 1 trong 2 thì thêm vào danh sách bạn bè người còn lại
+          if (data.status == "accepted") {
+            if (data.sender_id == this.user.id) {
+              this.friends.unshift(data.receiver);
+            }
+            if (data.receiver_id == this.user.id) {
+              this.friends.unshift(data.sender);
+            }
+          }
+
         });
 
         this.friends_limit = this.friends.slice(0, 5);

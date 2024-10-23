@@ -13,12 +13,19 @@ import { EventService } from '../../event.service';
 export class LeftHomeComponent implements OnInit {
 
   userRequest: any = [];
+  user: any = [];
 
   constructor(private authService: AuthService, private eventService: EventService) {
 
   }
 
   ngOnInit(): void {
+
+    if (localStorage.getItem('auth_token')) {
+      this.authService.getUser(0).subscribe(
+        (response) => this.user = response);
+    }
+
     this.authService.getRequestFriend().subscribe(
       (response) => {
         this.userRequest = response.data;
@@ -26,7 +33,12 @@ export class LeftHomeComponent implements OnInit {
 
         this.eventService.bindEvent('App\\Events\\FriendRequestEvent', (data: any) => {
           console.log('Friend request event:', data);
-          if (data.status == "pending") this.userRequest.push(data);
+
+          if (data.status == "pending" && data.receiver.id == this.user.id) this.userRequest.push(data);
+          
+          if (data.status == "accepted") {
+            this.userRequest = this.userRequest.filter((request: any) => request.id !== data.id);
+          }
         });
       });
   }

@@ -3,6 +3,7 @@
 namespace App\Events;
 
 use App\Http\Resources\UserResource;
+use App\Models\FriendRequest;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -36,15 +37,20 @@ class FriendRequestEvent implements ShouldBroadcast
      */
     public function broadcastOn(): array
     {
-        Log::info('Friend request: ' .  $this->receiver_id);
         return [
+            new Channel('user.' . $this->sender_id),
             new Channel('user.' . $this->receiver_id),
         ];
     }
 
     public function broadcastWith(): array
     {
+        Log::info($this->sender_id." - ".$this->receiver_id." - ".$this->status);
+        $friend_request = FriendRequest::where('sender_id', $this->sender_id)
+            ->where('receiver_id', $this->receiver_id)
+            ->first();
         return [
+            'id' => $friend_request->id,
             'sender' => new UserResource(UserModel::find($this->sender_id)),
             'receiver' => new UserResource(UserModel::find($this->receiver_id)),
             'status' => $this->status,
