@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ElementRef, OnInit, Renderer2 } from '@angula
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../auth.service';
 import { CommonModule } from '@angular/common';
+import { EventService } from '../../event.service';
 
 @Component({
   selector: 'app-right-home',
@@ -14,7 +15,13 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
   user: any = [];
   friends: any = [];
 
-  constructor(private el: ElementRef, private renderer: Renderer2, private authService: AuthService, private router: Router) { }
+  constructor(
+    private el: ElementRef,
+    private renderer: Renderer2,
+    private authService: AuthService,
+    private router: Router,
+    private eventService: EventService
+  ) { }
 
   ngOnInit(): void {
 
@@ -24,7 +31,15 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
     }
 
     this.authService.getFriend().subscribe(
-      (response) => this.friends = response);
+      (response) => {
+        this.friends = response.data;
+        // console.log(this.friends);
+
+        this.eventService.bindEvent('App\\Events\\FriendRequestEvent', (data: any) => {
+          console.log('Friend request event:', data);
+          if (data.status == "accepted") this.friends.push(data.sender);
+        });
+      });
 
   }
 

@@ -34,7 +34,7 @@
     <div class="w-fill layout-horizontal align-center-space-between px-20 py-10">
         <p class="text-secondary text-body-strong">Bạn bè</p>
     </div>
-    <div class="layout-horizontal gap-15 px-20 py-10 border-top border-card-default align-center-center" *ngFor="let friend of friends.data">
+    <div class="layout-horizontal gap-15 px-20 py-10 border-top border-card-default align-center-center" *ngFor="let friend of friends">
         <img src="assets/image/avatar.png" alt="" style="width: 35px; height: 35px;">
         <p class="text-secondary text-body-strong w-fill">{{friend.profile.display_name}}</p>
     </div>

@@ -23,7 +23,11 @@ export class HeaderComponent {
   constructor(private router: Router, private authService: AuthService) { }
   ngOnInit(): void {
     this.authService.getListUser().subscribe(
-      (response) => this.listUser = response.data);
+      (response) => {
+        this.listUser = response.data;
+        console.log(this.listUser);
+        
+      });
 
     this.currentRoute = this.router.url.split('/').pop();
 
@@ -44,7 +48,7 @@ export class HeaderComponent {
     }
   }
 
-  clearSearch(){
+  clearSearch() {
     this.keyword = '';
     this.friends = [];
   }

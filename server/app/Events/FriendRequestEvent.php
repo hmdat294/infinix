@@ -11,6 +11,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\User as UserModel;
+use Illuminate\Support\Facades\Log;
 
 class FriendRequestEvent implements ShouldBroadcast
 {
@@ -35,6 +36,7 @@ class FriendRequestEvent implements ShouldBroadcast
      */
     public function broadcastOn(): array
     {
+        Log::info('Friend request: ' .  $this->receiver_id);
         return [
             new Channel('user.' . $this->receiver_id),
         ];

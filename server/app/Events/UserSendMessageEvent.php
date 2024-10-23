@@ -42,8 +42,6 @@ class UserSendMessageEvent implements ShouldBroadcast
             Log::info("Array: ". $recipient_id);
             $channel_array[] = new Channel('user.' . $recipient_id);
         }
-        // $channel_array[] = new Channel('user.1');
-        // $channel_array[] = new Channel('user.7');
 
         return $channel_array;
     }

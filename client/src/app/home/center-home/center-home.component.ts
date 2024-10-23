@@ -39,7 +39,7 @@ export class CenterHomeComponent implements AfterViewInit {
     this.postService.getPost().subscribe(
       (data) => {
         this.listPost = data.data;
-        console.log(this.listPost);
+        // console.log(this.listPost);
 
         this.eventService.bindEvent('App\\Events\\UserPostEvent', (data: any) => {
           console.log('Post event:', data);
