@@ -16,6 +16,9 @@ import { EventService } from '../event.service';
   styleUrl: './chat.component.css',
 })
 export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
+
+
+
   content: string = '';
   conversation: any;
   friends: any;
