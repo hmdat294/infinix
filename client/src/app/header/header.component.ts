@@ -55,7 +55,7 @@ export class HeaderComponent {
 
   addFriend(receiver_id: number): void {
     this.authService.addFriend(receiver_id).subscribe(
-      (response) => console.log(response));
+      (response) => this.clearSearch());
   }
 
 

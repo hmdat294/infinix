@@ -13,7 +13,9 @@ import { EventService } from '../../event.service';
 })
 export class RightHomeComponent implements OnInit, AfterViewInit {
   user: any = [];
+  friends_limit: any = [];
   friends: any = [];
+  showFriendMore: boolean = false;
 
   constructor(
     private el: ElementRef,
@@ -33,12 +35,16 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
     this.authService.getFriend().subscribe(
       (response) => {
         this.friends = response.data;
-        // console.log(this.friends);
+        console.log(this.friends);
+
+        this.friends.reverse();
 
         this.eventService.bindEvent('App\\Events\\FriendRequestEvent', (data: any) => {
           console.log('Friend request event:', data);
-          if (data.status == "accepted") this.friends.push(data.sender);
+          if (data.status == "accepted") this.friends.unshift(data.sender);
         });
+
+        this.friends_limit = this.friends.slice(0, 5);
       });
 
   }
@@ -56,6 +62,9 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
     });
   }
 
+  friendMore() {
+    this.showFriendMore = !this.showFriendMore;
+  }
 
   logout(): void {
     this.authService.logout().subscribe(
