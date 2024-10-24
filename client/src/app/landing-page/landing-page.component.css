@@ -1,0 +1,159 @@
+.moving {
+    animation: moveHorizontally 10s linear infinite alternate;
+}
+
+.rotate {
+    animation: rotateHorizontally 1s linear infinite alternate;
+}
+
+.moving-delay-1 {
+    animation-delay: 1s;
+}
+
+.moving-delay-2 {
+    animation-delay: 2s;
+}
+
+.moving-delay-3 {
+    animation-delay: 3s;
+}
+
+.rotate-delay-1 {
+    animation-delay: 0.5s;
+}
+
+.rotate-delay-2 {
+    animation-delay: 1s;
+}
+
+.rotate-delay-3 {
+    animation-delay: 1.5s;
+}
+
+.rotate-delay-4 {
+    animation-delay: 2s;
+}
+
+@keyframes rotateHorizontally {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(10deg);
+    }
+}
+
+@keyframes moveHorizontally {
+    0% {
+        transform: translateX(0px);
+    }
+
+    20% {
+        transform: translateY(0px);
+    }
+
+    40% {
+        transform: translateX(-10px);
+    }
+
+    60% {
+        transform: translateY(-10px);
+    }
+
+    80% {
+        transform: translateX(-20px);
+    }
+
+    100% {
+        transform: translateY(-20px);
+    }
+}
+
+
+.text-wrapper {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 50px;
+}
+
+.gradient-text,
+.text-border {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.gradient-text {
+    z-index: 2;
+    background: linear-gradient(to right, #DAABE3, #FF9FEA, #FFC8E1, #BCD1FA, #DAE7FC);
+    background-size: 500% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientAnimation 10s ease infinite;
+}
+
+.text-border {
+    z-index: 1;
+    color: #003E92;
+    text-shadow: 0.5px 0.5px 0 #003E92, -0.5px 0.5px 0 #003E92, 0.5px -0.5px 0 #003E92, -0.5px -0.5px 0 #003E92;
+}
+
+
+.gradient-btn {
+    position: relative;
+    width: 200px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    box-shadow: 0 0 5px rgb(150, 150, 150) inset;
+    color: white;
+    border-radius: 4px;
+    font-weight: 500;
+    background: linear-gradient(to right, #DAABE3, #FF9FEA, #FFC8E1, #BCD1FA, #DAE7FC);
+    background-size: 500% 100%;
+    animation: gradientAnimation 10s ease infinite;
+    overflow: hidden;
+    transition: 0.5s;
+    text-shadow: 0.5px 0.5px 0 #003E92, -0.5px 0.5px 0 #003E92, 0.5px -0.5px 0 #003E92, -0.5px -0.5px 0 #003E92;
+}
+
+.gradient-btn>* {
+    transition: 0.5s;
+}
+
+.gradient-btn>img {
+    position: absolute;
+    left: -50%;
+    height: 35px;
+    transform: rotate(63deg);
+}
+
+.gradient-btn:hover {
+    animation: gradientAnimation 2s ease infinite;
+    box-shadow: 0 0 5px rgb(150, 150, 150);
+}
+
+.gradient-btn:hover>span {
+    transform: translateX(20px);
+}
+
+.gradient-btn:hover>img {
+    left: 30px;
+}
+
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}

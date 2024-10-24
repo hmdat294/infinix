@@ -1,0 +1,143 @@
+<section class="gradient-background layout-vertical overflow-hidden" style="height: 100vh;">
+
+    <div class="bg-page-login-left">
+        <img src="assets/image/3d-glassy-flexible-display-with-contact-list 1.png" alt=""
+            class="position-absolute moving moving-delay-1 left-1-step-{{(step_index == 4)?1:step_index}}">
+        <img src="assets/image/3d-glassy-bent-plastic-card 2.png" alt=""
+            class="position-absolute moving moving-delay-2 left-2-step-{{(step_index == 4)?1:step_index}}">
+        <img src="assets/image/3d-glassy-bent-transparent-striped-plastic-card 1.png" alt=""
+            class="position-absolute moving moving-delay-3 left-3-step-{{(step_index == 4)?1:step_index}}">
+    </div>
+    <div class="bg-page-login-right">
+        <img src="assets/image/3d-glassy-two-deformed-thin-lenses 2.png" alt=""
+            class="position-absolute moving moving-delay-1 right-1-step-{{(step_index == 4)?1:step_index}}">
+        <img src="assets/image/3d-glassy-wide-wavy-gradient-ribbon 1.png" alt=""
+            class="position-absolute moving moving-delay-2 right-2-step-{{(step_index == 4)?1:step_index}}">
+    </div>
+
+    <form (submit)="register(frm)" #frm="ngForm"
+        class="layout-vertical w-fill h-fill align-center-center overflow-scroll-vertical gap-25">
+        <div class="layout-vertical acrylic-background-default blur-acrylic border border-card-default rounded-8 p-25 gap-25 shadow-card overflow-hidden"
+            style="width: 400px;">
+
+            <div *ngIf="error != ''" [innerHTML]="error"></div>
+
+            <div class="w-fill layout-horizontal gap-10 align-center-center">
+                <img src="assets/image/Logo.png" alt="">
+                <p class="text-subtitle text-primary">Infinix</p>
+            </div>
+
+            <p class="text-body-large text-primary">Tạo tài khoản</p>
+
+            <div class="{{(step_index == 1)?'display-block':'display-none'}}">
+                <div id="" class="step step_1 layout-vertical gap-25">
+
+                    <div class="w-fill layout-vertical gap-5">
+                        <label for="fullname" class="w-fill text-body text-primary">Họ và tên</label>
+                        <div class="control text-control w-fill ">
+                            <input type="text" spellcheck="false" id="fullname" name="fullname" #fullname="ngModel"
+                                ngModel required (input)="error = ''">
+                        </div>
+                    </div>
+
+                    <p class="text-body text-tertiary">Bạn đã có tài khoản? <a [routerLink]="['/login']"
+                            class="link">Đăng nhập!</a></p>
+
+                    <div class="w-fill layout-horizontal align-center-right">
+                        <button (click)="stepNext()" type="button" class="button-accent button-text-only"
+                            [disabled]="fullname.errors?.['required']">Tiếp theo</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="{{(step_index == 2)?'display-block':'display-none'}}">
+                <div id="" class="step step_2 layout-vertical gap-25">
+
+                    <div class="w-fill layout-vertical gap-5">
+                        <label for="email" class="w-fill text-body text-primary">Email</label>
+                        <div class="control text-control w-fill ">
+                            <input type="email" spellcheck="false" id="email" name="email" #email="ngModel" ngModel
+                                required email (input)="error = ''">
+                        </div>
+                        <small style="color: red;" class="" *ngIf="email.errors?.['email']">Chưa nhập đúng định
+                            dạng</small>
+                    </div>
+
+                    <p class="text-body text-tertiary">Bạn đã có tài khoản? <a [routerLink]="['/login']"
+                            class="link">Đăng nhập!</a></p>
+
+                    <div class="w-fill layout-horizontal align-center-space-between">
+                        <button (click)="stepPrev()" type="button" class="button-standard button-text-only">Quay
+                            lại</button>
+                        <button type="button" class="button-accent button-text-only"
+                            [disabled]="email.errors?.['required']" (click)="getCode(email.value)">Gửi mã</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="{{(step_index == 3)?'display-block':'display-none'}}">
+                <div id="" class="step step_3 layout-vertical gap-25">
+
+                    <div class="w-fill layout-vertical gap-5">
+                        <label for="code" class="w-fill text-body text-primary">Mã xác nhận</label>
+                        <div class="control text-control w-fill">
+                            <input type="text" spellcheck="false" id="code" name="code" #code="ngModel" ngModel required
+                                (input)="error = ''">
+                        </div>
+                    </div>
+
+                    <p class="text-body text-tertiary">Bạn đã có tài khoản? <a [routerLink]="['/login']"
+                            class="link">Đăng nhập!</a></p>
+
+                    <div class="w-fill layout-horizontal align-center-space-between">
+                        <button (click)="stepPrev()" type="button" class="button-standard button-text-only">Quay
+                            lại</button>
+                        <button type="button" class="button-accent button-text-only"
+                            [disabled]="email.errors?.['required']" (click)="postCode(email.value, code.value)">Xác
+                            nhận</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="{{(step_index == 4)?'display-block':'display-none'}}">
+                <div id="" class="step step_4 layout-vertical gap-25">
+
+                    <div class="w-fill layout-vertical gap-5">
+                        <label for="password" class="w-fill text-body text-primary">Đặt mật khẩu</label>
+                        <div class="control password-control w-fill">
+                            <input type="password" spellcheck="false" id="password" name="password" #password="ngModel"
+                                ngModel required minlength="8" (input)="error = ''">
+                            <button type="button" class="input-button show-password-button">
+                                <i class="icon-size-16 icon icon-ic_fluent_eye_16_regular"></i>
+                            </button>
+                        </div>
+                        <small style="color: red;" class="" *ngIf="password.errors?.['minlength']">Password phải
+                            trên 8
+                            ký tự</small>
+                    </div>
+
+                    <div class="w-fill layout-vertical gap-5">
+                        <label for="confirm" class="w-fill text-body text-primary">Xác nhận mật khẩu</label>
+                        <div class="control password-control w-fill">
+                            <input type="password" spellcheck="false" id="confirm" name="confirm" #confirm="ngModel"
+                                ngModel required (input)="error = ''">
+                            <button type="button" class="input-button show-password-button">
+                                <i class="icon-size-16 icon icon-ic_fluent_eye_16_regular"></i>
+                            </button>
+                        </div>
+                        <small style="color: red;" class="" *ngIf="confirm.value !== password.value">
+                            Password không khớp
+                        </small>
+                    </div>
+
+                    <div class="w-fill layout-horizontal align-center-space-between">
+                        <button (click)="stepPrev()" type="button" class="button-standard button-text-only">Quay
+                            lại</button>
+                        <button type="submit" class="button-accent button-text-only"
+                            [disabled]="frm.invalid || !checkPasswords(frm)">Hoàn tất</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>

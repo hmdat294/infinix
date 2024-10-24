@@ -1,0 +1,145 @@
+/* .container {
+    height: 85vh;
+}
+
+.card-body {
+    overflow-y: scroll;
+}
+
+.list-group>a {
+    border-bottom: 1px solid #dee2e6;
+} */
+
+.textarea-chat {
+    border: none;
+    overflow-y: scroll;
+}
+
+.textarea-chat::-webkit-scrollbar {
+    width: 5px;
+}
+
+.textarea-chat::-webkit-scrollbar-thumb {
+    background-color: #a6e7ff;
+    border-radius: 10px;
+}
+
+.textarea-chat::-webkit-scrollbar-thumb:hover {
+    background-color: #005FB8E6;
+    cursor: pointer;
+}
+
+
+article {
+    margin-top: 45px;
+}
+
+.box-chat {
+    display: flex;
+    flex-direction: column;
+    /* flex-direction: column-reverse; */
+    overflow-y: scroll;
+}
+
+.mess-hover .mess-menu {
+    display: none;
+}
+
+.mess-hover:hover .mess-menu {
+    display: block;
+}
+
+.textarea-chat {
+    resize: none;
+    max-height: 200px;
+}
+
+.border-focus{
+    outline: 3px solid rgb(0, 0, 0, 0.9);
+    outline-offset: 3px;
+}
+
+
+
+
+
+
+.layout-1 {
+    display: grid;
+    gap: 10px;
+}
+
+.layout-2,
+.layout-3,
+.layout-4,
+.layout-5,
+.layout-6 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.layout-3-2,
+.layout-3-3,
+.layout-3-4,
+.layout-3-5,
+.layout-3-6 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.layout-1>div {
+    margin: auto;
+    max-width: 600px;
+}
+
+.layout-3>div:nth-child(1) {
+    grid-row-start: 1;
+    grid-row-end: 3;
+}
+
+.layout-5>div:nth-child(1),
+.layout-6>div:nth-child(1) {
+    grid-row-start: 1;
+    grid-row-end: 6;
+}
+
+.layout-5>div:nth-child(2),
+.layout-6>div:nth-child(2) {
+    grid-row-start: 6;
+    grid-row-end: 12;
+}
+
+.layout-5>div:nth-child(3),
+.layout-6>div:nth-child(3) {
+    grid-row-start: 1;
+    grid-row-end: 4;
+}
+
+.layout-5>div:nth-child(4),
+.layout-6>div:nth-child(4) {
+    grid-row-start: 4;
+    grid-row-end: 8;
+}
+
+.layout-5>div:nth-child(5),
+.layout-6>div:nth-child(5) {
+    grid-row-start: 8;
+    grid-row-end: 12;
+}
+
+.layout-6>div:nth-child(6) {
+    grid-row-start: 12;
+    grid-row-end: 13;
+}
+
+.layout-6>div:nth-child(7) {
+    grid-row-start: 12;
+    grid-row-end: 16;
+}
+
+.layout-6>div:nth-child(6) {
+    grid-row-start: 13;
+    grid-row-end: 16;
+}
