@@ -23,6 +23,7 @@
     "pusher-js": "^8.4.0-rc2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
+    "vite": "^5.4.9",
     "zone.js": "~0.14.3"
   },
   "devDependencies": {
@@ -36,7 +37,6 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "typescript": "~5.4.2",
-    "vite": "^5.4.10"
+    "typescript": "~5.4.2"
   }
 }
