@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="https://chick2004.io.vn/css/index.css">
+
+    </head>
+    <style>
+        
+
+        .profile-card {
+            display: flex;
+            align-items: center;
+            width: 690px;
+            height: 165px;
+            /* background-color: white; */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+            position: relative;
+        }
+
+        .profile-image img {
+            width: 250px;
+            height: 150px;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+
+        .profile-content {
+            margin-left: 15px;
+        }
+
+        .profile-content h2 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .profile-content p {
+            margin: 5px 0 0;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .profile-avatar {
+            position: absolute;
+            bottom: -20px;
+            left: 30px;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            overflow: hidden;
+            background-color: white;
+            border: 2px solid white;
+            box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+    <body class="solid-background-base-alt" style="padding: 0; margin: 0;">
+        <div class="layout-horizontal gap-20 align-center-center">
+            <div
+                class="left w-fill-column-3 layout-vertical gap-10 solid-background-quinary p-10 rounded-8"
+                style="height: 100vh;">
+                <div class="search layout-vertical gap-10 w-fill">
+                    <div class="text-subtitle">Setting</div>
+                    <div class="search-dropdown-control w-fill">
+                        <div class="control search-control w-fill">
+                            <input type="search" placeholder="placeholder"
+                                spellcheck="false">
+                            <button type="button"
+                                class="input-button clear-content-button">
+                                <i
+                                    class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
+                            </button>
+                            <button type="button"
+                                class="input-button search-button">
+                                <i
+                                    class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
+                            </button>
+                        </div>
+                        <div class="dropdown-menu">
+                            <div class="list-item">
+                                <div class="text-body">Item 1</div>
+                            </div>
+                            <div class="list-item">
+                                <div class="text-body">Item 2</div>
+                            </div>
+                            <div class="list-item">
+                                <div class="text-body">Item 3</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    class="layout-horizontal gap-10 button-text-with-icon align-center-left p-10">
+                    <i
+                        class="text-system-attention icon-size-20 icon icon-ic_fluent_settings_20_regular"></i>
+                    <p class="text-body">General</p>
+                </div>
+                <div
+                    class="layout-horizontal gap-10 button-text-with-icon align-center-left p-10">
+                    <i
+                        class="text-system-attention icon-size-20 icon icon-ic_fluent_person_20_regular"></i>
+                    <p class="text-body">Account</p>
+                </div>
+                <div
+                    class="layout-horizontal gap-10 button-text-with-icon align-center-left p-10">
+                    <i
+                        class="text-system-attention icon-size-20 icon icon-ic_fluent_tv_20_regular"></i>
+                    <p class="text-body">Appearance</p>
+                </div>
+                <div
+                    class="layout-horizontal gap-10 button-text-with-icon align-center-left p-10">
+                    <i
+                        class="text-system-attention icon-size-20 icon icon-ic_fluent_shield_20_regular"></i>
+                    <p class="text-body">Privacy and safety</p>
+                </div>
+            </div>
+            <!-- end left  -->
+            <div class="right w-fill-column-6 overflow-scroll-vertical layout-vertical gap-10" style="height: 100vh;">
+                <div class="profile-card layout-horizontal gap-10 w-fill mb-25">
+                    <div class="profile-image">
+                        <img src="../image/hinh.jpg" alt="Background Image">
+                    </div>
+                    <div class="profile-content">
+                        <h2>Châu Thành Cường</h2>
+                        <p>Lorem ipsum dolor sit amet consectetur sum dolor sit amet.</p>
+                    </div>
+                    <div class="profile-avatar">
+                        <img src="../image/avatar.png" alt="Avatar">
+                    </div>
+                </div>
+
+                <div class="Personal layout-vertical gap-10 mb-20">
+
+                    <div class="text-body-strong ">
+                        Personal information
+                    </div>
+                    <div
+                        class="layout-horizontal gap-10  align-bottom-space-between solid-background-quinary p-20 rounded-8">
+                        <div
+                            class="layout-horizontal align-center-center gap-10">
+                            <i
+                                class="icon-size-20 icon icon-ic_fluent_contact_card_20_regular"></i>
+
+                            <div class="text-body">
+                                <p>Display name</p>
+                                <p class="text-caption">Thien Bui</p>
+                            </div>
+                        </div>
+                        <div
+                            class="dropdown-control button-subtle button-icon-only">
+                            <i
+                                class="icon-size-20 icon icon-ic_fluent_chevron_down_20_regular"></i>
+                        </div>
+
+                    </div>
+                    <div
+                        class="layout-horizontal gap-10  align-bottom-space-between solid-background-quinary p-20 rounded-8">
+                        <div
+                            class="layout-horizontal align-center-center gap-10">
+                            <i
+                                class="icon-size-20 icon icon-ic_fluent_calendar_date_20_regular"></i>
+
+                            <div class="text-body">
+                                <p>Date of birth</p>
+                                <p class="text-caption">26/09/2004</p>
+                            </div>
+                        </div>
+                        <div
+                            class="dropdown-control button-subtle button-icon-only">
+                            <i
+                                class="icon-size-20 icon icon-ic_fluent_chevron_down_20_regular"></i>
+                        </div>
+
+                    </div>
+                    <div
+                        class="layout-horizontal gap-10  align-bottom-space-between solid-background-quinary p-20 rounded-8">
+                        <div
+                            class="layout-horizontal align-center-center gap-10">
+                            <i
+                                class="icon-size-20 icon icon-ic_fluent_person_note_20_regular"></i>
+
+                            <div class="text-body">
+                                <p>Bio</p>
+                                <p class="text-caption">Lorem ipsum dolor sit
+                                    amet consectetur. Mi neque ut magna cras non
+                                    quis congue sit</p>
+                            </div>
+                        </div>
+                        <div
+                            class="dropdown-control button-subtle button-icon-only">
+                            <i
+                                class="icon-size-20 icon icon-ic_fluent_chevron_down_20_regular"></i>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="Profile_photo layout-vertical gap-10 mb-20">
+
+                    <div class="text-body-strong ">
+                        Profile photo
+                    </div>
+                    <div
+                        class="layout-horizontal gap-10  align-bottom-space-between solid-background-quinary p-20 rounded-8">
+                        <div
+                            class="layout-horizontal align-center-center gap-10">
+                            <i
+                                class="icon-size-20 icon icon-ic_fluent_image_24_regular"></i>
+
+                            <div class="text-body">
+                                <p>Cover photo</p>
+                                <p class="text-caption">Adjust your cover photo</p>
+                            </div>
+                        </div>
+                        <div
+                            class="dropdown-control button-subtle button-icon-only">
+                            <i
+                                class="icon-size-20 icon icon-ic_fluent_chevron_down_20_regular"></i>
+                        </div>
+
+                    </div>
+                    <div
+                        class="layout-horizontal gap-10  align-bottom-space-between solid-background-quinary p-20 rounded-8">
+                        <div
+                            class="layout-horizontal align-center-center gap-10">
+                            <i
+                                class="icon-size-20 icon icon-ic_fluent_person_square_20_regular"></i>
+
+                            <div class="text-body">
+                                <p>Avatar</p>
+                                <p class="text-caption">Adjust your avatar</p>
+                            </div>
+                        </div>
+                        <div
+                            class="dropdown-control button-subtle button-icon-only">
+                            <i
+                                class="icon-size-20 icon icon-ic_fluent_chevron_down_20_regular"></i>
+                        </div>
+
+                    </div>
+                    
+                </div>
+                <div class="Account_infomation layout-vertical gap-10 mb-20">
+
+                    <div class="text-body-strong ">
+                        Account infomation
+                    </div>
+                    <div
+                        class="layout-horizontal gap-10  align-bottom-space-between solid-background-quinary p-20 rounded-8">
+                        <div
+                            class="layout-horizontal align-center-center gap-10">
+                            <i
+                                class="icon-size-20 icon icon-ic_fluent_contact_card_20_regular"></i>
+
+                            <div class="text-body">
+                                <p>Username</p>
+                                <p class="text-caption">@thienbui</p>
+                            </div>
+                        </div>
+                        <div
+                            class="dropdown-control button-subtle button-icon-only">
+                            <i
+                                class="icon-size-20 icon icon-ic_fluent_chevron_down_20_regular"></i>
+                        </div>
+
+                    </div>
+                    <div
+                        class="layout-horizontal gap-10  align-bottom-space-between solid-background-quinary p-20 rounded-8">
+                        <div
+                            class="layout-horizontal align-center-center gap-10">
+                            <i
+                                class="icon-size-20 icon icon-ic_fluent_key_20_regular"></i>
+
+                            <div class="text-body">
+                                <p>Passsword</p>
+                                <p class="text-caption">Change your password at anytime</p>
+                            </div>
+                        </div>
+                        <div
+                            class="dropdown-control button-standard button-text-only">
+                            Change
+                        </div>
+
+                    </div>
+                    <div
+                        class="layout-horizontal gap-10  align-bottom-space-between solid-background-quinary p-20 rounded-8">
+                        <div
+                            class="layout-horizontal align-center-center gap-10">
+                            <i
+                                class="icon-size-20 icon icon-ic_fluent_phone_20_regular"></i>
+
+                            <div class="text-body">
+                                <p>Phone number</p>
+                                <p class="text-caption">0931142237</p>
+                            </div>
+                        </div>
+                        <div
+                            class="dropdown-control button-subtle button-icon-only">
+                            <i
+                                class="icon-size-20 icon icon-ic_fluent_chevron_down_20_regular"></i>
+                        </div>
+
+                    </div>
+                    <div
+                        class="layout-horizontal gap-10  align-bottom-space-between solid-background-quinary p-20 rounded-8">
+                        <div
+                            class="layout-horizontal align-center-center gap-10">
+                            <i
+                                class="icon-size-20 icon icon-ic_fluent_mail_20_regular"></i>
+
+                            <div class="text-body">
+                                <p>Email</p>
+                                <p class="text-caption">bin0931142237@gmail.com</p>
+                            </div>
+                        </div>
+                        <div
+                            class="dropdown-control button-subtle button-icon-only">
+                            <i
+                                class="icon-size-20 icon icon-ic_fluent_chevron_down_20_regular"></i>
+                        </div>
+
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </body>
+    <script src="https://chick2004.io.vn/js/index.js" type="module"></script>
+</html>

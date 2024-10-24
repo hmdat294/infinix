@@ -24,10 +24,15 @@ class PostController extends Controller
      * 
      * @return AnonymousResourceCollection
      */
-    public function index(string $user_id = null)
+    public function index(Request $request, string $user_id = null)
     {
-        if ($user_id) {
-            $posts = PostModel::where('user_id', $user_id)->orderBy('created_at', 'desc')->paginate(10);
+        if ($user_id != null) {
+            if ($user_id == 0) {
+                $post = PostModel::where('user_id', $request->user()->id)->orderBy('created_at', 'desc')->paginate(10);
+            } else {
+                $posts = PostModel::where('user_id', $user_id)->orderBy('created_at', 'desc')->paginate(10);
+            }
+            
         } else {
             $posts = PostModel::orderBy('created_at', 'desc')->paginate(10);
         }
