@@ -42,7 +42,7 @@ export class CenterHomeComponent implements AfterViewInit {
     this.postService.getPost().subscribe(
       (data) => {
         this.listPost = data.data;
-        // console.log(this.listPost);
+        console.log(this.listPost);
 
         this.eventService.bindEvent('App\\Events\\UserPostEvent', (data: any) => {
           console.log('Post event:', data);
@@ -218,7 +218,6 @@ export class CenterHomeComponent implements AfterViewInit {
     reader.onload = e => this.previewCommentImages = [reader.result as string];
     reader.readAsDataURL(file);
     this.selectedFilesComment = [file];
-
   }
 
   onCancelPostImg() {

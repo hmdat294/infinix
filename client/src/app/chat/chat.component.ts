@@ -7,6 +7,7 @@ import { AuthService } from '../auth.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { RightHomeComponent } from '../home/right-home/right-home.component';
 import { EventService } from '../event.service';
+import { a } from 'vite/dist/node/types.d-aGj9QkWt';
 
 @Component({
   selector: 'app-chat',
@@ -48,6 +49,10 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   previousElement: HTMLElement | null = null;
   focusTimeout: any;
 
+  fileImageGroup: any;
+  selectedFilesGroup: File[] = [];
+  previewGroupImages: string[] = [];
+
   constructor(
     private el: ElementRef,
     private renderer: Renderer2,
@@ -57,7 +62,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   ) { }
 
   @ViewChild('scrollBox') private scrollBox!: ElementRef;
-  private hasBeenCalled = false;
+  @ViewChild('nameGroup') private nameGroup!: ElementRef;
 
   ngOnInit(): void {
 
@@ -66,11 +71,13 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
         this.user = response.data;
       });
 
-    this.authService.getFriend().subscribe(
+    this.chatService.getListChat().subscribe(
       (data: any) => {
-        this.friends = data;
+        this.friends = data.data;
+        console.log(this.friends);
+        
 
-        this.MessageUser((this.friends.data.length > 0) ? this.friends.data[0].id : '');
+        this.MessageUser((this.friends.length > 0) ? this.friends[0].id : '');
 
         this.eventService.bindEvent('App\\Events\\UserSendMessageEvent', (data: any) => {
 
@@ -332,5 +339,43 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     else {
       this.valueSearch = [];
     }
+  }
+
+  createGroup(value: any) {
+
+    const formData = new FormData();
+    formData.append('name', value.name_group);
+    if (this.selectedFilesGroup.length > 0)
+      formData.append('image', this.selectedFilesGroup[0], this.selectedFilesGroup[0].name);
+
+    this.chatService.createGroup(formData).subscribe(
+      (response: any) => {
+        console.log(response);
+        this.removeGroupImage();
+        this.nameGroup.nativeElement.value = '';
+      }
+    )
+  }
+
+  onFileImageGroupSelected(event: any) {
+    const files: File[] = Array.from(event.target.files);
+    console.log(files);
+
+    const file = files[0];
+    const reader = new FileReader();
+    reader.onload = e => this.previewGroupImages = [reader.result as string];
+    reader.readAsDataURL(file);
+    this.selectedFilesGroup = [file];
+  }
+
+  removeGroupImage(): void {
+    this.previewGroupImages = [];
+    this.selectedFilesGroup = [];
+    if (this.fileImageGroup) this.fileImageGroup.nativeElement.value = '';
+  }
+
+  closeCreateGroup() {
+    this.toggleDialogCreateGroup();
+    this.removeGroupImage();
   }
 }

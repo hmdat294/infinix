@@ -26,7 +26,6 @@ export class HeaderComponent {
       (response) => {
         this.listUser = response.data;
         // console.log(response);
-
       });
 
     this.currentRoute = this.router.url.split('/').pop();
