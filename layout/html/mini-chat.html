@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://chick2004.io.vn/css/index.css">
+</head>
+<!-- gradient-background solid-background-base -->
+<body class="gradient-background layout-vertical" style="height: 100vh;">
+    <style>
+        .chat-bubble:hover > button {
+            display: block !important;
+
+        }
+    </style>
+    <!-- Header -->
+    <header class="layout-horizontal in-mobile-layout-vertical w-fill gap-20 align-center-center layer-default px-10 in-mobile-gap-5 in-mobile-py-10" style="min-height: 45px;">
+        <!-- Mặc định chia cột 4 - 4 - 4 (3 cột đều) nhưng gộp lại thành 8 - 4 để dễ responsive -->
+        <div class="w-fill-column-8 layout-horizontal in-mobile-w-fill">
+            <div class="w-fill hide-in-mobile hide-in-tablet">
+                <img src="/infinix/layout/image/Logo.png" alt="">
+            </div>
+            <div class="w-fill layout gap-20 in-mobile-gap-10">
+                <div class="w-hug show-in-mobile show-in-tablet">
+                    <img src="/infinix/layout/image/Logo.png" alt="">
+                </div>
+                <div class="search-dropdown-control w-fill">
+                    <div class="control search-control">
+                        <input type="search" placeholder="Tìm kiếm" spellcheck="false">
+                        <button type="button" class="input-button clear-content-button">
+                            <i class="icon-size-16 icon text-primary icon-ic_fluent_dismiss_16_regular"></i>
+                        </button>
+                        <button type="button" class="input-button search-button">
+                            <i class="icon-size-16 icon text-primary icon-ic_fluent_search_16_regular"></i>
+                        </button>
+                    </div>
+                    <div class="dropdown-menu">
+                        <div class="list-item">
+                            <div class="text-body">Item 1</div>
+                        </div>
+                        <div class="list-item">
+                            <div class="text-body">Item 2</div>
+                        </div>
+                        <div class="list-item">
+                            <div class="text-body">Item 3</div>
+                        </div>
+                        <div class="divider-horizontal w-fill"></div>
+                        <div class="list-item layout-horizontal align-center-left gap-5">
+                            <i class="icon-size-16 icon text-primary icon-ic_fluent_history_16_filled"></i>
+                            <div class="text-body display-inline">Item 1</div>
+                        </div>
+                        <div class="list-item layout-horizontal align-center-left gap-5">
+                            <i class="icon-size-16 icon text-primary icon-ic_fluent_history_16_filled"></i>
+                            <div class="text-body display-inline">Item 1</div>
+                        </div>
+                        <div class="list-item layout-horizontal align-center-left gap-5">
+                            <i class="icon-size-16 icon text-primary icon-ic_fluent_history_16_filled"></i>
+                            <div class="text-body display-inline">Item 1</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="w-fill-column-4 in-mobile-w-fill">
+            <div class="layout-horizontal gap-20 align-center-right in-mobile-align-center-space-evenly">
+                <a href="#" class="button-subtle button-icon-only text-accent-default">
+                    <i class="icon-size-24 icon text-primary icon-ic_fluent_home_24_filled"></i>
+                </a>
+                <a href="#" class="button-subtle button-icon-only text-secondary">
+                    <i class="icon-size-24 icon text-primary icon-ic_fluent_alert_24_regular"></i>
+                </a>
+                <a href="#" class="button-subtle button-icon-only text-secondary">
+                    <i class="icon-size-24 icon text-primary icon-ic_fluent_settings_24_regular"></i>
+                </a>
+                <a href="#" class="button-subtle button-icon-only text-secondary">
+                    <i class="icon-size-24 icon text-primary icon-ic_fluent_bookmark_24_regular"></i>
+                </a>
+                <a href="#" class="button-subtle button-icon-only text-secondary">
+                    <i class="icon-size-24 icon text-primary icon-ic_fluent_chat_24_regular"></i>
+                </a>
+                <a href="#" class=" hide-in-desktop show-in-mobile button-subtle button-icon-only text-secondary">
+                    <i class="icon-size-24 icon text-primary icon-ic_fluent_navigation_24_regular"></i>
+                </a>
+            </div>
+        </div>
+    </header>
+    <!-- End Header -->
+    <!-- Article -->
+    <article class="layout-horizontal gap-20 px-20 w-fill h-fill overflow-hidden align-top-center">
+
+
+        
+        <div class="position-fixed layout-vertical gap-10 align-center-center" style="z-index: 1; bottom: 20px; right: 20px;">
+
+
+            <button type="button" class="button-subtle button-icon-only layout align-center-center" style="border-radius: 999px !important; width: 35px !important; height: 35px !important;">
+                <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_filled"></i>
+            </button>
+
+            <div class="chat-bubble">
+                <img class="border border-card-default rounded-circle cursor-pointer" src="/layout/image/profile.png" alt="" style="width: 50px; height: 50px;">
+                <button type="button" class="p-5 border-none button-standard cursor-pointer position-absolute top-0 start-100 translate-middle" style="border-radius: 999px !important; display: none;">
+                    <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_filled"></i>
+                </button>
+            </div>
+
+            <div class="chat-bubble">
+                <img class="border border-card-default rounded-circle cursor-pointer" src="/layout/image/profile.png" alt="" style="width: 50px; height: 50px;">
+                <button type="button" class="p-5 border-none button-standard cursor-pointer position-absolute top-0 start-100 translate-middle" style="border-radius: 999px !important; display: none;">
+                    <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_filled"></i>
+                </button>
+            </div>
+
+            <div class="chat-bubble">
+                <img class="border border-card-default rounded-circle cursor-pointer" src="/layout/image/profile.png" alt="" style="width: 50px; height: 50px;">
+                <button type="button" class="p-5 border-none button-standard cursor-pointer position-absolute top-0 start-100 translate-middle" style="border-radius: 999px !important; display: none;">
+                    <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_filled"></i>
+                </button>
+            </div>
+
+            <button type="button" class="button-accent button-icon-only layout align-center-center" style="border-radius: 999px !important; width: 45px !important; height: 45px !important;">
+                <i class="icon-size-20 icon icon-ic_fluent_comment_edit_20_filled"></i>
+            </button>
+        </div>
+
+        <div class="position-fixed overflow-hidden layout-vertical solid-background-senary border border-card-default rounded-top-8" style="width: 375px; height: 475px; z-index: 1; bottom: 0px; right: 90px;">
+            <div class="layout-horizontal w-fill p-5 gap-5 border-bottom border-card-default">
+                <div class="w-fill layout-horizontal gap-10 align-center-center">
+                    <img class="border border-card-default rounded-circle" src="/layout/image/profile.png" alt="" style="width: 35px; height: 35px;">
+                    <p class="text-secondary text-body-strong w-fill">Châu Thành Cường</p>
+                </div>
+                <button type="button" class="button-subtle button-icon-only">
+                    <i class="icon-size-16 text-accent-default icon icon-ic_fluent_call_16_filled"></i>
+                </button>
+                <button type="button" class="button-subtle button-icon-only">
+                    <i class="icon-size-16 text-accent-default icon icon-ic_fluent_video_16_filled"></i>
+                </button>
+                <button type="button" class="button-subtle button-icon-only">
+                    <i class="icon-size-16 text-accent-default icon icon-ic_fluent_dismiss_16_filled"></i>
+                </button>
+            </div>
+            <div class="h-fill w-fill overflow-scroll-vertical gap-20 layout-vertical solid-background-tertiary">
+
+            </div>
+            <div class="w-fill h-hug layout p-10 gap-10 border-top border-card-default">
+                <img class="border border-card-default rounded-circle" src="/layout/image/profile.png" alt="" style="width: 35px; height: 35px;">
+
+                <div class="control w-fill h-hug" style="padding: 0;">
+
+                    <textarea class="textarea-chat control text-area-control w-fill"
+                    style="border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-bottom: none; border-left: none; border-top: none;">
+
+                    </textarea>
+
+                    <button type="button" class="input-button">
+                        <i class="icon-size-16 icon icon-ic_fluent_mic_16_regular"></i>
+                    </button>
+
+                    <label class="input-button">
+                        <i class="icon-size-16 icon icon-ic_fluent_image_16_regular"></i>
+                        <input type="file" class="display-none" multiple>
+                    </label>
+                    <button type="button" class="input-button">
+                        <i class="icon-size-16 icon icon-ic_fluent_emoji_16_regular"></i>
+                    </button>
+                </div>
+
+                <button type="submit" class="button-subtle button-icon-only">
+                    <i class="icon-size-16 text-accent-default icon icon-ic_fluent_send_16_filled"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- <div class="position-fixed overflow-hidden layout-vertical solid-background-senary border border-card-default rounded-top-8" style="width: 375px; height: 475px; z-index: 1; bottom: 0px; right: 415px;">
+            <div class="accent-default layout-horizontal w-fill p-5 gap-5 border-bottom border-card-default">
+                <div class="w-fill layout-horizontal gap-10 align-center-center">
+                    <img class="border border-card-default rounded-circle" src="/layout/image/profile.png" alt="" style="width: 35px; height: 35px;">
+                    <p class="text-on-accent-primary text-body-strong w-fill">Châu Thành Cường</p>
+                </div>
+                <button type="button" class="button-subtle button-icon-only">
+                    <i class="icon-size-16 text-on-accent-primary icon icon-ic_fluent_call_16_filled"></i>
+                </button>
+                <button type="button" class="button-subtle button-icon-only">
+                    <i class="icon-size-16 text-on-accent-primary icon icon-ic_fluent_video_16_filled"></i>
+                </button>
+                <button type="button" class="button-subtle button-icon-only">
+                    <i class="icon-size-16 text-on-accent-primary icon icon-ic_fluent_dismiss_16_filled"></i>
+                </button>
+            </div>
+            <div class="h-fill w-fill overflow-scroll-vertical gap-20 layout-vertical solid-background-tertiary">
+            </div>
+
+            <div class="w-fill h-hug layout p-10 gap-10 border-top border-card-default">
+                <img class="border border-card-default rounded-circle" src="/layout/image/profile.png" alt="" style="width: 35px; height: 35px;">
+
+                <div class="control w-fill h-hug" style="padding: 0;">
+
+                    <textarea class="textarea-chat control text-area-control w-fill"
+                    style="border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-bottom: none; border-left: none; border-top: none;">
+
+                    </textarea>
+
+                    <button type="button" class="input-button">
+                        <i class="icon-size-16 icon icon-ic_fluent_mic_16_regular"></i>
+                    </button>
+
+                    <label class="input-button">
+                        <i class="icon-size-16 icon icon-ic_fluent_image_16_regular"></i>
+                        <input type="file" class="display-none" multiple>
+                    </label>
+                    <button type="button" class="input-button">
+                        <i class="icon-size-16 icon icon-ic_fluent_emoji_16_regular"></i>
+                    </button>
+                </div>
+
+                <button type="submit" class="button-subtle button-icon-only">
+                    <i class="icon-size-16 text-accent-default icon icon-ic_fluent_send_16_filled"></i>
+                </button>
+            </div>
+        </div> -->
+
+    </article>
+     <!-- End Article -->
+</body>
+<script src="https://chick2004.io.vn/js/index.js" type="module"></script>
+</html>

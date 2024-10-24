@@ -15,6 +15,25 @@ class UserController extends Controller
      * 
      * @return AnonymousResourceCollection
      */
+    // public function index()
+    // {
+    //     if (request()->has('search')) {
+    //         $users = UserModel::whereHas('profile', function ($query) {
+    //             $query->where('display_name', 'like', '%' . request('search') . '%');
+    //         })->get();
+    //         return UserResource::collection($users);
+    //     }
+        
+    //     $users = UserModel::paginate(10);
+    //     return UserResource::collection($users)->additional([
+    //         'meta' => [
+    //             'current_page' => $users->currentPage(),
+    //             'last_page' => $users->lastPage(),
+    //             'per_page' => $users->perPage(),
+    //             'total' => $users->total(),
+    //         ]
+    //     ]);
+    // }
     public function index()
     {
         if (request()->has('search')) {
@@ -24,15 +43,8 @@ class UserController extends Controller
             return UserResource::collection($users);
         }
         
-        $users = UserModel::paginate(10);
-        return UserResource::collection($users)->additional([
-            'meta' => [
-                'current_page' => $users->currentPage(),
-                'last_page' => $users->lastPage(),
-                'per_page' => $users->perPage(),
-                'total' => $users->total(),
-            ]
-        ]);
+        $users = UserModel::all();
+        return UserResource::collection($users);
     }
 
     /**
