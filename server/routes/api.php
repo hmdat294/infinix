@@ -16,6 +16,7 @@ use App\Http\Controllers\ConversationInvitationController;
 use App\Http\Controllers\PostLikeController;
 use App\Http\Controllers\PostBookmarkController;
 use App\Http\Controllers\PostShareController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\Statistics\GrowthStatisticsController;
 use App\Http\Controllers\Statistics\TotalController;
 use App\Http\Middleware\UpdateUserLastActivity;
@@ -98,6 +99,11 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
     ->only(['store', 'show', 'update'])
     ->parameters(['message' => 'id']);
 
+    // API cho báo cáo
+    Route::resource('report', ReportController::class)
+    ->only(['index', 'store', 'show', 'update', 'destroy'])
+    ->parameters(['report' => 'id']);
+
     // Lấy bình luận của một bài viết
     Route::get('post/{post_id}/comments', [PostCommentController::class, 'index'])->name('comments.index');
 
@@ -143,7 +149,7 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
         
         // thống kê theo biểu đồ tròn (thống kê báo cáo)
         Route::get('total-reports', [TotalController::class, 'totalReports']);
-        Route::get('report/{type}', [TotalController::class, 'show']);
+        // Route::get('report', [TotalController::class, 'show']);
         
     });
 });
