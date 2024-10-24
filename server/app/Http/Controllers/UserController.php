@@ -35,14 +35,7 @@ class UserController extends Controller
     //     ]);
     // }
     public function index()
-    {
-        if (request()->has('search')) {
-            $users = UserModel::whereHas('profile', function ($query) {
-                $query->where('display_name', 'like', '%' . request('search') . '%');
-            })->get();
-            return UserResource::collection($users);
-        }
-        
+    {   
         $users = UserModel::all();
         return UserResource::collection($users);
     }
