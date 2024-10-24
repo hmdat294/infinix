@@ -28,9 +28,9 @@ export class CenterHomeComponent implements AfterViewInit {
   commentByPostId: any[] = [];
 
   constructor(
-    private cdr: ChangeDetectorRef, 
-    private postService: PostService, 
-    private carouselService: CarouselService, 
+    private cdr: ChangeDetectorRef,
+    private postService: PostService,
+    private carouselService: CarouselService,
     private authService: AuthService,
     private eventService: EventService,
   ) { }
@@ -44,24 +44,6 @@ export class CenterHomeComponent implements AfterViewInit {
         this.eventService.bindEvent('App\\Events\\UserPostEvent', (data: any) => {
           console.log('Post event:', data);
           this.listPost.unshift(data.data);
-        });
-
-        this.eventService.bindEvent('App\\Events\\UserCommentPostEvent', (data: any) => {
-          const post = this.listPost.find(item => item.id === data.data.post.id);
-          post.comments_count = data.comment_count;
-
-          this.authService.getUser(0).subscribe(
-            (user) => {
-              if (user.data.id == data.user_comment.id && !this.getCommentByPostId(data.data.post.id)) {
-                this.getComment(data.data.post.id);
-                this.commentInput.nativeElement.value = '';
-              }
-              else
-                this.getCommentByPostId(data.data.post.id).unshift(data.data);
-            }
-          )
-
-          console.log('Comment event:', data);
         });
 
         this.eventService.bindEvent('App\\Events\\UserLikePostEvent', (data: any) => {
@@ -99,28 +81,42 @@ export class CenterHomeComponent implements AfterViewInit {
     return img.path;
   }
 
-  toggleDialog(id: number) {
-    this.idDialog = id;
-    // if (!this.commentByPostId[post_id]) {
-    //   this.postService.getComment(post_id).subscribe(
-    //     (response) => {
-    //       this.commentByPostId[post_id] = response.data;
-    //     })
-    // }
-    // else {
-    //   this.commentByPostId[post_id] = null;
-    // }
+  toggleDialog(post_id: number) {
+    this.idDialog = post_id;
+
     if (this.idDialog == 0) {
-      this.commentByPostId[id] = null;
-    } else {
-      this.postService.getComment(id).subscribe(
-        (response) => {
-          this.commentByPostId[id] = response.data;
-        });
+      this.commentByPostId[post_id] = null;
     }
+    else {
+      this.postService.getComment(post_id).subscribe(
+        (response) => {
+          console.log(response);
+          
+          this.commentByPostId[post_id] = response.data;
+
+          this.eventService.setPostId(post_id);
+
+          this.eventService.bindEvent('App\\Events\\UserCommentPostEvent', (data: any) => {
+            const post = this.listPost.find(item => item.id === data.data.post.id);
+            post.comments_count = data.comments_count;
+  
+            this.getCommentByPostId(data.data.post.id).unshift(data.data);
+  
+            console.log('Comment event:', data);
+          });
+
+        })
+    }
+
     this.cdr.detectChanges();
     this.initCarousels();
   }
+
+
+  getCommentByPostId(post_id: number) {
+    return this.commentByPostId[post_id];
+  }
+
 
   post(value: any) {
 
@@ -149,26 +145,13 @@ export class CenterHomeComponent implements AfterViewInit {
     }
   }
 
-  getComment(post_id: number): any {
-    if (!this.commentByPostId[post_id]) {
-      this.postService.getComment(post_id).subscribe(
-        (response) => {
-          this.commentByPostId[post_id] = response.data;
-        })
-    }
-    else {
-      this.commentByPostId[post_id] = null;
-    }
-  }
 
-  getCommentByPostId(post_id: number) {
-    return this.commentByPostId[post_id];
-  }
 
   postComment(value: any) {
     this.postService.postComment(value.value).subscribe(
       (response) => {
         console.log(response);
+        this.commentInput.nativeElement.value = '';
       }
     )
   }

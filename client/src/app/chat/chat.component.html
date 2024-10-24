@@ -4,8 +4,8 @@
         <div class="w-fill-column-3 layout-vertical gap-20 py-20 overflow-scroll-vertical">
             <div class="layout-vertical card-background-default border border-card-default rounded-8"
                 style="height: calc(100vh - 85px);">
-                <div class="w-fill layout-horizontal align-center-space-between px-20 py-15 gap-15">
-                    <div class="control search-control w-fill">
+                <div class="w-fill layout-horizontal align-center-space-between px-20 py-15">
+                    <div class="control search-control w-fill me-10">
                         <input type="search" placeholder="Tìm kiếm" spellcheck="false">
                         <button type="button" class="input-button clear-content-button">
                             <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
@@ -15,15 +15,17 @@
                         </button>
                     </div>
                     <div class="w-hug">
-                        <a href="" class="text-secondary"><i
-                                class="icon-size-24 icon icon-ic_fluent_chat_add_24_regular"></i></a>
+                        <button type="button" class="button-subtle button-icon-only text-secondary"
+                            (click)="toggleDialogCreateGroup()">
+                            <i class="icon-size-24 icon icon-ic_fluent_chat_add_24_regular"></i></button>
                     </div>
                     <div class="w-hug">
-                        <a href="" class="text-secondary"><i
-                                class="icon-size-24 icon icon-ic_fluent_more_horizontal_24_regular"></i></a>
+                        <button type="button" class="button-subtle button-icon-only text-secondary"><i
+                                class="icon-size-24 icon icon-ic_fluent_more_horizontal_24_regular"></i></button>
                     </div>
                 </div>
                 <div class="overflow-scroll-vertical">
+
                     <div class="border-top" *ngFor="let friend of friends.data">
                         <button type="button" class="button-subtle w-fill gap-15 px-20 py-15"
                             (click)="MessageUser(friend.id)" style="cursor: pointer;">
@@ -37,6 +39,72 @@
                     </div>
                 </div>
 
+            </div>
+
+
+            <div class="position-fixed top-0 start-0" *ngIf="idDialogCreateGroup"
+                style="width: 100%; height: 100vh; z-index: 10; background-color: rgba(0, 0, 0, 0.2);">
+                <div class="dialog-panel position-absolute top-50 start-50 translate-middle" style="z-index: 12;">
+                    <form class="layout-vertical gap-20 p-20 rounded-8 acrylic-background-default blur-acrylic border border-card-default"
+                        style="width: 400px;">
+                        <div class="w-fill layout-vertical gap-5">
+                            <p class="text-body-large text-primary">Tạo nhóm trò chuyện</p>
+                            <p class="text-body text-secondary">
+                                Tạo nhóm trò chuyện để bắt đầu trò chuyện với nhiều người cùng một lúc
+                            </p>
+                        </div>
+                        <div class="layout py-20 w-fill align-center-center ">
+                            <div class="background-card-default" style="width: 100px; height: 100px;">
+                                <img class="border border-card-default w-fill h-fill rounded-circle  object-fit-cover"
+                                    src="assets/image/splash.png" alt="">
+
+                                <input class="display-none" type="file" accept="image/*" id="image" name="image">
+                                <label for="image" class="p-0">
+                                    <button type="button"
+                                        class="button-accent button-icon-only position-absolute bottom-0 end-0"
+                                        style="z-index: 1;">
+                                        <i class="icon-size-16 icon icon-ic_fluent_camera_16_filled"></i>
+                                    </button>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="w-fill layout-vertical gap-5">
+                            <p class="text-body text-primary">Tên nhóm</p>
+                            <div class="w-fill control text-control">
+                                <input type="text" placeholder="placeholder" spellcheck="false">
+                            </div>
+                        </div>
+                        <div class="w-fill layout-vertical gap-5">
+                            <p class="text-body text-primary">Thêm bạn bè</p>
+                            <div class="search-dropdown-control w-fill">
+                                <div class="control search-control">
+                                    <input type="search" placeholder="placeholder" spellcheck="false">
+                                    <button type="button" class="input-button clear-content-button">
+                                        <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
+                                    </button>
+                                    <button type="button" class="input-button search-button">
+                                        <i class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
+                                    </button>
+                                </div>
+                                <div class="dropdown-menu">
+                                    <div class="list-item">
+                                        <div class="text-body">Item 1</div>
+                                    </div>
+                                    <div class="list-item">
+                                        <div class="text-body">Item 2</div>
+                                    </div>
+                                    <div class="list-item">
+                                        <div class="text-body">Item 3</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-fill layout-horizontal gap-20 align-center-right">
+                            <button type="button" class="button-standard button-text-only" (click)="toggleDialogCreateGroup()">Hủy</button>
+                            <button type="button" class="button-accent button-text-only">Tạo nhóm</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
         <div class="{{(isVisible)?'w-fill-column-6':'w-fill-column-9'}} layout-vertical gap-20 py-20">
@@ -73,7 +141,7 @@
 
                     <div *ngFor="let msg of conversation.messages; let i = index;" [attr.id]="'item-' + msg.id">
 
-                        <div class="position-fixed top-0 start-0" *ngIf="idDialog == msg.id"
+                        <div class="position-fixed top-0 start-0" *ngIf="idDialogChat == msg.id"
                             style="width: 100%; height: 100vh; z-index: 10; background-color: rgba(0, 0, 0, 0.2);">
                             <div class="dialog-panel position-absolute top-50 start-50 translate-middle"
                                 style="min-width: 500px;">
@@ -82,13 +150,14 @@
                                     <div class="border-bottom pb-10 layout-horizontal align-center-space-between">
                                         <p class="text-subtitle">Chi tiết tin nhắn</p>
                                         <button type="button" class="button-subtle button-icon-only"
-                                            (click)="toggleDialog(0)">
+                                            (click)="toggleDialogChat(0)">
                                             <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
                                         </button>
                                     </div>
                                     <div>
 
-                                        <div class="w-fill layout align-top-right" *ngIf="(user.id == msg.user_id)" style="max-height: 65vh;" class="overflow-scroll-vertical">
+                                        <div class="w-fill layout align-top-right" *ngIf="(user.id == msg.user_id)"
+                                            style="max-height: 65vh;" class="overflow-scroll-vertical">
                                             <div class="layout-horizontal gap-15 p-5 align-top-right">
                                                 <div style="max-width: calc(100% - 100px);">
                                                     <p class="text-tertiary text-caption mb-5 layout align-top-right">
@@ -140,7 +209,11 @@
                                                                 <p style="background-color: #005FB8E6; color: white; white-space: pre-line;"
                                                                     class="border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
                                                                     {{ msg.content }}
-                                                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit animi in soluta maiores! Provident cupiditate in obcaecati fuga dolore, quam magnam aliquam earum culpa perspiciatis repudiandae soluta, vero ex deleniti?
+                                                                    Lorem ipsum dolor sit amet consectetur adipisicing
+                                                                    elit. Fugit animi in soluta maiores! Provident
+                                                                    cupiditate in obcaecati fuga dolore, quam magnam
+                                                                    aliquam earum culpa perspiciatis repudiandae soluta,
+                                                                    vero ex deleniti?
                                                                 </p>
 
                                                             </div>
@@ -242,29 +315,39 @@
                                     </p>
                                     <div class="mess-hover layout align-top-right" *ngIf="msg.is_recalled == 0">
                                         <div style="height: 45px; overflow: visible; z-index: 1;">
-                                            <div class="mess-menu layout-vertical mx-15 gap-5 p-5 acrylic-background-default blur-acrylic border border-card-default rounded-8">
-                                                <div class="list-item layout-horizontal gap-10 align-center-left" (click)="toggleDialog(msg.id)">
-                                                    <i class="icon-size-20 accent-text-primary icon icon-ic_fluent_more_horizontal_20_regular"></i>
+                                            <div
+                                                class="mess-menu layout-vertical mx-15 gap-5 p-5 acrylic-background-default blur-acrylic border border-card-default rounded-8">
+                                                <div class="list-item layout-horizontal gap-10 align-center-left"
+                                                    (click)="toggleDialogChat(msg.id)">
+                                                    <i
+                                                        class="icon-size-20 accent-text-primary icon icon-ic_fluent_more_horizontal_20_regular"></i>
                                                     <p class="text-body text-primary">Xem chi tiết</p>
                                                 </div>
                                                 <div class="list-item layout-horizontal gap-10 align-center-left">
-                                                    <i class="icon-size-20 accent-text-primary icon icon-ic_fluent_copy_20_regular"></i>
+                                                    <i
+                                                        class="icon-size-20 accent-text-primary icon icon-ic_fluent_copy_20_regular"></i>
                                                     <p class="text-body text-primary">Sao chép</p>
                                                 </div>
-                                                <div class="list-item layout-horizontal gap-10 align-center-left" (click)="onReply(msg.id)">
-                                                    <i class="icon-size-20 accent-text-primary icon icon-ic_fluent_arrow_reply_20_regular"></i>
+                                                <div class="list-item layout-horizontal gap-10 align-center-left"
+                                                    (click)="onReply(msg.id)">
+                                                    <i
+                                                        class="icon-size-20 accent-text-primary icon icon-ic_fluent_arrow_reply_20_regular"></i>
                                                     <p class="text-body text-primary">Phản hổi</p>
                                                 </div>
-                                                <div class="list-item layout-horizontal gap-10 align-center-left" (click)="editMessage(msg.id)">
-                                                    <i class="icon-size-20 accent-text-primary icon icon-ic_fluent_edit_20_regular"></i>
+                                                <div class="list-item layout-horizontal gap-10 align-center-left"
+                                                    (click)="editMessage(msg.id)">
+                                                    <i
+                                                        class="icon-size-20 accent-text-primary icon icon-ic_fluent_edit_20_regular"></i>
                                                     <p class="text-body text-primary">Chỉnh sửa</p>
                                                 </div>
-                                                <div class="list-item layout-horizontal gap-10 align-center-left" (click)="recallMessage(msg.id)">
-                                                    <i class="icon-size-20 accent-text-primary icon icon-ic_fluent_arrow_counterclockwise_20_regular"></i>
+                                                <div class="list-item layout-horizontal gap-10 align-center-left"
+                                                    (click)="recallMessage(msg.id)">
+                                                    <i
+                                                        class="icon-size-20 accent-text-primary icon icon-ic_fluent_arrow_counterclockwise_20_regular"></i>
                                                     <p class="text-body text-primary">Thu hồi</p>
                                                 </div>
-    
-                                                <!-- <button type="button" (click)="toggleDialog(msg.id)"
+
+                                                <!-- <button type="button" (click)="toggleDialogChat(msg.id)"
                                                     class="btn-dialog button-subtle button-icon-only">
                                                     <i
                                                         class="icon-size-20 icon icon-ic_fluent_more_horizontal_20_filled"></i>
@@ -282,7 +365,7 @@
                                                     class="button-subtle button-icon-only">
                                                     <i class="icon-size-20 icon icon-ic_fluent_edit_20_regular"></i>
                                                 </button> -->
-    
+
                                             </div>
                                         </div>
                                         <div>
@@ -418,17 +501,23 @@
                                         </div>
 
                                         <div style="height: 45px; overflow: visible; z-index: 1;">
-                                            <div class="mess-menu mx-15 layout-vertical mx-15 gap-5 p-5 acrylic-background-default blur-acrylic border border-card-default rounded-8">
-                                                <div class="list-item layout-horizontal gap-10 align-center-left" (click)="toggleDialog(msg.id)">
-                                                    <i class="icon-size-20 accent-text-primary icon icon-ic_fluent_more_horizontal_20_regular"></i>
+                                            <div
+                                                class="mess-menu mx-15 layout-vertical mx-15 gap-5 p-5 acrylic-background-default blur-acrylic border border-card-default rounded-8">
+                                                <div class="list-item layout-horizontal gap-10 align-center-left"
+                                                    (click)="toggleDialogChat(msg.id)">
+                                                    <i
+                                                        class="icon-size-20 accent-text-primary icon icon-ic_fluent_more_horizontal_20_regular"></i>
                                                     <p class="text-body text-primary">Xem chi tiết</p>
                                                 </div>
                                                 <div class="list-item layout-horizontal gap-10 align-center-left">
-                                                    <i class="icon-size-20 accent-text-primary icon icon-ic_fluent_copy_20_regular"></i>
+                                                    <i
+                                                        class="icon-size-20 accent-text-primary icon icon-ic_fluent_copy_20_regular"></i>
                                                     <p class="text-body text-primary">Sao chép</p>
                                                 </div>
-                                                <div class="list-item layout-horizontal gap-10 align-center-left" (click)="onReply(msg.id)">
-                                                    <i class="icon-size-20 accent-text-primary icon icon-ic_fluent_arrow_reply_20_regular"></i>
+                                                <div class="list-item layout-horizontal gap-10 align-center-left"
+                                                    (click)="onReply(msg.id)">
+                                                    <i
+                                                        class="icon-size-20 accent-text-primary icon icon-ic_fluent_arrow_reply_20_regular"></i>
                                                     <p class="text-body text-primary">Phản hổi</p>
                                                 </div>
                                             </div>
