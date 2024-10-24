@@ -29,7 +29,7 @@ export class LeftHomeComponent implements OnInit {
     this.authService.getRequestFriend().subscribe(
       (response) => {
         this.userRequest = response.data;
-        console.log(this.userRequest);
+        // console.log(this.userRequest);
 
         this.eventService.bindEvent('App\\Events\\FriendRequestEvent', (data: any) => {
           console.log('Friend request event:', data);

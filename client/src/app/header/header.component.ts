@@ -25,7 +25,7 @@ export class HeaderComponent {
     this.authService.getListUser().subscribe(
       (response) => {
         this.listUser = response.data;
-        console.log(this.listUser);
+        console.log(response);
 
       });
 
@@ -57,6 +57,8 @@ export class HeaderComponent {
 
     this.authService.addFriend(receiver_id).subscribe(
       (response) => {
+        console.log(response);
+
         //     this.clearSearch();
       });
   }

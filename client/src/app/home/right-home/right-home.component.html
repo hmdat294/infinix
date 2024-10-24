@@ -36,7 +36,9 @@
     </div>
     <div class="layout-horizontal gap-15 px-20 py-10 border-top border-card-default align-center-center"
         *ngFor="let friend of friends_limit">
-        <img src="assets/image/avatar.png" alt="" style="width: 35px; height: 35px;">
+        <div class="user-offline" style="width: 35px; height: 35px;">
+            <img src="assets/image/avatar.png" alt="">
+        </div>
         <p class="text-secondary text-body-strong w-fill">{{friend.profile.display_name}}</p>
     </div>
     <div class="w-fill layout-horizontal align-center-space-between px-20 py-10 border-top border-card-default">
@@ -102,7 +104,9 @@
     </div>
     <div class="w-fill h-hug layout-vertical gap-5 p-5">
         <div class="layout-horizontal list-item gap-15 px-20 py-10 align-center-center" *ngFor="let friend of friends">
-            <img src="assets/image/avatar.png" alt="" style="width: 35px; height: 35px;">
+            <div class="user-offline" style="width: 35px; height: 35px;">
+                <img src="assets/image/avatar.png" alt="">
+            </div>
             <div class="layout-vertical w-fill">
                 <p class="text-secondary text-body-strong w-fill">{{friend.profile.display_name}}</p>
                 <p class="text-caption text-tertiary">{{friend.email}}</p>
