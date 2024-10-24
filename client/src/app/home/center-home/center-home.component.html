@@ -4,9 +4,9 @@
         <!-- (submit)="post(value.value)" -->
         <form class="layout-vertical gap-10 w-fill" enctype="multipart/form-data" #value="ngForm"
             (submit)="post(value.value)">
-            <textarea class="control text-area-control w-fill overflow-scroll-vertical textarea-post" placeholder="placeholder"
-                [(ngModel)]="content" name="content" ngModel id="post-input" spellcheck="false" required
-                style="max-height: 110px;" (input)="resizeTextarea($event)"></textarea>
+            <textarea class="control text-area-control w-fill overflow-scroll-vertical textarea-post"
+                placeholder="placeholder" [(ngModel)]="content" name="content" ngModel id="post-input"
+                spellcheck="false" required style="max-height: 110px;" (input)="resizeTextarea($event)"></textarea>
 
             <div *ngIf="previewPostImages.length > 0" class="p-10 position-relative border rounded-6">
                 <div class="layout-wrap gap-10">
@@ -81,7 +81,7 @@
 
 <div *ngFor="let post of listPost"
     class="layout-vertical gap-20 pt-20 ps-20 pe-20 pb-10 card-background-default border border-card-default rounded-8">
-    
+
     <div class="layout-horizontal gap-20">
         <img src="assets/image/avatar.png" alt="" style="width: 35px; height: 35px;">
         <div class="layout-vertical w-fill">
@@ -99,8 +99,8 @@
 
     <div class="layout w-fill h-fill" *ngIf="post.medias.length>0">
         <div class="w-fill h-fill {{(post.medias.length<6)?'layout-'+post.medias.length:'layout-6'}}">
-            <div class="w-fill h-fill  border border-card-default rounded-6 overflow-hidden" *ngFor="let img of post.medias | slice:0:5"
-                (click)="toggleDialog(post.id)">
+            <div class="w-fill h-fill  border border-card-default rounded-6 overflow-hidden"
+                *ngFor="let img of post.medias | slice:0:5" (click)="toggleDialog(post.id)">
                 <img class="w-fill h-fill object-fit-cover object-position-center" [src]="getPathImg(img)" alt="Image">
             </div>
         </div>
@@ -109,8 +109,9 @@
     <div class="position-fixed top-0 start-0 {{(idDialog == post.id) ? 'display-block' : 'display-none'}}"
         style="width: 100%; height: 100vh; z-index: 10; background-color: rgba(0, 0, 0, 0.3);">
         <div class="dialog-panel position-absolute top-50 start-50 translate-middle" style="max-width: 80%;">
-            <div class="solid-background-senary rounded-8 overflow-hidden layout-horizontal border border-card-default" style="height: 550px !important;">
-                <div class="w-fill h-fill" style="min-width: 600px;"  *ngIf="post.medias.length>0">
+            <div class="solid-background-senary rounded-8 overflow-hidden layout-horizontal border border-card-default"
+                style="height: 550px !important;">
+                <div class="w-fill h-fill" style="min-width: 600px;" *ngIf="post.medias.length>0">
 
                     <div class="layout w-fill h-fill {{(post.medias.length>0) ? 'display-flex' : 'display-none'}}">
                         <div class="carousel w-fill h-fill rounded-4">
@@ -121,7 +122,8 @@
                             </div>
                             <div class="carousel-inner  h-fill" #carouselInner>
                                 <div class="carousel-item" *ngFor="let img of post.medias">
-                                    <img id="aa" [src]="img.path" alt="Image 1" class="h-fill" style="object-fit: contain !important; background-color: rgb(27, 27, 27);">
+                                    <img id="aa" [src]="img.path" alt="Image 1" class="h-fill"
+                                        style="object-fit: contain !important; background-color: rgb(27, 27, 27);">
                                 </div>
                             </div>
 
@@ -155,13 +157,17 @@
                     </div>
                     <div class="layout-vertical w-fill h-fill overflow-scroll-vertical">
                         <div class="layout w-fill h-hug p-10">
-                            <p class="text-body text-primary text-wrap" style="white-space: pre-line;">{{post.content}}</p>
+                            <p class="text-body text-primary text-wrap" style="white-space: pre-line;">{{post.content}}
+                            </p>
                         </div>
                         <div class="layout-horizontal w-fill py-5 border-top border-card-default">
                             <div class="layout-horizontal w-fill align-center-left">
-                                <button type="button" class="button-subtle button-text-with-icon text-secondary">
+                                <button type="button" class="button-subtle button-text-with-icon text-secondary"
+                                    (click)="likePost(post.id)">
                                     {{post.likes_count}}
-                                    <i class="icon-size-20 icon icon-ic_fluent_heart_20_regular"></i>
+                                    <i *ngIf="!post.liked"
+                                        class="icon-size-20 icon icon-ic_fluent_heart_20_regular"></i>
+                                    <i *ngIf="post.liked" class="icon-size-20 icon icon-ic_fluent_heart_20_filled"></i>
                                 </button>
                                 <button type="button" class="button-subtle button-text-with-icon text-secondary">
                                     {{post.comments_count}}
@@ -176,55 +182,82 @@
                                 <i class="icon-size-20 icon icon-ic_fluent_bookmark_20_regular"></i>
                             </button>
                         </div>
-                        <div *ngIf="getCommentByPostId(post.id)"
-                        class="layout-vertical w-fill h-fill">
-    
-                            <div *ngFor="let item of getCommentByPostId(post.id)" class="layout-horizontal w-fill h-hug p-10 gap-15">
+                        <div *ngIf="getCommentByPostId(post.id)" class="layout-vertical w-fill h-fill">
+
+                            <div *ngFor="let item of getCommentByPostId(post.id)"
+                                class="layout-horizontal w-fill h-hug p-10 gap-15">
                                 <img src="assets/image/avatar.png" alt="" style="width: 35px; height: 35px;">
                                 <div class="layout-vertical w-fill gap-5">
                                     <p class="text-body-strong text-primary">{{item.user.profile.display_name}}</p>
                                     <div
-                                        class="layout-horizontal align-center-space-between card-background-secondary border border-card-default rounded-8 p-10 gap-5">
-                                        <p class="text-body text-primary w-fill">{{item.content}}</p>
-                                        <button type="button" class="button-subtle button-icon-only w-hug">
-                                            <i class="icon-size-16 icon icon-ic_fluent_heart_16_regular"></i>
-                                            <!-- <i class="icon-size-16 icon icon-ic_fluent_heart_16_filled" style="color: #C42B1C;"></i> -->
-                                        </button>
+                                        class="layout-vertical card-background-secondary border border-card-default rounded-8 p-10 gap-5">
+                                        <div *ngIf="item.media">
+                                            <img [src]="item.media" class="rounded-4 w-fill" alt="">
+                                        </div>
+                                        <div class="w-fill layout-horizontal align-center-space-between">
+                                            <p class="text-body text-primary w-fill">{{item.content}}</p>
+                                            <button type="button" class="button-subtle button-icon-only w-hug">
+                                                <i class="icon-size-16 icon icon-ic_fluent_heart_16_regular"></i>
+                                                <!-- <i class="icon-size-16 icon icon-ic_fluent_heart_16_filled" style="color: #C42B1C;"></i> -->
+                                            </button>
+                                        </div>
                                     </div>
-                                    <p class="text-caption text-secondary">{{formatTime(item.created_at)}} - 100 lượt like</p>
+                                    <p class="text-caption text-secondary">{{formatTime(item.created_at)}} - 100 lượt
+                                        like</p>
                                 </div>
                             </div>
-    
+
                         </div>
                     </div>
                     <div class="layout w-fill border-top border-card-default">
                         <div class="layout-horizontal gap-10 p-10 w-fill">
                             <img src="assets/image/avatar.png" alt="" style="width: 35px; height: 35px;">
-                            
+
                             <form class="layout-vertical gap-10 w-fill" enctype="multipart/form-data" #frm="ngForm"
-                                (submit)="postComment(frm)">
-                                <textarea class="control text-area-control w-fill" placeholder="placeholder" name="content" ngModel #commentInput
-                                    id="comment-input" spellcheck="false" style="max-height: 110px;">
+                                (submit)="postComment(frm.value)">
+
+                                <div *ngIf="selectedFilesComment.length > 0"
+                                    class="p-10 position-relative border rounded-6">
+                                    <div class="layout-wrap gap-10">
+                                        <div class="w-fill layout-horizontal align-center-space-between">
+                                            <img [src]="previewCommentImages" alt="Image preview" width="80%"
+                                                class="rounded-4">
+                                            <button type="button" (click)="removeCommentImage()"
+                                                class="button-standard button-icon-only">
+                                                <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <textarea class="control text-area-control w-fill" placeholder="placeholder"
+                                    name="content" ngModel #commentInput id="comment-input" spellcheck="false"
+                                    style="max-height: 110px;">
                                 </textarea>
                                 <input type="hidden" name="post_id" ngModel [(ngModel)]="post.id">
                                 <input type="hidden" name="user_id" ngModel [(ngModel)]="post.profile.user_id">
+
                                 <div class="layout-horizontal w-fill">
                                     <div class="layout horizontal w-fill gap-10">
-                                        <input class="display-none" type="file" id="post_media_input" multiple>
-                                        <label for="post_media_input"
+                                        <input class="display-none" type="file" [ngModel]="fileComment"
+                                            (change)="onFileCommentSelected($event)" accept="image/*"
+                                            id="comment_media_input">
+                                        <label for="comment_media_input"
                                             class="layout align-center-center border-none subtle-transparent text-accent-default">
                                             <i class="icon-size-20 icon icon-ic_fluent_image_20_regular"></i>
                                         </label>
-                                        <button type="button" class="border-none subtle-transparent text-accent-default">
+                                        <button type="button"
+                                            class="border-none subtle-transparent text-accent-default">
                                             <i class="icon-size-20 icon icon-ic_fluent_emoji_20_regular"></i>
                                         </button>
-                                        <button type="button" class="speech-to-text border-none subtle-transparent text-accent-default"
+                                        <button type="button"
+                                            class="speech-to-text border-none subtle-transparent text-accent-default"
                                             data-target="comment-input">
                                             <i class="icon-size-20 icon icon-ic_fluent_mic_20_regular"></i>
                                         </button>
                                     </div>
                                     <button type="submit" class="button-accent button-text-with-icon"
-                                    [disabled]="spaceCheck.test(frm.value.content)">
+                                        [disabled]="spaceCheck.test(frm.value.content)">
                                         Đăng
                                         <i class="icon-size-16 icon icon-ic_fluent_send_16_filled"></i>
                                     </button>
@@ -254,11 +287,14 @@
 
     <div class="layout-horizontal w-fill px-5">
         <div class="layout-horizontal w-fill">
-            <button type="button" class="button-subtle button-text-with-icon text-secondary" (click)="likePost(post.id)">
+            <button type="button" class="button-subtle button-text-with-icon text-secondary"
+                (click)="likePost(post.id)">
                 {{post.likes_count}}
-                <i class="icon-size-20 icon icon-ic_fluent_heart_20_regular"></i>
+                <i *ngIf="!post.liked" class="icon-size-20 icon icon-ic_fluent_heart_20_regular"></i>
+                <i *ngIf="post.liked" class="icon-size-20 icon icon-ic_fluent_heart_20_filled"></i>
             </button>
-            <button type="button" class="button-subtle button-text-with-icon text-secondary" (click)="toggleDialog(post.id)">
+            <button type="button" class="button-subtle button-text-with-icon text-secondary"
+                (click)="toggleDialog(post.id)">
                 {{post.comments_count}}
                 <i class="icon-size-20 icon icon-ic_fluent_chat_empty_20_regular"></i>
             </button>
@@ -292,7 +328,7 @@
         </div>
 
     </div> -->
-<!-- 
+    <!-- 
     <div class="layout">
         <div class="layout-horizontal gap-10 w-fill">
             <img src="assets/image/avatar.png" alt="" style="width: 35px; height: 35px;">

@@ -19,8 +19,11 @@ export class CenterHomeComponent implements AfterViewInit {
   content: string = '';
   selectedFilesPost: File[] = [];
   previewPostImages: string[] = [];
+  selectedFilesComment: File[] = [];
+  previewCommentImages: string[] = [];
   listPost: any[] = [];
   filePost: any;
+  fileComment: any;
   showPoll: boolean = false;
   poll_input: any[] = [];
   spaceCheck: any = /^\s*$/;
@@ -46,14 +49,11 @@ export class CenterHomeComponent implements AfterViewInit {
           this.listPost.unshift(data.data);
         });
 
-        this.eventService.bindEvent('App\\Events\\UserLikePostEvent', (data: any) => {
-          const post = this.listPost.find(item => item.id === data.data.id);
-          post.likes_count = data.like_count;
-
-          console.log('Like event:', data);
-
+        this.eventService.bindEvent('App\\Events\\UserSendMessageEvent', (data: any) => {
+          console.log('Message received:', data);
         });
       });
+
   }
 
   @ViewChild('commentInput') commentInput!: ElementRef;
@@ -91,18 +91,20 @@ export class CenterHomeComponent implements AfterViewInit {
       this.postService.getComment(post_id).subscribe(
         (response) => {
           console.log(response);
-          
+
           this.commentByPostId[post_id] = response.data;
 
           this.eventService.setPostId(post_id);
 
           this.eventService.bindEvent('App\\Events\\UserCommentPostEvent', (data: any) => {
-            const post = this.listPost.find(item => item.id === data.data.post.id);
-            post.comments_count = data.comments_count;
-  
+            this.listPost.find(item => item.id === data.data.post.id).comments_count = data.comments_count;
             this.getCommentByPostId(data.data.post.id).unshift(data.data);
-  
             console.log('Comment event:', data);
+          });
+
+          this.eventService.bindEvent('App\\Events\\UserLikePostEvent', (data: any) => {
+            this.listPost.find(item => item.id === data.data.id).likes_count = data.likes_count;
+            console.log('Like event:', data);
           });
 
         })
@@ -148,10 +150,19 @@ export class CenterHomeComponent implements AfterViewInit {
 
 
   postComment(value: any) {
-    this.postService.postComment(value.value).subscribe(
+
+    const formData = new FormData();
+    formData.append('content', value.content);
+    formData.append('post_id', value.post_id);
+
+    if (this.selectedFilesComment.length > 0)
+      formData.append('media', this.selectedFilesComment[0], this.selectedFilesComment[0].name);
+
+    this.postService.postComment(formData).subscribe(
       (response) => {
         console.log(response);
         this.commentInput.nativeElement.value = '';
+        this.removeCommentImage();
       }
     )
   }
@@ -159,6 +170,11 @@ export class CenterHomeComponent implements AfterViewInit {
   likePost(post_id: number) {
     this.postService.likePost(post_id).subscribe(
       (response) => {
+        const post = this.listPost.find(item => item.id === post_id);
+        if (response.liked) post.likes_count++;
+        else post.likes_count--;
+        post.liked = response.liked;
+
         console.log(response);
       }
     )
@@ -193,6 +209,18 @@ export class CenterHomeComponent implements AfterViewInit {
     }
   }
 
+  onFileCommentSelected(event: any) {
+    const files: File[] = Array.from(event.target.files);
+    console.log(files);
+
+    const file = files[0];
+    const reader = new FileReader();
+    reader.onload = e => this.previewCommentImages = [reader.result as string];
+    reader.readAsDataURL(file);
+    this.selectedFilesComment = [file];
+
+  }
+
   onCancelPostImg() {
     this.selectedFilesPost = [];
     this.previewPostImages = [];
@@ -202,6 +230,12 @@ export class CenterHomeComponent implements AfterViewInit {
   removePostImage(index: number): void {
     this.previewPostImages.splice(index, 1);
     this.selectedFilesPost.splice(index, 1);
+  }
+
+  removeCommentImage(): void {
+    this.previewCommentImages = [];
+    this.selectedFilesComment = [];
+    if (this.fileComment) this.fileComment.nativeElement.value = '';
   }
 
   formatTime(dateString: string): string {

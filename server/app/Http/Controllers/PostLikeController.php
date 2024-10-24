@@ -57,6 +57,7 @@ class PostLikeController extends Controller
             
             return response()->json([
                 'message' => 'Đã hủy thích bài viết',
+                'liked' => false
             ], 200);
 
         } else {
@@ -70,6 +71,7 @@ class PostLikeController extends Controller
 
             return response()->json([
                 'message' => 'Đã thích bài viết',
+                'liked' => true
             ], 200);
         }
     }

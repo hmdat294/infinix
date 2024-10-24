@@ -13,20 +13,7 @@ export class EventService {
 
   constructor(private authService: AuthService) {
     this.pusher = new Pusher('74a1b74fdf0afc6b5833', { cluster: 'ap1' });
-
-    if (this.post_id > 0) {
-      this.setPusherComment();
-    }
-    else {
-      this.authService.getUser(0).subscribe(
-        (response) => {
-          if (this.channel) {
-            this.channel.unbind_all();
-            this.pusher.unsubscribe(this.channel.name);
-          }
-          this.channel = this.pusher.subscribe(`user.${response.data.id}`);
-        });
-    }
+    this.setPusherComment();
   }
 
   public bindEvent(eventName: string, callback: (data: any) => void): void {
@@ -43,7 +30,15 @@ export class EventService {
       this.channel.unbind_all();
       this.pusher.unsubscribe(this.channel.name);
     }
-    this.channel = this.pusher.subscribe(`post.${this.post_id}`);
+    if (this.post_id > 0) {
+      this.channel = this.pusher.subscribe(`post.${this.post_id}`);
+    }
+    else {
+      this.authService.getUser(0).subscribe(
+        (response) => {
+          this.channel = this.pusher.subscribe(`user.${response.data.id}`);
+        });
+    }
   }
 
   setPostId(id: number) {
