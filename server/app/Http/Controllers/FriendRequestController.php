@@ -67,20 +67,20 @@ class FriendRequestController extends Controller
     {
         if (!UserModel::find($request->receiver_id)) {
             return response()->json([
-                'message' => 'Receiver not found.',
-            ], 404);
+                'message' => 'Không tìm thấy người dùng này!',
+            ]); //status: 404
         }
 
-        if(FriendRequestModel::where('sender_id', $request->user()->id)->where('receiver_id', $request->receiver_id)->where('status', 'pending')->exists()){
+        if (FriendRequestModel::where('sender_id', $request->user()->id)->where('receiver_id', $request->receiver_id)->where('status', 'pending')->exists()) {
             return response()->json([
-                'message' => 'Friend request already sent.',
-            ], 400);
+                'message' => 'Bạn đã gửi yêu cầu này rồi!',
+            ]); //status: 400
         }
 
-        if(RelationshipModel::where('user_id', $request->user()->id)->where('related_user_id', $request->receiver_id)->where('type', 'friend')->exists()){
+        if (RelationshipModel::where('user_id', $request->user()->id)->where('related_user_id', $request->receiver_id)->where('type', 'friend')->exists()) {
             return response()->json([
-                'message' => 'You are already friend with this user.',
-            ], 400);
+                'message' => 'Bạn đã là bạn với người dùng này!',
+            ]); //status: 400
         }
 
         FriendRequestModel::create([
@@ -132,7 +132,7 @@ class FriendRequestController extends Controller
         FriendRequestModel::find($id)->update([
             'status' => $request->status,
         ]);
-        
+
         if ($request->status === 'accepted') {
             event(new FriendRequestEvent(FriendRequestModel::find($id)->sender_id, FriendRequestModel::find($id)->receiver_id, 'accepted'));
             RelationshipModel::create([

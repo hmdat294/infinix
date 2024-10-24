@@ -9,10 +9,10 @@
                 <img src="assets/image/Logo.png" alt="">
             </div>
             <div class="search-dropdown-control w-fill visible">
-               
+
                 <div class="control search-control">
-                    <input (input)="search()" type="search" name="search"
-                    [(ngModel)]="keyword" placeholder="Tìm kiếm" spellcheck="false" required>
+                    <input (input)="search()" type="search" name="search" [(ngModel)]="keyword" placeholder="Tìm kiếm"
+                        spellcheck="false" required>
                     <button type="button" class="input-button clear-content-button" (click)="clearSearch()">
                         <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
                     </button>
@@ -20,25 +20,31 @@
                         <i class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
                     </button>
                 </div>
-                
+
                 <div class="dropdown-menu" *ngIf="friends.length > 0">
-                    <form class="list-item layout-horizontal align-center-center" *ngFor="let friend of friends" (submit)="addFriend(friend.id)">
+                    <div class="list-item layout-horizontal align-center-center" *ngFor="let friend of friends">
                         <div class="text-body w-fill">{{friend.profile.display_name}}</div>
-                        <button *ngIf="!friend.is_friend" type="submit" class="button-accent w-hug py-5 px-10">Thêm</button>
-                    </form>
+                        <button *ngIf="!friend.is_friend" type="button"
+                            class="button-accent button-text-only w-hug py-5 px-10"
+                            (click)="addFriend(friend.id)">Thêm</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="w-fill-column-4 in-mobile-w-fill">
         <div class="layout-horizontal gap-20 align-center-right in-mobile-align-center-space-evenly">
-            <a [routerLink]="['/']" class="button-subtle button-icon-only {{(currentRoute == '')?'text-accent-default':'text-secondary'}}">
+            <a [routerLink]="['/']"
+                class="button-subtle button-icon-only {{(currentRoute == '')?'text-accent-default':'text-secondary'}}">
                 <i *ngIf="(currentRoute == '')" class="icon-size-24 icon icon-ic_fluent_home_24_filled"></i>
                 <i *ngIf="(currentRoute != '')" class="icon-size-24 icon icon-ic_fluent_home_24_regular"></i>
             </a>
-            <a [routerLink]="['/notification']" class="button-subtle button-icon-only {{(currentRoute == 'notification')?'text-accent-default':'text-secondary'}}">
-                <i *ngIf="(currentRoute == 'notification')" class="icon-size-24 icon icon-ic_fluent_alert_24_filled"></i>
-                <i *ngIf="(currentRoute != 'notification')" class="icon-size-24 icon icon-ic_fluent_alert_24_regular"></i>
+            <a [routerLink]="['/notification']"
+                class="button-subtle button-icon-only {{(currentRoute == 'notification')?'text-accent-default':'text-secondary'}}">
+                <i *ngIf="(currentRoute == 'notification')"
+                    class="icon-size-24 icon icon-ic_fluent_alert_24_filled"></i>
+                <i *ngIf="(currentRoute != 'notification')"
+                    class="icon-size-24 icon icon-ic_fluent_alert_24_regular"></i>
             </a>
             <a href="#" class="button-subtle button-icon-only text-secondary">
                 <i class="icon-size-24 icon icon-ic_fluent_settings_24_regular"></i>
@@ -46,7 +52,8 @@
             <a href="#" class="button-subtle button-icon-only text-secondary">
                 <i class="icon-size-24 icon icon-ic_fluent_bookmark_24_regular"></i>
             </a>
-            <a [routerLink]="['/chat']" class="button-subtle button-icon-only {{(currentRoute == 'chat')?'text-accent-default':'text-secondary'}}">
+            <a [routerLink]="['/chat']"
+                class="button-subtle button-icon-only {{(currentRoute == 'chat')?'text-accent-default':'text-secondary'}}">
                 <i *ngIf="(currentRoute == 'chat')" class="icon-size-24 icon icon-ic_fluent_chat_24_filled"></i>
                 <i *ngIf="(currentRoute != 'chat')" class="icon-size-24 icon icon-ic_fluent_chat_24_regular"></i>
             </a>

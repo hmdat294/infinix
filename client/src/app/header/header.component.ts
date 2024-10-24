@@ -26,7 +26,7 @@ export class HeaderComponent {
       (response) => {
         this.listUser = response.data;
         console.log(this.listUser);
-        
+
       });
 
     this.currentRoute = this.router.url.split('/').pop();
@@ -54,8 +54,11 @@ export class HeaderComponent {
   }
 
   addFriend(receiver_id: number): void {
+
     this.authService.addFriend(receiver_id).subscribe(
-      (response) => this.clearSearch());
+      (response) => {
+        //     this.clearSearch();
+      });
   }
 
 

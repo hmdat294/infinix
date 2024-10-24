@@ -45,21 +45,20 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
           // nếu status là accepted thì data có sender và receiver, bản thân là 1 trong 2 thì thêm vào danh sách bạn bè người còn lại
           if (data.status == "accepted") {
             if (data.sender_id == this.user.id) {
-              this.friends.unshift(data.receiver);
-              this.friends_limit.unshift(data.receiver);
-              this.friends_limit = this.friends.slice(0, 5);
+              this.pushFriendList(data.receiver);
             }
             if (data.receiver_id == this.user.id) {
-              this.friends.unshift(data.sender);
-              this.friends_limit.unshift(data.sender);
-              this.friends_limit = this.friends.slice(0, 5);
+              this.pushFriendList(data.sender);
             }
           }
-
         });
-
       });
+  }
 
+  pushFriendList(data: any) {
+    this.friends.unshift(data);
+    this.friends_limit.unshift(data);
+    this.friends_limit = this.friends.slice(0, 5);
   }
 
   ngAfterViewInit() {
