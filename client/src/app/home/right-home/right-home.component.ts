@@ -13,7 +13,9 @@ import { EventService } from '../../event.service';
 })
 export class RightHomeComponent implements OnInit, AfterViewInit {
   user: any = [];
+  friends_limit: any = [];
   friends: any = [];
+  showFriendMore: boolean = false;
 
   constructor(
     private el: ElementRef,
@@ -33,21 +35,29 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
     this.authService.getFriend().subscribe(
       (response) => {
         this.friends = response.data;
-        // console.log(this.friends);
+        console.log(this.friends);
+
+        this.friends.reverse();
+        this.friends_limit = this.friends.slice(0, 5);
 
         this.eventService.bindEvent('App\\Events\\FriendRequestEvent', (data: any) => {
           console.log('Friend request event:', data);
           // nếu status là accepted thì data có sender và receiver, bản thân là 1 trong 2 thì thêm vào danh sách bạn bè người còn lại
           if (data.status == "accepted") {
             if (data.sender_id == this.user.id) {
-              this.friends.push(data.receiver);
+              this.friends.unshift(data.receiver);
+              this.friends_limit.unshift(data.receiver);
+              this.friends_limit = this.friends.slice(0, 5);
             }
             if (data.receiver_id == this.user.id) {
-              this.friends.push(data.sender);
+              this.friends.unshift(data.sender);
+              this.friends_limit.unshift(data.sender);
+              this.friends_limit = this.friends.slice(0, 5);
             }
           }
 
         });
+
       });
 
   }
@@ -65,6 +75,9 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
     });
   }
 
+  friendMore() {
+    this.showFriendMore = !this.showFriendMore;
+  }
 
   logout(): void {
     this.authService.logout().subscribe(
