@@ -36,10 +36,10 @@ export class CenterProfileComponent {
   ) { }
 
   ngOnInit(): void {
-    this.postService.getPost().subscribe(
+    this.postService.getPostByUser(0).subscribe(
       (data) => {
         this.listPost = data.data;
-        console.log(this.listPost);
+        // console.log(this.listPost);
 
         this.eventService.bindEvent('App\\Events\\UserPostEvent', (data: any) => {
           console.log('Post event:', data);
@@ -101,7 +101,23 @@ export class CenterProfileComponent {
 
   toggleDialog(id: number) {
     this.idDialog = id;
-
+    // if (!this.commentByPostId[post_id]) {
+    //   this.postService.getComment(post_id).subscribe(
+    //     (response) => {
+    //       this.commentByPostId[post_id] = response.data;
+    //     })
+    // }
+    // else {
+    //   this.commentByPostId[post_id] = null;
+    // }
+    if (this.idDialog == 0) {
+      this.commentByPostId[id] = null;
+    } else {
+      this.postService.getComment(id).subscribe(
+        (response) => {
+          this.commentByPostId[id] = response.data;
+        });
+    }
     this.cdr.detectChanges();
     this.initCarousels();
   }
@@ -214,5 +230,17 @@ export class CenterProfileComponent {
     if (diffInHours >= 12) return givenTime.format('YYYY-MM-DD');
     else if (diffInMinutes < 60) return `${diffInMinutes} phút trước`;
     else return `${diffInHours} giờ trước`;
+  }
+
+  // Cập nhật height cho textarea theo content, quá 110px thì thành cuộn dọc
+  resizeTextarea(event: any): void {
+    const textarea = event.target;
+    if (textarea.scrollHeight < 110) {
+      textarea.style.height = 'fit-content';
+      textarea.style.height = textarea.scrollHeight + 'px';
+    } else {
+      textarea.style.height = '110px';
+      textarea.style.overflowY = 'auto';
+    }
   }
 }

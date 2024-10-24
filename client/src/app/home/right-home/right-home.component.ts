@@ -35,7 +35,7 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
     this.authService.getFriend().subscribe(
       (response) => {
         this.friends = response.data;
-        console.log(this.friends);
+        // console.log(this.friends);
 
         this.friends.reverse();
         this.friends_limit = this.friends.slice(0, 5);

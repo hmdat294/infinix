@@ -17,8 +17,6 @@ import { EventService } from '../event.service';
 })
 export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
-
-
   content: string = '';
   conversation: any;
   friends: any;
@@ -44,7 +42,8 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   keywordSearch: string = '';
   valueSearch: any = [];
 
-  idDialog: number = 0;
+  idDialogChat: number = 0;
+  idDialogCreateGroup: boolean = false;
 
   previousElement: HTMLElement | null = null;
   focusTimeout: any;
@@ -83,9 +82,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
           // else if (data.is_recalled == 1) this.conversation.messages.find((item: any) => item.id === data.id).is_recalled = data.is_recalled;
 
         });
-
       });
-
   }
 
   ngAfterViewInit() {
@@ -121,8 +118,12 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     this.isVisible = !this.isVisible;
   }
 
-  toggleDialog(id: number) {
-    this.idDialog = id;
+  toggleDialogChat(id: number) {
+    this.idDialogChat = id;
+  }
+
+  toggleDialogCreateGroup() {
+    this.idDialogCreateGroup = !this.idDialogCreateGroup;
   }
 
   scrollToElement(index: number) {

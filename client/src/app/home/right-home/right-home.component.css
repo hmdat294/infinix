@@ -1,0 +1,19 @@
+
+.user-online::after,
+.user-offline::after{
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 100px;
+}
+
+.user-online::after{
+    background-color: rgb(55, 255, 0);
+}
+
+.user-offline::after{
+    background-color: red;
+}
