@@ -1,0 +1,80 @@
+<div class="w-fill layout-vertical p-10 gap-10 rounded-8 border border-card-default card-background-default">
+    <div class="w-fill layout-horizontal align-center-space-between">
+        <p class="text-secondary text-body-strong">Khám phá</p>
+        <a href="" class="link">Xem tất cả</a>
+    </div>
+    <div class="layout-horizontal pt-10 border-top border-card-default">
+        <div class="layout-vertical w-fill">
+            <p class="text-body-strong text-secondary">#2023</p>
+            <p class="text-body text-tertiary">100 bài đăng</p>
+        </div>
+        <button type="button" class="button-subtle button-icon-only text-secondary">
+            <i class="icon-size-16 icon icon-ic_fluent_more_horizontal_16_filled"></i>
+        </button>
+    </div>
+    <div class="layout-horizontal pt-10 border-top border-card-default">
+        <div class="layout-vertical w-fill">
+            <p class="text-body-strong text-secondary">#2023</p>
+            <p class="text-body text-tertiary">100 bài đăng</p>
+        </div>
+        <button type="button" class="button-subtle button-icon-only text-secondary">
+            <i class="icon-size-16 icon icon-ic_fluent_more_horizontal_16_filled"></i>
+        </button>
+    </div>
+    <div class="layout-horizontal pt-10 border-top border-card-default">
+        <div class="layout-vertical w-fill">
+            <p class="text-body-strong text-secondary">#2023</p>
+            <p class="text-body text-tertiary">100 bài đăng</p>
+        </div>
+        <button type="button" class="button-subtle button-icon-only text-secondary">
+            <i class="icon-size-16 icon icon-ic_fluent_more_horizontal_16_filled"></i>
+        </button>
+    </div>
+    <div class="layout-horizontal pt-10 border-top border-card-default">
+        <div class="layout-vertical w-fill">
+            <p class="text-body-strong text-secondary">#2023</p>
+            <p class="text-body text-tertiary">100 bài đăng</p>
+        </div>
+        <button type="button" class="button-subtle button-icon-only text-secondary">
+            <i class="icon-size-16 icon icon-ic_fluent_more_horizontal_16_filled"></i>
+        </button>
+    </div>
+    <div class="layout-horizontal pt-10 border-top border-card-default">
+        <div class="layout-vertical w-fill">
+            <p class="text-body-strong text-secondary">#2023</p>
+            <p class="text-body text-tertiary">100 bài đăng</p>
+        </div>
+        <button type="button" class="button-subtle button-icon-only text-secondary">
+            <i class="icon-size-16 icon icon-ic_fluent_more_horizontal_16_filled"></i>
+        </button>
+    </div>
+    <div class="layout-horizontal pt-10 border-top border-card-default">
+        <div class="layout-vertical w-fill">
+            <p class="text-body-strong text-secondary">#2023</p>
+            <p class="text-body text-tertiary">100 bài đăng</p>
+        </div>
+        <button type="button" class="button-subtle button-icon-only text-secondary">
+            <i class="icon-size-16 icon icon-ic_fluent_more_horizontal_16_filled"></i>
+        </button>
+    </div>
+</div>
+<div class="w-fill layout-vertical rounded-8 border border-card-default card-background-default">
+
+    <div class="w-fill layout-horizontal align-center-space-between px-20 py-10">
+        <p class="text-secondary text-body-strong">Lời mời kết bạn</p>
+    </div>
+    <div class="layout-horizontal gap-15 px-20 py-10 border-top border-card-default align-center-center"
+        *ngFor="let request of userRequest">
+        <img src="assets/image/avatar.png" alt="" style="width: 35px; height: 35px;">
+        <p class="text-secondary text-body-strong w-fill">{{request.sender.profile.display_name}}</p>
+
+        <button type="button" class="button-subtle button-icon-only" (click)="acceptRequest(request.id, 'rejected')">
+            <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_filled"></i>
+        </button>
+
+        <button type="button" class="button-subtle button-icon-only" (click)="acceptRequest(request.id, 'accepted')">
+            <i class="icon-size-16 icon icon-ic_fluent_checkmark_16_filled"></i>
+        </button>
+    </div>
+
+</div>
