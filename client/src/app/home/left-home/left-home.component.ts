@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../auth.service';
+import { AuthService } from '../../service/auth.service';
 import { CommonModule } from '@angular/common';
-import { EventService } from '../../event.service';
+import { EventService } from '../../service/event.service';
 
 @Component({
   selector: 'app-left-home',

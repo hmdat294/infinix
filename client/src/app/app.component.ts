@@ -4,7 +4,7 @@ import { HeaderComponent } from './header/header.component';
 import { CommonModule } from '@angular/common';
 import { HeaderDefaultComponent } from "./header-default/header-default.component";
 import { HeaderAdminComponent } from "./admin/header-admin/header-admin.component";
-import { AuthService } from './auth.service';
+import { AuthService } from './service/auth.service';
 import { NavComponent } from "./admin/nav/nav.component";
 import { filter } from 'rxjs';
 

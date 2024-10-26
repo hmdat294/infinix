@@ -1,13 +1,9 @@
 import { AfterViewChecked, AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { ChatService } from '../chat.service';
-import { HttpClient } from '@angular/common/http';
+import { ChatService } from '../service/chat.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AuthService } from '../auth.service';
-import { trigger, state, style, transition, animate } from '@angular/animations';
-import { RightHomeComponent } from '../home/right-home/right-home.component';
-import { EventService } from '../event.service';
-import { a } from 'vite/dist/node/types.d-aGj9QkWt';
+import { AuthService } from '../service/auth.service';
+import { EventService } from '../service/event.service';
 
 @Component({
   selector: 'app-chat',
@@ -75,9 +71,9 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
       (data: any) => {
         this.friends = data.data;
         console.log(this.friends);
-        
 
-        this.MessageUser((this.friends.length > 0) ? this.friends[0].id : '');
+
+        this.MessageUser(this.friends[0].id, this.friends[0].is_group);
 
         this.eventService.bindEvent('App\\Events\\UserSendMessageEvent', (data: any) => {
 
@@ -168,14 +164,27 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     return this.conversation.messages[i + 1].user_id !== id;
   }
 
-  MessageUser(id: number) {
-    this.chatService.getMessageUser(id).subscribe(
-      (data: any) => {
-        this.conversation = data.data;
-        // console.log(this.conversation);
-        this.isScrollingToElement = false;
-        (document.querySelector('.textarea-chat') as HTMLTextAreaElement).focus();
-      });
+  MessageUser(id: number, is_group: number) {
+
+    console.log(id, is_group);
+
+    if (is_group == 0) {
+      this.chatService.getMessageUser(id).subscribe(
+        (data: any) => {
+          this.conversation = data.data;
+          console.log(this.conversation);
+          this.isScrollingToElement = false;
+          (document.querySelector('.textarea-chat') as HTMLTextAreaElement).focus();
+        });
+    } else {
+      this.chatService.getMessageGroup(id).subscribe(
+        (data: any) => {
+          this.conversation = data.data;
+          // console.log(this.conversation);
+          this.isScrollingToElement = false;
+          (document.querySelector('.textarea-chat') as HTMLTextAreaElement).focus();
+        });
+    }
   }
 
   acceptFriend(id: number): void {

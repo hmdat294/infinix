@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router, RouterModule, RouterOutlet } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { NavigationEnd, Router, RouterModule, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ChatService } from '../chat.service';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../service/auth.service';
 import { filter } from 'rxjs';
+import { EventService } from '../service/event.service';
 
 @Component({
   selector: 'app-header',
@@ -13,27 +13,41 @@ import { filter } from 'rxjs';
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   listUser: any = [];
   user: any;
   friends: any = [];
   keyword: string = '';
   currentRoute: string | undefined;
 
-  constructor(private router: Router, private authService: AuthService) { }
+  conversation: any[] = [];
+  message: any;
+
+  constructor(private router: Router, private authService: AuthService, private eventService: EventService) { }
+
   ngOnInit(): void {
-    this.authService.getListUser().subscribe(
-      (response) => {
-        this.listUser = response.data;
-        // console.log(response);
-      });
-
     this.currentRoute = this.router.url.split('/').pop();
-
     this.router.events.pipe(
       filter((event) => event instanceof NavigationEnd)).subscribe(
         (event: any) => this.currentRoute = event.urlAfterRedirects.split('/').pop());
 
+    this.conversation = JSON.parse(localStorage.getItem('conversation') || '[]');
+
+    this.authService.getListUser().subscribe(
+      (response) => {
+        this.listUser = response.data;
+        // console.log(response);
+
+        this.eventService.bindEvent('App\\Events\\UserSendMessageEvent', (data: any) => {
+          console.log('Message received:', data);
+
+          if (!this.conversation.includes(data.data.conversation_id)) {
+            this.conversation.push(data.data.conversation_id);
+            localStorage.setItem('conversation', JSON.stringify(this.conversation));
+          }
+        });
+
+      });
   }
 
   search(): void {

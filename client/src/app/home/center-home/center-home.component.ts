@@ -1,11 +1,11 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { PostService } from '../../post.service';
+import { PostService } from '../../service/post.service';
 import { CommonModule } from '@angular/common';
 import moment from 'moment';
-import { CarouselService } from '../../carousel.service';
-import { AuthService } from '../../auth.service';
-import { EventService } from '../../event.service';
+import { CarouselService } from '../../service/carousel.service';
+import { AuthService } from '../../service/auth.service';
+import { EventService } from '../../service/event.service';
 
 @Component({
   selector: 'app-center-home',
@@ -14,7 +14,7 @@ import { EventService } from '../../event.service';
   templateUrl: './center-home.component.html',
   styleUrl: './center-home.component.css'
 })
-export class CenterHomeComponent implements AfterViewInit {
+export class CenterHomeComponent implements OnInit, AfterViewInit {
 
   content: string = '';
   selectedFilesPost: File[] = [];
@@ -34,7 +34,6 @@ export class CenterHomeComponent implements AfterViewInit {
     private cdr: ChangeDetectorRef,
     private postService: PostService,
     private carouselService: CarouselService,
-    private authService: AuthService,
     private eventService: EventService,
   ) { }
 
@@ -49,9 +48,6 @@ export class CenterHomeComponent implements AfterViewInit {
           this.listPost.unshift(data.data);
         });
 
-        this.eventService.bindEvent('App\\Events\\UserSendMessageEvent', (data: any) => {
-          console.log('Message received:', data);
-        });
       });
 
   }

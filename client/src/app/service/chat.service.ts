@@ -23,6 +23,11 @@ export class ChatService {
     return this.http.get(`${this.apiUrl}/chat/${id}`, { headers });
   }
 
+  getMessageGroup(id: number): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.get(`${this.apiUrl}/chat-group/${id}`, { headers });
+  }
+
   sendMessage(mess: any): Observable<any> {
     const headers = this.authService.getToken();
     return this.http.post(`${this.apiUrl}/message`, mess, { headers });

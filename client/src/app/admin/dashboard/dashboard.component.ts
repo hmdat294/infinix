@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import ApexCharts, { ApexOptions } from 'apexcharts';
-import { AdminService } from '../../admin.service';
+import { AdminService } from '../../service/admin.service';
 import { NavComponent } from '../nav/nav.component';
 
 @Component({

@@ -1,11 +1,11 @@
-import { ChangeDetectorRef, Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { PostService } from '../../post.service';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { PostService } from '../../service/post.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import moment from 'moment';
-import { AuthService } from '../../auth.service';
-import { CarouselService } from '../../carousel.service';
-import { EventService } from '../../event.service';
+import { AuthService } from '../../service/auth.service';
+import { CarouselService } from '../../service/carousel.service';
+import { EventService } from '../../service/event.service';
 
 @Component({
   selector: 'app-center-profile',
@@ -14,7 +14,7 @@ import { EventService } from '../../event.service';
   templateUrl: './center-profile.component.html',
   styleUrl: './center-profile.component.css'
 })
-export class CenterProfileComponent {
+export class CenterProfileComponent implements OnInit {
 
   content: string = '';
   selectedFilesPost: File[] = [];

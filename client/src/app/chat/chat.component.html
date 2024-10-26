@@ -28,12 +28,14 @@
 
                     <div class="border-top" *ngFor="let friend of friends">
                         <button type="button" class="button-subtle w-fill gap-15 px-20 py-15"
-                            (click)="MessageUser(friend.id)" style="cursor: pointer;">
-                            <img  src="{{(friend.image)?friend.image:'assets/image/avatar.png'}}" alt="" style="width: 35px; height: 35px;" class="rounded-pill">
+                            (click)="MessageUser(friend.id, friend.is_group)" style="cursor: pointer;">
+                            <img src="{{(friend.image)?friend.image:'assets/image/avatar.png'}}" alt=""
+                                style="width: 35px; height: 35px;" class="rounded-pill">
                             <p class="text-secondary text-body-strong w-fill layout">
                                 {{
-                                (friend.is_group == 1) ? friend.name : 
-                                (friend.users[0].id == user.id) ? friend.users[1].profile.display_name : friend.users[0].profile.display_name
+                                (friend.is_group == 1) ? friend.name :
+                                (friend.users[0].id == user.id) ? friend.users[1].profile.display_name :
+                                friend.users[0].profile.display_name
                                 }}
                             </p>
                         </button>
@@ -123,17 +125,25 @@
                     class="h-hug w-fill layout-horizontal align-center-space-between px-20 py-15 gap-15 border-bottom border-card-default">
                     <div class="w-fill layout-horizontal gap-15 align-center-center">
                         <img src="assets/image/avatar.png" alt="" style="width: 35px; height: 35px;">
-                        <p class="text-secondary text-body-strong w-fill">{{conversation.name}}</p>
+                        <p class="text-secondary text-body-strong w-fill">
+
+                            {{
+                            (conversation.is_group == 1) ? conversation.name :
+                            (conversation.users[0].id == user.id) ? conversation.users[1].profile.display_name :
+                            conversation.users[0].profile.display_name
+                            }}
+
+                        </p>
                     </div>
                     <div class="w-hug">
                         <a href="" class="accent-text-primary">
                             <i class="icon-size-24 icon icon-ic_fluent_call_24_filled"></i>
-                            </a>
+                        </a>
                     </div>
                     <div class="w-hug">
                         <a href="" class="accent-text-primary">
                             <i class="icon-size-24 icon icon-ic_fluent_video_24_filled"></i>
-                            </a>
+                        </a>
                     </div>
                     <div class="w-hug">
                         <a href="" class="accent-text-primary">
