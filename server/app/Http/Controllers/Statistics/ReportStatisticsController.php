@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Report as ReportModel;
 use \Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 
 class ReportStatisticsController extends Controller
 {
@@ -18,8 +19,12 @@ class ReportStatisticsController extends Controller
      */
     public function index(Request $request)
     {
-        $totalReports = ReportModel::count();
-        return response()->json(['data' => $totalReports]);
+        // statistics by type
+        $statistics = ReportModel::select('type', DB::raw('count(*) as total'))
+            ->groupBy('type')
+            ->get();
+        
+        return response()->json(['data' => $statistics]);
     }
 
 

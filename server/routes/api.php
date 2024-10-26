@@ -17,6 +17,7 @@ use App\Http\Controllers\PostLikeController;
 use App\Http\Controllers\PostBookmarkController;
 use App\Http\Controllers\PostShareController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\Statistics\GrowthStatisticsController;
 use App\Http\Controllers\Statistics\TotalController;
 use App\Http\Middleware\UpdateUserLastActivity;
@@ -127,6 +128,10 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
 
     // Bình chọn cho một bài viết có poll (theo poll_option_id)
     Route::post('vote/{id}', [PostController::class, 'vote'])->name('post.vote');
+
+    Route::get('search', [SearchController::class, 'all'])->name('search');
+    Route::get('search/user', [SearchController::class, 'user'])->name('search.user');
+    Route::get('search/post', [SearchController::class, 'post'])->name('search.post');
 
 
     // thống kê
