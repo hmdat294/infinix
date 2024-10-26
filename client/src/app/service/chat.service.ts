@@ -13,7 +13,7 @@ export class ChatService {
 
   private apiUrl = 'http://localhost:8000/api';
 
-  getList(): Observable<any> {
+  getListChat(): Observable<any> {
     const headers = this.authService.getToken();
     return this.http.get(`${this.apiUrl}/chat`, { headers });
   }
@@ -21,6 +21,11 @@ export class ChatService {
   getMessageUser(id: number): Observable<any> {
     const headers = this.authService.getToken();
     return this.http.get(`${this.apiUrl}/chat/${id}`, { headers });
+  }
+
+  getMessageGroup(id: number): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.get(`${this.apiUrl}/chat-group/${id}`, { headers });
   }
 
   sendMessage(mess: any): Observable<any> {
@@ -31,5 +36,10 @@ export class ChatService {
   recallMessage(id: number, value: any): Observable<any> {
     const headers = this.authService.getToken();
     return this.http.patch(`${this.apiUrl}/message/${id}`, value, { headers });
+  }
+
+  createGroup(value: any): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.post(`${this.apiUrl}/chat-group`, value, { headers });
   }
 }

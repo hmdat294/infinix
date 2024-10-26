@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavComponent } from '../nav/nav.component';
-import { AdminService } from '../../admin.service';
+import { AdminService } from '../../service/admin.service';
 import { CommonModule } from '@angular/common';
 
 @Component({

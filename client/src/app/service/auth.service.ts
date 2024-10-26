@@ -64,8 +64,6 @@ export class AuthService {
   }
 
   acceptFriend(request:any): Observable<any> {
-    // console.log(request);
-    
     const headers = this.getToken();
     return this.http.patch(`${this.apiUrl}/friend-request/${request.id}`, { 'status': request.status }, { headers });
   }
