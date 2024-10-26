@@ -42,8 +42,8 @@ class SearchController extends Controller
 
     public function all(Request $request, string $keyword)
     {
-        $users_collection = $this->user($request, $keyword, 20);
-        $posts_collection = $this->post($request, $keyword, 20);
+        $users_collection = $this->user($request, $keyword, 5);
+        $posts_collection = $this->post($request, $keyword, 5);
         
         return [
             'users' => $users_collection,

@@ -51,11 +51,11 @@ export class PostService {
 
   getSearchUser(keyword: string): Observable<any> {
     const headers = this.authService.getToken();
-    return this.http.get(`${this.apiUrl}/search/user/${keyword}`, { headers });
+    return this.http.get(`${this.apiUrl}/search-user/${keyword}`, { headers });
   }
 
   getSearchPost(keyword: string): Observable<any> {
     const headers = this.authService.getToken();
-    return this.http.get(`${this.apiUrl}/search/post/${keyword}`, { headers });
+    return this.http.get(`${this.apiUrl}/search-post/${keyword}`, { headers });
   }
 }

@@ -26,10 +26,12 @@ export class HeaderComponent implements OnInit {
   constructor(private router: Router, private authService: AuthService, private eventService: EventService) { }
 
   ngOnInit(): void {
-    this.currentRoute = this.router.url.split('/').pop();
+    this.currentRoute = this.router.url.split('/')[1];
     this.router.events.pipe(
-      filter((event) => event instanceof NavigationEnd)).subscribe(
-        (event: any) => this.currentRoute = event.urlAfterRedirects.split('/').pop());
+      filter((event) => event instanceof NavigationEnd)
+    ).subscribe(
+      (event: any) => this.currentRoute = event.urlAfterRedirects.split('/')[1]
+    );
 
     this.conversation = JSON.parse(localStorage.getItem('conversation') || '[]');
 
