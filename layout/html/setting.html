@@ -469,7 +469,7 @@
                                     <div class="accordion-panel layout-vertical">
                                         <div class="p-15 gap-15 layout-horizontal">
                                             <div class="layout-vertical gap-10" style="width: 150px;">
-                                                <div class="layout-vertical w-fill p-20 gap-20 solid-background-base border border-card-default rounded-4 align-bottom-right">
+                                                <div class="layout-vertical w-fill p-20 gap-20 solid-background-base border border-card-default rounded-4 align-bottom-right" data-theme="light">
                                                     <div class="layout-vertical gap-10 w-fill">
                                                         <div class="w-fill rounded-4" style="height: 3px; background-color: var(--text-secondary);"></div>
                                                         <div class="w-fill rounded-4" style="height: 3px; background-color: var(--text-secondary);"></div>
@@ -479,8 +479,8 @@
                                                     <div class="accent-default rounded-4" style="width: 30px; height: 20px;"></div>
                                                 </div>
                                                 <label class="label-radio-control"> 
-                                                    <input class="radio-control" type="radio" name="option">
-                                                    <span>Sáng</span>
+                                                    <input class="radio-control" type="radio" name="option" checked onchange='selectTheme(this, "light")'>
+                                                    <span class="text-primary">Sáng</span>
                                                 </label>
                                             </div>
 
@@ -495,8 +495,8 @@
                                                     <div class="accent-default rounded-4" style="width: 30px; height: 20px;"></div>
                                                 </div>
                                                 <label class="label-radio-control"> 
-                                                    <input class="radio-control" type="radio" name="option">
-                                                    <span>Tối</span>
+                                                    <input class="radio-control" type="radio" name="option" onchange='selectTheme(this, "dark")'>
+                                                    <span class="text-primary">Tối</span>
                                                 </label>
                                             </div>
                                         </div>
@@ -549,6 +549,12 @@
                 tab.classList.add('active');
             });
         });
+
+        function selectTheme(radio, theme) {
+            if (radio.checked) {
+                document.documentElement.setAttribute('data-theme', theme);
+            }
+        }
     </script>
      <!-- End Article -->
 </body>
