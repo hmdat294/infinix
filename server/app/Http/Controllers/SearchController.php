@@ -14,8 +14,12 @@ class SearchController extends Controller
     {
 
         $users = UserModel::whereHas('profile', function ($query) use ($keyword) {
-            $query->where('display_name', 'like', '%' . $keyword . '%');
+            $query->where('display_name', 'like', '%' . $keyword . '%')
+                  ->orWhere('email', 'like', '%' . $keyword . '%');
         });
+
+        // loại trừ bản thân
+        $users = $users->where('id', '!=', $request->user()->id);
 
         if ($limit) {
             $users = $users->limit($limit);
