@@ -17,6 +17,7 @@ export class SearchComponent implements OnInit {
       const keyword = params['keyword'];
       console.log(keyword);
       
+      
 
     });
   }

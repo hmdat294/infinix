@@ -9,7 +9,7 @@ import { AuthService } from './auth.service';
 })
 export class PostService {
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   private apiUrl = 'http://localhost:8000/api';
 
@@ -42,5 +42,20 @@ export class PostService {
   likePost(post_id: number): Observable<any> {
     const headers = this.authService.getToken();
     return this.http.post(`${this.apiUrl}/like`, { 'post_id': post_id }, { headers });
+  }
+
+  getSearch(keyword: string): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.get(`${this.apiUrl}/search/${keyword}`, { headers });
+  }
+
+  getSearchUser(keyword: string): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.get(`${this.apiUrl}/search/user/${keyword}`, { headers });
+  }
+
+  getSearchPost(keyword: string): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.get(`${this.apiUrl}/search/post/${keyword}`, { headers });
   }
 }
