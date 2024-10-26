@@ -129,9 +129,9 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
     // Bình chọn cho một bài viết có poll (theo poll_option_id)
     Route::post('vote/{id}', [PostController::class, 'vote'])->name('post.vote');
 
-    Route::get('search', [SearchController::class, 'all'])->name('search');
-    Route::get('search/user', [SearchController::class, 'user'])->name('search.user');
-    Route::get('search/post', [SearchController::class, 'post'])->name('search.post');
+    Route::post('search/{keyword}', [SearchController::class, 'all'])->name('search');
+    Route::post('search/user/{keyword}', [SearchController::class, 'user'])->name('search.user');
+    Route::post('search/post/{keyword}', [SearchController::class, 'post'])->name('search.post');
 
 
     // thống kê

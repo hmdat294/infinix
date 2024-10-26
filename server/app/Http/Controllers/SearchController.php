@@ -10,9 +10,8 @@ use App\Models\Post as PostModel;
 
 class SearchController extends Controller
 {
-    public function user(Request $request, $limit = null)
+    public function user(Request $request, string $keyword, $limit = null)
     {
-        $keyword = $request->input('keyword');
 
         $users = UserModel::whereHas('profile', function ($query) use ($keyword) {
             $query->where('display_name', 'like', '%' . $keyword . '%');
@@ -27,9 +26,8 @@ class SearchController extends Controller
         return UserResource::collection($users);
     }
 
-    public function post(Request $request, $limit = null)
+    public function post(Request $request, string $keyword, $limit = null)
     {
-        $keyword = $request->input('keyword');
 
         $posts = PostModel::where('content', 'like', "%$keyword%");
 
@@ -42,10 +40,10 @@ class SearchController extends Controller
         return PostResource::collection($posts);
     }
 
-    public function all(Request $request)
+    public function all(Request $request, string $keyword)
     {
-        $users_collection = $this->user($request, 20);
-        $posts_collection = $this->post($request, 20);
+        $users_collection = $this->user($request, $keyword, 20);
+        $posts_collection = $this->post($request, $keyword, 20);
         
         return [
             'users' => $users_collection,
