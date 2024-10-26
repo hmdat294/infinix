@@ -36,6 +36,7 @@ class UserResource extends JsonResource
 
             $friend_request = FriendRequestModel::where('sender_id', $request->user()->id)
             ->where('receiver_id', $this->id)
+            ->where('status', "pending")
             ->first();
 
             if ($friend_request) {
