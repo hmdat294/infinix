@@ -24,8 +24,7 @@ class UserResource extends JsonResource
         $followers = collect();
         $followings = collect();
 
-        
-        $can_send_friend_request = null;
+        $is_sent_friend_request = false;
 
         if ($request->user()) {
             $friendsOf =  $request->user()->friendsOf ?: collect();
@@ -35,14 +34,13 @@ class UserResource extends JsonResource
             $followers = $this->followers;
             $followings = $this->followings;
 
-            if($friends->contains($this->id)) {
-                $can_send_friend_request = false;
-            } else {
-                $pendingFriendRequests = $request->user()->friendRequest()->where('status', 'pending')->pluck('receiver_id');
-                $can_send_friend_request = !$pendingFriendRequests->contains($this->id);
+            $friend_request = FriendRequestModel::where('sender_id', $request->user()->id)
+            ->where('receiver_id', $this->id)
+            ->first();
+
+            if ($friend_request) {
+                $is_sent_friend_request = true;
             }
-
-
         }
 
 
@@ -62,7 +60,7 @@ class UserResource extends JsonResource
             'profile' => new ProfileResource($this->profile),
             'permissions' => $this->permissions,
             'is_friend' => $friends->contains($this->id),
-            'can_send_friend_request' => $can_send_friend_request
+            'is_sent_friend_request' => $is_sent_friend_request,
         ];
     }
 }
