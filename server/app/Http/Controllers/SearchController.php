@@ -10,29 +10,42 @@ use App\Models\Post as PostModel;
 
 class SearchController extends Controller
 {
-    public function user(Request $request)
+    public function user(Request $request, $limit = null)
     {
         $keyword = $request->input('keyword');
 
         $users = UserModel::whereHas('profile', function ($query) use ($keyword) {
             $query->where('display_name', 'like', '%' . $keyword . '%');
-        })->get();
+        });
+
+        if ($limit) {
+            $users = $users->limit($limit);
+        }
+
+        $users = $users->get();
 
         return UserResource::collection($users);
     }
 
-    public function post(Request $request)
+    public function post(Request $request, $limit = null)
     {
         $keyword = $request->input('keyword');
-        $posts = PostModel::where('content', 'like', "%$keyword%")->get();
+
+        $posts = PostModel::where('content', 'like', "%$keyword%");
+
+        if ($limit) {
+            $posts = $posts->limit($limit);
+        }
+
+        $posts = $posts->get();
         
         return PostResource::collection($posts);
     }
 
     public function all(Request $request)
     {
-        $users_collection = $this->user($request);
-        $posts_collection = $this->post($request);
+        $users_collection = $this->user($request, 20);
+        $posts_collection = $this->post($request, 20);
         
         return [
             'users' => $users_collection,

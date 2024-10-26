@@ -130,6 +130,8 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
     Route::post('vote/{id}', [PostController::class, 'vote'])->name('post.vote');
 
     Route::get('search', [SearchController::class, 'all'])->name('search');
+    Route::get('search/user', [SearchController::class, 'user'])->name('search.user');
+    Route::get('search/post', [SearchController::class, 'post'])->name('search.post');
 
 
     // thống kê
