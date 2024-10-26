@@ -39,7 +39,9 @@ export class AuthGuard implements CanActivate {
             observer.complete();
           },
           (error) => {
-            console.error('Error fetching user data', error);
+            // xóa token nếu không thể lấy được thông tin user và chuyển hướng về trang login
+            localStorage.removeItem('auth_token');
+            this.router.navigate(['/login']);
             observer.next(false);
             observer.complete();
           }
