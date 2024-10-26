@@ -9,7 +9,7 @@ import { EventService } from '../service/event.service';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterOutlet, RouterModule, CommonModule, FormsModule],
+  imports: [RouterModule, CommonModule, FormsModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
@@ -67,13 +67,18 @@ export class HeaderComponent implements OnInit {
   }
 
   addFriend(receiver_id: number): void {
-
     this.authService.addFriend(receiver_id).subscribe(
       (response) => {
         console.log(response);
-
-        //     this.clearSearch();
+        this.clearSearch();
       });
+  }
+
+  gotoSearch(event: KeyboardEvent, keyword: string) {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      this.router.navigate(['/search', keyword]);
+    }
   }
 
 
