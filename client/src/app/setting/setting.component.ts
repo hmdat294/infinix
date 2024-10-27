@@ -96,7 +96,6 @@ export class SettingComponent implements OnInit {
     this.selectedFilesProfile = [file];
     
     const formData = new FormData();
-    formData.append('username', 'test');
     if (this.selectedFilesProfile.length > 0)
     formData.append('profile_photo', this.selectedFilesProfile[0], this.selectedFilesProfile[0].name);
     this.updateUser(formData);
