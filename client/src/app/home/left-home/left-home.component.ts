@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../service/auth.service';
 import { CommonModule } from '@angular/common';
 import { EventService } from '../../service/event.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-left-home',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './left-home.component.html',
   styleUrl: './left-home.component.css'
 })

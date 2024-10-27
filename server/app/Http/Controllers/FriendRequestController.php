@@ -149,11 +149,11 @@ class FriendRequestController extends Controller
     {
         $friend_request = FriendRequestModel::where('sender_id', $request->user()->id)->where('receiver_id', $user_id)->where('status', 'pending')->first();
 
-        if (!$friend_request) {
-            return response()->json([
-                'message' => 'Friend request not found.',
-            ], 404);
-        }
+        // if (!$friend_request) {
+        //     return response()->json([
+        //         'message' => 'Friend request not found.',
+        //     ], 404);
+        // }
 
         $friend_request->delete();
 

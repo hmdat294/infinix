@@ -68,9 +68,9 @@ export class AuthService {
     return this.http.patch(`${this.apiUrl}/friend-request/${request.id}`, { 'status': request.status }, { headers });
   }
 
-  removeRequest(id: number): Observable<any> {
+  cancelRequest(receiver_id: number): Observable<any> {
     const headers = this.getToken();
-    return this.http.delete(`${this.apiUrl}/friend-request/${id}`, { headers });
+    return this.http.post(`${this.apiUrl}/cancel-friend-request/${receiver_id}`, {}, { headers });
   }
 
   refuseFriend(id: number): Observable<any> {

@@ -90,6 +90,22 @@ export class FriendProfileComponent {
     });
   }
 
+  addFriend(receiver_id: number): void {
+    this.authService.addFriend(receiver_id).subscribe(
+      (response) => {
+        console.log(response);
+        this.user.is_sent_friend_request = true;
+      });
+  }
+
+  cancelRequest(receiver_id: number) {
+    this.authService.cancelRequest(receiver_id).subscribe(
+      (response) => {
+        console.log(response);
+        this.user.is_sent_friend_request = false;
+      });
+  }
+
   getPathImg(img: any) {
     return img.path;
   }
