@@ -42,4 +42,14 @@ export class ChatService {
     const headers = this.authService.getToken();
     return this.http.post(`${this.apiUrl}/chat-group`, value, { headers });
   }
+  
+  getGroup(): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.get(`${this.apiUrl}/chat-group-invititaion`, { headers });
+  }
+
+  addGroup(value: any): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.post(`${this.apiUrl}/chat-group-invititaion`, value, { headers });
+  }
 }
