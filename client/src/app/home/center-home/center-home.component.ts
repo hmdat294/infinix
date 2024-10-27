@@ -30,13 +30,14 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   spaceCheck: any = /^\s*$/;
   idDialog: number = 0;
   commentByPostId: any[] = [];
-  curentUser: any;
+  currentUser: any;
 
   constructor(
     private cdr: ChangeDetectorRef,
     private postService: PostService,
     private carouselService: CarouselService,
     private eventService: EventService,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -51,6 +52,11 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
         });
 
       });
+
+    this.authService.getUser(0).subscribe(
+      (data) => {
+        this.currentUser = data.data;
+    });
   }
 
   @ViewChild('commentInput') commentInput!: ElementRef;

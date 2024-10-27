@@ -53,6 +53,7 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
           }
         });
       });
+
   }
 
   pushFriendList(data: any) {
