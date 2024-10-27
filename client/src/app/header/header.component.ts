@@ -35,33 +35,31 @@ export class HeaderComponent implements OnInit {
 
     this.conversation = JSON.parse(localStorage.getItem('conversation') || '[]');
 
-    this.authService.getListUser().subscribe(
-      (response) => {
-        this.listUser = response.data;
-        // console.log(response);
+    // this.authService.getListUser().subscribe(
+    //   (response) => {
+    //     this.listUser = response.data;
+    //   });
 
-        this.eventService.bindEvent('App\\Events\\UserSendMessageEvent', (data: any) => {
-          console.log('Message received:', data);
+    // this.eventService.bindEvent('App\\Events\\UserSendMessageEvent', (data: any) => {
+    //   console.log('Message received:', data);
 
-          if (!this.conversation.includes(data.data.conversation_id)) {
-            this.conversation.push(data.data.conversation_id);
-            localStorage.setItem('conversation', JSON.stringify(this.conversation));
-          }
-        });
-
-      });
+    //   if (!this.conversation.includes(data.data.conversation_id)) {
+    //     this.conversation.push(data.data.conversation_id);
+    //     localStorage.setItem('conversation', JSON.stringify(this.conversation));
+    //   }
+    // });
   }
 
-  search(): void {
-    if (this.keyword && !/^\s*$/.test(this.keyword)) {
-      this.friends = this.listUser.filter((friend: any) =>
-        friend.profile.display_name.toLowerCase().includes(this.keyword.trim().toLowerCase()) || friend.email.toLowerCase().includes(this.keyword.trim().toLowerCase())
-      );
-    }
-    else {
-      this.friends = [];
-    }
-  }
+  // search(): void {
+  //   if (this.keyword && !/^\s*$/.test(this.keyword)) {
+  //     this.friends = this.listUser.filter((friend: any) =>
+  //       friend.profile.display_name.toLowerCase().includes(this.keyword.trim().toLowerCase()) || friend.email.toLowerCase().includes(this.keyword.trim().toLowerCase())
+  //     );
+  //   }
+  //   else {
+  //     this.friends = [];
+  //   }
+  // }
 
   clearSearch() {
     this.keyword = '';

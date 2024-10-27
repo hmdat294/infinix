@@ -1,50 +1,72 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { PostService } from '../service/post.service';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../service/auth.service';
 import { FormsModule } from '@angular/forms';
-import { EventService } from '../service/event.service';
-import { CarouselService } from '../service/carousel.service';
 import moment from 'moment';
+import { AuthService } from '../service/auth.service';
+import { CarouselService } from '../service/carousel.service';
+import { EventService } from '../service/event.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-search',
+  selector: 'app-friend-profile',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
-  templateUrl: './search.component.html',
-  styleUrl: './search.component.css'
+  imports: [FormsModule, CommonModule],
+  templateUrl: './friend-profile.component.html',
+  styleUrl: './friend-profile.component.css'
 })
-export class SearchComponent implements OnInit, AfterViewInit {
+export class FriendProfileComponent {
 
-  valueSearchPosts: any[] = [];
-  valueSearchUsers: any[] = [];
   selectedFilesComment: File[] = [];
   previewCommentImages: string[] = [];
+  listPost: any[] = [];
   fileComment: any;
+  showPoll: boolean = false;
+  poll_input: any[] = [];
+  spaceCheck: any = /^\s*$/;
   idDialog: number = 0;
   commentByPostId: any[] = [];
-  spaceCheck: any = /^\s*$/;
-  keyword: string = '';
-  tabActive: string = '';
+  user: any;
 
   constructor(
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef,
-    private authService: AuthService,
     private postService: PostService,
     private carouselService: CarouselService,
-    private eventService: EventService
+    private eventService: EventService,
+    private authService: AuthService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      this.keyword = params['keyword'];
-      console.log(this.keyword);
+      const user_id = params['user_id'];
 
-      this.search(this.keyword);
+      if (user_id > 0) {
+        this.authService.getUser(user_id).subscribe(
+          (response) => {
+            this.user = response.data;
+            console.log(this.user);
+
+          });
+
+        this.postService.getPostByUser(user_id).subscribe(
+          (data) => {
+            this.listPost = data.data;
+            console.log(this.listPost);
+
+            this.eventService.bindEvent('App\\Events\\UserPostEvent', (data: any) => {
+              console.log('Post event:', data);
+              this.listPost.unshift(data.data);
+            });
+          });
+      }
+      else this.router.navigate(['/profile']);
+
 
     });
+
+
   }
 
   @ViewChild('commentInput') commentInput!: ElementRef;
@@ -68,6 +90,10 @@ export class SearchComponent implements OnInit, AfterViewInit {
     });
   }
 
+  getPathImg(img: any) {
+    return img.path;
+  }
+
   toggleDialog(post_id: number) {
     this.idDialog = post_id;
 
@@ -84,13 +110,13 @@ export class SearchComponent implements OnInit, AfterViewInit {
           this.eventService.setPostId(post_id);
 
           this.eventService.bindEvent('App\\Events\\UserCommentPostEvent', (data: any) => {
-            this.valueSearchPosts.find(item => item.id === data.data.post.id).comments_count = data.comments_count;
+            this.listPost.find(item => item.id === data.data.post.id).comments_count = data.comments_count;
             this.getCommentByPostId(data.data.post.id).unshift(data.data);
             console.log('Comment event:', data);
           });
 
           this.eventService.bindEvent('App\\Events\\UserLikePostEvent', (data: any) => {
-            this.valueSearchUsers.find(item => item.id === data.data.id).likes_count = data.likes_count;
+            this.listPost.find(item => item.id === data.data.id).likes_count = data.likes_count;
             console.log('Like event:', data);
           });
 
@@ -101,71 +127,11 @@ export class SearchComponent implements OnInit, AfterViewInit {
     this.initCarousels();
   }
 
-  search(keyword: string = this.keyword) {
-    this.postService.getSearch(keyword).subscribe(
-      (response) => {
-        console.log(response);
-        this.valueSearchPosts = response.posts;
-        this.valueSearchUsers = response.users;
-        this.tabActive = 'all';
-      }
-    )
+  getCommentByPostId(post_id: number) {
+    return this.commentByPostId[post_id];
   }
-
-  searchUser(keyword: string = this.keyword) {
-    this.postService.getSearchUser(keyword).subscribe(
-      (response) => {
-        console.log(response);
-        this.valueSearchPosts = [];
-        this.valueSearchUsers = response.data;
-        this.tabActive = 'user';
-      }
-    )
-  }
-
-  searchPost(keyword: string = this.keyword) {
-    this.postService.getSearchPost(keyword).subscribe(
-      (response) => {
-        console.log(response);
-        this.valueSearchPosts = response.data;
-        this.valueSearchUsers = [];
-        this.tabActive = 'post';
-      }
-    )
-  }
-
-  addFriend(receiver_id: number): void {
-    this.authService.addFriend(receiver_id).subscribe(
-      (response) => {
-        console.log(response);
-      });
-  }
-
-  //show post
-
-  getCommentByPostId(postId: number) {
-    return this.commentByPostId[postId];
-  }
-
-  formatTime(dateString: string): string {
-    const givenTime = moment(dateString);
-    const currentTime = moment();
-    const diffInHours = currentTime.diff(givenTime, 'hours');
-    const diffInMinutes = currentTime.diff(givenTime, 'minutes');
-
-    if (diffInHours >= 12) return givenTime.format('YYYY-MM-DD');
-    else if (diffInMinutes < 60) return `${diffInMinutes} phút trước`;
-    else return `${diffInHours} giờ trước`;
-  }
-
-  getPathImg(img: any) {
-    return img.path;
-  }
-
-
 
   postComment(value: any) {
-
     const formData = new FormData();
     formData.append('content', value.content);
     formData.append('post_id', value.post_id);
@@ -185,7 +151,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
   likePost(post_id: number) {
     this.postService.likePost(post_id).subscribe(
       (response) => {
-        const post = this.valueSearchPosts.find(item => item.id === post_id);
+        const post = this.listPost.find(item => item.id === post_id);
         if (response.liked) post.likes_count++;
         else post.likes_count--;
         post.liked = response.liked;
@@ -195,10 +161,17 @@ export class SearchComponent implements OnInit, AfterViewInit {
     )
   }
 
-  removeCommentImage(): void {
-    this.previewCommentImages = [];
-    this.selectedFilesComment = [];
-    if (this.fileComment) this.fileComment.nativeElement.value = '';
+  showPolls() {
+    this.showPoll = (this.showPoll == false) ? true : false;
+    this.poll_input = [];
+  }
+
+  removeChoice(index: number): void {
+    this.poll_input.splice(index, 1);
+  }
+
+  trackByFn(index: number, item: string) {
+    return index;
   }
 
   onFileCommentSelected(event: any) {
@@ -211,4 +184,21 @@ export class SearchComponent implements OnInit, AfterViewInit {
     reader.readAsDataURL(file);
     this.selectedFilesComment = [file];
   }
+  removeCommentImage(): void {
+    this.previewCommentImages = [];
+    this.selectedFilesComment = [];
+    if (this.fileComment) this.fileComment.nativeElement.value = '';
+  }
+
+  formatTime(dateString: string): string {
+    const givenTime = moment(dateString);
+    const currentTime = moment();
+    const diffInHours = currentTime.diff(givenTime, 'hours');
+    const diffInMinutes = currentTime.diff(givenTime, 'minutes');
+
+    if (diffInHours >= 12) return givenTime.format('YYYY-MM-DD');
+    else if (diffInMinutes < 60) return `${diffInMinutes} phút trước`;
+    else return `${diffInHours} giờ trước`;
+  }
+
 }

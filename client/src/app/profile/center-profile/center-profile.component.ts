@@ -6,6 +6,7 @@ import moment from 'moment';
 import { AuthService } from '../../service/auth.service';
 import { CarouselService } from '../../service/carousel.service';
 import { EventService } from '../../service/event.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-center-profile',
@@ -19,8 +20,11 @@ export class CenterProfileComponent implements OnInit {
   content: string = '';
   selectedFilesPost: File[] = [];
   previewPostImages: string[] = [];
+  selectedFilesComment: File[] = [];
+  previewCommentImages: string[] = [];
   listPost: any[] = [];
   filePost: any;
+  fileComment: any;
   showPoll: boolean = false;
   poll_input: any[] = [];
   spaceCheck: any = /^\s*$/;
@@ -28,50 +32,27 @@ export class CenterProfileComponent implements OnInit {
   commentByPostId: any[] = [];
 
   constructor(
-    private cdr: ChangeDetectorRef, 
-    private postService: PostService, 
-    private carouselService: CarouselService, 
-    private authService: AuthService,
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef,
+    private postService: PostService,
+    private carouselService: CarouselService,
     private eventService: EventService,
   ) { }
 
   ngOnInit(): void {
+
     this.postService.getPostByUser(0).subscribe(
       (data) => {
         this.listPost = data.data;
-        // console.log(this.listPost);
+        console.log(this.listPost);
 
         this.eventService.bindEvent('App\\Events\\UserPostEvent', (data: any) => {
           console.log('Post event:', data);
           this.listPost.unshift(data.data);
         });
 
-        this.eventService.bindEvent('App\\Events\\UserCommentPostEvent', (data: any) => {
-          const post = this.listPost.find(item => item.id === data.data.post.id);
-          post.comments_count = data.comment_count;
-
-          this.authService.getUser(0).subscribe(
-            (user) => {
-              if (user.data.id == data.user_comment.id && !this.getCommentByPostId(data.data.post.id)) {
-                this.getComment(data.data.post.id);
-                this.commentInput.nativeElement.value = '';
-              }
-              else
-                this.getCommentByPostId(data.data.post.id).unshift(data.data);
-            }
-          )
-
-          console.log('Comment event:', data);
-        });
-
-        this.eventService.bindEvent('App\\Events\\UserLikePostEvent', (data: any) => {
-          const post = this.listPost.find(item => item.id === data.data.id);
-          post.likes_count = data.like_count;
-
-          console.log('Like event:', data);
-
-        });
       });
+
   }
 
   @ViewChild('commentInput') commentInput!: ElementRef;
@@ -99,28 +80,44 @@ export class CenterProfileComponent implements OnInit {
     return img.path;
   }
 
-  toggleDialog(id: number) {
-    this.idDialog = id;
-    // if (!this.commentByPostId[post_id]) {
-    //   this.postService.getComment(post_id).subscribe(
-    //     (response) => {
-    //       this.commentByPostId[post_id] = response.data;
-    //     })
-    // }
-    // else {
-    //   this.commentByPostId[post_id] = null;
-    // }
+  toggleDialog(post_id: number) {
+    this.idDialog = post_id;
+
     if (this.idDialog == 0) {
-      this.commentByPostId[id] = null;
-    } else {
-      this.postService.getComment(id).subscribe(
-        (response) => {
-          this.commentByPostId[id] = response.data;
-        });
+      this.commentByPostId[post_id] = null;
     }
+    else {
+      this.postService.getComment(post_id).subscribe(
+        (response) => {
+          console.log(response);
+
+          this.commentByPostId[post_id] = response.data;
+
+          this.eventService.setPostId(post_id);
+
+          this.eventService.bindEvent('App\\Events\\UserCommentPostEvent', (data: any) => {
+            this.listPost.find(item => item.id === data.data.post.id).comments_count = data.comments_count;
+            this.getCommentByPostId(data.data.post.id).unshift(data.data);
+            console.log('Comment event:', data);
+          });
+
+          this.eventService.bindEvent('App\\Events\\UserLikePostEvent', (data: any) => {
+            this.listPost.find(item => item.id === data.data.id).likes_count = data.likes_count;
+            console.log('Like event:', data);
+          });
+
+        })
+    }
+
     this.cdr.detectChanges();
     this.initCarousels();
   }
+
+
+  getCommentByPostId(post_id: number) {
+    return this.commentByPostId[post_id];
+  }
+
 
   post(value: any) {
 
@@ -149,26 +146,22 @@ export class CenterProfileComponent implements OnInit {
     }
   }
 
-  getComment(post_id: number): any {
-    if (!this.commentByPostId[post_id]) {
-      this.postService.getComment(post_id).subscribe(
-        (response) => {
-          this.commentByPostId[post_id] = response.data;
-        })
-    }
-    else {
-      this.commentByPostId[post_id] = null;
-    }
-  }
 
-  getCommentByPostId(post_id: number) {
-    return this.commentByPostId[post_id];
-  }
 
   postComment(value: any) {
-    this.postService.postComment(value.value).subscribe(
+
+    const formData = new FormData();
+    formData.append('content', value.content);
+    formData.append('post_id', value.post_id);
+
+    if (this.selectedFilesComment.length > 0)
+      formData.append('media', this.selectedFilesComment[0], this.selectedFilesComment[0].name);
+
+    this.postService.postComment(formData).subscribe(
       (response) => {
         console.log(response);
+        this.commentInput.nativeElement.value = '';
+        this.removeCommentImage();
       }
     )
   }
@@ -176,6 +169,11 @@ export class CenterProfileComponent implements OnInit {
   likePost(post_id: number) {
     this.postService.likePost(post_id).subscribe(
       (response) => {
+        const post = this.listPost.find(item => item.id === post_id);
+        if (response.liked) post.likes_count++;
+        else post.likes_count--;
+        post.liked = response.liked;
+
         console.log(response);
       }
     )
@@ -210,6 +208,17 @@ export class CenterProfileComponent implements OnInit {
     }
   }
 
+  onFileCommentSelected(event: any) {
+    const files: File[] = Array.from(event.target.files);
+    console.log(files);
+
+    const file = files[0];
+    const reader = new FileReader();
+    reader.onload = e => this.previewCommentImages = [reader.result as string];
+    reader.readAsDataURL(file);
+    this.selectedFilesComment = [file];
+  }
+
   onCancelPostImg() {
     this.selectedFilesPost = [];
     this.previewPostImages = [];
@@ -219,6 +228,12 @@ export class CenterProfileComponent implements OnInit {
   removePostImage(index: number): void {
     this.previewPostImages.splice(index, 1);
     this.selectedFilesPost.splice(index, 1);
+  }
+
+  removeCommentImage(): void {
+    this.previewCommentImages = [];
+    this.selectedFilesComment = [];
+    if (this.fileComment) this.fileComment.nativeElement.value = '';
   }
 
   formatTime(dateString: string): string {

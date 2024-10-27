@@ -46,25 +46,27 @@
             </div>
         </div>
         <div class="w-fill-column-6 h-fill pt-20">
-            <div class="w-fill h-fill layout-vertical gap-20 overflow-scroll-vertical pt-20" id="all">
+            <div class="w-fill h-fill layout-vertical gap-20 overflow-scroll-vertical py-20" id="all">
                 <div *ngIf="tabActive != 'post'"
                     class="layout-vertical w-fill p-10 gap-10 rounded-8 border border-card-default card-background-default">
                     <p class="text-subtitle text-primary">Người dùng</p>
 
                     <div *ngIf="valueSearchUsers.length>0">
 
-                        <div *ngFor="let user of valueSearchUsers"
-                            class="list-item layout-horizontal align-center-left gap-10">
-                            <img class="rounded-circle border border-card-default" src="assets/image/profile-photo.png"
-                                alt="" style="width: 45px; height: 45px;">
-                            <div class="layout-vertical w-fill">
-                                <p class="text-body-strong text-primary">{{user.profile.display_name}}</p>
-                                <p class="text-caption text-secondary">{{user.email}}</p>
-                            </div>
-                            <button type="button" class="button-accent button-text-only" (click)="addFriend(user.id)">
-                                Thêm bạn bè
-                                <!-- <i class="icon-size-24 icon text-primary icon-ic_fluent_more_24_regular"></i> -->
-                            </button>
+                        <div *ngFor="let user of valueSearchUsers">
+                            <a [routerLink]="['/friend-profile', user.id]" class="layout-horizontal align-center-left gap-10 list-item">
+                                <img class="rounded-circle border border-card-default"
+                                    src="assets/image/profile-photo.png" alt="" style="width: 45px; height: 45px;">
+                                <div class="layout-vertical w-fill">
+                                    <p class="text-body-strong text-primary">{{user.profile.display_name}}</p>
+                                    <p class="text-caption text-secondary">{{user.email}}</p>
+                                </div>
+                                <button type="button" class="button-accent button-text-only"
+                                    (click)="addFriend(user.id)">
+                                    Thêm bạn bè
+                                    <!-- <i class="icon-size-24 icon text-primary icon-ic_fluent_more_24_regular"></i> -->
+                                </button>
+                            </a>
                         </div>
 
                     </div>
@@ -355,7 +357,7 @@
                     </div>
 
                     <button *ngIf="valueSearchPosts.length > 0 && tabActive == 'all'" (click)="searchPost()"
-                        class="button-subtle button-text-with-icon w-fill">
+                        class="button-standard button-text-with-icon w-fill">
                         Xem thêm
                         <i class="icon-size-16 icon text-primary icon-ic_fluent_arrow_right_16_regular"></i>
                     </button>
