@@ -35,7 +35,7 @@ class FriendRequestController extends Controller
      * @response 200 : Chi tiết lời mời kết bạn
      * @response 404 : Lời mời kết bạn không tồn tại
      * 
-     * @return JsonResponse
+     * @return FriendRequestResource
      */
     public function show(string $id)
     {
@@ -47,7 +47,7 @@ class FriendRequestController extends Controller
             ], 404);
         }
 
-        return response()->json(FriendRequestResource::collection($friend_request));
+        return new FriendRequestResource($friend_request);
     }
 
 
@@ -61,7 +61,7 @@ class FriendRequestController extends Controller
      * @response 400 : Lời mời kết bạn đã được gửi trước đó (đã tồn tại và status = pending)
      * @response 404 : Người nhận không tồn tại
      * 
-     * @return JsonResponse
+     * @return FriendRequestResource
      */
     public function store(Request $request)
     {
@@ -83,16 +83,14 @@ class FriendRequestController extends Controller
             ]); //status: 400
         }
 
-        FriendRequestModel::create([
+        $friend_request = FriendRequestModel::create([
             'sender_id' => $request->user()->id,
             'receiver_id' => $request->receiver_id,
         ]);
 
         event(new FriendRequestEvent($request->user()->id, $request->receiver_id, 'pending'));
 
-        return response()->json([
-            'message' => 'Friend request sent.',
-        ], 200);
+        return new FriendRequestResource($friend_request);
     }
 
 
@@ -107,7 +105,7 @@ class FriendRequestController extends Controller
      * @response 400 : Trạng thái không hợp lệ
      * @response 404 : Lời mời kết bạn không tồn tại
      * 
-     * @return JsonResponse
+     * @return FriendRequestResource
      */
     public function update(Request $request, string $id)
     {
@@ -129,7 +127,7 @@ class FriendRequestController extends Controller
             ], 400);
         }
 
-        FriendRequestModel::find($id)->update([
+        $friend_request = FriendRequestModel::find($id)->update([
             'status' => $request->status,
         ]);
 
@@ -144,8 +142,6 @@ class FriendRequestController extends Controller
             event(new FriendRequestEvent(FriendRequestModel::find($id)->sender_id, FriendRequestModel::find($id)->receiver_id, 'rejected'));
         }
 
-        return response()->json([
-            'message' => $request->status === 'accepted' ? 'Friend request accepted.' : 'Friend request rejected.',
-        ], 200);
+        return new FriendRequestResource($friend_request);
     }
 }

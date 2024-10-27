@@ -25,6 +25,7 @@ class UserTableSeeder extends Seeder
             ProfileModel::create([
                 'user_id' => $user->id,
                 'display_name' => 'User ' . $i,
+                
             ]);
 
             $user->permissions()->attach(PermissionModel::where('name', '!=', 'can_access_dashboard')->pluck('id')->toArray());
