@@ -108,6 +108,10 @@ export class SearchComponent implements OnInit, AfterViewInit {
         this.valueSearchPosts = response.posts;
         this.valueSearchUsers = response.users;
         this.tabActive = 'all';
+
+        this.eventService.bindEvent('App\\Events\\FriendRequestEvent', (data: any) => {
+          console.log('Friend request event:', data);
+        });
       }
     )
   }
@@ -138,7 +142,16 @@ export class SearchComponent implements OnInit, AfterViewInit {
     this.authService.addFriend(receiver_id).subscribe(
       (response) => {
         console.log(response);
+        this.valueSearchUsers.find(item => item.id === receiver_id).is_sent_friend_request = true;
       });
+  }
+
+  removeRequest(id: number) {
+    this.authService.removeRequest(id).subscribe(
+      (response) => {
+        console.log(response);
+      }
+    );
   }
 
   //show post

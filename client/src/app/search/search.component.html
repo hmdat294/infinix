@@ -54,19 +54,26 @@
                     <div *ngIf="valueSearchUsers.length>0">
 
                         <div *ngFor="let user of valueSearchUsers">
-                            <a [routerLink]="['/friend-profile', user.id]" class="layout-horizontal align-center-left gap-10 list-item">
-                                <img class="rounded-circle border border-card-default"
+                            <div class="layout-horizontal align-center-left gap-10 list-item">
+                                <a class="layout-horizontal align-center-left gap-10 w-fill" [routerLink]="['/friend-profile', user.id]">
+                                    <img class="rounded-circle border border-card-default"
                                     src="assets/image/profile-photo.png" alt="" style="width: 45px; height: 45px;">
-                                <div class="layout-vertical w-fill">
-                                    <p class="text-body-strong text-primary">{{user.profile.display_name}}</p>
-                                    <p class="text-caption text-secondary">{{user.email}}</p>
-                                </div>
-                                <button type="button" class="button-accent button-text-only"
-                                    (click)="addFriend(user.id)">
-                                    Thêm bạn bè
-                                    <!-- <i class="icon-size-24 icon text-primary icon-ic_fluent_more_24_regular"></i> -->
+                                    <div class="layout-vertical w-fill">
+                                        <p class="text-body-strong text-primary">{{user.profile.display_name}}</p>
+                                        <p class="text-caption text-secondary">{{user.email}}</p>
+                                    </div>
+                                </a>
+                                    
+                                <button *ngIf="!user.is_friend && !user.is_sent_friend_request" type="button"
+                                    class="button-accent button-text-only" (click)="addFriend(user.id)">Thêm bạn bè
                                 </button>
-                            </a>
+                                <button *ngIf="!user.is_friend && user.is_sent_friend_request" type="button"
+                                    class="button-standard button-text-only">Hủy yêu cầu
+                                </button>
+                                <button *ngIf="user.is_friend" type="button"
+                                    class="button-standard button-text-only">Hủy kết bạn
+                                </button>
+                            </div>
                         </div>
 
                     </div>

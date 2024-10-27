@@ -6,11 +6,12 @@ import moment from 'moment';
 import { CarouselService } from '../../service/carousel.service';
 import { AuthService } from '../../service/auth.service';
 import { EventService } from '../../service/event.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-center-home',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, RouterModule],
   templateUrl: './center-home.component.html',
   styleUrl: './center-home.component.css'
 })

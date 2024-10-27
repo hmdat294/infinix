@@ -83,11 +83,13 @@
     class="layout-vertical gap-20 pt-20 ps-20 pe-20 pb-10 card-background-default border border-card-default rounded-8">
 
     <div class="layout-horizontal gap-20">
-        <img src="assets/image/avatar.png" alt="" style="width: 35px; height: 35px;">
-        <div class="layout-vertical w-fill">
-            <p class="text-body-strong text-primary">{{post.profile.display_name}}</p>
-            <p class="text-body text-secondary">{{formatTime(post.created_at)}}</p>
-        </div>
+        <a [routerLink]="['/friend-profile', post.profile.user_id]" class="layout-horizontal gap-20 w-fill">
+            <img src="assets/image/avatar.png" alt="" style="width: 35px; height: 35px;">
+            <div class="layout-vertical w-fill">
+                <p class="text-body-strong text-primary">{{post.profile.display_name}}</p>
+                <p class="text-body text-secondary">{{formatTime(post.created_at)}}</p>
+            </div>
+        </a>
         <button type="button" class="button-subtle button-icon-only">
             <i class="icon-size-24 icon icon-ic_fluent_more_horizontal_24_filled"></i>
         </button>
