@@ -120,4 +120,20 @@ class AuthController extends Controller
             'message' => 'Logout successful.',
         ], 200);
     }
+
+    public function changePassword(Request $request)
+    {
+        $user = User::find($request->user()->id);
+        if (!Hash::check($request->old_password, $user->password)) {
+            return response()->json([
+                'message' => 'Mật khẩu cũ không chính xác!',
+            ]); //status: 422
+        }
+
+        $user->update(['password' => Hash::make($request->new_password)]);
+
+        return response()->json([
+            'message' => 'Đổi mật khẩu thành công!',
+        ]); //status: 200
+    }
 }

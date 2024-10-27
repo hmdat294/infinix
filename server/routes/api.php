@@ -44,6 +44,7 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
 
     // Đăng xuất
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+    Route::post('change-password', [AuthController::class, 'changePassword'])->name('change-password');
 
     // API cho Lời mời kết bạn
     Route::resource('friend-request', FriendRequestController::class)
