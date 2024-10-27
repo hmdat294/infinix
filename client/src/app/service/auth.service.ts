@@ -20,9 +20,9 @@ export class AuthService {
     return this.http.get(`${this.apiUrl}/user/${(id >= 0) ? id : ''}`, { headers });
   }
 
-  updateUser(id: number, value: any): Observable<any> {
+  updateUser(data: any): Observable<any> {
     const headers = this.getToken();
-    return this.http.patch(`${this.apiUrl}/user/${id}`, value, { headers });
+    return this.http.post(`${this.apiUrl}/update-user`, data, { headers });
   }
 
   updatePassword(value: any): Observable<any> {

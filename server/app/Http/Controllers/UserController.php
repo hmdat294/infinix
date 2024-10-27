@@ -52,9 +52,9 @@ class UserController extends Controller
         return new UserResource(UserModel::find($id == 0 ? request()->user()->id : $id));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $user = UserModel::find($id);
+        $user = UserModel::find($request->user()->id);
         $user->update($request->only(['username', 'email', 'password', 'theme', 'language', 'phone_number']));
         $user->profile->update($request->only(['display_name', 'biography', 'date_of_birth', 'address', 'gender']));
         
