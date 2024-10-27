@@ -34,7 +34,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   id_message: number = 0;
 
   isScrollingToElement: boolean = false;
-  isVisible = true;
+  isVisible = false;
   showBoxSearch = false;
   showBoxSearchUser = false;
 
