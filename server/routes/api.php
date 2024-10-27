@@ -44,6 +44,7 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
 
     // Đăng xuất
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+    Route::post('change-password', [AuthController::class, 'changePassword'])->name('change-password');
 
     // API cho Lời mời kết bạn
     Route::resource('friend-request', FriendRequestController::class)
@@ -116,14 +117,29 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
         return UserResource::collection($request->user()->friendsOf->concat($request->user()->friendsOfMine));
     });
 
+    Route::get('/user/{user_id}/friends', function (Request $request, $user_id) {
+        $user = UserModel::findOrFail($user_id);
+        return UserResource::collection($user->friendsOf->concat($user->friendsOfMine));
+    });
+
     // Lấy danh sách người theo dõi user
     Route::get('/get-followers', function (Request $request) {
         return UserResource::collection($request->user()->followers);
     });
 
+    Route::get('/user/{user_id}/followers', function (Request $request, $user_id) {
+        $user = UserModel::findOrFail($user_id);
+        return UserResource::collection($user->followers);
+    });
+
     // Lấy danh sách người user đang theo dõi
     Route::get('/get-following', function (Request $request) {
         return UserResource::collection($request->user()->followings);
+    });
+
+    Route::get('/user/{user_id}/following', function (Request $request, $user_id) {
+        $user = UserModel::findOrFail($user_id);
+        return UserResource::collection($user->followings);
     });
 
     // Bình chọn cho một bài viết có poll (theo poll_option_id)

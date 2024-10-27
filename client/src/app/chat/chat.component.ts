@@ -73,7 +73,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
         console.log(this.friends);
 
 
-        this.MessageUser(this.friends[0].id, this.friends[0].is_group);
+        this.MessageUser(this.friends[0]);
 
         this.eventService.bindEvent('App\\Events\\UserSendMessageEvent', (data: any) => {
 
@@ -164,12 +164,14 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     return this.conversation.messages[i + 1].user_id !== id;
   }
 
-  MessageUser(id: number, is_group: number) {
+  MessageUser(conversation: any) {
 
-    console.log(id, is_group);
+    if (conversation.is_group == 0) {
+      // conversation có users là 2 người nên lấy id của người còn lại
+      const receiver_id = conversation.users.find((user: any) => user.id !== this.user.id).id;
 
-    if (is_group == 0) {
-      this.chatService.getMessageUser(id).subscribe(
+
+      this.chatService.getMessageUser(receiver_id).subscribe(
         (data: any) => {
           this.conversation = data.data;
           console.log(this.conversation);
@@ -177,7 +179,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
           (document.querySelector('.textarea-chat') as HTMLTextAreaElement).focus();
         });
     } else {
-      this.chatService.getMessageGroup(id).subscribe(
+      this.chatService.getMessageGroup(conversation.id).subscribe(
         (data: any) => {
           this.conversation = data.data;
           // console.log(this.conversation);
