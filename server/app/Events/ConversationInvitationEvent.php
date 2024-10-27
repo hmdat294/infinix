@@ -46,7 +46,12 @@ class ConversationInvitationEvent implements ShouldBroadcast
 
     public function broadcastWith(): array
     {
+        $conversation_invitation_id = ConversationModel::where('id', $this->conversation_id)
+        ->where('sender_id', $this->sender_id)
+        ->where('receiver_id', $this->receiver_id)
+        ->first()->id;
         return [
+            'id' => $conversation_invitation_id,
             'sender' => new UserResource(UserModel::find($this->sender_id)),
             'receiver' => new UserResource(UserModel::find($this->receiver_id)),
             'status' => $this->status,
