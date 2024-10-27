@@ -1,10 +1,11 @@
-<section class="gradient-background layout-vertical pt-20" style="height: 100vh;" >
+<section class="gradient-background layout-vertical py-20" style="height: 100vh;">
     <!-- Article -->
     <article class="layout-horizontal gap-20 px-20 w-fill h-fill overflow-hidden align-top-center">
         <div class="w-fill-column-3 h-fill pt-20">
-            <div class="w-fill h-fill layout-vertical gap-10 p-10 rounded-8 border border-card-default card-background-default">
+            <div
+                class="w-fill h-fill layout-vertical gap-10 p-10 rounded-8 border border-card-default card-background-default">
                 <p class="text-subtitle text-primary">Cài đặt</p>
-                
+
                 <div class="search-dropdown-control w-fill">
                     <div class="control search-control">
                         <input type="search" placeholder="Tìm kiếm" spellcheck="false">
@@ -29,41 +30,47 @@
                 </div>
 
                 <div class="layout-vertical gap-10 w-fill">
-                    <div data-tab="general-settings" class="list-item layout-horizontal gap-10 align-center-left active">
+                    <div (click)="tab('general-settings')"
+                        class="list-item layout-horizontal gap-10 align-center-left {{tabSetting == 'general-settings' ? 'active' :''}}">
                         <i class="icon-size-20 icon text-accent-default icon-ic_fluent_settings_20_regular"></i>
                         <p class="text-body text-primary">Chung</p>
                     </div>
-                    <div data-tab="account-settings" class="list-item layout-horizontal gap-10 align-center-left">
+                    <div (click)="tab('account-settings')"
+                        class="list-item layout-horizontal gap-10 align-center-left {{tabSetting == 'account-settings' ? 'active' :''}}">
                         <i class="icon-size-20 icon text-accent-default icon-ic_fluent_person_20_regular"></i>
                         <p class="text-body text-primary">Tài khoản</p>
                     </div>
-                    <div data-tab="appearance-settings" class="list-item layout-horizontal gap-10 align-center-left">
+                    <div (click)="tab('appearance-settings')"
+                        class="list-item layout-horizontal gap-10 align-center-left {{tabSetting == 'appearance-settings' ? 'active' :''}}">
                         <i class="icon-size-20 icon text-accent-default icon-ic_fluent_tv_20_regular"></i>
                         <p class="text-body text-primary">Giao diện</p>
                     </div>
-                    <div data-tab="privacy-and-safety-settings" class="list-item layout-horizontal gap-10 align-center-left">
+                    <div class="list-item layout-horizontal gap-10 align-center-left">
                         <i class="icon-size-20 icon text-accent-default icon-ic_fluent_shield_20_regular"></i>
                         <p class="text-body text-primary">Riêng tư và an toàn</p>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="w-fill-column-6 h-fill pt-20">
+        <div class="w-fill-column-6 h-fill">
 
-            <div class="w-fill h-fill" id="general-settings">
-                <div class="w-fill h-fill layout-vertical gap-20 overflow-scroll-vertical">
+            <div class="w-fill h-fill" *ngIf="tabSetting == 'general-settings'">
+                <div class="w-fill h-fill layout-vertical gap-20 overflow-scroll-vertical py-20">
 
 
                     <div class="layout-horizontal gap-20 w-fill">
                         <div class="layout-vertical">
                             <div style="width: 230px; height: 120px;">
-                                <img class="w-fill h-fill object-fit-cover rounded-8" src="/layout/image/splash.png" alt="">
+                                <img class="w-fill h-fill object-fit-cover rounded-8" [src]="user.profile.cover_photo"
+                                    alt="">
                             </div>
-                            <img style="width: 90px; height: 90px; margin-top: -45px; margin-left: 20px;" class="border border-card-default rounded-circle" src="/layout/image/profile.png" alt="">
+                            <img style="width: 90px; height: 90px; margin-top: -45px; margin-left: 20px;"
+                                class="border border-card-default rounded-circle" [src]="user.profile.profile_photo"
+                                alt="">
                         </div>
                         <div class="layout-vertical gap-5" style="width: 300px;">
-                            <p class="text-subtitle text-primary">Châu Thành Cường</p>
-                            <p class="text-primary text-caption">Lorem ipsum dolor sit amet consectetur sum dolor sit amet.</p>
+                            <p class="text-subtitle text-primary">{{display_name || user.profile.display_name}}</p>
+                            <p class="text-primary text-caption">{{biography || user.profile.biography}}</p>
                         </div>
                     </div>
                     <div class="layout-vertical w-fill gap-20">
@@ -71,71 +78,96 @@
                         <div class="layout-vertical w-fill gap-5">
                             <p class="text-body-strong text-primary">Thông tin người dùng</p>
 
-                            <div class="accordion border border-card-default card-background-default rounded-4">
+                            <div class="accordion active border border-card-default card-background-default rounded-4">
                                 <div class="accordion-item">
-                                    <div class="accordion-header layout-horizontal gap-15 p-15 align-center-center">
-                                        <i class="icon-size-20 icon text-primary icon-ic_fluent_contact_card_20_regular"></i>
+                                    <div class="accordion-header layout-horizontal gap-15 p-15 align-center-center"
+                                        (click)="tabChild('display_name')">
+                                        <i
+                                            class="icon-size-20 icon text-primary icon-ic_fluent_contact_card_20_regular"></i>
                                         <div class="layout-vertical w-fill">
                                             <p class="text-body text-primary">Tên hiển thị</p>
-                                            <p class="text-caption text-secondary">Châu Thành Cường</p>
+                                            <p class="text-caption text-secondary">{{display_name ||
+                                                user.profile.display_name}}</p>
                                         </div>
                                         <button type="button" class="button-subtle button-icon-only">
-                                            <i class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
+                                            <i
+                                                class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
                                         </button>
                                     </div>
-                                
-                                    <div class="accordion-panel layout-vertical">
+
+                                    <div class="accordion-panel open layout-vertical" style="max-height: fit-content;"
+                                        *ngIf="tabAccordion == 'display_name'">
                                         <div class="p-15 layout-horizontal align-center-space-between">
                                             <div class="control text-control w-hug">
-                                                <input type="text" placeholder="placeholder" spellcheck="false">
+                                                <input type="text" placeholder="placeholder" spellcheck="false"
+                                                    name="display_name" [(ngModel)]="display_name">
                                             </div>
-                                            <button class="button-standard button-text-only">Lưu</button>
+
+                                            <button class="button-standard button-text-only"
+                                                (click)="updateUser({'display_name':display_name})">Lưu</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-        
-                            <div class="accordion border border-card-default card-background-default rounded-4">
+
+                            <div class="accordion active border border-card-default card-background-default rounded-4">
                                 <div class="accordion-item">
-                                    <div class="accordion-header layout-horizontal gap-15 p-15 align-center-center">
-                                        <i class="icon-size-20 icon text-primary icon-ic_fluent_calendar_date_20_regular"></i>
+                                    <div class="accordion-header layout-horizontal gap-15 p-15 align-center-center"
+                                        (click)="tabChild('date_of_birth')">
+                                        <i
+                                            class="icon-size-20 icon text-primary icon-ic_fluent_calendar_date_20_regular"></i>
                                         <div class="layout-vertical w-fill">
                                             <p class="text-body text-primary">Ngày sinh</p>
-                                            <p class="text-caption text-secondary">26/09/2004</p>
+                                            <p class="text-caption text-secondary">{{date_of_birth ||
+                                                user.profile.date_of_birth ||
+                                                'Trống'}}</p>
                                         </div>
                                         <button type="button" class="button-subtle button-icon-only">
-                                            <i class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
+                                            <i
+                                                class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
                                         </button>
                                     </div>
-                                
-                                    <div class="accordion-panel layout-vertical">
+
+                                    <div class="accordion-panel open layout-vertical" style="max-height: fit-content;"
+                                        *ngIf="tabAccordion == 'date_of_birth'">
                                         <div class="p-15 layout-horizontal align-center-space-between">
                                             <div class="control text-control w-hug">
-                                                <input type="date" placeholder="placeholder" spellcheck="false">
+                                                <input type="date" placeholder="placeholder" spellcheck="false"
+                                                    name="date_of_birth" [(ngModel)]="date_of_birth">
                                             </div>
-                                            <button class="button-standard button-text-only">Lưu</button>
+                                            <button class="button-standard button-text-only"
+                                                (click)="updateUser({'date_of_birth':date_of_birth})">Lưu</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-        
-                            <div class="accordion border border-card-default card-background-default rounded-4">
+
+                            <div class="accordion active border border-card-default card-background-default rounded-4">
                                 <div class="accordion-item">
-                                    <div class="accordion-header layout-horizontal gap-15 p-15 align-center-center">
-                                        <i class="icon-size-20 icon text-primary icon-ic_fluent_person_note_20_regular"></i>
+                                    <div class="accordion-header layout-horizontal gap-15 p-15 align-center-center"
+                                        (click)="tabChild('biography')">
+                                        <i
+                                            class="icon-size-20 icon text-primary icon-ic_fluent_person_note_20_regular"></i>
                                         <div class="layout-vertical w-fill">
                                             <p class="text-body text-primary">Tiểu sử</p>
-                                            <p class="text-caption text-secondary">Lorem ipsum dolor sit amet consectetur. Mi neque ut magna cras non quis congue sit</p>
+                                            <p class="text-caption text-secondary">{{biography || user.profile.biography
+                                                || 'Trống'}}
+                                            </p>
                                         </div>
                                         <button type="button" class="button-subtle button-icon-only">
-                                            <i class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
+                                            <i
+                                                class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
                                         </button>
                                     </div>
-                                
-                                    <div class="accordion-panel layout-vertical">
-                                        <div class="p-15 layout-horizontal align-bottom-space-between">
-                                            <textarea style="min-height: 110px;" class="control text-area-control" placeholder="placeholder" name="" id="" spellcheck="false"></textarea>
-                                            <button class="button-standard button-text-only">Lưu</button>
+
+                                    <div class="accordion-panel open layout-vertical" style="max-height: fit-content;"
+                                        *ngIf="tabAccordion == 'biography'">
+                                        <div class="p-15 layout-horizontal align-bottom-space-between gap-15">
+                                            <textarea style="min-height: 110px;" class="control text-area-control w-fill"
+                                                placeholder="placeholder" spellcheck="false" name="biography"
+                                                [(ngModel)]="biography"></textarea>
+                                            <button class="button-standard button-text-only"
+                                                (click)="updateUser({'biography':biography})">Lưu</button>
                                         </div>
                                     </div>
                                 </div>
@@ -145,21 +177,26 @@
                         <div class="layout-vertical w-fill gap-5">
                             <p class="text-body-strong text-primary">Trang cá nhân</p>
 
-                            <div class="accordion border border-card-default card-background-default rounded-4">
+                            <div class="accordion active border border-card-default card-background-default rounded-4">
                                 <div class="accordion-item">
-                                    <div class="accordion-header layout-horizontal gap-15 p-15 align-center-center">
-                                        <i class="icon-size-20 icon text-primary icon-ic_fluent_person_square_20_regular"></i>
+                                    <div class="accordion-header layout-horizontal gap-15 p-15 align-center-center"
+                                        (click)="tabChild('profile_photo')">
+                                        <i
+                                            class="icon-size-20 icon text-primary icon-ic_fluent_person_square_20_regular"></i>
                                         <div class="layout-vertical w-fill">
                                             <p class="text-body text-primary">Ảnh đại diện</p>
                                             <p class="text-caption text-secondary">Điều chỉnh ảnh đại diện của bạn</p>
                                         </div>
                                         <button type="button" class="button-subtle button-icon-only">
-                                            <i class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
+                                            <i
+                                                class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
                                         </button>
                                     </div>
-                                
-                                    <div class="accordion-panel layout-vertical">
-                                        <div class="p-15 layout-horizontal align-center-space-between border-bottom border-card-default">
+
+                                    <div class="accordion-panel open layout-vertical" style="max-height: fit-content;"
+                                        *ngIf="tabAccordion == 'profile_photo'">
+                                        <div
+                                            class="p-15 layout-horizontal align-center-space-between border-bottom border-card-default">
                                             <p class="text-body text-primary">Chụp ảnh</p>
                                             <button class="button-standard button-text-only">Mở máy ảnh</button>
                                         </div>
@@ -171,21 +208,25 @@
                                 </div>
                             </div>
 
-                            <div class="accordion border border-card-default card-background-default rounded-4">
+                            <div class="accordion active border border-card-default card-background-default rounded-4">
                                 <div class="accordion-item">
-                                    <div class="accordion-header layout-horizontal gap-15 p-15 align-center-center">
+                                    <div class="accordion-header layout-horizontal gap-15 p-15 align-center-center"
+                                        (click)="tabChild('cover_photo')">
                                         <i class="icon-size-20 icon text-primary icon-ic_fluent_image_20_regular"></i>
                                         <div class="layout-vertical w-fill">
                                             <p class="text-body text-primary">Ảnh bìa</p>
                                             <p class="text-caption text-secondary">Điều chỉnh ảnh bìa của bạn</p>
                                         </div>
                                         <button type="button" class="button-subtle button-icon-only">
-                                            <i class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
+                                            <i
+                                                class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
                                         </button>
                                     </div>
-                                
-                                    <div class="accordion-panel layout-vertical">
-                                        <div class="p-15 layout-horizontal align-center-space-between border-bottom border-card-default">
+
+                                    <div class="accordion-panel open layout-vertical" style="max-height: fit-content;"
+                                        *ngIf="tabAccordion == 'cover_photo'">
+                                        <div
+                                            class="p-15 layout-horizontal align-center-space-between border-bottom border-card-default">
                                             <p class="text-body text-primary">Chụp ảnh</p>
                                             <button class="button-standard button-text-only">Mở máy ảnh</button>
                                         </div>
@@ -201,7 +242,7 @@
                 </div>
             </div>
 
-            <div class="w-fill h-fill" id="account-settings"> 
+            <div class="w-fill h-fill" *ngIf="tabSetting == 'account-settings'">
                 <div class="w-fill h-fill layout-vertical gap-20 overflow-scroll-vertical">
 
                     <div class="layout-vertical w-fill gap-20">
@@ -209,21 +250,26 @@
                         <div class="layout-vertical w-fill gap-5">
                             <p class="text-body-strong text-primary">Thông tin tài khoản</p>
 
-                            <div class="accordion border border-card-default card-background-default rounded-4">
+                            <div class="accordion active border border-card-default card-background-default rounded-4">
                                 <div class="accordion-item">
-                                    <div class="accordion-header layout-horizontal gap-15 p-15 align-center-center">
-                                        <i class="icon-size-20 icon text-primary icon-ic_fluent_contact_card_20_regular"></i>
+                                    <div class="accordion-header layout-horizontal gap-15 p-15 align-center-center"
+                                        (click)="tabChild('display_name')">
+                                        <i
+                                            class="icon-size-20 icon text-primary icon-ic_fluent_contact_card_20_regular"></i>
                                         <div class="layout-vertical w-fill">
                                             <p class="text-body text-primary">Tên tài khoản</p>
                                             <p class="text-caption text-secondary">&#64;chick2004</p>
                                         </div>
                                         <button type="button" class="button-subtle button-icon-only">
-                                            <i class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
+                                            <i
+                                                class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
                                         </button>
                                     </div>
-                                
-                                    <div class="accordion-panel layout-vertical">
-                                        <div class="p-15 layout-horizontal align-center-space-between border-bottom border-card-default">
+
+                                    <div class="accordion-panel open layout-vertical" style="max-height: fit-content;"
+                                        *ngIf="tabAccordion == 'display_name'">
+                                        <div
+                                            class="p-15 layout-horizontal align-center-space-between border-bottom border-card-default">
                                             <div class="control text-control">
                                                 <input type="text" placeholder="placeholder" spellcheck="false">
                                             </div>
@@ -233,7 +279,8 @@
                                 </div>
                             </div>
 
-                            <div class="border border-card-default card-background-default rounded-4  layout-horizontal gap-15 p-15 align-center-center">
+                            <div
+                                class="border border-card-default card-background-default rounded-4  layout-horizontal gap-15 p-15 align-center-center">
                                 <i class="icon-size-20 icon text-primary icon-ic_fluent_key_20_regular"></i>
                                 <div class="layout-vertical w-fill">
                                     <p class="text-body text-primary">Mật khẩu</p>
@@ -244,7 +291,8 @@
                                         Đổi mật khẩu
                                     </button>
                                     <div class="dialog-panel layout" style="width: 375px;">
-                                        <div class="solid-background-senary w-fill rounded-4 p-20 gap-20 layout-vertical border border-card-default">
+                                        <div
+                                            class="solid-background-senary w-fill rounded-4 p-20 gap-20 layout-vertical border border-card-default">
                                             <p class="text-subtitle text-primary">Đổi mật khẩu</p>
                                             <div class="layout-vertical w-fill gap-5">
                                                 <p class="text-body text-primary">Mật khẩu cũ</p>
@@ -286,21 +334,25 @@
                                 </div>
                             </div>
 
-                            <div class="accordion border border-card-default card-background-default rounded-4">
+                            <div class="accordion active border border-card-default card-background-default rounded-4">
                                 <div class="accordion-item">
-                                    <div class="accordion-header layout-horizontal gap-15 p-15 align-center-center">
+                                    <div class="accordion-header layout-horizontal gap-15 p-15 align-center-center"
+                                        (click)="tabChild('display_name')">
                                         <i class="icon-size-20 icon text-primary icon-ic_fluent_mail_20_regular"></i>
                                         <div class="layout-vertical w-fill">
                                             <p class="text-body text-primary">Email</p>
                                             <p class="text-caption text-secondary">chauthanhcuong2004&#64;gmail.com</p>
                                         </div>
                                         <button type="button" class="button-subtle button-icon-only">
-                                            <i class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
+                                            <i
+                                                class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
                                         </button>
                                     </div>
-                                
-                                    <div class="accordion-panel layout-vertical">
-                                        <div class="p-15 layout-horizontal align-center-space-between border-bottom border-card-default">
+
+                                    <div class="accordion-panel open layout-vertical" style="max-height: fit-content;"
+                                        *ngIf="tabAccordion == 'display_name'">
+                                        <div
+                                            class="p-15 layout-horizontal align-center-space-between border-bottom border-card-default">
                                             <div class="control text-control">
                                                 <input type="text" placeholder="placeholder" spellcheck="false">
                                             </div>
@@ -310,21 +362,25 @@
                                 </div>
                             </div>
 
-                            <div class="accordion border border-card-default card-background-default rounded-4">
+                            <div class="accordion active border border-card-default card-background-default rounded-4">
                                 <div class="accordion-item">
-                                    <div class="accordion-header layout-horizontal gap-15 p-15 align-center-center">
+                                    <div class="accordion-header layout-horizontal gap-15 p-15 align-center-center"
+                                        (click)="tabChild('display_name')">
                                         <i class="icon-size-20 icon text-primary icon-ic_fluent_phone_20_regular"></i>
                                         <div class="layout-vertical w-fill">
                                             <p class="text-body text-primary">Số điện thoại</p>
                                             <p class="text-caption text-secondary">0123456789</p>
                                         </div>
                                         <button type="button" class="button-subtle button-icon-only">
-                                            <i class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
+                                            <i
+                                                class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
                                         </button>
                                     </div>
-                                
-                                    <div class="accordion-panel layout-vertical">
-                                        <div class="p-15 layout-horizontal align-center-space-between border-bottom border-card-default">
+
+                                    <div class="accordion-panel open layout-vertical" style="max-height: fit-content;"
+                                        *ngIf="tabAccordion == 'display_name'">
+                                        <div
+                                            class="p-15 layout-horizontal align-center-space-between border-bottom border-card-default">
                                             <div class="control text-control">
                                                 <input type="text" placeholder="placeholder" spellcheck="false">
                                             </div>
@@ -334,9 +390,9 @@
                                 </div>
                             </div>
 
-                            <!-- <div class="accordion border border-card-default card-background-default rounded-4">
+                            <!-- <div class="accordion active border border-card-default card-background-default rounded-4">
                                 <div class="accordion-item">
-                                    <div class="accordion-header layout-horizontal gap-15 p-15 align-center-center">
+                                    <div class="accordion-header layout-horizontal gap-15 p-15 align-center-center" (click)="tabChild('display_name')">
                                         <i class="icon-size-20 icon text-primary icon-ic_fluent_image_20_regular"></i>
                                         <div class="layout-vertical w-fill">
                                             <p class="text-body text-primary">Ảnh bìa</p>
@@ -347,7 +403,7 @@
                                         </button>
                                     </div>
                                 
-                                    <div class="accordion-panel layout-vertical">
+                                    <div class="accordion-panel open layout-vertical" style="max-height: fit-content;" *ngIf="tabAccordion == 'display_name'">
                                         <div class="p-15 layout-horizontal align-center-space-between border-bottom border-card-default">
                                             <p class="text-body text-primary">Chụp ảnh</p>
                                             <button class="button-standard button-text-only">Mở máy ảnh</button>
@@ -364,7 +420,7 @@
                 </div>
             </div>
 
-            <div class="w-fill h-fill" id="appearance-settings">
+            <div class="w-fill h-fill" *ngIf="tabSetting == 'appearance-settings'">
                 <div class="w-fill h-fill layout-vertical gap-20 overflow-scroll-vertical">
 
                     <div class="layout-vertical w-fill gap-20">
@@ -372,49 +428,74 @@
                         <div class="layout-vertical w-fill gap-5">
                             <p class="text-body-strong text-primary">Hiển thị</p>
 
-                            <div class="accordion border border-card-default card-background-default rounded-4">
+                            <div class="accordion active border border-card-default card-background-default rounded-4">
                                 <div class="accordion-item">
-                                    <div class="accordion-header layout-horizontal gap-15 p-15 align-center-center">
+                                    <div class="accordion-header layout-horizontal gap-15 p-15 align-center-center"
+                                        (click)="tabChild('display_name')">
                                         <i class="icon-size-20 icon text-primary icon-ic_fluent_sparkle_20_regular"></i>
                                         <div class="layout-vertical w-fill">
                                             <p class="text-body text-primary">Chủ đề</p>
                                             <p class="text-caption text-secondary">Tùy chỉnh giao diện</p>
                                         </div>
                                         <button type="button" class="button-subtle button-icon-only">
-                                            <i class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
+                                            <i
+                                                class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
                                         </button>
                                     </div>
-                                
-                                    <div class="accordion-panel layout-vertical">
+
+                                    <div class="accordion-panel open layout-vertical" style="max-height: fit-content;"
+                                        *ngIf="tabAccordion == 'display_name'">
                                         <div class="p-15 gap-15 layout-horizontal">
                                             <div class="layout-vertical gap-10" style="width: 150px;">
-                                                <div class="layout-vertical w-fill p-20 gap-20 solid-background-base border border-card-default rounded-4 align-bottom-right" data-theme="light">
+                                                <div class="layout-vertical w-fill p-20 gap-20 solid-background-base border border-card-default rounded-4 align-bottom-right"
+                                                    data-theme="light">
                                                     <div class="layout-vertical gap-10 w-fill">
-                                                        <div class="w-fill rounded-4" style="height: 3px; background-color: var(--text-secondary);"></div>
-                                                        <div class="w-fill rounded-4" style="height: 3px; background-color: var(--text-secondary);"></div>
-                                                        <div class="w-fill rounded-4" style="height: 3px; background-color: var(--text-secondary);"></div>
-                                                        <div class="w-fill rounded-4" style="height: 3px; background-color: var(--text-secondary);"></div>
+                                                        <div class="w-fill rounded-4"
+                                                            style="height: 3px; background-color: var(--text-secondary);">
+                                                        </div>
+                                                        <div class="w-fill rounded-4"
+                                                            style="height: 3px; background-color: var(--text-secondary);">
+                                                        </div>
+                                                        <div class="w-fill rounded-4"
+                                                            style="height: 3px; background-color: var(--text-secondary);">
+                                                        </div>
+                                                        <div class="w-fill rounded-4"
+                                                            style="height: 3px; background-color: var(--text-secondary);">
+                                                        </div>
                                                     </div>
-                                                    <div class="accent-default rounded-4" style="width: 30px; height: 20px;"></div>
+                                                    <div class="accent-default rounded-4"
+                                                        style="width: 30px; height: 20px;"></div>
                                                 </div>
-                                                <label class="label-radio-control"> 
-                                                    <input class="radio-control" type="radio" name="option" checked onchange='selectTheme(this, "light")'>
+                                                <label class="label-radio-control">
+                                                    <input class="radio-control" type="radio" name="option" checked
+                                                        onchange='selectTheme(this, "light")'>
                                                     <span class="text-primary">Sáng</span>
                                                 </label>
                                             </div>
 
                                             <div class="layout-vertical gap-10" style="width: 150px;">
-                                                <div class="layout-vertical w-fill p-20 gap-20 solid-background-base border border-card-default rounded-4 align-bottom-right" data-theme="dark">
+                                                <div class="layout-vertical w-fill p-20 gap-20 solid-background-base border border-card-default rounded-4 align-bottom-right"
+                                                    data-theme="dark">
                                                     <div class="layout-vertical gap-10 w-fill">
-                                                        <div class="w-fill rounded-4" style="height: 3px; background-color: var(--text-secondary);"></div>
-                                                        <div class="w-fill rounded-4" style="height: 3px; background-color: var(--text-secondary);"></div>
-                                                        <div class="w-fill rounded-4" style="height: 3px; background-color: var(--text-secondary);"></div>
-                                                        <div class="w-fill rounded-4" style="height: 3px; background-color: var(--text-secondary);"></div>
+                                                        <div class="w-fill rounded-4"
+                                                            style="height: 3px; background-color: var(--text-secondary);">
+                                                        </div>
+                                                        <div class="w-fill rounded-4"
+                                                            style="height: 3px; background-color: var(--text-secondary);">
+                                                        </div>
+                                                        <div class="w-fill rounded-4"
+                                                            style="height: 3px; background-color: var(--text-secondary);">
+                                                        </div>
+                                                        <div class="w-fill rounded-4"
+                                                            style="height: 3px; background-color: var(--text-secondary);">
+                                                        </div>
                                                     </div>
-                                                    <div class="accent-default rounded-4" style="width: 30px; height: 20px;"></div>
+                                                    <div class="accent-default rounded-4"
+                                                        style="width: 30px; height: 20px;"></div>
                                                 </div>
-                                                <label class="label-radio-control"> 
-                                                    <input class="radio-control" type="radio" name="option" onchange='selectTheme(this, "dark")'>
+                                                <label class="label-radio-control">
+                                                    <input class="radio-control" type="radio" name="option"
+                                                        onchange='selectTheme(this, "dark")'>
                                                     <span class="text-primary">Tối</span>
                                                 </label>
                                             </div>
@@ -422,8 +503,9 @@
                                     </div>
                                 </div>
                             </div>
-        
-                            <div class="border border-card-default card-background-default rounded-4 layout-horizontal gap-15 p-15 align-center-center">
+
+                            <div
+                                class="border border-card-default card-background-default rounded-4 layout-horizontal gap-15 p-15 align-center-center">
                                 <i class="icon-size-20 icon text-primary icon-ic_fluent_local_language_20_regular"></i>
                                 <div class="layout-vertical w-fill">
                                     <p class="text-body text-primary">Ngôn ngữ</p>
@@ -449,7 +531,7 @@
             </div>
         </div>
     </article>
-    <script>
+    <!-- <script>
         const tabs = document.querySelectorAll('[data-tab]');
         const panels = document.querySelectorAll('[id]');
         tabs.forEach(tab => {
@@ -474,6 +556,6 @@
                 document.documentElement.setAttribute('data-theme', theme);
             }
         }
-    </script>
-     <!-- End Article -->
+    </script> -->
+    <!-- End Article -->
 </section>
