@@ -34,19 +34,24 @@
     <div class="w-fill layout-horizontal align-center-space-between px-20 py-10">
         <p class="text-secondary text-body-strong">Bạn bè</p>
     </div>
-    <div class="layout-horizontal gap-15 px-20 py-10 border-top border-card-default align-center-center"
-        *ngFor="let friend of friends_limit">
-        <div class="user-offline" style="width: 35px; height: 35px;">
-            <img src="assets/image/avatar.png" alt="">
-        </div>
-        <p class="text-secondary text-body-strong w-fill">{{friend.profile.display_name}}</p>
+    <div class="px-20 py-10 border-top border-card-default" *ngFor="let friend of friends_limit">
+
+        <a [routerLink]="['/friend-profile', friend.profile.user_id]"
+            class="layout-horizontal align-center-center gap-15 w-fill">
+
+            <div class="" style="width: 35px; height: 35px;">
+                <img src="assets/image/avatar.png" alt="">
+            </div>
+            <p class="text-secondary text-body-strong w-fill">{{friend.profile.display_name}}</p>
+        </a>
+
     </div>
     <div class="w-fill layout-horizontal align-center-space-between px-20 py-10 border-top border-card-default">
         <a (click)="friendMore()" class="link" style="cursor: pointer;">Xem thêm</a>
     </div>
 </div>
 
-<div *ngIf="!showFriendMore"
+<!-- <div *ngIf="!showFriendMore"
     class="w-fill layout-vertical rounded-8 border border-card-default card-background-default">
     <div class="w-fill layout-horizontal align-center-space-between px-20 py-10">
         <p class="text-secondary text-body-strong">Đang theo dõi</p>
@@ -66,7 +71,7 @@
     <div class="w-fill layout-horizontal align-center-space-between px-20 py-10 border-top border-card-default">
         <a href="" class="link">Xem thêm</a>
     </div>
-</div>
+</div> -->
 
 <div *ngIf="showFriendMore" class="w-fill h-hug layout-vertical card-background-default rounded-8">
     <div class="layout-vertical gap-10 w-fill border-bottom border-card-default  p-10 gap-10">
@@ -104,16 +109,19 @@
     </div>
     <div class="w-fill h-hug layout-vertical gap-5 p-5">
         <div class="layout-horizontal list-item gap-15 px-20 py-10 align-center-center" *ngFor="let friend of friends">
-            <div class="user-offline" style="width: 35px; height: 35px;">
-                <img src="assets/image/avatar.png" alt="">
-            </div>
-            <div class="layout-vertical w-fill">
-                <p class="text-secondary text-body-strong w-fill">{{friend.profile.display_name}}</p>
-                <p class="text-caption text-tertiary">{{friend.email}}</p>
-            </div>
+            
+            <a [routerLink]="['/friend-profile', friend.profile.user_id]"
+                class="layout-horizontal align-center-center gap-15 w-fill">
+
+                <div class="" style="width: 35px; height: 35px;">
+                    <img src="assets/image/avatar.png" alt="">
+                </div>
+                <div class="layout-vertical w-fill">
+                    <p class="text-secondary text-body-strong w-fill">{{friend.profile.display_name}}</p>
+                    <p class="text-caption text-tertiary">{{friend.email}}</p>
+                </div>
+            </a>
+
         </div>
     </div>
 </div>
-
-
-

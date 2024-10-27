@@ -1,55 +1,71 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { PostService } from '../../service/post.service';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { PostService } from '../service/post.service';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import moment from 'moment';
-import { CarouselService } from '../../service/carousel.service';
-import { AuthService } from '../../service/auth.service';
-import { EventService } from '../../service/event.service';
-import { RouterModule } from '@angular/router';
+import { AuthService } from '../service/auth.service';
+import { CarouselService } from '../service/carousel.service';
+import { EventService } from '../service/event.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-center-home',
+  selector: 'app-friend-profile',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule],
-  templateUrl: './center-home.component.html',
-  styleUrl: './center-home.component.css'
+  imports: [FormsModule, CommonModule],
+  templateUrl: './friend-profile.component.html',
+  styleUrl: './friend-profile.component.css'
 })
-export class CenterHomeComponent implements OnInit, AfterViewInit {
+export class FriendProfileComponent {
 
-  content: string = '';
-  selectedFilesPost: File[] = [];
-  previewPostImages: string[] = [];
   selectedFilesComment: File[] = [];
   previewCommentImages: string[] = [];
   listPost: any[] = [];
-  filePost: any;
   fileComment: any;
   showPoll: boolean = false;
   poll_input: any[] = [];
   spaceCheck: any = /^\s*$/;
   idDialog: number = 0;
   commentByPostId: any[] = [];
+  user: any;
 
   constructor(
+    private route: ActivatedRoute,
     private cdr: ChangeDetectorRef,
     private postService: PostService,
     private carouselService: CarouselService,
     private eventService: EventService,
+    private authService: AuthService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.postService.getPost().subscribe(
-      (data) => {
-        this.listPost = data.data;
-        console.log(this.listPost);
+    this.route.params.subscribe(params => {
+      const user_id = params['user_id'];
 
-        this.eventService.bindEvent('App\\Events\\UserPostEvent', (data: any) => {
-          console.log('Post event:', data);
-          this.listPost.unshift(data.data);
-        });
+      if (user_id > 0) {
+        this.authService.getUser(user_id).subscribe(
+          (response) => {
+            this.user = response.data;
+            console.log(this.user);
 
-      });
+          });
+
+        this.postService.getPostByUser(user_id).subscribe(
+          (data) => {
+            this.listPost = data.data;
+            console.log(this.listPost);
+
+            this.eventService.bindEvent('App\\Events\\UserPostEvent', (data: any) => {
+              console.log('Post event:', data);
+              this.listPost.unshift(data.data);
+            });
+          });
+      }
+      else this.router.navigate(['/profile']);
+
+
+    });
+
 
   }
 
@@ -72,6 +88,22 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
 
       this.carouselService.initCarousel(carouselInner, nextButton, prevButton, indicators);
     });
+  }
+
+  addFriend(receiver_id: number): void {
+    this.authService.addFriend(receiver_id).subscribe(
+      (response) => {
+        console.log(response);
+        this.user.is_sent_friend_request = true;
+      });
+  }
+
+  cancelRequest(receiver_id: number) {
+    this.authService.cancelRequest(receiver_id).subscribe(
+      (response) => {
+        console.log(response);
+        this.user.is_sent_friend_request = false;
+      });
   }
 
   getPathImg(img: any) {
@@ -111,43 +143,11 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
     this.initCarousels();
   }
 
-
   getCommentByPostId(post_id: number) {
     return this.commentByPostId[post_id];
   }
 
-
-  post(value: any) {
-
-    if (value.content && !this.spaceCheck.test(value.content)) {
-      const formData = new FormData();
-      formData.append('content', value.content);
-
-      if (this.selectedFilesPost.length > 0)
-        this.selectedFilesPost.forEach(image => formData.append('medias[]', image, image.name));
-
-      if (this.poll_input.length > 0) {
-        formData.append('end_at', value.end_at);
-        formData.append('post_type', 'with_poll');
-        this.poll_input.forEach(option => formData.append('poll_option[]', option));
-      }
-
-      this.postService.postPost(formData).subscribe(
-        (response) => {
-          (document.querySelector('.textarea-post') as HTMLTextAreaElement).style.height = '32px';
-          this.content = '';
-          this.poll_input = [];
-          this.showPoll = false;
-          this.onCancelPostImg();
-          console.log(response);
-        });
-    }
-  }
-
-
-
   postComment(value: any) {
-
     const formData = new FormData();
     formData.append('content', value.content);
     formData.append('post_id', value.post_id);
@@ -182,28 +182,12 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
     this.poll_input = [];
   }
 
-  addChoice(): void {
-    this.poll_input.push('');
-  }
-
   removeChoice(index: number): void {
     this.poll_input.splice(index, 1);
   }
 
   trackByFn(index: number, item: string) {
     return index;
-  }
-
-  onFilePostSelected(event: any) {
-    const files: File[] = Array.from(event.target.files);
-    if (files && files.length > 0) {
-      files.forEach(file => {
-        const reader = new FileReader();
-        reader.onload = e => this.previewPostImages.push(reader.result as string);
-        reader.readAsDataURL(file);
-        this.selectedFilesPost.push(file);
-      });
-    }
   }
 
   onFileCommentSelected(event: any) {
@@ -216,18 +200,6 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
     reader.readAsDataURL(file);
     this.selectedFilesComment = [file];
   }
-
-  onCancelPostImg() {
-    this.selectedFilesPost = [];
-    this.previewPostImages = [];
-    if (this.filePost) this.filePost.nativeElement.value = '';
-  }
-
-  removePostImage(index: number): void {
-    this.previewPostImages.splice(index, 1);
-    this.selectedFilesPost.splice(index, 1);
-  }
-
   removeCommentImage(): void {
     this.previewCommentImages = [];
     this.selectedFilesComment = [];
@@ -245,15 +217,4 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
     else return `${diffInHours} giờ trước`;
   }
 
-  // Cập nhật height cho textarea theo content, quá 110px thì thành cuộn dọc
-  resizeTextarea(event: any): void {
-    const textarea = event.target;
-    if (textarea.scrollHeight < 110) {
-      textarea.style.height = 'fit-content';
-      textarea.style.height = textarea.scrollHeight + 'px';
-    } else {
-      textarea.style.height = '110px';
-      textarea.style.overflowY = 'auto';
-    }
-  }
 }

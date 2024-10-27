@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { PostService } from '../service/post.service';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../service/auth.service';
@@ -11,7 +11,7 @@ import moment from 'moment';
 @Component({
   selector: 'app-search',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './search.component.html',
   styleUrl: './search.component.css'
 })
@@ -108,6 +108,10 @@ export class SearchComponent implements OnInit, AfterViewInit {
         this.valueSearchPosts = response.posts;
         this.valueSearchUsers = response.users;
         this.tabActive = 'all';
+
+        this.eventService.bindEvent('App\\Events\\FriendRequestEvent', (data: any) => {
+          console.log('Friend request event:', data);
+        });
       }
     )
   }
@@ -138,6 +142,15 @@ export class SearchComponent implements OnInit, AfterViewInit {
     this.authService.addFriend(receiver_id).subscribe(
       (response) => {
         console.log(response);
+        this.valueSearchUsers.find(item => item.id === receiver_id).is_sent_friend_request = true;
+      });
+  }
+
+  cancelRequest(receiver_id: number) {
+    this.authService.cancelRequest(receiver_id).subscribe(
+      (response) => {
+        console.log(response);
+        this.valueSearchUsers.find(item => item.id === receiver_id).is_sent_friend_request = false;
       });
   }
 

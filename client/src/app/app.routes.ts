@@ -11,6 +11,7 @@ import { DashboardComponent } from './admin/dashboard/dashboard.component';
 import { UserComponent } from './admin/user/user.component';
 import { SettingComponent } from './setting/setting.component';
 import { SearchComponent } from './search/search.component';
+import { FriendProfileComponent } from './friend-profile/friend-profile.component';
 
 export const routes: Routes = [
     { path: '', component: MainHomeComponent, canActivate: [AuthGuard] },
@@ -20,6 +21,7 @@ export const routes: Routes = [
     { path: 'notification', component: NotificationComponent, canActivate: [AuthGuard] },
     { path: 'setting', component: SettingComponent, canActivate: [AuthGuard] },
     { path: 'search/:keyword', component: SearchComponent, canActivate: [AuthGuard] },
+    { path: 'friend-profile/:user_id', component: FriendProfileComponent, canActivate: [AuthGuard] },
 
     { path: 'login', component: LoginComponent, canActivate: [AuthGuard] },
     { path: 'register', component: RegisterComponent, canActivate: [AuthGuard] },

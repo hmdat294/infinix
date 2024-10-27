@@ -8,10 +8,10 @@
             <div class="w-hug show-in-mobile show-in-tablet">
                 <img src="assets/image/Logo.png" alt="">
             </div>
-            <div class="search-dropdown-control w-fill visible">
+            <div class="search-dropdown-control w-fill">
 
                 <div class="control search-control">
-                    <input (input)="search()" (keydown)="gotoSearch($event, keyword)" type="search" name="search"
+                    <input class="rounded-2" (keydown)="gotoSearch($event, keyword)" type="search" name="search"
                         [(ngModel)]="keyword" placeholder="Tìm kiếm" spellcheck="false" required>
                     <button type="button" class="input-button clear-content-button" (click)="clearSearch()">
                         <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
@@ -21,14 +21,14 @@
                     </a>
                 </div>
 
-                <div class="dropdown-menu" *ngIf="friends.length > 0 && currentRoute != 'search'">
+                <!-- <div class="dropdown-menu" *ngIf="friends.length > 0 && currentRoute != 'search'">
                     <div class="list-item layout-horizontal align-center-center" *ngFor="let friend of friends">
                         <div class="text-body w-fill">{{friend.profile.display_name}}</div>
                         <button *ngIf="!friend.is_friend" type="button"
                             class="button-accent button-text-only w-hug py-5 px-10"
                             (click)="addFriend(friend.id)">Thêm</button>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

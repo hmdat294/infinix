@@ -63,9 +63,14 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/friend-request`, { 'receiver_id': receiver_id }, { headers });
   }
 
-  acceptFriend(request:any): Observable<any> {
+  acceptFriend(request: any): Observable<any> {
     const headers = this.getToken();
     return this.http.patch(`${this.apiUrl}/friend-request/${request.id}`, { 'status': request.status }, { headers });
+  }
+
+  cancelRequest(receiver_id: number): Observable<any> {
+    const headers = this.getToken();
+    return this.http.post(`${this.apiUrl}/cancel-friend-request/${receiver_id}`, {}, { headers });
   }
 
   refuseFriend(id: number): Observable<any> {
