@@ -57,7 +57,7 @@ class UserController extends Controller
         $user = UserModel::find($id);
         $user->update($request->only(['username', 'email', 'password', 'theme', 'language', 'phone_number']));
         $user->profile->update($request->only(['display_name', 'biography', 'date_of_birth', 'address', 'gender']));
-
+        
         if ($request->has('profile_photo')) {
             $path = $request->file('profile_photo')->store('uploads', 'public');
             $user->profile->update(['profile_photo' => asset('storage/' . $path)]);

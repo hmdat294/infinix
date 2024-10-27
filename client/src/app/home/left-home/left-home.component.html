@@ -21,7 +21,7 @@
     <div class="layout-horizontal gap-15 px-20 py-10 border-top border-card-default align-center-center"
         *ngFor="let request of userRequest">
         <a [routerLink]="['/friend-profile', request.sender.profile.user_id]" class="layout-horizontal align-center-center gap-15 w-fill">
-            <img src="{{request.sender.profile.profile_photo}}" alt="" style="width: 35px; height: 35px;">
+            <img [src]="request.sender.profile.profile_photo" class="rounded-circle border border-card-default" alt="" style="width: 35px; height: 35px;">
             <p class="text-secondary text-body-strong w-fill">{{request.sender.profile.display_name}}</p>
         </a>
 
@@ -42,10 +42,13 @@
     </div>
     <div class="layout-horizontal gap-15 px-20 py-10 border-top border-card-default align-center-center"
         *ngFor="let request of groupRequest">
-        <a [routerLink]="['/friend-profile', request.sender.profile.user_id]" class="layout-horizontal align-center-center gap-15 w-fill">
-            <img src="{{request.sender.profile.display_name}}" alt="" style="width: 35px; height: 35px;">
-            <p class="text-secondary text-body-strong w-fill">{{request.sender.profile.display_name}}</p>
-        </a>
+        <div class="layout-horizontal align-center-left gap-15 w-fill">
+            <img [src]="request.sender.profile.profile_photo" class="rounded-circle border border-card-default" alt="" style="width: 35px; height: 35px;">
+            <div class="layout-vertical">
+                <p class="text-secondary text-body-strong w-fill">{{request.conversation.name}}</p>
+                <p class="text-secondary text-body w-fill">{{request.sender.profile.display_name}}</p>
+            </div>
+        </div>
 
         <button type="button" class="button-subtle button-icon-only" (click)="acceptGroupRequest(request.id, 'rejected')">
             <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_filled"></i>

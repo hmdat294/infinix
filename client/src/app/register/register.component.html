@@ -59,8 +59,11 @@
                             <input type="email" spellcheck="false" id="email" name="email" #email="ngModel" ngModel
                                 required email (input)="error = ''">
                         </div>
-                        <small style="color: red;" class="" *ngIf="email.errors?.['email']">Chưa nhập đúng định
-                            dạng</small>
+                        <p *ngIf="email.errors?.['email']" class="validation-message validation-caution text-body text-primary">
+                            <i class="icon-size-16 icon icon-ic_fluent_warning_16_filled"></i>
+                            <span class="text-body-strong">Email</span>
+                            <span>Chưa nhập đúng định dạng</span>
+                        </p>
                     </div>
 
                     <p class="text-body text-tertiary">Bạn đã có tài khoản? <a [routerLink]="['/login']"
@@ -111,9 +114,13 @@
                                 <i class="icon-size-16 icon icon-ic_fluent_eye_16_regular"></i>
                             </button>
                         </div>
-                        <small style="color: red;" class="" *ngIf="password.errors?.['minlength']">Password phải
-                            trên 8
-                            ký tự</small>
+
+                        <p *ngIf="password.errors?.['minlength']"
+                            class="validation-message validation-caution text-body text-primary">
+                            <i class="icon-size-16 icon icon-ic_fluent_warning_16_filled"></i>
+                            <span class="text-body-strong">Password</span>
+                            <span>Phải trên 8 ký tự</span>
+                        </p>
                     </div>
 
                     <div class="w-fill layout-vertical gap-5">
@@ -125,9 +132,12 @@
                                 <i class="icon-size-16 icon icon-ic_fluent_eye_16_regular"></i>
                             </button>
                         </div>
-                        <small style="color: red;" class="" *ngIf="confirm.value !== password.value">
-                            Password không khớp
-                        </small>
+                        <p *ngIf="confirm.value !== password.value"
+                            class="validation-message validation-caution text-body text-primary">
+                            <i class="icon-size-16 icon icon-ic_fluent_warning_16_filled"></i>
+                            <span class="text-body-strong">Password</span>
+                            <span>Không khớp</span>
+                        </p>
                     </div>
 
                     <div class="w-fill layout-horizontal align-center-space-between">
