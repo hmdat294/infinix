@@ -30,6 +30,7 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   spaceCheck: any = /^\s*$/;
   idDialog: number = 0;
   commentByPostId: any[] = [];
+  curentUser: any;
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -50,7 +51,6 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
         });
 
       });
-
   }
 
   @ViewChild('commentInput') commentInput!: ElementRef;

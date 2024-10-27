@@ -57,7 +57,10 @@ class ConversationInvitationController extends Controller
      */
     public function store(Request $request)
     {
-        if (ConversationInvitationModel::where('sender_id', $request->user()->id)->where('receiver_id', $request->receiver_id)->where('status', 'pending')->exists()) {
+        if (ConversationInvitationModel::where('sender_id', $request->user()->id)
+        ->where('receiver_id', $request->receiver_id)
+        ->where('conversation_id', $request->conversation_id)
+        ->where('status', 'pending')->exists()) {
             return response()->json([
                 'message' => 'Conversation invitation has been sent before.',
             ], 400);

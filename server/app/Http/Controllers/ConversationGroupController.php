@@ -42,6 +42,8 @@ class ConversationGroupController extends Controller
 
         if ($request->hasFile('image')) {
             $conversation_data['image'] = asset('storage/' . $request->file('image')->store('uploads', 'public'));
+        } else {
+            $conversation_data['image'] = asset('storage/uploads/default-profile-photo.png');
         }
 
         $conversation = ConversationModel::create($conversation_data);
