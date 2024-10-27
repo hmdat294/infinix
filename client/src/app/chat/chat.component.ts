@@ -387,6 +387,11 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     }
   }
 
+  clearSearchMessage() {
+    this.keywordSearch = '';
+    this.valueSearch = [];
+  }
+
   searchUser(): void {
     if (this.keywordSearchUser && !/^\s*$/.test(this.keywordSearchUser)) {
       this.valueSearchUser = this.listUser.filter((friend: any) =>
@@ -400,6 +405,11 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     else {
       this.valueSearchUser = [];
     }
+  }
+
+  clearSearchUser() {
+    this.keywordSearchUser = '';
+    this.valueSearchUser = [];
   }
 
   createGroup(value: any) {

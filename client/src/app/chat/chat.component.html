@@ -29,8 +29,8 @@
                     <div class="border-top" *ngFor="let friend of friends">
                         <button type="button" class="button-subtle w-fill gap-15 px-20 py-15"
                             (click)="MessageUser(friend)" style="cursor: pointer;">
-                            <img src="{{(friend.image)?friend.image:'assets/image/avatar.png'}}" alt=""
-                                style="width: 35px; height: 35px;" class="rounded-pill">
+                            <img [src]="friend.image" alt="" style="width: 35px; height: 35px;"
+                                class="rounded-circle border border-card-default">
                             <p class="text-secondary text-body-strong w-fill layout">
                                 {{
                                 (friend.is_group == 1) ? friend.name :
@@ -125,15 +125,18 @@
                 <div
                     class="h-hug w-fill layout-horizontal align-center-space-between px-20 py-15 gap-15 border-bottom border-card-default">
                     <div class="w-fill layout-horizontal gap-15 align-center-center">
-                        <img src="assets/image/avatar.png" alt="" style="width: 35px; height: 35px;">
+                        <img src="{{
+                            (conversation.is_group == 1) ? conversation.image :
+                            (conversation.users[0].id == user.id) ? conversation.users[1].profile.profile_photo :
+                            conversation.users[0].profile.profile_photo
+                            }}" class="rounded-circle border border-card-default" alt=""
+                            style="width: 35px; height: 35px;">
                         <p class="text-secondary text-body-strong w-fill">
-
                             {{
                             (conversation.is_group == 1) ? conversation.name :
                             (conversation.users[0].id == user.id) ? conversation.users[1].profile.display_name :
                             conversation.users[0].profile.display_name
                             }}
-
                         </p>
                     </div>
                     <div class="w-hug">
@@ -245,14 +248,16 @@
                                                     </div>
                                                 </div>
 
-                                                <img src="assets/image/avatar.png" alt=""
+                                                <img [src]="msg.user.profile.profile_photo"
+                                                    class="rounded-circle border border-card-default" alt=""
                                                     style="width: 35px; height: 35px;">
                                             </div>
                                         </div>
 
                                         <div class="w-fill layout align-top-left" *ngIf="(user.id != msg.user_id)">
                                             <div class="layout-horizontal gap-15 p-5">
-                                                <img src="assets/image/avatar.png" alt=""
+                                                <img [src]="msg.user.profile.profile_photo"
+                                                    class="rounded-circle border border-card-default" alt=""
                                                     style="width: 35px; height: 35px;">
                                                 <div>
                                                     <p class="text-tertiary text-caption mb-5 layout align-top-left">
@@ -441,14 +446,18 @@
                                     </div>
                                 </div>
 
-                                <img src="assets/image/avatar.png" alt="" style="width: 35px; height: 35px;">
+                                <img [src]="msg.user.profile.profile_photo"
+                                    class="rounded-circle border border-card-default" alt=""
+                                    style="width: 35px; height: 35px;">
 
                             </div>
                         </div>
 
                         <div class="w-fill layout align-top-left" *ngIf="(user.id != msg.user_id)">
                             <div class="layout-horizontal gap-15 p-20">
-                                <img src="assets/image/avatar.png" alt="" style="width: 35px; height: 35px;">
+                                <img [src]="msg.user.profile.profile_photo"
+                                    class="rounded-circle border border-card-default" alt=""
+                                    style="width: 35px; height: 35px;">
                                 <div>
                                     <p class="text-tertiary text-caption mb-5 layout align-top-left">{{
                                         msg.created_at_time }}
@@ -582,7 +591,8 @@
                         </div>
 
                         <div class="w-fill h-hug layout px-20 py-15 gap-15">
-                            <img src="assets/image/avatar.png" alt="" style="width: 35px; height: 35px;">
+                            <img [src]="user.profile.profile_photo" class="rounded-circle border border-card-default"
+                                alt="" style="width: 35px; height: 35px;">
 
                             <div class="control w-fill h-hug" style="padding: 0;">
                                 <input type="hidden" name="id" ngModel [(ngModel)]="conversation.id">
@@ -622,7 +632,12 @@
             class="{{(isVisible)?'display-flex':'display-none'}} w-fill-column-3 layout-vertical gap-20 py-20 overflow-scroll-vertical">
 
             <div class="layout-vertical card-background-default border rounded-8 align-center-center py-20">
-                <img src="assets/image/avatar.png" alt="" class="mb-15" style="width: 100px; height: 100px;">
+                <img src="{{
+                    (conversation.is_group == 1) ? conversation.image :
+                    (conversation.users[0].id == user.id) ? conversation.users[1].profile.profile_photo :
+                    conversation.users[0].profile.profile_photo
+                    }}" class="rounded-circle border border-card-default mb-15" alt=""
+                    style="width: 100px; height: 100px;">
                 <p class="text-primary text-body">Châu Thành Cường</p>
                 <p class="text-primary text-caption">Chick2004</p>
             </div>
@@ -645,7 +660,8 @@
                                 <div class="control search-control search-control-chat w-fill">
                                     <input type="search w-fill" (input)="searchUser()" [(ngModel)]="keywordSearchUser"
                                         placeholder="Tìm kiếm" spellcheck="false" required="">
-                                    <button type="button" class="input-button clear-content-button">
+                                    <button type="button" class="input-button clear-content-button"
+                                        (click)="clearSearchUser()">
                                         <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
                                     </button>
                                     <button type="button" class="input-button search-button" (click)="searchUser()">
@@ -659,7 +675,9 @@
                                         class="layout-horizontal gap-15 p-10 w-fill border-top">
                                         <div class="layout-horizontal align-center-center gap-15 w-fill">
                                             <div style="width: 35px; height: 35px;">
-                                                <img src="assets/image/avatar.png" alt="">
+                                                <img [src]="user.profile.profile_photo"
+                                                    class="rounded-circle border border-card-default"
+                                                    style="width: 35px; height: 35px;" alt="">
                                             </div>
                                             <div class="layout-vertical w-fill">
                                                 <p class="text-secondary text-body-strong w-fill">
@@ -692,7 +710,8 @@
                                 <div class="control search-control search-control-chat w-fill">
                                     <input type="search w-fill" (input)="searchMessage()" [(ngModel)]="keywordSearch"
                                         placeholder="Tìm kiếm" spellcheck="false" required="">
-                                    <button type="button" class="input-button clear-content-button">
+                                    <button type="button" class="input-button clear-content-button"
+                                        (click)="clearSearchMessage()">
                                         <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
                                     </button>
                                     <button type="button" class="input-button search-button" (click)="searchMessage()">
@@ -706,7 +725,8 @@
                                         <div style="cursor: pointer;" (click)="scrollToElement(message.id)"
                                             class="layout-horizontal align-center-left gap-15 p-15 list-item">
                                             <div>
-                                                <img src="assets/image/avatar.png" alt=""
+                                                <img [src]="message.user.profile.profile_photo"
+                                                    class="rounded-circle border border-card-default" alt=""
                                                     style="width: 35px; height: 35px;">
                                             </div>
                                             <div class="w-fill">
