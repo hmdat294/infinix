@@ -150,7 +150,8 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
     Route::get('search/{keyword}', [SearchController::class, 'all'])->name('search');
     Route::get('search-user/{keyword}', [SearchController::class, 'user'])->name('search.user');
     Route::get('search-post/{keyword}', [SearchController::class, 'post'])->name('search.post');
-
+    
+    Route::post('update-user', [UserController::class, 'update']);
 
     // thống kê
     Route::prefix('statistics')->group(function () {

@@ -13,7 +13,6 @@ import { FormsModule, NgForm } from '@angular/forms';
 export class SettingComponent implements OnInit {
 
   user: any;
-  // general-settings
   tabSetting: string = 'general-settings';
   tabAccordion: string = '';
 
@@ -59,12 +58,8 @@ export class SettingComponent implements OnInit {
     this.renderer.setAttribute(document.documentElement, 'data-theme', localStorage.getItem('theme') || currentTheme);
   }
 
-  updateUser(value: any) {
-    this.authService.updateUser(this.user.id, value).subscribe(
-      (response) => {
-        console.log(response);
-        this.tabAccordion = '';
-      })
+  checkPasswords(form: NgForm): boolean {
+    return form.controls['new_password'].value === form.controls['confirm'].value;
   }
 
   updatePassword(value: any) {
@@ -80,8 +75,12 @@ export class SettingComponent implements OnInit {
     );
   }
 
-  checkPasswords(form: NgForm): boolean {
-    return form.controls['new_password'].value === form.controls['confirm'].value;
+  updateUser(value: any) {
+    this.authService.updateUser(value).subscribe(
+      (response) => {
+        console.log(response);
+        this.tabAccordion = '';
+      })
   }
 
   fileProfile: any;
@@ -90,20 +89,19 @@ export class SettingComponent implements OnInit {
 
   onFileImageProfileSelected(event: any) {
     const files: File[] = Array.from(event.target.files);
-    console.log(files);
-
     const file = files[0];
     const reader = new FileReader();
     reader.onload = e => this.previewProfileImages = [reader.result as string];
     reader.readAsDataURL(file);
     this.selectedFilesProfile = [file];
-
+    
     const formData = new FormData();
+    formData.append('username', 'test');
     if (this.selectedFilesProfile.length > 0)
-      formData.append('profile_photo', this.selectedFilesProfile[0], this.selectedFilesProfile[0].name);
+    formData.append('profile_photo', this.selectedFilesProfile[0], this.selectedFilesProfile[0].name);
     this.updateUser(formData);
+    console.log(formData.get('profile_photo')); 
   }
-
 
   fileCover: any;
   selectedFilesCover: File[] = [];
@@ -111,8 +109,6 @@ export class SettingComponent implements OnInit {
 
   onFileImageCoverSelected(event: any) {
     const files: File[] = Array.from(event.target.files);
-    console.log(files);
-
     const file = files[0];
     const reader = new FileReader();
     reader.onload = e => this.previewCoverImages = [reader.result as string];
@@ -121,7 +117,7 @@ export class SettingComponent implements OnInit {
 
     const formData = new FormData();
     if (this.selectedFilesCover.length > 0)
-      formData.append('corver_photo', this.selectedFilesCover[0], this.selectedFilesCover[0].name);
+    formData.append('cover_photo', this.selectedFilesCover[0], this.selectedFilesCover[0].name);
     this.updateUser(formData);
   }
 
