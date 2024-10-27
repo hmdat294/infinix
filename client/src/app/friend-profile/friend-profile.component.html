@@ -1,7 +1,6 @@
 <section class="gradient-background layout-vertical" style="height: 100vh;">
     <article class="layout-horizontal gap-20 px-20 w-fill h-fill overflow-hidden align-top-center">
-        <div
-            class="w-fill-column-3 h-fill layout-vertical gap-20 py-20 overflow-scroll-vertical hide-in-tablet hide-in-mobile">
+        <div class="w-fill-column-3 h-fill layout-vertical gap-20 py-20 overflow-scroll-vertical in-tablet-w-fill in-mobile-w-fill">
 
             <div class="w-fill h-hug card-background-default border border-card-default rounded-8 layout-vertical">
                 <img src="assets/image/splash.png" alt="" class="w-fill rounded-top-8">
@@ -13,21 +12,21 @@
                         class="layout-vertical gap-5 w-fill align-center-center pb-20 border-bottom border-card-default">
                         <p class="text-primary text-subtitle">{{user.profile.display_name}}</p>
                         <p class="text-primary text-body">{{user.email}}</p>
-                        <p class="text-primary text-caption">Lorem ipsum dolor sit amet consectetur sum dolor sit amet.
+                        <p class="text-primary text-caption">{{user.biography}}
                         </p>
                     </div>
                     <div class="layout-horizontal gap-20 w-fill">
                         <div class="w-fill layout-vertical align-center-center">
                             <p class="text-secondary text-body">Bạn bè</p>
-                            <p class="text-primary text-body-strong">100</p>
+                            <p class="text-primary text-body-strong">{{user.friend_count}}</p>
                         </div>
                         <div class="w-fill layout-vertical align-center-center">
                             <p class="text-secondary text-body">Người theo dõi</p>
-                            <p class="text-primary text-body-strong">100</p>
+                            <p class="text-primary text-body-strong">{{user.follower_count}}</p>
                         </div>
                         <div class="w-fill layout-vertical align-center-center">
                             <p class="text-secondary text-body">Đang theo dõi</p>
-                            <p class="text-primary text-body-strong">100</p>
+                            <p class="text-primary text-body-strong">{{user.following_count}}</p>
                         </div>
                     </div>
                     <div class="layout-horizontal px-20 align-center-space-between w-fill">
@@ -47,8 +46,8 @@
             </div>
             <div
                 class="layout-vertical w-fill gap-20 p-20 rounded-8 card-background-default border border-card-default">
-                <div class="layout-horizontal pb-10 w-fill border-bottom border-card-default">
-                    <p class="text-body text-primary w-fill">100 phương tiện</p>
+                <div class="layout-horizontal pb-10 w-fill border-bottom border-card-default align-center-space-between">
+                    <p class="text-body text-primary">100 phương tiện</p>
                     <a href="" class="link text-nowrap">Xem thêm</a>
                 </div>
                 <div class="layout-vertical w-fill gap-10">
@@ -112,8 +111,7 @@
             </div>
 
         </div>
-        <div
-            class="w-fill-column-6 h-fill layout-vertical gap-20 py-20 overflow-scroll-vertical in-tablet-w-fill-column-8 in-mobile-w-fill">
+        <div class="w-fill-column-6 h-fill layout-vertical gap-20 py-20 overflow-scroll-vertical hide-in-tablet hide-in-mobile">
 
             <div *ngFor="let post of listPost"
                 class="layout-vertical gap-20 pt-20 ps-20 pe-20 pb-10 card-background-default border border-card-default rounded-8">
@@ -377,6 +375,9 @@
 
             </div>
 
+            <div *ngIf="listPost.length == 0" class="w-fill py-20 card-background-default border border-card-default rounded-8" >
+                <p class="text-body text-secondary text-center">Người dùng này không có bài viết nào</p>
+            </div>
         </div>
     </article>
 </section>
