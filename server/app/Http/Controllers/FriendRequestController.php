@@ -10,6 +10,7 @@ use App\Models\FriendRequest as FriendRequestModel;
 use App\Models\Relationship as RelationshipModel;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use App\Events\FriendRequestEvent;
+use App\Models\Conversation as ConversationModel;
 
 class FriendRequestController extends Controller
 {
@@ -138,6 +139,19 @@ class FriendRequestController extends Controller
                 'related_user_id' => FriendRequestModel::find($id)->receiver_id,
                 'type' => 'friend',
             ]);
+            $user_id = $request->user()->id;
+            $receiver_id = FriendRequestModel::find($id)->sender_id;
+
+            $conversation_data = ConversationModel::whereHas('users', function($query) use ($user_id) {
+                $query->where('user_id', $user_id);
+            })->whereHas('users', function($query) use ($receiver_id) {
+                $query->where('user_id', $receiver_id);
+            })->first();
+
+            if (!$conversation_data) {
+                $conversation_data = ConversationModel::create();
+                $conversation_data->users()->attach([$user_id, $receiver_id]);
+            }
         } else {
             event(new FriendRequestEvent(FriendRequestModel::find($id)->sender_id, FriendRequestModel::find($id)->receiver_id, 'rejected'));
         }
