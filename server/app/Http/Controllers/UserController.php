@@ -55,7 +55,19 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $user = UserModel::find($id);
-        $user->update($request->all());
+        $user->update($request->only(['username, email, password, theme, language, phone_number,']));
+        $user->profile->update($request->only(['display_name, biography, date_of_birth, address, gender']));
+
+        if ($request->has('profile_photo')) {
+            $path = $request->file('profile_photo')->store('uploads', 'public');
+            $user->profile->update(['profile_photo' => asset('storage/' . $path)]);
+        }
+
+        if ($request->has('cover_photo')) {
+            $path = $request->file('cover_photo')->store('uploads', 'public');
+            $user->profile->update(['cover_photo' => asset('storage/' . $path)]);
+        }
+
         return new UserResource($user);
     }
 }
