@@ -52,20 +52,22 @@
                 </div>
             </div>
         </div>
-        <div class="w-fill-column-6 h-fill">
+        <div class="w-fill-column-6 h-fill my-20">
 
             <div class="w-fill h-fill" *ngIf="tabSetting == 'general-settings'">
-                <div class="w-fill h-fill layout-vertical gap-20 overflow-scroll-vertical py-20">
+                <div class="w-fill h-fill layout-vertical gap-20 overflow-scroll-vertical">
 
 
                     <div class="layout-horizontal gap-20 w-fill">
                         <div class="layout-vertical">
                             <div style="width: 230px; height: 120px;">
-                                <img class="w-fill h-fill object-fit-cover rounded-8" [src]="user.profile.cover_photo"
+                                <img class="w-fill h-fill object-fit-cover rounded-8"
+                                    [src]="(selectedFilesCover.length > 0)?previewCoverImages:user.profile.cover_photo || 'assets/image/splash.png'"
                                     alt="">
                             </div>
                             <img style="width: 90px; height: 90px; margin-top: -45px; margin-left: 20px;"
-                                class="border border-card-default rounded-circle" [src]="user.profile.profile_photo"
+                                class="border border-card-default rounded-circle object-fit-cover"
+                                [src]="(selectedFilesProfile.length > 0)?previewProfileImages:user.profile.profile_photo"
                                 alt="">
                         </div>
                         <div class="layout-vertical gap-5" style="width: 300px;">
@@ -163,9 +165,9 @@
                                     <div class="accordion-panel open layout-vertical" style="max-height: fit-content;"
                                         *ngIf="tabAccordion == 'biography'">
                                         <div class="p-15 layout-horizontal align-bottom-space-between gap-15">
-                                            <textarea style="min-height: 110px;" class="control text-area-control w-fill"
-                                                placeholder="placeholder" spellcheck="false" name="biography"
-                                                [(ngModel)]="biography"></textarea>
+                                            <textarea style="min-height: 110px;"
+                                                class="control text-area-control w-fill" placeholder="placeholder"
+                                                spellcheck="false" name="biography" [(ngModel)]="biography"></textarea>
                                             <button class="button-standard button-text-only"
                                                 (click)="updateUser({'biography':biography})">Lưu</button>
                                         </div>
@@ -195,14 +197,19 @@
 
                                     <div class="accordion-panel open layout-vertical" style="max-height: fit-content;"
                                         *ngIf="tabAccordion == 'profile_photo'">
-                                        <div
+                                        <!-- <div
                                             class="p-15 layout-horizontal align-center-space-between border-bottom border-card-default">
                                             <p class="text-body text-primary">Chụp ảnh</p>
                                             <button class="button-standard button-text-only">Mở máy ảnh</button>
-                                        </div>
+                                        </div> -->
                                         <div class="p-15 layout-horizontal align-center-space-between">
                                             <p class="text-body text-primary">Chọn ảnh từ thiết bị</p>
-                                            <button class="button-standard button-text-only">Mở thư mục</button>
+                                            <div class="layout-horizontal gap-15">
+                                                <label class="button-standard button-text-only">Mở thư mục
+                                                    <input class="display-none" type="file" [ngModel]="fileProfile"
+                                                        (change)="onFileImageProfileSelected($event)" accept="image/*">
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -225,14 +232,19 @@
 
                                     <div class="accordion-panel open layout-vertical" style="max-height: fit-content;"
                                         *ngIf="tabAccordion == 'cover_photo'">
-                                        <div
+                                        <!-- <div
                                             class="p-15 layout-horizontal align-center-space-between border-bottom border-card-default">
                                             <p class="text-body text-primary">Chụp ảnh</p>
                                             <button class="button-standard button-text-only">Mở máy ảnh</button>
-                                        </div>
+                                        </div> -->
                                         <div class="p-15 layout-horizontal align-center-space-between">
                                             <p class="text-body text-primary">Chọn ảnh từ thiết bị</p>
-                                            <button class="button-standard button-text-only">Mở thư mục</button>
+                                            <div class="layout-horizontal gap-15">
+                                                <label class="button-standard button-text-only">Mở thư mục
+                                                    <input class="display-none" type="file" [ngModel]="fileCover"
+                                                        (change)="onFileImageCoverSelected($event)" accept="image/*">
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -253,12 +265,14 @@
                             <div class="accordion active border border-card-default card-background-default rounded-4">
                                 <div class="accordion-item">
                                     <div class="accordion-header layout-horizontal gap-15 p-15 align-center-center"
-                                        (click)="tabChild('display_name')">
+                                        (click)="tabChild('username')">
                                         <i
                                             class="icon-size-20 icon text-primary icon-ic_fluent_contact_card_20_regular"></i>
                                         <div class="layout-vertical w-fill">
                                             <p class="text-body text-primary">Tên tài khoản</p>
-                                            <p class="text-caption text-secondary">&#64;chick2004</p>
+                                            <p class="text-caption text-secondary">{{username ||
+                                                user.username ||
+                                                'Trống'}}</p>
                                         </div>
                                         <button type="button" class="button-subtle button-icon-only">
                                             <i
@@ -267,13 +281,15 @@
                                     </div>
 
                                     <div class="accordion-panel open layout-vertical" style="max-height: fit-content;"
-                                        *ngIf="tabAccordion == 'display_name'">
+                                        *ngIf="tabAccordion == 'username'">
                                         <div
                                             class="p-15 layout-horizontal align-center-space-between border-bottom border-card-default">
                                             <div class="control text-control">
-                                                <input type="text" placeholder="placeholder" spellcheck="false">
+                                                <input type="text" placeholder="placeholder" spellcheck="false"
+                                                    name="username" [(ngModel)]="username">
                                             </div>
-                                            <button class="button-standard button-text-only">Lưu</button>
+                                            <button class="button-standard button-text-only"
+                                                (click)="updateUser({'username':username})">Lưu</button>
                                         </div>
                                     </div>
                                 </div>
@@ -337,11 +353,13 @@
                             <div class="accordion active border border-card-default card-background-default rounded-4">
                                 <div class="accordion-item">
                                     <div class="accordion-header layout-horizontal gap-15 p-15 align-center-center"
-                                        (click)="tabChild('display_name')">
+                                        (click)="tabChild('email')">
                                         <i class="icon-size-20 icon text-primary icon-ic_fluent_mail_20_regular"></i>
                                         <div class="layout-vertical w-fill">
                                             <p class="text-body text-primary">Email</p>
-                                            <p class="text-caption text-secondary">chauthanhcuong2004&#64;gmail.com</p>
+                                            <p class="text-caption text-secondary">{{email ||
+                                                user.email ||
+                                                'Trống'}}</p>
                                         </div>
                                         <button type="button" class="button-subtle button-icon-only">
                                             <i
@@ -350,13 +368,15 @@
                                     </div>
 
                                     <div class="accordion-panel open layout-vertical" style="max-height: fit-content;"
-                                        *ngIf="tabAccordion == 'display_name'">
+                                        *ngIf="tabAccordion == 'email'">
                                         <div
                                             class="p-15 layout-horizontal align-center-space-between border-bottom border-card-default">
                                             <div class="control text-control">
-                                                <input type="text" placeholder="placeholder" spellcheck="false">
+                                                <input type="text" placeholder="placeholder" spellcheck="false"
+                                                    name="email" [(ngModel)]="email">
                                             </div>
-                                            <button class="button-standard button-text-only">Lưu</button>
+                                            <button class="button-standard button-text-only"
+                                                (click)="updateUser({'email':email})">Lưu</button>
                                         </div>
                                     </div>
                                 </div>
@@ -365,11 +385,13 @@
                             <div class="accordion active border border-card-default card-background-default rounded-4">
                                 <div class="accordion-item">
                                     <div class="accordion-header layout-horizontal gap-15 p-15 align-center-center"
-                                        (click)="tabChild('display_name')">
+                                        (click)="tabChild('phone_number')">
                                         <i class="icon-size-20 icon text-primary icon-ic_fluent_phone_20_regular"></i>
                                         <div class="layout-vertical w-fill">
                                             <p class="text-body text-primary">Số điện thoại</p>
-                                            <p class="text-caption text-secondary">0123456789</p>
+                                            <p class="text-caption text-secondary">{{phone_number ||
+                                                user.profile.phone_number ||
+                                                'Trống'}}</p>
                                         </div>
                                         <button type="button" class="button-subtle button-icon-only">
                                             <i
@@ -378,13 +400,15 @@
                                     </div>
 
                                     <div class="accordion-panel open layout-vertical" style="max-height: fit-content;"
-                                        *ngIf="tabAccordion == 'display_name'">
+                                        *ngIf="tabAccordion == 'phone_number'">
                                         <div
                                             class="p-15 layout-horizontal align-center-space-between border-bottom border-card-default">
                                             <div class="control text-control">
-                                                <input type="text" placeholder="placeholder" spellcheck="false">
+                                                <input type="text" placeholder="placeholder" spellcheck="false"
+                                                name="phone_number" [(ngModel)]="phone_number">
                                             </div>
-                                            <button class="button-standard button-text-only">Lưu</button>
+                                            <button class="button-standard button-text-only"
+                                            (click)="updateUser({'phone_number':phone_number})">Lưu</button>
                                         </div>
                                     </div>
                                 </div>

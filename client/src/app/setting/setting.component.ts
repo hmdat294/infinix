@@ -21,7 +21,7 @@ export class SettingComponent implements OnInit {
   password: string = '';
   theme: string = '';
   language: string = '';
-  phonenumber: string = '';
+  phone_number: string = '';
   display_name: string = '';
   biography: string = '';
   date_of_birth: string = '';
@@ -61,6 +61,48 @@ export class SettingComponent implements OnInit {
         console.log(response);
         this.tabAccordion = '';
       })
-
   }
+
+
+  fileProfile: any;
+  selectedFilesProfile: File[] = [];
+  previewProfileImages: string[] = [];
+
+  onFileImageProfileSelected(event: any) {
+    const files: File[] = Array.from(event.target.files);
+    console.log(files);
+
+    const file = files[0];
+    const reader = new FileReader();
+    reader.onload = e => this.previewProfileImages = [reader.result as string];
+    reader.readAsDataURL(file);
+    this.selectedFilesProfile = [file];
+
+    const formData = new FormData();
+    if (this.selectedFilesProfile.length > 0)
+      formData.append('profile_photo', this.selectedFilesProfile[0], this.selectedFilesProfile[0].name);
+    this.updateUser(formData);
+  }
+
+
+  fileCover: any;
+  selectedFilesCover: File[] = [];
+  previewCoverImages: string[] = [];
+
+  onFileImageCoverSelected(event: any) {
+    const files: File[] = Array.from(event.target.files);
+    console.log(files);
+
+    const file = files[0];
+    const reader = new FileReader();
+    reader.onload = e => this.previewCoverImages = [reader.result as string];
+    reader.readAsDataURL(file);
+    this.selectedFilesCover = [file];
+
+    const formData = new FormData();
+    if (this.selectedFilesCover.length > 0)
+      formData.append('corver_photo', this.selectedFilesCover[0], this.selectedFilesCover[0].name);
+    this.updateUser(formData);
+  }
+
 }
