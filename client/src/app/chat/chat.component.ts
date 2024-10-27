@@ -19,6 +19,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   friends: any;
   requestfriends: any;
   user: any;
+  listUser: any;
 
   spaceCheck: any = /^\s*$/;
 
@@ -33,11 +34,15 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   id_message: number = 0;
 
   isScrollingToElement: boolean = false;
-  isVisible = false;
+  isVisible = true;
   showBoxSearch = false;
+  showBoxSearchUser = false;
 
   keywordSearch: string = '';
   valueSearch: any = [];
+
+  keywordSearchUser: string = '';
+  valueSearchUser: any = [];
 
   idDialogChat: number = 0;
   idDialogCreateGroup: boolean = false;
@@ -67,6 +72,11 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
         this.user = response.data;
       });
 
+    this.authService.getListUser().subscribe(
+      (response) => {
+        this.listUser = response.data;
+      });
+
     this.chatService.getListChat().subscribe(
       (data: any) => {
         this.friends = data.data;
@@ -75,13 +85,23 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
         this.MessageUser(this.friends[0]);
 
         this.eventService.bindEvent('App\\Events\\UserSendMessageEvent', (data: any) => {
-
           this.isScrollingToElement = false;
-          console.log('Message received:', data);
+          console.log('Message event:', data);
+          if (this.conversation.id == data.data.conversation_id)
+            this.conversation.messages.push(data.data);
+        });
 
-          if (this.conversation.id == data.data.conversation_id) this.conversation.messages.push(data.data);
-          // if (data.is_recalled == 0) this.conversation.messages.unshift(data);
-          // else if (data.is_recalled == 1) this.conversation.messages.find((item: any) => item.id === data.id).is_recalled = data.is_recalled;
+        this.eventService.bindEvent('App\\Events\\UserRecallMessageEvent', (data: any) => {
+          console.log('Recall Message event:', data);
+          if (this.conversation.id == data.data.conversation_id)
+            this.conversation.messages.find((item: any) => item.id === data.data.id).is_recalled = data.data.is_recalled;
+        });
+
+        this.eventService.bindEvent('App\\Events\\UserEditMessageEvent', (data: any) => {
+
+          console.log('Edit Message event:', data);
+          if (this.conversation.id == data.data.conversation_id)
+            this.conversation.messages.find((item: any) => item.id === data.data.id).content = data.data.content;
 
         });
       });
@@ -101,6 +121,21 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     const search_input = panel.querySelector('.search-control-chat > input') as HTMLElement;
     search_input.addEventListener('input', () => {
       panel.style.maxHeight = (panel.classList.contains('open')) ? `${panel.scrollHeight}px` : '0px';
+    });
+
+    const accordion_user = this.el.nativeElement.querySelector('.user-accordion-header') as HTMLElement;
+    const panel_user = this.el.nativeElement.querySelector('.accordion-panel-search-user') as HTMLElement;
+
+    accordion_user.addEventListener('click', () => {
+      accordion_user.classList.toggle('active');
+      panel_user.classList.toggle('open');
+      this.showBoxSearchUser = !this.showBoxSearchUser;
+      panel_user.style.maxHeight = (panel_user.classList.contains('open')) ? `${panel_user.scrollHeight}px` : '0px';
+    });
+
+    const search_input_user = panel_user.querySelector('.search-control-user > input') as HTMLElement;
+    search_input_user.addEventListener('input', () => {
+      panel_user.style.maxHeight = (panel_user.classList.contains('open')) ? `${panel_user.scrollHeight}px` : '0px';
     });
 
   }
@@ -176,19 +211,17 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
           this.chatService.getMessageUser(receiver_id).subscribe(
             (data: any) => {
               this.conversation = data.data;
-              console.log(this.conversation);
               this.isScrollingToElement = false;
               (document.querySelector('.textarea-chat') as HTMLTextAreaElement).focus();
             });
         });
     } else {
-        this.chatService.getMessageGroup(conversation.id).subscribe(
-          (data: any) => {
-            this.conversation = data.data;
-            // console.log(this.conversation);
-            this.isScrollingToElement = false;
-            (document.querySelector('.textarea-chat') as HTMLTextAreaElement).focus();
-          });
+      this.chatService.getMessageGroup(conversation.id).subscribe(
+        (data: any) => {
+          this.conversation = data.data;
+          this.isScrollingToElement = false;
+          (document.querySelector('.textarea-chat') as HTMLTextAreaElement).focus();
+        });
     }
   }
 
@@ -246,7 +279,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
   }
 
-  private resetFileInput() {
+  resetFileInput() {
     if (this.fileInput) {
       this.fileInput.nativeElement.value = '';
     }
@@ -342,7 +375,6 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     this.previewReply = null;
   }
 
-
   searchMessage(): void {
     if (this.keywordSearch && !/^\s*$/.test(this.keywordSearch)) {
       this.valueSearch = this.conversation.messages.filter((msg: any) =>
@@ -352,6 +384,21 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     }
     else {
       this.valueSearch = [];
+    }
+  }
+
+  searchUser(): void {
+    if (this.keywordSearchUser && !/^\s*$/.test(this.keywordSearchUser)) {
+      this.valueSearchUser = this.listUser.filter((friend: any) =>
+        (
+          friend.profile.display_name.toLowerCase().includes(this.keywordSearchUser.trim().toLowerCase())
+          || friend.email.toLowerCase().includes(this.keywordSearchUser.trim().toLowerCase()))
+        && friend.id != this.user.id
+      ).slice(0, 5);
+      console.log(this.valueSearchUser);
+    }
+    else {
+      this.valueSearchUser = [];
     }
   }
 
@@ -367,6 +414,16 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
         console.log(response);
         this.removeGroupImage();
         this.nameGroup.nativeElement.value = '';
+      }
+    )
+  }
+
+  addGroup(receiver_id: number, conversation_id: number) {
+    console.log(receiver_id, conversation_id);
+
+    this.chatService.addGroup({ receiver_id, conversation_id }).subscribe(
+      (response: any) => {
+        console.log(response);
       }
     )
   }
