@@ -77,6 +77,7 @@ class ConversationController extends Controller
 
     public function destroy(string $id)
     {
-
+        //  delete conversation
+        ConversationModel::destroy($id);
     }
 }
