@@ -89,6 +89,7 @@ class AuthController extends Controller
         $profile = ProfileModel::create([
             'user_id' => $user->id,
             'display_name' => $request->fullname,
+            'profile_photo' => asset('storage/uploads/default-profile-photo.png')
         ]);
 
         // $user->permissions()->attach(PermissionModel::all()->pluck('id')->toArray());
