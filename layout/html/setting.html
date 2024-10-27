@@ -138,9 +138,9 @@
                     <div class="layout-horizontal gap-20 w-fill">
                         <div class="layout-vertical">
                             <div style="width: 230px; height: 120px;">
-                                <img class="w-fill h-fill object-fit-cover rounded-8" src="/layout/image/splash.png" alt="">
+                                <img id="cover-photo" class="w-fill h-fill object-fit-cover rounded-8" src="/layout/image/splash.png" alt="">
                             </div>
-                            <img style="width: 90px; height: 90px; margin-top: -45px; margin-left: 20px;" class="border border-card-default rounded-circle" src="/layout/image/profile.png" alt="">
+                            <img id="profile-photo" style="width: 90px; height: 90px; margin-top: -45px; margin-left: 20px;" class="border border-card-default rounded-circle" src="/layout/image/profile.png" alt="">
                         </div>
                         <div class="layout-vertical gap-5" style="width: 300px;">
                             <p class="text-subtitle text-primary">Châu Thành Cường</p>
@@ -246,7 +246,8 @@
                                         </div>
                                         <div class="p-15 layout-horizontal align-center-space-between">
                                             <p class="text-body text-primary">Chọn ảnh từ thiết bị</p>
-                                            <button class="button-standard button-text-only">Mở thư mục</button>
+                                            <input type="file" class="display-none" id="profile-photo-input" onchange="viewImage(this, 'profile-photo')">
+                                            <label for="profile-photo-input" class="button-standard button-text-only">Mở thư mục</label>
                                         </div>
                                     </div>
                                 </div>
@@ -272,7 +273,8 @@
                                         </div>
                                         <div class="p-15 layout-horizontal align-center-space-between">
                                             <p class="text-body text-primary">Chọn ảnh từ thiết bị</p>
-                                            <button class="button-standard button-text-only">Mở thư mục</button>
+                                            <input type="file" class="display-none" id="cover-photo-input" onchange="viewImage(this, 'cover-photo')">
+                                            <label for="cover-photo-input" class="button-standard button-text-only">Mở thư mục</label>
                                         </div>
                                     </div>
                                 </div>
@@ -555,6 +557,21 @@
                 document.documentElement.setAttribute('data-theme', theme);
             }
         }
+
+        function viewImage(input, imgId) {
+            const file = input.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    document.getElementById(imgId).src = e.target.result;
+                };
+
+                reader.readAsDataURL(file);
+            }
+        }
+
     </script>
      <!-- End Article -->
 </body>
