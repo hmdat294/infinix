@@ -684,7 +684,7 @@
                                 <div class="layout-vertical gap-5" *ngIf="valueSearchUser.length > 0">
 
                                     <div *ngFor="let user of valueSearchUser"
-                                        class="layout-horizontal gap-15 p-10 w-fill border-top">
+                                        class="layout-horizontal gap-15 p-10 w-fill list-item border-top">
                                         <div class="layout-horizontal align-center-center gap-15 w-fill">
                                             <div style="width: 35px; height: 35px;">
                                                 <img [src]="user.profile.profile_photo"
@@ -701,6 +701,35 @@
                                             (click)="addGroup(user.id, conversation.id)">Thêm</button>
                                     </div>
 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion {{conversation.is_group == 1?'display-block':'display-none'}}">
+                    <div class="accordion-item">
+                        <div class="accordion-header layout-horizontal gap-15 px-20 py-15 align-center-center text-accent-default"
+                            style="cursor: pointer;">
+                            <i class="icon-size-20 icon icon-ic_fluent_person_20_regular"></i>
+                            <p class="text-primary text-body w-fill">Thành viên</p>
+                        </div>
+                        <div class="accordion-panel">
+                            <div class="layout-vertical p-5 gap-15 px-15 py-10">
+
+                                <div class="layout-horizontal gap-15 p-10 w-fill list-item border-top">
+                                    <div class="layout-horizontal align-center-center gap-15 w-fill">
+                                        <div style="width: 35px; height: 35px;">
+                                            <img src="#"
+                                                class="rounded-circle border border-card-default"
+                                                style="width: 35px; height: 35px;" alt="">
+                                        </div>
+                                        <div class="layout-vertical w-fill">
+                                            <p class="text-secondary text-body-strong w-fill">
+                                                Displayname</p>
+                                            <p class="text-caption text-tertiary">username</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
