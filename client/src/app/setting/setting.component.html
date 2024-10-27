@@ -45,10 +45,10 @@
                         <i class="icon-size-20 icon text-accent-default icon-ic_fluent_tv_20_regular"></i>
                         <p class="text-body text-primary">Giao diện</p>
                     </div>
-                    <div class="list-item layout-horizontal gap-10 align-center-left">
+                    <!-- <div class="list-item layout-horizontal gap-10 align-center-left">
                         <i class="icon-size-20 icon text-accent-default icon-ic_fluent_shield_20_regular"></i>
                         <p class="text-body text-primary">Riêng tư và an toàn</p>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -101,8 +101,8 @@
                                         *ngIf="tabAccordion == 'display_name'">
                                         <div class="p-15 layout-horizontal align-center-space-between">
                                             <div class="control text-control w-hug">
-                                                <input type="text" placeholder="placeholder" spellcheck="false"
-                                                    name="display_name" [(ngModel)]="display_name">
+                                                <input type="text" spellcheck="false" name="display_name"
+                                                    [(ngModel)]="display_name">
                                             </div>
 
                                             <button class="button-standard button-text-only"
@@ -134,8 +134,8 @@
                                         *ngIf="tabAccordion == 'date_of_birth'">
                                         <div class="p-15 layout-horizontal align-center-space-between">
                                             <div class="control text-control w-hug">
-                                                <input type="date" placeholder="placeholder" spellcheck="false"
-                                                    name="date_of_birth" [(ngModel)]="date_of_birth">
+                                                <input type="date" spellcheck="false" name="date_of_birth"
+                                                    [(ngModel)]="date_of_birth">
                                             </div>
                                             <button class="button-standard button-text-only"
                                                 (click)="updateUser({'date_of_birth':date_of_birth})">Lưu</button>
@@ -166,8 +166,8 @@
                                         *ngIf="tabAccordion == 'biography'">
                                         <div class="p-15 layout-horizontal align-bottom-space-between gap-15">
                                             <textarea style="min-height: 110px;"
-                                                class="control text-area-control w-fill" placeholder="placeholder"
-                                                spellcheck="false" name="biography" [(ngModel)]="biography"></textarea>
+                                                class="control text-area-control w-fill" spellcheck="false"
+                                                name="biography" [(ngModel)]="biography"></textarea>
                                             <button class="button-standard button-text-only"
                                                 (click)="updateUser({'biography':biography})">Lưu</button>
                                         </div>
@@ -285,8 +285,8 @@
                                         <div
                                             class="p-15 layout-horizontal align-center-space-between border-bottom border-card-default">
                                             <div class="control text-control">
-                                                <input type="text" placeholder="placeholder" spellcheck="false"
-                                                    name="username" [(ngModel)]="username">
+                                                <input type="text" spellcheck="false" name="username"
+                                                    [(ngModel)]="username">
                                             </div>
                                             <button class="button-standard button-text-only"
                                                 (click)="updateUser({'username':username})">Lưu</button>
@@ -302,18 +302,17 @@
                                     <p class="text-body text-primary">Mật khẩu</p>
                                     <p class="text-caption text-secondary">Thay đổi mật khẩu của bạn</p>
                                 </div>
-                                <div class="dialog">
-                                    <button type="button" class="button-standard button-text-only">
-                                        Đổi mật khẩu
-                                    </button>
+
+                                <div class="dialog visible" *ngIf="tabAccordion == 'password'">
                                     <div class="dialog-panel layout" style="width: 375px;">
-                                        <div
+                                        <form (submit)="updatePassword(frm.value)" #frm="ngForm"
                                             class="solid-background-senary w-fill rounded-4 p-20 gap-20 layout-vertical border border-card-default">
                                             <p class="text-subtitle text-primary">Đổi mật khẩu</p>
                                             <div class="layout-vertical w-fill gap-5">
                                                 <p class="text-body text-primary">Mật khẩu cũ</p>
                                                 <div class="control password-control w-fill">
-                                                    <input type="password" placeholder="placeholder" spellcheck="false">
+                                                    <input type="password" spellcheck="false" name="old_password"
+                                                        ngModel required>
                                                     <button type="button" class="input-button show-password-button">
                                                         <i class="icon-size-16 icon icon-ic_fluent_eye_16_regular"></i>
                                                     </button>
@@ -322,32 +321,53 @@
                                             <div class="layout-vertical w-fill gap-5">
                                                 <p class="text-body text-primary">Mật khẩu mới</p>
                                                 <div class="control password-control w-fill">
-                                                    <input type="password" placeholder="placeholder" spellcheck="false">
+                                                    <input type="password" spellcheck="false" name="new_password"
+                                                        ngModel #new_password="ngModel" required minlength="8">
                                                     <button type="button" class="input-button show-password-button">
                                                         <i class="icon-size-16 icon icon-ic_fluent_eye_16_regular"></i>
                                                     </button>
                                                 </div>
                                             </div>
+                                            <p *ngIf="new_password.errors?.['minlength']"
+                                                class="validation-message validation-caution text-body text-primary">
+                                                <i class="icon-size-16 icon icon-ic_fluent_warning_16_filled"></i>
+                                                <span class="text-body-strong">Password</span>
+                                                <span>Phải trên 8 ký tự</span>
+                                            </p>
                                             <div class="layout-vertical w-fill gap-5">
                                                 <p class="text-body text-primary">Xác nhận mật khẩu mới</p>
                                                 <div class="control password-control w-fill">
-                                                    <input type="password" placeholder="placeholder" spellcheck="false">
+                                                    <input type="password" spellcheck="false" ngModel name="confirm" #confirm="ngModel"
+                                                        required>
                                                     <button type="button" class="input-button show-password-button">
                                                         <i class="icon-size-16 icon icon-ic_fluent_eye_16_regular"></i>
                                                     </button>
                                                 </div>
                                             </div>
+                                            <p *ngIf="new_password.value !== confirm.value"
+                                                class="validation-message validation-caution text-body text-primary">
+                                                <i class="icon-size-16 icon icon-ic_fluent_warning_16_filled"></i>
+                                                <span class="text-body-strong">Password</span>
+                                                <span>Không khớp</span>
+                                            </p>
                                             <div class="layout-horizontal gap-10 w-fill align-center-right">
-                                                <button type="button" class="button-standard button-text-only">
+                                                <button type="button" class="button-standard button-text-only"
+                                                    (click)="tabChild('password')">
                                                     Hủy
                                                 </button>
-                                                <button type="button" class="button-accent button-text-only">
+                                                <button type="submit" class="button-accent button-text-only"
+                                                [disabled]="frm.invalid || !checkPasswords(frm)">
                                                     Xác nhận
                                                 </button>
                                             </div>
-                                        </div>
+                                        </form>
                                     </div>
                                 </div>
+
+                                <button type="button" class="button-standard button-text-only"
+                                    (click)="tabChild('password')">
+                                    Đổi mật khẩu
+                                </button>
                             </div>
 
                             <div class="accordion active border border-card-default card-background-default rounded-4">
@@ -372,8 +392,7 @@
                                         <div
                                             class="p-15 layout-horizontal align-center-space-between border-bottom border-card-default">
                                             <div class="control text-control">
-                                                <input type="text" placeholder="placeholder" spellcheck="false"
-                                                    name="email" [(ngModel)]="email">
+                                                <input type="text" spellcheck="false" name="email" [(ngModel)]="email">
                                             </div>
                                             <button class="button-standard button-text-only"
                                                 (click)="updateUser({'email':email})">Lưu</button>
@@ -390,7 +409,7 @@
                                         <div class="layout-vertical w-fill">
                                             <p class="text-body text-primary">Số điện thoại</p>
                                             <p class="text-caption text-secondary">{{phone_number ||
-                                                user.profile.phone_number ||
+                                                user.phone_number ||
                                                 'Trống'}}</p>
                                         </div>
                                         <button type="button" class="button-subtle button-icon-only">
@@ -404,11 +423,11 @@
                                         <div
                                             class="p-15 layout-horizontal align-center-space-between border-bottom border-card-default">
                                             <div class="control text-control">
-                                                <input type="text" placeholder="placeholder" spellcheck="false"
-                                                name="phone_number" [(ngModel)]="phone_number">
+                                                <input type="text" spellcheck="false" name="phone_number"
+                                                    [(ngModel)]="phone_number">
                                             </div>
                                             <button class="button-standard button-text-only"
-                                            (click)="updateUser({'phone_number':phone_number})">Lưu</button>
+                                                (click)="updateUser({'phone_number':phone_number})">Lưu</button>
                                         </div>
                                     </div>
                                 </div>
@@ -455,7 +474,7 @@
                             <div class="accordion active border border-card-default card-background-default rounded-4">
                                 <div class="accordion-item">
                                     <div class="accordion-header layout-horizontal gap-15 p-15 align-center-center"
-                                        (click)="tabChild('display_name')">
+                                        (click)="tabChild('theme')">
                                         <i class="icon-size-20 icon text-primary icon-ic_fluent_sparkle_20_regular"></i>
                                         <div class="layout-vertical w-fill">
                                             <p class="text-body text-primary">Chủ đề</p>
@@ -468,59 +487,64 @@
                                     </div>
 
                                     <div class="accordion-panel open layout-vertical" style="max-height: fit-content;"
-                                        *ngIf="tabAccordion == 'display_name'">
+                                        *ngIf="tabAccordion == 'theme'">
                                         <div class="p-15 gap-15 layout-horizontal">
                                             <div class="layout-vertical gap-10" style="width: 150px;">
-                                                <div class="layout-vertical w-fill p-20 gap-20 solid-background-base border border-card-default rounded-4 align-bottom-right"
-                                                    data-theme="light">
-                                                    <div class="layout-vertical gap-10 w-fill">
-                                                        <div class="w-fill rounded-4"
-                                                            style="height: 3px; background-color: var(--text-secondary);">
+                                                <label class="layout-vertical label-radio-control">
+                                                    <div class="layout-vertical w-fill p-20 gap-20 solid-background-base border border-card-default rounded-4 align-bottom-right"
+                                                        data-theme="light">
+                                                        <div class="layout-vertical gap-10 w-fill">
+                                                            <div class="w-fill rounded-4"
+                                                                style="height: 3px; background-color: var(--text-secondary);">
+                                                            </div>
+                                                            <div class="w-fill rounded-4"
+                                                                style="height: 3px; background-color: var(--text-secondary);">
+                                                            </div>
+                                                            <div class="w-fill rounded-4"
+                                                                style="height: 3px; background-color: var(--text-secondary);">
+                                                            </div>
+                                                            <div class="w-fill rounded-4"
+                                                                style="height: 3px; background-color: var(--text-secondary);">
+                                                            </div>
                                                         </div>
-                                                        <div class="w-fill rounded-4"
-                                                            style="height: 3px; background-color: var(--text-secondary);">
-                                                        </div>
-                                                        <div class="w-fill rounded-4"
-                                                            style="height: 3px; background-color: var(--text-secondary);">
-                                                        </div>
-                                                        <div class="w-fill rounded-4"
-                                                            style="height: 3px; background-color: var(--text-secondary);">
-                                                        </div>
+                                                        <div class="accent-default rounded-4"
+                                                            style="width: 30px; height: 20px;"></div>
                                                     </div>
-                                                    <div class="accent-default rounded-4"
-                                                        style="width: 30px; height: 20px;"></div>
-                                                </div>
-                                                <label class="label-radio-control">
-                                                    <input class="radio-control" type="radio" name="option" checked
-                                                        onchange='selectTheme(this, "light")'>
-                                                    <span class="text-primary">Sáng</span>
+                                                    <div class="w-fill layout-horizontal align-center-left gap-10">
+                                                        <input class="radio-control" type="radio" name="option"
+                                                            (change)='selectTheme("light")'
+                                                            [checked]="theme === 'light'">
+                                                        <span class="text-primary">Sáng</span>
+                                                    </div>
                                                 </label>
                                             </div>
 
                                             <div class="layout-vertical gap-10" style="width: 150px;">
-                                                <div class="layout-vertical w-fill p-20 gap-20 solid-background-base border border-card-default rounded-4 align-bottom-right"
-                                                    data-theme="dark">
-                                                    <div class="layout-vertical gap-10 w-fill">
-                                                        <div class="w-fill rounded-4"
-                                                            style="height: 3px; background-color: var(--text-secondary);">
+                                                <label class="layout-vertical label-radio-control">
+                                                    <div class="layout-vertical w-fill p-20 gap-20 solid-background-base border border-card-default rounded-4 align-bottom-right"
+                                                        data-theme="dark">
+                                                        <div class="layout-vertical gap-10 w-fill">
+                                                            <div class="w-fill rounded-4"
+                                                                style="height: 3px; background-color: var(--text-secondary);">
+                                                            </div>
+                                                            <div class="w-fill rounded-4"
+                                                                style="height: 3px; background-color: var(--text-secondary);">
+                                                            </div>
+                                                            <div class="w-fill rounded-4"
+                                                                style="height: 3px; background-color: var(--text-secondary);">
+                                                            </div>
+                                                            <div class="w-fill rounded-4"
+                                                                style="height: 3px; background-color: var(--text-secondary);">
+                                                            </div>
                                                         </div>
-                                                        <div class="w-fill rounded-4"
-                                                            style="height: 3px; background-color: var(--text-secondary);">
-                                                        </div>
-                                                        <div class="w-fill rounded-4"
-                                                            style="height: 3px; background-color: var(--text-secondary);">
-                                                        </div>
-                                                        <div class="w-fill rounded-4"
-                                                            style="height: 3px; background-color: var(--text-secondary);">
-                                                        </div>
+                                                        <div class="accent-default rounded-4"
+                                                            style="width: 30px; height: 20px;"></div>
                                                     </div>
-                                                    <div class="accent-default rounded-4"
-                                                        style="width: 30px; height: 20px;"></div>
-                                                </div>
-                                                <label class="label-radio-control">
-                                                    <input class="radio-control" type="radio" name="option"
-                                                        onchange='selectTheme(this, "dark")'>
-                                                    <span class="text-primary">Tối</span>
+                                                    <div class="w-fill layout-horizontal align-center-left gap-10">
+                                                        <input class="radio-control" type="radio" name="option"
+                                                            (change)='selectTheme("dark")' [checked]="theme === 'dark'">
+                                                        <span class="text-primary">Tối</span>
+                                                    </div>
                                                 </label>
                                             </div>
                                         </div>
@@ -528,7 +552,7 @@
                                 </div>
                             </div>
 
-                            <div
+                            <!-- <div
                                 class="border border-card-default card-background-default rounded-4 layout-horizontal gap-15 p-15 align-center-center">
                                 <i class="icon-size-20 icon text-primary icon-ic_fluent_local_language_20_regular"></i>
                                 <div class="layout-vertical w-fill">
@@ -548,7 +572,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>

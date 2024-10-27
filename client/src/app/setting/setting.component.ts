@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { AuthService } from '../service/auth.service';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-setting',
@@ -13,13 +13,14 @@ import { FormsModule } from '@angular/forms';
 export class SettingComponent implements OnInit {
 
   user: any;
+  // general-settings
   tabSetting: string = 'general-settings';
   tabAccordion: string = '';
 
+  theme: string = '';
   username: string = '';
   email: string = '';
   password: string = '';
-  theme: string = '';
   language: string = '';
   phone_number: string = '';
   display_name: string = '';
@@ -30,15 +31,17 @@ export class SettingComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
+    private renderer: Renderer2
   ) { }
 
   ngOnInit(): void {
+
+    this.theme = localStorage.getItem('theme') || '';
 
     this.authService.getUser(0).subscribe(
       (response) => {
         this.user = response.data;
         console.log(this.user);
-
       });
 
   }
@@ -51,11 +54,12 @@ export class SettingComponent implements OnInit {
     this.tabAccordion = (this.tabAccordion != tab) ? tab : '';
   }
 
+  selectTheme(currentTheme: string) {
+    localStorage.setItem('theme', currentTheme);
+    this.renderer.setAttribute(document.documentElement, 'data-theme', localStorage.getItem('theme') || currentTheme);
+  }
+
   updateUser(value: any) {
-
-    // console.log(this.user.id);
-    // console.log(value);
-
     this.authService.updateUser(this.user.id, value).subscribe(
       (response) => {
         console.log(response);
@@ -63,6 +67,22 @@ export class SettingComponent implements OnInit {
       })
   }
 
+  updatePassword(value: any) {
+    console.log(value);
+    this.authService.updatePassword({
+      'old_password': value.old_password,
+      'new_password': value.new_password
+    }).subscribe(
+      (response) => {
+        console.log(response);
+        this.tabChild('password');
+      }
+    );
+  }
+
+  checkPasswords(form: NgForm): boolean {
+    return form.controls['new_password'].value === form.controls['confirm'].value;
+  }
 
   fileProfile: any;
   selectedFilesProfile: File[] = [];
