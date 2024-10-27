@@ -53,6 +53,16 @@ export class LeftHomeComponent implements OnInit {
       (response) => {
         this.groupRequest = response.data;
         console.log(response);
+        
+        this.eventService.bindEvent('App\\Events\\ConversationInvitationEvent', (data: any) => {
+          console.log('Group request event:', data);
+
+          if (data.status == "pending") this.groupRequest.push(data);
+
+          if (data.status == "accepted") {
+            this.groupRequest = this.groupRequest.filter((request: any) => request.id !== data.id);
+          }
+        });
       }
     )
 

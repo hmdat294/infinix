@@ -13,6 +13,7 @@ use Illuminate\Queue\SerializesModels;
 use App\Models\User as UserModel;
 use App\Http\Resources\ConversationResource;
 use App\Models\Conversation as ConversationModel;
+use App\Models\ConversationInvitation as ConversationInvitationModel;
 
 class ConversationInvitationEvent implements ShouldBroadcast
 {
@@ -46,7 +47,7 @@ class ConversationInvitationEvent implements ShouldBroadcast
 
     public function broadcastWith(): array
     {
-        $conversation_invitation_id = ConversationModel::where('id', $this->conversation_id)
+        $conversation_invitation_id = ConversationInvitationModel::where('conversation_id', $this->conversation_id)
         ->where('sender_id', $this->sender_id)
         ->where('receiver_id', $this->receiver_id)
         ->first()->id;

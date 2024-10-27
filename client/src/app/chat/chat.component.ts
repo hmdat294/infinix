@@ -422,7 +422,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     this.chatService.createGroup(formData).subscribe(
       (response: any) => {
         console.log(response);
-        this.removeGroupImage();
+        this.closeCreateGroup();
         this.nameGroup.nativeElement.value = '';
       }
     )

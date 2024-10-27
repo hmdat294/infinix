@@ -638,8 +638,20 @@
                     conversation.users[0].profile.profile_photo
                     }}" class="rounded-circle border border-card-default mb-15" alt=""
                     style="width: 100px; height: 100px;">
-                <p class="text-primary text-body">Châu Thành Cường</p>
-                <p class="text-primary text-caption">Chick2004</p>
+                <p class="text-primary text-body">
+                    {{
+                    (conversation.is_group == 1) ? conversation.name :
+                    (conversation.users[0].id == user.id) ? conversation.users[1].profile.display_name :
+                    conversation.users[0].profile.display_name
+                    }}
+                </p>
+                <p class="text-primary text-caption">
+                    {{
+                    (conversation.is_group == 1) ? '' :
+                    (conversation.users[0].id == user.id) ? conversation.users[1].email :
+                    conversation.users[0].email
+                    }}
+                </p>
             </div>
 
             <div class="layout-vertical card-background-default border rounded-8">

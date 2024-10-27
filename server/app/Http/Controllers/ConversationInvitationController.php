@@ -72,7 +72,7 @@ class ConversationInvitationController extends Controller
             'conversation_id' => $request->conversation_id,
         ]);
 
-        event(new ConversationInvitationEvent($request->sender_id, $request->receiver_id, 'pending', $request->conversation_id));
+        event(new ConversationInvitationEvent($request->user()->id, $request->receiver_id, 'pending', $request->conversation_id));
 
         return response()->json([
             'message' => 'Conversation invitation has been sent.',
