@@ -25,7 +25,7 @@ class UserTableSeeder extends Seeder
             ProfileModel::create([
                 'user_id' => $user->id,
                 'display_name' => 'User ' . $i,
-                
+                'profile_photo' => asset('storage/uploads/default-profile-photo.png')
             ]);
 
             $user->permissions()->attach(PermissionModel::where('name', '!=', 'can_access_dashboard')->pluck('id')->toArray());
