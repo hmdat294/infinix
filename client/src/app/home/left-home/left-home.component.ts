@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../service/auth.service';
 import { CommonModule } from '@angular/common';
 import { EventService } from '../../service/event.service';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { ChatService } from '../../service/chat.service';
 
 @Component({
   selector: 'app-left-home',
@@ -14,9 +15,15 @@ import { RouterModule } from '@angular/router';
 export class LeftHomeComponent implements OnInit {
 
   userRequest: any = [];
+  groupRequest: any = [];
   user: any = [];
 
-  constructor(private authService: AuthService, private eventService: EventService) {
+  constructor(
+    private authService: AuthService,
+    private eventService: EventService,
+    private chatService: ChatService,
+    private router: Router,
+  ) {
 
   }
 
@@ -30,24 +37,39 @@ export class LeftHomeComponent implements OnInit {
     this.authService.getRequestFriend().subscribe(
       (response) => {
         this.userRequest = response.data;
-        // console.log(this.userRequest);
 
         this.eventService.bindEvent('App\\Events\\FriendRequestEvent', (data: any) => {
           console.log('Friend request event:', data);
 
           if (data.status == "pending") this.userRequest.push(data);
-          
+
           if (data.status == "accepted") {
             this.userRequest = this.userRequest.filter((request: any) => request.id !== data.id);
           }
         });
       });
+
+    this.chatService.getGroup().subscribe(
+      (response) => {
+        this.groupRequest = response.data;
+        console.log(response);
+      }
+    )
+
   }
 
   acceptRequest(id: number, status: string) {
     this.authService.acceptFriend({ id, status }).subscribe(
       (response) => {
         console.log(response);
+      });
+  }
+
+  acceptGroupRequest(id: number, status: string) {
+    this.authService.acceptGroup({ id, status }).subscribe(
+      (response) => {
+        console.log(response);
+        if (status == 'accepted') this.router.navigate(['/chat']);
       });
   }
 

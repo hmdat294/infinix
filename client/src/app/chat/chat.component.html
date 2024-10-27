@@ -83,7 +83,7 @@
                                 <input type="text" name="name_group" ngModel spellcheck="false" #nameGroup>
                             </div>
                         </div>
-                        <div class="w-fill layout-vertical gap-5">
+                        <!-- <div class="w-fill layout-vertical gap-5">
                             <p class="text-body text-primary">Thêm bạn bè</p>
                             <div class="search-dropdown-control w-fill">
                                 <div class="control search-control">
@@ -107,7 +107,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="w-fill layout-horizontal gap-20 align-center-right">
                             <button type="button" class="button-standard button-text-only"
                                 (click)="closeCreateGroup()">Hủy</button>
@@ -118,6 +118,7 @@
                 </div>
             </div>
         </div>
+
         <div class="{{(isVisible)?'w-fill-column-6':'w-fill-column-9'}} layout-vertical gap-20 py-20">
             <div class="layout-vertical card-background-default border border-card-default rounded-8"
                 style="height: calc(100vh - 85px);">
@@ -200,7 +201,8 @@
                                                                                 alt="Image" height="50px"
                                                                                 class="m-2 rounded-4">
 
-                                                                            <span class="text-secondary" style="white-space: pre-line;">
+                                                                            <span class="text-secondary"
+                                                                                style="white-space: pre-line;">
                                                                                 {{getReply(msg.reply_to_message_id
                                                                                 ).content}}
                                                                             </span>
@@ -210,7 +212,7 @@
                                                                         style="border-right: 3px solid #005FB8E6;">
 
                                                                         <p class="px-10 py-5 my-5 text-secondary">
-                                                                            <small>Tin nhắn đã được thu hồi</small>
+                                                                            <i>*Tin nhắn đã được thu hồi</i>
                                                                         </p>
 
                                                                     </div>
@@ -271,7 +273,8 @@
                                                                                 alt="Image" height="50px"
                                                                                 class="m-2 rounded-4">
 
-                                                                            <span class="text-secondary" style="white-space: pre-line;">
+                                                                            <span class="text-secondary"
+                                                                                style="white-space: pre-line;">
                                                                                 {{getReply(msg.reply_to_message_id
                                                                                 ).content}}
                                                                             </span>
@@ -281,7 +284,7 @@
                                                                         style="border-left: 3px solid #0000001F;">
 
                                                                         <p class="px-10 py-5 my-5 text-secondary">
-                                                                            <small>Tin nhắn đã được thu hồi</small>
+                                                                            <i>*Tin nhắn đã được thu hồi</i>
                                                                         </p>
 
                                                                     </div>
@@ -369,25 +372,6 @@
                                                     <p class="text-body text-primary">Thu hồi</p>
                                                 </div>
 
-                                                <!-- <button type="button" (click)="toggleDialogChat(msg.id)"
-                                                    class="btn-dialog button-subtle button-icon-only">
-                                                    <i
-                                                        class="icon-size-20 icon icon-ic_fluent_more_horizontal_20_filled"></i>
-                                                </button>
-                                                <button type="button" (click)="onReply(msg.id)"
-                                                    class="button-subtle button-icon-only">
-                                                    <i class="icon-size-20 icon icon-ic_fluent_arrow_reply_20_regular"></i>
-                                                </button>
-                                                <button type="button" (click)="recallMessage(msg.id)"
-                                                    class="button-subtle button-icon-only">
-                                                    <i
-                                                        class="icon-size-20 icon icon-ic_fluent_arrow_counterclockwise_20_regular"></i>
-                                                </button>
-                                                <button type="button" (click)="editMessage(msg.id)"
-                                                    class="button-subtle button-icon-only">
-                                                    <i class="icon-size-20 icon icon-ic_fluent_edit_20_regular"></i>
-                                                </button> -->
-
                                             </div>
                                         </div>
                                         <div>
@@ -412,7 +396,7 @@
                                                         style="border-right: 3px solid var(--accent-default);">
 
                                                         <p class="px-10 py-5 my-5 text-secondary">
-                                                            <small>Tin nhắn đã được thu hồi</small>
+                                                            <i>*Tin nhắn đã được thu hồi</i>
                                                         </p>
 
                                                     </div>
@@ -492,7 +476,7 @@
                                                         style="border-left: 3px solid var(--control-strong-stroke-default);">
 
                                                         <p class="px-10 py-5 my-5 text-secondary">
-                                                            <small>Tin nhắn đã được thu hồi</small>
+                                                            <i>*Tin nhắn đã được thu hồi</i>
                                                         </p>
 
                                                     </div>
@@ -550,7 +534,7 @@
                                     <div *ngIf="msg.is_recalled == 1" class="layout align-center-left">
                                         <p
                                             class="border border-card-default card-background-default px-15 py-10 rounded-8 text-secondary">
-                                            Tin nhắn đã được thu hồi
+                                            <i>*Tin nhắn đã được thu hồi</i>
                                         </p>
                                         <div *ngIf="msg.showUndoBtn" class="layout mx-15">
                                             <button type="button" (click)="undoRecall(msg.id)" class="button-subtle">
@@ -633,8 +617,10 @@
                 </div>
             </div>
         </div>
+
         <div
             class="{{(isVisible)?'display-flex':'display-none'}} w-fill-column-3 layout-vertical gap-20 py-20 overflow-scroll-vertical">
+
             <div class="layout-vertical card-background-default border rounded-8 align-center-center py-20">
                 <img src="assets/image/avatar.png" alt="" class="mb-15" style="width: 100px; height: 100px;">
                 <p class="text-primary text-body">Châu Thành Cường</p>
@@ -642,6 +628,56 @@
             </div>
 
             <div class="layout-vertical card-background-default border rounded-8">
+
+                <div class="accordion {{conversation.is_group == 1?'display-block':'display-none'}}">
+                    <div class="accordion-item">
+                        <div class="user-accordion-header layout-horizontal gap-15 px-20 py-15 align-center-center text-accent-default"
+                            style="cursor: pointer;">
+                            <i *ngIf="!showBoxSearchUser"
+                                class="icon-size-20 icon icon-ic_fluent_search_20_regular"></i>
+                            <p class="text-primary text-body w-fill">Thêm thành viên</p>
+                            <i *ngIf="showBoxSearchUser"
+                                class="icon-size-20 icon icon-ic_fluent_dismiss_20_regular"></i>
+                        </div>
+                        <div class="accordion-panel accordion-panel-search-user">
+                            <div class="layout-vertical p-5 gap-15 px-15 py-10">
+
+                                <div class="control search-control search-control-chat w-fill">
+                                    <input type="search w-fill" (input)="searchUser()" [(ngModel)]="keywordSearchUser"
+                                        placeholder="Tìm kiếm" spellcheck="false" required="">
+                                    <button type="button" class="input-button clear-content-button">
+                                        <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
+                                    </button>
+                                    <button type="button" class="input-button search-button" (click)="searchUser()">
+                                        <i class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
+                                    </button>
+                                </div>
+
+                                <div class="layout-vertical gap-5" *ngIf="valueSearchUser.length > 0">
+
+                                    <div *ngFor="let user of valueSearchUser"
+                                        class="layout-horizontal gap-15 p-10 w-fill border-top">
+                                        <div class="layout-horizontal align-center-center gap-15 w-fill">
+                                            <div style="width: 35px; height: 35px;">
+                                                <img src="assets/image/avatar.png" alt="">
+                                            </div>
+                                            <div class="layout-vertical w-fill">
+                                                <p class="text-secondary text-body-strong w-fill">
+                                                    {{user.profile.display_name}}</p>
+                                                <p class="text-caption text-tertiary">{{user.email}}</p>
+                                            </div>
+                                        </div>
+                                        <button type="button" class="button-accent button-text-only"
+                                            (click)="addGroup(user.id, conversation.id)">Thêm</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
                 <div class="accordion">
                     <div class="accordion-item">
                         <div class="a-accordion-header layout-horizontal gap-15 px-20 py-15 align-center-center text-accent-default"
@@ -668,13 +704,13 @@
 
                                     <div *ngFor="let message of valueSearch">
                                         <div style="cursor: pointer;" (click)="scrollToElement(message.id)"
-                                            class="layout-horizontal align-center-left gap-15 px-15 py-15 list-item">
+                                            class="layout-horizontal align-center-left gap-15 p-15 list-item">
                                             <div>
                                                 <img src="assets/image/avatar.png" alt=""
                                                     style="width: 35px; height: 35px;">
                                             </div>
                                             <div class="w-fill">
-                                                <p class="text-body-strong">Châu Thành Cường</p>
+                                                <p class="text-body-strong">{{message.user.profile.display_name}}</p>
                                                 <p class="text-body">{{message.content}}</p>
                                                 <p class="text-caption">{{message.created_at_date}} -
                                                     {{message.created_at_time}}</p>
@@ -693,13 +729,18 @@
                     <i class="icon-size-20 icon icon-ic_fluent_alert_20_regular"></i>
                     <p class="text-primary text-body w-fill">Notification</p>
                 </a>
+
                 <a href=""
                     class="layout-horizontal gap-15 px-20 py-15 border-top align-center-center text-accent-default">
                     <i class="icon-size-20 icon icon-ic_fluent_pin_20_regular"></i>
                     <p class="text-primary text-body w-fill">Pinned messages</p>
                 </a>
 
+
+
+
             </div>
+
             <div class="card-background-default border rounded-8 p-10">
 
                 <div class="" style="display: grid; grid-template-columns: repeat(3, 1fr); gap:10px;">
