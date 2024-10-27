@@ -1,7 +1,7 @@
 <div class="w-fill h-hug card-background-default border border-card-default rounded-8 layout-vertical">
-    <img src="assets/image/splash.png" alt="" class="w-fill rounded-top-8">
+    <img [src]="user.profile.cover_photo || 'assets/image/splash.png'" alt="" class="w-fill rounded-top-8">
     <div class="layout-vertical py-20 pb-20 gap-20 align-center-center" style="margin-top: -60px;">
-        <img src="assets/image/profile-photo.png" alt="" class="rounded-circle border border-card-default"
+        <img [src]="user.profile.profile_photo" alt="" class="rounded-circle border border-card-default"
             style="width: 120px; height: 120px;">
 
         <div class="layout-vertical gap-5 w-fill align-center-center pb-20 border-bottom border-card-default">
@@ -34,7 +34,7 @@
         <a href="" class="link text-nowrap">Xem thêm</a>
     </div>
     <div class="layout-vertical w-fill gap-10">
-        <div class="layout-horizontal gap-10" style="height: 70px;">
+        <!-- <div class="layout-horizontal gap-10" style="height: 70px;">
             <div class="w-fill h-fill">
                 <img src="assets/image/splash.png" alt="" class="w-fill h-fill object-fit-cover rounded-4">
             </div>
@@ -89,6 +89,9 @@
             <div class="w-fill h-fill">
                 <img src="assets/image/splash.png" alt="" class="w-fill h-fill object-fit-cover rounded-4">
             </div>
+        </div> -->
+        <div class="w-fill py-20 card-background-default border border-card-default rounded-8" >
+            <p class="text-body text-secondary text-center">Trống</p>
         </div>
     </div>
 </div>

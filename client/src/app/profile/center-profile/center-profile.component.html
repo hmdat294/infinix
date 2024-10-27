@@ -1,6 +1,6 @@
 <div class="layout p-10 rounded-8 card-background-default border border-card-default" id="create-post-section">
     <div class="layout-horizontal gap-10 w-fill">
-        <img src="assets/image/avatar.png" alt="" style="width: 35px; height: 35px;">
+        <img class="rounded-circle border border-card-default" src="{{currentUser.profile.profile_photo}}" alt="" style="width: 35px; height: 35px;">
         <!-- (submit)="post(value.value)" -->
         <form class="layout-vertical gap-10 w-fill" enctype="multipart/form-data" #value="ngForm"
             (submit)="post(value.value)">
@@ -83,13 +83,13 @@
     class="layout-vertical gap-20 pt-20 ps-20 pe-20 pb-10 card-background-default border border-card-default rounded-8">
 
     <div class="layout-horizontal gap-20">
-        <div class="layout-horizontal gap-20 w-fill">
-            <img src="assets/image/avatar.png" alt="" style="width: 35px; height: 35px;">
+        <a [routerLink]="['/friend-profile', post.profile.user_id]" class="layout-horizontal gap-20 w-fill">
+            <img class="rounded-circle border border-card-default" src="{{post.profile.profile_photo}}" alt="" style="width: 35px; height: 35px;">
             <div class="layout-vertical w-fill">
                 <p class="text-body-strong text-primary">{{post.profile.display_name}}</p>
                 <p class="text-body text-secondary">{{formatTime(post.created_at)}}</p>
             </div>
-        </div>
+        </a>
         <button type="button" class="button-subtle button-icon-only">
             <i class="icon-size-24 icon icon-ic_fluent_more_horizontal_24_filled"></i>
         </button>
@@ -150,7 +150,7 @@
                     <div class="layout-vertical w-flll border-bottom border-card-default p-10">
                         <div class=" w-fill layout-horizontal align-center-space-between">
                             <div class="layout-horizontal gap-10">
-                                <img src="assets/image/avatar.png" alt="" style="width: 40px; height: 40px;">
+                                <img class="rounded-circle border border-card-default" src="{{post.profile.profile_photo}}" alt="" style="width: 40px; height: 40px;">
                                 <div class="layout-vertical w-fill">
                                     <p class="text-body-strong text-primary">{{post.profile.display_name}}</p>
                                     <p class="text-caption text-secondary">{{formatTime(post.created_at)}}</p>
@@ -189,7 +189,7 @@
 
                             <div *ngFor="let item of getCommentByPostId(post.id)"
                                 class="layout-horizontal w-fill h-hug p-10 gap-15">
-                                <img src="assets/image/avatar.png" alt="" style="width: 35px; height: 35px;">
+                                <img  class="rounded-circle border border-card-default" src="{{item.user.profile.profile_photo}}" alt="" style="width: 35px; height: 35px;">
                                 <div class="layout-vertical w-fill gap-5">
                                     <p class="text-body-strong text-primary">{{item.user.profile.display_name}}</p>
                                     <div
@@ -214,7 +214,7 @@
                     </div>
                     <div class="layout w-fill border-top border-card-default">
                         <div class="layout-horizontal gap-10 p-10 w-fill">
-                            <img src="assets/image/avatar.png" alt="" style="width: 35px; height: 35px;">
+                            <img class="rounded-circle border border-card-default" src="{{currentUser.profile.profile_photo}}" alt="" style="width: 35px; height: 35px;">
 
                             <form class="layout-vertical gap-10 w-fill" enctype="multipart/form-data" #frm="ngForm"
                                 (submit)="postComment(frm.value)">
@@ -311,8 +311,4 @@
         
     </div>
 
-</div>
-
-<div *ngIf="listPost.length == 0" class="w-fill py-20 card-background-default border border-card-default rounded-8" >
-    <p class="text-body text-secondary text-center">Bạn chưa có bài viết nào</p>
 </div>

@@ -27,6 +27,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
   spaceCheck: any = /^\s*$/;
   keyword: string = '';
   tabActive: string = '';
+  currentUser: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -44,6 +45,11 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
       this.search(this.keyword);
 
+    });
+
+    this.authService.getUser(0).subscribe(
+      (data) => {
+        this.currentUser = data.data;
     });
   }
 

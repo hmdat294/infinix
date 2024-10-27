@@ -84,7 +84,8 @@
 
     <div class="layout-horizontal gap-20">
         <a [routerLink]="['/friend-profile', post.profile.user_id]" class="layout-horizontal gap-20 w-fill">
-            <img class="rounded-circle border border-card-default" src="{{post.profile.profile_photo}}" alt="" style="width: 35px; height: 35px;">
+            <img class="rounded-circle border border-card-default" 
+            src="{{post.profile.profile_photo}}" alt="" style="width: 35px; height: 35px;">
             <div class="layout-vertical w-fill">
                 <p class="text-body-strong text-primary">{{post.profile.display_name}}</p>
                 <p class="text-body text-secondary">{{formatTime(post.created_at)}}</p>
