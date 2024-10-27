@@ -62,6 +62,9 @@ class UserResource extends JsonResource
             'permissions' => $this->permissions,
             'is_friend' => $friends->contains($this->id),
             'is_sent_friend_request' => $is_sent_friend_request,
+            'friend_count' => $friends->count(),
+            'follower_count' => $followers->count(),
+            'following_count' => $followings->count(),
         ];
     }
 }
