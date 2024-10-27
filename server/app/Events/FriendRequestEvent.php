@@ -38,6 +38,7 @@ class FriendRequestEvent implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
+            new Channel('user.' . $this->sender_id),
             new Channel('user.' . $this->receiver_id)
         ];
     }
