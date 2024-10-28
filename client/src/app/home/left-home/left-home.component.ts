@@ -52,7 +52,6 @@ export class LeftHomeComponent implements OnInit {
     this.chatService.getGroup().subscribe(
       (response) => {
         this.groupRequest = response.data;
-        console.log(response);
         
         this.eventService.bindEvent('App\\Events\\ConversationInvitationEvent', (data: any) => {
           console.log('Group request event:', data);

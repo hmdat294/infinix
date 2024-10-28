@@ -58,7 +58,7 @@
                                 <a class="layout-horizontal align-center-left gap-10 w-fill"
                                     [routerLink]="['/friend-profile', user.id]">
                                     <img class="rounded-circle border border-card-default"
-                                        src="assets/image/profile-photo.png" alt="" style="width: 45px; height: 45px;">
+                                        [src]="user.profile.profile_photo" alt="" style="width: 45px; height: 45px;">
                                     <div class="layout-vertical w-fill">
                                         <p class="text-body-strong text-primary">{{user.profile.display_name}}</p>
                                         <p class="text-caption text-secondary">{{user.email}}</p>
@@ -99,7 +99,7 @@
                         <div class="layout-horizontal gap-20">
                             <a [routerLink]="['/friend-profile', post.profile.user_id]"
                                 class="layout-horizontal gap-20 w-fill">
-                                <img src="assets/image/avatar.png" alt="" style="width: 35px; height: 35px;">
+                                <img [src]="post.profile.profile_photo" alt="" class="rounded-circle border border-card-default" style="width: 35px; height: 35px;">
                                 <div class="layout-vertical w-fill">
                                     <p class="text-body-strong text-primary">{{post.profile.display_name}}</p>
                                     <p class="text-body text-secondary">{{formatTime(post.created_at)}}</p>
@@ -176,7 +176,7 @@
                                         <div class="layout-vertical w-flll border-bottom border-card-default p-10">
                                             <div class=" w-fill layout-horizontal align-center-space-between">
                                                 <div class="layout-horizontal gap-10">
-                                                    <img src="assets/image/avatar.png" alt=""
+                                                    <img [src]="post.profile.profile_photo" alt="" class="rounded-circle border border-card-default"  alt=""
                                                         style="width: 40px; height: 40px;">
                                                     <div class="layout-vertical w-fill">
                                                         <p class="text-body-strong text-primary">
@@ -229,7 +229,7 @@
 
                                                 <div *ngFor="let item of getCommentByPostId(post.id)"
                                                     class="layout-horizontal w-fill h-hug p-10 gap-15">
-                                                    <img src="assets/image/avatar.png" alt=""
+                                                    <img [src]="item.user.profile.profile_photo" alt="" class="rounded-circle border border-card-default"  alt=""
                                                         style="width: 35px; height: 35px;">
                                                     <div class="layout-vertical w-fill gap-5">
                                                         <p class="text-body-strong text-primary">
@@ -261,8 +261,7 @@
                                         </div>
                                         <div class="layout w-fill border-top border-card-default">
                                             <div class="layout-horizontal gap-10 p-10 w-fill">
-                                                <img src="assets/image/avatar.png" alt=""
-                                                    style="width: 35px; height: 35px;">
+                                                <img class="rounded-circle border border-card-default" src="{{currentUser.profile.profile_photo}}" alt="" style="width: 35px; height: 35px;">
 
                                                 <form class="layout-vertical gap-10 w-fill"
                                                     enctype="multipart/form-data" #frm="ngForm"

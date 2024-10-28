@@ -6,12 +6,12 @@ import moment from 'moment';
 import { AuthService } from '../../service/auth.service';
 import { CarouselService } from '../../service/carousel.service';
 import { EventService } from '../../service/event.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-center-profile',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, RouterModule],
   templateUrl: './center-profile.component.html',
   styleUrl: './center-profile.component.css'
 })
@@ -30,17 +30,17 @@ export class CenterProfileComponent implements OnInit {
   spaceCheck: any = /^\s*$/;
   idDialog: number = 0;
   commentByPostId: any[] = [];
+  currentUser: any;
 
   constructor(
-    private route: ActivatedRoute,
     private cdr: ChangeDetectorRef,
     private postService: PostService,
     private carouselService: CarouselService,
     private eventService: EventService,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
-
     this.postService.getPostByUser(0).subscribe(
       (data) => {
         this.listPost = data.data;
@@ -53,6 +53,10 @@ export class CenterProfileComponent implements OnInit {
 
       });
 
+    this.authService.getUser(0).subscribe(
+      (data) => {
+        this.currentUser = data.data;
+    });
   }
 
   @ViewChild('commentInput') commentInput!: ElementRef;

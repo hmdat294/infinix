@@ -1,0 +1,527 @@
+<div *ngIf="currentRoute == '' || currentRoute == 'profile' || currentRoute == 'notification' || currentRoute == 'search'"
+    class="position-fixed layout-vertical align-center-center" style="z-index: 1; bottom: 10px; right: 10px;">
+
+    <div class="{{showChat?'display-block':'display-none'}}">
+        <div class="chat-bubble" *ngFor="let item of filteredConversations">
+            <img class="border border-card-default rounded-circle cursor-pointer object-fit-cover"
+                (click)="getMiniChat(item.id)" [src]="
+            (item.is_group == 1) ? item.image :
+            (item.users[0].id == user.id) ? item.users[1].profile.profile_photo :
+            item.users[0].profile.profile_photo
+            " alt="" style="width: 50px; height: 50px;">
+            <!-- <button type="button"
+            class="p-5 border-none button-standard cursor-pointer position-absolute top-0 start-100 translate-middle"
+            style="border-radius: 999px !important; display: none;">
+            <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_filled"></i>
+        </button> -->
+        </div>
+    </div>
+
+    <div>
+        <button type="button" class="button-accent button-icon-only layout align-center-center"
+            (click)="showChatBubble()"
+            style="border-radius: 999px !important; width: 50px !important; height: 50px !important;">
+            <i class="icon-size-20 icon icon-ic_fluent_comment_edit_20_filled"></i>
+        </button>
+        <span *ngIf="!showChat">{{conversation.length}}</span>
+    </div>
+</div>
+
+<div class="{{showBoxMiniChat?'display-flex':'display-none'}} position-fixed overflow-hidden layout-vertical solid-background-senary border border-card-default rounded-8"
+    style="width: 375px; height: 475px; z-index: 1; bottom: 10px; right: 70px;">
+    <div class="layout-horizontal w-fill p-5 gap-5 border-bottom border-card-default">
+        <div class="w-fill layout-horizontal gap-10 align-center-center">
+            <img class="border border-card-default rounded-circle object-fit-cover" [src]="
+            (chat.is_group == 1) ? chat.image :
+            (chat.users[0].id == user.id) ? chat.users[1].profile.profile_photo :
+            chat.users[0].profile.profile_photo
+            " alt="" style="width: 35px; height: 35px;">
+            <p class="text-secondary text-body-strong w-fill">
+                {{
+                (chat.is_group == 1) ? chat.name :
+                (chat.users[0].id == user.id) ? chat.users[1].profile.display_name :
+                chat.users[0].profile.display_name
+                }}
+            </p>
+        </div>
+        <button type="button" class="button-subtle button-icon-only">
+            <i class="icon-size-16 text-accent-default icon icon-ic_fluent_call_16_filled"></i>
+        </button>
+        <button type="button" class="button-subtle button-icon-only">
+            <i class="icon-size-16 text-accent-default icon icon-ic_fluent_video_16_filled"></i>
+        </button>
+        <button type="button" class="button-subtle button-icon-only" (click)="this.showBoxMiniChat = false">
+            <i class="icon-size-16 text-accent-default icon icon-ic_fluent_dismiss_16_filled"></i>
+        </button>
+        <button type="button" class="button-subtle button-icon-only" (click)="deleteMiniChat(chat.id)">
+            <i class="icon-size-16 text-accent-default icon icon-ic_fluent_dismiss_16_filled"></i>
+        </button>
+    </div>
+    <div class="h-fill w-fill overflow-scroll-vertical gap-20 layout-vertical solid-background-tertiary">
+
+
+
+
+
+
+
+
+
+        <div #scrollBox class="h-fill w-fill box-chat gap-20 layout-vertical" style="padding-bottom: 100px;">
+
+            <div *ngFor="let msg of chat.messages; let i = index;" [attr.id]="'item-' + msg.id">
+
+                <div class="position-fixed top-0 start-0" *ngIf="idDialogChat == msg.id"
+                    style="width: 100%; height: 100vh; z-index: 10; background-color: rgba(0, 0, 0, 0.2);">
+                    <div class="dialog-panel position-absolute top-50 start-50 translate-middle"
+                        style="min-width: 500px;">
+                        <div
+                            class="solid-background-senary rounded-6 p-10 gap-10 layout-vertical border border-card-default">
+                            <div class="border-bottom pb-10 layout-horizontal align-center-space-between">
+                                <p class="text-subtitle text-primary">Chi tiết tin nhắn</p>
+                                <button type="button" class="button-subtle button-icon-only"
+                                    (click)="toggleDialogChat(0)">
+                                    <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
+                                </button>
+                            </div>
+                            <div>
+
+                                <div class="w-fill layout align-top-right" *ngIf="(user.id == msg.user_id)"
+                                    style="max-height: 65vh;" class="overflow-scroll-vertical">
+                                    <div class="layout-horizontal gap-15 p-5 align-top-right">
+                                        <div style="max-width: calc(100% - 100px);">
+                                            <p class="text-tertiary text-caption mb-5 layout align-top-right">
+                                                {{msg.created_at_time}} - {{msg.updated_at_date}}
+                                            </p>
+                                            <div class="layout align-center-right" *ngIf="msg.is_recalled == 0">
+
+                                                <div>
+                                                    <div>
+                                                        <div *ngIf="msg.reply_to_message_id">
+                                                            <div *ngIf="getReply(msg.reply_to_message_id).is_recalled == 0"
+                                                                style="border-right: 3px solid #005FB8E6;">
+
+                                                                <p class="px-10 py-5 my-5 text-secondary button-subtle"
+                                                                    (click)="scrollToElement(msg.reply_to_message_id)">
+                                                                    <img *ngIf="getReply(msg.reply_to_message_id).images"
+                                                                        src="{{getReply(msg.reply_to_message_id).images.path}}"
+                                                                        alt="Image" height="50px" class="m-2 rounded-4">
+
+                                                                    <span class="text-secondary"
+                                                                        style="white-space: pre-line;">
+                                                                        {{getReply(msg.reply_to_message_id
+                                                                        ).content}}
+                                                                    </span>
+                                                                </p>
+                                                            </div>
+                                                            <div *ngIf="getReply(msg.reply_to_message_id).is_recalled == 1"
+                                                                style="border-right: 3px solid #005FB8E6;">
+
+                                                                <p class="px-10 py-5 my-5 text-secondary">
+                                                                    <i>*Tin nhắn đã được thu hồi</i>
+                                                                </p>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="layout w-fill gradient-background p-10 rounded-top-8"
+                                                            *ngIf="msg.medias.length>0">
+                                                            <div
+                                                                class="w-fill h-fill {{(msg.medias.length<6)?'layout-3-'+msg.medias.length:(msg.medias.length%2==0)?'layout-3-6':'layout-3-5'}}">
+                                                                <div class="w-fill h-fill rounded-6"
+                                                                    *ngFor="let img of msg.medias">
+                                                                    <img class="w-fill object-fit-cover object-position-center"
+                                                                        [src]="getPathImg(img)" alt="Image">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <p style="white-space: pre-line;"
+                                                            class="accent-default text-on-accent-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
+                                                            {{ msg.content }}
+                                                            Lorem ipsum dolor sit amet consectetur adipisicing
+                                                            elit. Fugit animi in soluta maiores! Provident
+                                                            cupiditate in obcaecati fuga dolore, quam magnam
+                                                            aliquam earum culpa perspiciatis repudiandae soluta,
+                                                            vero ex deleniti?
+                                                        </p>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <img [src]="msg.user.profile.profile_photo"
+                                            class="rounded-circle border border-card-default object-fit-cover" alt=""
+                                            style="width: 35px; height: 35px;">
+                                    </div>
+                                </div>
+
+                                <div class="w-fill layout align-top-left" *ngIf="(user.id != msg.user_id)">
+                                    <div class="layout-horizontal gap-15 p-5">
+                                        <img [src]="msg.user.profile.profile_photo"
+                                            class="rounded-circle border border-card-default object-fit-cover" alt=""
+                                            style="width: 35px; height: 35px;">
+                                        <div>
+                                            <p class="text-tertiary text-caption mb-5 layout align-top-left">
+                                                {{msg.created_at_time}} - {{msg.updated_at_date}}
+                                            </p>
+                                            <div class="mess-hover layout align-center-left"
+                                                *ngIf="msg.is_recalled == 0">
+                                                <div>
+                                                    <div>
+                                                        <div *ngIf="msg.reply_to_message_id">
+                                                            <div *ngIf="getReply(msg.reply_to_message_id).is_recalled == 0"
+                                                                style="border-left: 3px solid #0000001F;">
+
+                                                                <p class="px-10 py-5 my-5 text-secondary"
+                                                                    (click)="scrollToElement(msg.reply_to_message_id)">
+                                                                    <img *ngIf="getReply(msg.reply_to_message_id).images"
+                                                                        src="{{getReply(msg.reply_to_message_id).images.path}}"
+                                                                        alt="Image" height="50px" class="m-2 rounded-4">
+
+                                                                    <span class="text-secondary"
+                                                                        style="white-space: pre-line;">
+                                                                        {{getReply(msg.reply_to_message_id
+                                                                        ).content}}
+                                                                    </span>
+                                                                </p>
+                                                            </div>
+                                                            <div *ngIf="getReply(msg.reply_to_message_id).is_recalled == 1"
+                                                                style="border-left: 3px solid #0000001F;">
+
+                                                                <p class="px-10 py-5 my-5 text-secondary">
+                                                                    <i>*Tin nhắn đã được thu hồi</i>
+                                                                </p>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="layout w-fill h-fill" *ngIf="msg.medias.length>0">
+                                                            <div style="max-height: 60vh;"
+                                                                class="w-fill h-fill {{(msg.medias.length<6)?'layout-3-'+msg.medias.length:(msg.medias.length%2==0)?'layout-3-6':'layout-3-5'}}">
+                                                                <div class="w-fill h-fill rounded-6 overflow-hidden"
+                                                                    *ngFor="let img of msg.medias">
+                                                                    <img class="w-fill h-fill object-fit-cover object-position-center"
+                                                                        [src]="getPathImg(img)" alt="Image">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <p style="white-space: pre-line;"
+                                                            class="card-background-default text-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
+                                                            {{ msg.content }}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div *ngIf="msg.is_edited == 1" class="border-top pt-10">
+
+                                <p style="font-size: 0.9em;"
+                                    class="text-secondary text-{{(user.id == msg.user_id)?'right':'left'}}">
+                                    Đã sửa - {{msg.updated_at_date}} - {{msg.updated_at_time}}
+                                </p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layout-horizontal align-center-center mt-10" *ngIf="isDifferentDate(i)">
+                    <div class="w-hug px-10 rounded-pill acrylic-background-default blur-acrylic">
+                        <small class="text-caption text-secondary">{{msg.created_at_date}}</small>
+                    </div>
+                </div>
+
+                <div class="w-fill layout align-top-right" *ngIf="(user.id == msg.user_id)">
+                    <div class="layout-horizontal gap-15 p-20">
+                        <div>
+                            <p class="text-tertiary text-caption mb-5 layout align-top-right">{{
+                                msg.created_at_time }}
+                            </p>
+                            <div class="mess-hover layout align-top-right" *ngIf="msg.is_recalled == 0">
+                                <div style="height: 45px; overflow: visible; z-index: 1;">
+                                    <div
+                                        class="mess-menu layout-vertical mx-15 gap-5 p-5 acrylic-background-default blur-acrylic border border-card-default rounded-8">
+                                        <div class="list-item layout-horizontal gap-10 align-center-left"
+                                            (click)="toggleDialogChat(msg.id)">
+                                            <i
+                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_more_horizontal_20_regular"></i>
+                                            <p class="text-body text-primary">Xem chi tiết</p>
+                                        </div>
+                                        <div class="list-item layout-horizontal gap-10 align-center-left">
+                                            <i
+                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_copy_20_regular"></i>
+                                            <p class="text-body text-primary">Sao chép</p>
+                                        </div>
+                                        <div class="list-item layout-horizontal gap-10 align-center-left"
+                                            (click)="onReply(msg.id)">
+                                            <i
+                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_arrow_reply_20_regular"></i>
+                                            <p class="text-body text-primary">Phản hổi</p>
+                                        </div>
+                                        <div class="list-item layout-horizontal gap-10 align-center-left"
+                                            (click)="editMessage(msg.id)">
+                                            <i
+                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_edit_20_regular"></i>
+                                            <p class="text-body text-primary">Chỉnh sửa</p>
+                                        </div>
+                                        <div class="list-item layout-horizontal gap-10 align-center-left"
+                                            (click)="recallMessage(msg.id)">
+                                            <i
+                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_arrow_counterclockwise_20_regular"></i>
+                                            <p class="text-body text-primary">Thu hồi</p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <div *ngIf="msg.reply_to_message_id">
+                                            <div *ngIf="getReply(msg.reply_to_message_id).is_recalled == 0"
+                                                style="border-right: 3px solid var(--accent-default);">
+
+                                                <p class="px-10 py-5 my-5 text-secondary button-subtle"
+                                                    (click)="scrollToElement(msg.reply_to_message_id)">
+                                                    <img *ngIf="getReply(msg.reply_to_message_id).images"
+                                                        src="{{getReply(msg.reply_to_message_id).images.path}}"
+                                                        alt="Image" height="50px" class="m-2 rounded-4">
+
+                                                    <span class="text-secondary" style="white-space: pre-line;">
+                                                        {{getReply(msg.reply_to_message_id
+                                                        ).content}}
+                                                    </span>
+                                                </p>
+                                            </div>
+                                            <div *ngIf="getReply(msg.reply_to_message_id).is_recalled == 1"
+                                                style="border-right: 3px solid var(--accent-default);">
+
+                                                <p class="px-10 py-5 my-5 text-secondary">
+                                                    <i>*Tin nhắn đã được thu hồi</i>
+                                                </p>
+
+                                            </div>
+                                        </div>
+                                        <div class="layout w-fill gradient-background p-10 rounded-top-8"
+                                            *ngIf="msg.medias.length>0">
+                                            <div style="max-width: 500px;"
+                                                class="w-fill {{(msg.medias.length<6)?'layout-'+msg.medias.length:(msg.medias.length%2==0)?'layout-6':'layout-5'}}">
+                                                <div class="w-fill h-fill rounded-6 overflow-hidden"
+                                                    *ngFor="let img of msg.medias">
+                                                    <img class="w-fill h-fill object-fit-cover object-position-center"
+                                                        [src]="getPathImg(img)" alt="Image">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <p style="white-space: pre-line;"
+                                            class="accent-default text-on-accent-primary mess-child border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
+                                            {{ msg.content }}
+                                        </p>
+
+                                        <p *ngIf="msg.is_edited == 1" style="font-size: 0.9em;"
+                                            class="text-secondary text-right">
+                                            Đã sửa
+                                        </p>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div *ngIf="msg.is_recalled == 1" class="layout align-center-left">
+                                <div *ngIf="msg.showUndoBtn" class="layout mx-15">
+                                    <button type="button" (click)="undoRecall(msg.id)" class="button-subtle">
+                                        Hoàn tác ({{msg.countdown}})
+                                    </button>
+                                </div>
+                                <p
+                                    class="text-on-accent-disabled accent-disabled border border-card-default px-15 py-10 rounded-8">
+                                    <i>*Tin nhắn đã được thu hồi</i>
+                                </p>
+                            </div>
+                        </div>
+
+                        <img [src]="msg.user.profile.profile_photo"
+                            class="rounded-circle border border-card-default object-fit-cover" alt=""
+                            style="width: 35px; height: 35px;">
+
+                    </div>
+                </div>
+
+                <div class="w-fill layout align-top-left" *ngIf="(user.id != msg.user_id)">
+                    <div class="layout-horizontal gap-15 p-20">
+                        <img [src]="msg.user.profile.profile_photo"
+                            class="rounded-circle border border-card-default object-fit-cover" alt=""
+                            style="width: 35px; height: 35px;">
+                        <div>
+                            <p class="text-tertiary text-caption mb-5 layout align-top-left">{{
+                                msg.created_at_time }}
+                            </p>
+                            <div class="mess-hover layout align-top-left" *ngIf="msg.is_recalled == 0">
+                                <div>
+                                    <div>
+                                        <div *ngIf="msg.reply_to_message_id">
+                                            <div *ngIf="getReply(msg.reply_to_message_id).is_recalled == 0"
+                                                style="border-left: 3px solid var(--control-strong-stroke-default);">
+
+                                                <p class="px-10 py-5 my-5 text-secondary"
+                                                    (click)="scrollToElement(msg.reply_to_message_id)">
+                                                    <img *ngIf="getReply(msg.reply_to_message_id).images"
+                                                        src="{{getReply(msg.reply_to_message_id).images.path}}"
+                                                        alt="Image" height="50px" class="m-2 rounded-4">
+
+                                                    <span class="text-secondary" style="white-space: pre-line;">
+                                                        {{getReply(msg.reply_to_message_id
+                                                        ).content}}
+                                                    </span>
+                                                </p>
+                                            </div>
+                                            <div *ngIf="getReply(msg.reply_to_message_id).is_recalled == 1"
+                                                style="border-left: 3px solid var(--control-strong-stroke-default);">
+
+                                                <p class="px-10 py-5 my-5 text-secondary">
+                                                    <i>*Tin nhắn đã được thu hồi</i>
+                                                </p>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="layout w-fill gradient-background p-10 rounded-top-8"
+                                            *ngIf="msg.medias.length>0">
+                                            <div style="max-width: 500px;"
+                                                class="w-fill {{(msg.medias.length<6)?'layout-'+msg.medias.length:(msg.medias.length%2==0)?'layout-6':'layout-5'}}">
+                                                <div class="w-fill h-fill rounded-6 overflow-hidden"
+                                                    *ngFor="let img of msg.medias">
+                                                    <img class="w-fill h-fill object-fit-cover object-position-center"
+                                                        [src]="getPathImg(img)" alt="Image">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <p style="white-space: pre-line;"
+                                            class="mess-child card-background-default text-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
+                                            {{ msg.content }}
+                                        </p>
+
+                                        <p *ngIf="msg.is_edited == 1" style="font-size: 0.9em;"
+                                            class="text-secondary text-left">
+                                            Đã sửa
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div style="height: 45px; overflow: visible; z-index: 1;">
+                                    <div
+                                        class="mess-menu mx-15 layout-vertical mx-15 gap-5 p-5 acrylic-background-default blur-acrylic border border-card-default rounded-8">
+                                        <div class="list-item layout-horizontal gap-10 align-center-left"
+                                            (click)="toggleDialogChat(msg.id)">
+                                            <i
+                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_more_horizontal_20_regular"></i>
+                                            <p class="text-body text-primary">Xem chi tiết</p>
+                                        </div>
+                                        <div class="list-item layout-horizontal gap-10 align-center-left">
+                                            <i
+                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_copy_20_regular"></i>
+                                            <p class="text-body text-primary">Sao chép</p>
+                                        </div>
+                                        <div class="list-item layout-horizontal gap-10 align-center-left"
+                                            (click)="onReply(msg.id)">
+                                            <i
+                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_arrow_reply_20_regular"></i>
+                                            <p class="text-body text-primary">Phản hổi</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div *ngIf="msg.is_recalled == 1" class="layout align-center-left">
+                                <p
+                                    class="border border-card-default card-background-default px-15 py-10 rounded-8 text-secondary">
+                                    <i>*Tin nhắn đã được thu hồi</i>
+                                </p>
+                                <div *ngIf="msg.showUndoBtn" class="layout mx-15">
+                                    <button type="button" (click)="undoRecall(msg.id)" class="button-subtle">
+                                        Hoàn tác ({{msg.countdown}})
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <form class="w-fill h-hug layout-vertical p-10 gap-10 border-top border-card-default"
+        (submit)="sendMessage(frm.value)" #frm="ngForm" enctype="multipart/form-data">
+
+        <div *ngIf="previewReply" class="p-10 position-relative">
+            <div style="border-left: 3px solid #005FB8E6;" class="p-10">
+                <img *ngIf="previewReply.medias.length > 0" src="{{previewReply.medias[0].path}}" alt="Image"
+                    height="40px" class="rounded-4">
+                <span class="text-secondary" style="white-space: pre-line;">
+                    {{previewReply.content}}
+                </span>
+            </div>
+            <button type="button" (click)="onCancelReply()"
+                class="button-subtle button-icon-only position-absolute top-0 end-0 m-5">
+                <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
+            </button>
+        </div>
+
+        <div *ngIf="previewUrls.length > 0" class="p-10 position-relative">
+            <div class="layout gap-10">
+                <div *ngFor="let previewUrl of previewUrls; let i = index" class="position-relative">
+                    <img [src]="previewUrl" alt="Image preview" height="70px" class="rounded-4">
+                    <button type="button" (click)="removeImage(i)"
+                        class="button-standard button-icon-only position-absolute top-0 end-0">
+                        <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
+                    </button>
+                </div>
+            </div>
+            <button type="button" (click)="onCancelSendImg()"
+                class="button-subtle button-icon-only position-absolute top-0 end-0 m-5">
+                <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
+            </button>
+        </div>
+
+        <div class="w-fill h-hug layout-horizontal p-5 gap-15">
+            <img [src]="user.profile.profile_photo" class="rounded-circle border border-card-default object-fit-cover"
+                alt="" style="width: 35px; height: 35px;">
+
+            <div class="control w-fill h-hug" style="padding: 0;">
+                <input type="hidden" name="id" ngModel [(ngModel)]="chat.id">
+
+                <textarea [(ngModel)]="content" name="content" ngModel
+                    class="textarea-chat control text-area-control w-fill" (keydown)="handleKeydown($event, frm.value)"
+                    #textArea spellcheck="false" required></textarea>
+
+                <button type="button" class="input-button">
+                    <i class="icon-size-16 icon icon-ic_fluent_mic_16_regular"></i>
+                </button>
+
+                <label style="cursor: pointer;" class="input-button">
+                    <i class="icon-size-16 icon icon-ic_fluent_image_16_regular"></i>
+                    <input type="file" [ngModel]="fileInput" (change)="onFileSelected($event)" accept="image/*" multiple
+                        style="display: none;">
+                </label>
+                <button type="button" class="input-button">
+                    <i class="icon-size-16 icon icon-ic_fluent_emoji_16_regular"></i>
+                </button>
+            </div>
+
+            <button type="submit" class="button-subtle button-icon-only"
+                *ngIf="(!frm.invalid && !spaceCheck.test(frm.value.content)) || previewUrls.length > 0">
+                <i class="icon-size-16 text-accent-default icon icon-ic_fluent_send_16_filled"></i>
+            </button>
+        </div>
+    </form>
+</div>

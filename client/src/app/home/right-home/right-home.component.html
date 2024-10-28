@@ -3,7 +3,7 @@
         <div class="accordion-item">
             <div class="a-accordion-header w-fill p-10 gap-10 layout-horizontal align-center-center"
                 style="cursor: pointer;">
-                <img class="rounded-circle border border-card-default" src="{{user.data.profile.profile_photo}}" alt="" style="width: 35px; height: 35px;">
+                <img class="rounded-circle border border-card-default object-fit-cover" src="{{user.data.profile.profile_photo}}" alt="" style="width: 35px; height: 35px;">
                 <div class="w-fill layout-vertical">
                     <p class="text-body-strong text-primary">{{user.data.profile.display_name}}</p>
                     <p class="text-body text-secondary">{{user.data.email}}</p>
@@ -40,7 +40,7 @@
             class="layout-horizontal align-center-center gap-15 w-fill">
 
             <div>
-                <img class="rounded-circle border border-card-default" style="width: 35px; height: 35px;" src="{{friend.profile.profile_photo}}" alt="">
+                <img class="rounded-circle border border-card-default object-fit-cover" style="width: 35px; height: 35px;" src="{{friend.profile.profile_photo}}" alt="">
             </div>
             <p class="text-secondary text-body-strong w-fill">{{friend.profile.display_name}}</p>
         </a>
@@ -114,7 +114,7 @@
                 class="layout-horizontal align-center-center gap-15 w-fill">
 
                 <div>
-                    <img class="rounded-circle border border-card-default" style="width: 35px; height: 35px;" src="{{friend.profile.profile_photo}}" alt="">
+                    <img class="rounded-circle border border-card-default object-fit-cover" style="width: 35px; height: 35px;" src="{{friend.profile.profile_photo}}" alt="">
                 </div>
                 <div class="layout-vertical w-fill">
                     <p class="text-secondary text-body-strong w-fill">{{friend.profile.display_name}}</p>
