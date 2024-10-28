@@ -34,9 +34,10 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   id_message: number = 0;
 
   isScrollingToElement: boolean = false;
-  isVisible = false;
+  isVisible = true;
   showBoxSearch = false;
   showBoxSearchUser = false;
+  showUserGroup = false;
 
   keywordSearch: string = '';
   valueSearch: any = [];
@@ -49,6 +50,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
   previousElement: HTMLElement | null = null;
   focusTimeout: any;
+  countdownIntervals: any = {};
 
   fileImageGroup: any;
   selectedFilesGroup: File[] = [];
@@ -138,6 +140,15 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
       panel_user.style.maxHeight = (panel_user.classList.contains('open')) ? `${panel_user.scrollHeight}px` : '0px';
     });
 
+    const accordion_group = this.el.nativeElement.querySelector('.group-accordion-header') as HTMLElement;
+    const panel_group = this.el.nativeElement.querySelector('.accordion-panel-group-user') as HTMLElement;
+
+    accordion_group.addEventListener('click', () => {
+      accordion_group.classList.toggle('active');
+      panel_group.classList.toggle('open');
+      this.showUserGroup = !this.showUserGroup;
+      panel_group.style.maxHeight = (panel_group.classList.contains('open')) ? `${panel_group.scrollHeight}px` : '0px';
+    });
   }
 
   getPathImg(img: any) {
@@ -315,7 +326,6 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     }
   }
 
-  countdownIntervals: any = {};
 
   recallMessage(id: number) {
     const message = this.conversation.messages.find((item: any) => item.id === id);
@@ -400,7 +410,6 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
           || friend.email.toLowerCase().includes(this.keywordSearchUser.trim().toLowerCase()))
         && friend.id != this.user.id
       ).slice(0, 5);
-      console.log(this.valueSearchUser);
     }
     else {
       this.valueSearchUser = [];
@@ -424,6 +433,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
         console.log(response);
         this.closeCreateGroup();
         this.nameGroup.nativeElement.value = '';
+        this.friends.unshift(response.data);
       }
     )
   }

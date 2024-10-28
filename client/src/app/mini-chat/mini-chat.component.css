@@ -1,0 +1,24 @@
+
+.box-chat {
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+}
+
+.mess-hover .mess-menu {
+    display: none;
+}
+
+.mess-hover:hover .mess-menu {
+    display: block;
+}
+
+.textarea-chat {
+    resize: none;
+    max-height: 200px;
+}
+
+.border-focus{
+    outline: 3px solid rgb(0, 0, 0, 0.9);
+    outline-offset: 3px;
+}
