@@ -16,4 +16,9 @@ class MessageMedia extends Model
         'type',
         'path',
     ];
+
+    public function message()
+    {
+        return $this->belongsTo(Message::class, 'message_id');
+    }
 }

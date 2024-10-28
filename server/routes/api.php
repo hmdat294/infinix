@@ -42,6 +42,11 @@ Route::middleware(['guest'])->group(function () {
 
 Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(function () {
 
+    
+    Route::get('user/{user_id}/medias', [UserController::class, 'medias']);
+    Route::get('user/medias', [UserController::class, 'medias']);
+    Route::get('conversation/{id}/medias', [ConversationController::class, 'medias']);
+
     // Đăng xuất
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
     Route::post('change-password', [AuthController::class, 'changePassword'])->name('change-password');
@@ -152,6 +157,7 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
     Route::get('search-post/{keyword}', [SearchController::class, 'post'])->name('search.post');
     
     Route::post('update-user', [UserController::class, 'update']);
+
 
     // thống kê
     Route::prefix('statistics')->group(function () {

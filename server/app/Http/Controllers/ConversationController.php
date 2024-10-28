@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ConversationResource;
+use App\Http\Resources\MessageMediaResource;
 use Illuminate\Http\Request;
 use App\Models\Conversation as ConversationModel;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -78,5 +79,15 @@ class ConversationController extends Controller
     {
         //  delete conversation
         ConversationModel::destroy($id);
+    }
+
+    public function medias(string $id)
+    {
+        $conversation = ConversationModel::find($id);
+        $medias = $conversation->messages->map(function ($messages) {
+            return $messages->medias;
+        })->flatten();
+
+        return MessageMediaResource::collection($medias);
     }
 }

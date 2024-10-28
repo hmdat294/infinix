@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PostMediaResource;
 use App\Http\Resources\UserResource;
 use App\Models\Profile as ProfileModel;
 use Illuminate\Http\Request;
@@ -69,5 +70,16 @@ class UserController extends Controller
         }
 
         return new UserResource($user);
+    }
+
+    public function medias($user_id = 0)
+    {
+        $user = UserModel::find($user_id == 0 ? request()->user()->id : $user_id);
+        // tổng hợp tất cả post_medias của tất cả post của user
+        $medias = $user->posts->map(function ($post) {
+            return $post->medias;
+        })->flatten();
+
+        return PostMediaResource::collection($medias);
     }
 }
