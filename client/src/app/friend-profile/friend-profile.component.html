@@ -3,9 +3,9 @@
         <div class="w-fill-column-3 h-fill layout-vertical gap-20 py-20 overflow-scroll-vertical in-tablet-w-fill in-mobile-w-fill">
 
             <div class="w-fill h-hug card-background-default border border-card-default rounded-8 layout-vertical">
-                <img src="assets/image/splash.png" alt="" class="w-fill rounded-top-8">
+                <img [src]="user.profile.cover_photo || 'assets/image/splash.png'" alt="" class="w-fill rounded-top-8">
                 <div class="layout-vertical py-20 pb-20 gap-20 align-center-center" style="margin-top: -60px;">
-                    <img src="assets/image/profile-photo.png" alt="" class="rounded-circle border border-card-default"
+                    <img [src]="user.profile.profile_photo" alt="" class="rounded-circle border border-card-default"
                         style="width: 120px; height: 120px;">
 
                     <div

@@ -19,8 +19,7 @@ class ConversationController extends Controller
      */
     public function index(Request $request)
     {
-        $conversations = $request->user()->conversations;
-
+        $conversations = $request->user()->conversations->sortByDesc('created_at');
         return ConversationResource::collection($conversations);
     }
 
