@@ -35,9 +35,7 @@ export class EventService {
     }
     else {
       this.authService.getUser(0).subscribe(
-        (response) => {
-          this.channel = this.pusher.subscribe(`user.${response.data.id}`);
-        });
+        (response) => this.channel = this.pusher.subscribe(`user.${response.data.id}`));
     }
   }
 

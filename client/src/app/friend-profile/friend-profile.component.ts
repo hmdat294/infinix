@@ -69,6 +69,7 @@ export class FriendProfileComponent {
 
   }
 
+ 
   @ViewChild('commentInput') commentInput!: ElementRef;
   @ViewChildren('carouselInner') carouselInners!: QueryList<ElementRef<HTMLDivElement>>;
   @ViewChildren('nextButton') nextButtons!: QueryList<ElementRef<HTMLButtonElement>>;
@@ -81,13 +82,17 @@ export class FriendProfileComponent {
 
   initCarousels(): void {
     this.carouselInners.forEach((carouselInner, index) => {
-
+      const postId = this.listPost[index].id;// assign the post_id here based on the index or other logic;
       const nextButton = this.nextButtons.toArray()[index];
       const prevButton = this.prevButtons.toArray()[index];
       const indicators = this.indicatorsContainers.toArray()[index].nativeElement.querySelectorAll('button') as NodeListOf<HTMLButtonElement>;
 
-      this.carouselService.initCarousel(carouselInner, nextButton, prevButton, indicators);
+      this.carouselService.initCarousel(postId, carouselInner, nextButton, prevButton, indicators);
     });
+  }
+
+  goSlide(postId: number, slideIndex: number): void {
+    this.carouselService.goSlide(postId, slideIndex);
   }
 
   addFriend(receiver_id: number): void {

@@ -55,7 +55,7 @@
 }
 
 .layout-6>div:nth-child(5)::before {
-    content: "+";
+    content: attr(data-content-media);
     font-size: 50px;
     color: white;
     background-color: rgba(0, 0, 0, 0.5);

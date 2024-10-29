@@ -253,16 +253,16 @@
                                                 </div>
 
                                                 <img [src]="msg.user.profile.profile_photo"
-                                                    class="rounded-circle border border-card-default object-fit-cover" alt=""
-                                                    style="width: 35px; height: 35px;">
+                                                    class="rounded-circle border border-card-default object-fit-cover"
+                                                    alt="" style="width: 35px; height: 35px;">
                                             </div>
                                         </div>
 
                                         <div class="w-fill layout align-top-left" *ngIf="(user.id != msg.user_id)">
                                             <div class="layout-horizontal gap-15 p-5">
                                                 <img [src]="msg.user.profile.profile_photo"
-                                                    class="rounded-circle border border-card-default object-fit-cover" alt=""
-                                                    style="width: 35px; height: 35px;">
+                                                    class="rounded-circle border border-card-default object-fit-cover"
+                                                    alt="" style="width: 35px; height: 35px;">
                                                 <div>
                                                     <p class="text-tertiary text-caption mb-5 layout align-top-left">
                                                         {{msg.created_at_time}} - {{msg.updated_at_date}}
@@ -579,7 +579,7 @@
                         </div>
 
                         <div *ngIf="previewUrls.length > 0" class="p-10 position-relative">
-                            <div class="layout gap-10">
+                            <div class="layout-wrap gap-10">
                                 <div *ngFor="let previewUrl of previewUrls; let i = index" class="position-relative">
                                     <img [src]="previewUrl" alt="Image preview" height="100px" class="rounded-4">
                                     <button type="button" (click)="removeImage(i)"
@@ -595,8 +595,9 @@
                         </div>
 
                         <div class="w-fill h-hug layout px-20 py-15 gap-15">
-                            <img [src]="user.profile.profile_photo" class="rounded-circle border border-card-default object-fit-cover"
-                                alt="" style="width: 35px; height: 35px;">
+                            <img [src]="user.profile.profile_photo"
+                                class="rounded-circle border border-card-default object-fit-cover" alt=""
+                                style="width: 35px; height: 35px;">
 
                             <div class="control w-fill h-hug" style="padding: 0;">
                                 <input type="hidden" name="id" ngModel [(ngModel)]="conversation.id">
@@ -637,7 +638,7 @@
 
             <div class="layout-vertical card-background-default border rounded-8 align-center-center py-20">
 
-                <div style="width: 100px; height: 100px;">
+                <div style="width: 100px; height: 100px;" class="mb-10">
                     <img [src]="
                     (conversation.is_group == 1) ? conversation.image :
                     (conversation.users[0].id == user.id) ? conversation.users[1].profile.profile_photo :
@@ -651,12 +652,16 @@
                     </label>
                 </div>
 
+                <div>
+                    <p class="text-primary text-body">{{
+                        (conversation.is_group == 1) ? conversation.name :
+                        (conversation.users[0].id == user.id) ? conversation.users[1].profile.display_name :
+                        conversation.users[0].profile.display_name
+                        }}</p>
 
-                <p class="text-primary text-body">{{
-                    (conversation.is_group == 1) ? conversation.name :
-                    (conversation.users[0].id == user.id) ? conversation.users[1].profile.display_name :
-                    conversation.users[0].profile.display_name
-                    }}</p>
+                    <i class="icon-size-20 accent-text-primary icon icon-ic_fluent_edit_20_regular"></i>
+                </div>
+
                 <p class="text-primary text-caption">{{
                     (conversation.is_group == 1) ? '' :
                     (conversation.users[0].id == user.id) ? conversation.users[1].email :
@@ -721,19 +726,19 @@
                     <div class="accordion-item">
                         <div class="group-accordion-header layout-horizontal gap-15 px-20 py-15 align-center-center text-accent-default"
                             style="cursor: pointer;">
-                            <i *ngIf="!showUserGroup"
-                                class="icon-size-20 icon icon-ic_fluent_person_20_regular"></i>
+                            <i *ngIf="!showUserGroup" class="icon-size-20 icon icon-ic_fluent_person_20_regular"></i>
                             <p class="text-primary text-body w-fill">Thành viên</p>
-                            <i *ngIf="showUserGroup"
-                                class="icon-size-20 icon icon-ic_fluent_dismiss_20_regular"></i>
+                            <i *ngIf="showUserGroup" class="icon-size-20 icon icon-ic_fluent_dismiss_20_regular"></i>
                         </div>
                         <div class="accordion-panel accordion-panel-group-user">
                             <div class="layout-vertical p-5 px-15">
 
-                                <div class="layout-horizontal gap-15 p-10 w-fill list-item border-top" *ngFor="let user of conversation.users">
+                                <div class="layout-horizontal gap-15 p-10 w-fill list-item border-top"
+                                    *ngFor="let user of conversation.users">
                                     <div class="layout-horizontal align-center-center gap-15 w-fill">
                                         <div style="width: 35px; height: 35px;">
-                                            <img [src]="user.profile.profile_photo" class="rounded-circle border border-card-default object-fit-cover"
+                                            <img [src]="user.profile.profile_photo"
+                                                class="rounded-circle border border-card-default object-fit-cover"
                                                 style="width: 35px; height: 35px;" alt="">
                                         </div>
                                         <div class="layout-vertical w-fill">
@@ -780,8 +785,8 @@
                                             class="layout-horizontal align-center-left gap-15 p-15 list-item">
                                             <div>
                                                 <img [src]="message.user.profile.profile_photo"
-                                                    class="rounded-circle border border-card-default object-fit-cover" alt=""
-                                                    style="width: 35px; height: 35px;">
+                                                    class="rounded-circle border border-card-default object-fit-cover"
+                                                    alt="" style="width: 35px; height: 35px;">
                                             </div>
                                             <div class="w-fill">
                                                 <p class="text-body-strong">{{message.user.profile.display_name}}</p>

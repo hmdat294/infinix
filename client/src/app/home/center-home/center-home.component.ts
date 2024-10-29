@@ -55,7 +55,7 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
     this.authService.getUser(0).subscribe(
       (data) => {
         this.currentUser = data.data;
-    });
+      });
   }
 
   @ViewChild('commentInput') commentInput!: ElementRef;
@@ -69,34 +69,42 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   }
 
   initCarousels(): void {
+    
     this.carouselInners.forEach((carouselInner, index) => {
-
+      console.log(carouselInner);
+      const postId = this.listPost[index].id;// assign the post_id here based on the index or other logic;
+      console.log(postId);
+      
       const nextButton = this.nextButtons.toArray()[index];
       const prevButton = this.prevButtons.toArray()[index];
       const indicators = this.indicatorsContainers.toArray()[index].nativeElement.querySelectorAll('button') as NodeListOf<HTMLButtonElement>;
 
-      this.carouselService.initCarousel(carouselInner, nextButton, prevButton, indicators);
+      this.carouselService.initCarousel(postId, carouselInner, nextButton, prevButton, indicators);
     });
+  }
+
+  goSlide(postId: number, slideIndex: number): void {
+    this.carouselService.goSlide(postId, slideIndex);
   }
 
   getPathImg(img: any) {
     return img.path;
   }
 
-  toggleDialog(post_id: number) {
+  toggleDialog(post_id: number, slideIndex:number = 0) {
     this.idDialog = post_id;
+    this.eventService.setPostId(post_id);
 
     if (this.idDialog == 0) {
       this.commentByPostId[post_id] = null;
+      this.ngOnInit();
     }
     else {
       this.postService.getComment(post_id).subscribe(
         (response) => {
-          console.log(response);
 
           this.commentByPostId[post_id] = response.data;
-
-          this.eventService.setPostId(post_id);
+          this.goSlide(post_id, slideIndex)
 
           this.eventService.bindEvent('App\\Events\\UserCommentPostEvent', (data: any) => {
             this.listPost.find(item => item.id === data.data.post.id).comments_count = data.comments_count;
