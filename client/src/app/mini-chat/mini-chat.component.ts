@@ -115,7 +115,7 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
   deleteMiniChat(conversation_id: number) {
     this.conversation = this.conversation.filter(id => id !== conversation_id);
     localStorage.setItem('conversation', JSON.stringify(this.conversation));
-    this.showChatBubble();
+    this.showBoxMiniChat = false;
     this.filterListChat();
   }
 
