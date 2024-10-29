@@ -50,8 +50,7 @@ export class HeaderComponent implements OnInit {
             this.conversation.shift();
 
           this.conversation.push(data.data.conversation_id);
-          localStorage.setItem('conversation', JSON.stringify(this.conversation));
-
+          localStorage.setItem('conversation', JSON.stringify(this.conversation));          
         });
       }
     )
