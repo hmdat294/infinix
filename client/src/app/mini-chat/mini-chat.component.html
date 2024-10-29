@@ -23,7 +23,8 @@
             style="border-radius: 999px !important; width: 50px !important; height: 50px !important;">
             <i class="icon-size-20 icon icon-ic_fluent_comment_edit_20_filled"></i>
         </button>
-        <span *ngIf="!showChat">{{conversation.length}}</span>
+        <p class="position-absolute rounded-circle top-0 end-0 text-on-accent-primary layout align-center-center" style="background-color: #C42B1C; width: 20px; height: 20px;" *ngIf="!showChat">{{conversation.length}}</p>
+
     </div>
 </div>
 
@@ -51,7 +52,7 @@
             <i class="icon-size-16 text-accent-default icon icon-ic_fluent_video_16_filled"></i>
         </button>
         <button type="button" class="button-subtle button-icon-only" (click)="this.showBoxMiniChat = false">
-            <i class="icon-size-16 text-accent-default icon icon-ic_fluent_dismiss_16_filled"></i>
+            <i class="icon-size-16 text-accent-default icon icon-ic_fluent_subtract_16_filled"></i>
         </button>
         <button type="button" class="button-subtle button-icon-only" (click)="deleteMiniChat(chat.id)">
             <i class="icon-size-16 text-accent-default icon icon-ic_fluent_dismiss_16_filled"></i>
