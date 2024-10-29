@@ -26,6 +26,7 @@ export class HeaderComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private eventService: EventService,
+    private chatService: ChatService
   ) { }
 
   ngOnInit(): void {
@@ -36,7 +37,10 @@ export class HeaderComponent implements OnInit {
       (event: any) => this.currentRoute = event.urlAfterRedirects.split('/')[1]
     );
 
-    this.conversation = JSON.parse(localStorage.getItem('conversation') || '[]');
+    this.chatService.conversation$.subscribe(conversation => {
+      // console.log('Updated conversation from localStorage:', conversation);
+      this.conversation = conversation;
+    });
 
     this.authService.getUser(0).subscribe(
       (res: any) => {
@@ -50,7 +54,8 @@ export class HeaderComponent implements OnInit {
             this.conversation.shift();
 
           this.conversation.push(data.data.conversation_id);
-          localStorage.setItem('conversation', JSON.stringify(this.conversation));          
+          this.chatService.updateConversation(this.conversation);
+    
         });
       }
     )

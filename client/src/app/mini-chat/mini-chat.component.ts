@@ -65,7 +65,12 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
         this.user = response.data;
       });
 
-    this.conversation = JSON.parse(localStorage.getItem('conversation') || '[]');
+    // this.conversation = JSON.parse(localStorage.getItem('conversation') || '[]');
+
+    this.chatService.conversation$.subscribe(conversation => {
+      // console.log('Updated conversation from localStorage:', conversation);
+      this.conversation = conversation;
+    });
 
     this.chatService.getListChat().subscribe(
       (data: any) => {
@@ -85,7 +90,7 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
 
           if (this.conversation.length >= 5)
             this.conversation.shift();
-          
+
           this.conversation.push(data.data.conversation_id);
 
           this.filterListChat();
@@ -126,8 +131,10 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
   }
 
   showChatBubble() {
-    this.showChat = !this.showChat;
-    if (this.showChat == false) this.showBoxMiniChat = false;
+    if (this.conversation.length > 0) {
+      this.showChat = !this.showChat;
+      if (this.showChat == false) this.showBoxMiniChat = false;
+    }
   }
 
   filterListChat() {

@@ -97,9 +97,11 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
     ->parameters(['chat' => 'id']);
 
     // API cho hội thoại nhóm
+    Route::post('update-chat-group', [ConversationGroupController::class, 'update']);
     Route::resource('chat-group', ConversationGroupController::class)
-    ->only(['index', 'store', 'show', 'update', 'destroy'])
+    ->only(['index', 'store', 'show', 'destroy'])
     ->parameters(['chat-group' => 'id']);
+
 
     // API cho lời mời tham gia hội thoại nhóm
     Route::resource('chat-group-invititaion', ConversationInvitationController::class)

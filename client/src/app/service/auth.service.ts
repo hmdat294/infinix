@@ -94,12 +94,15 @@ export class AuthService {
   }
 
   getCode(email: string): Observable<any> {
-    // console.log(email);
     return this.http.post(`${this.apiUrl}/verify-contact-info/`, { email });
   }
 
   postCode(email: string, code: number): Observable<any> {
-    // console.log(email, code);
     return this.http.post(`${this.apiUrl}/verify-verification-code/`, { email, code });
+  }
+
+  getImageByUser(user_id: number): Observable<any> {
+    const headers = this.getToken();
+    return this.http.get(`${this.apiUrl}/user/${user_id}/medias/`, { headers });
   }
 }

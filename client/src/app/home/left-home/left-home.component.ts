@@ -31,7 +31,9 @@ export class LeftHomeComponent implements OnInit {
 
     if (localStorage.getItem('auth_token')) {
       this.authService.getUser(0).subscribe(
-        (response) => this.user = response);
+        (response) => {
+          this.user = response;
+        });
     }
 
     this.authService.getRequestFriend().subscribe(
@@ -52,7 +54,7 @@ export class LeftHomeComponent implements OnInit {
     this.chatService.getGroup().subscribe(
       (response) => {
         this.groupRequest = response.data;
-        
+
         this.eventService.bindEvent('App\\Events\\ConversationInvitationEvent', (data: any) => {
           console.log('Group request event:', data);
 

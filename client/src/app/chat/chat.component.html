@@ -24,7 +24,7 @@
                                 class="icon-size-24 icon icon-ic_fluent_more_horizontal_24_regular"></i></button>
                     </div>
                 </div>
-                <div class="overflow-scroll-vertical">
+                <div *ngIf="friends" class="overflow-scroll-vertical">
 
                     <div class="border-top" *ngFor="let friend of friends">
                         <button type="button" class="button-subtle w-fill gap-15 px-20 py-15"
@@ -87,31 +87,6 @@
                                 <input type="text" name="name_group" ngModel spellcheck="false" #nameGroup>
                             </div>
                         </div>
-                        <!-- <div class="w-fill layout-vertical gap-5">
-                            <p class="text-body text-primary">Thêm bạn bè</p>
-                            <div class="search-dropdown-control w-fill">
-                                <div class="control search-control">
-                                    <input type="search" spellcheck="false">
-                                    <button type="button" class="input-button clear-content-button">
-                                        <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
-                                    </button>
-                                    <button type="button" class="input-button search-button">
-                                        <i class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
-                                    </button>
-                                </div>
-                                <div class="dropdown-menu">
-                                    <div class="list-item">
-                                        <div class="text-body">Item 1</div>
-                                    </div>
-                                    <div class="list-item">
-                                        <div class="text-body">Item 2</div>
-                                    </div>
-                                    <div class="list-item">
-                                        <div class="text-body">Item 3</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
                         <div class="w-fill layout-horizontal gap-20 align-center-right">
                             <button type="button" class="button-standard button-text-only"
                                 (click)="closeCreateGroup()">Hủy</button>
@@ -123,7 +98,13 @@
             </div>
         </div>
 
-        <div class="{{(isVisible)?'w-fill-column-6':'w-fill-column-9'}} layout-vertical gap-20 py-20">
+        <div *ngIf="!conversation"
+            class="w-fill my-20 p-20 card-background-default border border-card-default rounded-8 layout align-center-center">
+            <p class="text-body text-secondary text-center">Trống</p>
+        </div>
+
+        <div *ngIf="conversation"
+            class="{{(isVisible)?'w-fill-column-6':'w-fill-column-9'}} layout-vertical gap-20 py-20">
             <div class="layout-vertical card-background-default border border-card-default rounded-8"
                 style="height: calc(100vh - 85px);">
                 <div
@@ -240,10 +221,12 @@
                                                                 <p style="white-space: pre-line;"
                                                                     class="text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
                                                                     {{ msg.content }}
-                                                                    Lorem ipsum dolor sit amet consectetur adipisicing
+                                                                    Lorem ipsum dolor sit amet consectetur
+                                                                    adipisicing
                                                                     elit. Fugit animi in soluta maiores! Provident
                                                                     cupiditate in obcaecati fuga dolore, quam magnam
-                                                                    aliquam earum culpa perspiciatis repudiandae soluta,
+                                                                    aliquam earum culpa perspiciatis repudiandae
+                                                                    soluta,
                                                                     vero ex deleniti?
                                                                 </p>
 
@@ -253,16 +236,16 @@
                                                 </div>
 
                                                 <img [src]="msg.user.profile.profile_photo"
-                                                    class="rounded-circle border border-card-default object-fit-cover" alt=""
-                                                    style="width: 35px; height: 35px;">
+                                                    class="rounded-circle border border-card-default object-fit-cover"
+                                                    alt="" style="width: 35px; height: 35px;">
                                             </div>
                                         </div>
 
                                         <div class="w-fill layout align-top-left" *ngIf="(user.id != msg.user_id)">
                                             <div class="layout-horizontal gap-15 p-5">
                                                 <img [src]="msg.user.profile.profile_photo"
-                                                    class="rounded-circle border border-card-default object-fit-cover" alt=""
-                                                    style="width: 35px; height: 35px;">
+                                                    class="rounded-circle border border-card-default object-fit-cover"
+                                                    alt="" style="width: 35px; height: 35px;">
                                                 <div>
                                                     <p class="text-tertiary text-caption mb-5 layout align-top-left">
                                                         {{msg.created_at_time}} - {{msg.updated_at_date}}
@@ -579,7 +562,7 @@
                         </div>
 
                         <div *ngIf="previewUrls.length > 0" class="p-10 position-relative">
-                            <div class="layout gap-10">
+                            <div class="layout-wrap gap-10">
                                 <div *ngFor="let previewUrl of previewUrls; let i = index" class="position-relative">
                                     <img [src]="previewUrl" alt="Image preview" height="100px" class="rounded-4">
                                     <button type="button" (click)="removeImage(i)"
@@ -595,8 +578,9 @@
                         </div>
 
                         <div class="w-fill h-hug layout px-20 py-15 gap-15">
-                            <img [src]="user.profile.profile_photo" class="rounded-circle border border-card-default object-fit-cover"
-                                alt="" style="width: 35px; height: 35px;">
+                            <img [src]="user.profile.profile_photo"
+                                class="rounded-circle border border-card-default object-fit-cover" alt=""
+                                style="width: 35px; height: 35px;">
 
                             <div class="control w-fill h-hug" style="padding: 0;">
                                 <input type="hidden" name="id" ngModel [(ngModel)]="conversation.id">
@@ -635,28 +619,71 @@
         <div
             class="{{(isVisible)?'display-flex':'display-none'}} w-fill-column-3 layout-vertical gap-20 py-20 overflow-scroll-vertical">
 
+            <div class="position-fixed top-0 start-0" *ngIf="idDialogEditGroup && conversation.is_group == 1"
+                style="width: 100%; height: 100vh; z-index: 10; background-color: rgba(0, 0, 0, 0.2);">
+                <div class="dialog-panel position-absolute top-50 start-50 translate-middle" style="z-index: 12;">
+                    <form
+                        class="layout-vertical gap-20 p-20 rounded-8 acrylic-background-default blur-acrylic border border-card-default"
+                        style="width: 400px;" (submit)="editGroup(frm.value)" #frm="ngForm"
+                        enctype="multipart/form-data">
+                        <div class="w-fill layout-vertical gap-5">
+                            <p class="text-body-large text-primary">Sửa thông tin nhóm</p>
+                        </div>
+                        <div class="layout py-20 w-fill align-center-center">
+                            <div class="background-card-default" style="width: 100px; height: 100px;">
+                                <img class="border border-card-default w-fill h-fill rounded-circle object-fit-cover"
+                                    src="{{(selectedFilesEditGroup.length > 0)?previewEditGroupImages:conversation.image}}"
+                                    alt="">
+
+                                <input class="display-none" type="file" [ngModel]="fileImageEditGroup"
+                                    (change)="onFileImageEditGroupSelected($event)" accept="image/*"
+                                    id="edit_group_media_input">
+                                <label for="edit_group_media_input"
+                                    class="p-0 button-accent button-icon-only position-absolute bottom-0 end-0"
+                                    style="z-index: 1;">
+                                    <i class="icon-size-16 icon icon-ic_fluent_camera_16_filled"></i>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="w-fill layout-vertical gap-5">
+                            <p class="text-body text-primary">Tên nhóm</p>
+                            <div class="w-fill control text-control">
+                                <input type="text" name="name_edit_group" ngModel spellcheck="false" #nameEditGroup>
+                            </div>
+                        </div>
+                        <div class="w-fill layout-horizontal gap-20 align-center-right">
+                            <button type="button" class="button-standard button-text-only"
+                                (click)="closeEditGroup()">Hủy</button>
+                            <button type="submit" class="button-accent button-text-only"
+                                [disabled]="spaceCheck.test(frm.value.name_edit_group) && selectedFilesEditGroup.length == 0">Cập nhật</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
             <div class="layout-vertical card-background-default border rounded-8 align-center-center py-20">
 
-                <div style="width: 100px; height: 100px;">
+                <div style="width: 100px; height: 100px;" class="mb-10">
                     <img [src]="
                     (conversation.is_group == 1) ? conversation.image :
                     (conversation.users[0].id == user.id) ? conversation.users[1].profile.profile_photo :
                     conversation.users[0].profile.profile_photo
                     " class="rounded-circle border border-card-default mb-15 w-fill h-fill object-fit-cover" alt="">
-
-                    <label *ngIf="conversation.is_group == 1"
-                        class="p-0 button-accent button-icon-only position-absolute bottom-0 end-0" style="z-index: 1;">
-                        <input class="display-none" type="file" accept="image/*">
-                        <i class="icon-size-16 icon icon-ic_fluent_camera_16_filled"></i>
-                    </label>
                 </div>
 
+                <div class="layout-horizontal align-center-center gap-5">
+                    <p class="text-primary text-body">{{
+                        (conversation.is_group == 1) ? conversation.name :
+                        (conversation.users[0].id == user.id) ? conversation.users[1].profile.display_name :
+                        conversation.users[0].profile.display_name
+                        }}</p>
 
-                <p class="text-primary text-body">{{
-                    (conversation.is_group == 1) ? conversation.name :
-                    (conversation.users[0].id == user.id) ? conversation.users[1].profile.display_name :
-                    conversation.users[0].profile.display_name
-                    }}</p>
+                    <button type="button" class="button-subtle button-icon-only" *ngIf="conversation.is_group == 1"
+                        (click)="toggleDialogEditGroup()">
+                        <i class="icon-size-16 accent-text-primary icon icon-ic_fluent_edit_16_regular"></i>
+                    </button>
+                </div>
+
                 <p class="text-primary text-caption">{{
                     (conversation.is_group == 1) ? '' :
                     (conversation.users[0].id == user.id) ? conversation.users[1].email :
@@ -721,19 +748,19 @@
                     <div class="accordion-item">
                         <div class="group-accordion-header layout-horizontal gap-15 px-20 py-15 align-center-center text-accent-default"
                             style="cursor: pointer;">
-                            <i *ngIf="!showUserGroup"
-                                class="icon-size-20 icon icon-ic_fluent_person_20_regular"></i>
+                            <i *ngIf="!showUserGroup" class="icon-size-20 icon icon-ic_fluent_person_20_regular"></i>
                             <p class="text-primary text-body w-fill">Thành viên</p>
-                            <i *ngIf="showUserGroup"
-                                class="icon-size-20 icon icon-ic_fluent_dismiss_20_regular"></i>
+                            <i *ngIf="showUserGroup" class="icon-size-20 icon icon-ic_fluent_dismiss_20_regular"></i>
                         </div>
                         <div class="accordion-panel accordion-panel-group-user">
                             <div class="layout-vertical p-5 px-15">
 
-                                <div class="layout-horizontal gap-15 p-10 w-fill list-item border-top" *ngFor="let user of conversation.users">
+                                <div class="layout-horizontal gap-15 p-10 w-fill list-item border-top"
+                                    *ngFor="let user of conversation.users">
                                     <div class="layout-horizontal align-center-center gap-15 w-fill">
                                         <div style="width: 35px; height: 35px;">
-                                            <img [src]="user.profile.profile_photo" class="rounded-circle border border-card-default object-fit-cover"
+                                            <img [src]="user.profile.profile_photo"
+                                                class="rounded-circle border border-card-default object-fit-cover"
                                                 style="width: 35px; height: 35px;" alt="">
                                         </div>
                                         <div class="layout-vertical w-fill">
@@ -780,11 +807,12 @@
                                             class="layout-horizontal align-center-left gap-15 p-15 list-item">
                                             <div>
                                                 <img [src]="message.user.profile.profile_photo"
-                                                    class="rounded-circle border border-card-default object-fit-cover" alt=""
-                                                    style="width: 35px; height: 35px;">
+                                                    class="rounded-circle border border-card-default object-fit-cover"
+                                                    alt="" style="width: 35px; height: 35px;">
                                             </div>
                                             <div class="w-fill">
-                                                <p class="text-body-strong">{{message.user.profile.display_name}}</p>
+                                                <p class="text-body-strong">{{message.user.profile.display_name}}
+                                                </p>
                                                 <p class="text-body">{{message.content}}</p>
                                                 <p class="text-caption">{{message.created_at_date}} -
                                                     {{message.created_at_time}}</p>
@@ -809,24 +837,42 @@
                     <i class="icon-size-20 icon icon-ic_fluent_pin_20_regular"></i>
                     <p class="text-primary text-body w-fill">Tin nhắn được gim</p>
                 </a>
-
-
-
-
             </div>
 
-            <div class="card-background-default border rounded-8 p-10">
+            <div
+                class="layout-vertical w-fill gap-20 p-20 rounded-8 card-background-default border border-card-default">
+                <div
+                    class="layout-horizontal pb-10 w-fill border-bottom border-card-default align-center-space-between">
+                    <p class="text-body text-primary">{{images.length}} phương tiện</p>
+                    <a href="" class="link text-nowrap">Xem thêm</a>
+                </div>
+                <div class="layout-vertical w-fill p-0">
+                    <div class="w-fill layout-wrap gap-20 align-center-left" *ngIf="images.length>0">
+                        <div class="w-fill-column-4" style="height: 80px;" *ngFor="let img of images">
+                            <img [src]="img.path" class="w-fill h-fill object-fit-cover rounded-4"
+                                (click)="setZoomIng(img.path)">
+                        </div>
+                    </div>
 
-                <!-- <div class="" style="display: grid; grid-template-columns: repeat(3, 1fr); gap:10px;">
+                    <div class="w-fill py-20 card-background-default border border-card-default rounded-8"
+                        *ngIf="images.length==0">
+                        <p class="text-body text-secondary text-center">Trống</p>
+                    </div>
+                </div>
+            </div>
 
-                    <a href="" class="">
-                        <img src="assets/image/hinh.jpg" alt="" class="rounded-4 border w-fill">
-                    </a>
 
-                </div> -->
 
-                <div class="w-fill py-20 card-background-default border border-card-default rounded-8">
-                    <p class="text-body text-secondary text-center">Trống</p>
+            <div class="position-fixed top-0 start-0" *ngIf="zoomImg != ''" style="width: 100%; height: 100vh;">
+                <div class="position-fixed top-0 start-0"
+                    style="width: 100%; height: 100vh; z-index: 20; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px);"
+                    (click)="setZoomIng('')">
+                </div>
+                <div class="dialog-panel position-absolute top-50 start-50 translate-middle" style="z-index: 21;">
+                    <div class="layout-vertical p-10 rounded-8 acrylic-background-default blur-acrylic border border-card-default"
+                        style="max-width: 700px;">
+                        <img [src]="zoomImg" class="w-fill h-fill rounded-6" alt="">
+                    </div>
                 </div>
             </div>
         </div>

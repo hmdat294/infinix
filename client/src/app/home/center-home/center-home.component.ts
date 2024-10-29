@@ -55,7 +55,7 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
     this.authService.getUser(0).subscribe(
       (data) => {
         this.currentUser = data.data;
-    });
+      });
   }
 
   @ViewChild('commentInput') commentInput!: ElementRef;
@@ -69,22 +69,24 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   }
 
   initCarousels(): void {
-    this.carouselInners.forEach((carouselInner, index) => {
+    const posts = this.listPost.filter((item: any) => item.post_type === "with_media");
 
+    this.carouselInners.forEach((carouselInner, index) => {
       const nextButton = this.nextButtons.toArray()[index];
       const prevButton = this.prevButtons.toArray()[index];
       const indicators = this.indicatorsContainers.toArray()[index].nativeElement.querySelectorAll('button') as NodeListOf<HTMLButtonElement>;
 
-      this.carouselService.initCarousel(carouselInner, nextButton, prevButton, indicators);
+      this.carouselService.initCarousel(posts[index].id, carouselInner, nextButton, prevButton, indicators);
     });
   }
 
-  getPathImg(img: any) {
-    return img.path;
+  goSlide(postId: number, slideIndex: number): void {
+    this.carouselService.goSlide(postId, slideIndex);
   }
 
-  toggleDialog(post_id: number) {
+  toggleDialog(post_id: number, slideIndex: number = 0) {
     this.idDialog = post_id;
+    this.eventService.setPostId(post_id);
 
     if (this.idDialog == 0) {
       this.commentByPostId[post_id] = null;
@@ -92,19 +94,17 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
     else {
       this.postService.getComment(post_id).subscribe(
         (response) => {
-          console.log(response);
 
           this.commentByPostId[post_id] = response.data;
+          this.goSlide(post_id, slideIndex)
 
-          this.eventService.setPostId(post_id);
-
-          this.eventService.bindEvent('App\\Events\\UserCommentPostEvent', (data: any) => {
+          this.eventService.bindEventPost('App\\Events\\UserCommentPostEvent', (data: any) => {
             this.listPost.find(item => item.id === data.data.post.id).comments_count = data.comments_count;
             this.getCommentByPostId(data.data.post.id).unshift(data.data);
             console.log('Comment event:', data);
           });
 
-          this.eventService.bindEvent('App\\Events\\UserLikePostEvent', (data: any) => {
+          this.eventService.bindEventPost('App\\Events\\UserLikePostEvent', (data: any) => {
             this.listPost.find(item => item.id === data.data.id).likes_count = data.likes_count;
             console.log('Like event:', data);
           });
@@ -119,6 +119,10 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
 
   getCommentByPostId(post_id: number) {
     return this.commentByPostId[post_id];
+  }
+
+  getPathImg(img: any) {
+    return img.path;
   }
 
 

@@ -7,6 +7,8 @@ import { AuthService } from '../service/auth.service';
 import { CarouselService } from '../service/carousel.service';
 import { EventService } from '../service/event.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ChatService } from '../service/chat.service';
+import { MiniChatComponent } from '../mini-chat/mini-chat.component';
 
 @Component({
   selector: 'app-friend-profile',
@@ -27,6 +29,8 @@ export class FriendProfileComponent {
   idDialog: number = 0;
   commentByPostId: any[] = [];
   user: any;
+  images: any;
+  conversation: any[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -35,7 +39,9 @@ export class FriendProfileComponent {
     private carouselService: CarouselService,
     private eventService: EventService,
     private authService: AuthService,
-    private router: Router
+    private chatService: ChatService,
+    private router: Router,
+    // private miniChat: MiniChatComponent
   ) { }
 
   ngOnInit(): void {
@@ -48,6 +54,12 @@ export class FriendProfileComponent {
             this.user = response.data;
             console.log(this.user);
 
+            this.authService.getImageByUser(this.user.id).subscribe(
+              (response) => {
+                this.images = response.data;
+                console.log(this.images);
+              }
+            )
           });
 
         this.postService.getPostByUser(user_id).subscribe(
@@ -63,12 +75,36 @@ export class FriendProfileComponent {
       }
       else this.router.navigate(['/profile']);
 
-
     });
 
+    // this.conversation = JSON.parse(localStorage.getItem('conversation') || '[]');
 
+    this.chatService.conversation$.subscribe(conversation => {
+      // console.log('Updated conversation from localStorage:', conversation);
+      this.conversation = conversation;
+    });
   }
 
+  createChat(receiver_id: number) {
+    this.chatService.getMessageUser(receiver_id).subscribe(
+      (response: any) => {
+        console.log(response);
+
+        if (this.conversation.includes(response.data.id)) {
+          this.conversation = this.conversation.filter(id => id !== response.data.id);
+        }
+
+        if (this.conversation.length >= 5) {
+          this.conversation.shift();
+        }
+
+        this.conversation.push(response.data.id);
+        // Cập nhật conversation thông qua service
+        this.chatService.updateConversation(this.conversation);
+      });
+  }
+
+  // localStorage.setItem('conversation', JSON.stringify(this.conversation));
   @ViewChild('commentInput') commentInput!: ElementRef;
   @ViewChildren('carouselInner') carouselInners!: QueryList<ElementRef<HTMLDivElement>>;
   @ViewChildren('nextButton') nextButtons!: QueryList<ElementRef<HTMLButtonElement>>;
@@ -80,14 +116,51 @@ export class FriendProfileComponent {
   }
 
   initCarousels(): void {
-    this.carouselInners.forEach((carouselInner, index) => {
+    const posts = this.listPost.filter((item: any) => item.post_type === "with_media");
 
+    this.carouselInners.forEach((carouselInner, index) => {
       const nextButton = this.nextButtons.toArray()[index];
       const prevButton = this.prevButtons.toArray()[index];
       const indicators = this.indicatorsContainers.toArray()[index].nativeElement.querySelectorAll('button') as NodeListOf<HTMLButtonElement>;
 
-      this.carouselService.initCarousel(carouselInner, nextButton, prevButton, indicators);
+      this.carouselService.initCarousel(posts[index].id, carouselInner, nextButton, prevButton, indicators);
     });
+  }
+
+  goSlide(postId: number, slideIndex: number): void {
+    this.carouselService.goSlide(postId, slideIndex);
+  }
+
+  toggleDialog(post_id: number, slideIndex: number = 0) {
+    this.idDialog = post_id;
+    this.eventService.setPostId(post_id);
+
+    if (this.idDialog == 0) {
+      this.commentByPostId[post_id] = null;
+    }
+    else {
+      this.postService.getComment(post_id).subscribe(
+        (response) => {
+
+          this.commentByPostId[post_id] = response.data;
+          this.goSlide(post_id, slideIndex)
+
+          this.eventService.bindEventPost('App\\Events\\UserCommentPostEvent', (data: any) => {
+            this.listPost.find(item => item.id === data.data.post.id).comments_count = data.comments_count;
+            this.getCommentByPostId(data.data.post.id).unshift(data.data);
+            console.log('Comment event:', data);
+          });
+
+          this.eventService.bindEventPost('App\\Events\\UserLikePostEvent', (data: any) => {
+            this.listPost.find(item => item.id === data.data.id).likes_count = data.likes_count;
+            console.log('Like event:', data);
+          });
+
+        })
+    }
+
+    this.cdr.detectChanges();
+    this.initCarousels();
   }
 
   addFriend(receiver_id: number): void {
@@ -108,39 +181,6 @@ export class FriendProfileComponent {
 
   getPathImg(img: any) {
     return img.path;
-  }
-
-  toggleDialog(post_id: number) {
-    this.idDialog = post_id;
-
-    if (this.idDialog == 0) {
-      this.commentByPostId[post_id] = null;
-    }
-    else {
-      this.postService.getComment(post_id).subscribe(
-        (response) => {
-          console.log(response);
-
-          this.commentByPostId[post_id] = response.data;
-
-          this.eventService.setPostId(post_id);
-
-          this.eventService.bindEvent('App\\Events\\UserCommentPostEvent', (data: any) => {
-            this.listPost.find(item => item.id === data.data.post.id).comments_count = data.comments_count;
-            this.getCommentByPostId(data.data.post.id).unshift(data.data);
-            console.log('Comment event:', data);
-          });
-
-          this.eventService.bindEvent('App\\Events\\UserLikePostEvent', (data: any) => {
-            this.listPost.find(item => item.id === data.data.id).likes_count = data.likes_count;
-            console.log('Like event:', data);
-          });
-
-        })
-    }
-
-    this.cdr.detectChanges();
-    this.initCarousels();
   }
 
   getCommentByPostId(post_id: number) {
@@ -217,4 +257,9 @@ export class FriendProfileComponent {
     else return `${diffInHours} giờ trước`;
   }
 
+  zoomImg: string = '';
+
+  setZoomIng(img: string) {
+    this.zoomImg = img;
+  }
 }

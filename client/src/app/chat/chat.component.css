@@ -125,17 +125,7 @@ article {
     grid-row-end: 12;
 }
 
-.layout-6>div:nth-child(6) {
-    grid-row-start: 12;
-    grid-row-end: 13;
-}
-
-.layout-6>div:nth-child(7) {
-    grid-row-start: 12;
-    grid-row-end: 16;
-}
-
-.layout-6>div:nth-child(6) {
-    grid-row-start: 13;
-    grid-row-end: 16;
+.layout-6>div:last-child {
+    grid-column-start: 1;
+    grid-column-end: 3;
 }
