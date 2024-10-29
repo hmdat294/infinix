@@ -24,7 +24,7 @@
                                 class="icon-size-24 icon icon-ic_fluent_more_horizontal_24_regular"></i></button>
                     </div>
                 </div>
-                <div class="overflow-scroll-vertical">
+                <div *ngIf="friends" class="overflow-scroll-vertical">
 
                     <div class="border-top" *ngFor="let friend of friends">
                         <button type="button" class="button-subtle w-fill gap-15 px-20 py-15"
@@ -87,31 +87,6 @@
                                 <input type="text" name="name_group" ngModel spellcheck="false" #nameGroup>
                             </div>
                         </div>
-                        <!-- <div class="w-fill layout-vertical gap-5">
-                            <p class="text-body text-primary">Thêm bạn bè</p>
-                            <div class="search-dropdown-control w-fill">
-                                <div class="control search-control">
-                                    <input type="search" spellcheck="false">
-                                    <button type="button" class="input-button clear-content-button">
-                                        <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
-                                    </button>
-                                    <button type="button" class="input-button search-button">
-                                        <i class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
-                                    </button>
-                                </div>
-                                <div class="dropdown-menu">
-                                    <div class="list-item">
-                                        <div class="text-body">Item 1</div>
-                                    </div>
-                                    <div class="list-item">
-                                        <div class="text-body">Item 2</div>
-                                    </div>
-                                    <div class="list-item">
-                                        <div class="text-body">Item 3</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
                         <div class="w-fill layout-horizontal gap-20 align-center-right">
                             <button type="button" class="button-standard button-text-only"
                                 (click)="closeCreateGroup()">Hủy</button>
@@ -123,7 +98,13 @@
             </div>
         </div>
 
-        <div class="{{(isVisible)?'w-fill-column-6':'w-fill-column-9'}} layout-vertical gap-20 py-20">
+        <div *ngIf="!conversation"
+            class="w-fill my-20 p-20 card-background-default border border-card-default rounded-8 layout align-center-center">
+            <p class="text-body text-secondary text-center">Trống</p>
+        </div>
+
+        <div *ngIf="conversation"
+            class="{{(isVisible)?'w-fill-column-6':'w-fill-column-9'}} layout-vertical gap-20 py-20">
             <div class="layout-vertical card-background-default border border-card-default rounded-8"
                 style="height: calc(100vh - 85px);">
                 <div
@@ -240,10 +221,12 @@
                                                                 <p style="white-space: pre-line;"
                                                                     class="text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
                                                                     {{ msg.content }}
-                                                                    Lorem ipsum dolor sit amet consectetur adipisicing
+                                                                    Lorem ipsum dolor sit amet consectetur
+                                                                    adipisicing
                                                                     elit. Fugit animi in soluta maiores! Provident
                                                                     cupiditate in obcaecati fuga dolore, quam magnam
-                                                                    aliquam earum culpa perspiciatis repudiandae soluta,
+                                                                    aliquam earum culpa perspiciatis repudiandae
+                                                                    soluta,
                                                                     vero ex deleniti?
                                                                 </p>
 
@@ -636,6 +619,48 @@
         <div
             class="{{(isVisible)?'display-flex':'display-none'}} w-fill-column-3 layout-vertical gap-20 py-20 overflow-scroll-vertical">
 
+            <div class="position-fixed top-0 start-0" *ngIf="idDialogEditGroup && conversation.is_group == 1"
+                style="width: 100%; height: 100vh; z-index: 10; background-color: rgba(0, 0, 0, 0.2);">
+                <div class="dialog-panel position-absolute top-50 start-50 translate-middle" style="z-index: 12;">
+                    <form
+                        class="layout-vertical gap-20 p-20 rounded-8 acrylic-background-default blur-acrylic border border-card-default"
+                        style="width: 400px;" (submit)="editGroup(frm.value)" #frm="ngForm"
+                        enctype="multipart/form-data">
+                        <div class="w-fill layout-vertical gap-5">
+                            <p class="text-body-large text-primary">Sửa thông tin nhóm</p>
+                        </div>
+                        <div class="layout py-20 w-fill align-center-center">
+                            <div class="background-card-default" style="width: 100px; height: 100px;">
+                                <img class="border border-card-default w-fill h-fill rounded-circle object-fit-cover"
+                                    src="{{(selectedFilesEditGroup.length > 0)?previewEditGroupImages:conversation.image}}"
+                                    alt="">
+
+                                <input class="display-none" type="file" [ngModel]="fileImageEditGroup"
+                                    (change)="onFileImageEditGroupSelected($event)" accept="image/*"
+                                    id="edit_group_media_input">
+                                <label for="edit_group_media_input"
+                                    class="p-0 button-accent button-icon-only position-absolute bottom-0 end-0"
+                                    style="z-index: 1;">
+                                    <i class="icon-size-16 icon icon-ic_fluent_camera_16_filled"></i>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="w-fill layout-vertical gap-5">
+                            <p class="text-body text-primary">Tên nhóm</p>
+                            <div class="w-fill control text-control">
+                                <input type="text" name="name_edit_group" ngModel spellcheck="false" #nameEditGroup>
+                            </div>
+                        </div>
+                        <div class="w-fill layout-horizontal gap-20 align-center-right">
+                            <button type="button" class="button-standard button-text-only"
+                                (click)="closeEditGroup()">Hủy</button>
+                            <button type="submit" class="button-accent button-text-only"
+                                [disabled]="spaceCheck.test(frm.value.name_edit_group)">Cập nhật</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
             <div class="layout-vertical card-background-default border rounded-8 align-center-center py-20">
 
                 <div style="width: 100px; height: 100px;" class="mb-10">
@@ -644,22 +669,19 @@
                     (conversation.users[0].id == user.id) ? conversation.users[1].profile.profile_photo :
                     conversation.users[0].profile.profile_photo
                     " class="rounded-circle border border-card-default mb-15 w-fill h-fill object-fit-cover" alt="">
-
-                    <label *ngIf="conversation.is_group == 1"
-                        class="p-0 button-accent button-icon-only position-absolute bottom-0 end-0" style="z-index: 1;">
-                        <input class="display-none" type="file" accept="image/*">
-                        <i class="icon-size-16 icon icon-ic_fluent_camera_16_filled"></i>
-                    </label>
                 </div>
 
-                <div>
+                <div class="layout-horizontal align-center-center gap-5">
                     <p class="text-primary text-body">{{
                         (conversation.is_group == 1) ? conversation.name :
                         (conversation.users[0].id == user.id) ? conversation.users[1].profile.display_name :
                         conversation.users[0].profile.display_name
                         }}</p>
 
-                    <i class="icon-size-20 accent-text-primary icon icon-ic_fluent_edit_20_regular"></i>
+                    <button type="button" class="button-subtle button-icon-only" *ngIf="conversation.is_group == 1"
+                        (click)="toggleDialogEditGroup()">
+                        <i class="icon-size-16 accent-text-primary icon icon-ic_fluent_edit_16_regular"></i>
+                    </button>
                 </div>
 
                 <p class="text-primary text-caption">{{
@@ -789,7 +811,8 @@
                                                     alt="" style="width: 35px; height: 35px;">
                                             </div>
                                             <div class="w-fill">
-                                                <p class="text-body-strong">{{message.user.profile.display_name}}</p>
+                                                <p class="text-body-strong">{{message.user.profile.display_name}}
+                                                </p>
                                                 <p class="text-body">{{message.content}}</p>
                                                 <p class="text-caption">{{message.created_at_date}} -
                                                     {{message.created_at_time}}</p>

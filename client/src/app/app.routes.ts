@@ -12,6 +12,7 @@ import { UserComponent } from './admin/user/user.component';
 import { SettingComponent } from './setting/setting.component';
 import { SearchComponent } from './search/search.component';
 import { FriendProfileComponent } from './friend-profile/friend-profile.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 export const routes: Routes = [
     { path: '', component: MainHomeComponent, canActivate: [AuthGuard] },
@@ -25,6 +26,7 @@ export const routes: Routes = [
 
     { path: 'login', component: LoginComponent, canActivate: [AuthGuard] },
     { path: 'register', component: RegisterComponent, canActivate: [AuthGuard] },
+    { path: 'forgot-password', component: ForgotPasswordComponent, canActivate: [AuthGuard] },
 
     { path: 'admin', component: DashboardComponent, canActivate: [AuthGuard] },
     { path: 'admin/user', component: UserComponent, canActivate: [AuthGuard] },

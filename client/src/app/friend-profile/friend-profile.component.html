@@ -17,15 +17,15 @@
                     </div>
                     <div class="layout-horizontal gap-20 w-fill">
                         <div class="w-fill layout-vertical align-center-center">
-                            <p class="text-secondary text-body">Bạn bè</p>
+                            <p class="text-secondary text-body text-center">Bạn bè</p>
                             <p class="text-primary text-body-strong">{{user.friend_count}}</p>
                         </div>
                         <div class="w-fill layout-vertical align-center-center">
-                            <p class="text-secondary text-body">Người theo dõi</p>
+                            <p class="text-secondary text-body text-center">Người theo dõi</p>
                             <p class="text-primary text-body-strong">{{user.follower_count}}</p>
                         </div>
                         <div class="w-fill layout-vertical align-center-center">
-                            <p class="text-secondary text-body">Đang theo dõi</p>
+                            <p class="text-secondary text-body text-center">Đang theo dõi</p>
                             <p class="text-primary text-body-strong">{{user.following_count}}</p>
                         </div>
                     </div>
@@ -40,7 +40,7 @@
                         <button *ngIf="user.is_friend" type="button" class="button-standard button-text-only w-fill-column-6">Hủy kết
                             bạn
                         </button>
-                        <button type="button" class="button-accent button-text-only w-fill-column-6">Nhắn tin</button>
+                        <button type="button" class="button-accent button-text-only w-fill-column-6" (click)="createChat(user.id)">Nhắn tin</button>
                     </div>
                 </div>
             </div>
@@ -137,8 +137,8 @@
                 <div class="layout w-fill h-fill" *ngIf="post.medias.length>0">
                     <div class="w-fill h-fill {{(post.medias.length<6)?'layout-'+post.medias.length:'layout-6'}}">
                         <div class="w-fill h-fill  border border-card-default rounded-6 overflow-hidden"
-                            *ngFor="let img of post.medias | slice:0:5" (click)="toggleDialog(post.id)">
-                            <img class="w-fill h-fill object-fit-cover object-position-center" [src]="getPathImg(img)"
+                        *ngFor="let img of post.medias | slice:0:5; let i = index" (click)="toggleDialog(post.id, i)">
+                        <img class="w-fill h-fill object-fit-cover object-position-center" [src]="getPathImg(img)"
                                 alt="Image">
                         </div>
                     </div>

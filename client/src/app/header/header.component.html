@@ -67,14 +67,21 @@
 </header>
 
 
-
-<app-mini-chat *ngIf="conversation.length > 0"></app-mini-chat>
-<div *ngIf="conversation.length == 0">
-    <div *ngIf="currentRoute == '' || currentRoute == 'profile' || currentRoute == 'notification' || currentRoute == 'search'"
-        class="position-fixed layout-vertical align-center-center" style="z-index: 1; bottom: 10px; right: 10px;">
-        <button type="button" class="button-accent button-icon-only layout align-center-center"
-            style="border-radius: 999px !important; width: 50px !important; height: 50px !important;">
-            <i class="icon-size-20 icon icon-ic_fluent_comment_edit_20_filled"></i>
-        </button>
+<div
+*ngIf="
+currentRoute == '' || 
+currentRoute == 'profile' || 
+currentRoute == 'notification' || 
+currentRoute == 'search' || 
+currentRoute == 'friend-profile'
+">
+    <app-mini-chat *ngIf="conversation.length > 0"></app-mini-chat>
+    <div *ngIf="conversation.length == 0">
+        <div class="position-fixed layout-vertical align-center-center" style="z-index: 1; bottom: 10px; right: 10px;">
+            <button type="button" class="button-accent button-icon-only layout align-center-center"
+                style="border-radius: 999px !important; width: 50px !important; height: 50px !important;">
+                <i class="icon-size-20 icon icon-ic_fluent_comment_edit_20_filled"></i>
+            </button>
+        </div>
     </div>
 </div>

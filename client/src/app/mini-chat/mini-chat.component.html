@@ -1,5 +1,6 @@
-<div *ngIf="currentRoute == '' || currentRoute == 'profile' || currentRoute == 'notification' || currentRoute == 'search'"
-    class="position-fixed layout-vertical align-center-center" style="z-index: 1; bottom: 10px; right: 10px;">
+
+
+<div class="position-fixed layout-vertical align-center-center" style="z-index: 20; bottom: 10px; right: 10px;">
 
     <div class="{{showChat?'display-block':'display-none'}}">
         <div class="chat-bubble" *ngFor="let item of filteredConversations">
@@ -23,7 +24,9 @@
             style="border-radius: 999px !important; width: 50px !important; height: 50px !important;">
             <i class="icon-size-20 icon icon-ic_fluent_comment_edit_20_filled"></i>
         </button>
-        <p class="position-absolute rounded-circle top-0 end-0 text-on-accent-primary layout align-center-center" style="background-color: #C42B1C; width: 20px; height: 20px;" *ngIf="!showChat">{{conversation.length}}</p>
+        <p class="position-absolute rounded-circle top-0 end-0 text-on-accent-primary layout align-center-center"
+            style="background-color: #C42B1C; width: 20px; height: 20px;" *ngIf="!showChat && conversation.length > 0">
+            {{conversation.length}}</p>
 
     </div>
 </div>
@@ -32,7 +35,7 @@
 
 
 <div class="{{showBoxMiniChat?'display-flex':'display-none'}} position-fixed overflow-hidden layout-vertical solid-background-senary border border-card-default rounded-8"
-    style="width: 375px; height: 475px; z-index: 1; bottom: 10px; right: 70px;">
+    style="width: 375px; height: 475px; z-index: 20; bottom: 10px; right: 70px;">
     <div class="layout-horizontal w-fill p-5 gap-5 border-bottom border-card-default">
         <div class="w-fill layout-horizontal gap-10 align-center-center">
             <img class="border border-card-default rounded-circle object-fit-cover" [src]="
@@ -128,9 +131,9 @@
                                                             *ngIf="msg.medias.length>0">
                                                             <div
                                                                 class="w-fill h-fill {{(msg.medias.length<6)?'layout-3-'+msg.medias.length:(msg.medias.length%2==0)?'layout-3-6':'layout-3-5'}}">
-                                                                <div class="w-fill h-fill rounded-6"
+                                                                <div class="w-fill h-fill rounded-4"
                                                                     *ngFor="let img of msg.medias">
-                                                                    <img class="w-fill object-fit-cover object-position-center"
+                                                                    <img class="w-fill object-fit-cover object-position-center rounded-4"
                                                                         [src]="getPathImg(img)" alt="Image">
                                                                 </div>
                                                             </div>
@@ -200,9 +203,9 @@
                                                         <div class="layout w-fill h-fill" *ngIf="msg.medias.length>0">
                                                             <div style="max-height: 60vh;"
                                                                 class="w-fill h-fill {{(msg.medias.length<6)?'layout-3-'+msg.medias.length:(msg.medias.length%2==0)?'layout-3-6':'layout-3-5'}}">
-                                                                <div class="w-fill h-fill rounded-6 overflow-hidden"
+                                                                <div class="w-fill h-fill rounded-6 overflow-hidden rounded-4"
                                                                     *ngFor="let img of msg.medias">
-                                                                    <img class="w-fill h-fill object-fit-cover object-position-center"
+                                                                    <img class="w-fill h-fill object-fit-cover object-position-center rounded-4"
                                                                         [src]="getPathImg(img)" alt="Image">
                                                                 </div>
                                                             </div>
@@ -251,22 +254,27 @@
                                         <div class="list-item layout-horizontal gap-10 align-center-left"
                                             (click)="toggleDialogChat(msg.id)">
                                             <i
-                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_more_horizontal_20_regular"></i>                                        </div>
+                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_more_horizontal_20_regular"></i>
+                                        </div>
                                         <div class="list-item layout-horizontal gap-10 align-center-left">
                                             <i
-                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_copy_20_regular"></i>                                        </div>
+                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_copy_20_regular"></i>
+                                        </div>
                                         <div class="list-item layout-horizontal gap-10 align-center-left"
                                             (click)="onReply(msg.id)">
                                             <i
-                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_arrow_reply_20_regular"></i>                                        </div>
+                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_arrow_reply_20_regular"></i>
+                                        </div>
                                         <div class="list-item layout-horizontal gap-10 align-center-left"
                                             (click)="editMessage(msg.id)">
                                             <i
-                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_edit_20_regular"></i>                                        </div>
+                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_edit_20_regular"></i>
+                                        </div>
                                         <div class="list-item layout-horizontal gap-10 align-center-left"
                                             (click)="recallMessage(msg.id)">
                                             <i
-                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_arrow_counterclockwise_20_regular"></i>                                        </div>
+                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_arrow_counterclockwise_20_regular"></i>
+                                        </div>
 
                                     </div>
                                 </div>
@@ -302,9 +310,10 @@
                                             *ngIf="msg.medias.length>0">
                                             <div
                                                 class="w-fill gap-5 {{(msg.medias.length<6)?'layout-'+msg.medias.length:(msg.medias.length%2==0)?'layout-6':'layout-5'}}">
-                                                <div class="w-fill overflow-hidden border border-card-default"
-                                                    *ngFor="let img of msg.medias" style="max-width: 140px; max-height: 140px;">
-                                                    <img class="w-fill h-fill object-fit-cover object-position-center"
+                                                <div class="w-fill overflow-hidden border border-card-default rounded-4"
+                                                    *ngFor="let img of msg.medias"
+                                                    style="max-width: 140px; max-height: 140px;">
+                                                    <img class="w-fill h-fill object-fit-cover object-position-center rounded-4"
                                                         [src]="getPathImg(img)" alt="Image">
                                                 </div>
                                             </div>
@@ -345,7 +354,7 @@
                     </div>
                 </div>
 
-                <div class="w-fill layout align-top-left"  *ngIf="(user.id != msg.user_id)">
+                <div class="w-fill layout align-top-left" *ngIf="(user.id != msg.user_id)">
                     <div class="layout-horizontal gap-15 p-20">
                         <img [src]="msg.user.profile.profile_photo"
                             class="rounded-circle border border-card-default object-fit-cover" alt=""
@@ -387,9 +396,10 @@
                                             *ngIf="msg.medias.length>0">
                                             <div style="max-width: 500px;"
                                                 class="w-fill {{(msg.medias.length<6)?'layout-'+msg.medias.length:(msg.medias.length%2==0)?'layout-6':'layout-5'}}">
-                                                <div class="w-fill h-fill border border-card-default overflow-hidden"
-                                                    *ngFor="let img of msg.medias" style="max-width: 140px; max-height: 140px;">
-                                                    <img class="w-fill h-fill object-fit-cover object-position-center"
+                                                <div class="w-fill h-fill border border-card-default overflow-hidden rounded-4"
+                                                    *ngFor="let img of msg.medias"
+                                                    style="max-width: 140px; max-height: 140px;">
+                                                    <img class="w-fill h-fill object-fit-cover object-position-center rounded-4"
                                                         [src]="getPathImg(img)" alt="Image">
                                                 </div>
                                             </div>

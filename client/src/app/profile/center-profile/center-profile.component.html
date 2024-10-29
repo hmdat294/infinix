@@ -102,8 +102,8 @@
     <div class="layout w-fill h-fill" *ngIf="post.medias.length>0">
         <div class="w-fill h-fill {{(post.medias.length<6)?'layout-'+post.medias.length:'layout-6'}}">
             <div class="w-fill h-fill  border border-card-default rounded-6 overflow-hidden"
-                *ngFor="let img of post.medias | slice:0:5" (click)="toggleDialog(post.id)">
-                <img class="w-fill h-fill object-fit-cover object-position-center" [src]="getPathImg(img)" alt="Image">
+            *ngFor="let img of post.medias | slice:0:5; let i = index" (click)="toggleDialog(post.id, i)">
+            <img class="w-fill h-fill object-fit-cover object-position-center" [src]="getPathImg(img)" alt="Image">
             </div>
         </div>
     </div>
