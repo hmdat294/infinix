@@ -51,4 +51,19 @@ class VerificationCodeController extends Controller
             'verify' => true,
         ]); // status: 200
     }
+
+    public function send(Request $request)
+    {
+        $email = $request->email;
+        
+        $code = (new VerificationCode())->generateVerificationCode($email, null);
+        if ($email) {
+            Mail::to($email)->queue(new VerificationCodeNotification($code));
+        }
+
+        return response()->json([
+            'message' => 'Mã xác minh đã được gửi, vui lòng kiểm tra email để nhận mã!',
+            'verify' => true,
+        ]); // status: 200
+    }
 }
