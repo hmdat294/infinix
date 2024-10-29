@@ -23,9 +23,13 @@
             style="border-radius: 999px !important; width: 50px !important; height: 50px !important;">
             <i class="icon-size-20 icon icon-ic_fluent_comment_edit_20_filled"></i>
         </button>
-        <span *ngIf="!showChat">{{conversation.length}}</span>
+        <p class="position-absolute rounded-circle top-0 end-0 text-on-accent-primary layout align-center-center" style="background-color: #C42B1C; width: 20px; height: 20px;" *ngIf="!showChat">{{conversation.length}}</p>
+
     </div>
 </div>
+
+
+
 
 <div class="{{showBoxMiniChat?'display-flex':'display-none'}} position-fixed overflow-hidden layout-vertical solid-background-senary border border-card-default rounded-8"
     style="width: 375px; height: 475px; z-index: 1; bottom: 10px; right: 70px;">
@@ -51,17 +55,13 @@
             <i class="icon-size-16 text-accent-default icon icon-ic_fluent_video_16_filled"></i>
         </button>
         <button type="button" class="button-subtle button-icon-only" (click)="this.showBoxMiniChat = false">
-            <i class="icon-size-16 text-accent-default icon icon-ic_fluent_dismiss_16_filled"></i>
+            <i class="icon-size-16 text-accent-default icon icon-ic_fluent_subtract_16_filled"></i>
         </button>
         <button type="button" class="button-subtle button-icon-only" (click)="deleteMiniChat(chat.id)">
             <i class="icon-size-16 text-accent-default icon icon-ic_fluent_dismiss_16_filled"></i>
         </button>
     </div>
     <div class="h-fill w-fill overflow-scroll-vertical gap-20 layout-vertical solid-background-tertiary">
-
-
-
-
 
 
 
@@ -137,7 +137,7 @@
                                                         </div>
 
                                                         <p style="white-space: pre-line;"
-                                                            class="accent-default text-on-accent-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
+                                                            class="text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
                                                             {{ msg.content }}
                                                             Lorem ipsum dolor sit amet consectetur adipisicing
                                                             elit. Fugit animi in soluta maiores! Provident
@@ -209,7 +209,7 @@
                                                         </div>
 
                                                         <p style="white-space: pre-line;"
-                                                            class="card-background-default text-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
+                                                            class="text-wrap card-background-default text-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
                                                             {{ msg.content }}
                                                         </p>
                                                     </div>
@@ -251,37 +251,28 @@
                                         <div class="list-item layout-horizontal gap-10 align-center-left"
                                             (click)="toggleDialogChat(msg.id)">
                                             <i
-                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_more_horizontal_20_regular"></i>
-                                            <p class="text-body text-primary">Xem chi tiết</p>
-                                        </div>
+                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_more_horizontal_20_regular"></i>                                        </div>
                                         <div class="list-item layout-horizontal gap-10 align-center-left">
                                             <i
-                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_copy_20_regular"></i>
-                                            <p class="text-body text-primary">Sao chép</p>
-                                        </div>
+                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_copy_20_regular"></i>                                        </div>
                                         <div class="list-item layout-horizontal gap-10 align-center-left"
                                             (click)="onReply(msg.id)">
                                             <i
-                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_arrow_reply_20_regular"></i>
-                                            <p class="text-body text-primary">Phản hổi</p>
-                                        </div>
+                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_arrow_reply_20_regular"></i>                                        </div>
                                         <div class="list-item layout-horizontal gap-10 align-center-left"
                                             (click)="editMessage(msg.id)">
                                             <i
-                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_edit_20_regular"></i>
-                                            <p class="text-body text-primary">Chỉnh sửa</p>
-                                        </div>
+                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_edit_20_regular"></i>                                        </div>
                                         <div class="list-item layout-horizontal gap-10 align-center-left"
                                             (click)="recallMessage(msg.id)">
                                             <i
-                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_arrow_counterclockwise_20_regular"></i>
-                                            <p class="text-body text-primary">Thu hồi</p>
-                                        </div>
+                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_arrow_counterclockwise_20_regular"></i>                                        </div>
 
                                     </div>
                                 </div>
+
                                 <div>
-                                    <div>
+                                    <div style="max-width: 160px;">
                                         <div *ngIf="msg.reply_to_message_id">
                                             <div *ngIf="getReply(msg.reply_to_message_id).is_recalled == 0"
                                                 style="border-right: 3px solid var(--accent-default);">
@@ -307,12 +298,12 @@
 
                                             </div>
                                         </div>
-                                        <div class="layout w-fill gradient-background p-10 rounded-top-8"
+                                        <div class="layout w-fill gradient-background rounded-top-8"
                                             *ngIf="msg.medias.length>0">
-                                            <div style="max-width: 500px;"
-                                                class="w-fill {{(msg.medias.length<6)?'layout-'+msg.medias.length:(msg.medias.length%2==0)?'layout-6':'layout-5'}}">
-                                                <div class="w-fill h-fill rounded-6 overflow-hidden"
-                                                    *ngFor="let img of msg.medias">
+                                            <div
+                                                class="w-fill gap-5 {{(msg.medias.length<6)?'layout-'+msg.medias.length:(msg.medias.length%2==0)?'layout-6':'layout-5'}}">
+                                                <div class="w-fill overflow-hidden border border-card-default"
+                                                    *ngFor="let img of msg.medias" style="max-width: 140px; max-height: 140px;">
                                                     <img class="w-fill h-fill object-fit-cover object-position-center"
                                                         [src]="getPathImg(img)" alt="Image">
                                                 </div>
@@ -320,7 +311,7 @@
                                         </div>
 
                                         <p style="white-space: pre-line;"
-                                            class="accent-default text-on-accent-primary mess-child border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
+                                            class="text-wrap accent-default text-on-accent-primary mess-child border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
                                             {{ msg.content }}
                                         </p>
 
@@ -354,7 +345,7 @@
                     </div>
                 </div>
 
-                <div class="w-fill layout align-top-left" *ngIf="(user.id != msg.user_id)">
+                <div class="w-fill layout align-top-left"  *ngIf="(user.id != msg.user_id)">
                     <div class="layout-horizontal gap-15 p-20">
                         <img [src]="msg.user.profile.profile_photo"
                             class="rounded-circle border border-card-default object-fit-cover" alt=""
@@ -365,7 +356,7 @@
                             </p>
                             <div class="mess-hover layout align-top-left" *ngIf="msg.is_recalled == 0">
                                 <div>
-                                    <div>
+                                    <div style="max-width: 160px;">
                                         <div *ngIf="msg.reply_to_message_id">
                                             <div *ngIf="getReply(msg.reply_to_message_id).is_recalled == 0"
                                                 style="border-left: 3px solid var(--control-strong-stroke-default);">
@@ -396,8 +387,8 @@
                                             *ngIf="msg.medias.length>0">
                                             <div style="max-width: 500px;"
                                                 class="w-fill {{(msg.medias.length<6)?'layout-'+msg.medias.length:(msg.medias.length%2==0)?'layout-6':'layout-5'}}">
-                                                <div class="w-fill h-fill rounded-6 overflow-hidden"
-                                                    *ngFor="let img of msg.medias">
+                                                <div class="w-fill h-fill border border-card-default overflow-hidden"
+                                                    *ngFor="let img of msg.medias" style="max-width: 140px; max-height: 140px;">
                                                     <img class="w-fill h-fill object-fit-cover object-position-center"
                                                         [src]="getPathImg(img)" alt="Image">
                                                 </div>
@@ -405,7 +396,7 @@
                                         </div>
 
                                         <p style="white-space: pre-line;"
-                                            class="mess-child card-background-default text-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
+                                            class="text-wrap mess-child card-background-default text-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
                                             {{ msg.content }}
                                         </p>
 
@@ -423,18 +414,15 @@
                                             (click)="toggleDialogChat(msg.id)">
                                             <i
                                                 class="icon-size-20 accent-text-primary icon icon-ic_fluent_more_horizontal_20_regular"></i>
-                                            <p class="text-body text-primary">Xem chi tiết</p>
                                         </div>
                                         <div class="list-item layout-horizontal gap-10 align-center-left">
                                             <i
                                                 class="icon-size-20 accent-text-primary icon icon-ic_fluent_copy_20_regular"></i>
-                                            <p class="text-body text-primary">Sao chép</p>
                                         </div>
                                         <div class="list-item layout-horizontal gap-10 align-center-left"
                                             (click)="onReply(msg.id)">
                                             <i
                                                 class="icon-size-20 accent-text-primary icon icon-ic_fluent_arrow_reply_20_regular"></i>
-                                            <p class="text-body text-primary">Phản hổi</p>
                                         </div>
                                     </div>
                                 </div>
@@ -493,7 +481,7 @@
             </button>
         </div>
 
-        <div class="w-fill h-hug layout-horizontal p-5 gap-15">
+        <div class="w-fill h-hug layout-horizontal p-5 gap-10">
             <img [src]="user.profile.profile_photo" class="rounded-circle border border-card-default object-fit-cover"
                 alt="" style="width: 35px; height: 35px;">
 

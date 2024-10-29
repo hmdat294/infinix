@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->text('content');
-            $table->enum('post_type', ['with_media', 'with_poll', 'with_file'])->default('with_media');
+            $table->enum('post_type', ['with_media', 'with_poll', 'default'])->default('default');
             $table->timestamps();
         });
     }

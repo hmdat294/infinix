@@ -68,6 +68,9 @@ class PostController extends Controller
         $post = PostModel::create($post_data);
 
         if ($request->post_type === 'with_poll' && $request->has('poll_option', 'end_at')) {
+            $post->update([
+                'post_type' => 'with_poll',
+            ]);
             $poll = $post->poll()->create([
                 'post_id' => $post->id,
                 'end_at' => $request->end_at,
@@ -82,6 +85,9 @@ class PostController extends Controller
         }
 
         if ($request->hasFile('medias')) {
+            $post->update([
+                'post_type' => 'with_media',
+            ]);
             foreach ($request->file('medias') as $media) {
                 $media_path = $media->store('uploads', 'public');
                 $media_type = $media->getMimeType();
