@@ -68,7 +68,7 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
     // this.conversation = JSON.parse(localStorage.getItem('conversation') || '[]');
 
     this.chatService.conversation$.subscribe(conversation => {
-      console.log('Updated conversation from localStorage:', conversation);
+      // console.log('Updated conversation from localStorage:', conversation);
       this.conversation = conversation;
     });
 

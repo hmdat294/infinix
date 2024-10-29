@@ -655,7 +655,7 @@
                             <button type="button" class="button-standard button-text-only"
                                 (click)="closeEditGroup()">Hủy</button>
                             <button type="submit" class="button-accent button-text-only"
-                                [disabled]="spaceCheck.test(frm.value.name_edit_group)">Cập nhật</button>
+                                [disabled]="spaceCheck.test(frm.value.name_edit_group) && selectedFilesEditGroup.length == 0">Cập nhật</button>
                         </div>
                     </form>
                 </div>
@@ -837,24 +837,42 @@
                     <i class="icon-size-20 icon icon-ic_fluent_pin_20_regular"></i>
                     <p class="text-primary text-body w-fill">Tin nhắn được gim</p>
                 </a>
-
-
-
-
             </div>
 
-            <div class="card-background-default border rounded-8 p-10">
+            <div
+                class="layout-vertical w-fill gap-20 p-20 rounded-8 card-background-default border border-card-default">
+                <div
+                    class="layout-horizontal pb-10 w-fill border-bottom border-card-default align-center-space-between">
+                    <p class="text-body text-primary">{{images.length}} phương tiện</p>
+                    <a href="" class="link text-nowrap">Xem thêm</a>
+                </div>
+                <div class="layout-vertical w-fill p-0">
+                    <div class="w-fill layout-wrap gap-20 align-center-left" *ngIf="images.length>0">
+                        <div class="w-fill-column-4" style="height: 80px;" *ngFor="let img of images">
+                            <img [src]="img.path" class="w-fill h-fill object-fit-cover rounded-4"
+                                (click)="setZoomIng(img.path)">
+                        </div>
+                    </div>
 
-                <!-- <div class="" style="display: grid; grid-template-columns: repeat(3, 1fr); gap:10px;">
+                    <div class="w-fill py-20 card-background-default border border-card-default rounded-8"
+                        *ngIf="images.length==0">
+                        <p class="text-body text-secondary text-center">Trống</p>
+                    </div>
+                </div>
+            </div>
 
-                    <a href="" class="">
-                        <img src="assets/image/hinh.jpg" alt="" class="rounded-4 border w-fill">
-                    </a>
 
-                </div> -->
 
-                <div class="w-fill py-20 card-background-default border border-card-default rounded-8">
-                    <p class="text-body text-secondary text-center">Trống</p>
+            <div class="position-fixed top-0 start-0" *ngIf="zoomImg != ''" style="width: 100%; height: 100vh;">
+                <div class="position-fixed top-0 start-0"
+                    style="width: 100%; height: 100vh; z-index: 20; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px);"
+                    (click)="setZoomIng('')">
+                </div>
+                <div class="dialog-panel position-absolute top-50 start-50 translate-middle" style="z-index: 21;">
+                    <div class="layout-vertical p-10 rounded-8 acrylic-background-default blur-acrylic border border-card-default"
+                        style="max-width: 700px;">
+                        <img [src]="zoomImg" class="w-fill h-fill rounded-6" alt="">
+                    </div>
                 </div>
             </div>
         </div>

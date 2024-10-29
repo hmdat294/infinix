@@ -1,6 +1,7 @@
 <section class="gradient-background layout-vertical" style="height: 100vh;">
     <article class="layout-horizontal gap-20 px-20 w-fill h-fill overflow-hidden align-top-center">
-        <div class="w-fill-column-3 h-fill layout-vertical gap-20 py-20 overflow-scroll-vertical in-tablet-w-fill in-mobile-w-fill">
+        <div
+            class="w-fill-column-3 h-fill layout-vertical gap-20 py-20 overflow-scroll-vertical in-tablet-w-fill in-mobile-w-fill" style="z-index: 2;">
 
             <div class="w-fill h-hug card-background-default border border-card-default rounded-8 layout-vertical">
                 <img [src]="user.profile.cover_photo || 'assets/image/splash.png'" alt="" class="w-fill rounded-top-8">
@@ -31,87 +32,61 @@
                     </div>
                     <div class="layout-horizontal px-20 align-center-space-between w-fill">
                         <button *ngIf="!user.is_friend && !user.is_sent_friend_request" type="button"
-                            class="button-accent button-text-only w-fill-column-6" (click)="addFriend(user.id)">Thêm bạn bè
+                            class="button-accent button-text-only w-fill-column-6" (click)="addFriend(user.id)">Thêm bạn
+                            bè
                         </button>
                         <button *ngIf="!user.is_friend && user.is_sent_friend_request" type="button"
-                            class="button-standard button-text-only w-fill-column-6" (click)="cancelRequest(user.id)">Hủy yêu
+                            class="button-standard button-text-only w-fill-column-6"
+                            (click)="cancelRequest(user.id)">Hủy yêu
                             cầu
                         </button>
-                        <button *ngIf="user.is_friend" type="button" class="button-standard button-text-only w-fill-column-6">Hủy kết
+                        <button *ngIf="user.is_friend" type="button"
+                            class="button-standard button-text-only w-fill-column-6">Hủy kết
                             bạn
                         </button>
-                        <button type="button" class="button-accent button-text-only w-fill-column-6" (click)="createChat(user.id)">Nhắn tin</button>
+                        <button type="button" class="button-accent button-text-only w-fill-column-6"
+                            (click)="createChat(user.id)">Nhắn tin</button>
                     </div>
                 </div>
             </div>
             <div
                 class="layout-vertical w-fill gap-20 p-20 rounded-8 card-background-default border border-card-default">
-                <div class="layout-horizontal pb-10 w-fill border-bottom border-card-default align-center-space-between">
-                    <p class="text-body text-primary">100 phương tiện</p>
+                <div
+                    class="layout-horizontal pb-10 w-fill border-bottom border-card-default align-center-space-between">
+                    <p class="text-body text-primary">{{images.length}} phương tiện</p>
                     <a href="" class="link text-nowrap">Xem thêm</a>
                 </div>
-                <div class="layout-vertical w-fill gap-10">
-                    <div class="layout-horizontal gap-10" style="height: 70px;">
-                        <div class="w-fill h-fill">
-                            <img src="assets/image/splash.png" alt="" class="w-fill h-fill object-fit-cover rounded-4">
-                        </div>
-                        <div class="w-fill h-fill">
-                            <img src="assets/image/splash.png" alt="" class="w-fill h-fill object-fit-cover rounded-4">
-                        </div>
-                        <div class="w-fill h-fill">
-                            <img src="assets/image/splash.png" alt="" class="w-fill h-fill object-fit-cover rounded-4">
-                        </div>
-                        <div class="w-fill h-fill">
-                            <img src="assets/image/splash.png" alt="" class="w-fill h-fill object-fit-cover rounded-4">
+                <div class="layout-vertical w-fill p-0">
+                    <div class="w-fill layout-wrap gap-20 align-center-left" *ngIf="images.length>0">
+                        <div class="w-fill-column-4" style="height: 80px;" *ngFor="let img of images">
+                            <img [src]="img.path" class="w-fill h-fill object-fit-cover rounded-4"
+                                (click)="setZoomIng(img.path)">
                         </div>
                     </div>
-                    <div class="layout-horizontal gap-10" style="height: 70px;">
-                        <div class="w-fill h-fill">
-                            <img src="assets/image/splash.png" alt="" class="w-fill h-fill object-fit-cover rounded-4">
-                        </div>
-                        <div class="w-fill h-fill">
-                            <img src="assets/image/splash.png" alt="" class="w-fill h-fill object-fit-cover rounded-4">
-                        </div>
-                        <div class="w-fill h-fill">
-                            <img src="assets/image/splash.png" alt="" class="w-fill h-fill object-fit-cover rounded-4">
-                        </div>
-                        <div class="w-fill h-fill">
-                            <img src="assets/image/splash.png" alt="" class="w-fill h-fill object-fit-cover rounded-4">
-                        </div>
+
+                    <div class="w-fill py-20 card-background-default border border-card-default rounded-8"
+                        *ngIf="images.length==0">
+                        <p class="text-body text-secondary text-center">Trống</p>
                     </div>
-                    <div class="layout-horizontal gap-10" style="height: 70px;">
-                        <div class="w-fill h-fill">
-                            <img src="assets/image/splash.png" alt="" class="w-fill h-fill object-fit-cover rounded-4">
-                        </div>
-                        <div class="w-fill h-fill">
-                            <img src="assets/image/splash.png" alt="" class="w-fill h-fill object-fit-cover rounded-4">
-                        </div>
-                        <div class="w-fill h-fill">
-                            <img src="assets/image/splash.png" alt="" class="w-fill h-fill object-fit-cover rounded-4">
-                        </div>
-                        <div class="w-fill h-fill">
-                            <img src="assets/image/splash.png" alt="" class="w-fill h-fill object-fit-cover rounded-4">
-                        </div>
-                    </div>
-                    <div class="layout-horizontal gap-10" style="height: 70px;">
-                        <div class="w-fill h-fill">
-                            <img src="assets/image/splash.png" alt="" class="w-fill h-fill object-fit-cover rounded-4">
-                        </div>
-                        <div class="w-fill h-fill">
-                            <img src="assets/image/splash.png" alt="" class="w-fill h-fill object-fit-cover rounded-4">
-                        </div>
-                        <div class="w-fill h-fill">
-                            <img src="assets/image/splash.png" alt="" class="w-fill h-fill object-fit-cover rounded-4">
-                        </div>
-                        <div class="w-fill h-fill">
-                            <img src="assets/image/splash.png" alt="" class="w-fill h-fill object-fit-cover rounded-4">
-                        </div>
+                </div>
+            </div>
+
+            <div class="position-fixed top-0 start-0" *ngIf="zoomImg != ''" style="width: 100%; height: 100vh;">
+                <div class="position-fixed top-0 start-0"
+                    style="width: 100%; height: 100vh; z-index: 20; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px);"
+                    (click)="setZoomIng('')">
+                </div>
+                <div class="dialog-panel position-absolute top-50 start-50 translate-middle" style="z-index: 21;">
+                    <div class="layout-vertical p-10 rounded-8 acrylic-background-default blur-acrylic border border-card-default"
+                        style="max-width: 700px; max-height: 500px;">
+                        <img [src]="zoomImg" class="h-fill rounded-6" alt="">
                     </div>
                 </div>
             </div>
 
         </div>
-        <div class="w-fill-column-6 h-fill layout-vertical gap-20 py-20 overflow-scroll-vertical hide-in-tablet hide-in-mobile">
+        <div
+            class="w-fill-column-6 h-fill layout-vertical gap-20 py-20 overflow-scroll-vertical hide-in-tablet hide-in-mobile" style="z-index: 1;">
 
             <div *ngFor="let post of listPost"
                 class="layout-vertical gap-20 pt-20 ps-20 pe-20 pb-10 card-background-default border border-card-default rounded-8">
@@ -137,8 +112,9 @@
                 <div class="layout w-fill h-fill" *ngIf="post.medias.length>0">
                     <div class="w-fill h-fill {{(post.medias.length<6)?'layout-'+post.medias.length:'layout-6'}}">
                         <div class="w-fill h-fill  border border-card-default rounded-6 overflow-hidden"
-                        *ngFor="let img of post.medias | slice:0:5; let i = index" (click)="toggleDialog(post.id, i)">
-                        <img class="w-fill h-fill object-fit-cover object-position-center" [src]="getPathImg(img)"
+                            *ngFor="let img of post.medias | slice:0:5; let i = index"
+                            (click)="toggleDialog(post.id, i)">
+                            <img class="w-fill h-fill object-fit-cover object-position-center" [src]="getPathImg(img)"
                                 alt="Image">
                         </div>
                     </div>
@@ -375,7 +351,8 @@
 
             </div>
 
-            <div *ngIf="listPost.length == 0" class="w-fill py-20 card-background-default border border-card-default rounded-8" >
+            <div *ngIf="listPost.length == 0"
+                class="w-fill py-20 card-background-default border border-card-default rounded-8">
                 <p class="text-body text-secondary text-center">Người dùng này không có bài viết nào</p>
             </div>
         </div>

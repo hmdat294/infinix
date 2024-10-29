@@ -103,6 +103,6 @@ export class AuthService {
 
   getImageByUser(user_id: number): Observable<any> {
     const headers = this.getToken();
-    return this.http.post(`${this.apiUrl}/user/${user_id}/medias/`, { headers });
+    return this.http.get(`${this.apiUrl}/user/${user_id}/medias/`, { headers });
   }
 }
