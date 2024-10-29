@@ -20,6 +20,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\Statistics\GrowthStatisticsController;
 use App\Http\Controllers\Statistics\TotalController;
+use App\Http\Controllers\DisabledNotificationController;
 use App\Http\Middleware\UpdateUserLastActivity;
 
 use App\Models\User as UserModel;
@@ -41,6 +42,8 @@ Route::middleware(['guest'])->group(function () {
 });
 
 Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(function () {
+
+    Route::post('disable-notification', [DisabledNotificationController::class, 'store'])->name('disable-notification');
 
     
     Route::get('user/{user_id}/medias', [UserController::class, 'medias']);
