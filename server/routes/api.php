@@ -33,6 +33,7 @@ Route::middleware(['guest'])->group(function () {
 
     // Gửi mã xác thực email
     Route::post('verify-contact-info', [VerificationCodeController::class, 'create'])->name('create-verification-code');
+    Route::post('send-verification-code', [VerificationCodeController::class, 'send'])->name('resend-verification-code');
     Route::post('verify-verification-code', [VerificationCodeController::class, 'verify'])->name('verify-verification-code');
 
     // Đăng nhập và đăng ký
