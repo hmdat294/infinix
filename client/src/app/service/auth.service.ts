@@ -30,6 +30,10 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/change-password`, value, { headers });
   }
 
+  forgotPassword(value: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/set-new-password`, value);
+  }
+
   getListUser(): Observable<any> {
     const headers = this.getToken();
     return this.http.get(`${this.apiUrl}/user`, { headers });
@@ -95,6 +99,10 @@ export class AuthService {
 
   getCode(email: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/verify-contact-info/`, { email });
+  }
+
+  getCodeForGot(email: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/send-verification-code/`, { email });
   }
 
   postCode(email: string, code: number): Observable<any> {
