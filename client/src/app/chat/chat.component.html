@@ -229,7 +229,7 @@
                                                                     *ngIf="msg.medias.length>0">
                                                                     <div
                                                                         class="w-fill h-fill {{(msg.medias.length<6)?'layout-3-'+msg.medias.length:(msg.medias.length%2==0)?'layout-3-6':'layout-3-5'}}">
-                                                                        <div class="w-fill h-fill rounded-6"
+                                                                        <div class="w-fill h-fill  border border-card-default rounded-4 overflow-hidden"
                                                                             *ngFor="let img of msg.medias">
                                                                             <img class="w-fill object-fit-cover object-position-center"
                                                                                 [src]="getPathImg(img)" alt="Image">
@@ -238,7 +238,7 @@
                                                                 </div>
 
                                                                 <p style="white-space: pre-line;"
-                                                                    class="accent-default text-on-accent-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
+                                                                    class="text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
                                                                     {{ msg.content }}
                                                                     Lorem ipsum dolor sit amet consectetur adipisicing
                                                                     elit. Fugit animi in soluta maiores! Provident
@@ -303,7 +303,7 @@
                                                                     *ngIf="msg.medias.length>0">
                                                                     <div style="max-height: 60vh;"
                                                                         class="w-fill h-fill {{(msg.medias.length<6)?'layout-3-'+msg.medias.length:(msg.medias.length%2==0)?'layout-3-6':'layout-3-5'}}">
-                                                                        <div class="w-fill h-fill rounded-6 overflow-hidden"
+                                                                        <div class="w-fill h-fill  border border-card-default rounded-4 overflow-hidden"
                                                                             *ngFor="let img of msg.medias">
                                                                             <img class="w-fill h-fill object-fit-cover object-position-center"
                                                                                 [src]="getPathImg(img)" alt="Image">
@@ -312,7 +312,7 @@
                                                                 </div>
 
                                                                 <p style="white-space: pre-line;"
-                                                                    class="card-background-default text-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
+                                                                    class="text-wrap card-background-default text-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
                                                                     {{ msg.content }}
                                                                 </p>
                                                             </div>
@@ -384,7 +384,7 @@
                                             </div>
                                         </div>
                                         <div>
-                                            <div>
+                                            <div style="max-width: 350px;">
                                                 <div *ngIf="msg.reply_to_message_id">
                                                     <div *ngIf="getReply(msg.reply_to_message_id).is_recalled == 0"
                                                         style="border-right: 3px solid var(--accent-default);">
@@ -414,7 +414,7 @@
                                                     *ngIf="msg.medias.length>0">
                                                     <div style="max-width: 500px;"
                                                         class="w-fill {{(msg.medias.length<6)?'layout-'+msg.medias.length:(msg.medias.length%2==0)?'layout-6':'layout-5'}}">
-                                                        <div class="w-fill h-fill rounded-6 overflow-hidden"
+                                                        <div class="w-fill h-fill border border-card-default overflow-hidden"
                                                             *ngFor="let img of msg.medias">
                                                             <img class="w-fill h-fill object-fit-cover object-position-center"
                                                                 [src]="getPathImg(img)" alt="Image">
@@ -423,7 +423,7 @@
                                                 </div>
 
                                                 <p style="white-space: pre-line;"
-                                                    class="accent-default text-on-accent-primary mess-child border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
+                                                    class="text-wrap accent-default text-on-accent-primary mess-child border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
                                                     {{ msg.content }}
                                                 </p>
 
@@ -468,7 +468,7 @@
                                     </p>
                                     <div class="mess-hover layout align-top-left" *ngIf="msg.is_recalled == 0">
                                         <div>
-                                            <div>
+                                            <div style="max-width: 350px;">
                                                 <div *ngIf="msg.reply_to_message_id">
                                                     <div *ngIf="getReply(msg.reply_to_message_id).is_recalled == 0"
                                                         style="border-left: 3px solid var(--control-strong-stroke-default);">
@@ -499,7 +499,7 @@
                                                     *ngIf="msg.medias.length>0">
                                                     <div style="max-width: 500px;"
                                                         class="w-fill {{(msg.medias.length<6)?'layout-'+msg.medias.length:(msg.medias.length%2==0)?'layout-6':'layout-5'}}">
-                                                        <div class="w-fill h-fill rounded-6 overflow-hidden"
+                                                        <div class="w-fill h-fill  border border-card-default rounded-4 overflow-hidden"
                                                             *ngFor="let img of msg.medias">
                                                             <img class="w-fill h-fill object-fit-cover object-position-center"
                                                                 [src]="getPathImg(img)" alt="Image">
@@ -508,7 +508,7 @@
                                                 </div>
 
                                                 <p style="white-space: pre-line;"
-                                                    class="mess-child card-background-default text-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
+                                                    class="text-wrap mess-child card-background-default text-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
                                                     {{ msg.content }}
                                                 </p>
 
