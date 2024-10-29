@@ -12,6 +12,7 @@ use App\Models\Permission as PermissionModel;
 use App\Models\Profile as ProfileModel;
 use Illuminate\Http\JsonResponse;
 use App\Models\User;
+use App\Models\VerificationCode as VerificationCodeModel;
 
 class AuthController extends Controller
 {
@@ -136,5 +137,22 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'Đổi mật khẩu thành công!',
         ]); //status: 200
+    }
+
+    public function setNewPassword(Request $request)
+    {
+        // email, password, verification_code
+        $user = UserModel::where('email', $request->email)->first();
+        
+        if(VerificationCodeModel::where('email', $request->email)->where('code', $request->verification_code)->exists()) {
+            $user->update(['password' => Hash::make($request->password)]);
+            return response()->json([
+                'message' => 'Đổi mật khẩu thành công!',
+            ]); //status: 200
+        } else {
+            return response()->json([
+                'message' => 'Mã xác thực không chính xác!',
+            ]); //status: 422
+        }
     }
 }

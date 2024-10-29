@@ -39,6 +39,8 @@ Route::middleware(['guest'])->group(function () {
     Route::post('login', [AuthController::class, 'login'])->name('login');
     Route::post('register', [AuthController::class, 'register'])->name('register');
 
+    Route::post('set-new-password', [AuthController::class, 'setNewPassword'])->name('set-new-password');
+
 });
 
 Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(function () {
