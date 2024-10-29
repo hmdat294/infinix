@@ -29,6 +29,7 @@ export class FriendProfileComponent {
   idDialog: number = 0;
   commentByPostId: any[] = [];
   user: any;
+  images: any;
   conversation: any[] = [];
 
   constructor(
@@ -53,6 +54,12 @@ export class FriendProfileComponent {
             this.user = response.data;
             console.log(this.user);
 
+            this.authService.getImageByUser(this.user.id).subscribe(
+              (response) => {
+                this.images = response.data;
+                console.log(this.images);
+              }
+            )
           });
 
         this.postService.getPostByUser(user_id).subscribe(
@@ -70,30 +77,34 @@ export class FriendProfileComponent {
 
     });
 
-    this.conversation = JSON.parse(localStorage.getItem('conversation') || '[]');
+    // this.conversation = JSON.parse(localStorage.getItem('conversation') || '[]');
 
+    this.chatService.conversation$.subscribe(conversation => {
+      // console.log('Updated conversation from localStorage:', conversation);
+      this.conversation = conversation;
+    });
   }
 
-  createChat(receiver_id:number){
+  createChat(receiver_id: number) {
     this.chatService.getMessageUser(receiver_id).subscribe(
       (response: any) => {
         console.log(response);
-  
+
         if (this.conversation.includes(response.data.id)) {
           this.conversation = this.conversation.filter(id => id !== response.data.id);
         }
-  
+
         if (this.conversation.length >= 5) {
           this.conversation.shift();
         }
-  
+
         this.conversation.push(response.data.id);
         // Cập nhật conversation thông qua service
         this.chatService.updateConversation(this.conversation);
       });
-    }
-    
-    // localStorage.setItem('conversation', JSON.stringify(this.conversation));
+  }
+
+  // localStorage.setItem('conversation', JSON.stringify(this.conversation));
   @ViewChild('commentInput') commentInput!: ElementRef;
   @ViewChildren('carouselInner') carouselInners!: QueryList<ElementRef<HTMLDivElement>>;
   @ViewChildren('nextButton') nextButtons!: QueryList<ElementRef<HTMLButtonElement>>;
@@ -246,4 +257,9 @@ export class FriendProfileComponent {
     else return `${diffInHours} giờ trước`;
   }
 
+  zoomImg: string = '';
+
+  setZoomIng(img: string) {
+    this.zoomImg = img;
+  }
 }

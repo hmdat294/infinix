@@ -38,7 +38,7 @@ export class HeaderComponent implements OnInit {
     );
 
     this.chatService.conversation$.subscribe(conversation => {
-      console.log('Updated conversation from localStorage:', conversation);
+      // console.log('Updated conversation from localStorage:', conversation);
       this.conversation = conversation;
     });
 
@@ -54,7 +54,8 @@ export class HeaderComponent implements OnInit {
             this.conversation.shift();
 
           this.conversation.push(data.data.conversation_id);
-          localStorage.setItem('conversation', JSON.stringify(this.conversation));       
+          this.chatService.updateConversation(this.conversation);
+    
         });
       }
     )

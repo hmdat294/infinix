@@ -20,6 +20,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   friends: any;
   requestfriends: any;
   user: any;
+  images: any;
   listUser: any;
 
   spaceCheck: any = /^\s*$/;
@@ -47,21 +48,21 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   valueSearchUser: any = [];
 
   idDialogChat: number = 0;
-  
+
   previousElement: HTMLElement | null = null;
   focusTimeout: any;
   countdownIntervals: any = {};
-  
+
   idDialogCreateGroup: boolean = false;
   fileImageGroup: any;
   selectedFilesGroup: File[] = [];
   previewGroupImages: string[] = [];
-  
+
   idDialogEditGroup: boolean = false;
   fileImageEditGroup: any;
   selectedFilesEditGroup: File[] = [];
   previewEditGroupImages: string[] = [];
-  
+
   constructor(
     private el: ElementRef,
     private renderer: Renderer2,
@@ -216,6 +217,13 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   MessageUser(conversation: any) {
 
     console.log(conversation);
+
+    this.chatService.getImageByConversation(conversation.id).subscribe(
+      (response) => {
+        this.images = response.data;
+        console.log(this.images);
+      }
+    )
 
     if (conversation.is_group == 0) {
       // conversation có users là 2 người nên lấy id của người còn lại
@@ -469,14 +477,18 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
 
 
-  
+
   toggleDialogEditGroup() {
     this.idDialogEditGroup = !this.idDialogEditGroup;
   }
 
   editGroup(value: any) {
     const formData = new FormData();
-    formData.append('name', value.name_edit_group);
+    formData.append('id', this.conversation.id);
+
+    if (value.name_edit_group != '')
+      formData.append('name', value.name_edit_group);
+
     if (this.selectedFilesEditGroup.length > 0)
       formData.append('image', this.selectedFilesEditGroup[0], this.selectedFilesEditGroup[0].name);
 
@@ -485,6 +497,9 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
         console.log(response);
         this.closeEditGroup();
         this.nameEditGroup.nativeElement.value = '';
+
+        this.conversation.name = response.data.name;
+        this.conversation.image = response.data.image;
       }
     )
   }
@@ -522,5 +537,9 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     this.removeEditGroupImage();
   }
 
+  zoomImg: string = '';
 
+  setZoomIng(img: string) {
+    this.zoomImg = img;
+  }
 }

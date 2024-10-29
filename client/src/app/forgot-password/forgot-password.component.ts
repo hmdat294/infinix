@@ -20,7 +20,7 @@ export class ForgotPasswordComponent {
     return form.controls['password'].value === form.controls['confirm'].value;
   }
 
-  register(value: any) {
+  changePassword(value: any) {
     const bg_left = document.querySelector('.bg-page-login-left') as HTMLElement;
     const bg_right = document.querySelector('.bg-page-login-right') as HTMLElement;
     bg_left.classList.add('bg-animation-left');

@@ -80,6 +80,11 @@ export class ChatService {
 
   updateGroup(value: any): Observable<any> {
     const headers = this.authService.getToken();
-    return this.http.post(`${this.apiUrl}/chat-group`, value, { headers });
+    return this.http.post(`${this.apiUrl}/update-chat-group`, value, { headers });
+  }
+
+  getImageByConversation(conversation_id: number): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.get(`${this.apiUrl}/conversation/${conversation_id}/medias/`, { headers });
   }
 }

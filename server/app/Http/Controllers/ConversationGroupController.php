@@ -78,9 +78,9 @@ class ConversationGroupController extends Controller
      * 
      * @return ConversationResource
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        $conversation = ConversationModel::find($id);
+        $conversation = ConversationModel::find($request->id);
         $conversation->update($request->only(['name', 'image']));
 
         if ($request->hasFile('image')) {
