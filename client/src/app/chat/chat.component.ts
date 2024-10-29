@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../service/auth.service';
 import { EventService } from '../service/event.service';
+import { i } from 'vite/dist/node/types.d-aGj9QkWt';
 
 @Component({
   selector: 'app-chat',
@@ -46,16 +47,21 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   valueSearchUser: any = [];
 
   idDialogChat: number = 0;
-  idDialogCreateGroup: boolean = false;
-
+  
   previousElement: HTMLElement | null = null;
   focusTimeout: any;
   countdownIntervals: any = {};
-
+  
+  idDialogCreateGroup: boolean = false;
   fileImageGroup: any;
   selectedFilesGroup: File[] = [];
   previewGroupImages: string[] = [];
-
+  
+  idDialogEditGroup: boolean = false;
+  fileImageEditGroup: any;
+  selectedFilesEditGroup: File[] = [];
+  previewEditGroupImages: string[] = [];
+  
   constructor(
     private el: ElementRef,
     private renderer: Renderer2,
@@ -66,6 +72,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
   @ViewChild('scrollBox') private scrollBox!: ElementRef;
   @ViewChild('nameGroup') private nameGroup!: ElementRef;
+  @ViewChild('nameEditGroup') private nameEditGroup!: ElementRef;
 
   ngOnInit(): void {
 
@@ -81,10 +88,13 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
     this.chatService.getListChat().subscribe(
       (data: any) => {
-        this.friends = data.data;
+        this.friends = data.data || null;
+
         console.log(this.friends);
 
-        this.MessageUser(this.friends[0]);
+        if (this.friends.length > 0) {
+          this.MessageUser(this.friends[0]);
+        }
 
         this.eventService.bindEvent('App\\Events\\UserSendMessageEvent', (data: any) => {
           this.isScrollingToElement = false;
@@ -100,11 +110,9 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
         });
 
         this.eventService.bindEvent('App\\Events\\UserEditMessageEvent', (data: any) => {
-
           console.log('Edit Message event:', data);
           if (this.conversation.id == data.data.conversation_id)
             this.conversation.messages.find((item: any) => item.id === data.data.id).content = data.data.content;
-
         });
       });
   }
@@ -168,10 +176,6 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
   toggleDialogChat(id: number) {
     this.idDialogChat = id;
-  }
-
-  toggleDialogCreateGroup() {
-    this.idDialogCreateGroup = !this.idDialogCreateGroup;
   }
 
   scrollToElement(index: number) {
@@ -421,8 +425,11 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     this.valueSearchUser = [];
   }
 
-  createGroup(value: any) {
+  toggleDialogCreateGroup() {
+    this.idDialogCreateGroup = !this.idDialogCreateGroup;
+  }
 
+  createGroup(value: any) {
     const formData = new FormData();
     formData.append('name', value.name_group);
     if (this.selectedFilesGroup.length > 0)
@@ -438,12 +445,46 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     )
   }
 
+
+  removeGroupImage(): void {
+    this.previewGroupImages = [];
+    this.selectedFilesGroup = [];
+    if (this.fileImageGroup) this.fileImageGroup.nativeElement.value = '';
+  }
+
+  closeCreateGroup() {
+    this.toggleDialogCreateGroup();
+    this.removeGroupImage();
+  }
+
   addGroup(receiver_id: number, conversation_id: number) {
     console.log(receiver_id, conversation_id);
 
     this.chatService.addGroup({ receiver_id, conversation_id }).subscribe(
       (response: any) => {
         console.log(response);
+      }
+    )
+  }
+
+
+
+  
+  toggleDialogEditGroup() {
+    this.idDialogEditGroup = !this.idDialogEditGroup;
+  }
+
+  editGroup(value: any) {
+    const formData = new FormData();
+    formData.append('name', value.name_edit_group);
+    if (this.selectedFilesEditGroup.length > 0)
+      formData.append('image', this.selectedFilesEditGroup[0], this.selectedFilesEditGroup[0].name);
+
+    this.chatService.updateGroup(formData).subscribe(
+      (response: any) => {
+        console.log(response);
+        this.closeEditGroup();
+        this.nameEditGroup.nativeElement.value = '';
       }
     )
   }
@@ -459,14 +500,27 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     this.selectedFilesGroup = [file];
   }
 
-  removeGroupImage(): void {
-    this.previewGroupImages = [];
-    this.selectedFilesGroup = [];
-    if (this.fileImageGroup) this.fileImageGroup.nativeElement.value = '';
+  onFileImageEditGroupSelected(event: any) {
+    const files: File[] = Array.from(event.target.files);
+    console.log(files);
+
+    const file = files[0];
+    const reader = new FileReader();
+    reader.onload = e => this.previewEditGroupImages = [reader.result as string];
+    reader.readAsDataURL(file);
+    this.selectedFilesEditGroup = [file];
   }
 
-  closeCreateGroup() {
-    this.toggleDialogCreateGroup();
-    this.removeGroupImage();
+  removeEditGroupImage(): void {
+    this.previewEditGroupImages = [];
+    this.selectedFilesEditGroup = [];
+    if (this.fileImageEditGroup) this.fileImageEditGroup.nativeElement.value = '';
   }
+
+  closeEditGroup() {
+    this.toggleDialogEditGroup();
+    this.removeEditGroupImage();
+  }
+
+
 }

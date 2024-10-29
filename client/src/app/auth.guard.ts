@@ -27,8 +27,12 @@ export class AuthGuard implements CanActivate {
               observer.complete();
               return;
             }
-
-            if (state.url === '/landing-page' || state.url === '/login' || state.url === '/register') {
+            if (
+              state.url === '/landing-page' ||
+              state.url === '/login' ||
+              state.url === '/register' ||
+              state.url === '/forgot-password'
+            ) {
               this.router.navigate(['/']);
               observer.next(false);
               observer.complete();
@@ -39,15 +43,20 @@ export class AuthGuard implements CanActivate {
             observer.complete();
           },
           (error) => {
-            // xóa token nếu không thể lấy được thông tin user và chuyển hướng về trang login
             localStorage.removeItem('auth_token');
+            localStorage.removeItem('conversation');
             this.router.navigate(['/login']);
             observer.next(false);
             observer.complete();
           }
         );
       } else {
-        if (state.url !== '/landing-page' && state.url !== '/login' && state.url !== '/register') {
+        if (
+          state.url !== '/landing-page' &&
+          state.url !== '/login' &&
+          state.url !== '/register' &&
+          state.url !== '/forgot-password'
+        ) {
           this.router.navigate(['/landing-page']);
           observer.next(false);
         } else {
