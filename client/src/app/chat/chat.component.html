@@ -414,7 +414,7 @@
                                                     *ngIf="msg.medias.length>0">
                                                     <div style="max-width: 500px;"
                                                         class="w-fill {{(msg.medias.length<6)?'layout-'+msg.medias.length:(msg.medias.length%2==0)?'layout-6':'layout-5'}}">
-                                                        <div class="w-fill h-fill border border-card-default overflow-hidden"
+                                                        <div class="w-fill h-fill border border-card-default rounded-4 overflow-hidden"
                                                             *ngFor="let img of msg.medias">
                                                             <img class="w-fill h-fill object-fit-cover object-position-center"
                                                                 [src]="getPathImg(img)" alt="Image">
