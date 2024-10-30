@@ -106,6 +106,7 @@ class NotificationController extends Controller
 
             if (!$disabled_notification) {
                 $data['post_id'] = $request->post_id;
+                
                 $data['type'] = 'post';
                 $data['content'] = 'Bài viết mới';
                 $data['action_type'] = 'user_create_post';

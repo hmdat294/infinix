@@ -18,6 +18,7 @@ class User extends Authenticatable
         'phone_number',
         'password',
         'status',
+        'online_status',
         'language',
         'theme',
         'last_activity'
