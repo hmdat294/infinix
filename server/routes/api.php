@@ -46,6 +46,8 @@ Route::middleware(['guest'])->group(function () {
 
 Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(function () {
 
+    Route::post('update-online-status', [UserController::class, 'updateOnlineStatus'])->name('update-online-status');
+
     Route::post('disable-notification', [DisabledNotificationController::class, 'store'])->name('disable-notification');
 
     

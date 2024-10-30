@@ -82,4 +82,11 @@ class UserController extends Controller
 
         return PostMediaResource::collection($medias);
     }
+
+    public function updateOnlineStatus(Request $request)
+    {
+        $user = UserModel::find($request->user()->id);
+        $user->update(['online_status' => $request->online_status]);
+        return new UserResource($user);
+    }
 }
