@@ -63,8 +63,6 @@ export class HeaderComponent implements OnInit {
     )
   }
 
-
-
   clearSearch() {
     this.keyword = '';
     this.friends = [];
@@ -85,5 +83,10 @@ export class HeaderComponent implements OnInit {
     }
   }
 
+  diaLogNoti:boolean = false;
+  
+  diaLogNotification(){
+    this.diaLogNoti = !this.diaLogNoti;
+  }
 
 }
