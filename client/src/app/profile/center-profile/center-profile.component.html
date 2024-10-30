@@ -121,7 +121,7 @@
 
                     <div class="layout w-fill h-fill {{(post.medias.length>0) ? 'display-flex' : 'display-none'}}">
                         <div class="carousel w-fill h-fill rounded-4">
-                            <div class="carousel-indicators" #indicatorsContainer *ngIf="post.medias.length>1">
+                            <div class="carousel-indicators {{(post.medias.length>1) ? 'display-block' : 'display-none'}}" #indicatorsContainer>
                                 <button type="button" class="border-none rounded-circle"
                                     *ngFor="let img of post.medias; let i = index">
                                 </button>
@@ -133,13 +133,13 @@
                                 </div>
                             </div>
 
-                            <button *ngIf="post.medias.length>1" type="button"
-                                class="carousel-button-previous p-5 rounded-circle" #prevButton>
+                            <button type="button"
+                                class="{{(post.medias.length>0) ? 'display-block' : 'display-none'}} carousel-button-previous p-5 rounded-circle" #prevButton>
                                 <i class="icon-size-20 icon icon-ic_fluent_chevron_left_20_filled"></i>
                             </button>
 
-                            <button *ngIf="post.medias.length>1" type="button"
-                                class="carousel-button-next p-5 rounded-circle" #nextButton>
+                            <button type="button"
+                                class="{{(post.medias.length>0) ? 'display-block' : 'display-none'}} carousel-button-next p-5 rounded-circle" #nextButton>
                                 <i class="icon-size-20 icon icon-ic_fluent_chevron_right_20_filled"></i>
                             </button>
                         </div>

@@ -35,7 +35,7 @@ export class SettingComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.theme = localStorage.getItem('theme') || '';
+    this.theme = localStorage.getItem('theme') || 'light';
 
     this.authService.getUser(0).subscribe(
       (response) => {

@@ -21,7 +21,6 @@ export class AppComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private authService: AuthService,
     private renderer: Renderer2
   ) { }
 
@@ -35,12 +34,11 @@ export class AppComponent implements OnInit {
     });
 
     this.router.events.pipe(
-      filter((event: any) => event instanceof NavigationEnd)).subscribe(
-        (event: any) => {
-          const urlSegments = event.urlAfterRedirects.split('/');
-          this.isAdmin = (urlSegments[1] == 'admin') ? true : false;
-        }
-      );
+      filter((event: any) => event instanceof NavigationEnd)
+    ).subscribe(
+      (event: any) => 
+        this.isAdmin = (event.urlAfterRedirects.split('/')[1] == 'admin') ? true : false
+    );
   }
 
 }
