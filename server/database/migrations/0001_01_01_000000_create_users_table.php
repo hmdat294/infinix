@@ -18,10 +18,10 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('phone_number')->unique()->nullable();
             $table->enum('status', ['active', 'locked', 'suspended'])->default('active');
+            $table->enum('online_status', ['online', 'offline', 'idle'])->default('offline');
             $table->string('language')->default('vi');
             $table->string('theme')->default('light');
             $table->timestamp('last_activity');
-
             $table->rememberToken();
             $table->timestamps();
         });

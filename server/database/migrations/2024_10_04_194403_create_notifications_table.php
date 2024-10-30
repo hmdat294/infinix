@@ -17,9 +17,20 @@ return new class extends Migration
             $table->foreignId('target_user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('message_id')->nullable()->constrained('messages')->default(null);
             $table->foreignId('post_id')->nullable()->constrained('posts')->default(null);
+            $table->foreignId('comment_id')->nullable()->constrained('comments')->default(null);
+            $table->foreignId('conversation_id')->nullable()->constrained('conversations')->default(null);
+            $table->foreignId('friend_request_id')->nullable()->constrained('friend_requests')->default(null);
             $table->text('content')->nullable()->default(null);
-            $table->enum('type', ['message', 'post', 'user']);
-            $table->enum('action_type', ['post_like', 'post_comment', 'post_share', 'user_follow', 'user_send_friend_request', 'user_accept_friend_request', 'user_create_post', 'send_message', 'reply_message']);
+            $table->enum('type', ['user_message', 'group_message', 'post', 'user']);
+            $table->enum('action_type', [
+                'post_like', 'post_comment', 'post_share',
+                'user_follow',
+                'user_send_friend_request', 'user_accept_friend_request',
+                'user_send_conversation_invitation', 'user_accept_conversation_invitation',
+                'user_create_post',
+                'user_send_message',
+                'user_send_group_message',
+            ]);
             $table->boolean('is_read')->default(false);
             $table->timestamps();
         });
