@@ -1,11 +1,12 @@
-import { Injectable } from '@angular/core';
+import { HostListener, Injectable, OnDestroy } from '@angular/core';
 import Pusher from 'pusher-js';
 import { AuthService } from './auth.service';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class EventService {
+export class EventService implements OnDestroy {
 
   private pusher: Pusher;
   private channel: any;
@@ -24,6 +25,16 @@ export class EventService {
       (response) => this.channel = this.pusher.subscribe(`user.${response.data.id}`));
 
     this.setPusherComment();
+
+
+    // Kiểm tra khi người dùng truy cập lần đầu
+    if (!this.hasEntered) {
+      this.onUserEnter();
+      this.hasEntered = true;  // Đánh dấu đã vào
+    }
+
+    //Đặt lại bộ đếm thời gian mỗi khi phát hiện sự kiện hoạt động từ người dùng
+    this.resetIdleTimer();
   }
 
   public bindEvent(eventName: string, callback: (data: any) => void): void {
@@ -57,5 +68,70 @@ export class EventService {
   setPostId(id: number) {
     this.post_id = id;
     this.setPusherComment();
+  }
+
+
+
+  private hasEntered: boolean = false;
+  private hasExited: boolean = false;
+
+  private onUserEnter() {
+    console.log("Người dùng đã truy cập vào trang lần đầu.");
+    // Thực hiện các hành động khác nếu cần
+    
+    
+
+    
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  unloadNotification($event: any) {
+    // Kiểm tra khi người dùng thoát khỏi trang lần đầu
+    if (!this.hasExited) {
+      this.onUserExit();
+      this.hasExited = true;  // Đánh dấu đã thoát
+    }
+  }
+
+  private onUserExit() {
+    console.log("Người dùng đã thoát khỏi trang.");
+    // Thực hiện các hành động khác nếu cần
+    
+
+
+
+  }
+
+
+
+
+
+  private idleTimeout: any;
+  private idleTimeLimit = 10 * 1000; // 10 giây
+  private isIdle = false; // Trạng thái hiện tại của người dùng
+  private idleState = new Subject<boolean>();
+
+  idleState$ = this.idleState.asObservable();
+  
+  ngOnDestroy() {
+    clearTimeout(this.idleTimeout);
+  }
+
+  resetIdleTimer() {
+    clearTimeout(this.idleTimeout);
+
+    if (this.isIdle) {
+      this.isIdle = false; // Chuyển trạng thái sang hoạt động
+      this.idleState.next(false); // Phát trạng thái hoạt động
+      console.log('Người dùng đã hoạt động trở lại!');
+    }
+
+    this.idleTimeout = setTimeout(() => this.onIdleTimeout(), this.idleTimeLimit);
+  }
+
+  private onIdleTimeout() {
+    this.isIdle = true; // Chuyển trạng thái sang treo máy
+    console.log('Người dùng đã treo máy!');
+    this.idleState.next(true); // Phát trạng thái treo máy
   }
 }

@@ -39,8 +39,8 @@
         <a [routerLink]="['/friend-profile', friend.profile.user_id]"
             class="layout-horizontal align-center-center gap-15 w-fill">
 
-            <div>
-                <img class="rounded-circle border border-card-default object-fit-cover" style="width: 35px; height: 35px;" src="{{friend.profile.profile_photo}}" alt="">
+            <div class="user-online" style="width: 35px; height: 35px;">
+                <img class="rounded-circle border border-card-default object-fit-cover" src="{{friend.profile.profile_photo}}" alt="" style="width: 35px; height: 35px;">
             </div>
             <p class="text-secondary text-body-strong w-fill">{{friend.profile.display_name}}</p>
         </a>

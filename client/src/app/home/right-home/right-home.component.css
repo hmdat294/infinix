@@ -3,8 +3,8 @@
 .user-offline::after{
     content: '';
     position: absolute;
-    right: 0;
-    bottom: 0;
+    right: 1px;
+    bottom: 1px;
     width: 10px;
     height: 10px;
     border-radius: 100px;
