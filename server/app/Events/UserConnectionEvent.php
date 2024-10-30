@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Http\Resources\UserResource;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -40,4 +41,11 @@ class UserConnectionEvent implements ShouldBroadcast
         return $channel_array;
     }
     
+    public function broadcastWith()
+    {
+        return [
+            'user' => new UserResource($this->user),
+            'status' => $this->status
+        ];
+    }
 }
