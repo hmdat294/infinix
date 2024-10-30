@@ -79,4 +79,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(FriendRequest::class, 'sender_id');
     }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class, 'user_id');
+    }
 }
