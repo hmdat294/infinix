@@ -8,6 +8,7 @@ use App\Models\Profile as ProfileModel;
 use Illuminate\Http\Request;
 use App\Models\User as UserModel;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use App\Events\UserConnectionEvent;
 
 class UserController extends Controller
 {
@@ -87,6 +88,9 @@ class UserController extends Controller
     {
         $user = UserModel::find($request->user()->id);
         $user->update(['online_status' => $request->online_status]);
+
+        event(new UserConnectionEvent($user, $request->online_status));
+
         return new UserResource($user);
     }
 }
