@@ -1,7 +1,8 @@
 import { HostListener, Injectable, OnDestroy } from '@angular/core';
 import Pusher from 'pusher-js';
 import { AuthService } from './auth.service';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class EventService implements OnDestroy {
   private channel_post: any;
   private post_id: number = 0;
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private http: HttpClient) {
     this.pusher = new Pusher('74a1b74fdf0afc6b5833', { cluster: 'ap1' });
 
     if (this.channel) {
@@ -78,10 +79,10 @@ export class EventService implements OnDestroy {
   private onUserEnter() {
     console.log("Người dùng đã truy cập vào trang lần đầu.");
     // Thực hiện các hành động khác nếu cần
-    
-    
 
-    
+
+
+
   }
 
   @HostListener('window:beforeunload', ['$event'])
@@ -96,7 +97,7 @@ export class EventService implements OnDestroy {
   private onUserExit() {
     console.log("Người dùng đã thoát khỏi trang.");
     // Thực hiện các hành động khác nếu cần
-    
+
 
 
 
@@ -104,6 +105,13 @@ export class EventService implements OnDestroy {
 
 
 
+  private apiUrl = 'http://localhost:8000/api';
+
+  updateOnlineStatus(status: string): Observable<any> {
+    // ['online', 'offline', 'idle']
+    const headers = this.authService.getToken();
+    return this.http.post(`${this.apiUrl}/update-online-status`, { 'online_status': status }, { headers });
+  }
 
 
   private idleTimeout: any;
@@ -112,7 +120,7 @@ export class EventService implements OnDestroy {
   private idleState = new Subject<boolean>();
 
   idleState$ = this.idleState.asObservable();
-  
+
   ngOnDestroy() {
     clearTimeout(this.idleTimeout);
   }
@@ -124,6 +132,10 @@ export class EventService implements OnDestroy {
       this.isIdle = false; // Chuyển trạng thái sang hoạt động
       this.idleState.next(false); // Phát trạng thái hoạt động
       console.log('Người dùng đã hoạt động trở lại!');
+
+      this.updateOnlineStatus('online').subscribe(
+        (response) => console.log(response)
+      )
     }
 
     this.idleTimeout = setTimeout(() => this.onIdleTimeout(), this.idleTimeLimit);
@@ -131,7 +143,11 @@ export class EventService implements OnDestroy {
 
   private onIdleTimeout() {
     this.isIdle = true; // Chuyển trạng thái sang treo máy
-    console.log('Người dùng đã treo máy!');
     this.idleState.next(true); // Phát trạng thái treo máy
+    console.log('Người dùng đã treo máy!');
+
+    this.updateOnlineStatus('idle').subscribe(
+      (response) => console.log(response)
+    )
   }
 }

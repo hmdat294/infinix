@@ -83,9 +83,9 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  diaLogNoti:boolean = false;
-  
-  diaLogNotification(){
+  diaLogNoti: boolean = false;
+
+  diaLogNotification() {
     this.diaLogNoti = !this.diaLogNoti;
   }
 
