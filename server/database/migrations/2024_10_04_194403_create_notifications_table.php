@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('target_user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('message_id')->nullable()->constrained('messages')->default(null);
             $table->foreignId('post_id')->nullable()->constrained('posts')->default(null);
-            $table->foreignId('comment_id')->nullable()->constrained('comments')->default(null);
+            $table->foreignId('comment_id')->nullable()->constrained('post_comments')->default(null);
             $table->foreignId('conversation_id')->nullable()->constrained('conversations')->default(null);
             $table->foreignId('friend_request_id')->nullable()->constrained('friend_requests')->default(null);
             $table->text('content')->nullable()->default(null);
