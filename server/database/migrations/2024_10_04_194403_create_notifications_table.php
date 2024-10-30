@@ -21,9 +21,8 @@ return new class extends Migration
             $table->foreignId('conversation_id')->nullable()->constrained('conversations')->default(null);
             $table->foreignId('friend_request_id')->nullable()->constrained('friend_requests')->default(null);
             $table->text('content')->nullable()->default(null);
-            $table->enum('type', ['user_message', 'group_message', 'post', 'user']);
             $table->enum('action_type', [
-                'post_like', 'post_comment', 'post_share',
+                'user_like_post', 'user_comment_post', 'user_share_post',
                 'user_follow',
                 'user_send_friend_request', 'user_accept_friend_request',
                 'user_send_conversation_invitation', 'user_accept_conversation_invitation',

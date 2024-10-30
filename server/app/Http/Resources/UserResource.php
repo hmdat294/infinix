@@ -65,6 +65,7 @@ class UserResource extends JsonResource
             'friend_count' => $friends->count(),
             'follower_count' => $followers->count(),
             'following_count' => $followings->count(),
+            'online_status' => $this->online_status,
         ];
     }
 }
