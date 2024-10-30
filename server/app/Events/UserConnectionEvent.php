@@ -31,6 +31,8 @@ class UserConnectionEvent implements ShouldBroadcast
     public function broadcastOn()
     {
         $friend_id_array = UserModel::find($this->user->id)->friendsOf->concat(UserModel::find($this->user->id)->friendsOfMine)->pluck('id');
+        $follower_id_array = UserModel::find($this->user->id)->followers->pluck('id');
+        $friend_id_array = $friend_id_array->merge($follower_id_array);
         $channel_array = [];
         foreach ($friend_id_array as $friend_id) {
             $channel_array[] = new Channel('user.' . $friend_id);
