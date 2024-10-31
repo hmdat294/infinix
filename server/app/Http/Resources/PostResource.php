@@ -33,6 +33,7 @@ class PostResource extends JsonResource
             "comments_count" => $this->comments->count(),
             "likes_count" => $this->likes->count(),
             "shares_count" => $this->shares->count(),
+            'bookmark_count' => $this->bookmarks->count(),
         ];
 
         if ($request->user())
@@ -40,6 +41,7 @@ class PostResource extends JsonResource
             $data["liked"] = $this->likes->contains('user_id', $request->user()->id);
             $data["shared"] = $this->shares->contains('user_id', $request->user()->id);
             $data["commented"] = $this->comments->contains('user_id', $request->user()->id);
+            $data["bookmarked"] = $this->bookmarks->contains('user_id', $request->user()->id);
         }
 
         if ($this->poll) {
