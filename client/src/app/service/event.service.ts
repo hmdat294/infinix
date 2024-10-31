@@ -32,16 +32,11 @@ export class EventService implements OnDestroy {
 
     this.setPusherComment();
 
+    // this.isLoggedIn = (localStorage.getItem('auth_token')) ? true : false;
 
-    // this.router.events.subscribe((event) => {
-      // if (event instanceof NavigationEnd) {
-        this.isLoggedIn = (localStorage.getItem('auth_token')) ? true : false;
-      // }
-    // });
-
-    if (this.isLoggedIn) {
-      this.resetIdleTimer();
-    }
+    // if (this.isLoggedIn) {
+    //   this.resetIdleTimer();
+    // }
 
     if (!this.hasEntered) {
       this.onUserEnter();
@@ -87,11 +82,11 @@ export class EventService implements OnDestroy {
   unloadNotification($event: any) {
     const url = 'http://localhost:8000/api/update-online-status';
     const data = JSON.stringify({ online_status: 'offline' });
-    
+
     // Gửi request qua sendBeacon
     navigator.sendBeacon(url, data);
   }
-  
+
 
   private hasEntered: boolean = false;
   isLoggedIn: boolean = false;

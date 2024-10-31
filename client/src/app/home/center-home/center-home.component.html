@@ -46,8 +46,8 @@
 
             <div class="layout-horizontal w-fill">
                 <div class="layout horizontal w-fill gap-10">
-                    <input class="display-none" type="file" [ngModel]="filePost" name="filePost" (change)="onFilePostSelected($event)"
-                        accept="image/*" id="post_media_input" multiple>
+                    <input class="display-none" type="file" [ngModel]="filePost" name="filePost"
+                        (change)="onFilePostSelected($event)" accept="image/*" id="post_media_input" multiple>
                     <label for="post_media_input"
                         class="layout align-center-center border-none subtle-transparent text-accent-default">
                         <i class="icon-size-20 icon icon-ic_fluent_image_20_regular"></i>
@@ -128,7 +128,8 @@
 
                     <div class="layout w-fill h-fill {{(post.medias.length>0) ? 'display-flex' : 'display-none'}}">
                         <div class="carousel w-fill h-fill rounded-4">
-                            <div class="carousel-indicators {{(post.medias.length>1) ? 'display-block' : 'display-none'}}" #indicatorsContainer>
+                            <div class="carousel-indicators {{(post.medias.length>1) ? 'display-block' : 'display-none'}}"
+                                #indicatorsContainer>
                                 <button type="button" class="border-none rounded-circle"
                                     *ngFor="let img of post.medias; let i = index">
                                 </button>
@@ -141,12 +142,14 @@
                             </div>
 
                             <button type="button"
-                                class="{{(post.medias.length>0) ? 'display-block' : 'display-none'}} carousel-button-previous p-5 rounded-circle" #prevButton>
+                                class="{{(post.medias.length>0) ? 'display-block' : 'display-none'}} carousel-button-previous p-5 rounded-circle"
+                                #prevButton>
                                 <i class="icon-size-20 icon icon-ic_fluent_chevron_left_20_filled"></i>
                             </button>
 
                             <button type="button"
-                                class="{{(post.medias.length>0) ? 'display-block' : 'display-none'}} carousel-button-next p-5 rounded-circle" #nextButton>
+                                class="{{(post.medias.length>0) ? 'display-block' : 'display-none'}} carousel-button-next p-5 rounded-circle"
+                                #nextButton>
                                 <i class="icon-size-20 icon icon-ic_fluent_chevron_right_20_filled"></i>
                             </button>
                         </div>
@@ -256,8 +259,8 @@
 
                                 <div class="layout-horizontal w-fill">
                                     <div class="layout horizontal w-fill gap-10">
-                                        <input class="display-none" type="file" [ngModel]="fileComment" name="fileComment"
-                                            (change)="onFileCommentSelected($event)" accept="image/*"
+                                        <input class="display-none" type="file" [ngModel]="fileComment"
+                                            name="fileComment" (change)="onFileCommentSelected($event)" accept="image/*"
                                             id="comment_media_input">
                                         <label for="comment_media_input"
                                             class="layout align-center-center border-none subtle-transparent text-accent-default">
@@ -320,10 +323,9 @@
                 <i class="icon-size-20 icon icon-ic_fluent_share_20_regular"></i>
             </button>
         </div>
-        <button type="button" class="button-subtle button-icon-only text-secondary">
+        <button (click)="bookmarkPost(post.id)" type="button" class="button-subtle button-icon-only text-secondary">
             <i class="icon-size-20 icon icon-ic_fluent_bookmark_20_regular"></i>
         </button>
-
     </div>
 
 </div>

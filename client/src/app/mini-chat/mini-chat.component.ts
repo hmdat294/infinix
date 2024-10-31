@@ -189,7 +189,7 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
   }
 
   ngAfterViewChecked() {
-    if (!this.isScrollingToElement) {
+    if (this.scrollBox && this.scrollBox.nativeElement && !this.isScrollingToElement) {
       this.scrollBox.nativeElement.scrollTop = this.scrollBox.nativeElement.scrollHeight;
       this.isScrollingToElement = true;
     }
