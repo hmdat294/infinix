@@ -24,6 +24,7 @@ export class AppComponent implements OnInit {
     private router: Router,
     private renderer: Renderer2,
     private eventService: EventService,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -38,7 +39,7 @@ export class AppComponent implements OnInit {
     this.router.events.pipe(
       filter((event: any) => event instanceof NavigationEnd)
     ).subscribe(
-      (event: any) => 
+      (event: any) =>
         this.isAdmin = (event.urlAfterRedirects.split('/')[1] == 'admin') ? true : false
     );
   }
@@ -48,6 +49,8 @@ export class AppComponent implements OnInit {
   @HostListener('window:scroll')
   @HostListener('window:click')
   handleUserActivity() {
-    this.eventService.resetIdleTimer();
+    if (this.isLoggedIn) {
+      this.eventService.resetIdleTimer();
+    }
   }
 }

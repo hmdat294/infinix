@@ -3,10 +3,10 @@
         <div class="accordion-item">
             <div class="a-accordion-header w-fill p-10 gap-10 layout-horizontal align-center-center"
                 style="cursor: pointer;">
-                <img class="rounded-circle border border-card-default object-fit-cover" src="{{user.data.profile.profile_photo}}" alt="" style="width: 35px; height: 35px;">
+                <img class="rounded-circle border border-card-default object-fit-cover" src="{{user.data?.profile.profile_photo}}" alt="" style="width: 35px; height: 35px;">
                 <div class="w-fill layout-vertical">
-                    <p class="text-body-strong text-primary">{{user.data.profile.display_name}}</p>
-                    <p class="text-body text-secondary">{{user.data.email}}</p>
+                    <p class="text-body-strong text-primary">{{user.data?.profile.display_name}}</p>
+                    <p class="text-body text-secondary">{{user.data?.email}}</p>
                 </div>
                 <button type="button" class="button-subtle button-icon-only">
                     <i class="icon-size-20 icon icon-ic_fluent_chevron_down_20_filled"></i>
@@ -39,7 +39,7 @@
         <a [routerLink]="['/friend-profile', friend.profile.user_id]"
             class="layout-horizontal align-center-center gap-15 w-fill">
 
-            <div class="user-online" style="width: 35px; height: 35px;">
+            <div class="user-{{friend.online_status}}" style="width: 35px; height: 35px;">
                 <img class="rounded-circle border border-card-default object-fit-cover" src="{{friend.profile.profile_photo}}" alt="" style="width: 35px; height: 35px;">
             </div>
             <p class="text-secondary text-body-strong w-fill">{{friend.profile.display_name}}</p>
@@ -86,7 +86,7 @@
         </div>
         <div class="search-dropdown-control w-fill">
             <div class="control search-control">
-                <input type="search" placeholder="placeholder" spellcheck="false">
+                <input type="search" name="search" [(ngModel)]="keyword" (input)="searchFriend()" spellcheck="false">
                 <button type="button" class="input-button clear-content-button">
                     <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
                 </button>
@@ -94,21 +94,14 @@
                     <i class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
                 </button>
             </div>
-            <div class="dropdown-menu">
-                <div class="list-item">
-                    <div class="text-body">Item 1</div>
-                </div>
-                <div class="list-item">
-                    <div class="text-body">Item 2</div>
-                </div>
-                <div class="list-item">
-                    <div class="text-body">Item 3</div>
-                </div>
-            </div>
         </div>
     </div>
     <div class="w-fill h-hug layout-vertical gap-5 p-5">
-        <div class="layout-horizontal list-item gap-15 px-20 py-10 align-center-center" *ngFor="let friend of friends">
+        <div class="w-fill py-20 card-background-default border border-card-default rounded-8" *ngIf="friendsSearch.length == 0 && keyword != ''">
+            <p class="text-body text-secondary text-center">Không tìm thấy</p>
+        </div>
+        <div class="layout-horizontal list-item gap-15 px-20 py-10 align-center-center" *ngFor="let friend of setFriendSearch()">
+
             
             <a [routerLink]="['/friend-profile', friend.profile.user_id]"
                 class="layout-horizontal align-center-center gap-15 w-fill">

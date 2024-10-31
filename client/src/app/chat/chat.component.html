@@ -6,7 +6,7 @@
                 style="height: calc(100vh - 85px);">
                 <div class="w-fill layout-horizontal align-center-space-between px-20 py-15">
                     <div class="control search-control w-fill me-10">
-                        <input type="search" placeholder="Tìm kiếm" spellcheck="false">
+                        <input type="search" placeholder="Tìm kiếm" name="search" [(ngModel)]="keyword" (input)="searchFriend()" spellcheck="false" >
                         <button type="button" class="input-button clear-content-button">
                             <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
                         </button>
@@ -24,22 +24,29 @@
                                 class="icon-size-24 icon icon-ic_fluent_more_horizontal_24_regular"></i></button>
                     </div>
                 </div>
+
+                <div class="px-20 py-10" *ngIf="friendsSearch.length == 0 && keyword != ''">
+                    <div class="w-fill py-15 card-background-default border border-card-default rounded-4">
+                        <p class="text-body text-secondary text-center">Không tìm thấy</p>
+                    </div>
+                </div>
+
                 <div *ngIf="friends" class="overflow-scroll-vertical">
 
                     <div class="border-top" *ngFor="let friend of friends">
                         <button type="button" class="button-subtle w-fill gap-15 px-20 py-15"
                             (click)="MessageUser(friend)" style="cursor: pointer;">
                             <img [src]="
-                                (friend.is_group == 1) ? friend.image :
-                                (friend.users[0].id == user.id) ? friend.users[1].profile.profile_photo :
-                                friend.users[0].profile.profile_photo
+                                (friend?.is_group == 1) ? friend.image :
+                                (friend?.users[0].id == user?.id) ? friend?.users[1].profile.profile_photo :
+                                friend?.users[0].profile.profile_photo
                             " alt="" style="width: 35px; height: 35px;"
                                 class="rounded-circle border border-card-default">
                             <p class="text-secondary text-body-strong w-fill layout">
                                 {{
-                                (friend.is_group == 1) ? friend.name :
-                                (friend.users[0].id == user.id) ? friend.users[1].profile.display_name :
-                                friend.users[0].profile.display_name
+                                (friend?.is_group == 1) ? friend.name :
+                                (friend?.users[0].id == user?.id) ? friend?.users[1].profile.display_name :
+                                friend?.users[0].profile.display_name
                                 }}
                             </p>
                         </button>
@@ -72,7 +79,7 @@
                                     src="{{(selectedFilesGroup.length > 0)?previewGroupImages:'assets/image/avatar.png'}}"
                                     alt="">
 
-                                <input class="display-none" type="file" [ngModel]="fileImageGroup"
+                                <input class="display-none" type="file" [ngModel]="fileImageGroup" name="fileImageGroup"
                                     (change)="onFileImageGroupSelected($event)" accept="image/*" id="group_media_input">
                                 <label for="group_media_input"
                                     class="p-0 button-accent button-icon-only position-absolute bottom-0 end-0"
@@ -111,16 +118,16 @@
                     class="h-hug w-fill layout-horizontal align-center-space-between px-20 py-15 gap-15 border-bottom border-card-default">
                     <div class="w-fill layout-horizontal gap-15 align-center-center">
                         <img src="{{
-                            (conversation.is_group == 1) ? conversation.image :
-                            (conversation.users[0].id == user.id) ? conversation.users[1].profile.profile_photo :
-                            conversation.users[0].profile.profile_photo
+                            (conversation?.is_group == 1) ? conversation.image :
+                            (conversation?.users[0].id == user?.id) ? conversation?.users[1].profile.profile_photo :
+                            conversation?.users[0].profile.profile_photo
                             }}" class="rounded-circle border border-card-default object-fit-cover" alt=""
                             style="width: 35px; height: 35px;">
                         <p class="text-secondary text-body-strong w-fill">
                             {{
-                            (conversation.is_group == 1) ? conversation.name :
-                            (conversation.users[0].id == user.id) ? conversation.users[1].profile.display_name :
-                            conversation.users[0].profile.display_name
+                            (conversation?.is_group == 1) ? conversation.name :
+                            (conversation?.users[0].id == user?.id) ? conversation?.users[1].profile.display_name :
+                            conversation?.users[0].profile.display_name
                             }}
                         </p>
                     </div>
@@ -596,7 +603,7 @@
 
                                 <label style="cursor: pointer;" class="input-button">
                                     <i class="icon-size-16 icon icon-ic_fluent_image_16_regular"></i>
-                                    <input type="file" [ngModel]="fileInput" (change)="onFileSelected($event)"
+                                    <input type="file" [ngModel]="fileInput" name="fileInput" (change)="onFileSelected($event)"
                                         accept="image/*" multiple style="display: none;">
                                 </label>
                                 <button type="button" class="input-button">
@@ -619,7 +626,7 @@
         <div
             class="{{(isVisible)?'display-flex':'display-none'}} w-fill-column-3 layout-vertical gap-20 py-20 overflow-scroll-vertical">
 
-            <div class="position-fixed top-0 start-0" *ngIf="idDialogEditGroup && conversation.is_group == 1"
+            <div class="position-fixed top-0 start-0" *ngIf="idDialogEditGroup && conversation?.is_group == 1"
                 style="width: 100%; height: 100vh; z-index: 10; background-color: rgba(0, 0, 0, 0.2);">
                 <div class="dialog-panel position-absolute top-50 start-50 translate-middle" style="z-index: 12;">
                     <form
@@ -635,7 +642,7 @@
                                     src="{{(selectedFilesEditGroup.length > 0)?previewEditGroupImages:conversation.image}}"
                                     alt="">
 
-                                <input class="display-none" type="file" [ngModel]="fileImageEditGroup"
+                                <input class="display-none" type="file" [ngModel]="fileImageEditGroup" name="fileImageEditGroup"
                                     (change)="onFileImageEditGroupSelected($event)" accept="image/*"
                                     id="edit_group_media_input">
                                 <label for="edit_group_media_input"
@@ -665,35 +672,35 @@
 
                 <div style="width: 100px; height: 100px;" class="mb-10">
                     <img [src]="
-                    (conversation.is_group == 1) ? conversation.image :
-                    (conversation.users[0].id == user.id) ? conversation.users[1].profile.profile_photo :
-                    conversation.users[0].profile.profile_photo
+                    (conversation?.is_group == 1) ? conversation.image :
+                    (conversation?.users[0].id == user?.id) ? conversation?.users[1].profile.profile_photo :
+                    conversation?.users[0].profile.profile_photo
                     " class="rounded-circle border border-card-default mb-15 w-fill h-fill object-fit-cover" alt="">
                 </div>
 
                 <div class="layout-horizontal align-center-center gap-5">
                     <p class="text-primary text-body">{{
-                        (conversation.is_group == 1) ? conversation.name :
-                        (conversation.users[0].id == user.id) ? conversation.users[1].profile.display_name :
-                        conversation.users[0].profile.display_name
+                        (conversation?.is_group == 1) ? conversation.name :
+                        (conversation?.users[0].id == user?.id) ? conversation?.users[1].profile.display_name :
+                        conversation?.users[0].profile.display_name
                         }}</p>
 
-                    <button type="button" class="button-subtle button-icon-only" *ngIf="conversation.is_group == 1"
+                    <button type="button" class="button-subtle button-icon-only" *ngIf="conversation?.is_group == 1"
                         (click)="toggleDialogEditGroup()">
                         <i class="icon-size-16 accent-text-primary icon icon-ic_fluent_edit_16_regular"></i>
                     </button>
                 </div>
 
                 <p class="text-primary text-caption">{{
-                    (conversation.is_group == 1) ? '' :
-                    (conversation.users[0].id == user.id) ? conversation.users[1].email :
-                    conversation.users[0].email
+                    (conversation?.is_group == 1) ? '' :
+                    (conversation?.users[0].id == user?.id) ? conversation?.users[1].email :
+                    conversation?.users[0].email
                     }}</p>
             </div>
 
             <div class="layout-vertical card-background-default border rounded-8">
 
-                <div class="accordion {{conversation.is_group == 1?'display-block':'display-none'}}">
+                <div class="accordion {{conversation?.is_group == 1?'display-block':'display-none'}}">
                     <div class="accordion-item">
                         <div class="user-accordion-header layout-horizontal gap-15 px-20 py-15 align-center-center text-accent-default"
                             style="cursor: pointer;">
@@ -707,7 +714,7 @@
                             <div class="layout-vertical p-5 gap-15 px-15 py-10">
 
                                 <div class="control search-control search-control-user w-fill">
-                                    <input type="search w-fill" (input)="searchUser()" [(ngModel)]="keywordSearchUser"
+                                    <input type="search w-fill" (input)="searchUser()" [(ngModel)]="keywordSearchUser" name="keywordSearchUser"
                                         placeholder="Tìm kiếm" spellcheck="false" required="">
                                     <button type="button" class="input-button clear-content-button"
                                         (click)="clearSearchUser()">
@@ -744,7 +751,7 @@
                     </div>
                 </div>
 
-                <div class="accordion {{conversation.is_group == 1?'display-block':'display-none'}}">
+                <div class="accordion {{conversation?.is_group == 1?'display-block':'display-none'}}">
                     <div class="accordion-item">
                         <div class="group-accordion-header layout-horizontal gap-15 px-20 py-15 align-center-center text-accent-default"
                             style="cursor: pointer;">
@@ -756,7 +763,7 @@
                             <div class="layout-vertical p-5 px-15">
 
                                 <div class="layout-horizontal gap-15 p-10 w-fill list-item border-top"
-                                    *ngFor="let user of conversation.users">
+                                    *ngFor="let user of conversation?.users">
                                     <div class="layout-horizontal align-center-center gap-15 w-fill">
                                         <div style="width: 35px; height: 35px;">
                                             <img [src]="user.profile.profile_photo"
@@ -789,7 +796,7 @@
                             <div class="layout-vertical p-5 gap-15 px-15 py-10">
 
                                 <div class="control search-control search-control-chat w-fill">
-                                    <input type="search w-fill" (input)="searchMessage()" [(ngModel)]="keywordSearch"
+                                    <input type="search w-fill" (input)="searchMessage()" [(ngModel)]="keywordSearch" name="keywordSearch"
                                         placeholder="Tìm kiếm" spellcheck="false" required="">
                                     <button type="button" class="input-button clear-content-button"
                                         (click)="clearSearchMessage()">
@@ -843,11 +850,11 @@
                 class="layout-vertical w-fill gap-20 p-20 rounded-8 card-background-default border border-card-default">
                 <div
                     class="layout-horizontal pb-10 w-fill border-bottom border-card-default align-center-space-between">
-                    <p class="text-body text-primary">{{images.length}} phương tiện</p>
+                    <p class="text-body text-primary">{{images?.length}} phương tiện</p>
                     <a href="" class="link text-nowrap">Xem thêm</a>
                 </div>
                 <div class="layout-vertical w-fill p-0">
-                    <div class="w-fill layout-wrap gap-20 align-center-left" *ngIf="images.length>0">
+                    <div class="w-fill layout-wrap gap-20 align-center-left" *ngIf="images?.length>0">
                         <div class="w-fill-column-4" style="height: 80px;" *ngFor="let img of images">
                             <img [src]="img.path" class="w-fill h-fill object-fit-cover rounded-4"
                                 (click)="setZoomIng(img.path)">
@@ -855,7 +862,7 @@
                     </div>
 
                     <div class="w-fill py-20 card-background-default border border-card-default rounded-8"
-                        *ngIf="images.length==0">
+                        *ngIf="images?.length==0">
                         <p class="text-body text-secondary text-center">Trống</p>
                     </div>
                 </div>

@@ -1,26 +1,26 @@
 <div class="w-fill h-hug card-background-default border border-card-default rounded-8 layout-vertical">
-    <img [src]="user.profile.cover_photo || 'assets/image/splash.png'" alt="" class="w-fill rounded-top-8">
+    <img [src]="user?.profile.cover_photo || 'assets/image/splash.png'" alt="" class="w-fill rounded-top-8">
     <div class="layout-vertical py-20 pb-20 gap-20 align-center-center" style="margin-top: -60px;">
-        <img [src]="user.profile.profile_photo" alt="" class="rounded-circle border border-card-default"
+        <img [src]="user?.profile.profile_photo" alt="" class="rounded-circle border border-card-default"
             style="width: 120px; height: 120px;">
 
         <div class="layout-vertical gap-5 w-fill align-center-center pb-20 border-bottom border-card-default">
-            <p class="text-primary text-subtitle">{{user.profile.display_name}}</p>
-            <p class="text-primary text-body">{{user.email}}</p>
-            <p class="text-primary text-caption">{{user.biography}}</p>
+            <p class="text-primary text-subtitle">{{user?.profile.display_name}}</p>
+            <p class="text-primary text-body">{{user?.email}}</p>
+            <p class="text-primary text-caption">{{user?.biography}}</p>
         </div>
         <div class="layout-horizontal gap-20 w-fill">
             <div class="w-fill layout-vertical align-center-center">
                 <p class="text-secondary text-body">Bạn bè</p>
-                <p class="text-primary text-body-strong">{{user.friend_count}}</p>
+                <p class="text-primary text-body-strong">{{user?.friend_count}}</p>
             </div>
             <div class="w-fill layout-vertical align-center-center">
                 <p class="text-secondary text-body">Người theo dõi</p>
-                <p class="text-primary text-body-strong">{{user.follower_count}}</p>
+                <p class="text-primary text-body-strong">{{user?.follower_count}}</p>
             </div>
             <div class="w-fill layout-vertical align-center-center">
                 <p class="text-secondary text-body">Đang theo dõi</p>
-                <p class="text-primary text-body-strong">{{user.following_count}}</p>
+                <p class="text-primary text-body-strong">{{user?.following_count}}</p>
             </div>
         </div>
         <div class="layout w-fill px-20">
@@ -30,17 +30,17 @@
 </div>
 <div class="layout-vertical w-fill gap-20 p-20 rounded-8 card-background-default border border-card-default">
     <div class="layout-horizontal pb-10 w-fill border-bottom border-card-default align-center-space-between">
-        <p class="text-body text-primary">{{images.length}} ảnh</p>
+        <p class="text-body text-primary">{{images?.length}} ảnh</p>
         <a href="" class="link text-nowrap">Xem thêm</a>
     </div>
     <div class="layout-vertical w-fill p-0">
-        <div class="w-fill layout-wrap gap-20 align-center-left" *ngIf="images.length>0">
+        <div class="w-fill layout-wrap gap-20 align-center-left" *ngIf="images?.length>0">
             <div class="w-fill-column-4" style="height: 80px;" *ngFor="let img of images">
                 <img [src]="img.path" class="w-fill h-fill object-fit-cover rounded-4" (click)="setZoomIng(img.path)">
             </div>
         </div>
 
-        <div class="w-fill py-20 card-background-default border border-card-default rounded-8" *ngIf="images.length==0">
+        <div class="w-fill py-20 card-background-default border border-card-default rounded-8" *ngIf="images?.length==0">
             <p class="text-body text-secondary text-center">Trống</p>
         </div>
     </div>

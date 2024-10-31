@@ -3,6 +3,7 @@ import Pusher from 'pusher-js';
 import { AuthService } from './auth.service';
 import { Observable, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,11 @@ export class EventService implements OnDestroy {
   private channel_post: any;
   private post_id: number = 0;
 
-  constructor(private authService: AuthService, private http: HttpClient) {
+  constructor(
+    private authService: AuthService,
+    private http: HttpClient,
+    private router: Router
+  ) {
     this.pusher = new Pusher('74a1b74fdf0afc6b5833', { cluster: 'ap1' });
 
     if (this.channel) {
@@ -28,14 +33,20 @@ export class EventService implements OnDestroy {
     this.setPusherComment();
 
 
-    // Kiểm tra khi người dùng truy cập lần đầu
+    // this.router.events.subscribe((event) => {
+      // if (event instanceof NavigationEnd) {
+        this.isLoggedIn = (localStorage.getItem('auth_token')) ? true : false;
+      // }
+    // });
+
+    if (this.isLoggedIn) {
+      this.resetIdleTimer();
+    }
+
     if (!this.hasEntered) {
       this.onUserEnter();
       this.hasEntered = true;  // Đánh dấu đã vào
     }
-
-    //Đặt lại bộ đếm thời gian mỗi khi phát hiện sự kiện hoạt động từ người dùng
-    this.resetIdleTimer();
   }
 
   public bindEvent(eventName: string, callback: (data: any) => void): void {
@@ -72,43 +83,22 @@ export class EventService implements OnDestroy {
   }
 
 
-
-  private hasEntered: boolean = false;
-  private hasExited: boolean = false;
-
-  private onUserEnter() {
-    console.log("Người dùng đã truy cập vào trang lần đầu.");
-    // Thực hiện các hành động khác nếu cần
-
-
-
-
-  }
-
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: any) {
-    // Kiểm tra khi người dùng thoát khỏi trang lần đầu
-    if (!this.hasExited) {
-      this.onUserExit();
-      this.hasExited = true;  // Đánh dấu đã thoát
-    }
+    const url = 'http://localhost:8000/api/update-online-status';
+    const data = JSON.stringify({ online_status: 'offline' });
+    
+    // Gửi request qua sendBeacon
+    navigator.sendBeacon(url, data);
   }
+  
 
-  private onUserExit() {
-    console.log("Người dùng đã thoát khỏi trang.");
-    // Thực hiện các hành động khác nếu cần
-
-
-
-
-  }
-
-
+  private hasEntered: boolean = false;
+  isLoggedIn: boolean = false;
 
   private apiUrl = 'http://localhost:8000/api';
 
   updateOnlineStatus(status: string): Observable<any> {
-    // ['online', 'offline', 'idle']
     const headers = this.authService.getToken();
     return this.http.post(`${this.apiUrl}/update-online-status`, { 'online_status': status }, { headers });
   }
@@ -139,6 +129,14 @@ export class EventService implements OnDestroy {
     }
 
     this.idleTimeout = setTimeout(() => this.onIdleTimeout(), this.idleTimeLimit);
+  }
+
+  private onUserEnter() {
+    console.log("Người dùng đã truy cập vào trang lần đầu.");
+    // Thực hiện các hành động khác nếu cần
+    this.updateOnlineStatus('online').subscribe(
+      (response) => console.log(response)
+    )
   }
 
   private onIdleTimeout() {

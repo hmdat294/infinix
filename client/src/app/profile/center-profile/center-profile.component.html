@@ -1,6 +1,6 @@
 <div class="layout p-10 rounded-8 card-background-default border border-card-default" id="create-post-section">
     <div class="layout-horizontal gap-10 w-fill">
-        <img class="rounded-circle border border-card-default" src="{{currentUser.profile.profile_photo}}" alt="" style="width: 35px; height: 35px;">
+        <img class="rounded-circle border border-card-default" src="{{currentUser?.profile.profile_photo}}" alt="" style="width: 35px; height: 35px;">
         <!-- (submit)="post(value.value)" -->
         <form class="layout-vertical gap-10 w-fill" enctype="multipart/form-data" #value="ngForm"
             (submit)="post(value.value)">
@@ -45,7 +45,7 @@
 
             <div class="layout-horizontal w-fill">
                 <div class="layout horizontal w-fill gap-10">
-                    <input class="display-none" type="file" [ngModel]="filePost" (change)="onFilePostSelected($event)"
+                    <input class="display-none" type="file" [ngModel]="filePost" name="filePost" (change)="onFilePostSelected($event)"
                         accept="image/*" id="post_media_input" multiple>
                     <label for="post_media_input"
                         class="layout align-center-center border-none subtle-transparent text-accent-default">
@@ -214,7 +214,7 @@
                     </div>
                     <div class="layout w-fill border-top border-card-default">
                         <div class="layout-horizontal gap-10 p-10 w-fill">
-                            <img class="rounded-circle border border-card-default" src="{{currentUser.profile.profile_photo}}" alt="" style="width: 35px; height: 35px;">
+                            <img class="rounded-circle border border-card-default" src="{{currentUser?.profile.profile_photo}}" alt="" style="width: 35px; height: 35px;">
 
                             <form class="layout-vertical gap-10 w-fill" enctype="multipart/form-data" #frm="ngForm"
                                 (submit)="postComment(frm.value)">
@@ -242,7 +242,7 @@
 
                                 <div class="layout-horizontal w-fill">
                                     <div class="layout horizontal w-fill gap-10">
-                                        <input class="display-none" type="file" [ngModel]="fileComment"
+                                        <input class="display-none" type="file" [ngModel]="fileComment" name="fileComment"
                                             (change)="onFileCommentSelected($event)" accept="image/*"
                                             id="comment_media_input">
                                         <label for="comment_media_input"

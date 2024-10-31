@@ -1,6 +1,7 @@
 
 .user-online::after,
-.user-offline::after{
+.user-offline::after,
+.user-idle::after{
     content: '';
     position: absolute;
     right: 1px;
@@ -15,5 +16,9 @@
 }
 
 .user-offline::after{
-    background-color: red;
+    background-color: rgb(255, 0, 0);
+}
+
+.user-idle::after{
+    background-color: rgb(255, 255, 0);
 }
