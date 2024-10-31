@@ -58,4 +58,9 @@ export class PostService {
     const headers = this.authService.getToken();
     return this.http.get(`${this.apiUrl}/search-post/${keyword}`, { headers });
   }
+
+  bookmarkPost(post_id: number): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.post(`${this.apiUrl}/bookmark/${post_id}`, { headers });
+  }
 }

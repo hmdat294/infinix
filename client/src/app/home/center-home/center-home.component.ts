@@ -186,6 +186,22 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
     )
   }
 
+  //bookmark
+
+  bookmarkPost(post_id:number){
+    this.postService.bookmarkPost(post_id).subscribe(
+      (response) => {
+        console.log(response);
+        // this.listPost.find(item => item.id === post_id).bookmarked = response.data.bookmarked;
+      });
+  }
+
+
+
+
+
+  //bookmark
+
   showPolls() {
     this.showPoll = (this.showPoll == false) ? true : false;
     this.poll_input = [];
