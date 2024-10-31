@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\User as UserModel;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use App\Events\UserConnectionEvent;
+use App\Http\Resources\PostResource;
 
 class UserController extends Controller
 {
@@ -92,5 +93,11 @@ class UserController extends Controller
         event(new UserConnectionEvent($user, $request->online_status));
 
         return new UserResource($user);
+    }
+
+    public function bookmarks()
+    {
+        $user = UserModel::find(request()->user()->id);
+        return PostResource::collection($user->bookmarks);
     }
 }

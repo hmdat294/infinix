@@ -53,6 +53,7 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
     
     Route::get('user/{user_id}/medias', [UserController::class, 'medias']);
     Route::get('user/medias', [UserController::class, 'medias']);
+    Route::get('user/bookmarks', [UserController::class, 'bookmarks']);
     Route::get('conversation/{id}/medias', [ConversationController::class, 'medias']);
 
     // Đăng xuất
@@ -87,14 +88,14 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
     ->parameters(['like' => 'post-id']);
 
     // Share bài viết
-    Route::resource('share', PostShareController::class)
-    ->only(['index', 'store'])
-    ->parameters(['share' => 'post-id']);
+    // Route::resource('share', PostShareController::class)
+    // ->only(['index', 'store'])
+    // ->parameters(['share' => 'post-id']);
+    Route::get('share/{post_id}', [PostShareController::class, 'index']);
+    Route::post('share/{post_id}', [PostShareController::class, 'store']);
 
-    // Bookmark bài viết
-    Route::resource('bookmark', PostBookmarkController::class)
-    ->only(['index', 'store'])
-    ->parameters(['bookmark' => 'post-id']);
+    Route::get('bookmark/{post_id}', [PostBookmarkController::class, 'index']);
+    Route::post('bookmark/{post_id}', [PostBookmarkController::class, 'store']);
 
     // API cho hội thoại đơn (theo user_id)
     Route::resource('chat', ConversationController::class)
@@ -190,7 +191,6 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
         
         // thống kê theo biểu đồ tròn (thống kê báo cáo)
         Route::get('total-reports', [TotalController::class, 'totalReports']);
-        // Route::get('report', [TotalController::class, 'show']);
         
     });
 });

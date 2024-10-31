@@ -21,9 +21,9 @@ class PostShareController extends Controller
      * 
      * @return AnonymousResourceCollection
      */
-    public function index(Request $request)
+    public function index(Request $request, string $post_id)
     {
-        $post = PostModel::find($request->post_id);
+        $post = PostModel::find($post_id);
         $post_shares = $post->shares;
         $users = $post_shares->user;
 
@@ -39,23 +39,23 @@ class PostShareController extends Controller
      * 
      * @return 
      */
-    public function store(Request $request)
+    public function store(Request $request, string $post_id)
     {
-        $post_share = PostShareModel::where('post_id', $request->post_id)
+        $post_share = PostShareModel::where('post_id', $post_id)
             ->where('user_id', $request->user()->id)
             ->first();
 
         if ($post_share) {
             $post_share->delete();
 
-            event(new UserSharePostEvent($request->post_id, $request->user()->id, "unshare"));
+            event(new UserSharePostEvent($post_id, $request->user()->id, "unshare"));
 
             return response()->json([
                 'message' => 'Đã hủy chia sẻ bài viết',
             ], 200);
         } else {
             PostShareModel::create([
-                'post_id' => $request->post_id,
+                'post_id' => $post_id,
                 'user_id' => $request->user()->id,
             ]);
 

@@ -12,18 +12,9 @@ use Illuminate\Http\JsonResponse;
 class PostBookmarkController extends Controller
 {
 
-    /**
-     * Danh sách user đã bookmark bài viết
-     *
-     * @param Request $request
-     * 
-     * @bodyParam post_id : id của bài viết.
-     * 
-     * @return AnonymousResourceCollection
-     */
-    public function index(Request $request)
+    public function index(Request $request, string $post_id)
     {
-        $post = PostModel::find($request->post_id);
+        $post = PostModel::find($post_id);
         $post_bookmarks = $post->bookmarks;
         $users = $post_bookmarks->user;
 
@@ -39,9 +30,9 @@ class PostBookmarkController extends Controller
      * 
      * @return JsonResponse
      */
-    public function store(Request $request)
+    public function store(Request $request, string $post_id)
     {
-        $post_bookmark = PostBookmarkModel::where('post_id', $request->post_id)
+        $post_bookmark = PostBookmarkModel::where('post_id', $post_id)
             ->where('user_id', $request->user()->id)
             ->first();
 
