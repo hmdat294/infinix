@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignId('comment_id')->nullable()->constrained('post_comments')->default(null);
             $table->foreignId('conversation_id')->nullable()->constrained('conversations')->default(null);
             $table->foreignId('friend_request_id')->nullable()->constrained('friend_requests')->default(null);
+            $table->foreignId('conversation_invitation_id')->nullable()->constrained('conversation_invitations')->default(null);
             $table->text('content')->nullable()->default(null);
             $table->enum('action_type', [
                 'user_like_post', 'user_comment_post', 'user_share_post',
