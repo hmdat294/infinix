@@ -4,48 +4,48 @@
             class="w-fill-column-3 h-fill layout-vertical gap-20 py-20 overflow-scroll-vertical in-tablet-w-fill in-mobile-w-fill" style="z-index: 2;">
 
             <div class="w-fill h-hug card-background-default border border-card-default rounded-8 layout-vertical">
-                <img [src]="user.profile.cover_photo || 'assets/image/splash.png'" alt="" class="w-fill rounded-top-8">
+                <img [src]="user?.profile.cover_photo || 'assets/image/splash.png'" alt="" class="w-fill rounded-top-8">
                 <div class="layout-vertical py-20 pb-20 gap-20 align-center-center" style="margin-top: -60px;">
-                    <img [src]="user.profile.profile_photo" alt="" class="rounded-circle border border-card-default"
+                    <img [src]="user?.profile.profile_photo" alt="" class="rounded-circle border border-card-default"
                         style="width: 120px; height: 120px;">
 
                     <div
                         class="layout-vertical gap-5 w-fill align-center-center pb-20 border-bottom border-card-default">
-                        <p class="text-primary text-subtitle">{{user.profile.display_name}}</p>
-                        <p class="text-primary text-body">{{user.email}}</p>
-                        <p class="text-primary text-caption">{{user.biography}}
+                        <p class="text-primary text-subtitle">{{user?.profile.display_name}}</p>
+                        <p class="text-primary text-body">{{user?.email}}</p>
+                        <p class="text-primary text-caption">{{user?.biography}}
                         </p>
                     </div>
                     <div class="layout-horizontal gap-20 w-fill">
                         <div class="w-fill layout-vertical align-center-center">
                             <p class="text-secondary text-body text-center">Bạn bè</p>
-                            <p class="text-primary text-body-strong">{{user.friend_count}}</p>
+                            <p class="text-primary text-body-strong">{{user?.friend_count}}</p>
                         </div>
                         <div class="w-fill layout-vertical align-center-center">
                             <p class="text-secondary text-body text-center">Người theo dõi</p>
-                            <p class="text-primary text-body-strong">{{user.follower_count}}</p>
+                            <p class="text-primary text-body-strong">{{user?.follower_count}}</p>
                         </div>
                         <div class="w-fill layout-vertical align-center-center">
                             <p class="text-secondary text-body text-center">Đang theo dõi</p>
-                            <p class="text-primary text-body-strong">{{user.following_count}}</p>
+                            <p class="text-primary text-body-strong">{{user?.following_count}}</p>
                         </div>
                     </div>
                     <div class="layout-horizontal px-20 align-center-space-between w-fill">
-                        <button *ngIf="!user.is_friend && !user.is_sent_friend_request" type="button"
-                            class="button-accent button-text-only w-fill-column-6" (click)="addFriend(user.id)">Thêm bạn
+                        <button *ngIf="!user?.is_friend && !user?.is_sent_friend_request" type="button"
+                            class="button-accent button-text-only w-fill-column-6" (click)="addFriend(user?.id)">Thêm bạn
                             bè
                         </button>
-                        <button *ngIf="!user.is_friend && user.is_sent_friend_request" type="button"
+                        <button *ngIf="!user?.is_friend && user?.is_sent_friend_request" type="button"
                             class="button-standard button-text-only w-fill-column-6"
-                            (click)="cancelRequest(user.id)">Hủy yêu
+                            (click)="cancelRequest(user?.id)">Hủy yêu
                             cầu
                         </button>
-                        <button *ngIf="user.is_friend" type="button"
+                        <button *ngIf="user?.is_friend" type="button"
                             class="button-standard button-text-only w-fill-column-6">Hủy kết
                             bạn
                         </button>
                         <button type="button" class="button-accent button-text-only w-fill-column-6"
-                            (click)="createChat(user.id)">Nhắn tin</button>
+                            (click)="createChat(user?.id)">Nhắn tin</button>
                     </div>
                 </div>
             </div>
@@ -53,11 +53,11 @@
                 class="layout-vertical w-fill gap-20 p-20 rounded-8 card-background-default border border-card-default">
                 <div
                     class="layout-horizontal pb-10 w-fill border-bottom border-card-default align-center-space-between">
-                    <p class="text-body text-primary">{{images.length}} phương tiện</p>
+                    <p class="text-body text-primary">{{images?.length}} phương tiện</p>
                     <a href="" class="link text-nowrap">Xem thêm</a>
                 </div>
                 <div class="layout-vertical w-fill p-0">
-                    <div class="w-fill layout-wrap gap-20 align-center-left" *ngIf="images.length>0">
+                    <div class="w-fill layout-wrap gap-20 align-center-left" *ngIf="images?.length>0">
                         <div class="w-fill-column-4" style="height: 80px;" *ngFor="let img of images">
                             <img [src]="img.path" class="w-fill h-fill object-fit-cover rounded-4"
                                 (click)="setZoomIng(img.path)">
@@ -65,7 +65,7 @@
                     </div>
 
                     <div class="w-fill py-20 card-background-default border border-card-default rounded-8"
-                        *ngIf="images.length==0">
+                        *ngIf="images?.length==0">
                         <p class="text-body text-secondary text-center">Trống</p>
                     </div>
                 </div>
@@ -135,11 +135,9 @@
                             <div class="w-fill-column-8 h-fill in-tablet-w-fill in-mobile-w-fill"
                                 *ngIf="post.medias.length>0">
 
-                                <div
-                                    class="layout w-fill h-fill {{(post.medias.length>0) ? 'display-flex' : 'display-none'}}">
+                                <div class="layout w-fill h-fill {{(post.medias.length>0) ? 'display-flex' : 'display-none'}}">
                                     <div class="carousel w-fill h-fill rounded-4">
-                                        <div class="carousel-indicators" #indicatorsContainer
-                                            *ngIf="post.medias.length>1">
+                                        <div class="carousel-indicators {{(post.medias.length>1) ? 'display-block' : 'display-none'}}" #indicatorsContainer>
                                             <button type="button" class="border-none rounded-circle"
                                                 *ngFor="let img of post.medias; let i = index">
                                             </button>
@@ -150,14 +148,14 @@
                                                     style="object-fit: contain !important; background-color: rgb(27, 27, 27);">
                                             </div>
                                         </div>
-
-                                        <button *ngIf="post.medias.length>1" type="button"
-                                            class="carousel-button-previous p-5 rounded-circle" #prevButton>
+            
+                                        <button type="button"
+                                            class="{{(post.medias.length>0) ? 'display-block' : 'display-none'}} carousel-button-previous p-5 rounded-circle" #prevButton>
                                             <i class="icon-size-20 icon icon-ic_fluent_chevron_left_20_filled"></i>
                                         </button>
-
-                                        <button *ngIf="post.medias.length>1" type="button"
-                                            class="carousel-button-next p-5 rounded-circle" #nextButton>
+            
+                                        <button type="button"
+                                            class="{{(post.medias.length>0) ? 'display-block' : 'display-none'}} carousel-button-next p-5 rounded-circle" #nextButton>
                                             <i class="icon-size-20 icon icon-ic_fluent_chevron_right_20_filled"></i>
                                         </button>
                                     </div>
@@ -220,7 +218,7 @@
                                                 style="width: 35px; height: 35px;">
                                             <div class="layout-vertical w-fill gap-5">
                                                 <p class="text-body-strong text-primary">
-                                                    {{item.user.profile.display_name}}</p>
+                                                    {{item.user?.profile.display_name}}</p>
                                                 <div
                                                     class="layout-vertical card-background-secondary border border-card-default rounded-8 p-10 gap-5">
                                                     <div *ngIf="item.media">
@@ -276,7 +274,7 @@
 
                                             <div class="layout-horizontal w-fill">
                                                 <div class="layout horizontal w-fill gap-10">
-                                                    <input class="display-none" type="file" [ngModel]="fileComment"
+                                                    <input class="display-none" type="file" [ngModel]="fileComment" name="fileComment"
                                                         (change)="onFileCommentSelected($event)" accept="image/*"
                                                         id="comment_media_input">
                                                     <label for="comment_media_input"

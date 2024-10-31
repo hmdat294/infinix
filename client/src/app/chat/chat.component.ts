@@ -36,7 +36,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   id_message: number = 0;
 
   isScrollingToElement: boolean = false;
-  isVisible = true;
+  isVisible = false;
   showBoxSearch = false;
   showBoxSearchUser = false;
   showUserGroup = false;
@@ -62,6 +62,9 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   fileImageEditGroup: any;
   selectedFilesEditGroup: File[] = [];
   previewEditGroupImages: string[] = [];
+
+  keyword: string = '';
+  friendsSearch: any = [];
 
   constructor(
     private el: ElementRef,
@@ -93,6 +96,12 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
         console.log(this.friends);
 
+        // const testfr = this.friends.map((friend: any) => ({
+        //   ...friend,
+        //   users: friend.users.filter((user: any) => user.id !== this.user.id)
+        // }));
+        // console.log(testfr);
+
         if (this.friends.length > 0) {
           this.MessageUser(this.friends[0]);
         }
@@ -116,6 +125,21 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
             this.conversation.messages.find((item: any) => item.id === data.data.id).content = data.data.content;
         });
       });
+  }
+
+  searchFriend() {
+    if (this.keyword && !/^\s*$/.test(this.keyword)) {
+      this.friendsSearch = this.friends.filter((friend: any) =>
+        friend.profile.display_name.toLowerCase().includes(this.keyword.trim().toLowerCase()) || friend.email.toLowerCase().includes(this.keyword.trim().toLowerCase())
+      );
+    }
+    else {
+      this.friendsSearch = [];
+    }
+  }
+
+  setFriendSearch() {
+    return (this.friendsSearch.length > 0) ? this.friendsSearch : this.friends;
   }
 
   ngAfterViewInit() {
@@ -165,7 +189,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   }
 
   ngAfterViewChecked() {
-    if (!this.isScrollingToElement) {
+    if (this.scrollBox && this.scrollBox.nativeElement && !this.isScrollingToElement) {
       this.scrollBox.nativeElement.scrollTop = this.scrollBox.nativeElement.scrollHeight;
       this.isScrollingToElement = true;
     }
@@ -235,7 +259,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
             (data: any) => {
               this.conversation = data.data;
               this.isScrollingToElement = false;
-              (document.querySelector('.textarea-chat') as HTMLTextAreaElement).focus();
+              (document.querySelector('.textarea-chat') as HTMLTextAreaElement)?.focus();
             });
         });
     } else {

@@ -31,10 +31,12 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentRoute = this.router.url.split('/')[1];
+
     this.router.events.pipe(
-      filter((event) => event instanceof NavigationEnd)
+      filter((event: any) => event instanceof NavigationEnd)
     ).subscribe(
-      (event: any) => this.currentRoute = event.urlAfterRedirects.split('/')[1]
+      (event: any) =>
+        this.currentRoute = event.urlAfterRedirects.split('/')[1]
     );
 
     this.chatService.conversation$.subscribe(conversation => {
@@ -55,13 +57,11 @@ export class HeaderComponent implements OnInit {
 
           this.conversation.push(data.data.conversation_id);
           this.chatService.updateConversation(this.conversation);
-    
+
         });
       }
     )
   }
-
-
 
   clearSearch() {
     this.keyword = '';
@@ -83,5 +83,10 @@ export class HeaderComponent implements OnInit {
     }
   }
 
+  diaLogNoti: boolean = false;
+
+  diaLogNotification() {
+    this.diaLogNoti = !this.diaLogNoti;
+  }
 
 }

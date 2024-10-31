@@ -21,14 +21,14 @@ class UserConnectionEvent implements ShouldBroadcast
 
     protected $user;
     protected $status;
-    
+
     public function __construct($user, $status)
     {
         $this->user = $user;
         $this->status = $status;
     }
 
-    
+
     public function broadcastOn()
     {
         $friend_id_array = UserModel::find($this->user->id)->friendsOf->concat(UserModel::find($this->user->id)->friendsOfMine)->pluck('id');

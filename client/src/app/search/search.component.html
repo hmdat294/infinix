@@ -99,7 +99,9 @@
                         <div class="layout-horizontal gap-20">
                             <a [routerLink]="['/friend-profile', post.profile.user_id]"
                                 class="layout-horizontal gap-20 w-fill">
-                                <img [src]="post.profile.profile_photo" alt="" class="rounded-circle border border-card-default" style="width: 35px; height: 35px;">
+                                <img [src]="post.profile.profile_photo" alt=""
+                                    class="rounded-circle border border-card-default"
+                                    style="width: 35px; height: 35px;">
                                 <div class="layout-vertical w-fill">
                                     <p class="text-body-strong text-primary">{{post.profile.display_name}}</p>
                                     <p class="text-body text-secondary">{{formatTime(post.created_at)}}</p>
@@ -119,8 +121,9 @@
                             <div
                                 class="w-fill h-fill {{(post.medias.length<6)?'layout-'+post.medias.length:'layout-6'}}">
                                 <div class="w-fill h-fill  border border-card-default rounded-6 overflow-hidden"
-                                *ngFor="let img of post.medias | slice:0:5; let i = index" (click)="toggleDialog(post.id, i)">
-                                <img class="w-fill h-fill object-fit-cover object-position-center"
+                                    *ngFor="let img of post.medias | slice:0:5; let i = index"
+                                    (click)="toggleDialog(post.id, i)">
+                                    <img class="w-fill h-fill object-fit-cover object-position-center"
                                         [src]="getPathImg(img)" alt="Image">
                                 </div>
                             </div>
@@ -144,8 +147,8 @@
                                         <div
                                             class="layout w-fill h-fill {{(post.medias.length>0) ? 'display-flex' : 'display-none'}}">
                                             <div class="carousel w-fill h-fill rounded-4">
-                                                <div class="carousel-indicators" #indicatorsContainer
-                                                    *ngIf="post.medias.length>1">
+                                                <div class="carousel-indicators {{(post.medias.length>1) ? 'display-block' : 'display-none'}}"
+                                                    #indicatorsContainer>
                                                     <button type="button" class="border-none rounded-circle"
                                                         *ngFor="let img of post.medias; let i = index">
                                                     </button>
@@ -157,14 +160,16 @@
                                                     </div>
                                                 </div>
 
-                                                <button *ngIf="post.medias.length>1" type="button"
-                                                    class="carousel-button-previous p-5 rounded-circle" #prevButton>
+                                                <button type="button"
+                                                    class="{{(post.medias.length>0) ? 'display-block' : 'display-none'}} carousel-button-previous p-5 rounded-circle"
+                                                    #prevButton>
                                                     <i
                                                         class="icon-size-20 icon icon-ic_fluent_chevron_left_20_filled"></i>
                                                 </button>
 
-                                                <button *ngIf="post.medias.length>1" type="button"
-                                                    class="carousel-button-next p-5 rounded-circle" #nextButton>
+                                                <button type="button"
+                                                    class="{{(post.medias.length>0) ? 'display-block' : 'display-none'}} carousel-button-next p-5 rounded-circle"
+                                                    #nextButton>
                                                     <i
                                                         class="icon-size-20 icon icon-ic_fluent_chevron_right_20_filled"></i>
                                                 </button>
@@ -176,7 +181,8 @@
                                         <div class="layout-vertical w-flll border-bottom border-card-default p-10">
                                             <div class=" w-fill layout-horizontal align-center-space-between">
                                                 <div class="layout-horizontal gap-10">
-                                                    <img [src]="post.profile.profile_photo" alt="" class="rounded-circle border border-card-default"  alt=""
+                                                    <img [src]="post.profile.profile_photo" alt=""
+                                                        class="rounded-circle border border-card-default" alt=""
                                                         style="width: 40px; height: 40px;">
                                                     <div class="layout-vertical w-fill">
                                                         <p class="text-body-strong text-primary">
@@ -229,7 +235,8 @@
 
                                                 <div *ngFor="let item of getCommentByPostId(post.id)"
                                                     class="layout-horizontal w-fill h-hug p-10 gap-15">
-                                                    <img [src]="item.user.profile.profile_photo" alt="" class="rounded-circle border border-card-default"  alt=""
+                                                    <img [src]="item.user.profile.profile_photo" alt=""
+                                                        class="rounded-circle border border-card-default" alt=""
                                                         style="width: 35px; height: 35px;">
                                                     <div class="layout-vertical w-fill gap-5">
                                                         <p class="text-body-strong text-primary">
@@ -261,7 +268,9 @@
                                         </div>
                                         <div class="layout w-fill border-top border-card-default">
                                             <div class="layout-horizontal gap-10 p-10 w-fill">
-                                                <img class="rounded-circle border border-card-default" src="{{currentUser.profile.profile_photo}}" alt="" style="width: 35px; height: 35px;">
+                                                <img class="rounded-circle border border-card-default"
+                                                    src="{{currentUser.profile.profile_photo}}" alt=""
+                                                    style="width: 35px; height: 35px;">
 
                                                 <form class="layout-vertical gap-10 w-fill"
                                                     enctype="multipart/form-data" #frm="ngForm"
@@ -287,7 +296,7 @@
                                                         placeholder="placeholder" name="content" ngModel #commentInput
                                                         id="comment-input" spellcheck="false"
                                                         style="max-height: 110px;">
-                                </textarea>
+                                                    </textarea>
                                                     <input type="hidden" name="post_id" ngModel [(ngModel)]="post.id">
                                                     <input type="hidden" name="user_id" ngModel
                                                         [(ngModel)]="post.profile.user_id">
@@ -295,7 +304,7 @@
                                                     <div class="layout-horizontal w-fill">
                                                         <div class="layout horizontal w-fill gap-10">
                                                             <input class="display-none" type="file"
-                                                                [ngModel]="fileComment"
+                                                                [ngModel]="fileComment" name="fileComment"
                                                                 (change)="onFileCommentSelected($event)"
                                                                 accept="image/*" id="comment_media_input">
                                                             <label for="comment_media_input"

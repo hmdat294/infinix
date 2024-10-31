@@ -143,8 +143,8 @@ class AuthController extends Controller
     {
         // email, password, verification_code
         $user = UserModel::where('email', $request->email)->first();
-        
-        if(VerificationCodeModel::where('email', $request->email)->where('code', $request->code)->exists()) {
+
+        if (VerificationCodeModel::where('email', $request->email)->where('code', $request->code)->exists()) {
             $user->update(['password' => Hash::make($request->password)]);
             return response()->json([
                 'message' => 'Đổi mật khẩu thành công!',

@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
+import { Component, HostListener, OnInit, Renderer2 } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './header/header.component';
 import { CommonModule } from '@angular/common';
@@ -7,6 +7,7 @@ import { HeaderAdminComponent } from "./admin/header-admin/header-admin.componen
 import { AuthService } from './service/auth.service';
 import { NavComponent } from "./admin/nav/nav.component";
 import { filter } from 'rxjs';
+import { EventService } from './service/event.service';
 
 @Component({
   selector: 'app-root',
@@ -21,8 +22,9 @@ export class AppComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private authService: AuthService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private eventService: EventService,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -35,12 +37,20 @@ export class AppComponent implements OnInit {
     });
 
     this.router.events.pipe(
-      filter((event: any) => event instanceof NavigationEnd)).subscribe(
-        (event: any) => {
-          const urlSegments = event.urlAfterRedirects.split('/');
-          this.isAdmin = (urlSegments[1] == 'admin') ? true : false;
-        }
-      );
+      filter((event: any) => event instanceof NavigationEnd)
+    ).subscribe(
+      (event: any) =>
+        this.isAdmin = (event.urlAfterRedirects.split('/')[1] == 'admin') ? true : false
+    );
   }
 
+  @HostListener('window:mousemove')
+  @HostListener('window:keydown')
+  @HostListener('window:scroll')
+  @HostListener('window:click')
+  handleUserActivity() {
+    if (this.isLoggedIn) {
+      this.eventService.resetIdleTimer();
+    }
+  }
 }
