@@ -119,8 +119,9 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
     ->parameters(['message' => 'id']);
 
     // API cho báo cáo
+    Route::post('report/{id}', [ReportController::class, 'update']);
     Route::resource('report', ReportController::class)
-    ->only(['index', 'store', 'show', 'update', 'destroy'])
+    ->only(['index', 'store', 'show', 'destroy'])
     ->parameters(['report' => 'id']);
 
     // Lấy bình luận của một bài viết
