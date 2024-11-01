@@ -21,13 +21,13 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\Statistics\GrowthStatisticsController;
 use App\Http\Controllers\Statistics\TotalController;
 use App\Http\Controllers\DisabledNotificationController;
+use App\Http\Controllers\PinMessageController;
 use App\Http\Middleware\UpdateUserLastActivity;
 
 use App\Models\User as UserModel;
 
 use App\Http\Resources\UserResource;
-
-
+use App\Models\PinnedMessage;
 
 Route::middleware(['guest'])->group(function () {
 
@@ -45,6 +45,8 @@ Route::middleware(['guest'])->group(function () {
 });
 
 Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(function () {
+
+    Route::post('pin-message/{message_id}', [PinMessageController::class, 'store'])->name('pin-message');
 
     Route::post('update-online-status', [UserController::class, 'updateOnlineStatus'])->name('update-online-status');
 
