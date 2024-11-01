@@ -1,7 +1,7 @@
-import { HostListener, Injectable, OnDestroy } from '@angular/core';
+import { HostListener, Injectable, NgZone, OnDestroy } from '@angular/core';
 import Pusher from 'pusher-js';
 import { AuthService } from './auth.service';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { NavigationEnd, Router } from '@angular/router';
 
@@ -14,34 +14,40 @@ export class EventService implements OnDestroy {
   private channel: any;
   private channel_post: any;
   private post_id: number = 0;
+  private hasEntered: boolean = false;
+  isLoggedIn: boolean = false;
 
   constructor(
     private authService: AuthService,
     private http: HttpClient,
-    private router: Router
   ) {
+
     this.pusher = new Pusher('74a1b74fdf0afc6b5833', { cluster: 'ap1' });
 
-    if (this.channel) {
-      this.channel.unbind_all();
-      this.pusher.unsubscribe(this.channel.name);
-    }
+    this.authService.token$.subscribe(auth_token => {
+      this.isLoggedIn = !!auth_token;
 
-    this.authService.getUser(0).subscribe(
-      (response) => this.channel = this.pusher.subscribe(`user.${response.data.id}`));
+      if (this.isLoggedIn) {
 
-    this.setPusherComment();
+        if (this.channel) {
+          this.channel.unbind_all();
+          this.pusher.unsubscribe(this.channel.name);
+        }
 
-    // this.isLoggedIn = (localStorage.getItem('auth_token')) ? true : false;
+        this.authService.getUser(0).subscribe(
+          (response) => this.channel = this.pusher.subscribe(`user.${response.data.id}`));
 
-    // if (this.isLoggedIn) {
-    //   this.resetIdleTimer();
-    // }
+        this.setPusherComment();
 
-    if (!this.hasEntered) {
-      this.onUserEnter();
-      this.hasEntered = true;  // Đánh dấu đã vào
-    }
+        this.resetIdleTimer();
+
+        if (!this.hasEntered) {
+          this.onUserEnter();
+          this.hasEntered = true;
+        }
+      }
+    });
+
   }
 
   public bindEvent(eventName: string, callback: (data: any) => void): void {
@@ -87,10 +93,6 @@ export class EventService implements OnDestroy {
     navigator.sendBeacon(url, data);
   }
 
-
-  private hasEntered: boolean = false;
-  isLoggedIn: boolean = false;
-
   private apiUrl = 'http://localhost:8000/api';
 
   updateOnlineStatus(status: string): Observable<any> {
@@ -113,13 +115,15 @@ export class EventService implements OnDestroy {
   resetIdleTimer() {
     clearTimeout(this.idleTimeout);
 
-    if (this.isIdle) {
+    if (this.isIdle && this.isLoggedIn) {
       this.isIdle = false; // Chuyển trạng thái sang hoạt động
       this.idleState.next(false); // Phát trạng thái hoạt động
       console.log('Người dùng đã hoạt động trở lại!');
 
       this.updateOnlineStatus('online').subscribe(
-        (response) => console.log(response)
+        (response) => {
+          // console.log(response);
+        }
       )
     }
 
@@ -130,7 +134,9 @@ export class EventService implements OnDestroy {
     console.log("Người dùng đã truy cập vào trang lần đầu.");
     // Thực hiện các hành động khác nếu cần
     this.updateOnlineStatus('online').subscribe(
-      (response) => console.log(response)
+      (response) => {
+        // console.log(response);
+      }
     )
   }
 
@@ -140,7 +146,9 @@ export class EventService implements OnDestroy {
     console.log('Người dùng đã treo máy!');
 
     this.updateOnlineStatus('idle').subscribe(
-      (response) => console.log(response)
+      (response) => {
+        // console.log(response);
+      }
     )
   }
 }

@@ -29,6 +29,12 @@ export class ChatService {
     localStorage.setItem('conversation', JSON.stringify(conversation));
   }
 
+  removeConversation() {
+    localStorage.removeItem('conversation');
+    this.conversationSource.next([]);
+  }
+
+
   private getConversationFromStorage(): number[] {
     const conversation = localStorage.getItem('conversation');
     return conversation ? JSON.parse(conversation) : [];

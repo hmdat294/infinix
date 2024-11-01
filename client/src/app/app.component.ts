@@ -32,7 +32,7 @@ export class AppComponent implements OnInit {
 
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        this.isLoggedIn = (localStorage.getItem('auth_token')) ? true : false;
+        this.isLoggedIn = !!(localStorage.getItem('auth_token'));
       }
     });
 
@@ -40,7 +40,7 @@ export class AppComponent implements OnInit {
       filter((event: any) => event instanceof NavigationEnd)
     ).subscribe(
       (event: any) =>
-        this.isAdmin = (event.urlAfterRedirects.split('/')[1] == 'admin') ? true : false
+        this.isAdmin = !!(event.urlAfterRedirects.split('/')[1] == 'admin')
     );
   }
 

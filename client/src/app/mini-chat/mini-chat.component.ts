@@ -80,7 +80,7 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
 
         if (!this.chat)
           this.chat = this.filteredConversations[0];
-        console.log(this.chat);
+        // console.log(this.chat);
 
         this.eventService.bindEvent('App\\Events\\UserSendMessageEvent', (data: any) => {
           console.log('Message received:', data);
@@ -144,7 +144,7 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
       this.conversation.indexOf(a.id) - this.conversation.indexOf(b.id)
     );
 
-    console.log(this.filteredConversations);
+    // console.log(this.filteredConversations);
   }
 
 

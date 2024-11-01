@@ -61,6 +61,11 @@ export class PostService {
 
   bookmarkPost(post_id: number): Observable<any> {
     const headers = this.authService.getToken();
-    return this.http.post(`${this.apiUrl}/bookmark/${post_id}`, { headers });
+    return this.http.post(`${this.apiUrl}/bookmark/${post_id}`, {}, { headers });
+  }
+
+  getBookmarkByUser(): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.get(`${this.apiUrl}/user/bookmarks`, { headers });
   }
 }

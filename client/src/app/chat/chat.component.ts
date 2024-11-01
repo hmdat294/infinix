@@ -94,11 +94,13 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
       (data: any) => {
         this.friends = data.data || null;
 
-        console.log(this.friends);
+        // console.log(this.friends);
 
         // const testfr = this.friends.map((friend: any) => ({
         //   ...friend,
-        //   users: friend.users.filter((user: any) => user.id !== this.user.id)
+        //   users: friend.users.filter((user: any) => {
+        //     user.id !== this.user?.id;
+        //   })
         // }));
         // console.log(testfr);
 
