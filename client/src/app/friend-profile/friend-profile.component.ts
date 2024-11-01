@@ -47,6 +47,10 @@ export class FriendProfileComponent {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       const user_id = params['user_id'];
+      const post_id = params['post_id'];
+      console.log(user_id);
+      console.log(post_id);
+
 
       if (user_id > 0) {
         this.authService.getUser(user_id).subscribe(
@@ -57,7 +61,6 @@ export class FriendProfileComponent {
             this.authService.getImageByUser(this.user.id).subscribe(
               (response) => {
                 this.images = response.data;
-                console.log(this.images);
               }
             )
           });
@@ -65,6 +68,10 @@ export class FriendProfileComponent {
         this.postService.getPostByUser(user_id).subscribe(
           (data) => {
             this.listPost = data.data;
+
+            if (post_id > 0) {
+              this.listPost = this.listPost.filter((item: any) => item.id == post_id);
+            }
             console.log(this.listPost);
 
             this.eventService.bindEvent('App\\Events\\UserPostEvent', (data: any) => {
@@ -216,6 +223,20 @@ export class FriendProfileComponent {
       }
     )
   }
+
+  //bookmark
+
+  bookmarkPost(post_id: number) {
+    this.postService.bookmarkPost(post_id).subscribe(
+      (response) => {
+        console.log(response);
+
+        const bookmark = this.listPost.find(item => item.id === post_id);
+        bookmark.bookmarked = !bookmark.bookmarked;
+      });
+  }
+
+  //bookmark
 
   showPolls() {
     this.showPoll = (this.showPoll == false) ? true : false;

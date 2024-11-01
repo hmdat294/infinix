@@ -56,7 +56,7 @@ export class CenterProfileComponent implements OnInit {
     this.authService.getUser(0).subscribe(
       (data) => {
         this.currentUser = data.data;
-    });
+      });
   }
 
   @ViewChild('commentInput') commentInput!: ElementRef;
@@ -185,6 +185,20 @@ export class CenterProfileComponent implements OnInit {
       }
     )
   }
+
+  //bookmark
+
+  bookmarkPost(post_id: number) {
+    this.postService.bookmarkPost(post_id).subscribe(
+      (response) => {
+        console.log(response);
+
+        const bookmark = this.listPost.find(item => item.id === post_id);
+        bookmark.bookmarked = !bookmark.bookmarked;
+      });
+  }
+
+  //bookmark
 
   showPolls() {
     this.showPoll = (this.showPoll == false) ? true : false;

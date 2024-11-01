@@ -53,18 +53,18 @@ export class EventService implements OnDestroy {
   public bindEvent(eventName: string, callback: (data: any) => void): void {
     if (this.channel) {
       this.channel.bind(eventName, callback);
-      console.log(`Bound event '${eventName}' to channel '${this.channel.name}'`);
+      // console.log(`Bound event '${eventName}' to channel '${this.channel.name}'`);
     } else {
-      console.error('No channel to bind the event to.');
+      // console.error('No channel to bind the event to.');
     }
   }
 
   public bindEventPost(eventName: string, callback: (data: any) => void): void {
     if (this.channel_post) {
       this.channel_post.bind(eventName, callback);
-      console.log(`Bound event '${eventName}' to channel_post '${this.channel_post.name}'`);
+      // console.log(`Bound event '${eventName}' to channel_post '${this.channel_post.name}'`);
     } else {
-      console.error('No channel_post to bind the event to.');
+      // console.error('No channel_post to bind the event to.');
     }
   }
 
@@ -118,7 +118,7 @@ export class EventService implements OnDestroy {
     if (this.isIdle && this.isLoggedIn) {
       this.isIdle = false; // Chuyển trạng thái sang hoạt động
       this.idleState.next(false); // Phát trạng thái hoạt động
-      console.log('Người dùng đã hoạt động trở lại!');
+      // console.log('Người dùng đã hoạt động trở lại!');
 
       this.updateOnlineStatus('online').subscribe(
         (response) => {
@@ -131,7 +131,7 @@ export class EventService implements OnDestroy {
   }
 
   private onUserEnter() {
-    console.log("Người dùng đã truy cập vào trang lần đầu.");
+    // console.log("Người dùng đã truy cập vào trang lần đầu.");
     // Thực hiện các hành động khác nếu cần
     this.updateOnlineStatus('online').subscribe(
       (response) => {
@@ -143,7 +143,7 @@ export class EventService implements OnDestroy {
   private onIdleTimeout() {
     this.isIdle = true; // Chuyển trạng thái sang treo máy
     this.idleState.next(true); // Phát trạng thái treo máy
-    console.log('Người dùng đã treo máy!');
+    // console.log('Người dùng đã treo máy!');
 
     this.updateOnlineStatus('idle').subscribe(
       (response) => {

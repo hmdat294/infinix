@@ -7,6 +7,7 @@ import { CarouselService } from '../../service/carousel.service';
 import { AuthService } from '../../service/auth.service';
 import { EventService } from '../../service/event.service';
 import { RouterModule } from '@angular/router';
+import { ChatService } from '../../service/chat.service';
 
 @Component({
   selector: 'app-center-home',
@@ -31,21 +32,24 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   idDialog: number = 0;
   commentByPostId: any[] = [];
   currentUser: any;
+  listUser: any;
+  listGroup: any;
 
   constructor(
     private cdr: ChangeDetectorRef,
     private postService: PostService,
     private carouselService: CarouselService,
     private eventService: EventService,
-    private authService: AuthService
+    private authService: AuthService,
+    private chatService: ChatService,
   ) { }
 
   ngOnInit(): void {
     this.postService.getPost().subscribe(
       (data) => {
         this.listPost = data.data;
-        // console.log(this.listPost);
-        
+        console.log(this.listPost);
+
         this.eventService.bindEvent('App\\Events\\UserPostEvent', (data: any) => {
           console.log('Post event:', data);
           this.listPost.unshift(data.data);
@@ -61,8 +65,14 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
     this.postService.getBookmarkByUser().subscribe(
       (data) => {
         // console.log('Bookmark Post: ', data.data);
-      }
-    )
+      });
+
+    // this.chatService.getListChat().subscribe(
+    //   (response) => {
+    //     console.log(response);
+        
+        // this.listUser = response.data.map((item:any)=>item.is_group );
+      // });
   }
 
   @ViewChild('commentInput') commentInput!: ElementRef;
@@ -206,6 +216,27 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   }
 
   //bookmark
+
+  //share
+
+  dialogShare: boolean = false;
+
+  showShare() {
+    this.dialogShare = !this.dialogShare;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+  //share
 
   showPolls() {
     this.showPoll = (this.showPoll == false) ? true : false;
