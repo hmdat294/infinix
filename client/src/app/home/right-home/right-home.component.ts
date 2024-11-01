@@ -4,6 +4,7 @@ import { AuthService } from '../../service/auth.service';
 import { CommonModule } from '@angular/common';
 import { EventService } from '../../service/event.service';
 import { FormsModule } from '@angular/forms';
+import { ChatService } from '../../service/chat.service';
 
 @Component({
   selector: 'app-right-home',
@@ -23,27 +24,26 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
   constructor(
     private el: ElementRef,
     private renderer: Renderer2,
-    private authService: AuthService,
     private router: Router,
+    private authService: AuthService,
+    private chatService: ChatService,
     private eventService: EventService
   ) { }
 
   ngOnInit(): void {
 
-    if (localStorage.getItem('auth_token')) {
-      this.authService.getUser(0).subscribe(
-        (response) => this.user = response);
-    }
+    this.authService.getUser(0).subscribe(
+      (response) => this.user = response);
 
     this.authService.getFriend().subscribe(
       (response) => {
         this.friends = response.data;
-        console.log(this.friends);
+        // console.log(this.friends);
 
-        const statusOrder:any = { online: 1, idle: 2, offline: 3 };
+        const statusOrder: any = { online: 1, idle: 2, offline: 3 };
 
-        this.friends = this.friends.sort((a:any, b:any) => statusOrder[a.online_status] - statusOrder[b.online_status]);
-        
+        this.friends = this.friends.sort((a: any, b: any) => statusOrder[a.online_status] - statusOrder[b.online_status]);
+
         this.friends_limit = this.friends.slice(0, 5);
 
         this.eventService.bindEvent('App\\Events\\FriendRequestEvent', (data: any) => {
@@ -117,8 +117,10 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
     this.authService.logout().subscribe(
       (response) => {
         console.log('Logout Success:', response);
-        localStorage.removeItem('auth_token');
-        localStorage.removeItem('conversation');
+
+        this.authService.removeAuthToken();
+        this.chatService.removeConversation();
+
         this.router.navigate(['/landing-page']);
       },
       (error) => {
