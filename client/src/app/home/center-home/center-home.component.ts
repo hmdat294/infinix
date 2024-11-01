@@ -60,7 +60,7 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
 
     this.postService.getBookmarkByUser().subscribe(
       (data) => {
-        console.log('Bookmark Post: ', data.data);
+        // console.log('Bookmark Post: ', data.data);
       }
     )
   }

@@ -3,6 +3,7 @@ import { AuthService } from '../service/auth.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { EventService } from '../service/event.service';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,10 @@ import { Router, RouterModule } from '@angular/router';
 export class LoginComponent {
 
   error: string = '';
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(
+    private authService: AuthService, 
+    private router: Router
+  ) { }
 
   login(value: any) {
     const bg_left = document.querySelector('.bg-page-login-left') as HTMLElement;
@@ -26,7 +30,7 @@ export class LoginComponent {
       (response) => {
         console.log(response);
         if (response.token) {
-          localStorage.setItem('auth_token', response.token);
+          this.authService.updateAuthToken(response.token);
 
           this.authService.getUser(0).subscribe(
             (response) => {
