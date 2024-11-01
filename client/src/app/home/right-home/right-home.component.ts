@@ -38,7 +38,7 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
     this.authService.getFriend().subscribe(
       (response) => {
         this.friends = response.data;
-        console.log(this.friends);
+        // console.log(this.friends);
 
         const statusOrder:any = { online: 1, idle: 2, offline: 3 };
 

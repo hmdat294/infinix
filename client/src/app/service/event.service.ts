@@ -119,7 +119,9 @@ export class EventService implements OnDestroy {
       console.log('Người dùng đã hoạt động trở lại!');
 
       this.updateOnlineStatus('online').subscribe(
-        (response) => console.log(response)
+        (response) => {
+          // console.log(response);
+        }
       )
     }
 
@@ -130,7 +132,9 @@ export class EventService implements OnDestroy {
     console.log("Người dùng đã truy cập vào trang lần đầu.");
     // Thực hiện các hành động khác nếu cần
     this.updateOnlineStatus('online').subscribe(
-      (response) => console.log(response)
+      (response) => {
+        // console.log(response);
+      }
     )
   }
 
@@ -140,7 +144,9 @@ export class EventService implements OnDestroy {
     console.log('Người dùng đã treo máy!');
 
     this.updateOnlineStatus('idle').subscribe(
-      (response) => console.log(response)
+      (response) => {
+        // console.log(response);
+      }
     )
   }
 }

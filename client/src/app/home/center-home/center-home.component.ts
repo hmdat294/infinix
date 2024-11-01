@@ -44,7 +44,8 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
     this.postService.getPost().subscribe(
       (data) => {
         this.listPost = data.data;
-
+        // console.log(this.listPost);
+        
         this.eventService.bindEvent('App\\Events\\UserPostEvent', (data: any) => {
           console.log('Post event:', data);
           this.listPost.unshift(data.data);
@@ -56,6 +57,12 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
       (data) => {
         this.currentUser = data.data;
       });
+
+    this.postService.getBookmarkByUser().subscribe(
+      (data) => {
+        console.log('Bookmark Post: ', data.data);
+      }
+    )
   }
 
   @ViewChild('commentInput') commentInput!: ElementRef;
@@ -188,17 +195,15 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
 
   //bookmark
 
-  bookmarkPost(post_id:number){
+  bookmarkPost(post_id: number) {
     this.postService.bookmarkPost(post_id).subscribe(
       (response) => {
         console.log(response);
-        // this.listPost.find(item => item.id === post_id).bookmarked = response.data.bookmarked;
+
+        const bookmark = this.listPost.find(item => item.id === post_id);
+        bookmark.bookmarked = !bookmark.bookmarked;
       });
   }
-
-
-
-
 
   //bookmark
 
