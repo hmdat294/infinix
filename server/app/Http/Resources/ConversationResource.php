@@ -22,7 +22,7 @@ class ConversationResource extends JsonResource
         $data['updated_at_date'] = $this->updated_at->format('Y-m-d');
         $data['messages'] = MessageResource::collection($this->messages);
         $data['users'] = UserResource::collection($this->users);
-        $data['pinned_messages'] = MessageResource::collection($this->pinnedMessages->message);
+        $data['pinned_messages'] = MessageResource::collection($this->pinnedMessages->pluck('message'));
 
         return $data;
     }
