@@ -67,12 +67,16 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
         // console.log('Bookmark Post: ', data.data);
       });
 
-    // this.chatService.getListChat().subscribe(
-    //   (response) => {
-    //     console.log(response);
-        
-        // this.listUser = response.data.map((item:any)=>item.is_group );
-      // });
+    this.chatService.getListChat().subscribe(
+      (response) => {
+        console.log(response);
+
+        this.listUser = response.data.filter((item: any) => item.is_group == 0);
+        this.listGroup = response.data.filter((item: any) => item.is_group == 1);
+
+        console.log(this.listUser);
+        console.log(this.listGroup);
+      });
   }
 
   @ViewChild('commentInput') commentInput!: ElementRef;
@@ -219,22 +223,47 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
 
   //share
 
-  dialogShare: boolean = false;
+  dialogShare: number = 0;
+  shareSuccess: string = '';
 
-  showShare() {
-    this.dialogShare = !this.dialogShare;
+  showShare(post_id: number) {
+    this.dialogShare = post_id;
+    this.shareSuccess = '';
   }
 
+  sharePostToMessage(post_id: number, conversation_id: number, username: string) {
 
+    const postShare = this.listPost.find((item: any) => item.id == post_id);
 
+    // console.log(postShare);
+    // console.log(conversation_id);
+    // console.log(`/friend-profile/${postShare.profile.id}/${post_id}`);
+    // if (postShare.post_type == "with_media") {
+    //   console.log(postShare.medias[0].path);
+    //   console.log(postShare.medias[0].type);
+    // }
 
+    const formData = new FormData();
+    formData.append('conversation_id', conversation_id.toString());
+    formData.append('content', postShare.content);
+    formData.append('link', `/friend-profile/${postShare.profile.id}/${post_id}`);
 
+    if (postShare.post_type == "with_media") {
+      formData.append('medias', postShare.medias[0].path);
+      formData.append('type', postShare.medias[0].type);
+    }
 
-
-
-
-
-
+    this.chatService.sendMessage(formData).subscribe(
+      (response: any) => {
+        console.log(response);
+        this.shareSuccess =
+          `<p class="validation-message validation-sucess text-body text-primary px-10 py-20">
+            <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
+            <span>Bạn đã chia sẽ đến ${username}</span>
+          </p>`;
+      }
+    );
+  }
 
   //share
 

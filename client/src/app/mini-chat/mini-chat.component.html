@@ -1,5 +1,3 @@
-
-
 <div class="position-fixed layout-vertical align-center-center" style="z-index: 20; bottom: 10px; right: 10px;">
 
     <div class="{{showChat?'display-block':'display-none'}}">
@@ -34,7 +32,8 @@
 
 
 
-<div *ngIf="chat" class="{{showBoxMiniChat?'display-flex':'display-none'}} position-fixed overflow-hidden layout-vertical solid-background-senary border border-card-default rounded-8"
+<div *ngIf="chat"
+    class="{{showBoxMiniChat?'display-flex':'display-none'}} position-fixed overflow-hidden layout-vertical solid-background-senary border border-card-default rounded-8"
     style="width: 375px; height: 475px; z-index: 20; bottom: 10px; right: 70px;">
     <div class="layout-horizontal w-fill p-5 gap-5 border-bottom border-card-default">
         <div class="w-fill layout-horizontal gap-10 align-center-center">
@@ -139,14 +138,14 @@
                                                             </div>
                                                         </div>
 
-                                                        <p style="white-space: pre-line;"
-                                                            class="text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
+                                                        <a *ngIf="msg.link" [routerLink]="[ msg.link ]"
+                                                            style="white-space: pre-line;"
+                                                            class="display-block text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
                                                             {{ msg.content }}
-                                                            Lorem ipsum dolor sit amet consectetur adipisicing
-                                                            elit. Fugit animi in soluta maiores! Provident
-                                                            cupiditate in obcaecati fuga dolore, quam magnam
-                                                            aliquam earum culpa perspiciatis repudiandae soluta,
-                                                            vero ex deleniti?
+                                                        </a>
+                                                        <p *ngIf="!msg.link" style="white-space: pre-line;"
+                                                            class="display-block text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
+                                                            {{ msg.content }}
                                                         </p>
 
                                                     </div>
@@ -211,10 +210,16 @@
                                                             </div>
                                                         </div>
 
-                                                        <p style="white-space: pre-line;"
-                                                            class="text-wrap card-background-default text-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
+                                                        <a *ngIf="msg.link" [routerLink]="[ msg.link ]"
+                                                            style="white-space: pre-line;"
+                                                            class="display-block text-wrap card-background-default text-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
+                                                            {{ msg.content }}
+                                                        </a>
+                                                        <p *ngIf="!msg.link" style="white-space: pre-line;"
+                                                            class="display-block text-wrap card-background-default text-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
                                                             {{ msg.content }}
                                                         </p>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -306,28 +311,38 @@
 
                                             </div>
                                         </div>
-                                        <div class="layout w-fill gradient-background rounded-top-8"
-                                            *ngIf="msg.medias.length>0">
-                                            <div
-                                                class="w-fill gap-5 {{(msg.medias.length<6)?'layout-'+msg.medias.length:(msg.medias.length%2==0)?'layout-6':'layout-5'}}">
-                                                <div class="w-fill overflow-hidden border border-card-default rounded-4"
-                                                    *ngFor="let img of msg.medias"
-                                                    style="max-width: 140px; max-height: 140px;">
-                                                    <img class="w-fill h-fill object-fit-cover object-position-center rounded-4"
-                                                        [src]="getPathImg(img)" alt="Image">
+
+                                        <div [class]="(msg.link) ? 'layout-horizontal gap-20' : ''">
+                                            <div class="layout w-fill gradient-background p-10 rounded-top-8"
+                                                *ngIf="msg.medias.length>0">
+                                                <div style="max-width: 500px;"
+                                                    class="w-fill {{(msg.medias.length<6)?'layout-'+msg.medias.length:(msg.medias.length%2==0)?'layout-6':'layout-5'}}">
+                                                    <div class="w-fill h-fill border border-card-default rounded-4 overflow-hidden"
+                                                        *ngFor="let img of msg.medias">
+                                                        <img class="w-fill h-fill object-fit-cover object-position-center"
+                                                            [src]="getPathImg(img)" alt="Image"
+                                                            [style]="(msg.link) ? 'max-height:100px' : ''">
+                                                    </div>
                                                 </div>
                                             </div>
+
+                                            <div>
+                                                <a *ngIf="msg.link" [routerLink]="[ msg.link ]"
+                                                    style="white-space: pre-line;"
+                                                    class="display-block text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
+                                                    {{ msg.content }}
+                                                </a>
+                                                <p *ngIf="!msg.link" style="white-space: pre-line;"
+                                                    class="display-block text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
+                                                    {{ msg.content }}
+                                                </p>
+
+                                                <p *ngIf="msg.is_edited == 1" style="font-size: 0.9em;"
+                                                    class="text-secondary text-right">
+                                                    Đã sửa
+                                                </p>
+                                            </div>
                                         </div>
-
-                                        <p style="white-space: pre-line;"
-                                            class="text-wrap accent-default text-on-accent-primary mess-child border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
-                                            {{ msg.content }}
-                                        </p>
-
-                                        <p *ngIf="msg.is_edited == 1" style="font-size: 0.9em;"
-                                            class="text-secondary text-right">
-                                            Đã sửa
-                                        </p>
                                     </div>
                                 </div>
 
@@ -392,28 +407,38 @@
                                             </div>
                                         </div>
 
-                                        <div class="layout w-fill gradient-background p-10 rounded-top-8"
-                                            *ngIf="msg.medias.length>0">
-                                            <div style="max-width: 500px;"
-                                                class="w-fill {{(msg.medias.length<6)?'layout-'+msg.medias.length:(msg.medias.length%2==0)?'layout-6':'layout-5'}}">
-                                                <div class="w-fill h-fill border border-card-default overflow-hidden rounded-4"
-                                                    *ngFor="let img of msg.medias"
-                                                    style="max-width: 140px; max-height: 140px;">
-                                                    <img class="w-fill h-fill object-fit-cover object-position-center rounded-4"
-                                                        [src]="getPathImg(img)" alt="Image">
+                                        <div [class]="(msg.link) ? 'layout-horizontal gap-20' : ''">
+
+                                            <div class="layout w-fill gradient-background p-10 rounded-top-8"
+                                                *ngIf="msg.medias.length>0">
+                                                <div style="max-width: 500px;"
+                                                    class="w-fill {{(msg.medias.length<6)?'layout-'+msg.medias.length:(msg.medias.length%2==0)?'layout-6':'layout-5'}}">
+                                                    <div class="w-fill h-fill  border border-card-default rounded-4 overflow-hidden"
+                                                        *ngFor="let img of msg.medias">
+                                                        <img class="w-fill h-fill object-fit-cover object-position-center"
+                                                            [src]="getPathImg(img)" alt="Image"
+                                                            [style]="(msg.link) ? 'max-height:100px' : ''">
+                                                    </div>
                                                 </div>
                                             </div>
+
+                                            <div>
+                                                <a *ngIf="msg.link" [routerLink]="[ msg.link ]"
+                                                    style="white-space: pre-line;"
+                                                    class="display-block text-wrap card-background-default text-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
+                                                    {{ msg.content }}
+                                                </a>
+                                                <p *ngIf="!msg.link" style="white-space: pre-line;"
+                                                    class="display-block text-wrap card-background-default text-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
+                                                    {{ msg.content }}
+                                                </p>
+
+                                                <p *ngIf="msg.is_edited == 1" style="font-size: 0.9em;"
+                                                    class="text-secondary text-left">
+                                                    Đã sửa
+                                                </p>
+                                            </div>
                                         </div>
-
-                                        <p style="white-space: pre-line;"
-                                            class="text-wrap mess-child card-background-default text-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
-                                            {{ msg.content }}
-                                        </p>
-
-                                        <p *ngIf="msg.is_edited == 1" style="font-size: 0.9em;"
-                                            class="text-secondary text-left">
-                                            Đã sửa
-                                        </p>
                                     </div>
                                 </div>
 
@@ -508,8 +533,8 @@
 
                 <label style="cursor: pointer;" class="input-button">
                     <i class="icon-size-16 icon icon-ic_fluent_image_16_regular"></i>
-                    <input type="file" [ngModel]="fileInput" name="fileInput" (change)="onFileSelected($event)" accept="image/*" multiple
-                        style="display: none;">
+                    <input type="file" [ngModel]="fileInput" name="fileInput" (change)="onFileSelected($event)"
+                        accept="image/*" multiple style="display: none;">
                 </label>
                 <button type="button" class="input-button">
                     <i class="icon-size-16 icon icon-ic_fluent_emoji_16_regular"></i>

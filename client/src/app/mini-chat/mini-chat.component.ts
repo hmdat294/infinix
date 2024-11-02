@@ -70,6 +70,7 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
     this.chatService.conversation$.subscribe(conversation => {
       // console.log('Updated conversation from localStorage:', conversation);
       this.conversation = conversation;
+      this.filterListChat();
     });
 
     this.chatService.getListChat().subscribe(
@@ -119,7 +120,7 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
 
   deleteMiniChat(conversation_id: number) {
     this.conversation = this.conversation.filter(id => id !== conversation_id);
-    localStorage.setItem('conversation', JSON.stringify(this.conversation));
+    this.chatService.updateConversation(this.conversation);
     this.showBoxMiniChat = false;
     this.filterListChat();
   }

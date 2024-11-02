@@ -5,11 +5,12 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../service/auth.service';
 import { EventService } from '../service/event.service';
 import { i } from 'vite/dist/node/types.d-aGj9QkWt';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, RouterModule],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css',
 })
@@ -247,7 +248,6 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     this.chatService.getImageByConversation(conversation.id).subscribe(
       (response) => {
         this.images = response.data;
-        console.log(this.images);
       }
     )
 

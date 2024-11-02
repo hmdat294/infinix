@@ -6,14 +6,14 @@ import moment from 'moment';
 import { AuthService } from '../service/auth.service';
 import { CarouselService } from '../service/carousel.service';
 import { EventService } from '../service/event.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ChatService } from '../service/chat.service';
 import { MiniChatComponent } from '../mini-chat/mini-chat.component';
 
 @Component({
   selector: 'app-friend-profile',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, RouterModule],
   templateUrl: './friend-profile.component.html',
   styleUrl: './friend-profile.component.css'
 })
@@ -31,6 +31,7 @@ export class FriendProfileComponent {
   user: any;
   images: any;
   conversation: any[] = [];
+  post_id: number = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -47,9 +48,9 @@ export class FriendProfileComponent {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       const user_id = params['user_id'];
-      const post_id = params['post_id'];
+      this.post_id = params['post_id'];
       console.log(user_id);
-      console.log(post_id);
+      console.log(this.post_id);
 
 
       if (user_id > 0) {
@@ -69,8 +70,8 @@ export class FriendProfileComponent {
           (data) => {
             this.listPost = data.data;
 
-            if (post_id > 0) {
-              this.listPost = this.listPost.filter((item: any) => item.id == post_id);
+            if (this.post_id > 0) {
+              this.listPost = this.listPost.filter((item: any) => item.id == this.post_id);
             }
             console.log(this.listPost);
 

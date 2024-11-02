@@ -32,7 +32,8 @@
                     </div>
                     <div class="layout-horizontal px-20 align-center-space-between w-fill">
                         <button *ngIf="!user?.is_friend && !user?.is_sent_friend_request" type="button"
-                            class="button-accent button-text-only w-fill-column-6" (click)="addFriend(user?.id)">Thêm bạn
+                            class="button-accent button-text-only w-fill-column-6" (click)="addFriend(user?.id)">Thêm
+                            bạn
                             bè
                         </button>
                         <button *ngIf="!user?.is_friend && user?.is_sent_friend_request" type="button"
@@ -71,7 +72,8 @@
                 </div>
             </div>
 
-            <div class="position-fixed top-0 start-0" *ngIf="zoomImg != ''" style="width: 100%; height: 100vh; z-index: 20">
+            <div class="position-fixed top-0 start-0" *ngIf="zoomImg != ''"
+                style="width: 100%; height: 100vh; z-index: 20">
                 <div class="position-fixed top-0 start-0"
                     style="width: 100%; height: 100vh; z-index: 1; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px);"
                     (click)="setZoomIng('')">
@@ -79,7 +81,8 @@
                 <div class="dialog-panel position-absolute top-50 start-50 translate-middle" style="z-index: 2;">
                     <div class="layout-vertical p-10 rounded-8 acrylic-background-default blur-acrylic border border-card-default"
                         style="width: 700px; height: 600px;">
-                        <img [src]="zoomImg" class="w-fill h-fill object-fit-contain rounded-6" alt="" style=" background-color: rgb(27, 27, 27);">
+                        <img [src]="zoomImg" class="w-fill h-fill object-fit-contain rounded-6" alt=""
+                            style=" background-color: rgb(27, 27, 27);">
                     </div>
                 </div>
             </div>
@@ -135,9 +138,11 @@
                             <div class="w-fill-column-8 h-fill in-tablet-w-fill in-mobile-w-fill"
                                 *ngIf="post.medias.length>0">
 
-                                <div class="layout w-fill h-fill {{(post.medias.length>0) ? 'display-flex' : 'display-none'}}">
+                                <div
+                                    class="layout w-fill h-fill {{(post.medias.length>0) ? 'display-flex' : 'display-none'}}">
                                     <div class="carousel w-fill h-fill rounded-4">
-                                        <div class="carousel-indicators {{(post.medias.length>1) ? 'display-block' : 'display-none'}}" #indicatorsContainer>
+                                        <div class="carousel-indicators {{(post.medias.length>1) ? 'display-block' : 'display-none'}}"
+                                            #indicatorsContainer>
                                             <button type="button" class="border-none rounded-circle"
                                                 *ngFor="let img of post.medias; let i = index">
                                             </button>
@@ -148,14 +153,16 @@
                                                     style="object-fit: contain !important; background-color: rgb(27, 27, 27);">
                                             </div>
                                         </div>
-            
+
                                         <button type="button"
-                                            class="{{(post.medias.length>0) ? 'display-block' : 'display-none'}} carousel-button-previous p-5 rounded-circle" #prevButton>
+                                            class="{{(post.medias.length>0) ? 'display-block' : 'display-none'}} carousel-button-previous p-5 rounded-circle"
+                                            #prevButton>
                                             <i class="icon-size-20 icon icon-ic_fluent_chevron_left_20_filled"></i>
                                         </button>
-            
+
                                         <button type="button"
-                                            class="{{(post.medias.length>0) ? 'display-block' : 'display-none'}} carousel-button-next p-5 rounded-circle" #nextButton>
+                                            class="{{(post.medias.length>0) ? 'display-block' : 'display-none'}} carousel-button-next p-5 rounded-circle"
+                                            #nextButton>
                                             <i class="icon-size-20 icon icon-ic_fluent_chevron_right_20_filled"></i>
                                         </button>
                                     </div>
@@ -274,9 +281,9 @@
 
                                             <div class="layout-horizontal w-fill">
                                                 <div class="layout horizontal w-fill gap-10">
-                                                    <input class="display-none" type="file" [ngModel]="fileComment" name="fileComment"
-                                                        (change)="onFileCommentSelected($event)" accept="image/*"
-                                                        id="comment_media_input">
+                                                    <input class="display-none" type="file" [ngModel]="fileComment"
+                                                        name="fileComment" (change)="onFileCommentSelected($event)"
+                                                        accept="image/*" id="comment_media_input">
                                                     <label for="comment_media_input"
                                                         class="layout align-center-center border-none subtle-transparent text-accent-default">
                                                         <i
@@ -341,7 +348,8 @@
                             <i class="icon-size-20 icon icon-ic_fluent_share_20_regular"></i>
                         </button>
                     </div>
-                    <button (click)="bookmarkPost(post.id)" type="button" class="button-subtle button-icon-only text-secondary">
+                    <button (click)="bookmarkPost(post.id)" type="button"
+                        class="button-subtle button-icon-only text-secondary">
                         <i *ngIf="post.bookmarked" class="icon-size-20 icon icon-ic_fluent_bookmark_20_filled"></i>
                         <i *ngIf="!post.bookmarked" class="icon-size-20 icon icon-ic_fluent_bookmark_20_regular"></i>
                     </button>
@@ -353,6 +361,11 @@
             <div *ngIf="listPost.length == 0"
                 class="w-fill py-20 card-background-default border border-card-default rounded-8">
                 <p class="text-body text-secondary text-center">Người dùng này không có bài viết nào</p>
+            </div>
+
+            <div *ngIf="post_id > 0">
+                <a [routerLink]="['/friend-profile', user?.id]" class="button-standard button-text-only w-fill">Xem
+                    thêm</a>
             </div>
         </div>
     </article>
