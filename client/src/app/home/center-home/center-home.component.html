@@ -83,6 +83,28 @@
 <div *ngFor="let post of listPost"
     class="layout-vertical gap-20 pt-20 ps-20 pe-20 pb-10 card-background-default border border-card-default rounded-8">
 
+    <div *ngIf="post.shares_count>0" class="layout-horizontal gap-10 align-center-left text-primary">
+        <i class="icon-size-16 icon icon-ic_fluent_arrow_forward_16_filled"></i>
+        <p class="text-body-strong text-primary" *ngIf="post.shares_count == 1">
+            {{post.shared_by[0].profile.display_name}}
+            <span class="text-body text-secondary">đã chia sẻ bài đăng này</span>
+        </p>
+        <p class="text-body-strong text-primary" *ngIf="post.shares_count == 2">
+            {{post.shared_by[0].profile.display_name}}
+            <span class="text-body text-secondary">và</span>
+            {{post.shared_by[1].profile.display_name}}
+            <span class="text-body text-secondary">đã chia sẻ bài đăng này</span>
+        </p>
+        <p class="text-body-strong text-primary" *ngIf="post.shares_count > 2">
+            {{post.shared_by[0].profile.display_name}}
+            <span class="text-body text-secondary">và</span>
+            {{post.shared_by[1].profile.display_name}}
+            <span class="text-body text-secondary">cùng với</span>
+            {{post.shares_count - 2}}
+            <span class="text-body text-secondary">người khác đã chia sẻ bài đăng này</span>
+        </p>
+    </div>
+
     <div class="layout-horizontal gap-20">
         <a [routerLink]="['/friend-profile', post.profile.user_id]" class="layout-horizontal gap-20 w-fill">
             <img class="rounded-circle border border-card-default object-fit-cover" src="{{post.profile.profile_photo}}"
@@ -379,8 +401,7 @@
                                     <!-- for -->
                                     <div *ngFor="let user of listUser" class="list-item"
                                         style="width: 100px !important;">
-                                        <div class="layout-vertical align-center-center gap-10 flex-shrink-0" 
-                                        (click)="sharePostToMessage(post.id, user?.id, (user?.users[0].id == currentUser?.id) ?
+                                        <div class="layout-vertical align-center-center gap-10 flex-shrink-0" (click)="sharePostToMessage(post.id, user?.id, (user?.users[0].id == currentUser?.id) ?
                                         user?.users[1].profile.display_name :
                                         user?.users[0].profile.display_name)">
                                             <img class="border border-card-default rounded-circle w-fill object-fit-cover"
@@ -448,9 +469,12 @@
                     </div>
                     <div class="w-fill">
                         <div class="layout-horizontal py-10 px-20 align-center-right w-fill gap-20">
-                            <button type="button" class="button-standard button-text-only">Sao chép đường dẫn</button>
-                            <button type="button" class="button-accent button-text-only">Chia sẻ về trang cá
-                                nhân</button>
+                            <button type="button" (click)="copyUrl(post.id)"
+                                class="button-standard button-text-only">Sao chép đường dẫn</button>
+                            <button type="button" (click)="sharePostToMyPage(post.id)"
+                                class="{{(post.shared) ? 'button-standard' : 'button-accent'}} button-text-only">
+                                {{(post.shared) ? 'Hủy chia sẻ' : 'Chia sẻ về trang cá nhân'}}
+                            </button>
                         </div>
 
                     </div>

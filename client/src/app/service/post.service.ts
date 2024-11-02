@@ -68,4 +68,9 @@ export class PostService {
     const headers = this.authService.getToken();
     return this.http.get(`${this.apiUrl}/user/bookmarks`, { headers });
   }
+  
+  sharePostToMyPage(post_id: number): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.post(`${this.apiUrl}/share/${post_id}`, {}, { headers });
+  }
 }

@@ -32,9 +32,9 @@
                     </div>
                 </div>
 
-                <div *ngIf="friends" class="overflow-scroll-vertical">
+                <div class="overflow-scroll-vertical">
 
-                    <div class="border-top" *ngFor="let friend of friends">
+                    <div class="border-top" *ngFor="let friend of setFriendSearch()">
                         <button type="button" class="button-subtle w-fill gap-15 px-20 py-15"
                             (click)="MessageUser(friend)" style="cursor: pointer;">
                             <img [src]="

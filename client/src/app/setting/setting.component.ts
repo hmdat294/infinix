@@ -13,7 +13,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 export class SettingComponent implements OnInit {
 
   user: any;
-  tabSetting: string = 'general-settings';
+  tabSetting: string = 'account-settings';
   tabAccordion: string = '';
 
   theme: string = '';
@@ -50,7 +50,7 @@ export class SettingComponent implements OnInit {
   }
 
   tabChild(tab: string) {
-    this.tabAccordion = (this.tabAccordion != tab) ? tab : '';
+    this.tabAccordion = (tab == 'email') ? tab : (this.tabAccordion != tab) ? tab : '';
   }
 
   selectTheme(currentTheme: string) {
@@ -59,7 +59,7 @@ export class SettingComponent implements OnInit {
   }
 
   checkPasswords(form: NgForm): boolean {
-    return form.controls['new_password'].value === form.controls['confirm'].value;
+    return form.controls['new_password']?.value === form.controls['confirm']?.value;
   }
 
   updatePassword(value: any) {
@@ -80,7 +80,69 @@ export class SettingComponent implements OnInit {
       (response) => {
         console.log(response);
         this.tabAccordion = '';
+
+        if (value.email) {
+          this.error1 =
+            `<p class="validation-message validation-sucess text-body text-primary">
+                <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
+                <span>Đổi email thành công!</span>
+            </p>`;
+          setTimeout(() => this.error1 = '', 3000);
+          this.error2 = '';
+          this.changeMail = false;
+        }
       })
+  }
+
+  error1: string = '';
+  error2: string = '';
+
+  getCode(email: string) {
+    this.authService.getCodeForGot(email).subscribe(
+      (response) => {
+        console.log(response);
+        if (response.verify) {
+          this.tabChild('email');
+          this.error1 =
+            `<p class="validation-message validation-sucess text-body text-primary">
+                <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
+                <span>${response.message}</span>
+            </p>`;
+        }
+        else {
+          this.error1 =
+            `<p class="validation-message validation-critical text-body text-primary">
+                <i class="icon-size-16 icon icon-ic_fluent_dismiss_circle_16_filled"></i>
+                <span>${response.message}</span>
+            </p>`;
+        }
+      }
+    );
+  }
+
+  changeMail: boolean = false;
+
+  postCode(email: string, code: number) {
+    this.authService.postCode(email, code).subscribe(
+      (response) => {
+        console.log(response);
+        if (response.verify) {
+          this.changeMail = true;
+          this.error2 =
+            `<p class="validation-message validation-sucess text-body text-primary">
+                <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
+                <span>${response.message}</span>
+            </p>`;
+        }
+        else {
+          this.error2 =
+            `<p class="validation-message validation-critical text-body text-primary">
+                <i class="icon-size-16 icon icon-ic_fluent_dismiss_circle_16_filled"></i>
+                <span>${response.message}</span>
+            </p>`;
+        }
+      }
+    );
   }
 
   fileProfile: any;
@@ -94,10 +156,10 @@ export class SettingComponent implements OnInit {
     reader.onload = e => this.previewProfileImages = [reader.result as string];
     reader.readAsDataURL(file);
     this.selectedFilesProfile = [file];
-    
+
     const formData = new FormData();
     if (this.selectedFilesProfile.length > 0)
-    formData.append('profile_photo', this.selectedFilesProfile[0], this.selectedFilesProfile[0].name);
+      formData.append('profile_photo', this.selectedFilesProfile[0], this.selectedFilesProfile[0].name);
     this.updateUser(formData);
   }
 
@@ -115,7 +177,7 @@ export class SettingComponent implements OnInit {
 
     const formData = new FormData();
     if (this.selectedFilesCover.length > 0)
-    formData.append('cover_photo', this.selectedFilesCover[0], this.selectedFilesCover[0].name);
+      formData.append('cover_photo', this.selectedFilesCover[0], this.selectedFilesCover[0].name);
     this.updateUser(formData);
   }
 

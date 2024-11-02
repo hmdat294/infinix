@@ -21,7 +21,7 @@ export class RegisterComponent {
   ) { }
 
   checkPasswords(form: NgForm): boolean {
-    return form.controls['password'].value === form.controls['confirm'].value;
+    return form.controls['password']?.value === form.controls['confirm']?.value;
   }
 
   register(value: any) {

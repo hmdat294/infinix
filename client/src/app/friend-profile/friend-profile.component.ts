@@ -42,7 +42,6 @@ export class FriendProfileComponent {
     private authService: AuthService,
     private chatService: ChatService,
     private router: Router,
-    // private miniChat: MiniChatComponent
   ) { }
 
   ngOnInit(): void {

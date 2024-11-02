@@ -69,13 +69,8 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
 
     this.chatService.getListChat().subscribe(
       (response) => {
-        console.log(response);
-
         this.listUser = response.data.filter((item: any) => item.is_group == 0);
         this.listGroup = response.data.filter((item: any) => item.is_group == 1);
-
-        console.log(this.listUser);
-        console.log(this.listGroup);
       });
   }
 
@@ -231,17 +226,29 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
     this.shareSuccess = '';
   }
 
+  copyUrl(post_id: number) {
+    const postShare = this.listPost.find((item: any) => item.id == post_id);
+
+    navigator.clipboard.writeText(`http://localhost:4200/friend-profile/${postShare.profile.id}/${post_id}`)
+      .then(() => {
+        this.shareSuccess =
+          `<p class="validation-message validation-sucess text-body text-primary py-10 px-15">
+            <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
+            <span>Đã sao chép đường dẫn vào bộ nhớ tạm!</span>
+          </p>`;
+      })
+      .catch((error) => {
+        this.shareSuccess =
+          `<p class="validation-message validation-critical text-body text-primary py-10 px-15">
+            <i class="icon-size-16 icon icon-ic_fluent_dismiss_circle_16_filled"></i>
+            <span>Sao chép không thành công!</span>
+          </p>`;
+      });
+  }
+
   sharePostToMessage(post_id: number, conversation_id: number, username: string) {
 
     const postShare = this.listPost.find((item: any) => item.id == post_id);
-
-    // console.log(postShare);
-    // console.log(conversation_id);
-    // console.log(`/friend-profile/${postShare.profile.id}/${post_id}`);
-    // if (postShare.post_type == "with_media") {
-    //   console.log(postShare.medias[0].path);
-    //   console.log(postShare.medias[0].type);
-    // }
 
     const formData = new FormData();
     formData.append('conversation_id', conversation_id.toString());
@@ -257,12 +264,40 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
       (response: any) => {
         console.log(response);
         this.shareSuccess =
-          `<p class="validation-message validation-sucess text-body text-primary px-10 py-20">
+          `<p class="validation-message validation-sucess text-body text-primary py-10 px-15">
             <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
-            <span>Bạn đã chia sẽ đến ${username}</span>
+            <span>Bạn đã chia sẽ đến ${username}!</span>
           </p>`;
       }
     );
+  }
+
+  sharePostToMyPage(post_id: number) {
+    this.postService.sharePostToMyPage(post_id).subscribe(
+      (response: any) => {
+        console.log(response);
+
+        const shared = this.listPost.find(item => item.id === post_id);
+        shared.shared = !shared.shared;
+
+        if (shared.shared) {
+          shared.shares_count++;
+          this.shareSuccess =
+            `<p class="validation-message validation-sucess text-body text-primary py-10 px-15">
+              <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
+              <span>Bạn đã chia sẽ đến trang cá nhân của mình!</span>
+            </p>`
+        }
+        else {
+          shared.shares_count--;
+          this.shareSuccess =
+            `<p class="validation-message validation-critical text-body text-primary py-10 px-15">
+              <i class="icon-size-16 icon icon-ic_fluent_dismiss_circle_16_filled"></i>
+              <span>Bạn đã hủy chia sẽ bài viết này!</span>
+            </p>`;
+        }
+      }
+    )
   }
 
   //share
