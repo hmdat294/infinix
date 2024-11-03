@@ -114,19 +114,19 @@ class FriendRequestController extends Controller
         if (!in_array($request->status, ['accepted', 'rejected'])) {
             return response()->json([
                 'message' => 'Invalid status.',
-            ], 400);
+            ]);
         }
 
         if (!FriendRequestModel::find($id)) {
             return response()->json([
                 'message' => 'Friend request not found.',
-            ], 404);
+            ]);
         }
 
         if (FriendRequestModel::find($id)->status !== 'pending') {
             return response()->json([
                 'message' => 'Friend request already ' . FriendRequestModel::find($id)->status . '.',
-            ], 400);
+            ]);
         }
 
         $friend_request = FriendRequestModel::find($id);
