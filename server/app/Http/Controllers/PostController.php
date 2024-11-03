@@ -101,7 +101,7 @@ class PostController extends Controller
 
         event(new UserPostEvent($post->user_id, $post->id, $post->content));
 
-        // $this->sendNotification($post);
+        $this->sendNotification($post);
 
         return new PostResource($post);
     }
@@ -238,10 +238,7 @@ class PostController extends Controller
 
         Log::info('friends and follower ids: '.$recipient_ids);
 
-        $disabled_notification_users = DisabledNotificationModel::whereNotIn('user_id', $recipient_ids)
-            ->orWhere(function ($query) use ($user_id) {
-                $query->where('target_user_id', '!=', $user_id);
-            })->pluck('user_id');
+        $disabled_notification_users = DisabledNotificationModel::where('target_user_id', $user_id)->pluck('user_id');
 
         Log::info('disabled_notification_users: '.$disabled_notification_users);
 
@@ -258,9 +255,8 @@ class PostController extends Controller
                 'user_id' => $recipient->id,
                 'target_user_id' => $user_id,
                 'post_id' => $post->id,
-                'type' => 'user',
                 'action_type' => 'user_create_post',
-                'content' => $post->content,
+                'content' => $user->profile->display_name . ' đã đăng một bài viết mới',
             ]);
         }
     }
