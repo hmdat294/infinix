@@ -34,6 +34,10 @@ class PostResource extends JsonResource
             "likes_count" => $this->likes->count(),
             "shares_count" => $this->shares->count(),
             'bookmark_count' => $this->bookmarks->count(),
+
+            'shared_by' => UserResource::collection($this->shares->take(2)->map(function ($share) {
+                return $share->user;
+            })),
         ];
 
         if ($request->user())

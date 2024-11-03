@@ -10,6 +10,8 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\JsonResponse;
 use App\Events\UserLikePostEvent;
 use Illuminate\Support\Facades\Log;
+use App\Models\Notification as NotificationModel;
+use App\Models\User as UserModel;
 
 class PostLikeController extends Controller
 {
@@ -44,7 +46,6 @@ class PostLikeController extends Controller
      */
     public function store(Request $request)
     {
-        Log::info('abc');
         $post_like = PostLikeModel::where('post_id', $request->post_id)
             ->where('user_id', $request->user()->id)
             ->first();
@@ -69,10 +70,27 @@ class PostLikeController extends Controller
 
             event(new UserLikePostEvent($request->post_id, $request->user()->id, "like"));
 
+            $this->sendNotification($request->user()->id, $request->post_id);
+
             return response()->json([
                 'message' => 'Đã thích bài viết',
                 'liked' => true
             ], 200);
         }
+    }
+
+    public function sendNotification($user_id, $post_id)
+    {
+        $data = [
+            'user_id' => PostModel::find($post_id)->user_id,
+            'target_user_id' => $user_id,
+            'action_type' => 'user_like_post',
+            'content' => UserModel::find($user_id)->profile->display_name . ' đã thích bài viết của bạn',
+            'post_id' => $post_id,
+        ];
+
+        $notification = NotificationModel::create($data);
+
+        return $notification;
     }
 }

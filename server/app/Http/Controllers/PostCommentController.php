@@ -10,6 +10,8 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\JsonResponse;
 use App\Models\Post as PostModel;
 use Illuminate\Support\Facades\Log;
+use App\Models\Notification as NotificationModel;
+use App\Models\User as UserModel;
 
 class PostCommentController extends Controller
 {
@@ -66,7 +68,7 @@ class PostCommentController extends Controller
 
         $comment = CommentModel::create($comment_data);
         event(new UserCommentPostEvent($comment->user_id, $comment->post_id, $comment->id, $comment->content, "comment"));
-
+        $this->sendNotification($comment->user_id, $comment->post_id, $comment->id);
         return new CommentResource($comment);
     }
 
@@ -143,5 +145,21 @@ class PostCommentController extends Controller
         return response()->json([
             'message' => 'Comment deleted.',
         ], 204);
+    }
+
+    public function sendNotification($user_id, $post_id, $comment_id)
+    {
+        $data['user_id'] = PostModel::find($post_id)->user_id;
+        $data['targer_user_id'] = $user_id;
+        $data['action_type'] = 'user_comment_post';
+        $data['content'] = UserModel::find($user_id)->profile->display_name . ' đã bình luận bài viết của bạn';
+        $data['comment_id'] = $comment_id;
+        $data['post_id'] = $post_id;
+
+        $notification = NotificationModel::create($data);
+
+        return response()->json([
+            'data' => $notification
+        ], 200);
     }
 }
