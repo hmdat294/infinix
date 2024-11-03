@@ -52,9 +52,9 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
 
     Route::post('disable-notification', [DisabledNotificationController::class, 'store'])->name('disable-notification');
 
-    Route::post('follow/{user_id}', [UserController::class, 'follow'])->name('follow');
-    Route::post('unfollow/{user_id}', [UserController::class, 'unfollow'])->name('unfollow');
-    Route::post('unfriend/{user_id}', [UserController::class, 'unfriend'])->name('unfriend');
+    Route::post('follow/{user_id}', [UserController::class, 'follow']);
+    Route::post('unfollow/{user_id}', [UserController::class, 'unfollow']);
+    Route::post('unfriend/{user_id}', [UserController::class, 'unfriend']);
 
     Route::get('user/{user_id}/medias', [UserController::class, 'medias']);
     Route::get('user/medias', [UserController::class, 'medias']);
