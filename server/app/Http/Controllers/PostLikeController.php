@@ -67,10 +67,10 @@ class PostLikeController extends Controller
                 'post_id' => $request->post_id,
                 'user_id' => $request->user()->id,
             ]);
-
+            $post = PostModel::find($request->post_id);
             event(new UserLikePostEvent($request->post_id, $request->user()->id, "like"));
 
-            $this->sendNotification($request->user()->id, $request->post_id);
+            $this->sendNotification($post->user_id, $request->post_id);
 
             return response()->json([
                 'message' => 'Đã thích bài viết',
