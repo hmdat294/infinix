@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, inject, Inject, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { PostService } from '../service/post.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -17,7 +17,7 @@ import { MiniChatComponent } from '../mini-chat/mini-chat.component';
   templateUrl: './friend-profile.component.html',
   styleUrl: './friend-profile.component.css'
 })
-export class FriendProfileComponent {
+export class FriendProfileComponent implements OnInit{
 
   selectedFilesComment: File[] = [];
   previewCommentImages: string[] = [];
@@ -45,18 +45,17 @@ export class FriendProfileComponent {
   ) { }
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      const user_id = params['user_id'];
-      this.post_id = params['post_id'];
-      console.log(user_id);
-      console.log(this.post_id);
 
+    this.route.params.subscribe(params => {
+      
+      const user_id = params['user_id'];
+      this.post_id = params['post_id'];      
 
       if (user_id > 0) {
         this.authService.getUser(user_id).subscribe(
           (response) => {
             this.user = response.data;
-            console.log(this.user);
+            // console.log(this.user);
 
             this.authService.getImageByUser(this.user.id).subscribe(
               (response) => {
@@ -106,12 +105,12 @@ export class FriendProfileComponent {
         }
 
         this.conversation.push(response.data.id);
-        // Cập nhật conversation thông qua service
+
         this.chatService.updateConversation(this.conversation);
+        this.chatService.tagOpenBoxChat = true;
       });
   }
 
-  // localStorage.setItem('conversation', JSON.stringify(this.conversation));
   @ViewChild('commentInput') commentInput!: ElementRef;
   @ViewChildren('carouselInner') carouselInners!: QueryList<ElementRef<HTMLDivElement>>;
   @ViewChildren('nextButton') nextButtons!: QueryList<ElementRef<HTMLButtonElement>>;

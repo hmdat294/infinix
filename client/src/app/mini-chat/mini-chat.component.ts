@@ -71,6 +71,12 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
       // console.log('Updated conversation from localStorage:', conversation);
       this.conversation = conversation;
       this.filterListChat();
+
+      if(this.chatService.tagOpenBoxChat){
+        this.chatService.tagOpenBoxChat = false;
+        this.showChat = true;
+        this.getMiniChat(conversation[conversation.length - 1]);
+      }
     });
 
     this.chatService.getListChat().subscribe(

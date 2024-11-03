@@ -45,6 +45,7 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
+
     this.postService.getPost().subscribe(
       (data) => {
         this.listPost = data.data;
@@ -60,11 +61,6 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
     this.authService.getUser(0).subscribe(
       (data) => {
         this.currentUser = data.data;
-      });
-
-    this.postService.getBookmarkByUser().subscribe(
-      (data) => {
-        // console.log('Bookmark Post: ', data.data);
       });
 
     this.chatService.getListChat().subscribe(
@@ -229,7 +225,7 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   copyUrl(post_id: number) {
     const postShare = this.listPost.find((item: any) => item.id == post_id);
 
-    navigator.clipboard.writeText(`http://localhost:4200/friend-profile/${postShare.profile.id}/${post_id}`)
+    navigator.clipboard.writeText(`${window.location.origin}/friend-profile/${postShare.profile.id}/${post_id}`)
       .then(() => {
         this.shareSuccess =
           `<p class="validation-message validation-sucess text-body text-primary py-10 px-15">
@@ -301,6 +297,49 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   }
 
   //share
+
+  //report
+
+  diaLogReport: number = 0;
+  valueReport: string[] = [];
+  contentReport: string = '';
+  @ViewChild('checkboxesContainer') checkboxesContainer!: ElementRef;
+
+  showDialogReport(post_id: number) {
+    this.diaLogReport = post_id;
+    if (this.diaLogReport == 0) {
+      this.valueReport = [];
+      this.contentReport = '';
+
+      this.checkboxesContainer.nativeElement.querySelectorAll('input[type="checkbox"]')
+        .forEach((checkbox: HTMLInputElement) => checkbox.checked = false);
+    }
+  }
+
+  onCheckboxChange(event: any) {
+    const checkboxValue = event.target.value;
+
+    if (event.target.checked) this.valueReport.push(checkboxValue);
+    else this.valueReport = this.valueReport.filter(value => value !== checkboxValue);
+  }
+
+  postReport(value: any, post_id: number): any {
+
+    const valueReport = this.valueReport.join(', ');
+    let content = '';
+
+    if (valueReport != '' && value.contentReport != '') content = [valueReport, value.contentReport].join(', ');
+    else if (valueReport != '') content = valueReport;
+    else if (value.contentReport != '') content = value.contentReport;
+    else return false;
+
+    content = content.charAt(0).toUpperCase() + content.slice(1).toLowerCase() + '.';
+
+    console.log(content);
+    console.log(post_id);
+  }
+
+  //report
 
   showPolls() {
     this.showPoll = (this.showPoll == false) ? true : false;

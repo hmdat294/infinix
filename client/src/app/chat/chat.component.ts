@@ -82,8 +82,6 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
   ngOnInit(): void {
 
-
-
     this.authService.getListUser().subscribe(
       (response) => {
         this.listUser = response.data;
@@ -209,6 +207,12 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
   getPathImg(img: any) {
     return img.path;
+  }
+
+  copyMessage(message: string) {
+    navigator.clipboard.writeText(message)
+    .then(() => console.log('Copy success.'))
+    .catch(err => console.error('Copy: ', err));
   }
 
   ngAfterViewChecked() {
