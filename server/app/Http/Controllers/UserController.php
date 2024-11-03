@@ -104,4 +104,33 @@ class UserController extends Controller
             return PostResource::collection($user->bookmarks);
         }
     }
+
+    public function follow(Request $request, $user_id)
+    {
+        $user = UserModel::find($user_id);
+
+        if ($request->user()->followings->contains($user)) {
+            return response()->json([
+                'message' => 'User is already followed',
+            ]);
+        }
+
+        $request->user()->followings()->attach($user);
+        return new UserResource($user);
+    }
+
+    public function unfollow(Request $request, $user_id)
+    {
+        $user = UserModel::find($user_id);
+        $request->user()->followings()->detach($user);
+        return new UserResource($user);
+    }
+
+    public function unfriend(Request $request, $user_id)
+    {
+        $user = UserModel::find($user_id);
+        $request->user()->friendsOfMine()->detach($user);
+        $request->user()->friendsOf()->detach($user);
+        return new UserResource($user);
+    }
 }
