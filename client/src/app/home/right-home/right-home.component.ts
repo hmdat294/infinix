@@ -51,10 +51,10 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
 
           // nếu status là accepted thì data có sender và receiver, bản thân là 1 trong 2 thì thêm vào danh sách bạn bè người còn lại
           if (data.status == "accepted") {
-            if (data.sender_id == this.user.id) {
+            if (data.sender.id == this.user.id) {
               this.pushFriendList(data.receiver);
             }
-            else if (data.receiver_id == this.user.id) {
+            if (data.receiver.id == this.user.id) {
               this.pushFriendList(data.sender);
             }
           }
@@ -63,7 +63,8 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
         this.eventService.bindEvent('App\\Events\\UserConnectionEvent', (data: any) => {
           // console.log('User online event:', data);
 
-          this.friends.find((item: any) => item.id == data.user.id).online_status = data.user?.online_status;
+          const friends = this.friends.find((item: any) => item.id == data.user.id) || {};
+          friends.online_status = data.user?.online_status;
 
         });
 
