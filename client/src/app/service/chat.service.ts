@@ -95,4 +95,9 @@ export class ChatService {
     const headers = this.authService.getToken();
     return this.http.get(`${this.apiUrl}/conversation/${conversation_id}/medias/`, { headers });
   }
+  
+  pinMessage(message_id: number): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.post(`${this.apiUrl}/pin-message/${message_id}`, {}, { headers });
+  }
 }

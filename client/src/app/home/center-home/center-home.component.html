@@ -155,37 +155,47 @@
                     <div class="w-fill border-bottom border-card-default">
                         <p class="text-subtitle text-primary text-center p-20">Báo cáo nội dung</p>
                     </div>
+
+                    <div *ngIf="messageReport != ''" [innerHTML]="messageReport"></div>
+
                     <div class="layout-vertial w-fill px-15" #checkboxesContainer>
 
-                        <label class="label-checkbox-control my-15"> 
-                            <input class="checkbox-control" type="checkbox" (change)="onCheckboxChange($event)" value="Ngôn từ đã kích">
+                        <label class="label-checkbox-control my-15">
+                            <input class="checkbox-control" type="checkbox" (change)="onCheckboxChange($event)"
+                                value="Ngôn từ đã kích">
                             <span class="text-body text-primary">Ngôn từ đã kích</span>
                         </label>
-                        
-                        <label class="label-checkbox-control my-15"> 
-                            <input class="checkbox-control" type="checkbox" (change)="onCheckboxChange($event)" value="Hình ảnh phản cảm">
+
+                        <label class="label-checkbox-control my-15">
+                            <input class="checkbox-control" type="checkbox" (change)="onCheckboxChange($event)"
+                                value="Hình ảnh phản cảm">
                             <span class="text-body text-primary">Hình ảnh phản cảm</span>
                         </label>
-        
-                        <label class="label-checkbox-control my-15"> 
-                            <input class="checkbox-control" type="checkbox" (change)="onCheckboxChange($event)" value="Đường dẫn không an toàn">
+
+                        <label class="label-checkbox-control my-15">
+                            <input class="checkbox-control" type="checkbox" (change)="onCheckboxChange($event)"
+                                value="Đường dẫn không an toàn">
                             <span class="text-body text-primary">Đường dẫn không an toàn</span>
                         </label>
-        
-                        <label class="label-checkbox-control my-15"> 
-                            <input class="checkbox-control" type="checkbox" (change)="onCheckboxChange($event)" value="Mang tính bạo lực, thù ghét">
+
+                        <label class="label-checkbox-control my-15">
+                            <input class="checkbox-control" type="checkbox" (change)="onCheckboxChange($event)"
+                                value="Mang tính bạo lực, thù ghét">
                             <span class="text-body text-primary">Mang tính bạo lực, thù ghét</span>
                         </label>
-        
-                        <label class="label-checkbox-control my-15"> 
-                            <input class="checkbox-control" type="checkbox" (change)="onCheckboxChange($event)" value="Lừa đảo, gian lận, mạo danh">
+
+                        <label class="label-checkbox-control my-15">
+                            <input class="checkbox-control" type="checkbox" (change)="onCheckboxChange($event)"
+                                value="Lừa đảo, gian lận, mạo danh">
                             <span class="text-body text-primary">Lừa đảo, gian lận, mạo danh</span>
                         </label>
-        
+
                     </div>
                     <div class="layout-vertial w-fill border-bottom border-card-default px-20 pb-15">
                         <p class="text-body text-primary mb-5">Nội dung khác</p>
-                        <textarea class="control text-area-control w-fill" style="min-height: 110px;" name="contentReport" ngModel [(ngModel)]="contentReport" id="" spellcheck="false"></textarea>
+                        <textarea class="control text-area-control w-fill" style="min-height: 110px;"
+                            name="contentReport" ngModel [(ngModel)]="contentReport" id=""
+                            spellcheck="false"></textarea>
                     </div>
                     <div class="w-fill">
                         <div class="layout-horizontal p-10 align-center-right w-fill gap-20">

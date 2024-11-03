@@ -54,16 +54,16 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
             if (data.sender_id == this.user.id) {
               this.pushFriendList(data.receiver);
             }
-            if (data.receiver_id == this.user.id) {
+            else if (data.receiver_id == this.user.id) {
               this.pushFriendList(data.sender);
             }
           }
         });
 
         this.eventService.bindEvent('App\\Events\\UserConnectionEvent', (data: any) => {
-          console.log('User online event:', data);
+          // console.log('User online event:', data);
 
-          this.friends.find((item: any) => item.id == data.user.id).online_status = data.user.online_status;
+          this.friends.find((item: any) => item.id == data.user.id).online_status = data.user?.online_status;
 
         });
 

@@ -303,6 +303,7 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   diaLogReport: number = 0;
   valueReport: string[] = [];
   contentReport: string = '';
+  messageReport: string = '';
   @ViewChild('checkboxesContainer') checkboxesContainer!: ElementRef;
 
   showDialogReport(post_id: number) {
@@ -310,6 +311,7 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
     if (this.diaLogReport == 0) {
       this.valueReport = [];
       this.contentReport = '';
+      this.messageReport = '';
 
       this.checkboxesContainer.nativeElement.querySelectorAll('input[type="checkbox"]')
         .forEach((checkbox: HTMLInputElement) => checkbox.checked = false);
@@ -335,8 +337,17 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
 
     content = content.charAt(0).toUpperCase() + content.slice(1).toLowerCase() + '.';
 
-    console.log(content);
-    console.log(post_id);
+    this.postService.postReport({ content, post_id }).subscribe(
+      (response: any) => {
+        console.log(response);
+        this.messageReport =
+          `<p class="validation-message validation-sucess text-body text-primary pt-15 px-20">
+              <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
+              <span>Gửi báo cáo thành công.</span>
+          </p>`;
+        setTimeout(() => this.showDialogReport(0), 3000);
+      })
+
   }
 
   //report
