@@ -67,8 +67,9 @@ class PostCommentController extends Controller
         }
 
         $comment = CommentModel::create($comment_data);
+        $post = PostModel::find($request->post_id);
         event(new UserCommentPostEvent($comment->user_id, $comment->post_id, $comment->id, $comment->content, "comment"));
-        $this->sendNotification($comment->user_id, $comment->post_id, $comment->id);
+        $this->sendNotification($post->user_id, $comment->post_id, $comment->id);
         return new CommentResource($comment);
     }
 

@@ -60,8 +60,9 @@ class PostShareController extends Controller
                 'post_id' => $post_id,
                 'user_id' => $request->user()->id,
             ]);
+            $post = PostModel::find($request->post_id);
 
-            event(new UserSharePostEvent($request->post_id, $request->user()->id, "share"));
+            event(new UserSharePostEvent($post->user_id, $request->user()->id, "share"));
 
             $this->sendNotification($request->user()->id, $post_id);
 
