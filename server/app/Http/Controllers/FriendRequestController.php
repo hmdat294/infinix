@@ -11,6 +11,7 @@ use App\Models\Relationship as RelationshipModel;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use App\Events\FriendRequestEvent;
 use App\Models\Conversation as ConversationModel;
+use Illuminate\Support\Facades\Log;
 
 class FriendRequestController extends Controller
 {
@@ -128,7 +129,8 @@ class FriendRequestController extends Controller
             ], 400);
         }
 
-        $friend_request = FriendRequestModel::find($id)->update([
+        $friend_request = FriendRequestModel::find($id);
+        $friend_request->update([
             'status' => $request->status,
         ]);
 
@@ -155,7 +157,7 @@ class FriendRequestController extends Controller
         } else {
             event(new FriendRequestEvent(FriendRequestModel::find($id)->sender_id, FriendRequestModel::find($id)->receiver_id, 'rejected'));
         }
-
+        Log::info(json_encode($friend_request));
         return new FriendRequestResource($friend_request);
     }
 
