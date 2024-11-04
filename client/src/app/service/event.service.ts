@@ -84,14 +84,6 @@ export class EventService implements OnDestroy {
   }
 
 
-  @HostListener('window:beforeunload', ['$event'])
-  unloadNotification($event: any) {
-    const url = 'http://localhost:8000/api/update-online-status';
-    const data = JSON.stringify({ online_status: 'offline' });
-
-    // Gửi request qua sendBeacon
-    navigator.sendBeacon(url, data);
-  }
 
   private apiUrl = 'http://localhost:8000/api';
 
@@ -127,7 +119,9 @@ export class EventService implements OnDestroy {
       )
     }
 
-    this.idleTimeout = setTimeout(() => this.onIdleTimeout(), this.idleTimeLimit);
+    if (this.isLoggedIn) {
+      this.idleTimeout = setTimeout(() => this.onIdleTimeout(), this.idleTimeLimit);
+    }
   }
 
   private onUserEnter() {
@@ -144,11 +138,12 @@ export class EventService implements OnDestroy {
     this.isIdle = true; // Chuyển trạng thái sang treo máy
     this.idleState.next(true); // Phát trạng thái treo máy
     // console.log('Người dùng đã treo máy!');
-
-    this.updateOnlineStatus('idle').subscribe(
-      (response) => {
-        // console.log(response);
-      }
-    )
+    if (this.isLoggedIn) {
+      this.updateOnlineStatus('idle').subscribe(
+        (response) => {
+          // console.log(response);
+        }
+      )
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../service/auth.service';
 import { CommonModule } from '@angular/common';
@@ -62,7 +62,7 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
             });
 
             this.eventService.bindEvent('App\\Events\\UserConnectionEvent', (data: any) => {
-              // console.log('User online event:', data);
+              console.log('User online event:', data);
 
               const friends = this.friends.find((item: any) => item.id == data.user.id) || {};
               friends.online_status = data.user?.online_status;
@@ -113,9 +113,9 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
   }
 
   logout(): void {
-    this.eventService.updateOnlineStatus('offline').subscribe(
-      (response) => console.log(response)
-    )
+    // this.eventService.updateOnlineStatus('offline').subscribe(
+    //   (response) => console.log(response)
+    // )
     this.authService.logout().subscribe(
       (response) => {
         console.log('Logout Success:', response);

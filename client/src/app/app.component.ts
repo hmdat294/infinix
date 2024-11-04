@@ -53,4 +53,12 @@ export class AppComponent implements OnInit {
       this.eventService.resetIdleTimer();
     }
   }
+
+  
+  @HostListener('window:beforeunload', ['$event'])
+  unloadNotification($event: any) {
+    if (this.isLoggedIn) {
+      navigator.sendBeacon('http://localhost:8000/api/update-online-status', JSON.stringify({ online_status: 'offline' }));
+    }
+  }
 }
