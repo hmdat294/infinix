@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 use App\Http\Resources\ConversationInvitationResource;
 use App\Models\ConversationInvitation as ConversationInvitationModel;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use App\Models\User as UserModel;
+use App\Models\Notification as NotificationModel;
+use Illuminate\Support\Facades\Log;
+
+use function Pest\Laravel\json;
 
 class ConversationInvitationController extends Controller
 {
@@ -66,13 +71,15 @@ class ConversationInvitationController extends Controller
             ], 400);
         }
 
-        ConversationInvitationModel::create([
+        $conversation_invitation = ConversationInvitationModel::create([
             'sender_id' => $request->user()->id,
             'receiver_id' => $request->receiver_id,
             'conversation_id' => $request->conversation_id,
         ]);
 
         event(new ConversationInvitationEvent($request->user()->id, $request->receiver_id, 'pending', $request->conversation_id));
+
+        $this->sendNotification($conversation_invitation->id, 'pending');
 
         return response()->json([
             'message' => 'Conversation invitation has been sent.',
@@ -115,6 +122,7 @@ class ConversationInvitationController extends Controller
         if ($request->status === 'accepted') {
             event(new ConversationInvitationEvent($conversation_invitation->sender_id, $conversation_invitation->receiver_id, 'accepted', $conversation_invitation->conversation_id));
             $conversation_invitation->conversation->users()->attach($conversation_invitation->receiver_id);
+            $this->sendNotification($conversation_invitation->id, 'accepted');
         } else {
             event(new ConversationInvitationEvent($conversation_invitation->sender_id, $conversation_invitation->receiver_id, 'rejected', $conversation_invitation->conversation_id));
         }
@@ -124,5 +132,33 @@ class ConversationInvitationController extends Controller
         ]);
     }
 
+    public function sendNotification($conversation_invitation_id, $status)
+    {
+        $conversation_invitation = ConversationInvitationModel::find($conversation_invitation_id);
 
+        $receiver = UserModel::find($conversation_invitation->receiver_id);
+        $sender = UserModel::find($conversation_invitation->sender_id);
+
+        switch ($status) {
+            case 'pending':
+                $data['user_id'] = $conversation_invitation->receiver_id;
+                $data['target_user_id'] = $conversation_invitation->sender_id;
+                $data['content'] = $sender->profile->display_name . ' đã gửi lời mời tham gia nhóm trò chuyện';
+                $data['action_type'] = 'user_send_conversation_invitation';
+                break;
+            case 'accepted':
+                $data['user_id'] = $conversation_invitation->sender_id;
+                $data['target_user_id'] = $conversation_invitation->receiver_id;
+                $data['content'] =  $receiver->profile->display_name . ' đã chấp nhận lời mời tham gia nhóm trò chuyện';
+                $data['action_type'] = 'user_accept_conversation_invitation';
+                break;
+        }
+        $data['conversation_invitation_id'] = $conversation_invitation_id;
+
+        $notification = NotificationModel::create($data);
+        Log::info('conversation invitation notification: '.json_encode($notification));
+        return response()->json([
+            'data' => $notification
+        ], 200);
+    }
 }

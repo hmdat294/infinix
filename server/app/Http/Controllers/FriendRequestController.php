@@ -12,6 +12,7 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use App\Events\FriendRequestEvent;
 use App\Models\Conversation as ConversationModel;
 use Illuminate\Support\Facades\Log;
+use App\Models\Notification as NotificationModel;
 
 class FriendRequestController extends Controller
 {
@@ -91,7 +92,7 @@ class FriendRequestController extends Controller
         ]);
 
         event(new FriendRequestEvent($request->user()->id, $request->receiver_id, 'pending'));
-
+        $this->sendNotification($friend_request->id, 'pending');
         return new FriendRequestResource($friend_request);
     }
 
@@ -154,6 +155,8 @@ class FriendRequestController extends Controller
                 $conversation_data = ConversationModel::create();
                 $conversation_data->users()->attach([$user_id, $receiver_id]);
             }
+
+            $this->sendNotification($id, 'accepted');
         } else {
             event(new FriendRequestEvent(FriendRequestModel::find($id)->sender_id, FriendRequestModel::find($id)->receiver_id, 'rejected'));
         }
@@ -176,5 +179,35 @@ class FriendRequestController extends Controller
         return response()->json([
             'message' => 'Friend request canceled.',
         ]);
+    }
+
+    public function sendNotification($friend_request_id, $status)
+    {
+        $friend_request = FriendRequestModel::find($friend_request_id);
+
+        $receiver = UserModel::find($friend_request->receiver_id);
+        $sender = UserModel::find($friend_request->sender_id);
+
+        switch ($status) {
+            case 'pending':
+                $data['user_id'] = $receiver->id;
+                $data['target_user_id'] = $sender->id;
+                $data['content'] = $sender->profile->display_name . ' đã gửi lời mời kết bạn';
+                $data['action_type'] = 'user_send_friend_request';
+                break;
+            case 'accepted':
+                $data['user_id'] = $sender->id;
+                $data['target_user_id'] = $receiver->id;
+                $data['content'] = $receiver->profile->display_name . ' đã chấp nhận lời mời kết bạn';
+                $data['action_type'] = 'user_accept_friend_request';
+                break;
+        }
+        $data['friend_request_id'] = $friend_request_id;
+
+        $notification = NotificationModel::create($data);
+        Log::info('friend request notification: '.json_encode($notification));
+        return response()->json([
+            'data' => $notification
+        ], 200);
     }
 }
