@@ -11,6 +11,7 @@ use App\Models\Relationship as RelationshipModel;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use App\Events\FriendRequestEvent;
 use App\Models\Conversation as ConversationModel;
+use Illuminate\Support\Facades\Log;
 
 class FriendRequestController extends Controller
 {
@@ -113,22 +114,23 @@ class FriendRequestController extends Controller
         if (!in_array($request->status, ['accepted', 'rejected'])) {
             return response()->json([
                 'message' => 'Invalid status.',
-            ], 400);
+            ]);
         }
 
         if (!FriendRequestModel::find($id)) {
             return response()->json([
                 'message' => 'Friend request not found.',
-            ], 404);
+            ]);
         }
 
         if (FriendRequestModel::find($id)->status !== 'pending') {
             return response()->json([
                 'message' => 'Friend request already ' . FriendRequestModel::find($id)->status . '.',
-            ], 400);
+            ]);
         }
 
-        $friend_request = FriendRequestModel::find($id)->update([
+        $friend_request = FriendRequestModel::find($id);
+        $friend_request->update([
             'status' => $request->status,
         ]);
 
@@ -155,7 +157,7 @@ class FriendRequestController extends Controller
         } else {
             event(new FriendRequestEvent(FriendRequestModel::find($id)->sender_id, FriendRequestModel::find($id)->receiver_id, 'rejected'));
         }
-
+        Log::info(json_encode($friend_request));
         return new FriendRequestResource($friend_request);
     }
 

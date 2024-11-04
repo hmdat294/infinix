@@ -14,6 +14,7 @@ class Message extends Model
     protected $fillable = [
         'conversation_id',
         'user_id',
+        'link',
         'reply_to_message_id',
         'is_recalled',
         'content'

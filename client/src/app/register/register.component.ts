@@ -3,6 +3,7 @@ import { AuthService } from '../service/auth.service';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { EventService } from '../service/event.service';
 
 @Component({
   selector: 'app-register',
@@ -14,10 +15,13 @@ import { CommonModule } from '@angular/common';
 export class RegisterComponent {
 
   error: string = '';
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(
+    private authService: AuthService, 
+    private router: Router
+  ) { }
 
   checkPasswords(form: NgForm): boolean {
-    return form.controls['password'].value === form.controls['confirm'].value;
+    return form.controls['password']?.value === form.controls['confirm']?.value;
   }
 
   register(value: any) {
@@ -30,7 +34,8 @@ export class RegisterComponent {
       (response) => {
         console.log(response);
         if (response.token) {
-          localStorage.setItem('auth_token', response.token);
+          this.authService.updateAuthToken(response.token);
+
           this.authService.getUser(0).subscribe(
             (response) => {
               if (response.data.permissions[4]) this.router.navigate(['/admin']);

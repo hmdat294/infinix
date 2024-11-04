@@ -30,7 +30,7 @@ class MessageController extends Controller
     {
         $conversation = ConversationModel::find($request->conversation_id);
 
-        $message_data = $request->only(['reply_to_message_id', 'content']);
+        $message_data = $request->only(['reply_to_message_id', 'content', 'link']);
         $message_data['user_id'] = $request->user()->id;
 
         $message = $conversation->messages()->create($message_data);
@@ -44,7 +44,14 @@ class MessageController extends Controller
                     'path' => asset('storage/' . $media->store('uploads', 'public'))
                 ]);
             }
+        } else if ($request->has("medias")) {
+            $message->medias()->create([
+                'message_id' => $message->id,
+                'type' => $request->type,
+                'path' =>  $request->medias
+            ]);
         }
+
         event(new UserSendMessageEvent($request->user()->id, $message->id, $message->content));
         return new MessageResource($message);
     }
@@ -84,15 +91,15 @@ class MessageController extends Controller
         if ($request->has('content')) {
             $message->update($request->only('content'));
         }
-        
+
         if ($request->has('is_recalled')) {
             $message->update($request->only('is_recalled'));
         }
-        
+
         $message->is_edited = 1;
         $message->save();
 
-        if($message->is_recalled) {
+        if ($message->is_recalled) {
             $message->medias()->delete();
         }
         if ($request->has('is_recalled')) {

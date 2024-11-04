@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('conversation_id')->constrained('conversations')->onDelete('cascade');
             $table->foreignId('reply_to_message_id')->nullable()->constrained('messages')->default(null);
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->string('link')->nullable()->default(null);
             $table->boolean('is_recalled')->default(false);
             $table->boolean('is_edited')->default(false);
             $table->text('content')->nullable()->default(null);

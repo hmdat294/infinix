@@ -31,5 +31,18 @@ class UserTableSeeder extends Seeder
             $user->permissions()->attach(PermissionModel::where('name', '!=', 'can_access_dashboard')->pluck('id')->toArray());
 
         }
+
+        $admin = UserModel::create([
+            'email' => 'admin@example.com',
+            'password' => Hash::make('admin@example.com')
+        ]);
+
+        ProfileModel::create([
+            'user_id' => $admin->id,
+            'display_name' => 'Admin',
+            'profile_photo' => asset('storage/uploads/default-profile-photo.png')
+        ]);
+
+        $admin->permissions()->attach(PermissionModel::pluck('id')->toArray());
     }
 }

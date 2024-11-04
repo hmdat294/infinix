@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, inject, Inject, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { PostService } from '../service/post.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -6,18 +6,18 @@ import moment from 'moment';
 import { AuthService } from '../service/auth.service';
 import { CarouselService } from '../service/carousel.service';
 import { EventService } from '../service/event.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ChatService } from '../service/chat.service';
 import { MiniChatComponent } from '../mini-chat/mini-chat.component';
 
 @Component({
   selector: 'app-friend-profile',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, RouterModule],
   templateUrl: './friend-profile.component.html',
   styleUrl: './friend-profile.component.css'
 })
-export class FriendProfileComponent {
+export class FriendProfileComponent implements OnInit {
 
   selectedFilesComment: File[] = [];
   previewCommentImages: string[] = [];
@@ -31,6 +31,10 @@ export class FriendProfileComponent {
   user: any;
   images: any;
   conversation: any[] = [];
+  post_id: number = 0;
+  currentUser: any;
+  listUser: any;
+  listGroup: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -41,23 +45,29 @@ export class FriendProfileComponent {
     private authService: AuthService,
     private chatService: ChatService,
     private router: Router,
-    // private miniChat: MiniChatComponent
   ) { }
 
   ngOnInit(): void {
+
     this.route.params.subscribe(params => {
+
       const user_id = params['user_id'];
+      this.post_id = params['post_id'];
 
       if (user_id > 0) {
+        this.authService.getUser(0).subscribe(
+          (data) => {
+            this.currentUser = data.data;
+          });
+
         this.authService.getUser(user_id).subscribe(
           (response) => {
             this.user = response.data;
-            console.log(this.user);
+            // console.log(this.user);
 
             this.authService.getImageByUser(this.user.id).subscribe(
               (response) => {
                 this.images = response.data;
-                console.log(this.images);
               }
             )
           });
@@ -65,12 +75,22 @@ export class FriendProfileComponent {
         this.postService.getPostByUser(user_id).subscribe(
           (data) => {
             this.listPost = data.data;
+
+            if (this.post_id > 0) {
+              this.listPost = this.listPost.filter((item: any) => item.id == this.post_id);
+            }
             console.log(this.listPost);
 
             this.eventService.bindEvent('App\\Events\\UserPostEvent', (data: any) => {
               console.log('Post event:', data);
               this.listPost.unshift(data.data);
             });
+          });
+
+        this.chatService.getListChat().subscribe(
+          (response) => {
+            this.listUser = response.data.filter((item: any) => item.is_group == 0);
+            this.listGroup = response.data.filter((item: any) => item.is_group == 1);
           });
       }
       else this.router.navigate(['/profile']);
@@ -99,12 +119,12 @@ export class FriendProfileComponent {
         }
 
         this.conversation.push(response.data.id);
-        // Cập nhật conversation thông qua service
+
         this.chatService.updateConversation(this.conversation);
+        this.chatService.tagOpenBoxChat = true;
       });
   }
 
-  // localStorage.setItem('conversation', JSON.stringify(this.conversation));
   @ViewChild('commentInput') commentInput!: ElementRef;
   @ViewChildren('carouselInner') carouselInners!: QueryList<ElementRef<HTMLDivElement>>;
   @ViewChildren('nextButton') nextButtons!: QueryList<ElementRef<HTMLButtonElement>>;
@@ -216,6 +236,160 @@ export class FriendProfileComponent {
       }
     )
   }
+
+  //bookmark
+
+  bookmarkPost(post_id: number) {
+    this.postService.bookmarkPost(post_id).subscribe(
+      (response) => {
+        console.log(response);
+
+        const bookmark = this.listPost.find(item => item.id === post_id);
+        bookmark.bookmarked = !bookmark.bookmarked;
+      });
+  }
+
+  //bookmark
+
+  //share
+
+  dialogShare: number = 0;
+  shareSuccess: string = '';
+
+  showShare(post_id: number) {
+    this.dialogShare = post_id;
+    this.shareSuccess = '';
+  }
+
+  copyUrl(post_id: number) {
+    const postShare = this.listPost.find((item: any) => item.id == post_id);
+
+    navigator.clipboard.writeText(`${window.location.origin}/friend-profile/${postShare.profile.id}/${post_id}`)
+      .then(() => {
+        this.shareSuccess =
+          `<p class="validation-message validation-sucess text-body text-primary py-10 px-15">
+            <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
+            <span>Đã sao chép đường dẫn vào bộ nhớ tạm!</span>
+          </p>`;
+      })
+      .catch((error) => {
+        this.shareSuccess =
+          `<p class="validation-message validation-critical text-body text-primary py-10 px-15">
+            <i class="icon-size-16 icon icon-ic_fluent_dismiss_circle_16_filled"></i>
+            <span>Sao chép không thành công!</span>
+          </p>`;
+      });
+  }
+
+  sharePostToMessage(post_id: number, conversation_id: number, username: string) {
+
+    const postShare = this.listPost.find((item: any) => item.id == post_id);
+
+    const formData = new FormData();
+    formData.append('conversation_id', conversation_id.toString());
+    formData.append('content', postShare.content);
+    formData.append('link', `/friend-profile/${postShare.profile.id}/${post_id}`);
+
+    if (postShare.post_type == "with_media") {
+      formData.append('medias', postShare.medias[0].path);
+      formData.append('type', postShare.medias[0].type);
+    }
+
+    this.chatService.sendMessage(formData).subscribe(
+      (response: any) => {
+        console.log(response);
+        this.shareSuccess =
+          `<p class="validation-message validation-sucess text-body text-primary py-10 px-15">
+            <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
+            <span>Bạn đã chia sẽ đến ${username}!</span>
+          </p>`;
+      }
+    );
+  }
+
+  sharePostToMyPage(post_id: number) {
+    this.postService.sharePostToMyPage(post_id).subscribe(
+      (response: any) => {
+        console.log(response);
+
+        const shared = this.listPost.find(item => item.id === post_id);
+        shared.shared = !shared.shared;
+
+        if (shared.shared) {
+          shared.shares_count++;
+          this.shareSuccess =
+            `<p class="validation-message validation-sucess text-body text-primary py-10 px-15">
+              <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
+              <span>Bạn đã chia sẽ đến trang cá nhân của mình!</span>
+            </p>`
+        }
+        else {
+          shared.shares_count--;
+          this.shareSuccess =
+            `<p class="validation-message validation-critical text-body text-primary py-10 px-15">
+              <i class="icon-size-16 icon icon-ic_fluent_dismiss_circle_16_filled"></i>
+              <span>Bạn đã hủy chia sẽ bài viết này!</span>
+            </p>`;
+        }
+      }
+    )
+  }
+
+  //share
+
+  //report
+
+  diaLogReport: number = 0;
+  valueReport: string[] = [];
+  contentReport: string = '';
+  messageReport: string = '';
+  @ViewChild('checkboxesContainer') checkboxesContainer!: ElementRef;
+
+  showDialogReport(post_id: number) {
+    this.diaLogReport = post_id;
+    if (this.diaLogReport == 0) {
+      this.valueReport = [];
+      this.contentReport = '';
+      this.messageReport = '';
+
+      this.checkboxesContainer.nativeElement.querySelectorAll('input[type="checkbox"]')
+        .forEach((checkbox: HTMLInputElement) => checkbox.checked = false);
+    }
+  }
+
+  onCheckboxChange(event: any) {
+    const checkboxValue = event.target.value;
+
+    if (event.target.checked) this.valueReport.push(checkboxValue);
+    else this.valueReport = this.valueReport.filter(value => value !== checkboxValue);
+  }
+
+  postReport(value: any, post_id: number): any {
+
+    const valueReport = this.valueReport.join(', ');
+    let content = '';
+
+    if (valueReport != '' && value.contentReport != '') content = [valueReport, value.contentReport].join(', ');
+    else if (valueReport != '') content = valueReport;
+    else if (value.contentReport != '') content = value.contentReport;
+    else return false;
+
+    content = content.charAt(0).toUpperCase() + content.slice(1).toLowerCase() + '.';
+
+    this.postService.postReport({ content, post_id }).subscribe(
+      (response: any) => {
+        console.log(response);
+        this.messageReport =
+          `<p class="validation-message validation-sucess text-body text-primary pt-15 px-20">
+              <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
+              <span>Gửi báo cáo thành công.</span>
+          </p>`;
+        setTimeout(() => this.showDialogReport(0), 3000);
+      })
+
+  }
+
+  //report
 
   showPolls() {
     this.showPoll = (this.showPoll == false) ? true : false;

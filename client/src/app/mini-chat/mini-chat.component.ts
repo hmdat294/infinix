@@ -70,6 +70,13 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
     this.chatService.conversation$.subscribe(conversation => {
       // console.log('Updated conversation from localStorage:', conversation);
       this.conversation = conversation;
+      this.filterListChat();
+
+      if(this.chatService.tagOpenBoxChat){
+        this.chatService.tagOpenBoxChat = false;
+        this.showChat = true;
+        this.getMiniChat(conversation[conversation.length - 1]);
+      }
     });
 
     this.chatService.getListChat().subscribe(
@@ -80,7 +87,7 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
 
         if (!this.chat)
           this.chat = this.filteredConversations[0];
-        console.log(this.chat);
+        // console.log(this.chat);
 
         this.eventService.bindEvent('App\\Events\\UserSendMessageEvent', (data: any) => {
           console.log('Message received:', data);
@@ -119,7 +126,7 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
 
   deleteMiniChat(conversation_id: number) {
     this.conversation = this.conversation.filter(id => id !== conversation_id);
-    localStorage.setItem('conversation', JSON.stringify(this.conversation));
+    this.chatService.updateConversation(this.conversation);
     this.showBoxMiniChat = false;
     this.filterListChat();
   }
@@ -144,7 +151,7 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
       this.conversation.indexOf(a.id) - this.conversation.indexOf(b.id)
     );
 
-    console.log(this.filteredConversations);
+    // console.log(this.filteredConversations);
   }
 
 
@@ -189,7 +196,7 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
   }
 
   ngAfterViewChecked() {
-    if (!this.isScrollingToElement) {
+    if (this.scrollBox && this.scrollBox.nativeElement && !this.isScrollingToElement) {
       this.scrollBox.nativeElement.scrollTop = this.scrollBox.nativeElement.scrollHeight;
       this.isScrollingToElement = true;
     }

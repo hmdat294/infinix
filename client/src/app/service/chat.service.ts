@@ -11,6 +11,8 @@ export class ChatService {
   private conversationSource = new BehaviorSubject<number[]>(this.getConversationFromStorage());
   conversation$ = this.conversationSource.asObservable();
 
+  tagOpenBoxChat:boolean = false;
+  
   constructor(private zone: NgZone, private http: HttpClient, private authService: AuthService) {
     // Lắng nghe sự kiện storage để phát hiện thay đổi trong localStorage từ các tab khác
     window.addEventListener('storage', (event) => {
@@ -28,6 +30,12 @@ export class ChatService {
     this.conversationSource.next(conversation);
     localStorage.setItem('conversation', JSON.stringify(conversation));
   }
+
+  removeConversation() {
+    localStorage.removeItem('conversation');
+    this.conversationSource.next([]);
+  }
+
 
   private getConversationFromStorage(): number[] {
     const conversation = localStorage.getItem('conversation');
@@ -86,5 +94,10 @@ export class ChatService {
   getImageByConversation(conversation_id: number): Observable<any> {
     const headers = this.authService.getToken();
     return this.http.get(`${this.apiUrl}/conversation/${conversation_id}/medias/`, { headers });
+  }
+  
+  pinMessage(message_id: number): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.post(`${this.apiUrl}/pin-message/${message_id}`, {}, { headers });
   }
 }

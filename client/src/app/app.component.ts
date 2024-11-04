@@ -32,7 +32,7 @@ export class AppComponent implements OnInit {
 
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        this.isLoggedIn = (localStorage.getItem('auth_token')) ? true : false;
+        this.isLoggedIn = !!(localStorage.getItem('auth_token'));
       }
     });
 
@@ -40,7 +40,7 @@ export class AppComponent implements OnInit {
       filter((event: any) => event instanceof NavigationEnd)
     ).subscribe(
       (event: any) =>
-        this.isAdmin = (event.urlAfterRedirects.split('/')[1] == 'admin') ? true : false
+        this.isAdmin = !!(event.urlAfterRedirects.split('/')[1] == 'admin')
     );
   }
 
@@ -51,6 +51,14 @@ export class AppComponent implements OnInit {
   handleUserActivity() {
     if (this.isLoggedIn) {
       this.eventService.resetIdleTimer();
+    }
+  }
+
+  
+  @HostListener('window:beforeunload', ['$event'])
+  unloadNotification($event: any) {
+    if (this.isLoggedIn) {
+      navigator.sendBeacon('http://localhost:8000/api/update-online-status', JSON.stringify({ online_status: 'offline' }));
     }
   }
 }

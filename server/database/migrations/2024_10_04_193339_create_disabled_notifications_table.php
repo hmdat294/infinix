@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('disabled_notifications', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('target_user_id')->constrained('users')->nullable()->default(null);
-            $table->foreignId('conversation_id')->constrained('conversations')->nullable()->default(null);
-            $table->foreignId('post_id')->constrained('posts')->nullable()->default(null);
+            $table->foreignId('target_user_id')->nullable()->constrained('users')->default(null);
+            $table->foreignId('conversation_id')->nullable()->constrained('conversations')->default(null);
+            $table->foreignId('post_id')->nullable()->constrained('posts')->default(null);
             $table->enum('type', ['conversation', 'post', 'user']);
             $table->timestamp('enabled_at')->nullable()->default(null);
             $table->timestamps();

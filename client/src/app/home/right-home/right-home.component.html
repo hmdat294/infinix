@@ -14,6 +14,9 @@
             </div>
             <div class="accordion-panel">
                 <div class="layout-vertical p-5 gap-5">
+                    <a *ngIf="user.data?.permissions[4]" [routerLink]="['/admin']" class="list-item">
+                        <div class="text-body">Quản trị</div>
+                    </a>
                     <a [routerLink]="['/profile']" class="list-item">
                         <div class="text-body">Tài khoản</div>
                     </a>
@@ -106,7 +109,7 @@
             <a [routerLink]="['/friend-profile', friend.profile.user_id]"
                 class="layout-horizontal align-center-center gap-15 w-fill">
 
-                <div>
+                <div class="user-{{friend.online_status}}" style="width: 35px; height: 35px;">
                     <img class="rounded-circle border border-card-default object-fit-cover" style="width: 35px; height: 35px;" src="{{friend.profile.profile_photo}}" alt="">
                 </div>
                 <div class="layout-vertical w-fill">

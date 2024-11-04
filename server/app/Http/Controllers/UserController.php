@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\Models\User as UserModel;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use App\Events\UserConnectionEvent;
+use App\Http\Resources\PostResource;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -25,7 +27,7 @@ class UserController extends Controller
     //         })->get();
     //         return UserResource::collection($users);
     //     }
-        
+
     //     $users = UserModel::paginate(10);
     //     return UserResource::collection($users)->additional([
     //         'meta' => [
@@ -37,7 +39,7 @@ class UserController extends Controller
     //     ]);
     // }
     public function index()
-    {   
+    {
         $users = UserModel::all();
         return UserResource::collection($users);
     }
@@ -59,7 +61,7 @@ class UserController extends Controller
         $user = UserModel::find($request->user()->id);
         $user->update($request->only(['username', 'email', 'password', 'theme', 'language', 'phone_number']));
         $user->profile->update($request->only(['display_name', 'biography', 'date_of_birth', 'address', 'gender']));
-        
+
         if ($request->has('profile_photo')) {
             $path = $request->file('profile_photo')->store('uploads', 'public');
             $user->profile->update(['profile_photo' => asset('storage/' . $path)]);
@@ -92,5 +94,14 @@ class UserController extends Controller
         event(new UserConnectionEvent($user, $request->online_status));
 
         return new UserResource($user);
+    }
+
+    public function bookmarks(Request $request)
+    {
+        $user = UserModel::find($request->user()->id);
+        if (isset($user->bookmarks)) {
+            Log::info($user->bookmarks);
+            return PostResource::collection($user->bookmarks);
+        }
     }
 }

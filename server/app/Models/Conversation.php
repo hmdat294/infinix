@@ -27,4 +27,9 @@ class Conversation extends Model
     {
         return $this->belongsToMany(User::class, 'user_conversations', 'conversation_id', 'user_id');
     }
+
+    public function pinnedMessages()
+    {
+        return $this->hasMany(PinnedMessage::class, 'conversation_id', 'id');
+    }
 }

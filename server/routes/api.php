@@ -21,13 +21,13 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\Statistics\GrowthStatisticsController;
 use App\Http\Controllers\Statistics\TotalController;
 use App\Http\Controllers\DisabledNotificationController;
+use App\Http\Controllers\PinMessageController;
 use App\Http\Middleware\UpdateUserLastActivity;
 
 use App\Models\User as UserModel;
 
 use App\Http\Resources\UserResource;
-
-
+use App\Models\PinnedMessage;
 
 Route::middleware(['guest'])->group(function () {
 
@@ -46,6 +46,8 @@ Route::middleware(['guest'])->group(function () {
 
 Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(function () {
 
+    Route::post('pin-message/{message_id}', [PinMessageController::class, 'store'])->name('pin-message');
+
     Route::post('update-online-status', [UserController::class, 'updateOnlineStatus'])->name('update-online-status');
 
     Route::post('disable-notification', [DisabledNotificationController::class, 'store'])->name('disable-notification');
@@ -53,6 +55,7 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
     
     Route::get('user/{user_id}/medias', [UserController::class, 'medias']);
     Route::get('user/medias', [UserController::class, 'medias']);
+    Route::get('user/bookmarks', [UserController::class, 'bookmarks']);
     Route::get('conversation/{id}/medias', [ConversationController::class, 'medias']);
 
     // Đăng xuất
@@ -87,14 +90,14 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
     ->parameters(['like' => 'post-id']);
 
     // Share bài viết
-    Route::resource('share', PostShareController::class)
-    ->only(['index', 'store'])
-    ->parameters(['share' => 'post-id']);
+    // Route::resource('share', PostShareController::class)
+    // ->only(['index', 'store'])
+    // ->parameters(['share' => 'post-id']);
+    Route::get('share/{post_id}', [PostShareController::class, 'index']);
+    Route::post('share/{post_id}', [PostShareController::class, 'store']);
 
-    // Bookmark bài viết
-    Route::resource('bookmark', PostBookmarkController::class)
-    ->only(['index', 'store'])
-    ->parameters(['bookmark' => 'post-id']);
+    Route::get('bookmark/{post_id}', [PostBookmarkController::class, 'index']);
+    Route::post('bookmark/{post_id}', [PostBookmarkController::class, 'store']);
 
     // API cho hội thoại đơn (theo user_id)
     Route::resource('chat', ConversationController::class)
@@ -119,8 +122,9 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
     ->parameters(['message' => 'id']);
 
     // API cho báo cáo
+    Route::post('report/{id}', [ReportController::class, 'update']);
     Route::resource('report', ReportController::class)
-    ->only(['index', 'store', 'show', 'update', 'destroy'])
+    ->only(['index', 'store', 'show', 'destroy'])
     ->parameters(['report' => 'id']);
 
     // Lấy bình luận của một bài viết
@@ -189,7 +193,6 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
         
         // thống kê theo biểu đồ tròn (thống kê báo cáo)
         Route::get('total-reports', [TotalController::class, 'totalReports']);
-        // Route::get('report', [TotalController::class, 'show']);
         
     });
 });

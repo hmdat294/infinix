@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Injectable, NgZone } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,10 +9,41 @@ export class AuthService {
 
   private apiUrl = 'http://localhost:8000/api';
 
-  constructor(private http: HttpClient) { }
+  public auth_token_source = new BehaviorSubject<string>(this.getAuthTokenFromStorage());
+  token$ = this.auth_token_source.asObservable();
+  auth_token: string = '';
+
+  constructor(private zone: NgZone, private http: HttpClient) {
+
+    window.addEventListener('storage', (event) => {
+      if (event.key === 'auth_token') {
+        this.zone.run(() => {
+          const updatedToken = this.getAuthTokenFromStorage();
+          this.auth_token_source.next(updatedToken);
+        });
+      }
+    });
+
+    this.token$.subscribe(auth_token => this.auth_token = auth_token);
+  }
+
+  updateAuthToken(token: string) {
+    this.auth_token_source.next(token);
+    localStorage.setItem('auth_token', token);
+  }
+
+  removeAuthToken() {
+    localStorage.removeItem('auth_token');
+    this.auth_token_source.next('');
+  }
+
+  private getAuthTokenFromStorage(): string {
+    const token = localStorage.getItem('auth_token');
+    return token ? token : '';
+  }
 
   getToken(): HttpHeaders {
-    return new HttpHeaders({ 'Authorization': `Bearer ${localStorage.getItem('auth_token') || ''}` });
+    return new HttpHeaders({ 'Authorization': `Bearer ${this.auth_token}` });
   }
 
   getUser(id: number): Observable<any> {
@@ -81,6 +112,11 @@ export class AuthService {
     const headers = this.getToken();
     return this.http.patch(`${this.apiUrl}/friend-request/${request.id}`, { 'status': request.status }, { headers });
   }
+
+  // unFriend(request: any): Observable<any> {
+  //   const headers = this.getToken();
+  //   return this.http.patch(`${this.apiUrl}/friend-request/${request.id}`, { 'status': request.status }, { headers });
+  // }
 
   acceptGroup(request: any): Observable<any> {
     const headers = this.getToken();

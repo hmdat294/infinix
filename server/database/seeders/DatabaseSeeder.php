@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             UserTableSeeder::class,
             FriendRequestTableSeeder::class,
             RelationshipTableSeeder::class,
+            PostTableSeeder::class,
         ]);
     }
 }

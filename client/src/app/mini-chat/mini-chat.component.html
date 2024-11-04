@@ -1,14 +1,12 @@
-
-
 <div class="position-fixed layout-vertical align-center-center" style="z-index: 20; bottom: 10px; right: 10px;">
 
     <div class="{{showChat?'display-block':'display-none'}}">
         <div class="chat-bubble" *ngFor="let item of filteredConversations">
             <img class="border border-card-default rounded-circle cursor-pointer object-fit-cover"
                 (click)="getMiniChat(item.id)" [src]="
-            (item.is_group == 1) ? item.image :
-            (item.users[0].id == user.id) ? item.users[1].profile.profile_photo :
-            item.users[0].profile.profile_photo
+            (item?.is_group == 1) ? item.image :
+            (item?.users[0].id == user?.id) ? item?.users[1]?.profile.profile_photo :
+            item?.users[0]?.profile.profile_photo
             " alt="" style="width: 50px; height: 50px;">
             <!-- <button type="button"
             class="p-5 border-none button-standard cursor-pointer position-absolute top-0 start-100 translate-middle"
@@ -34,20 +32,21 @@
 
 
 
-<div class="{{showBoxMiniChat?'display-flex':'display-none'}} position-fixed overflow-hidden layout-vertical solid-background-senary border border-card-default rounded-8"
+<div *ngIf="chat"
+    class="{{showBoxMiniChat?'display-flex':'display-none'}} position-fixed overflow-hidden layout-vertical solid-background-senary border border-card-default rounded-8"
     style="width: 375px; height: 475px; z-index: 20; bottom: 10px; right: 70px;">
     <div class="layout-horizontal w-fill p-5 gap-5 border-bottom border-card-default">
         <div class="w-fill layout-horizontal gap-10 align-center-center">
             <img class="border border-card-default rounded-circle object-fit-cover" [src]="
-            (chat.is_group == 1) ? chat.image :
-            (chat.users[0].id == user.id) ? chat.users[1].profile.profile_photo :
-            chat.users[0].profile.profile_photo
+            (chat?.is_group == 1) ? chat.image :
+            (chat?.users[0].id == user?.id) ? chat?.users[1]?.profile.profile_photo :
+            chat?.users[0]?.profile.profile_photo
             " alt="" style="width: 35px; height: 35px;">
             <p class="text-secondary text-body-strong w-fill">
                 {{
-                (chat.is_group == 1) ? chat.name :
-                (chat.users[0].id == user.id) ? chat.users[1].profile.display_name :
-                chat.users[0].profile.display_name
+                (chat?.is_group == 1) ? chat.name :
+                (chat?.users[0].id == user?.id) ? chat?.users[1]?.profile.display_name :
+                chat?.users[0]?.profile.display_name
                 }}
             </p>
         </div>
@@ -72,7 +71,7 @@
 
         <div #scrollBox class="h-fill w-fill box-chat gap-20 layout-vertical" style="padding-bottom: 100px;">
 
-            <div *ngFor="let msg of chat.messages; let i = index;" [attr.id]="'item-' + msg.id">
+            <div *ngFor="let msg of chat?.messages; let i = index;" [attr.id]="'item-' + msg.id">
 
                 <div class="position-fixed top-0 start-0" *ngIf="idDialogChat == msg.id"
                     style="width: 100%; height: 100vh; z-index: 10; background-color: rgba(0, 0, 0, 0.2);">
@@ -89,7 +88,7 @@
                             </div>
                             <div>
 
-                                <div class="w-fill layout align-top-right" *ngIf="(user.id == msg.user_id)"
+                                <div class="w-fill layout align-top-right" *ngIf="(user?.id == msg.user_id)"
                                     style="max-height: 65vh;" class="overflow-scroll-vertical">
                                     <div class="layout-horizontal gap-15 p-5 align-top-right">
                                         <div style="max-width: calc(100% - 100px);">
@@ -139,14 +138,14 @@
                                                             </div>
                                                         </div>
 
-                                                        <p style="white-space: pre-line;"
-                                                            class="text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
+                                                        <a *ngIf="msg.link" [routerLink]="[ msg.link ]"
+                                                            style="white-space: pre-line;"
+                                                            class="display-block text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
                                                             {{ msg.content }}
-                                                            Lorem ipsum dolor sit amet consectetur adipisicing
-                                                            elit. Fugit animi in soluta maiores! Provident
-                                                            cupiditate in obcaecati fuga dolore, quam magnam
-                                                            aliquam earum culpa perspiciatis repudiandae soluta,
-                                                            vero ex deleniti?
+                                                        </a>
+                                                        <p *ngIf="!msg.link" style="white-space: pre-line;"
+                                                            class="display-block text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
+                                                            {{ msg.content }}
                                                         </p>
 
                                                     </div>
@@ -154,15 +153,15 @@
                                             </div>
                                         </div>
 
-                                        <img [src]="msg.user.profile.profile_photo"
+                                        <img [src]="msg.user?.profile.profile_photo"
                                             class="rounded-circle border border-card-default object-fit-cover" alt=""
                                             style="width: 35px; height: 35px;">
                                     </div>
                                 </div>
 
-                                <div class="w-fill layout align-top-left" *ngIf="(user.id != msg.user_id)">
+                                <div class="w-fill layout align-top-left" *ngIf="(user?.id != msg.user_id)">
                                     <div class="layout-horizontal gap-15 p-5">
-                                        <img [src]="msg.user.profile.profile_photo"
+                                        <img [src]="msg.user?.profile.profile_photo"
                                             class="rounded-circle border border-card-default object-fit-cover" alt=""
                                             style="width: 35px; height: 35px;">
                                         <div>
@@ -211,10 +210,16 @@
                                                             </div>
                                                         </div>
 
-                                                        <p style="white-space: pre-line;"
-                                                            class="text-wrap card-background-default text-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
+                                                        <a *ngIf="msg.link" [routerLink]="[ msg.link ]"
+                                                            style="white-space: pre-line;"
+                                                            class="display-block text-wrap card-background-default text-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
+                                                            {{ msg.content }}
+                                                        </a>
+                                                        <p *ngIf="!msg.link" style="white-space: pre-line;"
+                                                            class="display-block text-wrap card-background-default text-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
                                                             {{ msg.content }}
                                                         </p>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -226,7 +231,7 @@
                             <div *ngIf="msg.is_edited == 1" class="border-top pt-10">
 
                                 <p style="font-size: 0.9em;"
-                                    class="text-secondary text-{{(user.id == msg.user_id)?'right':'left'}}">
+                                    class="text-secondary text-{{(user?.id == msg.user_id)?'right':'left'}}">
                                     Đã sửa - {{msg.updated_at_date}} - {{msg.updated_at_time}}
                                 </p>
 
@@ -241,7 +246,7 @@
                     </div>
                 </div>
 
-                <div class="w-fill layout align-top-right" *ngIf="(user.id == msg.user_id)">
+                <div class="w-fill layout align-top-right" *ngIf="(user?.id == msg.user_id)">
                     <div class="layout-horizontal gap-15 p-20">
                         <div>
                             <p class="text-tertiary text-caption mb-5 layout align-top-right">{{
@@ -255,6 +260,10 @@
                                             (click)="toggleDialogChat(msg.id)">
                                             <i
                                                 class="icon-size-20 accent-text-primary icon icon-ic_fluent_more_horizontal_20_regular"></i>
+                                        </div>
+                                        <div class="list-item layout-horizontal gap-10 align-center-left">
+                                            <i 
+                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_pin_20_regular"></i>
                                         </div>
                                         <div class="list-item layout-horizontal gap-10 align-center-left">
                                             <i
@@ -306,28 +315,38 @@
 
                                             </div>
                                         </div>
-                                        <div class="layout w-fill gradient-background rounded-top-8"
-                                            *ngIf="msg.medias.length>0">
-                                            <div
-                                                class="w-fill gap-5 {{(msg.medias.length<6)?'layout-'+msg.medias.length:(msg.medias.length%2==0)?'layout-6':'layout-5'}}">
-                                                <div class="w-fill overflow-hidden border border-card-default rounded-4"
-                                                    *ngFor="let img of msg.medias"
-                                                    style="max-width: 140px; max-height: 140px;">
-                                                    <img class="w-fill h-fill object-fit-cover object-position-center rounded-4"
-                                                        [src]="getPathImg(img)" alt="Image">
+
+                                        <div [class]="(msg.link) ? 'layout-horizontal gap-20' : ''">
+                                            <div class="layout w-fill gradient-background p-10 rounded-top-8"
+                                                *ngIf="msg.medias.length>0">
+                                                <div style="max-width: 500px;"
+                                                    class="w-fill {{(msg.medias.length<6)?'layout-'+msg.medias.length:(msg.medias.length%2==0)?'layout-6':'layout-5'}}">
+                                                    <div class="w-fill h-fill border border-card-default rounded-4 overflow-hidden"
+                                                        *ngFor="let img of msg.medias">
+                                                        <img class="w-fill h-fill object-fit-cover object-position-center"
+                                                            [src]="getPathImg(img)" alt="Image"
+                                                            [style]="(msg.link) ? 'max-height:100px' : ''">
+                                                    </div>
                                                 </div>
                                             </div>
+
+                                            <div>
+                                                <a *ngIf="msg.link" [routerLink]="[ msg.link ]"
+                                                    style="white-space: pre-line;"
+                                                    class="display-block text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
+                                                    {{ msg.content }}
+                                                </a>
+                                                <p *ngIf="!msg.link" style="white-space: pre-line;"
+                                                    class="display-block text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
+                                                    {{ msg.content }}
+                                                </p>
+
+                                                <p *ngIf="msg.is_edited == 1" style="font-size: 0.9em;"
+                                                    class="text-secondary text-right">
+                                                    Đã sửa
+                                                </p>
+                                            </div>
                                         </div>
-
-                                        <p style="white-space: pre-line;"
-                                            class="text-wrap accent-default text-on-accent-primary mess-child border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
-                                            {{ msg.content }}
-                                        </p>
-
-                                        <p *ngIf="msg.is_edited == 1" style="font-size: 0.9em;"
-                                            class="text-secondary text-right">
-                                            Đã sửa
-                                        </p>
                                     </div>
                                 </div>
 
@@ -347,16 +366,16 @@
                             </div>
                         </div>
 
-                        <img [src]="msg.user.profile.profile_photo"
+                        <img [src]="msg.user?.profile.profile_photo"
                             class="rounded-circle border border-card-default object-fit-cover" alt=""
                             style="width: 35px; height: 35px;">
 
                     </div>
                 </div>
 
-                <div class="w-fill layout align-top-left" *ngIf="(user.id != msg.user_id)">
+                <div class="w-fill layout align-top-left" *ngIf="(user?.id != msg.user_id)">
                     <div class="layout-horizontal gap-15 p-20">
-                        <img [src]="msg.user.profile.profile_photo"
+                        <img [src]="msg.user?.profile.profile_photo"
                             class="rounded-circle border border-card-default object-fit-cover" alt=""
                             style="width: 35px; height: 35px;">
                         <div>
@@ -392,28 +411,38 @@
                                             </div>
                                         </div>
 
-                                        <div class="layout w-fill gradient-background p-10 rounded-top-8"
-                                            *ngIf="msg.medias.length>0">
-                                            <div style="max-width: 500px;"
-                                                class="w-fill {{(msg.medias.length<6)?'layout-'+msg.medias.length:(msg.medias.length%2==0)?'layout-6':'layout-5'}}">
-                                                <div class="w-fill h-fill border border-card-default overflow-hidden rounded-4"
-                                                    *ngFor="let img of msg.medias"
-                                                    style="max-width: 140px; max-height: 140px;">
-                                                    <img class="w-fill h-fill object-fit-cover object-position-center rounded-4"
-                                                        [src]="getPathImg(img)" alt="Image">
+                                        <div [class]="(msg.link) ? 'layout-horizontal gap-20' : ''">
+
+                                            <div class="layout w-fill gradient-background p-10 rounded-top-8"
+                                                *ngIf="msg.medias.length>0">
+                                                <div style="max-width: 500px;"
+                                                    class="w-fill {{(msg.medias.length<6)?'layout-'+msg.medias.length:(msg.medias.length%2==0)?'layout-6':'layout-5'}}">
+                                                    <div class="w-fill h-fill  border border-card-default rounded-4 overflow-hidden"
+                                                        *ngFor="let img of msg.medias">
+                                                        <img class="w-fill h-fill object-fit-cover object-position-center"
+                                                            [src]="getPathImg(img)" alt="Image"
+                                                            [style]="(msg.link) ? 'max-height:100px' : ''">
+                                                    </div>
                                                 </div>
                                             </div>
+
+                                            <div>
+                                                <a *ngIf="msg.link" [routerLink]="[ msg.link ]"
+                                                    style="white-space: pre-line;"
+                                                    class="display-block text-wrap card-background-default text-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
+                                                    {{ msg.content }}
+                                                </a>
+                                                <p *ngIf="!msg.link" style="white-space: pre-line;"
+                                                    class="display-block text-wrap card-background-default text-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
+                                                    {{ msg.content }}
+                                                </p>
+
+                                                <p *ngIf="msg.is_edited == 1" style="font-size: 0.9em;"
+                                                    class="text-secondary text-left">
+                                                    Đã sửa
+                                                </p>
+                                            </div>
                                         </div>
-
-                                        <p style="white-space: pre-line;"
-                                            class="text-wrap mess-child card-background-default text-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
-                                            {{ msg.content }}
-                                        </p>
-
-                                        <p *ngIf="msg.is_edited == 1" style="font-size: 0.9em;"
-                                            class="text-secondary text-left">
-                                            Đã sửa
-                                        </p>
                                     </div>
                                 </div>
 
@@ -424,6 +453,10 @@
                                             (click)="toggleDialogChat(msg.id)">
                                             <i
                                                 class="icon-size-20 accent-text-primary icon icon-ic_fluent_more_horizontal_20_regular"></i>
+                                        </div>
+                                        <div class="list-item layout-horizontal gap-10 align-center-left">
+                                            <i 
+                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_pin_20_regular"></i>
                                         </div>
                                         <div class="list-item layout-horizontal gap-10 align-center-left">
                                             <i
@@ -492,7 +525,7 @@
         </div>
 
         <div class="w-fill h-hug layout-horizontal p-5 gap-10">
-            <img [src]="user.profile.profile_photo" class="rounded-circle border border-card-default object-fit-cover"
+            <img [src]="user?.profile.profile_photo" class="rounded-circle border border-card-default object-fit-cover"
                 alt="" style="width: 35px; height: 35px;">
 
             <div class="control w-fill h-hug" style="padding: 0;">
@@ -508,8 +541,8 @@
 
                 <label style="cursor: pointer;" class="input-button">
                     <i class="icon-size-16 icon icon-ic_fluent_image_16_regular"></i>
-                    <input type="file" [ngModel]="fileInput" name="fileInput" (change)="onFileSelected($event)" accept="image/*" multiple
-                        style="display: none;">
+                    <input type="file" [ngModel]="fileInput" name="fileInput" (change)="onFileSelected($event)"
+                        accept="image/*" multiple style="display: none;">
                 </label>
                 <button type="button" class="input-button">
                     <i class="icon-size-16 icon icon-ic_fluent_emoji_16_regular"></i>
