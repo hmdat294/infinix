@@ -11,6 +11,7 @@ use Illuminate\Http\JsonResponse;
 use App\Events\UserSharePostEvent;
 use App\Models\Notification as NotificationModel;
 use App\Models\User as UserModel;
+use App\Models\DisabledNotification as DisabledNotificationModel;
 
 class PostShareController extends Controller
 {
@@ -74,6 +75,16 @@ class PostShareController extends Controller
 
     public function sendNotification($user_id, $post_id)
     {
+        $post = PostModel::find($post_id);
+        
+        $post_notification_disabled = DisabledNotificationModel::where('user_id', $post->user_id)->where('post_id', $post_id)->exists();
+
+        $target_user_notification_disabled = DisabledNotificationModel::where('user_id', PostModel::find($post_id)->user_id)->where('target_user_id', $user_id)->exists();
+
+        if($post_notification_disabled || $target_user_notification_disabled) {
+            return;
+        }
+
         $data = [
             'user_id' => PostModel::find($post_id)->user_id,
             'target_user_id' => $user_id,

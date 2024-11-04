@@ -10,4 +10,9 @@ class BlockedUser extends Model
     use HasFactory;
 
     protected $table = 'blocked_users';
+
+    protected $fillable = [
+        'blocker_id',
+        'blocked_id'
+    ];
 }

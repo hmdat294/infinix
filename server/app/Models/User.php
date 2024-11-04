@@ -90,4 +90,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Notification::class, 'user_id');
     }
+
+    public function blockings()
+    {
+        return $this->belongsToMany(User::class, 'blocked_users', 'blocker_id', 'blocked_id');
+    }
 }

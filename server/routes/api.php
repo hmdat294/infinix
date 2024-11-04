@@ -46,6 +46,8 @@ Route::middleware(['guest'])->group(function () {
 
 Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(function () {
 
+    Route::post('block-user/{user_id}', [UserController::class, 'block'])->name('block-user');
+
     Route::post('pin-message/{message_id}', [PinMessageController::class, 'store'])->name('pin-message');
 
     Route::post('update-online-status', [UserController::class, 'updateOnlineStatus'])->name('update-online-status');

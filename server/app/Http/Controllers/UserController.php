@@ -133,4 +133,16 @@ class UserController extends Controller
         $request->user()->friendsOf()->detach($user);
         return new UserResource($user);
     }
+
+    public function block(Request $request, $user_id)
+    {
+        $user = UserModel::find($user_id);
+
+        if ($request->user()->blockings->contains($user)) {
+            $request->user()->blockings()->detach($user);
+        } else {
+            $request->user()->blockings()->attach($user);
+        }
+        return new UserResource($user);
+    }
 }
