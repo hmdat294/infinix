@@ -5,9 +5,9 @@
         <!-- (submit)="post(value.value)" -->
         <form class="layout-vertical gap-10 w-fill" enctype="multipart/form-data" #value="ngForm"
             (submit)="post(value.value)">
-            <textarea class="control text-area-control w-fill overflow-scroll-vertical textarea-post"
+            <textarea class="textarea-post control text-area-control w-fill overflow-scroll-vertical textarea-post"
                 placeholder="placeholder" [(ngModel)]="content" name="content" ngModel id="post-input"
-                spellcheck="false" required style="max-height: 110px;" (input)="resizeTextarea($event)"></textarea>
+                spellcheck="false" required (input)="resizeTextarea($event)"></textarea>
 
             <div *ngIf="previewPostImages.length > 0" class="p-10 position-relative border rounded-6">
                 <div class="layout-wrap gap-10">

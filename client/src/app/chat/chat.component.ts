@@ -211,8 +211,8 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
   copyMessage(message: string) {
     navigator.clipboard.writeText(message)
-    .then(() => console.log('Copy success.'))
-    .catch(err => console.error('Copy: ', err));
+      .then(() => console.log('Copy success.'))
+      .catch(err => console.error('Copy: ', err));
   }
 
   ngAfterViewChecked() {
@@ -263,6 +263,16 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   isDifferentUser(i: number, id: number): boolean {
     if (i === this.conversation.messages.length - 1) return true;
     return this.conversation.messages[i + 1].user_id !== id;
+  }
+
+  resizeTextarea(event: any): void {
+    const textarea = event.target;
+    if (!textarea.value) {
+      textarea.style.height = '32px'; // Chiều cao mặc định khi không có nội dung
+    } else if (textarea.scrollHeight < 110) {
+      textarea.style.height = 'fit-content';
+      textarea.style.height = textarea.scrollHeight + 'px';
+    }
   }
 
   MessageUser(conversation: any) {
@@ -430,7 +440,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     this.reply_id = id;
     const reply = this.conversation.messages.find((data: any) => data.id == id);
     this.previewReply = reply;
-    (document.querySelector('.textarea-chat') as HTMLTextAreaElement).focus();
+    (document.querySelector('.textarea-chat') as HTMLTextAreaElement)?.focus();
   }
 
   editMessage(id: number) {
@@ -445,6 +455,13 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   onCancelReply() {
     this.reply_id = null;
     this.previewReply = null;
+  }
+
+  pinMessage(message_id:number){
+    this.chatService.pinMessage(message_id).subscribe(
+      (data: any) => {
+        console.log(data);
+      });
   }
 
   searchMessage(): void {

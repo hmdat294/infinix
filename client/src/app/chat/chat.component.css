@@ -11,7 +11,7 @@
 } */
 
 .textarea-chat {
-    border: none;
+    max-height: 110px;
     overflow-y: scroll;
 }
 

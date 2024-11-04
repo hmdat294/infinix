@@ -423,7 +423,9 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   // Cập nhật height cho textarea theo content, quá 110px thì thành cuộn dọc
   resizeTextarea(event: any): void {
     const textarea = event.target;
-    if (textarea.scrollHeight < 110) {
+    if (!textarea.value) {
+      textarea.style.height = '32px'; // Chiều cao mặc định khi không có nội dung
+    } else if (textarea.scrollHeight < 110) {
       textarea.style.height = 'fit-content';
       textarea.style.height = textarea.scrollHeight + 'px';
     } else {
