@@ -22,6 +22,7 @@ export class AuthGuard implements CanActivate {
         if (!!auth_token) {
           this.authService.getUser(0).subscribe(
             (response) => {
+
               this.isAdmin = !!response.data.permissions[4];
 
               if (!this.isAdmin && (state.url.startsWith('/admin'))) {
@@ -44,11 +45,19 @@ export class AuthGuard implements CanActivate {
 
               observer.next(true);
               observer.complete();
+
+              if (Number(route.paramMap.get('user_id')) === response.data.id) {
+                this.router.navigate(['profile']);
+                return false;
+              } else {
+                return true;
+              }
+
             },
             (error) => {
               localStorage.removeItem('auth_token');
               localStorage.removeItem('conversation');
-              this.router.navigate(['/login']);
+              this.router.navigate(['/landing-page']);
               observer.next(false);
               observer.complete();
             }

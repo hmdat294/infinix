@@ -21,12 +21,12 @@ export class LeftProfileComponent implements OnInit {
     this.authService.getUser(0).subscribe(
       (response) => {
         this.user = response.data;
-        console.log(this.user);
+        // console.log(this.user);
 
         this.authService.getImageByUser(this.user.id).subscribe(
           (response) => {
             this.images = response.data;
-            console.log(this.images);
+            // console.log(this.images);
           }
         )
       });

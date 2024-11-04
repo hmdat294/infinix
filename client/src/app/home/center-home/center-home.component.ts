@@ -45,10 +45,11 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
+
     this.postService.getPost().subscribe(
       (data) => {
         this.listPost = data.data;
-        console.log(this.listPost);
+        // console.log(this.listPost);
 
         this.eventService.bindEvent('App\\Events\\UserPostEvent', (data: any) => {
           console.log('Post event:', data);
@@ -62,20 +63,10 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
         this.currentUser = data.data;
       });
 
-    this.postService.getBookmarkByUser().subscribe(
-      (data) => {
-        // console.log('Bookmark Post: ', data.data);
-      });
-
     this.chatService.getListChat().subscribe(
       (response) => {
-        console.log(response);
-
         this.listUser = response.data.filter((item: any) => item.is_group == 0);
         this.listGroup = response.data.filter((item: any) => item.is_group == 1);
-
-        console.log(this.listUser);
-        console.log(this.listGroup);
       });
   }
 
@@ -231,17 +222,29 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
     this.shareSuccess = '';
   }
 
+  copyUrl(post_id: number) {
+    const postShare = this.listPost.find((item: any) => item.id == post_id);
+
+    navigator.clipboard.writeText(`${window.location.origin}/friend-profile/${postShare.profile.id}/${post_id}`)
+      .then(() => {
+        this.shareSuccess =
+          `<p class="validation-message validation-sucess text-body text-primary py-10 px-15">
+            <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
+            <span>Đã sao chép đường dẫn vào bộ nhớ tạm!</span>
+          </p>`;
+      })
+      .catch((error) => {
+        this.shareSuccess =
+          `<p class="validation-message validation-critical text-body text-primary py-10 px-15">
+            <i class="icon-size-16 icon icon-ic_fluent_dismiss_circle_16_filled"></i>
+            <span>Sao chép không thành công!</span>
+          </p>`;
+      });
+  }
+
   sharePostToMessage(post_id: number, conversation_id: number, username: string) {
 
     const postShare = this.listPost.find((item: any) => item.id == post_id);
-
-    // console.log(postShare);
-    // console.log(conversation_id);
-    // console.log(`/friend-profile/${postShare.profile.id}/${post_id}`);
-    // if (postShare.post_type == "with_media") {
-    //   console.log(postShare.medias[0].path);
-    //   console.log(postShare.medias[0].type);
-    // }
 
     const formData = new FormData();
     formData.append('conversation_id', conversation_id.toString());
@@ -257,15 +260,97 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
       (response: any) => {
         console.log(response);
         this.shareSuccess =
-          `<p class="validation-message validation-sucess text-body text-primary px-10 py-20">
+          `<p class="validation-message validation-sucess text-body text-primary py-10 px-15">
             <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
-            <span>Bạn đã chia sẽ đến ${username}</span>
+            <span>Bạn đã chia sẽ đến ${username}!</span>
           </p>`;
       }
     );
   }
 
+  sharePostToMyPage(post_id: number) {
+    this.postService.sharePostToMyPage(post_id).subscribe(
+      (response: any) => {
+        console.log(response);
+
+        const shared = this.listPost.find(item => item.id === post_id);
+        shared.shared = !shared.shared;
+
+        if (shared.shared) {
+          shared.shares_count++;
+          this.shareSuccess =
+            `<p class="validation-message validation-sucess text-body text-primary py-10 px-15">
+              <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
+              <span>Bạn đã chia sẽ đến trang cá nhân của mình!</span>
+            </p>`
+        }
+        else {
+          shared.shares_count--;
+          this.shareSuccess =
+            `<p class="validation-message validation-critical text-body text-primary py-10 px-15">
+              <i class="icon-size-16 icon icon-ic_fluent_dismiss_circle_16_filled"></i>
+              <span>Bạn đã hủy chia sẽ bài viết này!</span>
+            </p>`;
+        }
+      }
+    )
+  }
+
   //share
+
+  //report
+
+  diaLogReport: number = 0;
+  valueReport: string[] = [];
+  contentReport: string = '';
+  messageReport: string = '';
+  @ViewChild('checkboxesContainer') checkboxesContainer!: ElementRef;
+
+  showDialogReport(post_id: number) {
+    this.diaLogReport = post_id;
+    if (this.diaLogReport == 0) {
+      this.valueReport = [];
+      this.contentReport = '';
+      this.messageReport = '';
+
+      this.checkboxesContainer.nativeElement.querySelectorAll('input[type="checkbox"]')
+        .forEach((checkbox: HTMLInputElement) => checkbox.checked = false);
+    }
+  }
+
+  onCheckboxChange(event: any) {
+    const checkboxValue = event.target.value;
+
+    if (event.target.checked) this.valueReport.push(checkboxValue);
+    else this.valueReport = this.valueReport.filter(value => value !== checkboxValue);
+  }
+
+  postReport(value: any, post_id: number): any {
+
+    const valueReport = this.valueReport.join(', ');
+    let content = '';
+
+    if (valueReport != '' && value.contentReport != '') content = [valueReport, value.contentReport].join(', ');
+    else if (valueReport != '') content = valueReport;
+    else if (value.contentReport != '') content = value.contentReport;
+    else return false;
+
+    content = content.charAt(0).toUpperCase() + content.slice(1).toLowerCase() + '.';
+
+    this.postService.postReport({ content, post_id }).subscribe(
+      (response: any) => {
+        console.log(response);
+        this.messageReport =
+          `<p class="validation-message validation-sucess text-body text-primary pt-15 px-20">
+              <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
+              <span>Gửi báo cáo thành công.</span>
+          </p>`;
+        setTimeout(() => this.showDialogReport(0), 3000);
+      })
+
+  }
+
+  //report
 
   showPolls() {
     this.showPoll = (this.showPoll == false) ? true : false;
@@ -338,7 +423,9 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   // Cập nhật height cho textarea theo content, quá 110px thì thành cuộn dọc
   resizeTextarea(event: any): void {
     const textarea = event.target;
-    if (textarea.scrollHeight < 110) {
+    if (!textarea.value) {
+      textarea.style.height = '32px'; // Chiều cao mặc định khi không có nội dung
+    } else if (textarea.scrollHeight < 110) {
       textarea.style.height = 'fit-content';
       textarea.style.height = textarea.scrollHeight + 'px';
     } else {

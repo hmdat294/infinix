@@ -66,6 +66,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
   keyword: string = '';
   friendsSearch: any = [];
+  friendsFilter: any = [];
 
   constructor(
     private el: ElementRef,
@@ -81,60 +82,77 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
   ngOnInit(): void {
 
-    this.authService.getUser(0).subscribe(
-      (response) => {
-        this.user = response.data;
-      });
-
     this.authService.getListUser().subscribe(
       (response) => {
         this.listUser = response.data;
       });
 
-    this.chatService.getListChat().subscribe(
-      (data: any) => {
-        this.friends = data.data || null;
+    this.authService.getUser(0).subscribe(
+      (response) => {
+        this.user = response.data;
 
-        // console.log(this.friends);
+        this.chatService.getListChat().subscribe(
+          (data: any) => {
+            this.friends = data.data || null;
 
-        // const testfr = this.friends.map((friend: any) => ({
-        //   ...friend,
-        //   users: friend.users.filter((user: any) => {
-        //     user.id !== this.user?.id;
-        //   })
-        // }));
-        // console.log(testfr);
+            this.friendsFilter = this.friends.map((item: any) => ({
+              ...item,
+              users: item.users.filter((user: any) => user.id !== this.user?.id)
+            }))
+            console.log(this.friendsFilter);
 
-        if (this.friends.length > 0) {
-          this.MessageUser(this.friends[0]);
-        }
 
-        this.eventService.bindEvent('App\\Events\\UserSendMessageEvent', (data: any) => {
-          this.isScrollingToElement = false;
-          console.log('Message event:', data);
-          if (this.conversation.id == data.data.conversation_id)
-            this.conversation.messages.push(data.data);
-        });
 
-        this.eventService.bindEvent('App\\Events\\UserRecallMessageEvent', (data: any) => {
-          console.log('Recall Message event:', data);
-          if (this.conversation.id == data.data.conversation_id)
-            this.conversation.messages.find((item: any) => item.id === data.data.id).is_recalled = data.data.is_recalled;
-        });
+            if (this.friends.length > 0) {
+              this.MessageUser(this.friends[0]);
+            }
 
-        this.eventService.bindEvent('App\\Events\\UserEditMessageEvent', (data: any) => {
-          console.log('Edit Message event:', data);
-          if (this.conversation.id == data.data.conversation_id)
-            this.conversation.messages.find((item: any) => item.id === data.data.id).content = data.data.content;
-        });
+            this.eventService.bindEvent('App\\Events\\UserSendMessageEvent', (data: any) => {
+              this.isScrollingToElement = false;
+              console.log('Message event:', data);
+              if (this.conversation.id == data.data.conversation_id)
+                this.conversation.messages.push(data.data);
+            });
+
+            this.eventService.bindEvent('App\\Events\\UserRecallMessageEvent', (data: any) => {
+              console.log('Recall Message event:', data);
+              if (this.conversation.id == data.data.conversation_id)
+                this.conversation.messages.find((item: any) => item.id === data.data.id).is_recalled = data.data.is_recalled;
+            });
+
+            this.eventService.bindEvent('App\\Events\\UserEditMessageEvent', (data: any) => {
+              console.log('Edit Message event:', data);
+              if (this.conversation.id == data.data.conversation_id)
+                this.conversation.messages.find((item: any) => item.id === data.data.id).content = data.data.content;
+            });
+          });
       });
   }
 
+  removeVietnameseTones(str: string): string {
+    return str.normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[đĐ]/g, "d")
+      .replace(/[ăâä]/g, "a")
+      .replace(/[ưùụũưû]/g, "u")
+      .replace(/[êéẹèẽ]/g, "e")
+      .replace(/[ôơóòõọ]/g, "o")
+      .replace(/[íìịĩi]/g, "i")
+      .replace(/[ýỳỵỹy]/g, "y");
+  }
+
   searchFriend() {
+    console.log(this.keyword);
+
     if (this.keyword && !/^\s*$/.test(this.keyword)) {
-      this.friendsSearch = this.friends.filter((friend: any) =>
-        friend.profile.display_name.toLowerCase().includes(this.keyword.trim().toLowerCase()) || friend.email.toLowerCase().includes(this.keyword.trim().toLowerCase())
-      );
+      this.friendsSearch = this.friendsFilter.filter((friend: any) => {
+        const keyword = this.removeVietnameseTones(this.keyword.trim().toLowerCase());
+        const friendName = this.removeVietnameseTones(friend.name?.toLowerCase() || "");
+        const displayName = this.removeVietnameseTones(friend.users[0]?.profile.display_name.toLowerCase() || "");
+        const email = this.removeVietnameseTones(friend.users[0]?.email.toLowerCase() || "");
+
+        return displayName.includes(keyword) || email.includes(keyword) || friendName.includes(keyword);
+      });
     }
     else {
       this.friendsSearch = [];
@@ -191,6 +209,12 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     return img.path;
   }
 
+  copyMessage(message: string) {
+    navigator.clipboard.writeText(message)
+      .then(() => console.log('Copy success.'))
+      .catch(err => console.error('Copy: ', err));
+  }
+
   ngAfterViewChecked() {
     if (this.scrollBox && this.scrollBox.nativeElement && !this.isScrollingToElement) {
       this.scrollBox.nativeElement.scrollTop = this.scrollBox.nativeElement.scrollHeight;
@@ -241,6 +265,16 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     return this.conversation.messages[i + 1].user_id !== id;
   }
 
+  resizeTextarea(event: any): void {
+    const textarea = event.target;
+    if (!textarea.value) {
+      textarea.style.height = '32px'; // Chiều cao mặc định khi không có nội dung
+    } else if (textarea.scrollHeight < 110) {
+      textarea.style.height = 'fit-content';
+      textarea.style.height = textarea.scrollHeight + 'px';
+    }
+  }
+
   MessageUser(conversation: any) {
 
     console.log(conversation);
@@ -269,7 +303,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
         (data: any) => {
           this.conversation = data.data;
           this.isScrollingToElement = false;
-          (document.querySelector('.textarea-chat') as HTMLTextAreaElement).focus();
+          (document.querySelector('.textarea-chat') as HTMLTextAreaElement)?.focus();
         });
     }
   }
@@ -406,7 +440,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     this.reply_id = id;
     const reply = this.conversation.messages.find((data: any) => data.id == id);
     this.previewReply = reply;
-    (document.querySelector('.textarea-chat') as HTMLTextAreaElement).focus();
+    (document.querySelector('.textarea-chat') as HTMLTextAreaElement)?.focus();
   }
 
   editMessage(id: number) {
@@ -422,6 +456,42 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     this.reply_id = null;
     this.previewReply = null;
   }
+
+  //pin
+
+  pinMessage(message_id: number) {
+    this.chatService.pinMessage(message_id).subscribe(
+      (data: any) => {
+        console.log(data);
+
+        if (data.message == "Pinned")
+          this.conversation.pinned_messages.push(data.data);
+        else if (data.message == "Unpinned")
+          this.conversation.pinned_messages = this.conversation.pinned_messages.filter((item: any) => item.id !== message_id);
+
+      });
+  }
+
+  checkPined(message_id: number): boolean {
+    return this.conversation.pinned_messages.some((item: any) => item.id === message_id);
+  }
+
+  dialogPin: boolean = false;
+  checkPinLength(message_id: number) {
+    if (this.conversation.pinned_messages.length > 2) {
+      this.dialogPin = true;
+    }
+    else {
+      this.pinMessage(message_id);
+    }
+  }
+
+  morePin: boolean = false;
+  morePinMessage() {
+    this.morePin = !this.morePin;
+  }
+
+  //pin
 
   searchMessage(): void {
     if (this.keywordSearch && !/^\s*$/.test(this.keywordSearch)) {

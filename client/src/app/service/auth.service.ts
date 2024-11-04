@@ -113,6 +113,11 @@ export class AuthService {
     return this.http.patch(`${this.apiUrl}/friend-request/${request.id}`, { 'status': request.status }, { headers });
   }
 
+  // unFriend(request: any): Observable<any> {
+  //   const headers = this.getToken();
+  //   return this.http.patch(`${this.apiUrl}/friend-request/${request.id}`, { 'status': request.status }, { headers });
+  // }
+
   acceptGroup(request: any): Observable<any> {
     const headers = this.getToken();
     return this.http.patch(`${this.apiUrl}/chat-group-invititaion/${request.id}`, { 'status': request.status }, { headers });
