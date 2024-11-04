@@ -22,6 +22,7 @@ class DisabledNotificationController extends Controller
     public function store(Request $request)
     {
         $data['user_id'] = $request->user()->id;
+        $data['enable_at'] = now()->addHours($request->hours);
 
         if ($request->has('target_user_id')) {
 
