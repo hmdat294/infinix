@@ -37,7 +37,7 @@ export class AdminService {
   }
   getPostGrowthData(): Observable<any> {
     const headers = this.authService.getToken();
-    return this.http.get(`${this.apiUrl}/statistics/users-growth`, { headers });
+    return this.http.get(`${this.apiUrl}/statistics/posts-growth`, { headers });
   }
   
   
