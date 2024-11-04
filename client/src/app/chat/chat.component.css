@@ -129,3 +129,27 @@ article {
     grid-column-start: 1;
     grid-column-end: 3;
 }
+
+.user-online::after,
+.user-offline::after,
+.user-idle::after{
+    content: '';
+    position: absolute;
+    right: 1px;
+    bottom: 1px;
+    width: 10px;
+    height: 10px;
+    border-radius: 100px;
+}
+
+.user-online::after{
+    background-color: rgb(55, 255, 0);
+}
+
+.user-offline::after{
+    background-color: rgb(255, 0, 0);
+}
+
+.user-idle::after{
+    background-color: rgb(255, 255, 0);
+}

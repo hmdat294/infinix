@@ -478,12 +478,8 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
   dialogPin: boolean = false;
   checkPinLength(message_id: number) {
-    if (this.conversation.pinned_messages.length > 2) {
-      this.dialogPin = true;
-    }
-    else {
-      this.pinMessage(message_id);
-    }
+    if (this.conversation.pinned_messages.length > 2) this.dialogPin = true;
+    else this.pinMessage(message_id);
   }
 
   morePin: boolean = false;
