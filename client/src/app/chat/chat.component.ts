@@ -457,12 +457,41 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     this.previewReply = null;
   }
 
-  pinMessage(message_id:number){
+  //pin
+
+  pinMessage(message_id: number) {
     this.chatService.pinMessage(message_id).subscribe(
       (data: any) => {
         console.log(data);
+
+        if (data.message == "Pinned")
+          this.conversation.pinned_messages.push(data.data);
+        else if (data.message == "Unpinned")
+          this.conversation.pinned_messages = this.conversation.pinned_messages.filter((item: any) => item.id !== message_id);
+
       });
   }
+
+  checkPined(message_id: number): boolean {
+    return this.conversation.pinned_messages.some((item: any) => item.id === message_id);
+  }
+
+  dialogPin: boolean = false;
+  checkPinLength(message_id: number) {
+    if (this.conversation.pinned_messages.length > 2) {
+      this.dialogPin = true;
+    }
+    else {
+      this.pinMessage(message_id);
+    }
+  }
+
+  morePin: boolean = false;
+  morePinMessage() {
+    this.morePin = !this.morePin;
+  }
+
+  //pin
 
   searchMessage(): void {
     if (this.keywordSearch && !/^\s*$/.test(this.keywordSearch)) {
