@@ -273,6 +273,10 @@ class PostController extends Controller
         Log::info('post_ids: '.$post_ids);
         $shared_post_ids = PostShare::where('user_id', $request->user()->id)->pluck('post_id');
         Log::info('shared_post_ids: '.$shared_post_ids);
+        $friend_ids = $request->user()->friendsOf->concat($request->user()->friendsOfMine)->pluck('id');
+        $friend_post_ids = PostModel::whereIn('user_id', $friend_ids)->pluck('id');
+        Log::info('friend_post_ids: '.$friend_post_ids);
+        $followings_post_ids = PostModel::whereIn('user_id', $request->user()->followings->pluck('id'))->pluck('id');
         $reported_post_ids = Report::where('sender_id', $request->user()->id)->where('type', 'post')->pluck('post_id');
         Log::info('reported_post_ids: '.$reported_post_ids);
         // $post_ids + $shared_post_ids - $reported_post_ids
