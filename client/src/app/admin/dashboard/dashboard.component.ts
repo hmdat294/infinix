@@ -12,19 +12,76 @@ import { NavComponent } from '../nav/nav.component';
 })
 export class DashboardComponent implements OnInit {
 
-  listUser: any;
+  User_Growth: any;
+  Post_Growth: any;
+  totalUsers: any;
+  totalPost: any;
+  totalReport: any;
   constructor(private adminService: AdminService) { }
 
 
   ngOnInit(): void {
-    this.renderChart();
+    // this.renderChart();
+    
     this.renderDonutChart();
     this.renderRadialBarChart();
     this.renderLineChart1();
+    // this.adminService.getUserGrowthData().subscribe(data => {
+    //   this.User_Growth = data;  // Lưu trữ dữ liệu từ API
+    //   this.renderChart();    // Vẽ biểu đồ sau khi có dữ liệu
+    // }, error => {
+    //   console.error('Lỗi khi lấy dữ liệu:', error);
+    // });
+    
+    this.adminService.getTotalUser().subscribe(
+      (response) => {
+        this.totalUsers = response.total_users;
+        console.log(this.totalUsers);
+      },
+      (error) => {
+        console.error('Lỗi khi gọi API:', error);
+      }
+    );
+    this.adminService.getTotalPost().subscribe(
+      (response) => {
+        this.totalPost = response.total_posts;
+        console.log(this.totalPost);
+      },
+      (error) => {
+        console.error('Lỗi khi gọi API:', error);
+      }
+    );
+    this.adminService.getTotalReport().subscribe(
+      (response) => {
+        this.totalReport = response.data;
+        console.log(this.totalReport);
+      },
+      (error) => {
+        console.error('Lỗi khi gọi API:', error);
+      }
+    );
+    this.fetchDataAndRenderChart();
 
+  }
+  fetchDataAndRenderChart(): void {
+    this.adminService.getUserGrowthData().subscribe(userGrowthData => {
+      this.User_Growth = userGrowthData;
+
+      this.adminService.getPostGrowthData().subscribe(postGrowthData => {
+        this.Post_Growth = postGrowthData;
+        
+        // Sau khi có dữ liệu từ cả hai API, gọi hàm để vẽ biểu đồ
+        this.renderChart();
+      });
+    });
   }
 
   renderChart(): void {
+    const userTotals = this.User_Growth.map((item: any) => item.total);
+    const userDates = this.User_Growth.map((item: any) => item.date);
+
+    const postTotals = this.Post_Growth.map((item: any) => item.total);
+    const postDates = this.Post_Growth.map((item: any) => item.date);
     const chartOptions: ApexOptions = {
       chart: {
         foreColor: '#9ba7b2',
@@ -36,12 +93,12 @@ export class DashboardComponent implements OnInit {
       stroke: { width: 5, curve: 'smooth' },
       colors: ["#5283FF", '#F1C40F', '#FF4C92', "#17a00e"],
       series: [{
-        name: "Post",
-        data: [14, 100, 35, 25]  // Sử dụng userData từ API
+        name: "User",
+        data: userTotals  // Sử dụng userData từ API
       },
       {
-        name: "Content",
-        data: [14, 22, 35, 40]  // Sử dụng userData từ API
+        name: "Post",
+        data: postTotals  // Sử dụng userData từ API
       },
       {
         name: "Report",
@@ -50,7 +107,7 @@ export class DashboardComponent implements OnInit {
       ],
       xaxis: {
         type: 'datetime',
-        categories: ['1/11/2000', '2/11/2000', '3/11/2000', '4/11/2000', '5/11/2000', '6/11/2000'],
+        categories: userDates.length > postDates.length ? userDates : postDates,
       },
       title: {
         text: 'Growth statistics',

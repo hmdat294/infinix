@@ -88,10 +88,14 @@ class UserController extends Controller
 
     public function updateOnlineStatus(Request $request)
     {
-        $user = UserModel::find($request->user()->id);
-        $user->update(['online_status' => $request->online_status]);
+        // Log::info($request->json()->all());
+        
+        $data = $request->json()->all();
 
-        event(new UserConnectionEvent($user, $request->online_status));
+        $user = UserModel::find($data['user_id']);
+        $user->update(['online_status' => $data['online_status']]);
+
+        event(new UserConnectionEvent($user,  $data['online_status']));
 
         return new UserResource($user);
     }
