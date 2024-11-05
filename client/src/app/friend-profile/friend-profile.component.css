@@ -74,3 +74,34 @@ section>article {
     width: 100%;
     height: 100%;
 }
+
+.post-hover .post-menu {
+    display: none;
+}
+
+.post-hover:focus {
+    background-color: var(--subtle-secondary);
+}
+
+.post-hover:focus .post-menu {
+    display: block;
+}
+
+.textarea-post {
+    max-height: 110px;
+    overflow-y: scroll;
+}
+
+.textarea-post::-webkit-scrollbar {
+    width: 5px;
+}
+
+.textarea-post::-webkit-scrollbar-thumb {
+    background-color: #a6e7ff;
+    border-radius: 10px;
+}
+
+.textarea-post::-webkit-scrollbar-thumb:hover {
+    background-color: #005FB8E6;
+    cursor: pointer;
+}

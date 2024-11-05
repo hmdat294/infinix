@@ -1,12 +1,13 @@
 <div class="layout p-10 rounded-8 card-background-default border border-card-default" id="create-post-section">
     <div class="layout-horizontal gap-10 w-fill">
-        <img class="rounded-circle border border-card-default" src="{{currentUser?.profile.profile_photo}}" alt="" style="width: 35px; height: 35px;">
+        <img class="rounded-circle border border-card-default" src="{{currentUser?.profile.profile_photo}}" alt=""
+            style="width: 35px; height: 35px;">
         <!-- (submit)="post(value.value)" -->
         <form class="layout-vertical gap-10 w-fill" enctype="multipart/form-data" #value="ngForm"
             (submit)="post(value.value)">
-            <textarea class="control text-area-control w-fill overflow-scroll-vertical textarea-post"
+            <textarea class="textarea-post control text-area-control w-fill overflow-scroll-vertical textarea-post"
                 placeholder="placeholder" [(ngModel)]="content" name="content" ngModel id="post-input"
-                spellcheck="false" required style="max-height: 110px;" (input)="resizeTextarea($event)"></textarea>
+                spellcheck="false" required (input)="resizeTextarea($event)"></textarea>
 
             <div *ngIf="previewPostImages.length > 0" class="p-10 position-relative border rounded-6">
                 <div class="layout-wrap gap-10">
@@ -45,8 +46,8 @@
 
             <div class="layout-horizontal w-fill">
                 <div class="layout horizontal w-fill gap-10">
-                    <input class="display-none" type="file" [ngModel]="filePost" name="filePost" (change)="onFilePostSelected($event)"
-                        accept="image/*" id="post_media_input" multiple>
+                    <input class="display-none" type="file" [ngModel]="filePost" name="filePost"
+                        (change)="onFilePostSelected($event)" accept="image/*" id="post_media_input" multiple>
                     <label for="post_media_input"
                         class="layout align-center-center border-none subtle-transparent text-accent-default">
                         <i class="icon-size-20 icon icon-ic_fluent_image_20_regular"></i>
@@ -82,17 +83,129 @@
 <div *ngFor="let post of listPost"
     class="layout-vertical gap-20 pt-20 ps-20 pe-20 pb-10 card-background-default border border-card-default rounded-8">
 
+    <div *ngIf="post.shares_count>0" class="layout-horizontal gap-10 align-center-left text-primary">
+        <i class="icon-size-16 icon icon-ic_fluent_arrow_forward_16_filled"></i>
+        <p class="text-body-strong text-primary" *ngIf="post.shares_count == 1">
+            {{post.shared_by[0].profile.display_name}}
+            <span class="text-body text-secondary">đã chia sẻ bài đăng này</span>
+        </p>
+        <p class="text-body-strong text-primary" *ngIf="post.shares_count == 2">
+            {{post.shared_by[0].profile.display_name}}
+            <span class="text-body text-secondary">và</span>
+            {{post.shared_by[1].profile.display_name}}
+            <span class="text-body text-secondary">đã chia sẻ bài đăng này</span>
+        </p>
+        <p class="text-body-strong text-primary" *ngIf="post.shares_count > 2">
+            {{post.shared_by[0].profile.display_name}}
+            <span class="text-body text-secondary">và</span>
+            {{post.shared_by[1].profile.display_name}}
+            <span class="text-body text-secondary">cùng với</span>
+            {{post.shares_count - 2}}
+            <span class="text-body text-secondary">người khác đã chia sẻ bài đăng này</span>
+        </p>
+    </div>
+
     <div class="layout-horizontal gap-20">
         <a [routerLink]="['/friend-profile', post.profile.user_id]" class="layout-horizontal gap-20 w-fill">
-            <img class="rounded-circle border border-card-default" src="{{post.profile.profile_photo}}" alt="" style="width: 35px; height: 35px;">
+            <img class="rounded-circle border border-card-default object-fit-cover" src="{{post.profile.profile_photo}}"
+                alt="" style="width: 35px; height: 35px;">
             <div class="layout-vertical w-fill">
                 <p class="text-body-strong text-primary">{{post.profile.display_name}}</p>
                 <p class="text-body text-secondary">{{formatTime(post.created_at)}}</p>
             </div>
         </a>
-        <button type="button" class="button-subtle button-icon-only">
+        <button type="button" class="post-hover button-subtle button-icon-only position-relative">
             <i class="icon-size-24 icon icon-ic_fluent_more_horizontal_24_filled"></i>
+
+            <div style="height: 45px; overflow: visible; z-index: 1;" class="post-menu position-absolute end-100 top-0">
+                <div
+                    class="layout-vertical mx-15 gap-5 p-5 acrylic-background-default blur-acrylic border border-card-default rounded-8">
+                    <div class="list-item layout-horizontal gap-10 align-center-left"
+                        *ngIf="post?.profile.user_id == currentUser?.id">
+                        <i class="icon-size-20 accent-text-primary icon icon-ic_fluent_more_horizontal_20_regular"></i>
+                        <p class="text-body text-primary">Sửa</p>
+                    </div>
+                    <div class="list-item layout-horizontal gap-10 align-center-left"
+                        *ngIf="post?.profile.user_id == currentUser?.id">
+                        <i class="icon-size-20 accent-text-primary icon icon-ic_fluent_pin_20_regular"></i>
+                        <p class="text-body text-primary">Xóa</p>
+                    </div>
+                    <div class="list-item layout-horizontal gap-10 align-center-left"
+                        *ngIf="post?.profile.user_id != currentUser?.id" (click)="showDialogReport(post.id)">
+                        <i class="icon-size-20 accent-text-primary icon icon-ic_fluent_copy_20_regular"></i>
+                        <p class="text-body text-primary">Báo cáo</p>
+                    </div>
+                </div>
+            </div>
         </button>
+    </div>
+
+    <div class="position-fixed top-0 start-0 {{(diaLogReport == post.id) ? 'display-block' : 'display-none'}}"
+        style="width: 100%; height: 100vh; z-index: 30;">
+        <div class="position-fixed top-0 start-0"
+            style="width: 100%; height: 100vh; z-index: 20; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px);">
+            <div class="dialog-panel position-absolute top-50 start-50 translate-middle">
+
+                <form class="layout-vertical solid-background-senary border border-card-default rounded-8 h-hug"
+                    style="width: 400px;" (submit)="postReport(frm.value, post.id)" #frm="ngForm">
+                    <button type="button" class="button-subtle button-icon-only w-hug position-absolute"
+                        style="right: 20px; top: 20px; z-index: 1;" (click)="showDialogReport(0)">
+                        <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_filled"></i>
+                    </button>
+                    <div class="w-fill border-bottom border-card-default">
+                        <p class="text-subtitle text-primary text-center p-20">Báo cáo nội dung</p>
+                    </div>
+
+                    <div *ngIf="messageReport != ''" [innerHTML]="messageReport"></div>
+
+                    <div class="layout-vertial w-fill px-15" #checkboxesContainer>
+
+                        <label class="label-checkbox-control my-15">
+                            <input class="checkbox-control" type="checkbox" (change)="onCheckboxChange($event)"
+                                value="Ngôn từ đã kích">
+                            <span class="text-body text-primary">Ngôn từ đã kích</span>
+                        </label>
+
+                        <label class="label-checkbox-control my-15">
+                            <input class="checkbox-control" type="checkbox" (change)="onCheckboxChange($event)"
+                                value="Hình ảnh phản cảm">
+                            <span class="text-body text-primary">Hình ảnh phản cảm</span>
+                        </label>
+
+                        <label class="label-checkbox-control my-15">
+                            <input class="checkbox-control" type="checkbox" (change)="onCheckboxChange($event)"
+                                value="Đường dẫn không an toàn">
+                            <span class="text-body text-primary">Đường dẫn không an toàn</span>
+                        </label>
+
+                        <label class="label-checkbox-control my-15">
+                            <input class="checkbox-control" type="checkbox" (change)="onCheckboxChange($event)"
+                                value="Mang tính bạo lực, thù ghét">
+                            <span class="text-body text-primary">Mang tính bạo lực, thù ghét</span>
+                        </label>
+
+                        <label class="label-checkbox-control my-15">
+                            <input class="checkbox-control" type="checkbox" (change)="onCheckboxChange($event)"
+                                value="Lừa đảo, gian lận, mạo danh">
+                            <span class="text-body text-primary">Lừa đảo, gian lận, mạo danh</span>
+                        </label>
+
+                    </div>
+                    <div class="layout-vertial w-fill border-bottom border-card-default px-20 pb-15">
+                        <p class="text-body text-primary mb-5">Nội dung khác</p>
+                        <textarea class="control text-area-control w-fill" style="min-height: 110px;"
+                            name="contentReport" ngModel [(ngModel)]="contentReport" id=""
+                            spellcheck="false"></textarea>
+                    </div>
+                    <div class="w-fill">
+                        <div class="layout-horizontal p-10 align-center-right w-fill gap-20">
+                            <button type="submit" class="button-accent button-text-only">Gửi báo cáo</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
     </div>
 
     <div class="layout w-fill">
@@ -101,27 +214,33 @@
 
     <div class="layout w-fill h-fill" *ngIf="post.medias.length>0">
         <div class="w-fill h-fill {{(post.medias.length<6)?'layout-'+post.medias.length:'layout-6'}}">
-            <div class="w-fill h-fill  border border-card-default rounded-6 overflow-hidden"
-            *ngFor="let img of post.medias | slice:0:5; let i = index" (click)="toggleDialog(post.id, i)">
-            <img class="w-fill h-fill object-fit-cover object-position-center" [src]="getPathImg(img)" alt="Image">
+            <div [attr.data-content-media]="'+'+(post.medias.length-5)"
+                class="w-fill h-fill  border border-card-default rounded-6 overflow-hidden"
+                *ngFor="let img of post.medias | slice:0:5; let i = index" (click)="toggleDialog(post.id, i)">
+                <img class="w-fill h-fill object-fit-cover object-position-center" [src]="getPathImg(img)" alt="Image">
             </div>
         </div>
     </div>
 
     <div class="position-fixed top-0 start-0 {{(idDialog == post.id) ? 'display-block' : 'display-none'}}"
-        style="width: 100%; height: 100vh; z-index: 10; background-color: rgba(0, 0, 0, 0.3);">
-        <div class="dialog-panel position-fixed layout h-fill w-fill top-50 start-50 translate-middle in-tablet-overflow-scroll-vertical rounded-8" style="max-width: 80%; max-height: 550px;">
-            
-            <button type="button" class="button-subtle button-icon-only position-absolute" style="top: 20px; right: 20px; z-index: 1;" (click)="toggleDialog(0)">
+        style="width: 100%; height: 100vh; z-index: 30; background-color: rgba(0, 0, 0, 0.3);">
+        <div class="dialog-panel position-fixed layout h-fill w-hug top-50 start-50 translate-middle in-tablet-overflow-scroll-vertical rounded-8"
+            style="max-width: 80%; max-height: 550px;">
+
+            <button type="button" class="button-subtle button-icon-only position-absolute"
+                style="top: 20px; right: 20px; z-index: 1;" (click)="toggleDialog(0)">
                 <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
             </button>
 
-            <div class="solid-background-senary w-fill h-fill in-tablet-h-hug in-mobile-h-hug rounded-8 overflow-hidden layout-horizontal in-tablet-layout-vertical border border-card-default">
-                <div class="w-fill-column-8 h-fill in-tablet-w-fill in-mobile-w-fill" *ngIf="post.medias.length>0">
+            <div
+                class="solid-background-senary w-fill h-fill in-tablet-h-hug in-mobile-h-hug rounded-8 overflow-hidden layout-horizontal in-tablet-layout-vertical border border-card-default">
+                <div class="w-fill h-fill in-tablet-w-fill in-mobile-w-fill" style="min-width: 550px;"
+                    *ngIf="post.medias.length>0">
 
                     <div class="layout w-fill h-fill {{(post.medias.length>0) ? 'display-flex' : 'display-none'}}">
                         <div class="carousel w-fill h-fill rounded-4">
-                            <div class="carousel-indicators {{(post.medias.length>1) ? 'display-block' : 'display-none'}}" #indicatorsContainer>
+                            <div class="carousel-indicators {{(post.medias.length>1) ? 'display-block' : 'display-none'}}"
+                                #indicatorsContainer>
                                 <button type="button" class="border-none rounded-circle"
                                     *ngFor="let img of post.medias; let i = index">
                                 </button>
@@ -134,23 +253,26 @@
                             </div>
 
                             <button type="button"
-                                class="{{(post.medias.length>0) ? 'display-block' : 'display-none'}} carousel-button-previous p-5 rounded-circle" #prevButton>
+                                class="{{(post.medias.length>0) ? 'display-block' : 'display-none'}} carousel-button-previous p-5 rounded-circle"
+                                #prevButton>
                                 <i class="icon-size-20 icon icon-ic_fluent_chevron_left_20_filled"></i>
                             </button>
 
                             <button type="button"
-                                class="{{(post.medias.length>0) ? 'display-block' : 'display-none'}} carousel-button-next p-5 rounded-circle" #nextButton>
+                                class="{{(post.medias.length>0) ? 'display-block' : 'display-none'}} carousel-button-next p-5 rounded-circle"
+                                #nextButton>
                                 <i class="icon-size-20 icon icon-ic_fluent_chevron_right_20_filled"></i>
                             </button>
                         </div>
                     </div>
 
                 </div>
-                <div class="layout-vertical w-fill-column-4 in-tablet-w-fill h-fill border-left">
+                <div class="layout-vertical in-tablet-w-fill h-fill border-left" style="width: 500px;">
                     <div class="layout-vertical w-flll border-bottom border-card-default p-10">
                         <div class=" w-fill layout-horizontal align-center-space-between">
                             <div class="layout-horizontal gap-10">
-                                <img class="rounded-circle border border-card-default" src="{{post.profile.profile_photo}}" alt="" style="width: 40px; height: 40px;">
+                                <img class="rounded-circle border border-card-default object-fit-cover"
+                                    src="{{post.profile.profile_photo}}" alt="" style="width: 40px; height: 40px;">
                                 <div class="layout-vertical w-fill">
                                     <p class="text-body-strong text-primary">{{post.profile.display_name}}</p>
                                     <p class="text-caption text-secondary">{{formatTime(post.created_at)}}</p>
@@ -165,18 +287,22 @@
                         </div>
                         <div class="layout-horizontal w-fill py-5 border-top border-card-default">
                             <div class="layout-horizontal w-fill align-center-space-around">
-                                <button type="button" class="button-subtle button-icon-only align-center-center gap-5 layout-horizontal text-secondary"
+                                <button type="button"
+                                    class="button-subtle button-icon-only align-center-center gap-5 layout-horizontal text-secondary"
                                     (click)="likePost(post.id)">
                                     {{post.likes_count}}
                                     <i *ngIf="!post.liked"
                                         class="icon-size-20 icon icon-ic_fluent_heart_20_regular"></i>
-                                    <i *ngIf="post.liked" class="icon-size-20 icon icon-ic_fluent_heart_20_filled" style="color: #C42B1C;"></i>
+                                    <i *ngIf="post.liked" class="icon-size-20 icon icon-ic_fluent_heart_20_filled"
+                                        style="color: #C42B1C;"></i>
                                 </button>
-                                <button type="button" class="button-subtle button-icon-only align-center-center gap-5 layout-horizontal text-secondary">
+                                <button type="button"
+                                    class="button-subtle button-icon-only align-center-center gap-5 layout-horizontal text-secondary">
                                     {{post.comments_count}}
                                     <i class="icon-size-20 icon icon-ic_fluent_chat_empty_20_regular"></i>
                                 </button>
-                                <button type="button" class="button-subtle button-icon-only align-center-center gap-5 layout-horizontal text-secondary">
+                                <button type="button"
+                                    class="button-subtle button-icon-only align-center-center gap-5 layout-horizontal text-secondary">
                                     {{post.shares_count}}
                                     <i class="icon-size-20 icon icon-ic_fluent_share_20_regular"></i>
                                 </button>
@@ -189,7 +315,8 @@
 
                             <div *ngFor="let item of getCommentByPostId(post.id)"
                                 class="layout-horizontal w-fill h-hug p-10 gap-15">
-                                <img  class="rounded-circle border border-card-default" src="{{item.user.profile.profile_photo}}" alt="" style="width: 35px; height: 35px;">
+                                <img class="rounded-circle border border-card-default object-fit-cover"
+                                    src="{{item.user.profile.profile_photo}}" alt="" style="width: 35px; height: 35px;">
                                 <div class="layout-vertical w-fill gap-5">
                                     <p class="text-body-strong text-primary">{{item.user.profile.display_name}}</p>
                                     <div
@@ -214,7 +341,8 @@
                     </div>
                     <div class="layout w-fill border-top border-card-default">
                         <div class="layout-horizontal gap-10 p-10 w-fill">
-                            <img class="rounded-circle border border-card-default" src="{{currentUser?.profile.profile_photo}}" alt="" style="width: 35px; height: 35px;">
+                            <img class="rounded-circle border border-card-default object-fit-cover"
+                                src="{{currentUser?.profile.profile_photo}}" alt="" style="width: 35px; height: 35px;">
 
                             <form class="layout-vertical gap-10 w-fill" enctype="multipart/form-data" #frm="ngForm"
                                 (submit)="postComment(frm.value)">
@@ -242,8 +370,8 @@
 
                                 <div class="layout-horizontal w-fill">
                                     <div class="layout horizontal w-fill gap-10">
-                                        <input class="display-none" type="file" [ngModel]="fileComment" name="fileComment"
-                                            (change)="onFileCommentSelected($event)" accept="image/*"
+                                        <input class="display-none" type="file" [ngModel]="fileComment"
+                                            name="fileComment" (change)="onFileCommentSelected($event)" accept="image/*"
                                             id="comment_media_input">
                                         <label for="comment_media_input"
                                             class="layout align-center-center border-none subtle-transparent text-accent-default">
@@ -293,14 +421,16 @@
                 (click)="likePost(post.id)">
                 {{post.likes_count}}
                 <i *ngIf="!post.liked" class="icon-size-20 icon icon-ic_fluent_heart_20_regular"></i>
-                <i *ngIf="post.liked" class="icon-size-20 icon icon-ic_fluent_heart_20_filled" style="color: #C42B1C;"></i>
+                <i *ngIf="post.liked" class="icon-size-20 icon icon-ic_fluent_heart_20_filled"
+                    style="color: #C42B1C;"></i>
             </button>
             <button type="button" class="button-subtle button-text-with-icon text-secondary"
                 (click)="toggleDialog(post.id)">
                 {{post.comments_count}}
                 <i class="icon-size-20 icon icon-ic_fluent_chat_empty_20_regular"></i>
             </button>
-            <button type="button" class="button-subtle button-text-with-icon text-secondary">
+            <button (click)="showShare(post.id)" type="button"
+                class="button-subtle button-text-with-icon text-secondary">
                 {{post.shares_count}}
                 <i class="icon-size-20 icon icon-ic_fluent_share_20_regular"></i>
             </button>
@@ -309,7 +439,138 @@
             <i *ngIf="post.bookmarked" class="icon-size-20 icon icon-ic_fluent_bookmark_20_filled"></i>
             <i *ngIf="!post.bookmarked" class="icon-size-20 icon icon-ic_fluent_bookmark_20_regular"></i>
         </button>
-        
+    </div>
+
+    <div class="position-fixed top-0 start-0 {{(dialogShare == post.id) ? 'display-block' : 'display-none'}}"
+        style="width: 100%; height: 100vh; z-index: 30;">
+        <div class="position-fixed top-0 start-0"
+            style="width: 100%; height: 100vh; z-index: 20; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px);">
+            <div class="dialog-panel position-absolute top-50 start-50 translate-middle">
+
+                <div class="layout-vertical solid-background-senary border border-card-default rounded-8 h-hug"
+                    style="width: 600px;">
+                    <button type="button" class="button-subtle button-icon-only w-hug position-absolute"
+                        style="right: 20px; top: 20px; z-index: 1;" (click)="showShare(0)">
+                        <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_filled"></i>
+                    </button>
+                    <div class="w-fill border-bottom border-card-default">
+                        <p class="text-subtitle text-primary text-center p-20">Chia sẻ bài đăng</p>
+                    </div>
+
+                    <div *ngIf="shareSuccess != ''" [innerHTML]="shareSuccess"></div>
+
+                    <div class="layout-vertial w-fill border-bottom border-card-default">
+                        <div class="w-fill layout-horizontal py-10 px-20 gap-10">
+                            <p class="text-body-strong text-primary w-fill">Chia sẻ với bạn bè</p>
+                            <div class="control search-control">
+                                <input type="search" placeholder="placeholder" spellcheck="false">
+                                <button type="button" class="input-button clear-content-button">
+                                    <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
+                                </button>
+                                <button type="button" class="input-button search-button">
+                                    <i class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="layout w-fill">
+                            <button type="button"
+                                class="button-subtle button-icon-only position-absolute top-50 translate-middle-y"
+                                style="right: 25px; z-index: 1;">
+                                <i class="icon-size-16 icon icon-ic_fluent_chevron_right_16_filled"></i>
+                            </button>
+                            <button type="button"
+                                class="button-subtle button-icon-only position-absolute top-50 translate-middle-y"
+                                style="left: 25px; z-index: 1;">
+                                <i class="icon-size-16 icon icon-ic_fluent_chevron_left_16_filled"></i>
+                            </button>
+                            <div class="overflow-hidden" style="width: calc(100% - 135px); margin: auto;">
+                                <div class="w-fill gap-20 overflow-scroll-horizontal layout-horizontal">
+
+
+                                    <!-- for -->
+                                    <div *ngFor="let user of listUser" class="list-item"
+                                        style="width: 100px !important;">
+                                        <div class="layout-vertical align-center-center gap-10 flex-shrink-0" (click)="sharePostToMessage(post.id, user?.id, (user?.users[0].id == currentUser?.id) ?
+                                        user?.users[1].profile.display_name :
+                                        user?.users[0].profile.display_name)">
+                                            <img class="border border-card-default rounded-circle w-fill object-fit-cover"
+                                                [src]="
+                                            (user?.users[0].id == currentUser?.id) ? user?.users[1].profile.profile_photo :
+                                            user?.users[0].profile.profile_photo
+                                            " alt="" style="width: 70px !important; height: 70px !important;">
+                                            <p class="text-body-strong text-primary text-center">
+                                                {{(user?.users[0].id == currentUser?.id) ?
+                                                user?.users[1].profile.display_name :
+                                                user?.users[0].profile.display_name}}</p>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layout-vertial w-fill border-bottom border-card-default">
+                        <div class="w-fill layout-horizontal py-10 px-20 gap-10">
+                            <p class="text-body-strong text-primary w-fill">Chia sẻ với nhóm</p>
+                            <div class="control search-control">
+                                <input type="search" placeholder="placeholder" spellcheck="false">
+                                <button type="button" class="input-button clear-content-button">
+                                    <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
+                                </button>
+                                <button type="button" class="input-button search-button">
+                                    <i class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="layout w-fill">
+                            <button type="button"
+                                class="button-subtle button-icon-only position-absolute top-50 translate-middle-y"
+                                style="right: 25px; z-index: 1;">
+                                <i class="icon-size-16 icon icon-ic_fluent_chevron_right_16_filled"></i>
+                            </button>
+                            <button type="button"
+                                class="button-subtle button-icon-only position-absolute top-50 translate-middle-y"
+                                style="left: 25px; z-index: 1;">
+                                <i class="icon-size-16 icon icon-ic_fluent_chevron_left_16_filled"></i>
+                            </button>
+                            <div class="overflow-hidden" style="width: calc(100% - 135px); margin: auto;">
+                                <div class="w-fill gap-20 overflow-scroll-horizontal layout-horizontal">
+
+
+                                    <!-- for -->
+                                    <div *ngFor="let group of listGroup" class="list-item"
+                                        style="width: 100px !important;">
+                                        <div class="layout-vertical align-center-center gap-10 flex-shrink-0"
+                                            (click)="sharePostToMessage(post.id, group?.id, group?.name)">
+                                            <img class="border border-card-default rounded-circle w-fill object-fit-cover"
+                                                [src]="group?.image" alt=""
+                                                style="width: 70px !important; height: 70px !important;">
+                                            <p class="text-body-strong text-primary text-center">{{group?.name}}</p>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-fill">
+                        <div class="layout-horizontal py-10 px-20 align-center-right w-fill gap-20">
+                            <button type="button" (click)="copyUrl(post.id)"
+                                class="button-standard button-text-only">Sao chép đường dẫn</button>
+                            <button type="button" (click)="sharePostToMyPage(post.id)"
+                                class="{{(post.shared) ? 'button-standard' : 'button-accent'}} button-text-only">
+                                {{(post.shared) ? 'Hủy chia sẻ' : 'Chia sẻ về trang cá nhân'}}
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
 
 </div>

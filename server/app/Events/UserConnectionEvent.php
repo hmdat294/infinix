@@ -40,7 +40,7 @@ class UserConnectionEvent implements ShouldBroadcast
         }
         return $channel_array;
     }
-    
+
     public function broadcastWith()
     {
         return [
