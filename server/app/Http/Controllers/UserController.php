@@ -11,6 +11,7 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use App\Events\UserConnectionEvent;
 use App\Http\Resources\PostResource;
 use Illuminate\Support\Facades\Log;
+use App\Http\Resources\ReportResource;
 
 class UserController extends Controller
 {
@@ -148,5 +149,17 @@ class UserController extends Controller
             $request->user()->blockings()->attach($user);
         }
         return new UserResource($user);
+    }
+
+    public function blockedUsers(Request $request)
+    {
+        $user = UserModel::find($request->user()->id);
+        return UserResource::collection($user->blockings);
+    }
+
+    public function reported(Request $request, $user_id)
+    {
+        $user = UserModel::find($request->user()->id);
+        return ReportResource::collection($user->reportings);
     }
 }
