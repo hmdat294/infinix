@@ -63,10 +63,91 @@
             <i class="icon-size-16 text-accent-default icon icon-ic_fluent_dismiss_16_filled"></i>
         </button>
     </div>
-    <div class="h-fill w-fill overflow-scroll-vertical gap-20 layout-vertical solid-background-tertiary">
+    <div class="h-fill w-fill overflow-scroll-vertical gap-20 layout-vertical solid-background-tertiary position-relative">
 
 
+        <div class="border_bottom w-fill position-absolute card-background-tertiary" style="top: 0px; z-index: 5;"
+            *ngIf="morePin && chat.pinned_messages.length > 0">
+            <div *ngFor="let msg_pin of chat.pinned_messages"
+                class="layout-horizontal align-center-space-between gap-10 px-10 py-5 border-bottom">
+                <button class="button-subtle text-left w-fill px-10 py-5" (click)="scrollToElement(msg_pin.id)">
+                    <!-- <i class="icon-size-24 icon icon-ic_fluent_pin_24_filled"></i> -->
+                    <p class="layout-vertical">
+                        <span class="text-body-strong text-primary">Tin nhắn</span>
+                        <span class="text-body text-secondary">{{msg_pin.content}}</span>
+                    </p>
+                </button>
+                <button type="button" class="button-subtle button-icon-only me-10" (click)="pinMessage(msg_pin.id)">
+                    <i class="icon-size-16 icon icon-ic_fluent_pin_off_16_regular"></i>
+                </button>
+            </div>
+            <div class="px-20 py-10">
+                <button class="button-standard button-text-only w-fill" (click)="morePinMessage()">Thu
+                    gọn</button>
+            </div>
+        </div>
 
+        <div class="border_bottom w-fill position-absolute card-background-tertiary" style="top: 0px; z-index: 5;"
+            *ngIf="!morePin && chat.pinned_messages.length > 0">
+            <div class="layout-horizontal align-center-space-between gap-10 px-10 py-5 border-bottom">
+                <div class="layout-horizontal align-center-left gap-15 text-left w-fill px-10 py-5 text-primary">
+                    <i class="icon-size-20 icon icon-ic_fluent_pin_20_regular"></i>
+                    <p class="layout-vertical">
+                        <span class="text-body-strong text-primary">Tin nhắn</span>
+                        <span class="text-body text-secondary">
+                            {{chat.pinned_messages[chat.pinned_messages.length-1].content}}
+                        </span>
+                    </p>
+                </div>
+                <button type="button" class="button-standard button-text-with-icon me-10" (click)="morePinMessage()">
+                    Xem thêm
+                    <i class="icon-size-20 icon icon-ic_fluent_chat_20_regular"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="position-fixed top-0 start-0" *ngIf="dialogPin" style="width: 100%; height: 100vh; z-index: 20;">
+            <div class="position-absolute top-0 start-0"
+                style="width: 100%; height: 100vh; z-index: 1; background-color: rgba(0, 0, 0, 0.2);"
+                (click)="dialogPin = false">
+            </div>
+            <div class="dialog-panel position-absolute top-50 start-50 translate-middle" style="z-index: 2;">
+                <div class="layout-vertical p-10 rounded-8 acrylic-background-default blur-acrylic border border-card-default"
+                    style="width: 500px;">
+
+
+                    <button type="button" class="button-subtle button-icon-only w-hug position-absolute"
+                        style="right: 20px; top: 20px; z-index: 1;" (click)="dialogPin = false">
+                        <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_filled"></i>
+                    </button>
+                    <div class="w-fill border-bottom border-card-default">
+                        <p class="text-subtitle text-primary text-center pb-20 pt-10">Cập nhật danh sách gim</p>
+                    </div>
+
+                    <p class="text-body text-secondary p-10">
+                        Đã đạt giới hạn 3 gim, gỡ gim cũ để thêm mới!
+                    </p>
+
+                    <div class="layout-vertial border rounded-6 mx-10" style="width: calc(100% - 20px);">
+                        <div *ngFor="let msg_pin of chat.pinned_messages"
+                            class="layout-horizontal align-center-space-between gap-10 p-5 border-bottom">
+                            <button class="button-subtle text-left w-fill px-10 py-5"
+                                (click)="scrollToElement(msg_pin.id)">
+                                <!-- <i class="icon-size-24 icon icon-ic_fluent_pin_24_filled"></i> -->
+                                <p class="layout-vertical">
+                                    <span class="text-body-strong text-primary">Tin nhắn</span>
+                                    <span class="text-body text-secondary">{{msg_pin.content}}</span>
+                                </p>
+                            </button>
+                            <button type="button" class="button-subtle button-icon-only me-10"
+                                (click)="pinMessage(msg_pin.id)">
+                                <i class="icon-size-16 icon icon-ic_fluent_pin_off_16_regular"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
         <div #scrollBox class="h-fill w-fill box-chat gap-20 layout-vertical" style="padding-bottom: 100px;">
@@ -261,11 +342,20 @@
                                             <i
                                                 class="icon-size-20 accent-text-primary icon icon-ic_fluent_more_horizontal_20_regular"></i>
                                         </div>
-                                        <div class="list-item layout-horizontal gap-10 align-center-left">
-                                            <i 
+                                        <div *ngIf="!checkPined(msg.id)"
+                                            class="list-item layout-horizontal gap-10 align-center-left"
+                                            (click)="checkPinLength(msg.id)">
+                                            <i
                                                 class="icon-size-20 accent-text-primary icon icon-ic_fluent_pin_20_regular"></i>
                                         </div>
-                                        <div class="list-item layout-horizontal gap-10 align-center-left">
+                                        <div *ngIf="checkPined(msg.id)"
+                                            class="list-item layout-horizontal gap-10 align-center-left"
+                                            (click)="pinMessage(msg.id)">
+                                            <i
+                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_pin_off_20_regular"></i>
+                                        </div>
+                                        <div class="list-item layout-horizontal gap-10 align-center-left"
+                                            (click)="copyMessage(msg.content)">
                                             <i
                                                 class="icon-size-20 accent-text-primary icon icon-ic_fluent_copy_20_regular"></i>
                                         </div>
@@ -287,9 +377,8 @@
 
                                     </div>
                                 </div>
-
                                 <div>
-                                    <div style="max-width: 160px;">
+                                    <div style="max-width: 350px;">
                                         <div *ngIf="msg.reply_to_message_id">
                                             <div *ngIf="getReply(msg.reply_to_message_id).is_recalled == 0"
                                                 style="border-right: 3px solid var(--accent-default);">
@@ -348,8 +437,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
 
+
+                                </div>
                             </div>
 
 
@@ -454,11 +544,20 @@
                                             <i
                                                 class="icon-size-20 accent-text-primary icon icon-ic_fluent_more_horizontal_20_regular"></i>
                                         </div>
-                                        <div class="list-item layout-horizontal gap-10 align-center-left">
-                                            <i 
+                                        <div *ngIf="!checkPined(msg.id)"
+                                            class="list-item layout-horizontal gap-10 align-center-left"
+                                            (click)="checkPinLength(msg.id)">
+                                            <i
                                                 class="icon-size-20 accent-text-primary icon icon-ic_fluent_pin_20_regular"></i>
                                         </div>
-                                        <div class="list-item layout-horizontal gap-10 align-center-left">
+                                        <div *ngIf="checkPined(msg.id)"
+                                            class="list-item layout-horizontal gap-10 align-center-left"
+                                            (click)="pinMessage(msg.id)">
+                                            <i
+                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_pin_off_20_regular"></i>
+                                        </div>
+                                        <div class="list-item layout-horizontal gap-10 align-center-left"
+                                            (click)="copyMessage(msg.content)">
                                             <i
                                                 class="icon-size-20 accent-text-primary icon icon-ic_fluent_copy_20_regular"></i>
                                         </div>

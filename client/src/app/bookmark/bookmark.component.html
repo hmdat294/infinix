@@ -13,12 +13,12 @@
                     <div *ngIf="post.post_type == 'with_media'"
                         class="rounded-6 border border-card-default overflow-hidden layout w-fill-column-3"
                         style="height: 150px !important;">
-                        <img [src]="post.medias[0].path" alt=""
-                            class="w-fill h-fill object-fit-cover">
+                        <img [src]="post.medias[0].path" alt="" class="w-fill h-fill object-fit-cover">
                     </div>
 
                     <div class="layout-vertical w-fill gap-20">
-                        <a [routerLink]="['/friend-profile', post.profile.user_id]" class="layout-horizontal w-fill align-center-left gap-5">
+                        <a [routerLink]="['/friend-profile', post.profile.user_id]"
+                            class="layout-horizontal w-fill align-center-left gap-5">
                             <img [src]="post.profile.profile_photo" alt=""
                                 class="border border-card-default rounded-circle" style="width: 35px; height: 35px;">
                             <p class="text-body-strong text-primary">{{post.profile.display_name}}</p>
@@ -27,19 +27,25 @@
                             {{post.content}}
                         </div>
                         <div class="layout-horizontal gap-10">
-                            <a [routerLink]="['/friend-profile', post.profile.user_id, post.id]" class="button-accent button-text-only">Xem chi tiết</a>
+                            <a [routerLink]="['/friend-profile', post.profile.user_id, post.id]"
+                                class="button-accent button-text-only">Xem chi tiết</a>
 
                             <button type="button" class="button-standard button-icon-only">
                                 <i class="icon-size-16 icon icon-ic_fluent_share_android_16_filled"></i>
                             </button>
 
-                            <button (click)="bookmarkPost(post.id)" type="button" class="button-standard button-icon-only">
+                            <button (click)="bookmarkPost(post.id)" type="button"
+                                class="button-standard button-icon-only">
                                 <i class="icon-size-16 icon icon-ic_fluent_bookmark_off_20_filled"></i>
                             </button>
                         </div>
                     </div>
                 </div>
 
+                <div *ngIf="listPost.length == 0"
+                    class="w-fill py-20 card-background-default border border-card-default rounded-8">
+                    <p class="text-body text-secondary text-center">Không có bài viết nào được lưu</p>
+                </div>
 
             </div>
         </div>

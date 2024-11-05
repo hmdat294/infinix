@@ -35,6 +35,13 @@ export class AppComponent implements OnInit {
       if (event instanceof NavigationEnd) {
         this.authService.token$.subscribe(auth_token => {
           this.isLoggedIn = !!auth_token;
+
+          if (this.isLoggedIn) {
+            this.authService.getUser(0).subscribe(
+              (response) => {
+                this.user = response.data;
+              });
+          }
         });
       }
     });
@@ -46,10 +53,6 @@ export class AppComponent implements OnInit {
         this.isAdmin = !!(event.urlAfterRedirects.split('/')[1] == 'admin')
     );
 
-    this.authService.getUser(0).subscribe(
-      (response) => {
-        this.user = response.data;
-      });
   }
 
   @HostListener('window:mousemove')
@@ -64,8 +67,10 @@ export class AppComponent implements OnInit {
 
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: any) {
-    navigator.sendBeacon('http://localhost:8000/api/update-online-status',
-      JSON.stringify({ 'user_id': this.user?.id, online_status: 'offline' }));
+    if (this.isLoggedIn) {
+      navigator.sendBeacon('http://localhost:8000/api/update-online-status',
+        JSON.stringify({ 'user_id': this.user?.id, online_status: 'offline' }));
+    }
   }
 
 }

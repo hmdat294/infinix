@@ -46,10 +46,10 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
 
-    this.postService.getPost().subscribe(
+    this.postService.getPostMix().subscribe(
       (data) => {
         this.listPost = data.data;
-        // console.log(this.listPost);
+        console.log(this.listPost);
 
         this.eventService.bindEvent('App\\Events\\UserPostEvent', (data: any) => {
           console.log('Post event:', data);
@@ -325,6 +325,8 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
     else this.valueReport = this.valueReport.filter(value => value !== checkboxValue);
   }
 
+  listIdPostReport: number[] = [];
+
   postReport(value: any, post_id: number): any {
 
     const valueReport = this.valueReport.join(', ');
@@ -340,6 +342,9 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
     this.postService.postReport({ content, post_id }).subscribe(
       (response: any) => {
         console.log(response);
+
+        this.listIdPostReport.push(response.data.post_id);
+
         this.messageReport =
           `<p class="validation-message validation-sucess text-body text-primary pt-15 px-20">
               <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
@@ -348,6 +353,15 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
         setTimeout(() => this.showDialogReport(0), 3000);
       })
 
+  }
+
+  cancelReport(post_id: number) {
+    this.postService.cancelReport(post_id).subscribe(
+      (response: any) => {
+        console.log(response);
+        this.listIdPostReport = this.listIdPostReport.filter((id: number) => id !== post_id);
+      }
+    )
   }
 
   //report

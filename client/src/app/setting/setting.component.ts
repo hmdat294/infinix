@@ -13,7 +13,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 export class SettingComponent implements OnInit {
 
   user: any;
-  tabSetting: string = 'account-settings';
+  tabSetting: string = 'general-settings';
   tabAccordion: string = '';
 
   theme: string = '';

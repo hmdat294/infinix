@@ -54,7 +54,7 @@
         </div>
         <div class="w-fill-column-6 h-fill my-20">
 
-            <div class="w-fill h-fill" *ngIf="tabSetting == 'general-settings'">
+            <div class="w-fill h-fill mb-20" *ngIf="tabSetting == 'general-settings'">
                 <div class="w-fill h-fill layout-vertical gap-20 overflow-scroll-vertical">
 
 
@@ -75,7 +75,7 @@
                             <p class="text-primary text-caption">{{biography || user?.profile.biography}}</p>
                         </div>
                     </div>
-                    <div class="layout-vertical w-fill gap-20">
+                    <div class="layout-vertical w-fill gap-20 mb-20">
 
                         <div class="layout-vertical w-fill gap-5">
                             <p class="text-body-strong text-primary">Thông tin người dùng</p>
@@ -253,6 +253,137 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="layout-vertical w-fill gap-5">
+                            <p class="text-body-strong text-primary">Chặn và báo cáo</p>
+
+                            <div class="accordion active border border-card-default card-background-default rounded-4">
+                                <div class="accordion-item">
+                                    <div class="accordion-header layout-horizontal gap-15 p-15 align-center-center"
+                                        (click)="tabChild('user_block')">
+                                        <i
+                                            class="icon-size-20 icon text-primary icon-ic_fluent_person_lock_20_regular"></i>
+                                        <div class="layout-vertical w-fill">
+                                            <p class="text-body text-primary">Danh sách chặn</p>
+                                            <p class="text-caption text-secondary">Danh sách các tài khoản đã chặn</p>
+                                        </div>
+                                        <button type="button" class="button-subtle button-icon-only">
+                                            <i
+                                                class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
+                                        </button>
+                                    </div>
+
+                                    <!-- danh sách tài khoản bị chặn -->
+                                    <div class="accordion-panel open layout-vertical" style="max-height: fit-content;"
+                                        *ngIf="tabAccordion == 'user_block'">
+
+                                        <!-- for -->
+                                        <div class="p-15 layout-horizontal align-center-space-between">
+                                            <div class="layout-horizontal align-center-center gap-15 w-fill">
+                                                <div style="width: 35px; height: 35px;">
+                                                    <img class="rounded-circle border border-card-default object-fit-cover"
+                                                        src="assets/image/avatar.png" alt=""
+                                                        style="width: 35px; height: 35px;">
+                                                </div>
+                                                <p class="text-secondary text-body-strong w-fill">Châu Thành Cường</p>
+                                                <button type="button" class="button-standard button-text-with-icon">
+                                                    Hủy
+                                                    <i
+                                                        class="icon-size-16 icon icon-ic_fluent_person_key_20_regular"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <!-- for -->
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion active border border-card-default card-background-default rounded-4">
+                                <div class="accordion-item">
+                                    <div class="accordion-header layout-horizontal gap-15 p-15 align-center-center"
+                                        (click)="tabChild((tabAccordion == 'user_report')?'user_report':'post_report')">
+                                        <i
+                                            class="icon-size-20 icon text-primary icon-ic_fluent_chat_warning_20_regular"></i>
+                                        <div class="layout-vertical w-fill">
+                                            <p class="text-body text-primary">Danh sách báo cáo</p>
+                                            <p class="text-caption text-secondary">Danh sách các tài khoản và bài viết
+                                                đã báo cáo</p>
+                                        </div>
+                                        <button type="button" class="button-subtle button-icon-only">
+                                            <i
+                                                class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
+                                        </button>
+                                    </div>
+
+                                    <div class="accordion-panel open layout-vertical" style="max-height: fit-content;"
+                                        *ngIf="tabAccordion == 'post_report' || tabAccordion == 'user_report'">
+
+                                        <div class="p-15 layout-horizontal align-center-space-between gap-15">
+                                            <button type="button" class="button-standard button-text-with-icon w-fill"
+                                                [disabled]="tabAccordion == 'post_report'"
+                                                (click)="tabChild('post_report')">
+                                                Post
+                                            </button>
+                                            <button type="button" class="button-standard button-text-with-icon w-fill"
+                                                [disabled]="tabAccordion == 'user_report'"
+                                                (click)="tabChild('user_report')">
+                                                User
+                                            </button>
+                                        </div>
+
+                                    </div>
+
+                                    <!-- danh sách báo cáo bài viết -->
+                                    <div class="accordion-panel open layout-vertical" style="max-height: fit-content;"
+                                        *ngIf="tabAccordion == 'post_report'">
+
+                                        <!-- for -->
+                                        <div class="p-15 layout-horizontal align-center-space-between">
+                                            <div class="layout-horizontal align-center-center gap-15 w-fill">
+                                                <div class="w-fill">
+                                                    <p class="text-secondary text-body-strong">Châu Thành Cường</p>
+                                                    <p class="text-secondary text-body">Lorem ipsum dolor sit amet...
+                                                    </p>
+                                                </div>
+                                                <button type="button" class="button-standard button-text-with-icon">
+                                                    Xem
+                                                    <i
+                                                        class="icon-size-16 icon icon-ic_fluent_eye_tracking_16_regular"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <!-- for -->
+
+                                    </div>
+
+                                    <!-- danh sách báo cáo user -->
+                                    <div class="accordion-panel open layout-vertical" style="max-height: fit-content;"
+                                        *ngIf="tabAccordion == 'user_report'">
+
+                                        <!-- for -->
+                                        <div class="p-15 layout-horizontal align-center-space-between">
+                                            <div class="layout-horizontal align-center-center gap-15 w-fill">
+                                                <div style="width: 35px; height: 35px;">
+                                                    <img class="rounded-circle border border-card-default object-fit-cover"
+                                                        src="assets/image/avatar.png" alt=""
+                                                        style="width: 35px; height: 35px;">
+                                                </div>
+                                                <p class="text-secondary text-body-strong w-fill">Châu Thành Cường</p>
+                                                <button type="button" class="button-standard button-text-with-icon">
+                                                    Xem
+                                                    <i
+                                                        class="icon-size-16 icon icon-ic_fluent_eye_tracking_16_regular"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <!-- for -->
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -260,7 +391,7 @@
             <div class="w-fill h-fill" *ngIf="tabSetting == 'account-settings'">
                 <div class="w-fill h-fill layout-vertical gap-20 overflow-scroll-vertical">
 
-                    <div class="layout-vertical w-fill gap-20">
+                    <div class="layout-vertical w-fill gap-20 mb-20">
 
                         <div class="layout-vertical w-fill gap-5">
                             <p class="text-body-strong text-primary">Thông tin tài khoản</p>
@@ -378,7 +509,8 @@
                                     <div
                                         class="accordion-header layout-horizontal gap-25 p-15 align-center-space-between">
                                         <div class="layout-horizontal gap-15 align-center-center">
-                                            <i class="icon-size-20 icon text-primary icon-ic_fluent_mail_20_regular"></i>
+                                            <i
+                                                class="icon-size-20 icon text-primary icon-ic_fluent_mail_20_regular"></i>
                                             <div class="layout-vertical">
                                                 <p class="text-body text-primary">Email</p>
                                                 <p class="text-caption text-secondary">{{email ||
@@ -412,7 +544,8 @@
                                                 <div *ngIf="error2 != ''" [innerHTML]="error2"></div>
 
                                                 <button class="button-standard button-text-only"
-                                                    (click)="postCode(email || user?.email, code.value)">Xác nhận</button>
+                                                    (click)="postCode(email || user?.email, code.value)">Xác
+                                                    nhận</button>
                                             </div>
                                         </div>
                                         <div *ngIf="changeMail"
@@ -496,7 +629,7 @@
             <div class="w-fill h-fill" *ngIf="tabSetting == 'appearance-settings'">
                 <div class="w-fill h-fill layout-vertical gap-20 overflow-scroll-vertical">
 
-                    <div class="layout-vertical w-fill gap-20">
+                    <div class="layout-vertical w-fill gap-20 mb-20">
 
                         <div class="layout-vertical w-fill gap-5">
                             <p class="text-body-strong text-primary">Hiển thị</p>
@@ -609,31 +742,4 @@
             </div>
         </div>
     </article>
-    <!-- <script>
-        const tabs = document.querySelectorAll('[data-tab]');
-        const panels = document.querySelectorAll('[id]');
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                const target = tab.getAttribute('data-tab');
-                panels.forEach(panel => {
-                    if (panel.id === target) {
-                        panel.style.display = 'flex';
-                    } else {
-                        panel.style.display = 'none';
-                    }
-                });
-                tabs.forEach(tab => {
-                    tab.classList.remove('active');
-                });
-                tab.classList.add('active');
-            });
-        });
-
-        function selectTheme(radio, theme) {
-            if (radio.checked) {
-                document.documentElement.setAttribute('data-theme', theme);
-            }
-        }
-    </script> -->
-    <!-- End Article -->
 </section>

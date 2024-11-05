@@ -18,6 +18,11 @@ export class PostService {
     return this.http.get(`${this.apiUrl}/post/${(id > 0) ? id : ''}`, { headers });
   }
 
+  getPostMix(): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.get(`${this.apiUrl}/get-posts`, { headers });
+  }
+
   getPostByUser(id: number): Observable<any> {
     const headers = this.authService.getToken();
     return this.http.get(`${this.apiUrl}/user/${id}/posts`, { headers });
@@ -77,5 +82,10 @@ export class PostService {
   postReport(value: any): Observable<any> {
     const headers = this.authService.getToken();
     return this.http.post(`${this.apiUrl}/report`, value, { headers });
+  }
+
+  cancelReport(post_id: any): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.delete(`${this.apiUrl}/report/${post_id}`, { headers });
   }
 }
