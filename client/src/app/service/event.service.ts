@@ -15,6 +15,7 @@ export class EventService implements OnDestroy {
   private channel_post: any;
   private post_id: number = 0;
   private hasEntered: boolean = false;
+  user: any;
   isLoggedIn: boolean = false;
 
   constructor(
@@ -35,16 +36,20 @@ export class EventService implements OnDestroy {
         }
 
         this.authService.getUser(0).subscribe(
-          (response) => this.channel = this.pusher.subscribe(`user.${response.data.id}`));
+          (response) => {
+            this.channel = this.pusher.subscribe(`user.${response.data.id}`);
+            this.user = response.data;
+       
+            this.resetIdleTimer();
+    
+            if (!this.hasEntered) {
+              this.onUserEnter();
+              this.hasEntered = true;
+            }
+          });
 
         this.setPusherComment();
 
-        this.resetIdleTimer();
-
-        if (!this.hasEntered) {
-          this.onUserEnter();
-          this.hasEntered = true;
-        }
       }
     });
 
@@ -89,13 +94,14 @@ export class EventService implements OnDestroy {
 
   updateOnlineStatus(status: string): Observable<any> {
     const headers = this.authService.getToken();
-    return this.http.post(`${this.apiUrl}/update-online-status`, { 'online_status': status }, { headers });
+    return this.http.post(`${this.apiUrl}/update-online-status`, 
+      JSON.stringify({ 'user_id': this.user?.id, 'online_status': status }), { headers });
   }
 
 
   private idleTimeout: any;
   private idleTimeLimit = 10 * 1000; // 10 giây
-  private isIdle = false; // Trạng thái hiện tại của người dùng
+  private isIdle = false;
   private idleState = new Subject<boolean>();
 
   idleState$ = this.idleState.asObservable();
@@ -108,10 +114,9 @@ export class EventService implements OnDestroy {
     clearTimeout(this.idleTimeout);
 
     if (this.isIdle && this.isLoggedIn) {
-      this.isIdle = false; // Chuyển trạng thái sang hoạt động
-      this.idleState.next(false); // Phát trạng thái hoạt động
+      this.isIdle = false;
+      this.idleState.next(false);
       // console.log('Người dùng đã hoạt động trở lại!');
-
       this.updateOnlineStatus('online').subscribe(
         (response) => {
           // console.log(response);
@@ -126,7 +131,6 @@ export class EventService implements OnDestroy {
 
   private onUserEnter() {
     // console.log("Người dùng đã truy cập vào trang lần đầu.");
-    // Thực hiện các hành động khác nếu cần
     this.updateOnlineStatus('online').subscribe(
       (response) => {
         // console.log(response);
@@ -135,8 +139,8 @@ export class EventService implements OnDestroy {
   }
 
   private onIdleTimeout() {
-    this.isIdle = true; // Chuyển trạng thái sang treo máy
-    this.idleState.next(true); // Phát trạng thái treo máy
+    this.isIdle = true;
+    this.idleState.next(true);
     // console.log('Người dùng đã treo máy!');
     if (this.isLoggedIn) {
       this.updateOnlineStatus('idle').subscribe(

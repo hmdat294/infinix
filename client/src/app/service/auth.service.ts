@@ -80,13 +80,13 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/register`, value);
   }
 
-  verifyEmail(id: string, hash: string): Observable<any> {
-    const authToken = localStorage.getItem('auth_token_register') || '';
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${authToken}`
-    });
-    return this.http.get(`${this.apiUrl}/email/verify/${id}/${hash}`, { headers });
-  }
+  // verifyEmail(id: string, hash: string): Observable<any> {
+  //   const authToken = localStorage.getItem('auth_token_register') || '';
+  //   const headers = new HttpHeaders({
+  //     'Authorization': `Bearer ${authToken}`
+  //   });
+  //   return this.http.get(`${this.apiUrl}/email/verify/${id}/${hash}`, { headers });
+  // }
 
   logout(): Observable<any> {
     const headers = this.getToken();

@@ -42,6 +42,8 @@ Route::middleware(['guest'])->group(function () {
 
     Route::post('set-new-password', [AuthController::class, 'setNewPassword'])->name('set-new-password');
 
+    Route::post('update-online-status', [UserController::class, 'updateOnlineStatus'])->name('update-online-status');
+
 });
 
 Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(function () {
@@ -49,8 +51,6 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
     Route::post('block-user/{user_id}', [UserController::class, 'block'])->name('block-user');
 
     Route::post('pin-message/{message_id}', [PinMessageController::class, 'store'])->name('pin-message');
-
-    Route::post('update-online-status', [UserController::class, 'updateOnlineStatus'])->name('update-online-status');
 
     Route::post('disable-notification', [DisabledNotificationController::class, 'store'])->name('disable-notification');
 
