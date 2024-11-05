@@ -13,6 +13,8 @@ use Illuminate\Http\JsonResponse;
 use App\Events\UserPostEvent;
 use App\Models\DisabledNotification as DisabledNotificationModel;
 use App\Models\Notification;
+use App\Models\PostShare;
+use App\Models\Report;
 
 class PostController extends Controller
 {
@@ -259,5 +261,27 @@ class PostController extends Controller
                 'content' => $user->profile->display_name . ' đã đăng một bài viết mới',
             ]);
         }
+    }
+
+    public function getPost(Request $request)
+    {
+        // $posts = PostModel::where('user_id', $request->user()->id);
+        // $shared_posts = PostModel::whereIn('id', PostShare::where('user_id', $request->user()->id)->pluck('post_id'));
+        // $reported_posts = PostModel::whereIn('id', Report::where('user_id', $request->user()->id)->where('type', 'post')->pluck('post_id'));
+
+        $post_ids = PostModel::where('user_id', $request->user()->id)->pluck('id');
+        Log::info('post_ids: '.$post_ids);
+        $shared_post_ids = PostShare::where('user_id', $request->user()->id)->pluck('post_id');
+        Log::info('shared_post_ids: '.$shared_post_ids);
+        $friend_ids = $request->user()->friendsOf->concat($request->user()->friendsOfMine)->pluck('id');
+        $friend_post_ids = PostModel::whereIn('user_id', $friend_ids)->pluck('id');
+        Log::info('friend_post_ids: '.$friend_post_ids);
+        $followings_post_ids = PostModel::whereIn('user_id', $request->user()->followings->pluck('id'))->pluck('id');
+        $reported_post_ids = Report::where('sender_id', $request->user()->id)->where('type', 'post')->pluck('post_id');
+        Log::info('reported_post_ids: '.$reported_post_ids);
+        // $post_ids + $shared_post_ids - $reported_post_ids
+        $posts = PostModel::whereIn('id', $post_ids)->orWhereIn('id', $shared_post_ids)->whereNotIn('id', $reported_post_ids)->orderBy('created_at', 'desc')->get();
+        Log::info('posts: '.$posts);
+        return PostResource::collection($posts);
     }
 }

@@ -48,6 +48,10 @@ Route::middleware(['guest'])->group(function () {
 
 Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(function () {
 
+    Route::get('user/blocked-users', [UserController::class, 'blockedUsers']);
+    Route::get('user/reported-content', [UserController::class, 'reported']);
+    Route::get('get-posts', [PostController::class, 'getPost']);
+
     Route::post('block-user/{user_id}', [UserController::class, 'block'])->name('block-user');
 
     Route::post('pin-message/{message_id}', [PinMessageController::class, 'store'])->name('pin-message');
