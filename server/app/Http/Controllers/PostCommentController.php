@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NotificationEvent;
 use App\Http\Resources\CommentResource;
 use App\Events\UserCommentPostEvent;
 use Illuminate\Http\Request;
@@ -70,7 +71,7 @@ class PostCommentController extends Controller
         $comment = CommentModel::create($comment_data);
         $post = PostModel::find($request->post_id);
         event(new UserCommentPostEvent($comment->user_id, $comment->post_id, $comment->id, $comment->content, "comment"));
-        $this->sendNotification($post->user_id, $comment->post_id, $comment->id);
+        $this->sendNotification($request->user()->id, $comment->post_id, $comment->id);
         return new CommentResource($comment);
     }
 
@@ -169,7 +170,7 @@ class PostCommentController extends Controller
         $data['post_id'] = $post_id;
 
         $notification = NotificationModel::create($data);
-
+        event(new NotificationEvent($notification));
         return response()->json([
             'data' => $notification
         ], 200);

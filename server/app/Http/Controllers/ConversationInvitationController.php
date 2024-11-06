@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\ConversationInvitationEvent;
+use App\Events\NotificationEvent;
 use Illuminate\Http\Request;
 use App\Http\Resources\ConversationInvitationResource;
 use App\Models\ConversationInvitation as ConversationInvitationModel;
@@ -157,8 +158,6 @@ class ConversationInvitationController extends Controller
 
         $notification = NotificationModel::create($data);
         Log::info('conversation invitation notification: '.json_encode($notification));
-        return response()->json([
-            'data' => $notification
-        ], 200);
+        event(new NotificationEvent($notification));
     }
 }

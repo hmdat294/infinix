@@ -10,6 +10,9 @@ use App\Models\Message as MessageModel;
 use App\Events\UserSendMessageEvent;
 use App\Events\UserRecallMessageEvent;
 use App\Events\UserEditMessageEvent;
+use App\Models\Notification;
+use App\Models\User;
+use App\Events\NotificationEvent;
 
 class MessageController extends Controller
 {
@@ -53,6 +56,7 @@ class MessageController extends Controller
         }
 
         event(new UserSendMessageEvent($request->user()->id, $message->id, $message->content));
+        $this->sendNotification($request->user()->id, $request->conversation_id, 'send');
         return new MessageResource($message);
     }
 
@@ -108,5 +112,39 @@ class MessageController extends Controller
             event(new UserEditMessageEvent($request->user()->id, $message->id, $message->content));
         }
         return new MessageResource($message);
+    }
+
+    public function sendNotification($user_id, $conversation_id, $type)
+    {
+        $conversation = Conversation::find($conversation_id);
+        $display_name = User::find($user_id)->profile->display_name;
+        foreach ($conversation->users as $user) {
+            $notification_data = [
+                'user_id' => $user->id,
+                'target_user_id' => $user_id,
+                'conversation_id' => $conversation_id,
+                'action_type' => 'user_send_message',
+            ];
+
+            $group_name = $conversation->is_group ? "trong nhóm " . $conversation->name : "";
+            $action_text = "";
+            switch ($type) 
+            {
+                case 'recall' :
+                    $action_text = "thu hồi";
+                    break;
+                case 'reply' :
+                    $action_text = "trả lời";
+                    break;
+                default :
+                    $action_text = "gửi";
+                    break;
+            }
+
+            $notification_data['content'] = $display_name. " đã " . $action_text . " một tin nhắn " . $group_name;
+
+            $notification = Notification::create($notification_data);
+            event(new NotificationEvent($notification));
+        }
     }
 }
