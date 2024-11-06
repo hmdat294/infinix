@@ -100,7 +100,7 @@ export class EventService implements OnDestroy {
 
 
   private idleTimeout: any;
-  private idleTimeLimit = 10 * 1000; // 10 giây
+  private idleTimeLimit = 15 * 60 * 1000; // 15 phút
   private isIdle = false;
   private idleState = new Subject<boolean>();
 
