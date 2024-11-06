@@ -50,6 +50,11 @@ Route::middleware(['guest'])->group(function () {
 Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(function () {
 
     Route::get('user/blocked-users', [UserController::class, 'blockedUsers']);
+    Route::get('user/blocked-by-users', [UserController::class, 'blockedByUsers']);
+    
+    Route::get('user/{id}/blocked-users', [UserController::class, 'blockedUsers']);
+    Route::get('user/{id}/blocked-by-users', [UserController::class, 'blockedByUsers']);
+
     Route::get('user/reported-content', [UserController::class, 'reported']);
     Route::get('get-posts', [PostController::class, 'getPost']);
 
