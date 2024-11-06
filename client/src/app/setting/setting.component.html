@@ -275,7 +275,7 @@
 
                                     <!-- danh sách tài khoản bị chặn -->
                                     <div class="accordion-panel open layout-vertical" style="max-height: fit-content;"
-                                        *ngIf="tabAccordion == 'user_block'">
+                                        *ngIf="tabAccordion == 'user_block' && listBlock?.length > 0">
 
                                         <!-- for -->
                                         <div class="p-15 layout-horizontal align-center-space-between" *ngFor="let user of listBlock">

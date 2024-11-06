@@ -56,6 +56,7 @@ export class SettingComponent implements OnInit {
 
     this.authService.getUserBlock().subscribe(
       (response) => {
+        console.log('Block:', response);
         this.listBlock = response.data;
         // console.log(this.listBlock);
       })

@@ -34,20 +34,16 @@
 
                 <div class="overflow-scroll-vertical">
 
-                    <div class="border-top" *ngFor="let friend of setFriendSearch()">
+                    <div class="border-top" *ngFor="let friend of friends">
                         <button type="button" class="button-subtle w-fill gap-15 px-20 py-15"
                             (click)="MessageUser(friend)" style="cursor: pointer;">
                             <img [src]="
-                                (friend?.is_group == 1) ? friend.image :
-                                (friend?.users[0].id == user?.id) ? friend?.users[1].profile.profile_photo :
-                                friend?.users[0].profile.profile_photo
+                                (friend?.is_group == 1) ? friend.image : friend?.users[0].profile.profile_photo
                             " alt="" style="width: 35px; height: 35px;"
                                 class="rounded-circle border border-card-default">
                             <p class="text-secondary text-body-strong w-fill layout">
                                 {{
-                                (friend?.is_group == 1) ? friend.name :
-                                (friend?.users[0].id == user?.id) ? friend?.users[1].profile.display_name :
-                                friend?.users[0].profile.display_name
+                                (friend?.is_group == 1) ? friend.name : friend?.users[0].profile.display_name
                                 }}
                             </p>
                         </button>
@@ -118,15 +114,12 @@
                     class="h-hug w-fill layout-horizontal align-center-space-between px-20 py-15 gap-15 border-bottom border-card-default">
                     <div class="w-fill layout-horizontal gap-15 align-center-center">
                         <img src="{{
-                            (conversation?.is_group == 1) ? conversation.image :
-                            (conversation?.users[0].id == user?.id) ? conversation?.users[1].profile.profile_photo :
-                            conversation?.users[0].profile.profile_photo
+                            (conversation?.is_group == 1) ? conversation.image : conversation?.users[0].profile.profile_photo
                             }}" class="rounded-circle border border-card-default object-fit-cover" alt=""
                             style="width: 35px; height: 35px;">
                         <p class="text-secondary text-body-strong w-fill">
                             {{
                             (conversation?.is_group == 1) ? conversation.name :
-                            (conversation?.users[0].id == user?.id) ? conversation?.users[1].profile.display_name :
                             conversation?.users[0].profile.display_name
                             }}
                         </p>
@@ -267,7 +260,7 @@
                                             <div class="layout-horizontal gap-15 p-5 align-top-right">
                                                 <div style="max-width: calc(100% - 100px);">
                                                     <p class="text-tertiary text-caption mb-5 layout align-top-right">
-                                                        {{msg.created_at_time}} - {{msg.updated_at_date}}
+                                                        {{msg.created_at_time}} - {{msg.created_at_date}}
                                                     </p>
                                                     <div class="layout align-center-right" *ngIf="msg.is_recalled == 0">
 
@@ -341,7 +334,7 @@
                                                     alt="" style="width: 35px; height: 35px;">
                                                 <div>
                                                     <p class="text-tertiary text-caption mb-5 layout align-top-left">
-                                                        {{msg.created_at_time}} - {{msg.updated_at_date}}
+                                                        {{msg.created_at_time}} - {{msg.created_at_date}}
                                                     </p>
                                                     <div class="mess-hover layout align-center-left"
                                                         *ngIf="msg.is_recalled == 0">
@@ -396,6 +389,7 @@
                                                                     class="display-block text-wrap card-background-default text-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
                                                                     {{ msg.content }}
                                                                 </p>
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -408,7 +402,7 @@
 
                                         <p style="font-size: 0.9em;"
                                             class="text-secondary text-{{(user.id == msg.user_id)?'right':'left'}}">
-                                            Đã sửa - {{msg.updated_at_date}} - {{msg.updated_at_time}}
+                                            Đã sửa - {{msg.updated_at_time}} - {{msg.updated_at_date}}
                                         </p>
 
                                     </div>
@@ -425,8 +419,8 @@
                         <div class="w-fill layout align-top-right" *ngIf="(user.id == msg.user_id)">
                             <div class="layout-horizontal gap-15 p-20">
                                 <div>
-                                    <p class="text-tertiary text-caption mb-5 layout align-top-right">{{
-                                        msg.created_at_time }}
+                                    <p class="text-primary text-body mb-5 text-right">
+                                        {{msg.user.profile.display_name}}
                                     </p>
                                     <div class="mess-hover layout align-top-right" *ngIf="msg.is_recalled == 0">
                                         <div style="height: 45px; overflow: visible; z-index: 1;">
@@ -532,10 +526,14 @@
                                                             {{ msg.content }}
                                                         </p>
 
-                                                        <p *ngIf="msg.is_edited == 1" style="font-size: 0.9em;"
-                                                            class="text-secondary text-right">
-                                                            Đã sửa
-                                                        </p>
+                                                        <div class="text-tertiary text-caption layout-horizontal align-center-space-between mt-5" style="font-size: 0.9em;">
+                                                            <p class="text-left w-fill">
+                                                                {{ msg.created_at_time }}
+                                                            </p>
+                                                            <p *ngIf="msg.is_edited == 1" class="text-right w-fill">
+                                                                Đã sửa
+                                                            </p>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -571,8 +569,8 @@
                                     class="rounded-circle border border-card-default object-fit-cover" alt=""
                                     style="width: 35px; height: 35px;">
                                 <div>
-                                    <p class="text-tertiary text-caption mb-5 layout align-top-left">{{
-                                        msg.created_at_time }}
+                                    <p class="text-primary text-body mb-5 text-left">
+                                        {{msg.user.profile.display_name}}
                                     </p>
                                     <div class="mess-hover layout align-top-left" *ngIf="msg.is_recalled == 0">
                                         <div>
@@ -629,10 +627,14 @@
                                                             {{ msg.content }}
                                                         </p>
 
-                                                        <p *ngIf="msg.is_edited == 1" style="font-size: 0.9em;"
-                                                            class="text-secondary text-left">
-                                                            Đã sửa
-                                                        </p>
+                                                        <div class="text-tertiary text-caption layout-horizontal align-center-space-between mt-5" style="font-size: 0.9em;">
+                                                            <p *ngIf="msg.is_edited == 1" class="text-left w-fill">
+                                                                Đã sửa
+                                                            </p>
+                                                            <p class="text-right w-fill">
+                                                                {{ msg.created_at_time }}
+                                                            </p>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -818,17 +820,13 @@
 
                 <div style="width: 100px; height: 100px;" class="mb-10">
                     <img [src]="
-                    (conversation?.is_group == 1) ? conversation.image :
-                    (conversation?.users[0].id == user?.id) ? conversation?.users[1].profile.profile_photo :
-                    conversation?.users[0].profile.profile_photo
+                    (conversation?.is_group == 1) ? conversation.image : conversation?.users[0].profile.profile_photo
                     " class="rounded-circle border border-card-default mb-15 w-fill h-fill object-fit-cover" alt="">
                 </div>
 
                 <div class="layout-horizontal align-center-center gap-5">
                     <p class="text-primary text-body">{{
-                        (conversation?.is_group == 1) ? conversation.name :
-                        (conversation?.users[0].id == user?.id) ? conversation?.users[1].profile.display_name :
-                        conversation?.users[0].profile.display_name
+                        (conversation?.is_group == 1) ? conversation.name : conversation?.users[0].profile.display_name
                         }}</p>
 
                     <button type="button" class="button-subtle button-icon-only" *ngIf="conversation?.is_group == 1"
@@ -838,9 +836,7 @@
                 </div>
 
                 <p class="text-primary text-caption">{{
-                    (conversation?.is_group == 1) ? '' :
-                    (conversation?.users[0].id == user?.id) ? conversation?.users[1].email :
-                    conversation?.users[0].email
+                    (conversation?.is_group == 1) ? '' : conversation?.users[0].email
                     }}</p>
             </div>
 

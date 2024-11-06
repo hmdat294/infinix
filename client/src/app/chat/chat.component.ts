@@ -93,15 +93,13 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
         this.chatService.getListChat().subscribe(
           (data: any) => {
-            this.friends = data.data || null;
+            const friends = data.data || null;
 
-            this.friendsFilter = this.friends.map((item: any) => ({
+            this.friends = friends.map((item: any) => ({
               ...item,
               users: item.users.filter((user: any) => user.id !== this.user?.id)
             }))
-            console.log(this.friendsFilter);
-
-
+            // console.log(this.friends);
 
             if (this.friends.length > 0) {
               this.MessageUser(this.friends[0]);
@@ -122,8 +120,11 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
             this.eventService.bindEvent('App\\Events\\UserEditMessageEvent', (data: any) => {
               console.log('Edit Message event:', data);
-              if (this.conversation.id == data.data.conversation_id)
-                this.conversation.messages.find((item: any) => item.id === data.data.id).content = data.data.content;
+              if (this.conversation.id == data.data.conversation_id) {
+                const mess = this.conversation.messages.find((item: any) => item.id === data.data.id);
+                mess.content = data.data.content;
+                mess.is_edited = data.data.is_edited;
+              }
             });
           });
       });
@@ -277,7 +278,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
   MessageUser(conversation: any) {
 
-    console.log(conversation);
+    // console.log(conversation);
 
     this.chatService.getImageByConversation(conversation.id).subscribe(
       (response) => {
@@ -445,7 +446,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
   editMessage(id: number) {
     const message = this.conversation.messages.find((item: any) => item.id === id);
-    console.log(message);
+    // console.log(message);
     this.previewReply = message;
     this.content = message.content;
     this.is_edit_message = true;
