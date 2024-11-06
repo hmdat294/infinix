@@ -43,5 +43,23 @@ class Notification extends Model
         return $this->belongsTo(Post::class, 'post_id');
     }
 
-    
+    public function comment()
+    {
+        return $this->belongsTo(PostComment::class, 'comment_id');
+    }
+
+    public function conversation()
+    {
+        return $this->belongsTo(Conversation::class, 'conversation_id');
+    }
+
+    public function friendRequest()
+    {
+        return $this->belongsTo(FriendRequest::class, 'friend_request_id');
+    }
+
+    public function conversationInvitation()
+    {
+        return $this->belongsTo(ConversationInvitation::class, 'conversation_invitation_id');
+    }
 }
