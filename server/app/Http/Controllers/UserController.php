@@ -157,7 +157,7 @@ class UserController extends Controller
         return UserResource::collection($user->blockings);
     }
 
-    public function reported(Request $request, $user_id)
+    public function reported(Request $request)
     {
         $user = UserModel::find($request->user()->id);
         return ReportResource::collection($user->reportings);

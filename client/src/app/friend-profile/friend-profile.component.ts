@@ -345,8 +345,9 @@ export class FriendProfileComponent implements OnInit {
   messageReport: string = '';
   @ViewChild('checkboxesContainer') checkboxesContainer!: ElementRef;
 
-  showDialogReport(post_id: number) {
-    this.diaLogReport = post_id;
+  showDialogReport(id: any) {
+    
+    this.diaLogReport = id;
     if (this.diaLogReport == 0) {
       this.valueReport = [];
       this.contentReport = '';
@@ -364,7 +365,9 @@ export class FriendProfileComponent implements OnInit {
     else this.valueReport = this.valueReport.filter(value => value !== checkboxValue);
   }
 
-  postReport(value: any, post_id: number): any {
+  listIdPostReport: number[] = [];
+
+  postReport(value: any): any {
 
     const valueReport = this.valueReport.join(', ');
     let content = '';
@@ -376,9 +379,15 @@ export class FriendProfileComponent implements OnInit {
 
     content = content.charAt(0).toUpperCase() + content.slice(1).toLowerCase() + '.';
 
-    this.postService.postReport({ content, post_id }).subscribe(
+    const valuePost:any = this.diaLogReport;
+    valuePost.content = content;
+
+    this.postService.postReport(valuePost).subscribe(
       (response: any) => {
         console.log(response);
+
+        this.listIdPostReport.push(response.data.post_id);
+
         this.messageReport =
           `<p class="validation-message validation-sucess text-body text-primary pt-15 px-20">
               <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
@@ -386,10 +395,29 @@ export class FriendProfileComponent implements OnInit {
           </p>`;
         setTimeout(() => this.showDialogReport(0), 3000);
       })
+  }
 
+  cancelReport(post_id: number) {
+    this.postService.cancelReport(post_id).subscribe(
+      (response: any) => {
+        console.log(response);
+        this.listIdPostReport = this.listIdPostReport.filter((id: number) => id !== post_id);
+      }
+    )
   }
 
   //report
+
+  //block
+
+  blockUser(user_id:number){
+    this.authService.postUserBlock(user_id).subscribe(
+      (response:any) => {
+        console.log(response);
+      });
+  }
+
+  //block
 
   showPolls() {
     this.showPoll = (this.showPoll == false) ? true : false;

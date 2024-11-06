@@ -75,6 +75,7 @@ section>article {
     height: 100%;
 }
 
+.user-hover .user-menu,
 .post-hover .post-menu {
     display: none;
 }
@@ -83,6 +84,7 @@ section>article {
     background-color: var(--subtle-secondary);
 }
 
+.user-hover:focus .user-menu,
 .post-hover:focus .post-menu {
     display: block;
 }

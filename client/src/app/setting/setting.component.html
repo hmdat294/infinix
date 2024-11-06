@@ -278,18 +278,17 @@
                                         *ngIf="tabAccordion == 'user_block'">
 
                                         <!-- for -->
-                                        <div class="p-15 layout-horizontal align-center-space-between">
+                                        <div class="p-15 layout-horizontal align-center-space-between" *ngFor="let user of listBlock">
                                             <div class="layout-horizontal align-center-center gap-15 w-fill">
                                                 <div style="width: 35px; height: 35px;">
                                                     <img class="rounded-circle border border-card-default object-fit-cover"
-                                                        src="assets/image/avatar.png" alt=""
+                                                        [src]="user.profile.profile_photo" alt=""
                                                         style="width: 35px; height: 35px;">
                                                 </div>
-                                                <p class="text-secondary text-body-strong w-fill">Châu Thành Cường</p>
-                                                <button type="button" class="button-standard button-text-with-icon">
-                                                    Hủy
-                                                    <i
-                                                        class="icon-size-16 icon icon-ic_fluent_person_key_20_regular"></i>
+                                                <p class="text-secondary text-body-strong w-fill">{{user.profile.display_name}}</p>
+                                                <button type="button" class="button-standard button-text-with-icon" (click)="blockUser(user.id)">
+                                                    Bỏ chặn
+                                                    <i class="icon-size-16 icon icon-ic_fluent_person_key_20_regular"></i>
                                                 </button>
                                             </div>
                                         </div>

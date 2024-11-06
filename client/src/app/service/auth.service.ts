@@ -149,4 +149,19 @@ export class AuthService {
     const headers = this.getToken();
     return this.http.get(`${this.apiUrl}/user/${user_id}/medias/`, { headers });
   }
+
+  getUserReport(): Observable<any> {
+    const headers = this.getToken();
+    return this.http.get(`${this.apiUrl}/user/reported-content`, { headers });
+  }
+
+  postUserBlock(user_id: number): Observable<any> {
+    const headers = this.getToken();
+    return this.http.post(`${this.apiUrl}/block-user/${user_id}`, {}, { headers });
+  }
+
+  getUserBlock(): Observable<any> {
+    const headers = this.getToken();
+    return this.http.get(`${this.apiUrl}/user/blocked-users`, { headers });
+  }
 }

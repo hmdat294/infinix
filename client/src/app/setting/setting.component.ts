@@ -28,6 +28,10 @@ export class SettingComponent implements OnInit {
   address: string = '';
   gender: string = '';
 
+  listUserReport:any;
+  listPostReport:any;
+  listBlock:any;
+
   constructor(
     private authService: AuthService,
     private renderer: Renderer2
@@ -40,10 +44,35 @@ export class SettingComponent implements OnInit {
     this.authService.getUser(0).subscribe(
       (response) => {
         this.user = response.data;
-        console.log(this.user);
+        // console.log(this.user);
       });
 
+
+    this.authService.getUserReport().subscribe(
+      (response) => {
+        console.log('Report:', response);
+        this.listUserReport = response.data;
+      })
+
+    this.authService.getUserBlock().subscribe(
+      (response) => {
+        this.listBlock = response.data;
+        // console.log(this.listBlock);
+      })
+
   }
+
+  //block
+
+  blockUser(user_id:number){
+    this.authService.postUserBlock(user_id).subscribe(
+      (response:any) => {
+        // console.log(response);
+        this.listBlock = this.listBlock.filter((item:any) => item.id !== user_id);
+      });
+  }
+
+  //block
 
   tab(tab: string) {
     this.tabSetting = tab;
