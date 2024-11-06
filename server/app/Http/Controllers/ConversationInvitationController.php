@@ -136,17 +136,9 @@ class ConversationInvitationController extends Controller
     public function sendNotification($conversation_invitation_id, $status)
     {
         $conversation_invitation = ConversationInvitationModel::find($conversation_invitation_id);
-
-        
-        $disabled_notification = DisabledNotificationModel::where('user_id', $conversation_invitation->receiver_id)->where('action_type', 'user_accept_conversation_invitation')->first();
-        if ($disabled_notification) {
-            return;
-        }
-
-
         $receiver = UserModel::find($conversation_invitation->receiver_id);
         $sender = UserModel::find($conversation_invitation->sender_id);
-
+        
         switch ($status) {
             case 'pending':
                 $data['user_id'] = $conversation_invitation->receiver_id;
