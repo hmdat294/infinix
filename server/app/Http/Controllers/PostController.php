@@ -280,7 +280,12 @@ class PostController extends Controller
         $reported_post_ids = Report::where('sender_id', $request->user()->id)->where('type', 'post')->pluck('post_id');
         Log::info('reported_post_ids: '.$reported_post_ids);
         // $post_ids + $shared_post_ids - $reported_post_ids
-        $posts = PostModel::whereIn('id', $post_ids)->orWhereIn('id', $shared_post_ids)->whereNotIn('id', $reported_post_ids)->orderBy('created_at', 'desc')->get();
+        $posts = PostModel::whereIn('id', $post_ids)
+        ->orWhereIn('id', $shared_post_ids)
+        ->orWhereIn('id', $friend_post_ids)
+        ->orWhereIn('id', $followings_post_ids)
+        ->whereNotIn('id', $reported_post_ids)
+        ->orderBy('created_at', 'desc')->get();
         Log::info('posts: '.$posts);
         return PostResource::collection($posts);
     }
