@@ -23,6 +23,7 @@ use App\Http\Controllers\Statistics\TotalController;
 use App\Http\Controllers\DisabledNotificationController;
 use App\Http\Controllers\PinMessageController;
 use App\Http\Middleware\UpdateUserLastActivity;
+use App\Http\Controllers\NotificationController;
 
 use App\Models\User as UserModel;
 
@@ -57,7 +58,9 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
     Route::post('pin-message/{message_id}', [PinMessageController::class, 'store'])->name('pin-message');
 
     Route::post('disable-notification', [DisabledNotificationController::class, 'store'])->name('disable-notification');
-
+    Route::get('notification', [NotificationController::class, 'index']);
+    Route::post('notification/{id}', [NotificationController::class, 'update']);
+    Route::delete('notification/{id}', [NotificationController::class, 'destroy']);
     Route::post('follow/{user_id}', [UserController::class, 'follow']);
     Route::post('unfollow/{user_id}', [UserController::class, 'unfollow']);
     Route::post('unfriend/{user_id}', [UserController::class, 'unfriend']);
