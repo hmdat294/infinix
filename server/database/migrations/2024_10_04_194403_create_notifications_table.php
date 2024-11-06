@@ -28,8 +28,7 @@ return new class extends Migration
                 'user_send_friend_request', 'user_accept_friend_request',
                 'user_send_conversation_invitation', 'user_accept_conversation_invitation',
                 'user_create_post',
-                'user_send_message',
-                'user_send_group_message',
+                'user_send_message', 'user_recall_message', 'user_pin_message', 'user_reply_message'
             ]);
             $table->boolean('is_read')->default(false);
             $table->timestamps();

@@ -12,6 +12,7 @@ use App\Events\UserSharePostEvent;
 use App\Models\Notification as NotificationModel;
 use App\Models\User as UserModel;
 use App\Models\DisabledNotification as DisabledNotificationModel;
+use App\Events\NotificationEvent;
 
 class PostShareController extends Controller
 {
@@ -94,7 +95,7 @@ class PostShareController extends Controller
         ];
 
         $notification = NotificationModel::create($data);
-
+        event(new NotificationEvent($notification));
         return response()->json([
             'data' => $notification
         ], 200);

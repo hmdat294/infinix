@@ -151,10 +151,16 @@ class UserController extends Controller
         return new UserResource($user);
     }
 
-    public function blockedUsers(Request $request)
+    public function blockedUsers(Request $request, $user_id = 0)
     {
-        $user = UserModel::find($request->user()->id);
+        $user = UserModel::find($user_id == 0 ? request()->user()->id : $user_id);
         return UserResource::collection($user->blockings);
+    }
+
+    public function blockedByUsers(Request $request, $user_id = 0)
+    {
+        $user = UserModel::find($user_id == 0 ? request()->user()->id : $user_id);
+        return UserResource::collection($user->blockedBy);
     }
 
     public function reported(Request $request)

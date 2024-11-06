@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Log;
 use App\Models\Notification as NotificationModel;
 use App\Models\User as UserModel;
 use App\Models\DisabledNotification as DisabledNotificationModel;
+use App\Events\NotificationEvent;
 
 class PostLikeController extends Controller
 {
@@ -71,7 +72,7 @@ class PostLikeController extends Controller
             $post = PostModel::find($request->post_id);
             event(new UserLikePostEvent($request->post_id, $request->user()->id, "like"));
 
-            $this->sendNotification($post->user_id, $request->post_id);
+            $this->sendNotification($request->user()->id, $request->post_id);
 
             return response()->json([
                 'message' => 'Đã thích bài viết',
@@ -101,7 +102,7 @@ class PostLikeController extends Controller
         ];
 
         $notification = NotificationModel::create($data);
-
+        event(new NotificationEvent($notification));
         return $notification;
     }
 }

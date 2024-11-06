@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\ConversationInvitationEvent;
+use App\Events\NotificationEvent;
 use Illuminate\Http\Request;
 use App\Http\Resources\ConversationInvitationResource;
 use App\Models\ConversationInvitation as ConversationInvitationModel;
@@ -136,17 +137,9 @@ class ConversationInvitationController extends Controller
     public function sendNotification($conversation_invitation_id, $status)
     {
         $conversation_invitation = ConversationInvitationModel::find($conversation_invitation_id);
-
-        
-        $disabled_notification = DisabledNotificationModel::where('user_id', $conversation_invitation->receiver_id)->where('action_type', 'user_accept_conversation_invitation')->first();
-        if ($disabled_notification) {
-            return;
-        }
-
-
         $receiver = UserModel::find($conversation_invitation->receiver_id);
         $sender = UserModel::find($conversation_invitation->sender_id);
-
+        
         switch ($status) {
             case 'pending':
                 $data['user_id'] = $conversation_invitation->receiver_id;
@@ -165,8 +158,6 @@ class ConversationInvitationController extends Controller
 
         $notification = NotificationModel::create($data);
         Log::info('conversation invitation notification: '.json_encode($notification));
-        return response()->json([
-            'data' => $notification
-        ], 200);
+        event(new NotificationEvent($notification));
     }
 }

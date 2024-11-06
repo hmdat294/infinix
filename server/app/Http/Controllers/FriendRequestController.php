@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NotificationEvent;
 use App\Http\Resources\FriendRequestResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -206,8 +207,6 @@ class FriendRequestController extends Controller
 
         $notification = NotificationModel::create($data);
         Log::info('friend request notification: '.json_encode($notification));
-        return response()->json([
-            'data' => $notification
-        ], 200);
+        event(new NotificationEvent($notification));
     }
 }
