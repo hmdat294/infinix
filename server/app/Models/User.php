@@ -103,6 +103,6 @@ class User extends Authenticatable
 
     public function reportings()
     {
-        return $this->belongsToMany(User::class, 'reports', 'sender_id', 'user_id');
+        return $this->belongsToMany(Report::class, 'reports', 'sender_id', 'user_id');
     }
 }
