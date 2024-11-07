@@ -92,13 +92,15 @@
                                                 user?.profile.display_name}}</p>
                                         </div>
                                         <button type="button" class="button-subtle button-icon-only">
-                                            <i
-                                                class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
+                                            <span
+                                                [class]="tabAccordion == 'display_name' ? 'rotate_icon_180' : 'rotate_icon_0'">
+                                                <i
+                                                    class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
+                                            </span>
                                         </button>
                                     </div>
 
-                                    <div class="accordion-panel open layout-vertical" style="max-height: fit-content;"
-                                        *ngIf="tabAccordion == 'display_name'">
+                                    <div class="accordion-panel open layout-vertical display_name">
                                         <div class="p-15 layout-horizontal align-center-space-between">
                                             <div class="control text-control w-hug">
                                                 <input type="text" spellcheck="false" name="display_name"
@@ -125,13 +127,15 @@
                                                 'Trống'}}</p>
                                         </div>
                                         <button type="button" class="button-subtle button-icon-only">
-                                            <i
-                                                class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
+                                            <span
+                                                [class]="tabAccordion == 'date_of_birth' ? 'rotate_icon_180' : 'rotate_icon_0'">
+                                                <i
+                                                    class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
+                                            </span>
                                         </button>
                                     </div>
 
-                                    <div class="accordion-panel open layout-vertical" style="max-height: fit-content;"
-                                        *ngIf="tabAccordion == 'date_of_birth'">
+                                    <div class="accordion-panel open layout-vertical date_of_birth">
                                         <div class="p-15 layout-horizontal align-center-space-between">
                                             <div class="control text-control w-hug">
                                                 <input type="date" spellcheck="false" name="date_of_birth"
@@ -158,13 +162,15 @@
                                             </p>
                                         </div>
                                         <button type="button" class="button-subtle button-icon-only">
-                                            <i
-                                                class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
+                                            <span
+                                                [class]="tabAccordion == 'biography' ? 'rotate_icon_180' : 'rotate_icon_0'">
+                                                <i
+                                                    class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
+                                            </span>
                                         </button>
                                     </div>
 
-                                    <div class="accordion-panel open layout-vertical" style="max-height: fit-content;"
-                                        *ngIf="tabAccordion == 'biography'">
+                                    <div class="accordion-panel open layout-vertical biography">
                                         <div class="p-15 layout-horizontal align-bottom-space-between gap-15">
                                             <textarea style="min-height: 110px;"
                                                 class="control text-area-control w-fill" spellcheck="false"
@@ -191,13 +197,15 @@
                                             <p class="text-caption text-secondary">Điều chỉnh ảnh đại diện của bạn</p>
                                         </div>
                                         <button type="button" class="button-subtle button-icon-only">
-                                            <i
-                                                class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
+                                            <span
+                                                [class]="tabAccordion == 'profile_photo' ? 'rotate_icon_180' : 'rotate_icon_0'">
+                                                <i
+                                                    class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
+                                            </span>
                                         </button>
                                     </div>
 
-                                    <div class="accordion-panel open layout-vertical" style="max-height: fit-content;"
-                                        *ngIf="tabAccordion == 'profile_photo'">
+                                    <div class="accordion-panel open layout-vertical profile_photo">
                                         <!-- <div
                                             class="p-15 layout-horizontal align-center-space-between border-bottom border-card-default">
                                             <p class="text-body text-primary">Chụp ảnh</p>
@@ -227,13 +235,15 @@
                                             <p class="text-caption text-secondary">Điều chỉnh ảnh bìa của bạn</p>
                                         </div>
                                         <button type="button" class="button-subtle button-icon-only">
-                                            <i
-                                                class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
+                                            <span
+                                                [class]="tabAccordion == 'cover_photo' ? 'rotate_icon_180' : 'rotate_icon_0'">
+                                                <i
+                                                    class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
+                                            </span>
                                         </button>
                                     </div>
 
-                                    <div class="accordion-panel open layout-vertical" style="max-height: fit-content;"
-                                        *ngIf="tabAccordion == 'cover_photo'">
+                                    <div class="accordion-panel open layout-vertical cover_photo">
                                         <!-- <div
                                             class="p-15 layout-horizontal align-center-space-between border-bottom border-card-default">
                                             <p class="text-body text-primary">Chụp ảnh</p>
@@ -268,27 +278,39 @@
                                             <p class="text-caption text-secondary">Danh sách các tài khoản đã chặn</p>
                                         </div>
                                         <button type="button" class="button-subtle button-icon-only">
-                                            <i
-                                                class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
+                                            <span
+                                                [class]="tabAccordion == 'user_block' ? 'rotate_icon_180' : 'rotate_icon_0'">
+                                                <i
+                                                    class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
+                                            </span>
                                         </button>
                                     </div>
 
                                     <!-- danh sách tài khoản bị chặn -->
-                                    <div class="accordion-panel open layout-vertical" style="max-height: fit-content;"
-                                        *ngIf="tabAccordion == 'user_block' && listBlock?.length > 0">
+                                    <div class="accordion-panel open layout-vertical user_block">
+
+                                        <div class="px-15 py-10" *ngIf="listBlock?.length==0">
+                                            <div class="w-fill py-10 card-background-default border border-card-default rounded-6">
+                                                <p class="text-body text-secondary text-center">Trống</p>
+                                            </div>
+                                        </div>
 
                                         <!-- for -->
-                                        <div class="p-15 layout-horizontal align-center-space-between" *ngFor="let user of listBlock">
+                                        <div class="p-15 layout-horizontal align-center-space-between"
+                                            *ngFor="let user of listBlock">
                                             <div class="layout-horizontal align-center-center gap-15 w-fill">
                                                 <div style="width: 35px; height: 35px;">
                                                     <img class="rounded-circle border border-card-default object-fit-cover"
                                                         [src]="user.profile.profile_photo" alt=""
                                                         style="width: 35px; height: 35px;">
                                                 </div>
-                                                <p class="text-secondary text-body-strong w-fill">{{user.profile.display_name}}</p>
-                                                <button type="button" class="button-standard button-text-with-icon" (click)="blockUser(user.id)">
+                                                <p class="text-secondary text-body-strong w-fill">
+                                                    {{user.profile.display_name}}</p>
+                                                <button type="button" class="button-standard button-text-with-icon"
+                                                    (click)="blockUser(user.id)">
                                                     Bỏ chặn
-                                                    <i class="icon-size-16 icon icon-ic_fluent_person_key_20_regular"></i>
+                                                    <i
+                                                        class="icon-size-16 icon icon-ic_fluent_person_key_20_regular"></i>
                                                 </button>
                                             </div>
                                         </div>
@@ -310,13 +332,15 @@
                                                 đã báo cáo</p>
                                         </div>
                                         <button type="button" class="button-subtle button-icon-only">
-                                            <i
-                                                class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
+                                            <span
+                                                [class]="tabAccordion == 'post_report' || tabAccordion == 'user_report' ? 'rotate_icon_180' : 'rotate_icon_0'">
+                                                <i
+                                                    class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
+                                            </span>
                                         </button>
                                     </div>
 
-                                    <div class="accordion-panel open layout-vertical" style="max-height: fit-content;"
-                                        *ngIf="tabAccordion == 'post_report' || tabAccordion == 'user_report'">
+                                    <div class="accordion-panel open layout-vertical post_report user_report">
 
                                         <div class="p-15 layout-horizontal align-center-space-between gap-15">
                                             <button type="button" class="button-standard button-text-with-icon w-fill"
@@ -334,15 +358,23 @@
                                     </div>
 
                                     <!-- danh sách báo cáo bài viết -->
-                                    <div class="accordion-panel open layout-vertical" style="max-height: fit-content;"
-                                        *ngIf="tabAccordion == 'post_report'">
+                                    <div class="accordion-panel open layout-vertical post_report">
+
+                                        <div class="px-15 py-10" *ngIf="listPostReport?.length==0">
+                                            <div class="w-fill py-10 card-background-default border border-card-default rounded-6">
+                                                <p class="text-body text-secondary text-center">Trống</p>
+                                            </div>
+                                        </div>
 
                                         <!-- for -->
-                                        <div class="p-15 layout-horizontal align-center-space-between">
+                                        <div class="p-15 layout-horizontal align-center-space-between"
+                                            *ngFor="let post of listPostReport">
                                             <div class="layout-horizontal align-center-center gap-15 w-fill">
                                                 <div class="w-fill">
-                                                    <p class="text-secondary text-body-strong">Châu Thành Cường</p>
-                                                    <p class="text-secondary text-body">Lorem ipsum dolor sit amet...
+                                                    <p class="text-secondary text-body-strong">
+                                                        {{post.post.profile.display_name}}</p>
+                                                    <p class="text-secondary text-body">
+                                                        {{shortenTextByWords(post.post.content, 7)}}
                                                     </p>
                                                 </div>
                                                 <button type="button" class="button-standard button-text-with-icon">
@@ -357,18 +389,25 @@
                                     </div>
 
                                     <!-- danh sách báo cáo user -->
-                                    <div class="accordion-panel open layout-vertical" style="max-height: fit-content;"
-                                        *ngIf="tabAccordion == 'user_report'">
+                                    <div class="accordion-panel open layout-vertical user_report">
+
+                                        <div class="px-15 py-10" *ngIf="listUserReport?.length==0">
+                                            <div class="w-fill py-10 card-background-default border border-card-default rounded-6">
+                                                <p class="text-body text-secondary text-center">Trống</p>
+                                            </div>
+                                        </div>
 
                                         <!-- for -->
-                                        <div class="p-15 layout-horizontal align-center-space-between">
+                                        <div class="p-15 layout-horizontal align-center-space-between"
+                                            *ngFor="let user of listUserReport">
                                             <div class="layout-horizontal align-center-center gap-15 w-fill">
                                                 <div style="width: 35px; height: 35px;">
                                                     <img class="rounded-circle border border-card-default object-fit-cover"
-                                                        src="assets/image/avatar.png" alt=""
+                                                        [src]="user.user.profile.profile_photo" alt=""
                                                         style="width: 35px; height: 35px;">
                                                 </div>
-                                                <p class="text-secondary text-body-strong w-fill">Châu Thành Cường</p>
+                                                <p class="text-secondary text-body-strong w-fill">
+                                                    {{user.user.profile.display_name}}</p>
                                                 <button type="button" class="button-standard button-text-with-icon">
                                                     Xem
                                                     <i
@@ -408,13 +447,15 @@
                                                 'Trống'}}</p>
                                         </div>
                                         <button type="button" class="button-subtle button-icon-only">
-                                            <i
-                                                class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
+                                            <span
+                                                [class]="tabAccordion == 'username' ? 'rotate_icon_180' : 'rotate_icon_0'">
+                                                <i
+                                                    class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
+                                            </span>
                                         </button>
                                     </div>
 
-                                    <div class="accordion-panel open layout-vertical" style="max-height: fit-content;"
-                                        *ngIf="tabAccordion == 'username'">
+                                    <div class="accordion-panel open layout-vertical username">
                                         <div
                                             class="p-15 layout-horizontal align-center-space-between border-bottom border-card-default">
                                             <div class="control text-control">
@@ -527,8 +568,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="accordion-panel open layout-vertical" style="max-height: fit-content;"
-                                        *ngIf="tabAccordion == 'email'">
+                                    <div class="accordion-panel open layout-vertical email">
 
                                         <div
                                             class="p-15 layout-horizontal align-center-space-between border-bottom border-card-default">
@@ -547,8 +587,8 @@
                                                     nhận</button>
                                             </div>
                                         </div>
-                                        <div *ngIf="changeMail"
-                                            class="p-15 layout-horizontal align-center-space-between border-bottom border-card-default">
+                                        <div
+                                            class="accordion-panel open verify-code p-15 layout-horizontal align-center-space-between border-bottom border-card-default">
                                             <div>
                                                 <label for="email" class="text-body text-primary">Email</label>
                                                 <div class="control text-control">
@@ -575,13 +615,15 @@
                                                 'Trống'}}</p>
                                         </div>
                                         <button type="button" class="button-subtle button-icon-only">
-                                            <i
-                                                class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
+                                            <span
+                                                [class]="tabAccordion == 'phone_number' ? 'rotate_icon_180' : 'rotate_icon_0'">
+                                                <i
+                                                    class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
+                                            </span>
                                         </button>
                                     </div>
 
-                                    <div class="accordion-panel open layout-vertical" style="max-height: fit-content;"
-                                        *ngIf="tabAccordion == 'phone_number'">
+                                    <div class="accordion-panel open layout-vertical phone_number">
                                         <div
                                             class="p-15 layout-horizontal align-center-space-between border-bottom border-card-default">
                                             <div class="control text-control">
@@ -648,8 +690,7 @@
                                         </button>
                                     </div>
 
-                                    <div class="accordion-panel open layout-vertical" style="max-height: fit-content;"
-                                        *ngIf="tabAccordion == 'theme'">
+                                    <div class="accordion-panel open layout-vertical theme">
                                         <div class="p-15 gap-15 layout-horizontal">
                                             <div class="layout-vertical gap-10" style="width: 150px;">
                                                 <label class="layout-vertical label-radio-control">

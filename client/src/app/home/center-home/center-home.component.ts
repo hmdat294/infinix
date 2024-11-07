@@ -325,7 +325,7 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
     else this.valueReport = this.valueReport.filter(value => value !== checkboxValue);
   }
 
-  listIdPostReport: number[] = [];
+  listIdPostReport: any[] = [];
 
   postReport(value: any, post_id: number): any {
 
@@ -343,7 +343,9 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
       (response: any) => {
         console.log(response);
 
-        this.listIdPostReport.push(response.data.post_id);
+        this.listIdPostReport.push({ post_id: response.data.post_id, id: response.data.id });
+
+        console.log(this.listIdPostReport);
 
         this.messageReport =
           `<p class="validation-message validation-sucess text-body text-primary pt-15 px-20">
@@ -356,12 +358,17 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   }
 
   cancelReport(post_id: number) {
-    this.postService.cancelReport(post_id).subscribe(
+    const report = this.listIdPostReport.find((item:any) => item.post_id === post_id);
+    this.postService.cancelReport(report.id).subscribe(
       (response: any) => {
-        console.log(response);
-        this.listIdPostReport = this.listIdPostReport.filter((id: number) => id !== post_id);
+        this.listIdPostReport = this.listIdPostReport.filter((id: any) => id.id !== report.id);
+        console.log(this.listIdPostReport);
       }
     )
+  }
+
+  isPostIdExist(post_id: number): boolean {
+    return this.listIdPostReport.some((item:any) => item.post_id === post_id);
   }
 
   //report

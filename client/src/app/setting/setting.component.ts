@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { AuthService } from '../service/auth.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
@@ -13,7 +13,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 export class SettingComponent implements OnInit {
 
   user: any;
-  tabSetting: string = 'general-settings';
+  tabSetting: string = 'account-settings';
   tabAccordion: string = '';
 
   theme: string = '';
@@ -28,13 +28,14 @@ export class SettingComponent implements OnInit {
   address: string = '';
   gender: string = '';
 
-  listUserReport:any;
-  listPostReport:any;
-  listBlock:any;
+  listUserReport: any;
+  listPostReport: any;
+  listBlock: any;
 
   constructor(
     private authService: AuthService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private el: ElementRef,
   ) { }
 
   ngOnInit(): void {
@@ -50,26 +51,37 @@ export class SettingComponent implements OnInit {
 
     this.authService.getUserReport().subscribe(
       (response) => {
-        console.log('Report:', response);
-        this.listUserReport = response.data;
+        // console.log('Report:', response);
+        this.listPostReport = response.data.filter((item: any) => item.type == "post");
+        this.listUserReport = response.data.filter((item: any) => item.type == "user");
+
+        console.log(this.listPostReport);
+        console.log(this.listUserReport);
+
       })
 
     this.authService.getUserBlock().subscribe(
       (response) => {
-        console.log('Block:', response);
+        // console.log('Block:', response);
         this.listBlock = response.data;
         // console.log(this.listBlock);
       })
 
   }
 
+  shortenTextByWords(text: string, maxWords: number): string {
+    const words = text.split(' ');
+    return words.length > maxWords ? words.slice(0, maxWords).join(' ') + '...' : text;
+  }
+
+
   //block
 
-  blockUser(user_id:number){
+  blockUser(user_id: number) {
     this.authService.postUserBlock(user_id).subscribe(
-      (response:any) => {
+      (response: any) => {
         // console.log(response);
-        this.listBlock = this.listBlock.filter((item:any) => item.id !== user_id);
+        this.listBlock = this.listBlock.filter((item: any) => item.id !== user_id);
       });
   }
 
@@ -80,8 +92,20 @@ export class SettingComponent implements OnInit {
   }
 
   tabChild(tab: string) {
-    this.tabAccordion = (tab == 'email') ? tab : (this.tabAccordion != tab) ? tab : '';
+    this.tabAccordion = this.tabAccordion === tab ? '' : tab;
+
+    const panels = this.el.nativeElement.querySelectorAll('.accordion-panel') as NodeListOf<HTMLElement>;
+
+    panels.forEach((panel) => {
+      if (panel.classList.contains(tab)) {
+        if (this.tabAccordion === tab) {
+          const actualHeight = panel.scrollHeight + 'px';
+          panel.style.maxHeight = actualHeight;
+        } else panel.style.maxHeight = '0';
+      } else panel.style.maxHeight = '0';
+    });
   }
+
 
   selectTheme(currentTheme: string) {
     localStorage.setItem('theme', currentTheme);
@@ -119,7 +143,7 @@ export class SettingComponent implements OnInit {
             </p>`;
           setTimeout(() => this.error1 = '', 3000);
           this.error2 = '';
-          this.changeMail = false;
+          this.tabChild('verify-code');
         }
       })
   }

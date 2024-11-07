@@ -84,8 +84,8 @@ export class PostService {
     return this.http.post(`${this.apiUrl}/report`, value, { headers });
   }
 
-  cancelReport(post_id: any): Observable<any> {
+  cancelReport(report_id: number): Observable<any> {
     const headers = this.authService.getToken();
-    return this.http.delete(`${this.apiUrl}/report/${post_id}`, { headers });
+    return this.http.delete(`${this.apiUrl}/report/${report_id}`, { headers });
   }
 }

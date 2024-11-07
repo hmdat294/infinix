@@ -80,7 +80,7 @@
     </div>
 </div>
 <div *ngFor="let post of listPost">
-    <div *ngIf="listIdPostReport.includes(post.id)">
+    <div *ngIf="isPostIdExist(post.id)">
         <div
             class="layout-horizontal align-center-center gap-20 px-25 py-15 card-background-default border border-card-default rounded-8">
             <div class="w-hug text-primary">
@@ -97,7 +97,7 @@
         </div>
     </div>
 
-    <div *ngIf="!listIdPostReport.includes(post.id)"
+    <div *ngIf="!isPostIdExist(post.id)"
         class="layout-vertical gap-20 pt-20 px-20 pb-10 card-background-default border border-card-default rounded-8">
 
         <div *ngIf="post.shares_count>0" class="layout-horizontal gap-10 align-center-left text-primary">
