@@ -105,4 +105,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Report::class, 'sender_id');
     }
+
+    public function deletedMessages()
+    {
+        return $this->hasMany(DeletedMessage::class, 'user_id');
+    }
 }

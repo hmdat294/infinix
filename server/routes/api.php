@@ -137,7 +137,7 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
 
     // API cho tin nhắn
     Route::resource('message', MessageController::class)
-    ->only(['store', 'show', 'update'])
+    ->only(['store', 'show', 'update', 'destroy'])
     ->parameters(['message' => 'id']);
 
     // API cho báo cáo
