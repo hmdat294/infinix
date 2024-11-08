@@ -56,6 +56,11 @@ export class ChatService {
     return this.http.get(`${this.apiUrl}/chat/${id}`, { headers });
   }
 
+  daleteMessageUser(id: number): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.delete(`${this.apiUrl}/chat/${id}`, { headers });
+  }
+
   getMessageGroup(id: number): Observable<any> {
     const headers = this.authService.getToken();
     return this.http.get(`${this.apiUrl}/chat-group/${id}`, { headers });

@@ -192,10 +192,9 @@ export class FriendProfileComponent implements OnInit {
   }
 
   cancelRequest(receiver_id: number) {
-    this.authService.cancelRequest(receiver_id).subscribe(
+    this.authService.acceptFriend({ id: receiver_id, status: 'rejected' }).subscribe(
       (response) => {
         console.log(response);
-        this.user.is_sent_friend_request = false;
       });
   }
 

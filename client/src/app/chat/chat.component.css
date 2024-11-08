@@ -40,12 +40,17 @@ article {
     overflow-y: scroll;
 }
 
+
 .mess-hover .mess-menu {
     display: none;
+    position: absolute;
+    overflow: visible;
+    z-index: 1;
+    width: 150px;
 }
 
 .mess-hover:hover .mess-menu {
-    display: block;
+    display: flex;
 }
 
 .textarea-chat {
@@ -53,7 +58,7 @@ article {
     max-height: 200px;
 }
 
-.border-focus{
+.border-focus {
     outline: 3px solid rgb(0, 0, 0, 0.9);
     outline-offset: 3px;
 }
@@ -132,7 +137,7 @@ article {
 
 .user-online::after,
 .user-offline::after,
-.user-idle::after{
+.user-idle::after {
     content: '';
     position: absolute;
     right: 1px;
@@ -142,14 +147,14 @@ article {
     border-radius: 100px;
 }
 
-.user-online::after{
+.user-online::after {
     background-color: rgb(55, 255, 0);
 }
 
-.user-offline::after{
+.user-offline::after {
     background-color: rgb(255, 0, 0);
 }
 
-.user-idle::after{
+.user-idle::after {
     background-color: rgb(255, 255, 0);
 }

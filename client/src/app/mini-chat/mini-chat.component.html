@@ -63,7 +63,8 @@
             <i class="icon-size-16 text-accent-default icon icon-ic_fluent_dismiss_16_filled"></i>
         </button>
     </div>
-    <div class="h-fill w-fill overflow-scroll-vertical gap-20 layout-vertical solid-background-tertiary position-relative">
+    <div
+        class="h-fill w-fill overflow-scroll-vertical gap-20 layout-vertical solid-background-tertiary position-relative">
 
 
         <div class="border_bottom w-fill position-absolute card-background-tertiary" style="top: 0px; z-index: 5;"
@@ -330,8 +331,8 @@
                 <div class="w-fill layout align-top-right" *ngIf="(user?.id == msg.user_id)">
                     <div class="layout-horizontal gap-15 p-20">
                         <div>
-                            <p class="text-tertiary text-caption mb-5 layout align-top-right">{{
-                                msg.created_at_time }}
+                            <p class="text-primary text-body mb-5 text-right">
+                                {{msg.user.profile.display_name}}
                             </p>
                             <div class="mess-hover layout align-top-right" *ngIf="msg.is_recalled == 0">
                                 <div style="height: 45px; overflow: visible; z-index: 1;">
@@ -430,10 +431,15 @@
                                                     {{ msg.content }}
                                                 </p>
 
-                                                <p *ngIf="msg.is_edited == 1" style="font-size: 0.9em;"
-                                                    class="text-secondary text-right">
-                                                    Đã sửa
-                                                </p>
+                                                <div class="text-tertiary text-caption layout-horizontal align-center-space-between mt-5"
+                                                    style="font-size: 0.9em;">
+                                                    <p class="text-left w-fill">
+                                                        {{ msg.created_at_time }}
+                                                    </p>
+                                                    <p *ngIf="msg.is_edited == 1" class="text-right w-fill">
+                                                        Đã sửa
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -469,12 +475,12 @@
                             class="rounded-circle border border-card-default object-fit-cover" alt=""
                             style="width: 35px; height: 35px;">
                         <div>
-                            <p class="text-tertiary text-caption mb-5 layout align-top-left">{{
-                                msg.created_at_time }}
+                            <p class="text-primary text-body mb-5 text-left">
+                                {{msg.user.profile.display_name}}
                             </p>
                             <div class="mess-hover layout align-top-left" *ngIf="msg.is_recalled == 0">
                                 <div>
-                                    <div style="max-width: 160px;">
+                                    <div style="max-width: 350px;">
                                         <div *ngIf="msg.reply_to_message_id">
                                             <div *ngIf="getReply(msg.reply_to_message_id).is_recalled == 0"
                                                 style="border-left: 3px solid var(--control-strong-stroke-default);">
@@ -527,10 +533,15 @@
                                                     {{ msg.content }}
                                                 </p>
 
-                                                <p *ngIf="msg.is_edited == 1" style="font-size: 0.9em;"
-                                                    class="text-secondary text-left">
-                                                    Đã sửa
-                                                </p>
+                                                <div class="text-tertiary text-caption layout-horizontal align-center-space-between mt-5"
+                                                    style="font-size: 0.9em;">
+                                                    <p *ngIf="msg.is_edited == 1" class="text-left w-fill">
+                                                        Đã sửa
+                                                    </p>
+                                                    <p class="text-right w-fill">
+                                                        {{ msg.created_at_time }}
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

@@ -50,7 +50,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
     this.authService.getUser(0).subscribe(
       (data) => {
         this.currentUser = data.data;
-    });
+      });
   }
 
   @ViewChild('commentInput') commentInput!: ElementRef;
@@ -152,15 +152,13 @@ export class SearchComponent implements OnInit, AfterViewInit {
     this.authService.addFriend(receiver_id).subscribe(
       (response) => {
         console.log(response);
-        this.valueSearchUsers.find(item => item.id === receiver_id).is_sent_friend_request = true;
       });
   }
 
   cancelRequest(receiver_id: number) {
-    this.authService.cancelRequest(receiver_id).subscribe(
+    this.authService.acceptFriend({ id: receiver_id, status: 'rejected' }).subscribe(
       (response) => {
         console.log(response);
-        this.valueSearchUsers.find(item => item.id === receiver_id).is_sent_friend_request = false;
       });
   }
 

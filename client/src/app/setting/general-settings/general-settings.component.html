@@ -240,7 +240,7 @@
             <div class="accordion active border border-card-default card-background-default rounded-4">
                 <div class="accordion-item">
                     <div class="accordion-header layout-horizontal gap-15 p-15 align-center-center"
-                        (click)="tabChild((tabAccordion == 'user_report')?'user_report':'post_report')">
+                        (click)="tabChild((tabAccordion == 'user_report' || tabAccordion == 'comment_report')? tabAccordion : 'post_report')">
                         <i class="icon-size-20 icon text-primary icon-ic_fluent_chat_warning_20_regular"></i>
                         <div class="layout-vertical w-fill">
                             <p class="text-body text-primary">Danh sách báo cáo</p>
@@ -249,22 +249,29 @@
                         </div>
                         <button type="button" class="button-subtle button-icon-only">
                             <span
-                                [class]="tabAccordion == 'post_report' || tabAccordion == 'user_report' ? 'rotate_icon_180' : 'rotate_icon_0'">
+                                [class]="tabAccordion == 'post_report' || tabAccordion == 'user_report' || tabAccordion == 'comment_report' ? 'rotate_icon_180' : 'rotate_icon_0'">
                                 <i class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
                             </span>
                         </button>
                     </div>
 
-                    <div class="accordion-panel open layout-vertical post_report user_report">
+                    <div class="accordion-panel open layout-vertical post_report user_report comment_report">
 
-                        <div class="p-15 layout-horizontal align-center-space-between gap-15">
-                            <button type="button" class="button-standard button-text-with-icon w-fill"
+                        <div class="px-15 pt-15 border-bottom layout-horizontal align-center-space-between">
+                            <button type="button" class="list-item tab-report text-primary w-fill"
+                                [class]="tabAccordion == 'post_report'?'tab-report-active':''"
                                 [disabled]="tabAccordion == 'post_report'" (click)="tabChild('post_report')">
                                 Post
                             </button>
-                            <button type="button" class="button-standard button-text-with-icon w-fill"
+                            <button type="button" class="list-item tab-report text-primary w-fill"
+                                [class]="tabAccordion == 'user_report'?'tab-report-active':''"
                                 [disabled]="tabAccordion == 'user_report'" (click)="tabChild('user_report')">
                                 User
+                            </button>
+                            <button type="button" class="list-item tab-report text-primary w-fill"
+                                [class]="tabAccordion == 'comment_report'?'tab-report-active':''"
+                                [disabled]="tabAccordion == 'comment_report'" (click)="tabChild('comment_report')">
+                                Comment
                             </button>
                         </div>
 

@@ -80,14 +80,6 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/register`, value);
   }
 
-  // verifyEmail(id: string, hash: string): Observable<any> {
-  //   const authToken = localStorage.getItem('auth_token_register') || '';
-  //   const headers = new HttpHeaders({
-  //     'Authorization': `Bearer ${authToken}`
-  //   });
-  //   return this.http.get(`${this.apiUrl}/email/verify/${id}/${hash}`, { headers });
-  // }
-
   logout(): Observable<any> {
     const headers = this.getToken();
     return this.http.post(`${this.apiUrl}/logout`, {}, { headers });
@@ -121,11 +113,6 @@ export class AuthService {
   acceptGroup(request: any): Observable<any> {
     const headers = this.getToken();
     return this.http.patch(`${this.apiUrl}/chat-group-invititaion/${request.id}`, { 'status': request.status }, { headers });
-  }
-
-  cancelRequest(receiver_id: number): Observable<any> {
-    const headers = this.getToken();
-    return this.http.post(`${this.apiUrl}/cancel-friend-request/${receiver_id}`, {}, { headers });
   }
 
   refuseFriend(id: number): Observable<any> {
