@@ -352,7 +352,7 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
               <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
               <span>Gửi báo cáo thành công.</span>
           </p>`;
-        setTimeout(() => this.showDialogReport(0), 3000);
+        setTimeout(() => this.showDialogReport(0), 2000);
       })
 
   }

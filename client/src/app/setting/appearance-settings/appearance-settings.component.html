@@ -1,0 +1,110 @@
+<div class="w-fill h-fill layout-vertical gap-20 overflow-scroll-vertical">
+
+    <div class="layout-vertical w-fill gap-20 mb-20">
+
+        <div class="layout-vertical w-fill gap-5">
+            <p class="text-body-strong text-primary">Hiển thị</p>
+
+            <div class="accordion active border border-card-default card-background-default rounded-4">
+                <div class="accordion-item">
+                    <div class="accordion-header layout-horizontal gap-15 p-15 align-center-center"
+                        (click)="tabChild('theme')">
+                        <i class="icon-size-20 icon text-primary icon-ic_fluent_sparkle_20_regular"></i>
+                        <div class="layout-vertical w-fill">
+                            <p class="text-body text-primary">Chủ đề</p>
+                            <p class="text-caption text-secondary">Tùy chỉnh giao diện</p>
+                        </div>
+                        <button type="button" class="button-subtle button-icon-only">
+                            <span
+                                [class]="tabAccordion == 'theme' ? 'rotate_icon_180' : 'rotate_icon_0'">
+                                <i class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
+                            </span>
+                        </button>
+                    </div>
+
+                    <div class="accordion-panel open layout-vertical theme">
+                        <div class="p-15 gap-15 layout-horizontal">
+                            <div class="layout-vertical gap-10" style="width: 150px;">
+                                <label class="layout-vertical label-radio-control">
+                                    <div class="layout-vertical w-fill p-20 gap-20 solid-background-base border border-card-default rounded-4 align-bottom-right"
+                                        data-theme="light">
+                                        <div class="layout-vertical gap-10 w-fill">
+                                            <div class="w-fill rounded-4"
+                                                style="height: 3px; background-color: var(--text-secondary);">
+                                            </div>
+                                            <div class="w-fill rounded-4"
+                                                style="height: 3px; background-color: var(--text-secondary);">
+                                            </div>
+                                            <div class="w-fill rounded-4"
+                                                style="height: 3px; background-color: var(--text-secondary);">
+                                            </div>
+                                            <div class="w-fill rounded-4"
+                                                style="height: 3px; background-color: var(--text-secondary);">
+                                            </div>
+                                        </div>
+                                        <div class="accent-default rounded-4" style="width: 30px; height: 20px;"></div>
+                                    </div>
+                                    <div class="w-fill layout-horizontal align-center-left gap-10">
+                                        <input class="radio-control" type="radio" name="option"
+                                            (change)='selectTheme("light")' [checked]="theme === 'light'">
+                                        <span class="text-primary">Sáng</span>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <div class="layout-vertical gap-10" style="width: 150px;">
+                                <label class="layout-vertical label-radio-control">
+                                    <div class="layout-vertical w-fill p-20 gap-20 solid-background-base border border-card-default rounded-4 align-bottom-right"
+                                        data-theme="dark">
+                                        <div class="layout-vertical gap-10 w-fill">
+                                            <div class="w-fill rounded-4"
+                                                style="height: 3px; background-color: var(--text-secondary);">
+                                            </div>
+                                            <div class="w-fill rounded-4"
+                                                style="height: 3px; background-color: var(--text-secondary);">
+                                            </div>
+                                            <div class="w-fill rounded-4"
+                                                style="height: 3px; background-color: var(--text-secondary);">
+                                            </div>
+                                            <div class="w-fill rounded-4"
+                                                style="height: 3px; background-color: var(--text-secondary);">
+                                            </div>
+                                        </div>
+                                        <div class="accent-default rounded-4" style="width: 30px; height: 20px;"></div>
+                                    </div>
+                                    <div class="w-fill layout-horizontal align-center-left gap-10">
+                                        <input class="radio-control" type="radio" name="option"
+                                            (change)='selectTheme("dark")' [checked]="theme === 'dark'">
+                                        <span class="text-primary">Tối</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div
+                class="border border-card-default card-background-default rounded-4 layout-horizontal gap-15 p-15 align-center-center">
+                <i class="icon-size-20 icon text-primary icon-ic_fluent_local_language_20_regular"></i>
+                <div class="layout-vertical w-fill">
+                    <p class="text-body text-primary">Ngôn ngữ</p>
+                    <p class="text-caption text-secondary">Chọn ngôn ngữ hiển thị</p>
+                </div>
+                <div class="dropdown-control">
+                    <button type="button" class="button button-standard button-text-with-icon  w-fill">
+                        <i class="icon-size-16 icon icon-ic_fluent_chevron_down_16_regular"></i>
+                    </button>
+                    <div class="dropdown-menu">
+                        <div class="list-item">
+                            <div class="text-body">Tiếng Việt</div>
+                        </div>
+                        <div class="list-item">
+                            <div class="text-body">English</div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+    </div>
+</div>
