@@ -165,22 +165,19 @@ class FriendRequestController extends Controller
         return new FriendRequestResource($friend_request);
     }
 
-    public function cancel(Request $request, string $user_id)
-    {
-        $friend_request = FriendRequestModel::where('sender_id', $request->user()->id)->where('receiver_id', $user_id)->where('status', 'pending')->first();
+    // public function cancel(Request $request, string $user_id)
+    // {
+    //     $friend_request = FriendRequestModel::where('sender_id', $request->user()->id)->where('receiver_id', $user_id)->where('status', 'pending')->first();
 
-        // if (!$friend_request) {
-        //     return response()->json([
-        //         'message' => 'Friend request not found.',
-        //     ], 404);
-        // }
 
-        $friend_request->delete();
+    //     $friend_request->delete();
 
-        return response()->json([
-            'message' => 'Friend request canceled.',
-        ]);
-    }
+    //     return response()->json([
+    //         'message' => 'Friend request canceled.',
+    //     ]);
+
+
+    // }
 
     public function sendNotification($friend_request_id, $status)
     {
