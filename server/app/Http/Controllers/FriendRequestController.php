@@ -159,7 +159,6 @@ class FriendRequestController extends Controller
 
             $this->sendNotification($id, 'accepted');
         } else {
-            Log::info('ahaha');
             event(new FriendRequestEvent(FriendRequestModel::find($id)->sender_id, FriendRequestModel::find($id)->receiver_id, 'rejected'));
         }
         Log::info(json_encode($friend_request));

@@ -111,14 +111,17 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
               if (this.conversation?.id == data.data?.conversation_id)
                 this.conversation.messages.push(data.data);
 
-              const user_receiver = this.friends.find((user: any) => user.users[0].id == data.data.user_id)
+              if (this.user.id !== data.data.user_id) {
 
-              if (!user_receiver) {
-                this.chatService.getMessageUser(data.data.user_id).subscribe(
-                  (response: any) => {
-                    console.log(response);
-                    this.friends.unshift(response.data);
-                  });
+                const user_receiver = this.friends.find((user: any) => user.users[0].id == data.data.user_id)
+
+                if (!user_receiver) {
+                  this.chatService.getMessageUser(data.data.user_id).subscribe(
+                    (response: any) => {
+                      console.log(response);
+                      this.friends.unshift(response.data);
+                    });
+                }
               }
             });
 
@@ -151,7 +154,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
       .replace(/[íìịĩi]/g, "i")
       .replace(/[ýỳỵỹy]/g, "y");
   }
-  
+
   shortenTextByWords(text: string, maxWords: number): string {
     const words = text.split(' ');
     return words.length > maxWords ? words.slice(0, maxWords).join(' ') + '...' : text;
