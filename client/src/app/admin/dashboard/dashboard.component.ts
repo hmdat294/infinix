@@ -21,10 +21,10 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.loadLineChartData();
     this.renderChart();
-    this.renderDonutChart();
     this.renderRadialBarChart();
     this.loadTotalReports();
     this.loadTotalPosts();
+    this.loadDonutChartData(); // Gọi hàm lấy dữ liệu cho Donut Chart
   }
 
   loadTotalReports(): void {
@@ -69,6 +69,29 @@ export class DashboardComponent implements OnInit {
     );
   }
   
+  loadDonutChartData(): void {
+    Promise.all([
+      this.adminService.getTotalPostBookmarks().toPromise(),
+      this.adminService.getTotalPostComments().toPromise(),
+      this.adminService.getTotalPostLikes().toPromise(),
+      this.adminService.getTotalPostShares().toPromise()
+    ]).then((responses) => {
+      const series = (responses as Array<{ data: number } | undefined>).map((response) => response ? response.data : 0);
+      console.log('Series data for Donut Chart:', series);
+      this.renderDonutChart(series);
+    }).catch(error => {
+      console.error('Lỗi khi gọi API:', error);
+    });
+}
+  
+
+
+
+
+
+  
+  
+  
   
   
 
@@ -109,22 +132,25 @@ export class DashboardComponent implements OnInit {
     chart.render();
   }
 
-  renderDonutChart(): void {
+  renderDonutChart(seriesData: number[]): void {
+    // Kiểm tra dữ liệu trước khi render biểu đồ
+    console.log('Data passed to renderDonutChart:', seriesData);
+
     const donutChartOptions: ApexOptions = {
-      series: [25, 25, 25, 25],
+      series: seriesData,
       chart: {
         foreColor: '#9ba7b2',
         height: 240,
         type: 'donut',
         dropShadow: { enabled: true, top: 3, left: 2, blur: 4, opacity: 0.1 }
       },
-      colors: ["#ffc107", "#0d6efd", "#17a00e", "#f41127"],
+      colors: ["#ffc107", "#17a00e", "#0d6efd", "#f41127"],
       title: {
-        text: 'Growth statistics',
+        text: 'Total Post',
         offsetY: 0,
         offsetX: 0
       },
-      labels: ['User report', 'Comment report', 'Post report', 'Group report'],
+      labels: ['Post Bookmarks', 'Post Comments', 'Post Likes', 'Post Shares'],
       legend: {
         position: 'bottom',
         formatter: (val: string) => val,
@@ -133,7 +159,8 @@ export class DashboardComponent implements OnInit {
 
     const donutChart = new ApexCharts(document.querySelector('#chart9'), donutChartOptions);
     donutChart.render();
-  }
+}
+
 
   renderRadialBarChart(): void {
     const radialBarOptions: ApexOptions = {
@@ -209,8 +236,4 @@ export class DashboardComponent implements OnInit {
     const lineChart1 = new ApexCharts(document.querySelector('#chart1'), lineChart1Options);
     lineChart1.render();
   }
-  
-
-
-  
 }
