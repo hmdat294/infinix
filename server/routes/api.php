@@ -86,7 +86,7 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
     ->only(['index', 'store', 'show', 'update', 'destroy'])
     ->parameters(['friend-request' => 'id']);
 
-    Route::post('cancel-friend-request/{user_id}', [FriendRequestController::class, 'cancel'])->name('cancel-friend-request');
+    // Route::post('cancel-friend-request/{user_id}', [FriendRequestController::class, 'cancel'])->name('cancel-friend-request');
 
     // API cho Bài viết
     Route::resource('post', PostController::class)
@@ -137,7 +137,7 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
 
     // API cho tin nhắn
     Route::resource('message', MessageController::class)
-    ->only(['store', 'show', 'update'])
+    ->only(['store', 'show', 'update', 'destroy'])
     ->parameters(['message' => 'id']);
 
     // API cho báo cáo

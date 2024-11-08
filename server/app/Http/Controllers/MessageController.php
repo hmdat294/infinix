@@ -13,6 +13,7 @@ use App\Events\UserEditMessageEvent;
 use App\Models\Notification;
 use App\Models\User;
 use App\Events\NotificationEvent;
+use App\Models\DeletedMessage as DeletedMessageModel;
 
 class MessageController extends Controller
 {
@@ -146,5 +147,16 @@ class MessageController extends Controller
             $notification = Notification::create($notification_data);
             event(new NotificationEvent($notification));
         }
+    }
+
+    public function destroy(string $id)
+    {
+        $message = MessageModel::find($id);
+        DeletedMessageModel::create([
+            'user_id' => $message->user_id,
+            'message_id' => $message->id
+        ]);
+
+        return response()->json(['message' => 'Xóa tin nhắn thành công'], 200);
     }
 }

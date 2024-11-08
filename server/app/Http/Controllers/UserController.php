@@ -168,4 +168,20 @@ class UserController extends Controller
         $user = UserModel::find($request->user()->id);
         return ReportResource::collection($user->reportings);
     }
+
+    // public function friendSuggetions(Request $request)
+    // {
+    //     $user = UserModel::find($request->user()->id);
+    //     $friends = $user->friendsOfMine->pluck('id');
+    //     $friends[] = $user->id;
+    //     $blockings = $user->blockings->pluck('id');
+    //     $blockings[] = $user->id;
+    //     $blockedBy = $user->blockedBy->pluck('id');
+    //     $blockedBy[] = $user->id;
+    //     $users = UserModel::whereNotIn('id', $friends)
+    //         ->whereNotIn('id', $blockings)
+    //         ->whereNotIn('id', $blockedBy)
+    //         ->get();
+    //     return UserResource::collection($users);
+    // }
 }
