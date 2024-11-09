@@ -459,10 +459,10 @@
 
                     <div *ngIf="shareSuccess != ''" [innerHTML]="shareSuccess"></div>
 
-                    <div class="layout-vertial w-fill border-bottom border-card-default">
+                    <div *ngIf="listUser?.length > 0" class="layout-vertial w-fill border-bottom border-card-default pb-10">
                         <div class="w-fill layout-horizontal py-10 px-20 gap-10">
                             <p class="text-body-strong text-primary w-fill">Chia sẻ với bạn bè</p>
-                            <div class="control search-control">
+                            <!-- <div class="control search-control">
                                 <input type="search" placeholder="placeholder" spellcheck="false">
                                 <button type="button" class="input-button clear-content-button">
                                     <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
@@ -470,7 +470,7 @@
                                 <button type="button" class="input-button search-button">
                                     <i class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
                                 </button>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="layout w-fill">
                             <button type="button"
@@ -510,10 +510,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="layout-vertial w-fill border-bottom border-card-default">
+                    <div *ngIf="listGroup?.length > 0" class="layout-vertial w-fill border-bottom border-card-default pb-10">
                         <div class="w-fill layout-horizontal py-10 px-20 gap-10">
                             <p class="text-body-strong text-primary w-fill">Chia sẻ với nhóm</p>
-                            <div class="control search-control">
+                            <!-- <div class="control search-control">
                                 <input type="search" placeholder="placeholder" spellcheck="false">
                                 <button type="button" class="input-button clear-content-button">
                                     <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
@@ -521,7 +521,7 @@
                                 <button type="button" class="input-button search-button">
                                     <i class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
                                 </button>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="layout w-fill">
                             <button type="button"

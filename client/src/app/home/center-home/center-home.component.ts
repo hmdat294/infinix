@@ -34,6 +34,7 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   currentUser: any;
   listUser: any;
   listGroup: any;
+  friendSuggestions: any;
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -46,18 +47,6 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
 
-    this.postService.getPostMix().subscribe(
-      (data) => {
-        this.listPost = data.data;
-        console.log(this.listPost);
-
-        this.eventService.bindEvent('App\\Events\\UserPostEvent', (data: any) => {
-          console.log('Post event:', data);
-          this.listPost.unshift(data.data);
-        });
-
-      });
-
     this.authService.getUser(0).subscribe(
       (data) => {
         this.currentUser = data.data;
@@ -67,6 +56,24 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
       (response) => {
         this.listUser = response.data.filter((item: any) => item.is_group == 0);
         this.listGroup = response.data.filter((item: any) => item.is_group == 1);
+      });
+
+    this.authService.getFriendSuggestions().subscribe(
+      (response) => {
+        console.log(response);
+        this.friendSuggestions = response.data;
+      }
+    )
+
+    this.postService.getPostMix().subscribe(
+      (data) => {
+        this.listPost = data.data;
+        console.log(this.listPost);
+
+        this.eventService.bindEvent('App\\Events\\UserPostEvent', (data: any) => {
+          console.log('Post event:', data);
+          this.listPost.unshift(data.data);
+        });
       });
   }
 
@@ -78,6 +85,17 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.initCarousels();
+  }
+
+  showFriendSuggestions(i: number): number {
+    return (i >= 3) ? 3 : this.listPost.length - 1;
+  }
+
+  addFriend(receiver_id: number): void {
+    this.authService.addFriend(receiver_id).subscribe(
+      (response) => {
+        console.log(response);
+      });
   }
 
   initCarousels(): void {
@@ -275,6 +293,7 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
 
         const shared = this.listPost.find(item => item.id === post_id);
         shared.shared = !shared.shared;
+        shared.shared_by.unshift(this.currentUser);
 
         if (shared.shared) {
           shared.shares_count++;
@@ -352,13 +371,13 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
               <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
               <span>Gửi báo cáo thành công.</span>
           </p>`;
-        setTimeout(() => this.showDialogReport(0), 2000);
+        this.showDialogReport(0);
       })
 
   }
 
   cancelReport(post_id: number) {
-    const report = this.listIdPostReport.find((item:any) => item.post_id === post_id);
+    const report = this.listIdPostReport.find((item: any) => item.post_id === post_id);
     this.postService.cancelReport(report.id).subscribe(
       (response: any) => {
         this.listIdPostReport = this.listIdPostReport.filter((id: any) => id.id !== report.id);
@@ -368,7 +387,7 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   }
 
   isPostIdExist(post_id: number): boolean {
-    return this.listIdPostReport.some((item:any) => item.post_id === post_id);
+    return this.listIdPostReport.some((item: any) => item.post_id === post_id);
   }
 
   //report
