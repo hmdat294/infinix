@@ -71,9 +71,12 @@ export class DashboardComponent implements OnInit {
   fetchDataAndRenderChart(): void {
     this.adminService.getUserGrowthData().subscribe(userGrowthData => {
       this.User_Growth = userGrowthData;
-
+      console.log(this.User_Growth);
+      
       this.adminService.getPostGrowthData().subscribe(postGrowthData => {
         this.Post_Growth = postGrowthData;
+        console.log(this.Post_Growth);
+        
 
         // Sau khi có dữ liệu từ cả hai API, gọi hàm để vẽ biểu đồ
         this.renderChart();
