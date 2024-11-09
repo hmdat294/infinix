@@ -301,8 +301,6 @@ class PostController extends Controller
                $post["created_at"] = PostShare::where('post_id', $post->id)->first()->created_at;
             }
         }
-
-        //sort by created_at
         $posts = $posts->sortByDesc('created_at');
 
         return PostResource::collection($posts);
@@ -322,11 +320,18 @@ class PostController extends Controller
 
 
         $posts = PostModel::whereIn('id', $post_ids)
-        ->orWhereIn('id', $shared_post_ids)
-        ->orderBy('created_at', 'desc');
+        ->orWhereIn('id', $shared_post_ids);
         Log::info('post_ids: '.$posts->pluck('id'));
 
         $posts = $posts->get();
+        foreach ($posts as &$post) {
+            if ($shared_post_ids->contains($post->id)) {
+               $post["created_at"] = PostShare::where('post_id', $post->id)->first()->created_at;
+            }
+        }
+        $posts = $posts->sortByDesc('created_at');
+
+
         return PostResource::collection($posts);
     }
 }
