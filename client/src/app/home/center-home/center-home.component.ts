@@ -95,6 +95,23 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
     this.authService.addFriend(receiver_id).subscribe(
       (response) => {
         console.log(response);
+
+        const friendfriend = this.friendSuggestions.find((item: any) => item.id === receiver_id);
+        friendfriend.is_sent_friend_request = !friendfriend.is_sent_friend_request;
+      });
+  }
+  
+  unFriend(user_id: number): void {
+    this.authService.unFriend(user_id).subscribe(
+      (response) => {
+        console.log(response);
+      });
+  }
+
+  cancelRequest(receiver_id: number) {
+    this.authService.cancelFriend(receiver_id).subscribe(
+      (response) => {
+        console.log(response);
       });
   }
 
