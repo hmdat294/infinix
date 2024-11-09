@@ -1,0 +1,244 @@
+<div class="w-fill h-fill layout-vertical gap-20 overflow-scroll-vertical">
+
+    <div class="layout-vertical w-fill gap-20 mb-20">
+
+        <div class="layout-vertical w-fill gap-5">
+            <p class="text-body-strong text-primary">Thông tin tài khoản</p>
+
+            <div class="accordion active border border-card-default card-background-default rounded-4">
+                <div class="accordion-item">
+                    <div class="accordion-header layout-horizontal gap-15 p-15 align-center-center"
+                        (click)="tabChild('username')">
+                        <i
+                            class="icon-size-20 icon text-primary icon-ic_fluent_contact_card_20_regular"></i>
+                        <div class="layout-vertical w-fill">
+                            <p class="text-body text-primary">Tên tài khoản</p>
+                            <p class="text-caption text-secondary">{{username ||
+                                user?.username ||
+                                'Trống'}}</p>
+                        </div>
+                        <button type="button" class="button-subtle button-icon-only">
+                            <span
+                                [class]="tabAccordion == 'username' ? 'rotate_icon_180' : 'rotate_icon_0'">
+                                <i
+                                    class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
+                            </span>
+                        </button>
+                    </div>
+
+                    <div class="accordion-panel open layout-vertical username">
+                        <div
+                            class="p-15 layout-horizontal align-center-space-between border-bottom border-card-default">
+                            <div class="control text-control">
+                                <input type="text" spellcheck="false" name="username"
+                                    [(ngModel)]="username">
+                            </div>
+                            <button class="button-standard button-text-only"
+                                (click)="updateUser({'username':username})">Lưu</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="border border-card-default card-background-default rounded-4  layout-horizontal gap-15 p-15 align-center-center">
+                <i class="icon-size-20 icon text-primary icon-ic_fluent_key_20_regular"></i>
+                <div class="layout-vertical w-fill">
+                    <p class="text-body text-primary">Mật khẩu</p>
+                    <p class="text-caption text-secondary">Thay đổi mật khẩu của bạn</p>
+                </div>
+
+                <div class="dialog visible" *ngIf="tabAccordion == 'password'">
+                    <div class="dialog-panel layout" style="width: 375px;">
+                        <form (submit)="updatePassword(frm.value)" #frm="ngForm"
+                            class="solid-background-senary w-fill rounded-4 p-20 gap-20 layout-vertical border border-card-default">
+                            <p class="text-subtitle text-primary">Đổi mật khẩu</p>
+
+                            <div *ngIf="error3 != ''" [innerHTML]="error3"></div>
+                            <div class="layout-vertical w-fill gap-5">
+                                <p class="text-body text-primary">Mật khẩu cũ</p>
+                                <div class="control password-control w-fill">
+                                    <input type="password" spellcheck="false" name="old_password"
+                                        ngModel required>
+                                    <button type="button" class="input-button show-password-button">
+                                        <i class="icon-size-16 icon icon-ic_fluent_eye_16_regular"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="layout-vertical w-fill gap-5">
+                                <p class="text-body text-primary">Mật khẩu mới</p>
+                                <div class="control password-control w-fill">
+                                    <input type="password" spellcheck="false" name="new_password"
+                                        ngModel #new_password="ngModel" required minlength="8">
+                                    <button type="button" class="input-button show-password-button">
+                                        <i class="icon-size-16 icon icon-ic_fluent_eye_16_regular"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <p *ngIf="new_password.errors?.['minlength']"
+                                class="validation-message validation-caution text-body text-primary">
+                                <i class="icon-size-16 icon icon-ic_fluent_warning_16_filled"></i>
+                                <span class="text-body-strong">Password</span>
+                                <span>Phải trên 8 ký tự</span>
+                            </p>
+                            <div class="layout-vertical w-fill gap-5">
+                                <p class="text-body text-primary">Xác nhận mật khẩu mới</p>
+                                <div class="control password-control w-fill">
+                                    <input type="password" spellcheck="false" ngModel name="confirm"
+                                        #confirm="ngModel" required>
+                                    <button type="button" class="input-button show-password-button">
+                                        <i class="icon-size-16 icon icon-ic_fluent_eye_16_regular"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <p *ngIf="new_password.value !== confirm.value"
+                                class="validation-message validation-caution text-body text-primary">
+                                <i class="icon-size-16 icon icon-ic_fluent_warning_16_filled"></i>
+                                <span class="text-body-strong">Password</span>
+                                <span>Không khớp</span>
+                            </p>
+                            <div class="layout-horizontal gap-10 w-fill align-center-right">
+                                <button type="button" class="button-standard button-text-only"
+                                    (click)="tabChild('password')">
+                                    Hủy
+                                </button>
+                                <button type="submit" class="button-accent button-text-only"
+                                    [disabled]="frm.invalid || !checkPasswords(frm)">
+                                    Xác nhận
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <button type="button" class="button-standard button-text-only"
+                    (click)="tabChild('password')">
+                    Đổi mật khẩu
+                </button>
+            </div>
+
+            <div class="accordion active border border-card-default card-background-default rounded-4">
+                <div class="accordion-item">
+                    <div
+                        class="accordion-header layout-horizontal gap-25 p-15 align-center-space-between">
+                        <div class="layout-horizontal gap-15 align-center-center">
+                            <i
+                                class="icon-size-20 icon text-primary icon-ic_fluent_mail_20_regular"></i>
+                            <div class="layout-vertical">
+                                <p class="text-body text-primary">Email</p>
+                                <p class="text-caption text-secondary">{{email ||
+                                    user?.email ||
+                                    'Trống'}}</p>
+                            </div>
+                        </div>
+                        <div class="layout-horizontal gap-20 align-center-right">
+                            <div *ngIf="error1 != ''" [innerHTML]="error1"></div>
+
+                            <button type="button" class="button-standard button-text-only"
+                                (click)="getCode(email || user?.email)">
+                                Gửi mã
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="accordion-panel open layout-vertical email">
+
+                        <div
+                            class="p-15 layout-horizontal align-center-space-between border-bottom border-card-default">
+                            <div>
+                                <label for="code" class="text-body text-primary">Mã xác nhận</label>
+                                <div class="control text-control">
+                                    <input id="code" type="text" spellcheck="false" name="code"
+                                        #code="ngModel" ngModel>
+                                </div>
+                            </div>
+                            <div class="layout-horizontal gap-20 align-center-right">
+                                <div *ngIf="error2 != ''" [innerHTML]="error2"></div>
+
+                                <button class="button-standard button-text-only"
+                                    (click)="postCode(email || user?.email, code.value)">Xác
+                                    nhận</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-panel open layout-vertical verify-code">
+
+                        <div
+                            class="p-15 layout-horizontal align-center-space-between border-bottom border-card-default">
+                            <div>
+                                <label for="email" class="text-body text-primary">Email</label>
+                                <div class="control text-control">
+                                    <input id="email" type="text" spellcheck="false" name="email"
+                                        [(ngModel)]="email">
+                                </div>
+                            </div>
+                            <button class="button-standard button-text-only"
+                                (click)="updateUser({'email':email})">Lưu</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion active border border-card-default card-background-default rounded-4">
+                <div class="accordion-item">
+                    <div class="accordion-header layout-horizontal gap-15 p-15 align-center-center"
+                        (click)="tabChild('phone_number')">
+                        <i class="icon-size-20 icon text-primary icon-ic_fluent_phone_20_regular"></i>
+                        <div class="layout-vertical w-fill">
+                            <p class="text-body text-primary">Số điện thoại</p>
+                            <p class="text-caption text-secondary">{{phone_number ||
+                                user?.phone_number ||
+                                'Trống'}}</p>
+                        </div>
+                        <button type="button" class="button-subtle button-icon-only">
+                            <span
+                                [class]="tabAccordion == 'phone_number' ? 'rotate_icon_180' : 'rotate_icon_0'">
+                                <i
+                                    class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
+                            </span>
+                        </button>
+                    </div>
+
+                    <div class="accordion-panel open layout-vertical phone_number">
+                        <div
+                            class="p-15 layout-horizontal align-center-space-between border-bottom border-card-default">
+                            <div class="control text-control">
+                                <input type="text" spellcheck="false" name="phone_number"
+                                    [(ngModel)]="phone_number">
+                            </div>
+                            <button class="button-standard button-text-only"
+                                (click)="updateUser({'phone_number':phone_number})">Lưu</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="accordion active border border-card-default card-background-default rounded-4">
+                <div class="accordion-item">
+                    <div class="accordion-header layout-horizontal gap-15 p-15 align-center-center" (click)="tabChild('display_name')">
+                        <i class="icon-size-20 icon text-primary icon-ic_fluent_image_20_regular"></i>
+                        <div class="layout-vertical w-fill">
+                            <p class="text-body text-primary">Ảnh bìa</p>
+                            <p class="text-caption text-secondary">Điều chỉnh ảnh bìa của bạn</p>
+                        </div>
+                        <button type="button" class="button-subtle button-icon-only">
+                            <i class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
+                        </button>
+                    </div>
+                
+                    <div class="accordion-panel open layout-vertical" style="max-height: fit-content;" *ngIf="tabAccordion == 'display_name'">
+                        <div class="p-15 layout-horizontal align-center-space-between border-bottom border-card-default">
+                            <p class="text-body text-primary">Chụp ảnh</p>
+                            <button class="button-standard button-text-only">Mở máy ảnh</button>
+                        </div>
+                        <div class="p-15 layout-horizontal align-center-space-between">
+                            <p class="text-body text-primary">Chọn ảnh từ thiết bị</p>
+                            <button class="button-standard button-text-only">Mở thư mục</button>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+    </div>
+</div>

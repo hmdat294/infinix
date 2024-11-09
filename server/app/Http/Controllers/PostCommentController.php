@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NotificationEvent;
 use App\Http\Resources\CommentResource;
 use App\Events\UserCommentPostEvent;
 use Illuminate\Http\Request;
@@ -10,6 +11,9 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\JsonResponse;
 use App\Models\Post as PostModel;
 use Illuminate\Support\Facades\Log;
+use App\Models\Notification as NotificationModel;
+use App\Models\User as UserModel;
+use App\Models\DisabledNotification as DisabledNotificationModel;
 
 class PostCommentController extends Controller
 {
@@ -65,8 +69,9 @@ class PostCommentController extends Controller
         }
 
         $comment = CommentModel::create($comment_data);
+        $post = PostModel::find($request->post_id);
         event(new UserCommentPostEvent($comment->user_id, $comment->post_id, $comment->id, $comment->content, "comment"));
-
+        $this->sendNotification($request->user()->id, $comment->post_id, $comment->id);
         return new CommentResource($comment);
     }
 
@@ -143,5 +148,31 @@ class PostCommentController extends Controller
         return response()->json([
             'message' => 'Comment deleted.',
         ], 204);
+    }
+
+    public function sendNotification($user_id, $post_id, $comment_id)
+    {
+        $post = PostModel::find($post_id);
+        
+        $post_notification_disabled = DisabledNotificationModel::where('user_id', $post->user_id)->where('post_id', $post_id)->exists();
+
+        $target_user_notification_disabled = DisabledNotificationModel::where('user_id', PostModel::find($post_id)->user_id)->where('target_user_id', $user_id)->exists();
+
+        if($post_notification_disabled || $target_user_notification_disabled) {
+            return;
+        }
+
+        $data['user_id'] = PostModel::find($post_id)->user_id;
+        $data['target_user_id'] = $user_id;
+        $data['action_type'] = 'user_comment_post';
+        $data['content'] = UserModel::find($user_id)->profile->display_name . ' đã bình luận bài viết của bạn';
+        $data['comment_id'] = $comment_id;
+        $data['post_id'] = $post_id;
+
+        $notification = NotificationModel::create($data);
+        event(new NotificationEvent($notification));
+        return response()->json([
+            'data' => $notification
+        ], 200);
     }
 }

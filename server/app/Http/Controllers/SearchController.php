@@ -21,6 +21,12 @@ class SearchController extends Controller
         // loại trừ bản thân
         $users = $users->where('id', '!=', $request->user()->id);
 
+        $blocked_by_ids = $request->user()->blockedBy->pluck('blocker_id');
+        $blocked_ids = $request->user()->blockings->pluck('blocked_id');
+
+        $users = $users->whereNotIn('id', $blocked_by_ids)
+                       ->whereNotIn('id', $blocked_ids);
+
         if ($limit) {
             $users = $users->limit($limit);
         }
@@ -34,6 +40,17 @@ class SearchController extends Controller
     {
 
         $posts = PostModel::where('content', 'like', "%$keyword%");
+
+        $blocked_by_ids = $request->user()->blockedBy->pluck('blocker_id');
+        $blocked_ids = $request->user()->blockings->pluck('blocked_id');
+        $reported_user_ids = $request->user()->reportings->pluck('user_id');
+
+        $user_ids = UserModel::whereNotIn('id', $blocked_by_ids)
+                       ->whereNotIn('id', $blocked_ids)
+                       ->whereNotIn('id', $reported_user_ids)
+                       ->pluck('id');
+
+        $posts = $posts->whereNotIn('user_id', $user_ids);
 
         if ($limit) {
             $posts = $posts->limit($limit);

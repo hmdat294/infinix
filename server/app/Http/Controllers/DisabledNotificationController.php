@@ -22,15 +22,23 @@ class DisabledNotificationController extends Controller
     public function store(Request $request)
     {
         $data['user_id'] = $request->user()->id;
+        $data['enable_at'] = now()->addHours($request->hours);
 
         if ($request->has('target_user_id')) {
-
             $disabled_notification = DisabledNotificationModel::where('user_id', $data['user_id'])
                 ->where('target_user_id', $request->target_user_id)
                 ->first();
 
-            if ($disabled_notification) {
+            $enable_at = $disabled_notification->enable_at;
+
+            if ($disabled_notification && $enable_at > now()) {
                 $disabled_notification->delete();
+                return response()->json([
+                    'message' => 'Đã bật thông báo',
+                    'data' => $disabled_notification
+                ], 200);
+            } else if ($disabled_notification && $enable_at < now()) {
+                $disabled_notification->update($data);
                 return response()->json([
                     'message' => 'Đã bật thông báo',
                     'data' => $disabled_notification

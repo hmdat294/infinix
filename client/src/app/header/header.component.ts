@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { NavigationEnd, Router, RouterModule, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -88,5 +88,6 @@ export class HeaderComponent implements OnInit {
   diaLogNotification() {
     this.diaLogNoti = !this.diaLogNoti;
   }
+
 
 }

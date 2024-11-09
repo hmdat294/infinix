@@ -90,4 +90,24 @@ class User extends Authenticatable
     {
         return $this->hasMany(Notification::class, 'user_id');
     }
+
+    public function blockings()
+    {
+        return $this->belongsToMany(User::class, 'blocked_users', 'blocker_id', 'blocked_id');
+    }
+
+    public function blockedBy()
+    {
+        return $this->belongsToMany(User::class, 'blocked_users', 'blocked_id', 'blocker_id');
+    }
+
+    public function reportings()
+    {
+        return $this->hasMany(Report::class, 'sender_id');
+    }
+
+    public function deletedMessages()
+    {
+        return $this->hasMany(DeletedMessage::class, 'user_id');
+    }
 }

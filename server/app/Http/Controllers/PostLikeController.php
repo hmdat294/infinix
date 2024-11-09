@@ -10,6 +10,10 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\JsonResponse;
 use App\Events\UserLikePostEvent;
 use Illuminate\Support\Facades\Log;
+use App\Models\Notification as NotificationModel;
+use App\Models\User as UserModel;
+use App\Models\DisabledNotification as DisabledNotificationModel;
+use App\Events\NotificationEvent;
 
 class PostLikeController extends Controller
 {
@@ -44,7 +48,6 @@ class PostLikeController extends Controller
      */
     public function store(Request $request)
     {
-        Log::info('abc');
         $post_like = PostLikeModel::where('post_id', $request->post_id)
             ->where('user_id', $request->user()->id)
             ->first();
@@ -66,13 +69,40 @@ class PostLikeController extends Controller
                 'post_id' => $request->post_id,
                 'user_id' => $request->user()->id,
             ]);
-
+            $post = PostModel::find($request->post_id);
             event(new UserLikePostEvent($request->post_id, $request->user()->id, "like"));
+
+            $this->sendNotification($request->user()->id, $request->post_id);
 
             return response()->json([
                 'message' => 'Đã thích bài viết',
                 'liked' => true
             ], 200);
         }
+    }
+
+    public function sendNotification($user_id, $post_id)
+    {
+        $post = PostModel::find($post_id);
+        
+        $post_notification_disabled = DisabledNotificationModel::where('user_id', $post->user_id)->where('post_id', $post_id)->exists();
+
+        $target_user_notification_disabled = DisabledNotificationModel::where('user_id', PostModel::find($post_id)->user_id)->where('target_user_id', $user_id)->exists();
+
+        if($post_notification_disabled || $target_user_notification_disabled) {
+            return;
+        }
+
+        $data = [
+            'user_id' => $post->user_id,
+            'target_user_id' => $user_id,
+            'action_type' => 'user_like_post',
+            'content' => UserModel::find($user_id)->profile->display_name . ' đã thích bài viết của bạn',
+            'post_id' => $post_id,
+        ];
+
+        $notification = NotificationModel::create($data);
+        event(new NotificationEvent($notification));
+        return $notification;
     }
 }

@@ -15,6 +15,7 @@ export class EventService implements OnDestroy {
   private channel_post: any;
   private post_id: number = 0;
   private hasEntered: boolean = false;
+  user: any;
   isLoggedIn: boolean = false;
 
   constructor(
@@ -35,16 +36,20 @@ export class EventService implements OnDestroy {
         }
 
         this.authService.getUser(0).subscribe(
-          (response) => this.channel = this.pusher.subscribe(`user.${response.data.id}`));
+          (response) => {
+            this.channel = this.pusher.subscribe(`user.${response.data.id}`);
+            this.user = response.data;
+       
+            this.resetIdleTimer();
+    
+            if (!this.hasEntered) {
+              this.onUserEnter();
+              this.hasEntered = true;
+            }
+          });
 
         this.setPusherComment();
 
-        this.resetIdleTimer();
-
-        if (!this.hasEntered) {
-          this.onUserEnter();
-          this.hasEntered = true;
-        }
       }
     });
 
@@ -53,18 +58,18 @@ export class EventService implements OnDestroy {
   public bindEvent(eventName: string, callback: (data: any) => void): void {
     if (this.channel) {
       this.channel.bind(eventName, callback);
-      console.log(`Bound event '${eventName}' to channel '${this.channel.name}'`);
+      // console.log(`Bound event '${eventName}' to channel '${this.channel.name}'`);
     } else {
-      console.error('No channel to bind the event to.');
+      // console.error('No channel to bind the event to.');
     }
   }
 
   public bindEventPost(eventName: string, callback: (data: any) => void): void {
     if (this.channel_post) {
       this.channel_post.bind(eventName, callback);
-      console.log(`Bound event '${eventName}' to channel_post '${this.channel_post.name}'`);
+      // console.log(`Bound event '${eventName}' to channel_post '${this.channel_post.name}'`);
     } else {
-      console.error('No channel_post to bind the event to.');
+      // console.error('No channel_post to bind the event to.');
     }
   }
 
@@ -84,26 +89,19 @@ export class EventService implements OnDestroy {
   }
 
 
-  @HostListener('window:beforeunload', ['$event'])
-  unloadNotification($event: any) {
-    const url = 'http://localhost:8000/api/update-online-status';
-    const data = JSON.stringify({ online_status: 'offline' });
-
-    // Gửi request qua sendBeacon
-    navigator.sendBeacon(url, data);
-  }
 
   private apiUrl = 'http://localhost:8000/api';
 
   updateOnlineStatus(status: string): Observable<any> {
     const headers = this.authService.getToken();
-    return this.http.post(`${this.apiUrl}/update-online-status`, { 'online_status': status }, { headers });
+    return this.http.post(`${this.apiUrl}/update-online-status`, 
+      JSON.stringify({ 'user_id': this.user?.id, 'online_status': status }), { headers });
   }
 
 
   private idleTimeout: any;
-  private idleTimeLimit = 10 * 1000; // 10 giây
-  private isIdle = false; // Trạng thái hiện tại của người dùng
+  private idleTimeLimit = 15 * 60 * 1000; // 15 phút
+  private isIdle = false;
   private idleState = new Subject<boolean>();
 
   idleState$ = this.idleState.asObservable();
@@ -116,10 +114,9 @@ export class EventService implements OnDestroy {
     clearTimeout(this.idleTimeout);
 
     if (this.isIdle && this.isLoggedIn) {
-      this.isIdle = false; // Chuyển trạng thái sang hoạt động
-      this.idleState.next(false); // Phát trạng thái hoạt động
-      console.log('Người dùng đã hoạt động trở lại!');
-
+      this.isIdle = false;
+      this.idleState.next(false);
+      // console.log('Người dùng đã hoạt động trở lại!');
       this.updateOnlineStatus('online').subscribe(
         (response) => {
           // console.log(response);
@@ -127,12 +124,13 @@ export class EventService implements OnDestroy {
       )
     }
 
-    this.idleTimeout = setTimeout(() => this.onIdleTimeout(), this.idleTimeLimit);
+    if (this.isLoggedIn) {
+      this.idleTimeout = setTimeout(() => this.onIdleTimeout(), this.idleTimeLimit);
+    }
   }
 
   private onUserEnter() {
-    console.log("Người dùng đã truy cập vào trang lần đầu.");
-    // Thực hiện các hành động khác nếu cần
+    // console.log("Người dùng đã truy cập vào trang lần đầu.");
     this.updateOnlineStatus('online').subscribe(
       (response) => {
         // console.log(response);
@@ -141,14 +139,15 @@ export class EventService implements OnDestroy {
   }
 
   private onIdleTimeout() {
-    this.isIdle = true; // Chuyển trạng thái sang treo máy
-    this.idleState.next(true); // Phát trạng thái treo máy
-    console.log('Người dùng đã treo máy!');
-
-    this.updateOnlineStatus('idle').subscribe(
-      (response) => {
-        // console.log(response);
-      }
-    )
+    this.isIdle = true;
+    this.idleState.next(true);
+    // console.log('Người dùng đã treo máy!');
+    if (this.isLoggedIn) {
+      this.updateOnlineStatus('idle').subscribe(
+        (response) => {
+          // console.log(response);
+        }
+      )
+    }
   }
 }

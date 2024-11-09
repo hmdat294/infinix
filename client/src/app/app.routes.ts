@@ -13,6 +13,7 @@ import { SettingComponent } from './setting/setting.component';
 import { SearchComponent } from './search/search.component';
 import { FriendProfileComponent } from './friend-profile/friend-profile.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { BookmarkComponent } from './bookmark/bookmark.component';
 
 export const routes: Routes = [
     { path: '', component: MainHomeComponent, canActivate: [AuthGuard] },
@@ -23,6 +24,8 @@ export const routes: Routes = [
     { path: 'setting', component: SettingComponent, canActivate: [AuthGuard] },
     { path: 'search/:keyword', component: SearchComponent, canActivate: [AuthGuard] },
     { path: 'friend-profile/:user_id', component: FriendProfileComponent, canActivate: [AuthGuard] },
+    { path: 'friend-profile/:user_id/:post_id', component: FriendProfileComponent, canActivate: [AuthGuard] },
+    { path: 'bookmark', component: BookmarkComponent, canActivate: [AuthGuard] },
 
     { path: 'login', component: LoginComponent, canActivate: [AuthGuard] },
     { path: 'register', component: RegisterComponent, canActivate: [AuthGuard] },
@@ -30,8 +33,6 @@ export const routes: Routes = [
 
     { path: 'admin', component: DashboardComponent, canActivate: [AuthGuard] },
     { path: 'admin/user', component: UserComponent, canActivate: [AuthGuard] },
-    // { path: 'admin/user', component: AdminMainUserComponent },
-    // { path: 'admin/report', component: AdminMainReportComponent },
-    // { path: 'admin/event', component: AdminMainEventComponent },
-    // { path: 'admin/content', component: AdminMainContentComponent },
+
+    { path: '**', redirectTo: '', pathMatch: 'full' }
 ];

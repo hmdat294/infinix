@@ -10,6 +10,10 @@ use App\Models\Message as MessageModel;
 use App\Events\UserSendMessageEvent;
 use App\Events\UserRecallMessageEvent;
 use App\Events\UserEditMessageEvent;
+use App\Models\Notification;
+use App\Models\User;
+use App\Events\NotificationEvent;
+use App\Models\DeletedMessage as DeletedMessageModel;
 
 class MessageController extends Controller
 {
@@ -30,7 +34,7 @@ class MessageController extends Controller
     {
         $conversation = ConversationModel::find($request->conversation_id);
 
-        $message_data = $request->only(['reply_to_message_id', 'content']);
+        $message_data = $request->only(['reply_to_message_id', 'content', 'link']);
         $message_data['user_id'] = $request->user()->id;
 
         $message = $conversation->messages()->create($message_data);
@@ -44,8 +48,16 @@ class MessageController extends Controller
                     'path' => asset('storage/' . $media->store('uploads', 'public'))
                 ]);
             }
+        } else if ($request->has("medias")) {
+            $message->medias()->create([
+                'message_id' => $message->id,
+                'type' => $request->type,
+                'path' =>  $request->medias
+            ]);
         }
+
         event(new UserSendMessageEvent($request->user()->id, $message->id, $message->content));
+        $this->sendNotification($request->user()->id, $request->conversation_id, 'send');
         return new MessageResource($message);
     }
 
@@ -84,15 +96,15 @@ class MessageController extends Controller
         if ($request->has('content')) {
             $message->update($request->only('content'));
         }
-        
+
         if ($request->has('is_recalled')) {
             $message->update($request->only('is_recalled'));
         }
-        
+
         $message->is_edited = 1;
         $message->save();
 
-        if($message->is_recalled) {
+        if ($message->is_recalled) {
             $message->medias()->delete();
         }
         if ($request->has('is_recalled')) {
@@ -101,5 +113,50 @@ class MessageController extends Controller
             event(new UserEditMessageEvent($request->user()->id, $message->id, $message->content));
         }
         return new MessageResource($message);
+    }
+
+    public function sendNotification($user_id, $conversation_id, $type)
+    {
+        $conversation = Conversation::find($conversation_id);
+        $display_name = User::find($user_id)->profile->display_name;
+        foreach ($conversation->users as $user) {
+            $notification_data = [
+                'user_id' => $user->id,
+                'target_user_id' => $user_id,
+                'conversation_id' => $conversation_id,
+                'action_type' => 'user_send_message',
+            ];
+
+            $group_name = $conversation->is_group ? "trong nhóm " . $conversation->name : "";
+            $action_text = "";
+            switch ($type) 
+            {
+                case 'recall' :
+                    $action_text = "thu hồi";
+                    break;
+                case 'reply' :
+                    $action_text = "trả lời";
+                    break;
+                default :
+                    $action_text = "gửi";
+                    break;
+            }
+
+            $notification_data['content'] = $display_name. " đã " . $action_text . " một tin nhắn " . $group_name;
+
+            $notification = Notification::create($notification_data);
+            event(new NotificationEvent($notification));
+        }
+    }
+
+    public function destroy(string $id)
+    {
+        $message = MessageModel::find($id);
+        DeletedMessageModel::create([
+            'user_id' => $message->user_id,
+            'message_id' => $message->id
+        ]);
+
+        return response()->json(['message' => 'Xóa tin nhắn thành công'], 200);
     }
 }

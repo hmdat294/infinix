@@ -19,16 +19,16 @@ class PinnedMessage extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function message()
     {
-        return $this->belongsTo(Message::class);
+        return $this->belongsTo(Message::class, 'message_id', 'id');
     }
 
     public function conversation()
     {
-        return $this->belongsTo(Conversation::class);
+        return $this->belongsTo(Conversation::class, 'conversation_id', 'id');
     }
 }

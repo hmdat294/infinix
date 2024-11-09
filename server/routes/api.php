@@ -23,6 +23,7 @@ use App\Http\Controllers\Statistics\TotalController;
 use App\Http\Controllers\DisabledNotificationController;
 use App\Http\Controllers\PinMessageController;
 use App\Http\Middleware\UpdateUserLastActivity;
+use App\Http\Controllers\NotificationController;
 
 use App\Models\User as UserModel;
 
@@ -42,17 +43,40 @@ Route::middleware(['guest'])->group(function () {
 
     Route::post('set-new-password', [AuthController::class, 'setNewPassword'])->name('set-new-password');
 
+    Route::post('update-online-status', [UserController::class, 'updateOnlineStatus'])->name('update-online-status');
+
 });
 
 Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(function () {
 
+    Route::get('friend-suggestions', [UserController::class, 'friendSuggestions']);
+
+    Route::get('user/blocked-users', [UserController::class, 'blockedUsers']);
+    Route::get('user/blocked-by-users', [UserController::class, 'blockedByUsers']);
+    
+    Route::get('user/{id}/blocked-users', [UserController::class, 'blockedUsers']);
+    Route::get('user/{id}/blocked-by-users', [UserController::class, 'blockedByUsers']);
+
+    Route::get('user/reported-content', [UserController::class, 'reported']);
+
+    Route::get('get-home-posts', [PostController::class, 'getHomePost']);
+    Route::get('get-profile-posts', [PostController::class, 'getProfilePost']);
+    Route::get('get-profile-posts/{id}', [PostController::class, 'getProfilePost']);
+
+    Route::post('block-user/{user_id}', [UserController::class, 'block'])->name('block-user');
+
     Route::post('pin-message/{message_id}', [PinMessageController::class, 'store'])->name('pin-message');
 
-    Route::post('update-online-status', [UserController::class, 'updateOnlineStatus'])->name('update-online-status');
-
     Route::post('disable-notification', [DisabledNotificationController::class, 'store'])->name('disable-notification');
-
     
+    Route::get('notification', [NotificationController::class, 'index']);
+    Route::post('notification/{id}', [NotificationController::class, 'update']);
+    Route::delete('notification/{id}', [NotificationController::class, 'destroy']);
+    
+    Route::post('follow/{user_id}', [UserController::class, 'follow']);
+    Route::post('unfollow/{user_id}', [UserController::class, 'unfollow']);
+    Route::post('unfriend/{user_id}', [UserController::class, 'unfriend']);
+
     Route::get('user/{user_id}/medias', [UserController::class, 'medias']);
     Route::get('user/medias', [UserController::class, 'medias']);
     Route::get('user/bookmarks', [UserController::class, 'bookmarks']);
@@ -67,7 +91,7 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
     ->only(['index', 'store', 'show', 'update', 'destroy'])
     ->parameters(['friend-request' => 'id']);
 
-    Route::post('cancel-friend-request/{user_id}', [FriendRequestController::class, 'cancel'])->name('cancel-friend-request');
+    // Route::post('cancel-friend-request/{user_id}', [FriendRequestController::class, 'cancel'])->name('cancel-friend-request');
 
     // API cho Bài viết
     Route::resource('post', PostController::class)
@@ -118,7 +142,7 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
 
     // API cho tin nhắn
     Route::resource('message', MessageController::class)
-    ->only(['store', 'show', 'update'])
+    ->only(['store', 'show', 'update', 'destroy'])
     ->parameters(['message' => 'id']);
 
     // API cho báo cáo

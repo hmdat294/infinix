@@ -11,6 +11,7 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use App\Events\UserConnectionEvent;
 use App\Http\Resources\PostResource;
 use Illuminate\Support\Facades\Log;
+use App\Http\Resources\ReportResource;
 
 class UserController extends Controller
 {
@@ -88,10 +89,14 @@ class UserController extends Controller
 
     public function updateOnlineStatus(Request $request)
     {
-        $user = UserModel::find($request->user()->id);
-        $user->update(['online_status' => $request->online_status]);
+        // Log::info($request->json()->all());
+        
+        $data = $request->json()->all();
 
-        event(new UserConnectionEvent($user, $request->online_status));
+        $user = UserModel::find($data['user_id']);
+        $user->update(['online_status' => $data['online_status']]);
+
+        event(new UserConnectionEvent($user,  $data['online_status']));
 
         return new UserResource($user);
     }
@@ -103,5 +108,130 @@ class UserController extends Controller
             Log::info($user->bookmarks);
             return PostResource::collection($user->bookmarks);
         }
+    }
+
+    public function follow(Request $request, $user_id)
+    {
+        $user = UserModel::find($user_id);
+
+        if ($request->user()->followings->contains($user)) {
+            return response()->json([
+                'message' => 'User is already followed',
+            ]);
+        }
+
+        $request->user()->followings()->attach($user);
+        return new UserResource($user);
+    }
+
+    public function unfollow(Request $request, $user_id)
+    {
+        $user = UserModel::find($user_id);
+        $request->user()->followings()->detach($user);
+        return new UserResource($user);
+    }
+
+    public function unfriend(Request $request, $user_id)
+    {
+        $user = UserModel::find($user_id);
+        $request->user()->friendsOfMine()->detach($user);
+        $request->user()->friendsOf()->detach($user);
+        return new UserResource($user);
+    }
+
+    public function block(Request $request, $user_id)
+    {
+        $user = UserModel::find($user_id);
+
+        if ($request->user()->blockings->contains($user)) {
+            $request->user()->blockings()->detach($user);
+        } else {
+            $request->user()->blockings()->attach($user);
+        }
+        return new UserResource($user);
+    }
+
+    public function blockedUsers(Request $request, $user_id = 0)
+    {
+        $user = UserModel::find($user_id == 0 ? request()->user()->id : $user_id);
+        return UserResource::collection($user->blockings);
+    }
+
+    public function blockedByUsers(Request $request, $user_id = 0)
+    {
+        $user = UserModel::find($user_id == 0 ? request()->user()->id : $user_id);
+        return UserResource::collection($user->blockedBy);
+    }
+
+    public function reported(Request $request)
+    {
+        $user = UserModel::find($request->user()->id);
+        return ReportResource::collection($user->reportings);
+    }
+
+    public function friendSuggestions(Request $request)
+    {
+
+        $user = UserModel::find($request->user()->id);
+        Log::info("user_id: " . $user->id);
+
+        $friends = $user->friendsOf->concat($request->user()->friendsOfMine);
+        Log::info("firends: " . $friends->pluck('id'));
+
+        $friends_of_friend_ids = $friends->map(function ($friend) {
+            return $friend->friendsOf->concat($friend->friendsOfMine);
+        })->flatten()->pluck('id');
+        Log::info("friends_of_friend_ids: " . $friends_of_friend_ids);
+
+        $friends_of_friend_ids = $friends_of_friend_ids->diff($friends->pluck('id'));
+        $friends_of_friend_ids = $friends_of_friend_ids->diff([$user->id]);
+        Log::info("friends_of_friend_ids: " . $friends_of_friend_ids);
+
+        $blocking_user_ids = $user->blockings->pluck('blocked_id');
+        Log::info("blocking_user_ids: " . $blocking_user_ids);
+
+        $blocked_by_user_ids = $user->blockedBy->pluck('blocker_id');
+        Log::info("blocked_by_user_ids: " . $blocked_by_user_ids);
+
+        $reporting_user_ids = $user->reportings->pluck('user_id');
+        Log::info("reporting_user_ids: " . $reporting_user_ids);
+
+        $friend_suggestions = UserModel::
+              whereIn('id', $friends_of_friend_ids)
+            ->whereNotIn('id', $blocking_user_ids)
+            ->whereNotIn('id', $blocked_by_user_ids)
+            ->whereNotIn('id', $reporting_user_ids);
+        
+            
+        Log::info("friend_suggestions: " . $friend_suggestions->pluck('id'));
+        return UserResource::collection($friend_suggestions->get());
+
+
+
+
+        // $friends = $user->friendsOf->concat($request->user()->friendsOfMine)->pluck('id');
+
+        // $blockings = $user->blockings->pluck('blocked_id');
+        // $blockedBy = $user->blockedBy->pluck('blocker_id');
+        // $reportings = $user->reportings->pluck('user_id');
+        
+        // $friends = UserModel::whereNotIn('id', $friends)
+        //     ->whereNotIn('id', $blockings)
+        //     ->whereNotIn('id', $blockedBy)
+        //     ->whereNotIn('id', $reportings);
+
+        // $friends_of_friends = $friends->get()->map(function ($friend) {
+        //     return $friend->friendsOf->concat($friend->friendsOfMine);
+        // })->flatten()->pluck('id');
+
+        // $friend_ids = $friends->pluck('id');
+
+        // // loại ra bạn bè từ danh sách bạn của bạn bè
+        // $friends_of_friends = $friends_of_friends->diff($friend_ids);
+
+
+        // $friendSuggetions = UserModel::whereIn('id', $friends_of_friends)->get();
+
+        // return UserResource::collection($friendSuggetions);
     }
 }

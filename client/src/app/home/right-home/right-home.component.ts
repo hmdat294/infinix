@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../service/auth.service';
 import { CommonModule } from '@angular/common';
@@ -32,44 +32,50 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
 
-    this.authService.getUser(0).subscribe(
-      (response) => this.user = response);
+    this.authService.token$.subscribe(auth_token => {
+      if (!!auth_token) {
+        this.authService.getUser(0).subscribe(
+          (response) => {
+            this.user = response;
 
-    this.authService.getFriend().subscribe(
-      (response) => {
-        this.friends = response.data;
-        // console.log(this.friends);
+            this.authService.getFriend().subscribe(
+              (response) => {
+                this.friends = response.data;
+                // console.log(this.friends);
 
-        const statusOrder: any = { online: 1, idle: 2, offline: 3 };
+                const statusOrder: any = { online: 1, idle: 2, offline: 3 };
 
-        this.friends = this.friends.sort((a: any, b: any) => statusOrder[a.online_status] - statusOrder[b.online_status]);
+                this.friends = this.friends.sort((a: any, b: any) => statusOrder[a.online_status] - statusOrder[b.online_status]);
 
-        this.friends_limit = this.friends.slice(0, 5);
+                this.friends_limit = this.friends.slice(0, 5);
 
-        this.eventService.bindEvent('App\\Events\\FriendRequestEvent', (data: any) => {
-          console.log('Friend request event:', data);
+                this.eventService.bindEvent('App\\Events\\FriendRequestEvent', (data: any) => {
+                  console.log('Friend request event:', data);
 
-          // nếu status là accepted thì data có sender và receiver, bản thân là 1 trong 2 thì thêm vào danh sách bạn bè người còn lại
-          if (data.status == "accepted") {
-            if (data.sender_id == this.user.id) {
-              this.pushFriendList(data.receiver);
-            }
-            if (data.receiver_id == this.user.id) {
-              this.pushFriendList(data.sender);
-            }
-          }
-        });
+                  // nếu status là accepted thì data có sender và receiver, bản thân là 1 trong 2 thì thêm vào danh sách bạn bè người còn lại
+                  if (data.status == "accepted") {
+                    if (data.sender.id == this.user.data.id) {
+                      this.pushFriendList(data.receiver);
+                    }
+                    if (data.receiver.id == this.user.data.id) {
+                      this.pushFriendList(data.sender);
+                    }
+                  }
+                });
 
-        this.eventService.bindEvent('App\\Events\\UserConnectionEvent', (data: any) => {
-          console.log('User online event:', data);
+                this.eventService.bindEvent('App\\Events\\UserConnectionEvent', (data: any) => {
+                  console.log('User online event:', data);
 
-          this.friends.find((item: any) => item.id == data.user.id).online_status = data.user.online_status;
+                  const friends = this.friends.find((item: any) => item.id == data.user.id) || {};
+                  friends.online_status = data.user?.online_status;
 
-        });
+                });
 
 
-      });
-
+              });
+          });
+      }
+    });
   }
 
   searchFriend() {
@@ -111,9 +117,9 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
   }
 
   logout(): void {
-    this.eventService.updateOnlineStatus('offline').subscribe(
-      (response) => console.log(response)
-    )
+    // this.eventService.updateOnlineStatus('offline').subscribe(
+    //   (response) => console.log(response)
+    // )
     this.authService.logout().subscribe(
       (response) => {
         console.log('Logout Success:', response);

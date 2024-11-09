@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NotificationEvent;
 use App\Http\Resources\FriendRequestResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -11,6 +12,8 @@ use App\Models\Relationship as RelationshipModel;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use App\Events\FriendRequestEvent;
 use App\Models\Conversation as ConversationModel;
+use Illuminate\Support\Facades\Log;
+use App\Models\Notification as NotificationModel;
 
 class FriendRequestController extends Controller
 {
@@ -90,7 +93,7 @@ class FriendRequestController extends Controller
         ]);
 
         event(new FriendRequestEvent($request->user()->id, $request->receiver_id, 'pending'));
-
+        $this->sendNotification($friend_request->id, 'pending');
         return new FriendRequestResource($friend_request);
     }
 
@@ -113,22 +116,23 @@ class FriendRequestController extends Controller
         if (!in_array($request->status, ['accepted', 'rejected'])) {
             return response()->json([
                 'message' => 'Invalid status.',
-            ], 400);
+            ]);
         }
 
         if (!FriendRequestModel::find($id)) {
             return response()->json([
                 'message' => 'Friend request not found.',
-            ], 404);
+            ]);
         }
 
         if (FriendRequestModel::find($id)->status !== 'pending') {
             return response()->json([
                 'message' => 'Friend request already ' . FriendRequestModel::find($id)->status . '.',
-            ], 400);
+            ]);
         }
 
-        $friend_request = FriendRequestModel::find($id)->update([
+        $friend_request = FriendRequestModel::find($id);
+        $friend_request->update([
             'status' => $request->status,
         ]);
 
@@ -152,27 +156,54 @@ class FriendRequestController extends Controller
                 $conversation_data = ConversationModel::create();
                 $conversation_data->users()->attach([$user_id, $receiver_id]);
             }
+
+            $this->sendNotification($id, 'accepted');
         } else {
             event(new FriendRequestEvent(FriendRequestModel::find($id)->sender_id, FriendRequestModel::find($id)->receiver_id, 'rejected'));
         }
-
+        Log::info(json_encode($friend_request));
         return new FriendRequestResource($friend_request);
     }
 
-    public function cancel(Request $request, string $user_id)
+    // public function cancel(Request $request, string $user_id)
+    // {
+    //     $friend_request = FriendRequestModel::where('sender_id', $request->user()->id)->where('receiver_id', $user_id)->where('status', 'pending')->first();
+
+
+    //     $friend_request->delete();
+
+    //     return response()->json([
+    //         'message' => 'Friend request canceled.',
+    //     ]);
+
+
+    // }
+
+    public function sendNotification($friend_request_id, $status)
     {
-        $friend_request = FriendRequestModel::where('sender_id', $request->user()->id)->where('receiver_id', $user_id)->where('status', 'pending')->first();
+        $friend_request = FriendRequestModel::find($friend_request_id);
 
-        // if (!$friend_request) {
-        //     return response()->json([
-        //         'message' => 'Friend request not found.',
-        //     ], 404);
-        // }
+        $receiver = UserModel::find($friend_request->receiver_id);
+        $sender = UserModel::find($friend_request->sender_id);
 
-        $friend_request->delete();
+        switch ($status) {
+            case 'pending':
+                $data['user_id'] = $receiver->id;
+                $data['target_user_id'] = $sender->id;
+                $data['content'] = $sender->profile->display_name . ' đã gửi lời mời kết bạn';
+                $data['action_type'] = 'user_send_friend_request';
+                break;
+            case 'accepted':
+                $data['user_id'] = $sender->id;
+                $data['target_user_id'] = $receiver->id;
+                $data['content'] = $receiver->profile->display_name . ' đã chấp nhận lời mời kết bạn';
+                $data['action_type'] = 'user_accept_friend_request';
+                break;
+        }
+        $data['friend_request_id'] = $friend_request_id;
 
-        return response()->json([
-            'message' => 'Friend request canceled.',
-        ]);
+        $notification = NotificationModel::create($data);
+        Log::info('friend request notification: '.json_encode($notification));
+        event(new NotificationEvent($notification));
     }
 }

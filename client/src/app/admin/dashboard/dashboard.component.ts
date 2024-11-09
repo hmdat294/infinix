@@ -11,21 +11,45 @@ import { NavComponent } from '../nav/nav.component';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
- 
+  totalUsers: number = 0;
   totalPosts: number = 0;
   totalReports: number = 0;
   listUser: any;
+  User_Growth: any[] = []; // Khởi tạo mảng rỗng cho User_Growth
+  Post_Growth: any[] = []; // Khởi tạo mảng rỗng cho Post_Growth
 
   constructor(private adminService: AdminService) {}
 
   ngOnInit(): void {
+    this.loadTotalUsers();
     this.loadLineChartData();
-    this.renderChart();
+    this.fetchDataAndRenderChart();
     this.renderRadialBarChart();
     this.loadTotalReports();
     this.loadTotalPosts();
     this.loadDonutChartData(); // Gọi hàm lấy dữ liệu cho Donut Chart
   }
+
+  fetchDataAndRenderChart(): void {
+    this.adminService.getUserGrowthData().subscribe(userGrowthData => {
+      this.User_Growth = userGrowthData;
+
+      this.adminService.getPostGrowthData().subscribe(postGrowthData => {
+        this.Post_Growth = postGrowthData;
+        
+        // Sau khi có dữ liệu từ cả hai API, gọi hàm để vẽ biểu đồ
+        this.renderChart();
+      });
+    });
+  }
+
+  loadTotalUsers(): void {
+    this.adminService.getTotalUsers().subscribe(data => {
+      this.totalUsers = data.data;
+      console.log("Total Users:", this.totalUsers); // Kiểm tra giá trị
+    });
+  }
+  
 
   loadTotalReports(): void {
     this.adminService.getTotalReports().subscribe(data => {
@@ -53,7 +77,6 @@ export class DashboardComponent implements OnInit {
           const categories = data.map((item: any) => item.date); // Trích xuất ngày
           const values = data.map((item: any) => item.total); // Trích xuất trường `total`
   
-          // Kiểm tra xem `categories` và `values` có đúng không
           console.log("Categories:", categories);
           console.log("Values:", values);
   
@@ -83,19 +106,12 @@ export class DashboardComponent implements OnInit {
       console.error('Lỗi khi gọi API:', error);
     });
 }
-  
-
-
-
-
-
-  
-  
-  
-  
-  
-
   renderChart(): void {
+    const userTotals = this.User_Growth.map((item: any) => item.total);
+    const userDates = this.User_Growth.map((item: any) => item.date);
+
+    const postTotals = this.Post_Growth.map((item: any) => item.total);
+    const postDates = this.Post_Growth.map((item: any) => item.date);
     const chartOptions: ApexOptions = {
       chart: {
         foreColor: '#9ba7b2',
@@ -107,13 +123,12 @@ export class DashboardComponent implements OnInit {
       stroke: { width: 5, curve: 'smooth' },
       colors: ["#5283FF", '#F1C40F', '#FF4C92', "#17a00e"],
       series: [
-        { name: "Post", data: [14, 100, 35, 25] },
-        { name: "Content", data: [14, 22, 35, 40] },
-        { name: "Report", data: [42, 25, 23, 31] }
+        { name: "Post", data: postTotals },
+        { name: "Content", data: userTotals }
       ],
       xaxis: {
         type: 'datetime',
-        categories: ['1/11/2000', '2/11/2000', '3/11/2000', '4/11/2000', '5/11/2000', '6/11/2000'],
+        categories: userDates.length > postDates.length ? userDates : postDates,
       },
       title: {
         text: 'Growth statistics',
@@ -133,7 +148,6 @@ export class DashboardComponent implements OnInit {
   }
 
   renderDonutChart(seriesData: number[]): void {
-    // Kiểm tra dữ liệu trước khi render biểu đồ
     console.log('Data passed to renderDonutChart:', seriesData);
 
     const donutChartOptions: ApexOptions = {
@@ -159,8 +173,7 @@ export class DashboardComponent implements OnInit {
 
     const donutChart = new ApexCharts(document.querySelector('#chart9'), donutChartOptions);
     donutChart.render();
-}
-
+  }
 
   renderRadialBarChart(): void {
     const radialBarOptions: ApexOptions = {

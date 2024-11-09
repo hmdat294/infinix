@@ -34,10 +34,12 @@ class PostResource extends JsonResource
             "likes_count" => $this->likes->count(),
             "shares_count" => $this->shares->count(),
             'bookmark_count' => $this->bookmarks->count(),
+            'shared_by' => UserResource::collection($this->shares->take(2)->map(function ($share) {
+                return $share->user;
+            })),
         ];
 
-        if ($request->user())
-        {
+        if ($request->user()) {
             $data["liked"] = $this->likes->contains('user_id', $request->user()->id);
             $data["shared"] = $this->shares->contains('user_id', $request->user()->id);
             $data["commented"] = $this->comments->contains('user_id', $request->user()->id);

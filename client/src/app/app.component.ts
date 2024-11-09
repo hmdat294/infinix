@@ -19,6 +19,7 @@ import { EventService } from './service/event.service';
 export class AppComponent implements OnInit {
   isLoggedIn: boolean = false;
   isAdmin: boolean = false;
+  user: any;
 
   constructor(
     private router: Router,
@@ -32,7 +33,16 @@ export class AppComponent implements OnInit {
 
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        this.isLoggedIn = !!(localStorage.getItem('auth_token'));
+        this.authService.token$.subscribe(auth_token => {
+          this.isLoggedIn = !!auth_token;
+
+          if (this.isLoggedIn) {
+            this.authService.getUser(0).subscribe(
+              (response) => {
+                this.user = response.data;
+              });
+          }
+        });
       }
     });
 
@@ -42,6 +52,7 @@ export class AppComponent implements OnInit {
       (event: any) =>
         this.isAdmin = !!(event.urlAfterRedirects.split('/')[1] == 'admin')
     );
+
   }
 
   @HostListener('window:mousemove')
@@ -53,4 +64,13 @@ export class AppComponent implements OnInit {
       this.eventService.resetIdleTimer();
     }
   }
+
+  @HostListener('window:beforeunload', ['$event'])
+  unloadNotification($event: any) {
+    if (this.isLoggedIn) {
+      navigator.sendBeacon('http://localhost:8000/api/update-online-status',
+        JSON.stringify({ 'user_id': this.user?.id, online_status: 'offline' }));
+    }
+  }
+
 }

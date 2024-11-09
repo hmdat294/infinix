@@ -13,14 +13,14 @@ export class PostService {
 
   private apiUrl = 'http://localhost:8000/api';
 
-  getPost(id: number = 0): Observable<any> {
+  getHomePost(): Observable<any> {
     const headers = this.authService.getToken();
-    return this.http.get(`${this.apiUrl}/post/${(id > 0) ? id : ''}`, { headers });
+    return this.http.get(`${this.apiUrl}/get-home-posts`, { headers });
   }
 
-  getPostByUser(id: number): Observable<any> {
+  getPostByUser(id: number = 0): Observable<any> {
     const headers = this.authService.getToken();
-    return this.http.get(`${this.apiUrl}/user/${id}/posts`, { headers });
+    return this.http.get(`${this.apiUrl}/get-profile-posts/${(id > 0) ? id : ''}`, { headers });
   }
 
   postPost(value: any): Observable<any> {
@@ -67,5 +67,20 @@ export class PostService {
   getBookmarkByUser(): Observable<any> {
     const headers = this.authService.getToken();
     return this.http.get(`${this.apiUrl}/user/bookmarks`, { headers });
+  }
+
+  sharePostToMyPage(post_id: number): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.post(`${this.apiUrl}/share/${post_id}`, {}, { headers });
+  }
+
+  postReport(value: any): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.post(`${this.apiUrl}/report`, value, { headers });
+  }
+
+  cancelReport(report_id: number): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.delete(`${this.apiUrl}/report/${report_id}`, { headers });
   }
 }

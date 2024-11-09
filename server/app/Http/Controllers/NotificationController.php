@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\NotificationResource;
 use Illuminate\Http\Request;
 use App\Models\DisabledNotification as DisabledNotificationModel;
 use App\Models\User as UserModel;
@@ -20,9 +21,7 @@ class NotificationController extends Controller
         $user = $request->user();
         $notifications = $user->notifications();
 
-        return response()->json([
-            'data' => $notifications
-        ], 200);
+        return NotificationResource::collection($notifications);
     }
 
 
@@ -143,22 +142,18 @@ class NotificationController extends Controller
     public function show(string $id)
     {
         $notification = DisabledNotificationModel::find($id);
-        return response()->json([
-            'data' => $notification
-        ], 200);
+        return new NotificationResource($notification);
     }
 
     public function update(Request $request, string $id)
     {
         if ($request->has('is_read')) {
             $notification = DisabledNotificationModel::find($id);
-            $notification->is_read = $request->is_read;
+            $notification->is_read = true;
             $notification->save();
         }
 
-        return response()->json([
-            'data' => $notification
-        ], 200);
+        return new NotificationResource(NotificationModel::find($id));
     }
 
     public function destroy(string $id)

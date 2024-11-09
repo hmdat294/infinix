@@ -9,6 +9,10 @@ use App\Http\Resources\UserResource;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\JsonResponse;
 use App\Events\UserSharePostEvent;
+use App\Models\Notification as NotificationModel;
+use App\Models\User as UserModel;
+use App\Models\DisabledNotification as DisabledNotificationModel;
+use App\Events\NotificationEvent;
 
 class PostShareController extends Controller
 {
@@ -58,12 +62,42 @@ class PostShareController extends Controller
                 'post_id' => $post_id,
                 'user_id' => $request->user()->id,
             ]);
+            $post = PostModel::find($request->post_id);
 
-            event(new UserSharePostEvent($request->post_id, $request->user()->id, "share"));
+            event(new UserSharePostEvent($post->user_id, $request->user()->id, "share"));
+
+            $this->sendNotification($request->user()->id, $post_id);
 
             return response()->json([
                 'message' => 'Chia sẻ thành công',
             ], 200);
         }
+    }
+
+    public function sendNotification($user_id, $post_id)
+    {
+        $post = PostModel::find($post_id);
+        
+        $post_notification_disabled = DisabledNotificationModel::where('user_id', $post->user_id)->where('post_id', $post_id)->exists();
+
+        $target_user_notification_disabled = DisabledNotificationModel::where('user_id', PostModel::find($post_id)->user_id)->where('target_user_id', $user_id)->exists();
+
+        if($post_notification_disabled || $target_user_notification_disabled) {
+            return;
+        }
+
+        $data = [
+            'user_id' => PostModel::find($post_id)->user_id,
+            'target_user_id' => $user_id,
+            'action_type' => 'user_share_post',
+            'content' => UserModel::find($user_id)->profile->display_name . ' đã chia sẻ bài viết của bạn',
+            'post_id' => $post_id,
+        ];
+
+        $notification = NotificationModel::create($data);
+        event(new NotificationEvent($notification));
+        return response()->json([
+            'data' => $notification
+        ], 200);
     }
 }

@@ -129,6 +129,7 @@ class AuthController extends Controller
         if (!Hash::check($request->old_password, $user->password)) {
             return response()->json([
                 'message' => 'Mật khẩu cũ không chính xác!',
+                'status' => false,
             ]); //status: 422
         }
 
@@ -136,6 +137,7 @@ class AuthController extends Controller
 
         return response()->json([
             'message' => 'Đổi mật khẩu thành công!',
+            'status' => true,
         ]); //status: 200
     }
 
