@@ -4,11 +4,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PostService } from '../../service/post.service';
 import { SettingService } from '../../service/setting.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-general-settings',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './general-settings.component.html',
   styleUrl: './general-settings.component.css'
 })

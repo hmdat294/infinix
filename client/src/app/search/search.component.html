@@ -49,8 +49,8 @@
                                     class="button-standard button-text-only" (click)="cancelRequest(user.id)">Hủy yêu
                                     cầu
                                 </button>
-                                <button *ngIf="user.is_friend" type="button"
-                                    class="button-standard button-text-only">Hủy kết bạn
+                                <button *ngIf="user.is_friend" type="button" class="button-standard button-text-only"
+                                    (click)="unFriend(user?.id)">Hủy kết bạn
                                 </button>
                             </div>
                         </div>

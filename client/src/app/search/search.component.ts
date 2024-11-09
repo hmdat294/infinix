@@ -165,6 +165,13 @@ export class SearchComponent implements OnInit, AfterViewInit {
       });
   }
 
+  unFriend(user_id: number): void {
+    this.authService.unFriend(user_id).subscribe(
+      (response) => {
+        console.log(response);
+      });
+  }
+
   cancelRequest(receiver_id: number) {
     this.authService.acceptFriend({ id: receiver_id, status: 'rejected' }).subscribe(
       (response) => {

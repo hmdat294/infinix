@@ -201,7 +201,13 @@ export class FriendProfileComponent implements OnInit {
     this.authService.addFriend(receiver_id).subscribe(
       (response) => {
         console.log(response);
-        this.user.is_sent_friend_request = true;
+      });
+  }
+
+  unFriend(user_id: number): void {
+    this.authService.unFriend(user_id).subscribe(
+      (response) => {
+        console.log(response);
       });
   }
 

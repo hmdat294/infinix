@@ -39,7 +39,8 @@
                             class="button-standard p-5 w-fill" (click)="cancelRequest(user?.id)">
                             Hủy yêu cầu
                         </button>
-                        <button *ngIf="user?.is_friend" type="button" class="button-standard p-5 w-fill">
+                        <button *ngIf="user?.is_friend" type="button" class="button-standard p-5 w-fill"
+                            (click)="unFriend(user?.id)">
                             Hủy kết bạn
                         </button>
                         <button type="button" class="button-accent p-5 w-fill" (click)="createChat(user?.id)">Nhắn
@@ -153,26 +154,36 @@
 
                         <div class="overflow-scroll-vertical" style="max-height: 300px;">
                             <div class="p-10 layout-horizontal align-center-space-between"
-                                *ngFor="let user of friendOfFriend">
+                                *ngFor="let user_of_friend of friendOfFriend">
                                 <div class="layout-horizontal align-center-center gap-15 w-fill">
                                     <div class="list-item w-fill layout-horizontal align-center-center gap-15"
-                                        (click)="goToFriend(user?.id)">
+                                        (click)="goToFriend(user_of_friend?.id)">
                                         <div style="width: 35px; height: 35px;">
                                             <img class="rounded-circle border border-card-default object-fit-cover"
-                                                [src]="user?.profile.profile_photo" alt=""
+                                                [src]="user_of_friend?.profile.profile_photo" alt=""
                                                 style="width: 35px; height: 35px;">
                                         </div>
                                         <div class="w-fill">
                                             <p class="text-primary text-body-strong">
-                                                {{user?.profile.display_name}}</p>
+                                                {{user_of_friend?.profile.display_name}}</p>
                                             <p class="text-primary text-body">
-                                                {{user?.email}}</p>
+                                                {{user_of_friend?.email}}</p>
                                         </div>
                                     </div>
-                                    <button type="button" class="button-accent button-text-with-icon"
-                                        (click)="addFriend(user?.id)">
-                                        Kết bạn
-                                        <i class="icon-size-16 icon icon-ic_fluent_person_add_16_filled"></i>
+                                    <button
+                                        *ngIf="!user_of_friend?.is_friend && !user_of_friend?.is_sent_friend_request"
+                                        type="button" class="button-accent button-text-only"
+                                        (click)="addFriend(user_of_friend?.id)">
+                                        Thêm bạn bè
+                                    </button>
+                                    <button *ngIf="!user_of_friend?.is_friend && user_of_friend?.is_sent_friend_request"
+                                        type="button" class="button-standard button-text-only"
+                                        (click)="cancelRequest(user_of_friend?.id)">
+                                        Hủy yêu cầu
+                                    </button>
+                                    <button *ngIf="user_of_friend?.is_friend" type="button"
+                                        class="button-standard button-text-only" (click)="unFriend(user_of_friend?.id)">
+                                        Hủy kết bạn
                                     </button>
                                 </div>
                             </div>
