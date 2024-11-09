@@ -10,6 +10,7 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class UserBlockUserEvent implements ShouldBroadcast
 {
@@ -42,6 +43,7 @@ class UserBlockUserEvent implements ShouldBroadcast
 
     public function broadcastWith(): array
     {
+        Log::info($this->blocker->id." - ".$this->blocked->id." - ".$this->type);
         return [
             'blocker' => new UserResource($this->blocker),
             'blocked' => new UserResource($this->blocked),

@@ -77,6 +77,10 @@ class PostShareController extends Controller
     public function sendNotification($user_id, $post_id)
     {
         $post = PostModel::find($post_id);
+
+        if ($post->user_id == $user_id) {
+            return;
+        }
         
         $post_notification_disabled = DisabledNotificationModel::where('user_id', $post->user_id)->where('post_id', $post_id)->exists();
 
