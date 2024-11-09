@@ -49,6 +49,8 @@ Route::middleware(['guest'])->group(function () {
 
 Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(function () {
 
+    Route::get('friend-suggestions', [UserController::class, 'friendSuggestions']);
+
     Route::get('user/blocked-users', [UserController::class, 'blockedUsers']);
     Route::get('user/blocked-by-users', [UserController::class, 'blockedByUsers']);
     
