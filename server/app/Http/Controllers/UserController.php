@@ -12,6 +12,7 @@ use App\Events\UserConnectionEvent;
 use App\Http\Resources\PostResource;
 use Illuminate\Support\Facades\Log;
 use App\Http\Resources\ReportResource;
+use App\Events\UserBlockUserEvent;
 
 class UserController extends Controller
 {
@@ -145,8 +146,10 @@ class UserController extends Controller
 
         if ($request->user()->blockings->contains($user)) {
             $request->user()->blockings()->detach($user);
+            event(new UserBlockUserEvent($request->user(), $user, 'unblock'));
         } else {
             $request->user()->blockings()->attach($user);
+            event(new UserBlockUserEvent($request->user(), $user, 'block'));
         }
         return new UserResource($user);
     }
