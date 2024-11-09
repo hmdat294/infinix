@@ -66,7 +66,7 @@ export class FriendProfileComponent implements OnInit {
         this.authService.getUser(user_id).subscribe(
           (response) => {
             this.user = response.data;
-            // console.log(this.user);
+            console.log(this.user);
 
             this.authService.getImageByUser(this.user.id).subscribe(
               (response) => {
@@ -79,6 +79,10 @@ export class FriendProfileComponent implements OnInit {
                 this.friendOfFriend = response.data;
                 this.friendOfFriendLimit = response.data.slice(0, 9);
               });
+
+            this.eventService.bindEvent('App\\Events\\FriendRequestEvent', (data: any) => {
+              console.log('Friend request event:', data);
+            });
 
           });
 
@@ -212,7 +216,7 @@ export class FriendProfileComponent implements OnInit {
     this.showMoreFriend = !this.showMoreFriend;
   }
 
-  goToFriend(user_id:number) {
+  goToFriend(user_id: number) {
     this.showMoreFriend = false;
     this.router.navigate(['/friend-profile', user_id]);
   }

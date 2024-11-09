@@ -35,7 +35,8 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   listUser: any;
   listGroup: any;
   friendSuggestions: any;
-
+  contentCommentInput:string = '';
+  
   constructor(
     private cdr: ChangeDetectorRef,
     private postService: PostService,
@@ -77,7 +78,6 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
       });
   }
 
-  @ViewChild('commentInput') commentInput!: ElementRef;
   @ViewChildren('carouselInner') carouselInners!: QueryList<ElementRef<HTMLDivElement>>;
   @ViewChildren('nextButton') nextButtons!: QueryList<ElementRef<HTMLButtonElement>>;
   @ViewChildren('prevButton') prevButtons!: QueryList<ElementRef<HTMLButtonElement>>;
@@ -199,7 +199,7 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
     this.postService.postComment(formData).subscribe(
       (response) => {
         console.log(response);
-        this.commentInput.nativeElement.value = '';
+        this.contentCommentInput = '';
         this.removeCommentImage();
       }
     )
