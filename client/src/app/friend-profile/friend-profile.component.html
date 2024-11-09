@@ -1,5 +1,6 @@
 <section class="gradient-background layout-vertical" style="height: 100vh;">
-    <article class="layout-horizontal gap-20 px-20 w-fill h-fill overflow-hidden align-top-center">
+    <article *ngIf="!user?.blocked_user && !user?.blocked_by_user"
+        class="layout-horizontal gap-20 px-20 w-fill h-fill overflow-hidden align-top-center">
         <div
             class="w-fill-column-3 h-fill layout-vertical gap-20 py-20 overflow-scroll-vertical in-tablet-w-fill in-mobile-w-fill">
 
@@ -771,6 +772,26 @@
             <div *ngIf="post_id > 0">
                 <a [routerLink]="['/friend-profile', user?.id]" class="button-standard button-text-only w-fill">Xem
                     thêm</a>
+            </div>
+        </div>
+    </article>
+
+    <article *ngIf="user?.blocked_user || user?.blocked_by_user" class="w-fill p-20" style="height: 100vh;">
+        <div class="p-20 card-background-default border border-card-default rounded-8 w-fill h-fill layout-vertical align-center-center">
+
+            <div>
+                <img src="assets/image/page_lock.png" alt="" width="200px">
+            </div>
+            <div class="mb-25">
+                <p class="text-primary text-title">
+                    Bạn hiện không thể xem nội dung này
+                </p>
+            </div>
+            <div>
+                <a [routerLink]="['/']" class="button-accent button-text-with-icon">
+                    Trang chủ
+                    <i class="icon-size-16 icon icon-ic_fluent_home_16_filled"></i>
+                </a>
             </div>
         </div>
     </article>

@@ -67,7 +67,7 @@ export class GeneralSettingsComponent implements OnInit {
   blockUser(user_id: number) {
     this.authService.postUserBlock(user_id).subscribe(
       (response: any) => {
-        // console.log(response);
+        console.log(response);
         this.listBlock = this.listBlock.filter((item: any) => item.id !== user_id);
       });
   }
