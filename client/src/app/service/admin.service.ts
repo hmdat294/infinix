@@ -39,6 +39,14 @@ export class AdminService {
     const headers = this.authService.getToken();
     return this.http.get(`${this.apiUrl}/statistics/posts-growth`, { headers });
   }
+  getConversationsGrowthData(): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.get(`${this.apiUrl}/statistics/conversations-growth`, { headers });
+  }
+  getTotalReports(): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.get(`${this.apiUrl}/report`, { headers });
+  }
   
   
 }

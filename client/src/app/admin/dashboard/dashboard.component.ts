@@ -14,25 +14,29 @@ export class DashboardComponent implements OnInit {
 
   User_Growth: any;
   Post_Growth: any;
+  Conversations_Growth: any;
   totalUsers: any;
   totalPost: any;
   totalReport: any;
+  
   constructor(private adminService: AdminService) { }
 
 
   ngOnInit(): void {
     // this.renderChart();
-    
+
     this.renderDonutChart();
-    this.renderRadialBarChart();
-    this.renderLineChart1();
-    // this.adminService.getUserGrowthData().subscribe(data => {
-    //   this.User_Growth = data;  // Lưu trữ dữ liệu từ API
-    //   this.renderChart();    // Vẽ biểu đồ sau khi có dữ liệu
-    // }, error => {
-    //   console.error('Lỗi khi lấy dữ liệu:', error);
-    // });
-    
+    // this.renderRadialBarChart();
+    // this.renderLineChart1();
+    this.adminService.getConversationsGrowthData().subscribe(data => {
+      this.Conversations_Growth = data;  // Lưu trữ dữ liệu từ API
+      this.renderLineChart1();
+      console.log(this.Conversations_Growth);
+      // Vẽ biểu đồ sau khi có dữ liệu
+    }, error => {
+      console.error('Lỗi khi lấy dữ liệu:', error);
+    });
+
     this.adminService.getTotalUser().subscribe(
       (response) => {
         this.totalUsers = response.total_users;
@@ -61,6 +65,7 @@ export class DashboardComponent implements OnInit {
       }
     );
     this.fetchDataAndRenderChart();
+    this.fetchReportDataAndRenderDonutChart();
 
   }
   fetchDataAndRenderChart(): void {
@@ -69,7 +74,7 @@ export class DashboardComponent implements OnInit {
 
       this.adminService.getPostGrowthData().subscribe(postGrowthData => {
         this.Post_Growth = postGrowthData;
-        
+
         // Sau khi có dữ liệu từ cả hai API, gọi hàm để vẽ biểu đồ
         this.renderChart();
       });
@@ -130,7 +135,7 @@ export class DashboardComponent implements OnInit {
 
   renderDonutChart(): void {
     const donutChartOptions: ApexOptions = {
-      series: [25, 25, 25, 25],
+      series: [60, 25, 25, 25],
       chart: {
         foreColor: '#9ba7b2',
         height: 240,
@@ -146,10 +151,10 @@ export class DashboardComponent implements OnInit {
       labels: ['User report', 'Comment report', 'Post report', 'Group report'],
       legend: {
         position: 'bottom',
-        formatter: function(val: string, opts: any) {
+        formatter: function (val: string, opts: any) {
           return val;
         }
-      },  
+      },
     };
 
     const donutChart = new ApexCharts(document.querySelector('#chart9'), donutChartOptions);
@@ -157,46 +162,88 @@ export class DashboardComponent implements OnInit {
   }
 
 
-
-  renderRadialBarChart(): void {
-    const radialBarOptions: ApexOptions = {
-      series: [44, 55, 67, 83],
+  fetchReportDataAndRenderDonutChart(): void {
+    this.adminService.getTotalReports().subscribe(reportData => {
+      const userReports = reportData.filter((item: any) => item.type === 'user').length;
+      const postReports = reportData.filter((item: any) => item.type === 'post').length;
+      const commentReports = reportData.filter((item: any) => item.type === 'comment').length;
+      const messageReports = reportData.filter((item: any) => item.type === 'message').length;
+      console.log(userReports,postReports,commentReports,messageReports);
+      
+      this.renderRadialBarChart(userReports, postReports, commentReports, messageReports);
+    });
+  }
+  renderRadialBarChart(userReports: number, postReports: number, commentReports: number, messageReports: number): void {
+    const donutChartOptions: ApexOptions = {
+      series: [userReports, postReports, commentReports, messageReports],
       chart: {
-        height: 350,
-        type: 'radialBar',
+        foreColor: '#9ba7b2',
+        height: 240,
+        type: 'donut',
         dropShadow: { enabled: true, top: 3, left: 2, blur: 4, opacity: 0.1 }
       },
-      plotOptions: {
-        radialBar: {
-          dataLabels: {
-            total: {
-              show: true,
-              label: 'Tổng quan',
-            }
-          }
-        }
-      },
-      colors: ["#17a00e", "#f41127", "#0d6efd", "#ffc107"],
-      labels: ['User report', 'Comment report', 'Post report', 'Post report'],
+      colors: ["#ffc107", "#0d6efd", "#17a00e", "#f41127"],
       title: {
-        text: 'Growth statistics',
+        text: 'Growth Report',
         offsetY: 0,
         offsetX: 0
       },
+      labels: ['User report', 'Comment report', 'Post report', 'Group report'],
       legend: {
         position: 'bottom',
-        formatter: function(val: string, opts: any) {
+        formatter: function (val: string, opts: any) {
           return val;
         }
-      }, 
+      },
     };
 
-    const radialBarChart = new ApexCharts(document.querySelector('#chart13'), radialBarOptions);
-    radialBarChart.render();
+    const donutChart = new ApexCharts(document.querySelector('#chart13'), donutChartOptions);
+    donutChart.render();
   }
 
 
+
+  // renderRadialBarChart(): void {
+  //   const radialBarOptions: ApexOptions = {
+  //     series: [44, 55, 67, 83],
+  //     chart: {
+  //       height: 350,
+  //       type: 'radialBar',
+  //       dropShadow: { enabled: true, top: 3, left: 2, blur: 4, opacity: 0.1 }
+  //     },
+  //     plotOptions: {
+  //       radialBar: {
+  //         dataLabels: {
+  //           total: {
+  //             show: true,
+  //             label: 'Tổng quan',
+  //           }
+  //         }
+  //       }
+  //     },
+  //     colors: ["#17a00e", "#f41127", "#0d6efd", "#ffc107"],
+  //     labels: ['User report', 'Comment report', 'Post report', 'Post report'],
+  //     title: {
+  //       text: 'Growth statistics',
+  //       offsetY: 0,
+  //       offsetX: 0
+  //     },
+  //     legend: {
+  //       position: 'bottom',
+  //       formatter: function(val: string, opts: any) {
+  //         return val;
+  //       }
+  //     }, 
+  //   };
+
+  //   const radialBarChart = new ApexCharts(document.querySelector('#chart13'), radialBarOptions);
+  //   radialBarChart.render();
+  // }
+
+
   renderLineChart1(): void {
+    const ConversationsTotals = this.Conversations_Growth.map((item: any) => item.total);
+    const ConversationsDates = this.Conversations_Growth.map((item: any) => item.date);
     const lineChart1Options: ApexOptions = {
       chart: {
         height: 460,
@@ -207,12 +254,12 @@ export class DashboardComponent implements OnInit {
       stroke: { width: 5, curve: 'smooth' },
       colors: ["#f41127"],
       series: [{
-        name: 'Likes',
-        data: [14, 3, 20, 9, 29]
+        name: 'Conversations',
+        data: ConversationsTotals
       }],
       xaxis: {
         type: 'datetime',
-        categories: ['1/11/2000', '2/11/2000', '3/11/2000', '4/11/2000', '5/11/2000'],
+        categories: ConversationsDates,
       },
       title: {
         text: 'Line Chart'
