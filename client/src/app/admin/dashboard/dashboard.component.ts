@@ -188,9 +188,9 @@ fetchReportDataAndRenderDonutChart(): void {
     const postReports = reportData.filter((item: any) => item.type === 'post').length;
     const commentReports = reportData.filter((item: any) => item.type === 'comment').length;
     const messageReports = reportData.filter((item: any) => item.type === 'message').length;
-    console.log('Data passed to :',reportData.length);
+    console.log('Data passed to :',userReports,postReports,commentReports,messageReports);
     
-    this.renderDonutChart([userReports, postReports, commentReports, messageReports]);
+    this.renderRadialBarChart(userReports, postReports, commentReports, messageReports);
   }, error => {
     console.error("Error fetching report data:", error);
   });
