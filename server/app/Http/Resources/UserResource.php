@@ -18,7 +18,9 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        
+        $blocked_by_user = false;
+        $blocked_user = false;
+
         $friends = collect();
         
         $followers = collect();
@@ -27,6 +29,10 @@ class UserResource extends JsonResource
         $is_sent_friend_request = false;
 
         if ($request->user()) {
+
+            $blocked_by_user = $request->user()->blockedBy->contains($this->id);
+            $blocked_user = $request->user()->blockings->contains($this->id);
+
             $friendsOf =  $request->user()->friendsOf ?: collect();
             $friendsOfMine =$request->user()->friendsOfMine ?: collect();
             $friends = $friendsOf->concat($friendsOfMine);
@@ -66,6 +72,8 @@ class UserResource extends JsonResource
             'follower_count' => $followers->count(),
             'following_count' => $followings->count(),
             'online_status' => $this->online_status,
+            'blocked_by_user' => $blocked_by_user,
+            'blocked_user' => $blocked_user,
         ];
     }
 }
