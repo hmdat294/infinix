@@ -65,7 +65,7 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
       }
     )
 
-    this.postService.getPostMix().subscribe(
+    this.postService.getHomePost().subscribe(
       (data) => {
         this.listPost = data.data;
         console.log(this.listPost);
@@ -186,10 +186,12 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
 
 
   postComment(value: any) {
-
+    console.log(value);
+    
     const formData = new FormData();
     formData.append('content', value.content);
     formData.append('post_id', value.post_id);
+    formData.append('user_id', value.user_id);
 
     if (this.selectedFilesComment.length > 0)
       formData.append('media', this.selectedFilesComment[0], this.selectedFilesComment[0].name);

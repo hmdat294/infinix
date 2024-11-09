@@ -370,14 +370,14 @@
                                     src="{{currentUser?.profile.profile_photo}}" alt=""
                                     style="width: 35px; height: 35px;">
 
-                                <form class="layout-vertical gap-10 w-fill" enctype="multipart/form-data" #frm="ngForm"
-                                    (submit)="postComment(frm.value)">
+                                <form class="layout-vertical gap-10 w-fill" enctype="multipart/form-data" #frm_cmt="ngForm"
+                                    (submit)="postComment(frm_cmt.value)">
 
                                     <div *ngIf="selectedFilesComment.length > 0"
                                         class="p-10 position-relative border rounded-6">
                                         <div class="layout-wrap gap-10">
                                             <div class="w-fill layout-horizontal align-center-space-between">
-                                                <img [src]="previewCommentImages" alt="Image preview" width="80%"
+                                                <img [src]="previewCommentImages" alt="Image preview" width="100px"
                                                     class="rounded-4">
                                                 <button type="button" (click)="removeCommentImage()"
                                                     class="button-standard button-icon-only">
@@ -413,8 +413,7 @@
                                                 <i class="icon-size-20 icon icon-ic_fluent_mic_20_regular"></i>
                                             </button>
                                         </div>
-                                        <button type="submit" class="button-accent button-text-with-icon"
-                                            [disabled]="spaceCheck.test(frm.value.content)">Đăng
+                                        <button type="submit" class="button-accent button-text-with-icon">Đăng
                                             <i class="icon-size-16 icon icon-ic_fluent_send_16_filled"></i>
                                         </button>
                                     </div>
