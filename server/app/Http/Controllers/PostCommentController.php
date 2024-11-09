@@ -163,7 +163,7 @@ class PostCommentController extends Controller
         }
 
         $data['user_id'] = PostModel::find($post_id)->user_id;
-        $data['targer_user_id'] = $user_id;
+        $data['target_user_id'] = $user_id;
         $data['action_type'] = 'user_comment_post';
         $data['content'] = UserModel::find($user_id)->profile->display_name . ' đã bình luận bài viết của bạn';
         $data['comment_id'] = $comment_id;
