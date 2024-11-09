@@ -41,11 +41,7 @@ export class LeftHomeComponent implements OnInit {
         this.eventService.bindEvent('App\\Events\\FriendRequestEvent', (data: any) => {
           console.log('Friend request event:', data);
 
-          if (data.status == "pending") {
-            if (data.sender_id != this.user.id) {
-              this.userRequest.push(data);
-            }
-          }
+          if (data.status == "pending") this.userRequest.push(data);
 
           if (data.status == "accepted") {
             this.userRequest = this.userRequest.filter((request: any) => request.id !== data.id);
