@@ -204,6 +204,14 @@ export class FriendProfileComponent implements OnInit {
     this.authService.addFriend(receiver_id).subscribe(
       (response) => {
         console.log(response);
+
+        if (this.user.id == receiver_id) {
+          this.user.is_sent_friend_request = !this.user.is_sent_friend_request;
+        }
+        else {
+          const friendfriend = this.friendOfFriend.find((item: any) => item.id === receiver_id);
+          friendfriend.is_sent_friend_request = !friendfriend.is_sent_friend_request;
+        }
       });
   }
 
@@ -445,6 +453,10 @@ export class FriendProfileComponent implements OnInit {
     this.authService.postUserBlock(user_id).subscribe(
       (response: any) => {
         console.log(response);
+
+        if (this.user.id == user_id) {
+          this.user.blocked_user = !this.user.blocked_user;
+        }
 
         this.chatService.getMessageUser(user_id).subscribe(
           (response: any) => {

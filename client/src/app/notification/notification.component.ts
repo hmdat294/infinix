@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { NotificationService } from '../service/notification.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-notification',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './notification.component.html',
   styleUrl: './notification.component.css'
 })
@@ -20,6 +21,7 @@ export class NotificationComponent implements OnInit {
     this.notificationService.getNotification().subscribe(
       (data) => {
         console.log(data);
+        this.notification = data.data;
       });
 
   }
