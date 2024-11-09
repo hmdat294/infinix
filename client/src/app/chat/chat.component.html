@@ -149,6 +149,24 @@
                     </div>
                 </div>
 
+                <div class="border_bottom w-fill" *ngIf="!conversation.users[0].is_friend">
+                    <div class="layout-horizontal align-center-space-between gap-10 p-10 border-bottom">
+                        <div
+                            class="layout-horizontal align-center-left gap-15 text-left w-fill p-10 text-primary">
+                            <i class="icon-size-20 text-accent-default icon icon-ic_fluent_person_add_20_regular"></i>
+                            <p class="layout-vertical">
+                                <span class="text-body text-primary">Chưa phải là bạn, gửi yêu cầu kết bạn</span>
+                            </p>
+                        </div>
+                        <button *ngIf="!conversation.users[0].is_sent_friend_request" type="button" class="button-accent button-text-only me-10"
+                            (click)="addFriend(conversation.users[0].id)">Thêm bạn bè
+                        </button>
+                        <button *ngIf="conversation.users[0].is_sent_friend_request" type="button" class="button-standard button-text-only me-10"
+                            (click)="cancelRequest(conversation.users[0].id)">Hủy yêu cầu
+                        </button>
+                    </div>
+                </div>
+
                 <div class="border_bottom w-fill" *ngIf="morePin && conversation.pinned_messages.length > 0">
                     <div *ngFor="let msg_pin of conversation.pinned_messages"
                         class="layout-horizontal align-center-space-between gap-10 px-10 py-5 border-bottom">
@@ -161,7 +179,7 @@
                         </button>
                         <button type="button" class="button-subtle button-icon-only me-10"
                             (click)="pinMessage(msg_pin.id)">
-                            <i class="icon-size-16 icon icon-ic_fluent_pin_off_16_regular"></i>
+                            <i class="icon-size-16 text-accent-default icon icon-ic_fluent_pin_off_16_regular"></i>
                         </button>
                     </div>
                     <div class="px-20 py-10">
@@ -174,18 +192,19 @@
                     <div class="layout-horizontal align-center-space-between gap-10 px-10 py-5 border-bottom">
                         <div
                             class="layout-horizontal align-center-left gap-15 text-left w-fill px-10 py-5 text-primary">
-                            <i class="icon-size-20 icon icon-ic_fluent_pin_20_regular"></i>
+                            <i class="icon-size-20 text-accent-default icon icon-ic_fluent_pin_20_regular"></i>
                             <p class="layout-vertical">
                                 <span class="text-body-strong text-primary">Tin nhắn</span>
                                 <span class="text-body text-secondary">
-                                    {{conversation.pinned_messages[conversation.pinned_messages.length-1].content}}
+                                    {{shortenTextByWords(conversation.pinned_messages[conversation.pinned_messages.length-1].content,
+                                    10)}}
                                 </span>
                             </p>
                         </div>
                         <button type="button" class="button-standard button-text-with-icon me-10"
                             (click)="morePinMessage()">
                             Xem thêm
-                            <i class="icon-size-20 icon icon-ic_fluent_chat_20_regular"></i>
+                            <i class="icon-size-20 text-accent-default icon icon-ic_fluent_chat_20_regular"></i>
                         </button>
                     </div>
                 </div>
@@ -234,7 +253,7 @@
                     </div>
                 </div>
 
-                <div #scrollBox class="h-fill w-fill box-chat gap-20 layout-vertical" style="padding-bottom: 100px;">
+                <div #scrollBox class="h-fill w-fill box-chat gap-20 layout-vertical">
 
                     <div *ngFor="let msg of conversation.messages; let i = index;" [attr.id]="'item-' + msg.id">
 
@@ -256,10 +275,16 @@
                                         <div class="w-fill layout align-top-right" *ngIf="(user.id == msg.user_id)"
                                             style="max-height: 65vh;" class="overflow-scroll-vertical">
                                             <div class="layout-horizontal gap-15 p-5 align-top-right">
-                                                <div style="max-width: calc(100% - 100px);">
-                                                    <p class="text-tertiary text-caption mb-5 layout align-top-right">
-                                                        {{msg.created_at_time}} - {{msg.created_at_date}}
-                                                    </p>
+                                                <div>
+                                                    <div
+                                                        class="w-fill layout-horizontal align-center-space-between mb-5 gap-10">
+                                                        <p class="text-tertiary text-caption">
+                                                            {{msg.created_at_time}} - {{msg.created_at_date}}
+                                                        </p>
+                                                        <p class="text-primary text-body">
+                                                            {{msg.user.profile.display_name}}
+                                                        </p>
+                                                    </div>
                                                     <div class="layout align-center-right" *ngIf="msg.is_recalled == 0">
 
                                                         <div>
@@ -331,11 +356,16 @@
                                                     class="rounded-circle border border-card-default object-fit-cover"
                                                     alt="" style="width: 35px; height: 35px;">
                                                 <div>
-                                                    <p class="text-tertiary text-caption mb-5 layout align-top-left">
-                                                        {{msg.created_at_time}} - {{msg.created_at_date}}
-                                                    </p>
-                                                    <div class="mess-hover layout align-center-left"
-                                                        *ngIf="msg.is_recalled == 0">
+                                                    <div
+                                                        class="w-fill layout-horizontal align-center-space-between mb-5 gap-10">
+                                                        <p class="text-primary text-body">
+                                                            {{msg.user.profile.display_name}}
+                                                        </p>
+                                                        <p class="text-tertiary text-caption">
+                                                            {{msg.created_at_time}} - {{msg.created_at_date}}
+                                                        </p>
+                                                    </div>
+                                                    <div class="layout align-center-left" *ngIf="msg.is_recalled == 0">
                                                         <div>
                                                             <div>
                                                                 <div *ngIf="msg.reply_to_message_id">
@@ -415,61 +445,59 @@
                         </div>
 
                         <div class="w-fill layout align-top-right" *ngIf="(user.id == msg.user_id)">
-                            <div class="layout-horizontal gap-15 p-20">
-                                <div>
+                            <div class="mess-hover layout-horizontal gap-15 p-20">
+                                <div style="position: relative;">
                                     <p class="text-primary text-body mb-5 text-right">
                                         {{msg.user.profile.display_name}}
                                     </p>
-                                    <div class="mess-hover layout align-top-right" *ngIf="msg.is_recalled == 0">
-                                        <div style="height: 45px; overflow: visible; z-index: 1;">
-                                            <div
-                                                class="mess-menu layout-vertical mx-15 gap-5 p-5 acrylic-background-default blur-acrylic border border-card-default rounded-8">
-                                                <div class="list-item layout-horizontal gap-10 align-center-left"
-                                                    (click)="toggleDialogChat(msg.id)">
-                                                    <i
-                                                        class="icon-size-20 accent-text-primary icon icon-ic_fluent_more_horizontal_20_regular"></i>
-                                                    <p class="text-body text-primary">Xem chi tiết</p>
-                                                </div>
-                                                <div *ngIf="!checkPined(msg.id)"
-                                                    class="list-item layout-horizontal gap-10 align-center-left"
-                                                    (click)="checkPinLength(msg.id)">
-                                                    <i
-                                                        class="icon-size-20 accent-text-primary icon icon-ic_fluent_pin_20_regular"></i>
-                                                    <p class="text-body text-primary">Gim</p>
-                                                </div>
-                                                <div *ngIf="checkPined(msg.id)"
-                                                    class="list-item layout-horizontal gap-10 align-center-left"
-                                                    (click)="pinMessage(msg.id)">
-                                                    <i
-                                                        class="icon-size-20 accent-text-primary icon icon-ic_fluent_pin_off_20_regular"></i>
-                                                    <p class="text-body text-primary">Hủy gim</p>
-                                                </div>
-                                                <div class="list-item layout-horizontal gap-10 align-center-left"
-                                                    (click)="copyMessage(msg.content)">
-                                                    <i
-                                                        class="icon-size-20 accent-text-primary icon icon-ic_fluent_copy_20_regular"></i>
-                                                    <p class="text-body text-primary">Sao chép</p>
-                                                </div>
-                                                <div class="list-item layout-horizontal gap-10 align-center-left"
-                                                    (click)="onReply(msg.id)">
-                                                    <i
-                                                        class="icon-size-20 accent-text-primary icon icon-ic_fluent_arrow_reply_20_regular"></i>
-                                                    <p class="text-body text-primary">Phản hổi</p>
-                                                </div>
-                                                <div class="list-item layout-horizontal gap-10 align-center-left"
-                                                    (click)="editMessage(msg.id)">
-                                                    <i
-                                                        class="icon-size-20 accent-text-primary icon icon-ic_fluent_edit_20_regular"></i>
-                                                    <p class="text-body text-primary">Chỉnh sửa</p>
-                                                </div>
-                                                <div class="list-item layout-horizontal gap-10 align-center-left"
-                                                    (click)="recallMessage(msg.id)">
-                                                    <i
-                                                        class="icon-size-20 accent-text-primary icon icon-ic_fluent_arrow_counterclockwise_20_regular"></i>
-                                                    <p class="text-body text-primary">Thu hồi</p>
-                                                </div>
-
+                                    <div class="layout align-top-right" *ngIf="msg.is_recalled == 0">
+                                        <div [style]="(i == conversation.messages.length - 1 && i != 0) ? 'bottom: 20px; left: -180px;':'left: -180px;'"
+                                            class="mess-menu layout-vertical mx-15 gap-5 p-5 acrylic-background-default blur-acrylic border border-card-default rounded-8">
+                                            <div class="list-item layout-horizontal gap-10 align-center-left"
+                                                (click)="toggleDialogChat(msg.id)">
+                                                <i
+                                                    class="icon-size-20 accent-text-primary icon icon-ic_fluent_more_horizontal_20_regular"></i>
+                                                <p class="text-body text-primary">Xem chi tiết</p>
                                             </div>
+                                            <div *ngIf="!checkPined(msg.id)"
+                                                class="list-item layout-horizontal gap-10 align-center-left"
+                                                (click)="checkPinLength(msg.id)">
+                                                <i
+                                                    class="icon-size-20 accent-text-primary icon icon-ic_fluent_pin_20_regular"></i>
+                                                <p class="text-body text-primary">Gim</p>
+                                            </div>
+                                            <div *ngIf="checkPined(msg.id)"
+                                                class="list-item layout-horizontal gap-10 align-center-left"
+                                                (click)="pinMessage(msg.id)">
+                                                <i
+                                                    class="icon-size-20 accent-text-primary icon icon-ic_fluent_pin_off_20_regular"></i>
+                                                <p class="text-body text-primary">Hủy gim</p>
+                                            </div>
+                                            <div class="list-item layout-horizontal gap-10 align-center-left"
+                                                (click)="copyMessage(msg.content)">
+                                                <i
+                                                    class="icon-size-20 accent-text-primary icon icon-ic_fluent_copy_20_regular"></i>
+                                                <p class="text-body text-primary">Sao chép</p>
+                                            </div>
+                                            <div class="list-item layout-horizontal gap-10 align-center-left"
+                                                (click)="onReply(msg.id)">
+                                                <i
+                                                    class="icon-size-20 accent-text-primary icon icon-ic_fluent_arrow_reply_20_regular"></i>
+                                                <p class="text-body text-primary">Phản hổi</p>
+                                            </div>
+                                            <div class="list-item layout-horizontal gap-10 align-center-left"
+                                                (click)="editMessage(msg.id)">
+                                                <i
+                                                    class="icon-size-20 accent-text-primary icon icon-ic_fluent_edit_20_regular"></i>
+                                                <p class="text-body text-primary">Chỉnh sửa</p>
+                                            </div>
+                                            <div class="list-item layout-horizontal gap-10 align-center-left"
+                                                (click)="recallMessage(msg.id)">
+                                                <i
+                                                    class="icon-size-20 accent-text-primary icon icon-ic_fluent_arrow_counterclockwise_20_regular"></i>
+                                                <p class="text-body text-primary">Thu hồi</p>
+                                            </div>
+
                                         </div>
                                         <div>
                                             <div style="max-width: 350px;">
@@ -524,7 +552,8 @@
                                                             {{ msg.content }}
                                                         </p>
 
-                                                        <div class="text-tertiary text-caption layout-horizontal align-center-space-between mt-5" style="font-size: 0.9em;">
+                                                        <div class="text-tertiary text-caption layout-horizontal align-center-space-between mt-5"
+                                                            style="font-size: 0.9em;">
                                                             <p class="text-left w-fill">
                                                                 {{ msg.created_at_time }}
                                                             </p>
@@ -562,15 +591,16 @@
                         </div>
 
                         <div class="w-fill layout align-top-left" *ngIf="(user.id != msg.user_id)">
-                            <div class="layout-horizontal gap-15 p-20">
+                            <div class="mess-hover layout-horizontal gap-15 p-20">
                                 <img [src]="msg.user.profile.profile_photo"
                                     class="rounded-circle border border-card-default object-fit-cover" alt=""
                                     style="width: 35px; height: 35px;">
-                                <div>
+
+                                <div style="position: relative;">
                                     <p class="text-primary text-body mb-5 text-left">
                                         {{msg.user.profile.display_name}}
                                     </p>
-                                    <div class="mess-hover layout align-top-left" *ngIf="msg.is_recalled == 0">
+                                    <div class="layout align-top-left" *ngIf="msg.is_recalled == 0">
                                         <div>
                                             <div style="max-width: 350px;">
                                                 <div *ngIf="msg.reply_to_message_id">
@@ -625,7 +655,8 @@
                                                             {{ msg.content }}
                                                         </p>
 
-                                                        <div class="text-tertiary text-caption layout-horizontal align-center-space-between mt-5" style="font-size: 0.9em;">
+                                                        <div class="text-tertiary text-caption layout-horizontal align-center-space-between mt-5"
+                                                            style="font-size: 0.9em;">
                                                             <p *ngIf="msg.is_edited == 1" class="text-left w-fill">
                                                                 Đã sửa
                                                             </p>
@@ -638,41 +669,39 @@
                                             </div>
                                         </div>
 
-                                        <div style="height: 45px; overflow: visible; z-index: 1;">
-                                            <div
-                                                class="mess-menu mx-15 layout-vertical mx-15 gap-5 p-5 acrylic-background-default blur-acrylic border border-card-default rounded-8">
-                                                <div class="list-item layout-horizontal gap-10 align-center-left"
-                                                    (click)="toggleDialogChat(msg.id)">
-                                                    <i
-                                                        class="icon-size-20 accent-text-primary icon icon-ic_fluent_more_horizontal_20_regular"></i>
-                                                    <p class="text-body text-primary">Xem chi tiết</p>
-                                                </div>
-                                                <div *ngIf="!checkPined(msg.id)"
-                                                    class="list-item layout-horizontal gap-10 align-center-left"
-                                                    (click)="checkPinLength(msg.id)">
-                                                    <i
-                                                        class="icon-size-20 accent-text-primary icon icon-ic_fluent_pin_20_regular"></i>
-                                                    <p class="text-body text-primary">Gim</p>
-                                                </div>
-                                                <div *ngIf="checkPined(msg.id)"
-                                                    class="list-item layout-horizontal gap-10 align-center-left"
-                                                    (click)="pinMessage(msg.id)">
-                                                    <i
-                                                        class="icon-size-20 accent-text-primary icon icon-ic_fluent_pin_off_20_regular"></i>
-                                                    <p class="text-body text-primary">Hủy gim</p>
-                                                </div>
-                                                <div class="list-item layout-horizontal gap-10 align-center-left"
-                                                    (click)="copyMessage(msg.content)">
-                                                    <i
-                                                        class="icon-size-20 accent-text-primary icon icon-ic_fluent_copy_20_regular"></i>
-                                                    <p class="text-body text-primary">Sao chép</p>
-                                                </div>
-                                                <div class="list-item layout-horizontal gap-10 align-center-left"
-                                                    (click)="onReply(msg.id)">
-                                                    <i
-                                                        class="icon-size-20 accent-text-primary icon icon-ic_fluent_arrow_reply_20_regular"></i>
-                                                    <p class="text-body text-primary">Phản hổi</p>
-                                                </div>
+                                        <div [style]="(i == conversation.messages.length - 1 && i != 0) ? 'bottom: 20px; right: -180px;':'right: -180px;'"
+                                            class="mess-menu mx-15 layout-vertical mx-15 gap-5 p-5 acrylic-background-default blur-acrylic border border-card-default rounded-8">
+                                            <div class="list-item layout-horizontal gap-10 align-center-left"
+                                                (click)="toggleDialogChat(msg.id)">
+                                                <i
+                                                    class="icon-size-20 accent-text-primary icon icon-ic_fluent_more_horizontal_20_regular"></i>
+                                                <p class="text-body text-primary">Xem chi tiết</p>
+                                            </div>
+                                            <div *ngIf="!checkPined(msg.id)"
+                                                class="list-item layout-horizontal gap-10 align-center-left"
+                                                (click)="checkPinLength(msg.id)">
+                                                <i
+                                                    class="icon-size-20 accent-text-primary icon icon-ic_fluent_pin_20_regular"></i>
+                                                <p class="text-body text-primary">Gim</p>
+                                            </div>
+                                            <div *ngIf="checkPined(msg.id)"
+                                                class="list-item layout-horizontal gap-10 align-center-left"
+                                                (click)="pinMessage(msg.id)">
+                                                <i
+                                                    class="icon-size-20 accent-text-primary icon icon-ic_fluent_pin_off_20_regular"></i>
+                                                <p class="text-body text-primary">Hủy gim</p>
+                                            </div>
+                                            <div class="list-item layout-horizontal gap-10 align-center-left"
+                                                (click)="copyMessage(msg.content)">
+                                                <i
+                                                    class="icon-size-20 accent-text-primary icon icon-ic_fluent_copy_20_regular"></i>
+                                                <p class="text-body text-primary">Sao chép</p>
+                                            </div>
+                                            <div class="list-item layout-horizontal gap-10 align-center-left"
+                                                (click)="onReply(msg.id)">
+                                                <i
+                                                    class="icon-size-20 accent-text-primary icon icon-ic_fluent_arrow_reply_20_regular"></i>
+                                                <p class="text-body text-primary">Phản hổi</p>
                                             </div>
                                         </div>
                                     </div>

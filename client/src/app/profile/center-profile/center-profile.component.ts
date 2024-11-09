@@ -45,10 +45,10 @@ export class CenterProfileComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.postService.getPostByUser(0).subscribe(
+    this.postService.getPostByUser().subscribe(
       (data) => {
         this.listPost = data.data;
-        // console.log(this.listPost);
+        console.log(this.listPost);
 
         this.eventService.bindEvent('App\\Events\\UserPostEvent', (data: any) => {
           console.log('Post event:', data);
@@ -272,25 +272,7 @@ export class CenterProfileComponent implements OnInit {
       (response: any) => {
         console.log(response);
 
-        const shared = this.listPost.find(item => item.id === post_id);
-        shared.shared = !shared.shared;
-
-        if (shared.shared) {
-          shared.shares_count++;
-          this.shareSuccess =
-            `<p class="validation-message validation-sucess text-body text-primary py-10 px-15">
-              <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
-              <span>Bạn đã chia sẽ đến trang cá nhân của mình!</span>
-            </p>`
-        }
-        else {
-          shared.shares_count--;
-          this.shareSuccess =
-            `<p class="validation-message validation-critical text-body text-primary py-10 px-15">
-              <i class="icon-size-16 icon icon-ic_fluent_dismiss_circle_16_filled"></i>
-              <span>Bạn đã hủy chia sẽ bài viết này!</span>
-            </p>`;
-        }
+        this.listPost = this.listPost.filter(item => item.id !== post_id);
       }
     )
   }

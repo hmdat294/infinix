@@ -35,6 +35,9 @@ export class FriendProfileComponent implements OnInit {
   currentUser: any;
   listUser: any;
   listGroup: any;
+  friendOfFriend: any;
+  friendOfFriendLimit: any;
+  showMoreFriend: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -63,13 +66,24 @@ export class FriendProfileComponent implements OnInit {
         this.authService.getUser(user_id).subscribe(
           (response) => {
             this.user = response.data;
-            // console.log(this.user);
+            console.log(this.user);
 
             this.authService.getImageByUser(this.user.id).subscribe(
               (response) => {
                 this.images = response.data;
-              }
-            )
+              });
+
+            this.authService.getFriendOfFriend(this.user.id).subscribe(
+              (response) => {
+                console.log(response);
+                this.friendOfFriend = response.data;
+                this.friendOfFriendLimit = response.data.slice(0, 9);
+              });
+
+            this.eventService.bindEvent('App\\Events\\FriendRequestEvent', (data: any) => {
+              console.log('Friend request event:', data);
+            });
+
           });
 
         this.postService.getPostByUser(user_id).subscribe(
@@ -79,7 +93,7 @@ export class FriendProfileComponent implements OnInit {
             if (this.post_id > 0) {
               this.listPost = this.listPost.filter((item: any) => item.id == this.post_id);
             }
-            console.log(this.listPost);
+            // console.log(this.listPost);
 
             this.eventService.bindEvent('App\\Events\\UserPostEvent', (data: any) => {
               console.log('Post event:', data);
@@ -187,16 +201,30 @@ export class FriendProfileComponent implements OnInit {
     this.authService.addFriend(receiver_id).subscribe(
       (response) => {
         console.log(response);
-        this.user.is_sent_friend_request = true;
+      });
+  }
+
+  unFriend(user_id: number): void {
+    this.authService.unFriend(user_id).subscribe(
+      (response) => {
+        console.log(response);
       });
   }
 
   cancelRequest(receiver_id: number) {
-    this.authService.cancelRequest(receiver_id).subscribe(
+    this.authService.acceptFriend({ id: receiver_id, status: 'rejected' }).subscribe(
       (response) => {
         console.log(response);
-        this.user.is_sent_friend_request = false;
       });
+  }
+
+  viewMoreFriend() {
+    this.showMoreFriend = !this.showMoreFriend;
+  }
+
+  goToFriend(user_id: number) {
+    this.showMoreFriend = false;
+    this.router.navigate(['/friend-profile', user_id]);
   }
 
   getPathImg(img: any) {
@@ -346,7 +374,7 @@ export class FriendProfileComponent implements OnInit {
   @ViewChild('checkboxesContainer') checkboxesContainer!: ElementRef;
 
   showDialogReport(id: any) {
-    
+
     this.diaLogReport = id;
     if (this.diaLogReport == 0) {
       this.valueReport = [];
@@ -379,7 +407,7 @@ export class FriendProfileComponent implements OnInit {
 
     content = content.charAt(0).toUpperCase() + content.slice(1).toLowerCase() + '.';
 
-    const valuePost:any = this.diaLogReport;
+    const valuePost: any = this.diaLogReport;
     valuePost.content = content;
 
     this.postService.postReport(valuePost).subscribe(
@@ -393,7 +421,7 @@ export class FriendProfileComponent implements OnInit {
               <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
               <span>Gửi báo cáo thành công.</span>
           </p>`;
-        setTimeout(() => this.showDialogReport(0), 3000);
+        this.showDialogReport(0);
       })
   }
 
@@ -410,9 +438,9 @@ export class FriendProfileComponent implements OnInit {
 
   //block
 
-  blockUser(user_id:number){
+  blockUser(user_id: number) {
     this.authService.postUserBlock(user_id).subscribe(
-      (response:any) => {
+      (response: any) => {
         console.log(response);
       });
   }

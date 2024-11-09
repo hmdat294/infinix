@@ -135,6 +135,11 @@
                         <i class="icon-size-20 accent-text-primary icon icon-ic_fluent_chat_warning_20_regular"></i>
                         <p class="text-body text-primary">Báo cáo</p>
                     </div>
+                    <div class="list-item layout-horizontal gap-10 align-center-left"
+                        *ngIf="post?.profile.user_id != currentUser?.id && post?.shared" (click)="sharePostToMyPage(post.id)">
+                        <i class="icon-size-20 accent-text-primary icon icon-ic_fluent_dismiss_20_filled"></i>
+                        <p class="text-body text-primary">Hủy chia sẻ</p>
+                    </div>
                 </div>
             </div>
         </button>
@@ -326,14 +331,13 @@
                                         </div>
                                         <div class="w-fill layout-horizontal align-center-space-between">
                                             <p class="text-body text-primary w-fill">{{item.content}}</p>
-                                            <button type="button" class="button-subtle button-icon-only w-hug">
+                                            <!-- <button type="button" class="button-subtle button-icon-only w-hug">
                                                 <i class="icon-size-16 icon icon-ic_fluent_heart_16_regular"></i>
-                                                <!-- <i class="icon-size-16 icon icon-ic_fluent_heart_16_filled" style="color: #C42B1C;"></i> -->
-                                            </button>
+                                                <i class="icon-size-16 icon icon-ic_fluent_heart_16_filled" style="color: #C42B1C;"></i>
+                                            </button> -->
                                         </div>
                                     </div>
-                                    <p class="text-caption text-secondary">{{formatTime(item.created_at)}} - 100 lượt
-                                        like</p>
+                                    <p class="text-caption text-secondary">{{formatTime(item.created_at)}}</p>
                                 </div>
                             </div>
 
@@ -459,10 +463,10 @@
 
                     <div *ngIf="shareSuccess != ''" [innerHTML]="shareSuccess"></div>
 
-                    <div class="layout-vertial w-fill border-bottom border-card-default">
+                    <div *ngIf="listUser?.length > 0" class="layout-vertial w-fill border-bottom border-card-default pb-10">
                         <div class="w-fill layout-horizontal py-10 px-20 gap-10">
                             <p class="text-body-strong text-primary w-fill">Chia sẻ với bạn bè</p>
-                            <div class="control search-control">
+                            <!-- <div class="control search-control">
                                 <input type="search" placeholder="placeholder" spellcheck="false">
                                 <button type="button" class="input-button clear-content-button">
                                     <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
@@ -470,7 +474,7 @@
                                 <button type="button" class="input-button search-button">
                                     <i class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
                                 </button>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="layout w-fill">
                             <button type="button"
@@ -510,10 +514,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="layout-vertial w-fill border-bottom border-card-default">
+                    <div *ngIf="listGroup?.length > 0" class="layout-vertial w-fill border-bottom border-card-default pb-10">
                         <div class="w-fill layout-horizontal py-10 px-20 gap-10">
                             <p class="text-body-strong text-primary w-fill">Chia sẻ với nhóm</p>
-                            <div class="control search-control">
+                            <!-- <div class="control search-control">
                                 <input type="search" placeholder="placeholder" spellcheck="false">
                                 <button type="button" class="input-button clear-content-button">
                                     <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
@@ -521,7 +525,7 @@
                                 <button type="button" class="input-button search-button">
                                     <i class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
                                 </button>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="layout w-fill">
                             <button type="button"

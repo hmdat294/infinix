@@ -103,7 +103,7 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
           this.filterListChat();
 
           this.isScrollingToElement = false;
-          if (this.chat.id == data.data.conversation_id)
+          if (this.chat?.id == data.data.conversation_id)
             this.chat.messages.push(data.data);
         });
 

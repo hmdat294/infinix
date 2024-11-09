@@ -99,7 +99,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
               ...item,
               users: item.users.filter((user: any) => user.id !== this.user?.id)
             }))
-            // console.log(this.friends);
+            console.log(this.friends);
 
             if (this.friends.length > 0) {
               this.MessageUser(this.friends[0]);
@@ -110,6 +110,19 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
               console.log('Message event:', data);
               if (this.conversation?.id == data.data?.conversation_id)
                 this.conversation.messages.push(data.data);
+
+              if (this.user.id !== data.data.user_id) {
+
+                const user_receiver = this.friends.find((user: any) => user.users[0].id == data.data.user_id)
+
+                if (!user_receiver) {
+                  this.chatService.getMessageUser(data.data.user_id).subscribe(
+                    (response: any) => {
+                      console.log(response);
+                      this.friends.unshift(response.data);
+                    });
+                }
+              }
             });
 
             this.eventService.bindEvent('App\\Events\\UserRecallMessageEvent', (data: any) => {
@@ -142,6 +155,11 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
       .replace(/[ýỳỵỹy]/g, "y");
   }
 
+  shortenTextByWords(text: string, maxWords: number): string {
+    const words = text.split(' ');
+    return words.length > maxWords ? words.slice(0, maxWords).join(' ') + '...' : text;
+  }
+
   searchFriend() {
     console.log(this.keyword);
 
@@ -158,6 +176,20 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     else {
       this.friendsSearch = [];
     }
+  }
+
+  addFriend(receiver_id: number): void {
+    this.authService.addFriend(receiver_id).subscribe(
+      (response) => {
+        console.log(response);
+      });
+  }
+
+  cancelRequest(receiver_id: number) {
+    this.authService.acceptFriend({ id: receiver_id, status: 'rejected' }).subscribe(
+      (response) => {
+        console.log(response);
+      });
   }
 
   setFriendSearch() {
@@ -278,8 +310,6 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
   MessageUser(conversation: any) {
 
-    // console.log(conversation);
-
     this.chatService.getImageByConversation(conversation.id).subscribe(
       (response) => {
         this.images = response.data;
@@ -287,18 +317,11 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     )
 
     if (conversation.is_group == 0) {
-      // conversation có users là 2 người nên lấy id của người còn lại
-      this.authService.getUser(0).subscribe(
-        (response) => {
-          const receiver_id = conversation.users.find((user: any) => user.id !== response.data.id).id;
+      this.conversation = conversation;
+      console.log(this.conversation);
 
-          this.chatService.getMessageUser(receiver_id).subscribe(
-            (data: any) => {
-              this.conversation = data.data;
-              this.isScrollingToElement = false;
-              (document.querySelector('.textarea-chat') as HTMLTextAreaElement)?.focus();
-            });
-        });
+      this.isScrollingToElement = false;
+      (document.querySelector('.textarea-chat') as HTMLTextAreaElement)?.focus();
     } else {
       this.chatService.getMessageGroup(conversation.id).subscribe(
         (data: any) => {
