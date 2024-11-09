@@ -15,6 +15,7 @@ use App\Models\DisabledNotification as DisabledNotificationModel;
 use App\Models\Notification;
 use App\Models\PostShare;
 use App\Models\Report;
+use App\Models\User as UserModel;
 
 class PostController extends Controller
 {
@@ -298,15 +299,18 @@ class PostController extends Controller
         return PostResource::collection($posts);
     }
 
-    public function getProfilePost(Request $request, $user_id)
+    public function getProfilePost(Request $request, $user_id = null)
     {
+        $user = $user_id == null ? $request->user() : UserModel::find($user_id);
+        $user_id = $user->id;
+        
         $post_ids = PostModel::where('user_id', $user_id)->pluck('id');
         Log::info('post_ids: '.$post_ids);
 
         $shared_post_ids = PostShare::where('user_id', $user_id)->pluck('post_id');
         Log::info('shared_post_ids: '.$shared_post_ids);
 
-        
+
 
         $posts = PostModel::whereIn('id', $post_ids)
         ->orWhereIn('id', $shared_post_ids)
