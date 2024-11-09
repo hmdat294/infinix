@@ -61,6 +61,7 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
 
     Route::get('get-home-posts', [PostController::class, 'getHomePost']);
     Route::get('get-profile-posts', [PostController::class, 'getProfilePost']);
+    Route::get('get-profile-posts/{id}', [PostController::class, 'getProfilePost']);
 
     Route::post('block-user/{user_id}', [UserController::class, 'block'])->name('block-user');
 
