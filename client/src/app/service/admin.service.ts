@@ -20,6 +20,17 @@ export class AdminService {
     const headers = this.authService.getToken();
     return this.http.get(`${this.apiUrl}/post/${id > 0 ? id : ''}`, { headers });
   }
+ 
+  getConversationsGrowthData(): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.get(`${this.apiUrl}/statistics/conversations-growth`, { headers });
+  }
+  getReports(): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.get(`${this.apiUrl}/report`, { headers });
+  }
+  
+  
 
   getConversationsGrowth(): Observable<any> {
     const headers = this.authService.getToken();
