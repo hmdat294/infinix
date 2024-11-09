@@ -169,19 +169,34 @@ class UserController extends Controller
         return ReportResource::collection($user->reportings);
     }
 
-    // public function friendSuggetions(Request $request)
-    // {
-    //     $user = UserModel::find($request->user()->id);
-    //     $friends = $user->friendsOfMine->pluck('id');
-    //     $friends[] = $user->id;
-    //     $blockings = $user->blockings->pluck('id');
-    //     $blockings[] = $user->id;
-    //     $blockedBy = $user->blockedBy->pluck('id');
-    //     $blockedBy[] = $user->id;
-    //     $users = UserModel::whereNotIn('id', $friends)
-    //         ->whereNotIn('id', $blockings)
-    //         ->whereNotIn('id', $blockedBy)
-    //         ->get();
-    //     return UserResource::collection($users);
-    // }
+    public function friendSuggestions(Request $request)
+    {
+
+        $user = UserModel::find($request->user()->id);
+
+        $friends = $user->friendsOf->concat($request->user()->friendsOfMine)->pluck('id');
+
+        $blockings = $user->blockings->pluck('blocked_id');
+        $blockedBy = $user->blockedBy->pluck('blocker_id');
+        $reportings = $user->reportings->pluck('user_id');
+        
+        $friends = UserModel::whereNotIn('id', $friends)
+            ->whereNotIn('id', $blockings)
+            ->whereNotIn('id', $blockedBy)
+            ->whereNotIn('id', $reportings);
+
+        $friends_of_friends = $friends->get()->map(function ($friend) {
+            return $friend->friendsOf->concat($friend->friendsOfMine);
+        })->flatten()->pluck('id');
+
+        $friend_ids = $friends->pluck('id');
+
+        // loại ra bạn bè từ danh sách bạn của bạn bè
+        $friends_of_friends = $friends_of_friends->diff($friend_ids);
+
+
+        $friendSuggetions = UserModel::whereIn('id', $friends_of_friends)->get();
+
+        return UserResource::collection($friendSuggetions);
+    }
 }
