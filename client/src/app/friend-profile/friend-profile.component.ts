@@ -79,11 +79,6 @@ export class FriendProfileComponent implements OnInit {
                 this.friendOfFriend = response.data;
                 this.friendOfFriendLimit = response.data.slice(0, 9);
               });
-
-            this.eventService.bindEvent('App\\Events\\FriendRequestEvent', (data: any) => {
-              console.log('Friend request event:', data);
-            });
-
           });
 
         this.postService.getPostByUser(user_id).subscribe(
@@ -98,6 +93,14 @@ export class FriendProfileComponent implements OnInit {
             this.eventService.bindEvent('App\\Events\\UserPostEvent', (data: any) => {
               console.log('Post event:', data);
               this.listPost.unshift(data.data);
+            });
+
+            this.eventService.bindEvent('App\\Events\\UserBlockUserEvent', (data: any) => {
+              console.log('Block event:', data);
+            });
+
+            this.eventService.bindEvent('App\\Events\\FriendRequestEvent', (data: any) => {
+              console.log('Friend request event:', data);
             });
           });
 
@@ -442,6 +445,13 @@ export class FriendProfileComponent implements OnInit {
     this.authService.postUserBlock(user_id).subscribe(
       (response: any) => {
         console.log(response);
+
+        this.chatService.getMessageUser(user_id).subscribe(
+          (response: any) => {
+            this.conversation = this.conversation.filter(id => id !== response.data.id);
+            this.chatService.updateConversation(this.conversation);
+            this.chatService.tagOpenBoxChat = false;
+          });
       });
   }
 

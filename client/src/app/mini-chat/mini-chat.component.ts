@@ -72,10 +72,13 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
       this.conversation = conversation;
       this.filterListChat();
 
-      if(this.chatService.tagOpenBoxChat){
+      if (this.chatService.tagOpenBoxChat) {
         this.chatService.tagOpenBoxChat = false;
         this.showChat = true;
         this.getMiniChat(conversation[conversation.length - 1]);
+      }
+      else {
+        this.showChat = false;
       }
     });
 
@@ -211,7 +214,7 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
       .then(() => console.log('Copy success.'))
       .catch(err => console.error('Copy: ', err));
   }
-  
+
   isDifferentDate(i: number): boolean {
     if (i === 0) return true;
     return this.chat.messages[i].created_at_date !== this.chat.messages[i - 1].created_at_date;
@@ -238,37 +241,37 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
     this.previewReply = null;
   }
 
-    //pin
+  //pin
 
-    pinMessage(message_id: number) {
-      this.chatService.pinMessage(message_id).subscribe(
-        (data: any) => {
-          console.log(data);
-  
-          if (data.message == "Pinned")
-            this.chat.pinned_messages.push(data.data);
-          else if (data.message == "Unpinned")
-            this.chat.pinned_messages = this.chat.pinned_messages.filter((item: any) => item.id !== message_id);
-  
-        });
-    }
-  
-    checkPined(message_id: number): boolean {
-      return this.chat.pinned_messages.some((item: any) => item.id === message_id);
-    }
-  
-    dialogPin: boolean = false;
-    checkPinLength(message_id: number) {
-      if (this.chat.pinned_messages.length > 2) this.dialogPin = true;
-      else this.pinMessage(message_id);
-    }
-  
-    morePin: boolean = false;
-    morePinMessage() {
-      this.morePin = !this.morePin;
-    }
-  
-    //pin
+  pinMessage(message_id: number) {
+    this.chatService.pinMessage(message_id).subscribe(
+      (data: any) => {
+        console.log(data);
+
+        if (data.message == "Pinned")
+          this.chat.pinned_messages.push(data.data);
+        else if (data.message == "Unpinned")
+          this.chat.pinned_messages = this.chat.pinned_messages.filter((item: any) => item.id !== message_id);
+
+      });
+  }
+
+  checkPined(message_id: number): boolean {
+    return this.chat.pinned_messages.some((item: any) => item.id === message_id);
+  }
+
+  dialogPin: boolean = false;
+  checkPinLength(message_id: number) {
+    if (this.chat.pinned_messages.length > 2) this.dialogPin = true;
+    else this.pinMessage(message_id);
+  }
+
+  morePin: boolean = false;
+  morePinMessage() {
+    this.morePin = !this.morePin;
+  }
+
+  //pin
 
   recallMessage(id: number) {
     const message = this.chat.messages.find((item: any) => item.id === id);
