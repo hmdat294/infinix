@@ -173,30 +173,65 @@ class UserController extends Controller
     {
 
         $user = UserModel::find($request->user()->id);
+        Log::info("user_id: " . $user->id);
 
-        $friends = $user->friendsOf->concat($request->user()->friendsOfMine)->pluck('id');
+        $friends = $user->friendsOf->concat($request->user()->friendsOfMine);
+        Log::info("firends: " . $friends->pluck('id'));
 
-        $blockings = $user->blockings->pluck('blocked_id');
-        $blockedBy = $user->blockedBy->pluck('blocker_id');
-        $reportings = $user->reportings->pluck('user_id');
-        
-        $friends = UserModel::whereNotIn('id', $friends)
-            ->whereNotIn('id', $blockings)
-            ->whereNotIn('id', $blockedBy)
-            ->whereNotIn('id', $reportings);
-
-        $friends_of_friends = $friends->get()->map(function ($friend) {
+        $friends_of_friend_ids = $friends->map(function ($friend) {
             return $friend->friendsOf->concat($friend->friendsOfMine);
         })->flatten()->pluck('id');
+        Log::info("friends_of_friend_ids: " . $friends_of_friend_ids);
 
-        $friend_ids = $friends->pluck('id');
+        $friends_of_friend_ids = $friends_of_friend_ids->diff($friends->pluck('id'));
+        $friends_of_friend_ids = $friends_of_friend_ids->diff([$user->id]);
+        Log::info("friends_of_friend_ids: " . $friends_of_friend_ids);
 
-        // loại ra bạn bè từ danh sách bạn của bạn bè
-        $friends_of_friends = $friends_of_friends->diff($friend_ids);
+        $blocking_user_ids = $user->blockings->pluck('blocked_id');
+        Log::info("blocking_user_ids: " . $blocking_user_ids);
+
+        $blocked_by_user_ids = $user->blockedBy->pluck('blocker_id');
+        Log::info("blocked_by_user_ids: " . $blocked_by_user_ids);
+
+        $reporting_user_ids = $user->reportings->pluck('user_id');
+        Log::info("reporting_user_ids: " . $reporting_user_ids);
+
+        $friend_suggestions = UserModel::
+              whereIn('id', $friends_of_friend_ids)
+            ->whereNotIn('id', $blocking_user_ids)
+            ->whereNotIn('id', $blocked_by_user_ids)
+            ->whereNotIn('id', $reporting_user_ids);
+        
+            
+        Log::info("friend_suggestions: " . $friend_suggestions->pluck('id'));
+        return UserResource::collection($friend_suggestions->get());
 
 
-        $friendSuggetions = UserModel::whereIn('id', $friends_of_friends)->get();
 
-        return UserResource::collection($friendSuggetions);
+
+        // $friends = $user->friendsOf->concat($request->user()->friendsOfMine)->pluck('id');
+
+        // $blockings = $user->blockings->pluck('blocked_id');
+        // $blockedBy = $user->blockedBy->pluck('blocker_id');
+        // $reportings = $user->reportings->pluck('user_id');
+        
+        // $friends = UserModel::whereNotIn('id', $friends)
+        //     ->whereNotIn('id', $blockings)
+        //     ->whereNotIn('id', $blockedBy)
+        //     ->whereNotIn('id', $reportings);
+
+        // $friends_of_friends = $friends->get()->map(function ($friend) {
+        //     return $friend->friendsOf->concat($friend->friendsOfMine);
+        // })->flatten()->pluck('id');
+
+        // $friend_ids = $friends->pluck('id');
+
+        // // loại ra bạn bè từ danh sách bạn của bạn bè
+        // $friends_of_friends = $friends_of_friends->diff($friend_ids);
+
+
+        // $friendSuggetions = UserModel::whereIn('id', $friends_of_friends)->get();
+
+        // return UserResource::collection($friendSuggetions);
     }
 }
