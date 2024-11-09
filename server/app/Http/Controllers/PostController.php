@@ -263,33 +263,57 @@ class PostController extends Controller
         }
     }
 
-    public function getPost(Request $request)
+    public function getHomePost(Request $request)
     {
-        // $posts = PostModel::where('user_id', $request->user()->id);
-        // $shared_posts = PostModel::whereIn('id', PostShare::where('user_id', $request->user()->id)->pluck('post_id'));
-        // $reported_posts = PostModel::whereIn('id', Report::where('user_id', $request->user()->id)->where('type', 'post')->pluck('post_id'));
-
         $post_ids = PostModel::where('user_id', $request->user()->id)->pluck('id');
         Log::info('post_ids: '.$post_ids);
+
         $shared_post_ids = PostShare::where('user_id', $request->user()->id)->pluck('post_id');
         Log::info('shared_post_ids: '.$shared_post_ids);
+
         $friend_ids = $request->user()->friendsOf->concat($request->user()->friendsOfMine)->pluck('id');
         $friend_post_ids = PostModel::whereIn('user_id', $friend_ids)->pluck('id');
         Log::info('friend_post_ids: '.$friend_post_ids);
+
         $followings_post_ids = PostModel::whereIn('user_id', $request->user()->followings->pluck('id'))->pluck('id');
+        Log::info('followings_post_ids: '.$followings_post_ids);
+
         $reported_post_ids = Report::where('sender_id', $request->user()->id)->where('type', 'post')->pluck('post_id');
         Log::info('reported_post_ids: '.$reported_post_ids);
-        // $post_ids + $shared_post_ids - $reported_post_ids
+
         $blocked_users = $request->user()->blockings;
         $blocked_user_post_ids = PostModel::whereIn('user_id', $blocked_users->pluck('id'))->pluck('id');
+        Log::info('blocked_user_post_ids: '.$blocked_user_post_ids);
+
         $posts = PostModel::whereIn('id', $post_ids)
         ->orWhereIn('id', $shared_post_ids)
         ->orWhereIn('id', $friend_post_ids)
         ->orWhereIn('id', $followings_post_ids)
         ->whereNotIn('id', $reported_post_ids)
         ->whereNotIn('id', $blocked_user_post_ids)
-        ->orderBy('created_at', 'desc')->get();
-        Log::info('posts: '.$posts);
+        ->orderBy('created_at', 'desc');
+        Log::info('post_ids: '.$posts->pluck('id'));
+
+        $posts = $posts->get();
+        return PostResource::collection($posts);
+    }
+
+    public function getProfilePost(Request $request, $user_id)
+    {
+        $post_ids = PostModel::where('user_id', $user_id)->pluck('id');
+        Log::info('post_ids: '.$post_ids);
+
+        $shared_post_ids = PostShare::where('user_id', $user_id)->pluck('post_id');
+        Log::info('shared_post_ids: '.$shared_post_ids);
+
+        
+
+        $posts = PostModel::whereIn('id', $post_ids)
+        ->orWhereIn('id', $shared_post_ids)
+        ->orderBy('created_at', 'desc');
+        Log::info('post_ids: '.$posts->pluck('id'));
+
+        $posts = $posts->get();
         return PostResource::collection($posts);
     }
 }

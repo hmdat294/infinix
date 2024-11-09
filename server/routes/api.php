@@ -58,7 +58,9 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
     Route::get('user/{id}/blocked-by-users', [UserController::class, 'blockedByUsers']);
 
     Route::get('user/reported-content', [UserController::class, 'reported']);
-    Route::get('get-posts', [PostController::class, 'getPost']);
+
+    Route::get('get-home-posts', [PostController::class, 'getHomePost']);
+    Route::get('get-profile-posts', [PostController::class, 'getProfilePost']);
 
     Route::post('block-user/{user_id}', [UserController::class, 'block'])->name('block-user');
 
