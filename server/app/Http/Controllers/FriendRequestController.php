@@ -136,7 +136,7 @@ class FriendRequestController extends Controller
             'status' => $request->status,
         ]);
 
-        if ($request->status === 'accepted') {
+        if ($request->input('status') === 'accepted') {
             event(new FriendRequestEvent(FriendRequestModel::find($id)->sender_id, FriendRequestModel::find($id)->receiver_id, 'accepted'));
             RelationshipModel::create([
                 'user_id' => FriendRequestModel::find($id)->sender_id,
@@ -165,19 +165,19 @@ class FriendRequestController extends Controller
         return new FriendRequestResource($friend_request);
     }
 
-    // public function cancel(Request $request, string $user_id)
-    // {
-    //     $friend_request = FriendRequestModel::where('sender_id', $request->user()->id)->where('receiver_id', $user_id)->where('status', 'pending')->first();
+    public function cancel(Request $request, string $user_id)
+    {
+        $friend_request = FriendRequestModel::where('sender_id', $request->user()->id)->where('receiver_id', $user_id)->where('status', 'pending')->first();
 
 
-    //     $friend_request->delete();
+        $friend_request->delete();
 
-    //     return response()->json([
-    //         'message' => 'Friend request canceled.',
-    //     ]);
+        return response()->json([
+            'message' => 'Friend request canceled.',
+        ]);
 
 
-    // }
+    }
 
     public function sendNotification($friend_request_id, $status)
     {
