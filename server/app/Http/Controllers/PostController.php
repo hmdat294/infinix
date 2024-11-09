@@ -291,11 +291,20 @@ class PostController extends Controller
         ->orWhereIn('id', $friend_post_ids)
         ->orWhereIn('id', $followings_post_ids)
         ->whereNotIn('id', $reported_post_ids)
-        ->whereNotIn('id', $blocked_user_post_ids)
-        ->orderBy('created_at', 'desc');
+        ->whereNotIn('id', $blocked_user_post_ids);
+        
         Log::info('post_ids: '.$posts->pluck('id'));
 
         $posts = $posts->get();
+        foreach ($posts as &$post) {
+            if ($shared_post_ids->contains($post->id)) {
+               $post["created_at"] = PostShare::where('post_id', $post->id)->first()->created_at;
+            }
+        }
+
+        //sort by created_at
+        $posts = $posts->sortByDesc('created_at');
+
         return PostResource::collection($posts);
     }
 
@@ -303,7 +312,7 @@ class PostController extends Controller
     {
         $user = $user_id == null ? $request->user() : UserModel::find($user_id);
         $user_id = $user->id;
-        
+
         $post_ids = PostModel::where('user_id', $user_id)->pluck('id');
         Log::info('post_ids: '.$post_ids);
 
