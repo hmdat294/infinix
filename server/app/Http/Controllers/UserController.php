@@ -202,19 +202,23 @@ class UserController extends Controller
             ->whereNotIn('id', $blocked_by_user_ids)
             ->whereNotIn('id', $reporting_user_ids);
 
+        $more_friends = null;
+
         // if size < 5, get more 5 random friends who are not in the list and not is friend of user
-        if ($friend_suggestions->count() < 5) {
+        if ($friend_suggestions->count() < 10) {
             $more_friends = UserModel::
                 whereNotIn('id', $friends->pluck('id'))
                 ->whereNotIn('id', $friend_suggestions->pluck('id'))
+                ->where('id', '<>', $user->id)
                 ->inRandomOrder()
-                ->limit(5 - $friend_suggestions->count());
-            $friend_suggestions = $friend_suggestions->concat($more_friends);
+                ->limit(10 - $friend_suggestions->count())
+                ->get();
         }
         
             
+        $friend_suggestions = $friend_suggestions->get()->concat($more_friends);
         Log::info("friend_suggestions: " . $friend_suggestions->pluck('id'));
-        return UserResource::collection($friend_suggestions->get());
+        return UserResource::collection($friend_suggestions);
 
 
 
