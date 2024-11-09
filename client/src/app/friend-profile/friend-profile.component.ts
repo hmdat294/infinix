@@ -75,7 +75,7 @@ export class FriendProfileComponent implements OnInit {
 
             this.authService.getFriendOfFriend(this.user.id).subscribe(
               (response) => {
-                console.log(response);
+                // console.log(response);
                 this.friendOfFriend = response.data;
                 this.friendOfFriendLimit = response.data.slice(0, 9);
               });
