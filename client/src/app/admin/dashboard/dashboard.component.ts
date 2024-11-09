@@ -11,11 +11,13 @@ import { NavComponent } from '../nav/nav.component';
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent implements OnInit {
-
-  User_Growth: any;
-  Post_Growth: any;
+  totalUsers: number = 0;
+  totalPosts: number = 0;
+  totalReports: number = 0;
+  listUser: any;
   Conversations_Growth: any;
-  totalUsers: any;
+  User_Growth: any[] = []; // Khởi tạo mảng rỗng cho User_Growth
+  Post_Growth: any[] = []; // Khởi tạo mảng rỗng cho Post_Growth
   totalPost: any;
   totalReport: any;
   
@@ -69,6 +71,7 @@ export class DashboardComponent implements OnInit {
     this.loadDonutChartData();
 
   }
+
   fetchDataAndRenderChart(): void {
     this.adminService.getUserGrowthData().subscribe(userGrowthData => {
       this.User_Growth = userGrowthData;

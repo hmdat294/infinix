@@ -90,6 +90,11 @@ export class AuthService {
     return this.http.get(`${this.apiUrl}/get-friends`, { headers });
   }
 
+  getFriendOfFriend(user_id: number): Observable<any> {
+    const headers = this.getToken();
+    return this.http.get(`${this.apiUrl}/user/${user_id}/friends`, { headers });
+  }
+
   getRequestFriend(): Observable<any> {
     const headers = this.getToken();
     return this.http.get(`${this.apiUrl}/friend-request`, { headers });
@@ -105,10 +110,10 @@ export class AuthService {
     return this.http.patch(`${this.apiUrl}/friend-request/${request.id}`, { 'status': request.status }, { headers });
   }
 
-  // unFriend(request: any): Observable<any> {
-  //   const headers = this.getToken();
-  //   return this.http.patch(`${this.apiUrl}/friend-request/${request.id}`, { 'status': request.status }, { headers });
-  // }
+  unFriend(user_id: number): Observable<any> {
+    const headers = this.getToken();
+    return this.http.post(`${this.apiUrl}/unfriend/${user_id}`, {}, { headers });
+  }
 
   acceptGroup(request: any): Observable<any> {
     const headers = this.getToken();
@@ -150,5 +155,10 @@ export class AuthService {
   getUserBlock(): Observable<any> {
     const headers = this.getToken();
     return this.http.get(`${this.apiUrl}/user/blocked-users`, { headers });
+  }
+
+  getFriendSuggestions(): Observable<any> {
+    const headers = this.getToken();
+    return this.http.get(`${this.apiUrl}/friend-suggestions`, { headers });
   }
 }

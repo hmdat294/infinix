@@ -20,26 +20,7 @@ export class AdminService {
     const headers = this.authService.getToken();
     return this.http.get(`${this.apiUrl}/post/${id > 0 ? id : ''}`, { headers });
   }
-  getTotalUser(): Observable<any> {
-    const headers = this.authService.getToken();
-    return this.http.get(`${this.apiUrl}/statistics/total-users`, { headers });
-  }
-  getTotalPost(): Observable<any> {
-    const headers = this.authService.getToken();
-    return this.http.get(`${this.apiUrl}/statistics/total-posts`, { headers });
-  }
-  getTotalReport(): Observable<any> {
-    const headers = this.authService.getToken();
-    return this.http.get(`${this.apiUrl}/statistics/total-reports`, { headers });
-  }
-  getUserGrowthData(): Observable<any> {
-    const headers = this.authService.getToken();
-    return this.http.get(`${this.apiUrl}/statistics/users-growth`, { headers });
-  }
-  getPostGrowthData(): Observable<any> {
-    const headers = this.authService.getToken();
-    return this.http.get(`${this.apiUrl}/statistics/posts-growth`, { headers });
-  }
+ 
   getConversationsGrowthData(): Observable<any> {
     const headers = this.authService.getToken();
     return this.http.get(`${this.apiUrl}/statistics/conversations-growth`, { headers });
@@ -85,4 +66,29 @@ export class AdminService {
     const headers = this.authService.getToken();
     return this.http.get<number>(`${this.apiUrl}/statistics/total-post-shares`, { headers });
   }
+  getTotalUser(): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.get(`${this.apiUrl}/statistics/total-users`, { headers });
+  }
+  getTotalPost(): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.get(`${this.apiUrl}/statistics/total-posts`, { headers });
+  }
+  getTotalReport(): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.get(`${this.apiUrl}/statistics/total-reports`, { headers });
+  }
+  getUserGrowthData(): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.get(`${this.apiUrl}/statistics/users-growth`, { headers });
+  }
+  getPostGrowthData(): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.get(`${this.apiUrl}/statistics/posts-growth`, { headers });
+  }
+  getTotalUsers(): Observable<{ data: number }> {
+    return this.http.get<{ data: number }>('api_endpoint_here');
+  }
+  
+  
 }

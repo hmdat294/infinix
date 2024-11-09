@@ -13,19 +13,14 @@ export class PostService {
 
   private apiUrl = 'http://localhost:8000/api';
 
-  getPost(id: number = 0): Observable<any> {
+  getHomePost(): Observable<any> {
     const headers = this.authService.getToken();
-    return this.http.get(`${this.apiUrl}/post/${(id > 0) ? id : ''}`, { headers });
+    return this.http.get(`${this.apiUrl}/get-home-posts`, { headers });
   }
 
-  getPostMix(): Observable<any> {
+  getPostByUser(id: number = 0): Observable<any> {
     const headers = this.authService.getToken();
-    return this.http.get(`${this.apiUrl}/get-posts`, { headers });
-  }
-
-  getPostByUser(id: number): Observable<any> {
-    const headers = this.authService.getToken();
-    return this.http.get(`${this.apiUrl}/user/${id}/posts`, { headers });
+    return this.http.get(`${this.apiUrl}/get-profile-posts/${(id > 0) ? id : ''}`, { headers });
   }
 
   postPost(value: any): Observable<any> {

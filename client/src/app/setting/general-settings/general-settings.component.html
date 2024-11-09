@@ -268,11 +268,11 @@
                                 [disabled]="tabAccordion == 'user_report'" (click)="tabChild('user_report')">
                                 User
                             </button>
-                            <button type="button" class="list-item tab-report text-primary w-fill"
+                            <!-- <button type="button" class="list-item tab-report text-primary w-fill"
                                 [class]="tabAccordion == 'comment_report'?'tab-report-active':''"
                                 [disabled]="tabAccordion == 'comment_report'" (click)="tabChild('comment_report')">
                                 Comment
-                            </button>
+                            </button> -->
                         </div>
 
                     </div>
@@ -290,13 +290,14 @@
                         <div class="p-15 layout-horizontal align-center-space-between"
                             *ngFor="let report of listPostReport">
                             <div class="layout-horizontal align-center-center gap-15 w-fill">
-                                <div class="w-fill">
+                                <a [routerLink]="['/friend-profile', report.post.profile.user_id, report.post.id]"
+                                    class="w-fill">
                                     <p class="text-secondary text-body-strong">
                                         {{report.post.profile.display_name}}</p>
                                     <p class="text-secondary text-body">
                                         {{shortenTextByWords(report.post.content, 7)}}
                                     </p>
-                                </div>
+                                </a>
                                 <button type="button" class="button-standard button-text-with-icon"
                                     (click)="viewReport(report.id)">
                                     Xem
@@ -323,7 +324,7 @@
                                         </button>
 
                                         <div class="pb-20 pt-5 border-bottom">
-                                            <p class="text-subtitle text-primary text-center">Báo cáo tài khoản</p>
+                                            <p class="text-subtitle text-primary text-center">Báo cáo bài viết</p>
                                         </div>
 
                                         <div class="layout-horizontal gap-5">
@@ -346,8 +347,7 @@
                                         </div>
 
                                         <div class="layout-vertical gap-5">
-                                            <p class="text-body-strong text-primary" style="min-width: 100px;">Tài
-                                                khoản:
+                                            <p class="text-body-strong text-primary" style="min-width: 100px;">Bài viết:
                                             </p>
                                             <div class="border rounded-6 px-15 py-10 layout-horizontal gap-10 w-fill">
                                                 <div *ngIf="report.post.post_type == 'with_media'">
@@ -396,13 +396,15 @@
                         <div class="p-15 layout-horizontal align-center-space-between"
                             *ngFor="let report of listUserReport">
                             <div class="layout-horizontal align-center-center gap-15 w-fill">
-                                <div style="width: 35px; height: 35px;">
-                                    <img class="rounded-circle border border-card-default object-fit-cover"
-                                        [src]="report.user.profile.profile_photo" alt=""
-                                        style="width: 35px; height: 35px;">
-                                </div>
-                                <p class="text-secondary text-body-strong w-fill">
-                                    {{report.user.profile.display_name}}</p>
+                                <a [routerLink]="['/friend-profile', report.user.profile.user_id]" class="layout-horizontal align-center-center gap-15 w-fill">
+                                    <div style="width: 35px; height: 35px;">
+                                        <img class="rounded-circle border border-card-default object-fit-cover"
+                                            [src]="report.user.profile.profile_photo" alt=""
+                                            style="width: 35px; height: 35px;">
+                                    </div>
+                                    <p class="text-secondary text-body-strong w-fill">
+                                        {{report.user.profile.display_name}}</p>
+                                </a>
                                 <button type="button" class="button-standard button-text-with-icon"
                                     (click)="viewReport(report.id)">
                                     Xem
@@ -429,7 +431,7 @@
                                         </button>
 
                                         <div class="pb-20 pt-5 border-bottom">
-                                            <p class="text-subtitle text-primary text-center">Báo cáo bài viết</p>
+                                            <p class="text-subtitle text-primary text-center">Báo cáo tài khoản</p>
                                         </div>
 
                                         <div class="layout-horizontal gap-5">
@@ -452,7 +454,8 @@
                                         </div>
 
                                         <div class="layout-vertical gap-5">
-                                            <p class="text-body-strong text-primary" style="min-width: 100px;">Bài viết:
+                                            <p class="text-body-strong text-primary" style="min-width: 100px;">Tài
+                                                khoản:
                                             </p>
                                             <div
                                                 class="border rounded-6 p-15 layout-horizontal align-center-left gap-10 w-fill">

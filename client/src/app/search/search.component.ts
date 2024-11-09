@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { EventService } from '../service/event.service';
 import { CarouselService } from '../service/carousel.service';
 import moment from 'moment';
+import { ChatService } from '../service/chat.service';
 
 @Component({
   selector: 'app-search',
@@ -28,6 +29,8 @@ export class SearchComponent implements OnInit, AfterViewInit {
   keyword: string = '';
   tabActive: string = '';
   currentUser: any;
+  listUser: any;
+  listGroup: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -35,7 +38,8 @@ export class SearchComponent implements OnInit, AfterViewInit {
     private authService: AuthService,
     private postService: PostService,
     private carouselService: CarouselService,
-    private eventService: EventService
+    private chatService: ChatService,
+    private eventService: EventService,
   ) { }
 
   ngOnInit(): void {
@@ -46,6 +50,12 @@ export class SearchComponent implements OnInit, AfterViewInit {
       this.search(this.keyword);
 
     });
+
+    this.chatService.getListChat().subscribe(
+      (response) => {
+        this.listUser = response.data.filter((item: any) => item.is_group == 0);
+        this.listGroup = response.data.filter((item: any) => item.is_group == 1);
+      });
 
     this.authService.getUser(0).subscribe(
       (data) => {
@@ -155,6 +165,13 @@ export class SearchComponent implements OnInit, AfterViewInit {
       });
   }
 
+  unFriend(user_id: number): void {
+    this.authService.unFriend(user_id).subscribe(
+      (response) => {
+        console.log(response);
+      });
+  }
+
   cancelRequest(receiver_id: number) {
     this.authService.acceptFriend({ id: receiver_id, status: 'rejected' }).subscribe(
       (response) => {
@@ -168,16 +185,6 @@ export class SearchComponent implements OnInit, AfterViewInit {
     return this.commentByPostId[postId];
   }
 
-  formatTime(dateString: string): string {
-    const givenTime = moment(dateString);
-    const currentTime = moment();
-    const diffInHours = currentTime.diff(givenTime, 'hours');
-    const diffInMinutes = currentTime.diff(givenTime, 'minutes');
-
-    if (diffInHours >= 12) return givenTime.format('YYYY-MM-DD');
-    else if (diffInMinutes < 60) return `${diffInMinutes} phút trước`;
-    else return `${diffInHours} giờ trước`;
-  }
 
   getPathImg(img: any) {
     return img.path;
@@ -216,6 +223,182 @@ export class SearchComponent implements OnInit, AfterViewInit {
     )
   }
 
+  //bookmark
+
+  bookmarkPost(post_id: number) {
+    this.postService.bookmarkPost(post_id).subscribe(
+      (response) => {
+        console.log(response);
+
+        const bookmark = this.valueSearchPosts.find(item => item.id === post_id);
+        bookmark.bookmarked = !bookmark.bookmarked;
+      });
+  }
+
+  //bookmark
+
+  //share
+
+  dialogShare: number = 0;
+  shareSuccess: string = '';
+
+  showShare(post_id: number) {
+    this.dialogShare = post_id;
+    this.shareSuccess = '';
+  }
+
+  copyUrl(post_id: number) {
+    const postShare = this.valueSearchPosts.find((item: any) => item.id == post_id);
+
+    navigator.clipboard.writeText(`${window.location.origin}/friend-profile/${postShare.profile.id}/${post_id}`)
+      .then(() => {
+        this.shareSuccess =
+          `<p class="validation-message validation-sucess text-body text-primary py-10 px-15">
+            <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
+            <span>Đã sao chép đường dẫn vào bộ nhớ tạm!</span>
+          </p>`;
+      })
+      .catch((error) => {
+        this.shareSuccess =
+          `<p class="validation-message validation-critical text-body text-primary py-10 px-15">
+            <i class="icon-size-16 icon icon-ic_fluent_dismiss_circle_16_filled"></i>
+            <span>Sao chép không thành công!</span>
+          </p>`;
+      });
+  }
+
+  sharePostToMessage(post_id: number, conversation_id: number, username: string) {
+
+    const postShare = this.valueSearchPosts.find((item: any) => item.id == post_id);
+
+    const formData = new FormData();
+    formData.append('conversation_id', conversation_id.toString());
+    formData.append('content', postShare.content);
+    formData.append('link', `/friend-profile/${postShare.profile.id}/${post_id}`);
+
+    if (postShare.post_type == "with_media") {
+      formData.append('medias', postShare.medias[0].path);
+      formData.append('type', postShare.medias[0].type);
+    }
+
+    this.chatService.sendMessage(formData).subscribe(
+      (response: any) => {
+        console.log(response);
+        this.shareSuccess =
+          `<p class="validation-message validation-sucess text-body text-primary py-10 px-15">
+            <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
+            <span>Bạn đã chia sẽ đến ${username}!</span>
+          </p>`;
+      }
+    );
+  }
+
+  sharePostToMyPage(post_id: number) {
+    this.postService.sharePostToMyPage(post_id).subscribe(
+      (response: any) => {
+        console.log(response);
+
+        const shared = this.valueSearchPosts.find(item => item.id === post_id);
+        shared.shared = !shared.shared;
+        shared.shared_by.unshift(this.currentUser);
+
+        if (shared.shared) {
+          shared.shares_count++;
+          this.shareSuccess =
+            `<p class="validation-message validation-sucess text-body text-primary py-10 px-15">
+              <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
+              <span>Bạn đã chia sẽ đến trang cá nhân của mình!</span>
+            </p>`
+        }
+        else {
+          shared.shares_count--;
+          this.shareSuccess =
+            `<p class="validation-message validation-critical text-body text-primary py-10 px-15">
+              <i class="icon-size-16 icon icon-ic_fluent_dismiss_circle_16_filled"></i>
+              <span>Bạn đã hủy chia sẽ bài viết này!</span>
+            </p>`;
+        }
+      }
+    )
+  }
+
+  //share
+
+  //report
+
+  diaLogReport: number = 0;
+  valueReport: string[] = [];
+  contentReport: string = '';
+  messageReport: string = '';
+  @ViewChild('checkboxesContainer') checkboxesContainer!: ElementRef;
+
+  showDialogReport(post_id: number) {
+    this.diaLogReport = post_id;
+    if (this.diaLogReport == 0) {
+      this.valueReport = [];
+      this.contentReport = '';
+      this.messageReport = '';
+
+      this.checkboxesContainer.nativeElement.querySelectorAll('input[type="checkbox"]')
+        .forEach((checkbox: HTMLInputElement) => checkbox.checked = false);
+    }
+  }
+
+  onCheckboxChange(event: any) {
+    const checkboxValue = event.target.value;
+
+    if (event.target.checked) this.valueReport.push(checkboxValue);
+    else this.valueReport = this.valueReport.filter(value => value !== checkboxValue);
+  }
+
+  listIdPostReport: any[] = [];
+
+  postReport(value: any, post_id: number): any {
+
+    const valueReport = this.valueReport.join(', ');
+    let content = '';
+
+    if (valueReport != '' && value.contentReport != '') content = [valueReport, value.contentReport].join(', ');
+    else if (valueReport != '') content = valueReport;
+    else if (value.contentReport != '') content = value.contentReport;
+    else return false;
+
+    content = content.charAt(0).toUpperCase() + content.slice(1).toLowerCase() + '.';
+
+    this.postService.postReport({ content, post_id }).subscribe(
+      (response: any) => {
+        console.log(response);
+
+        this.listIdPostReport.push({ post_id: response.data.post_id, id: response.data.id });
+
+        console.log(this.listIdPostReport);
+
+        this.messageReport =
+          `<p class="validation-message validation-sucess text-body text-primary pt-15 px-20">
+              <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
+              <span>Gửi báo cáo thành công.</span>
+          </p>`;
+        this.showDialogReport(0);
+      })
+
+  }
+
+  cancelReport(post_id: number) {
+    const report = this.listIdPostReport.find((item: any) => item.post_id === post_id);
+    this.postService.cancelReport(report.id).subscribe(
+      (response: any) => {
+        this.listIdPostReport = this.listIdPostReport.filter((id: any) => id.id !== report.id);
+        console.log(this.listIdPostReport);
+      }
+    )
+  }
+
+  isPostIdExist(post_id: number): boolean {
+    return this.listIdPostReport.some((item: any) => item.post_id === post_id);
+  }
+
+  //report
+
   removeCommentImage(): void {
     this.previewCommentImages = [];
     this.selectedFilesComment = [];
@@ -232,4 +415,16 @@ export class SearchComponent implements OnInit, AfterViewInit {
     reader.readAsDataURL(file);
     this.selectedFilesComment = [file];
   }
+
+  formatTime(dateString: string): string {
+    const givenTime = moment(dateString);
+    const currentTime = moment();
+    const diffInHours = currentTime.diff(givenTime, 'hours');
+    const diffInMinutes = currentTime.diff(givenTime, 'minutes');
+
+    if (diffInHours >= 12) return givenTime.format('YYYY-MM-DD');
+    else if (diffInMinutes < 60) return `${diffInMinutes} phút trước`;
+    else return `${diffInHours} giờ trước`;
+  }
+
 }
