@@ -5,21 +5,20 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-report',
+  selector: 'app-report-post',
   standalone: true,
-  imports: [NavComponent,CommonModule,RouterModule],
-  templateUrl: './report.component.html',
-  styleUrl: './report.component.css'
+  imports: [NavComponent,CommonModule, RouterModule],
+  templateUrl: './report-post.component.html',
+  styleUrl: './report-post.component.css'
 })
-export class ReportComponent {
+export class ReportpostComponent {
   listReport: any;
   constructor(private adminService: AdminService) { }
   ngOnInit(): void {
-    
     this.adminService.getReports().subscribe(
       (response) => {
         // Gán mảng `data` từ response vào `listUser`
-        this.listReport = response.data.filter((item: any) => item.type === 'user');
+        this.listReport = response.data.filter((item: any) => item.type === 'post');
         
         console.log(this.listReport);
       },

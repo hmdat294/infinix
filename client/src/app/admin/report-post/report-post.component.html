@@ -36,9 +36,9 @@
                 <!-- fillter -->
                 <div class="layout-horizontal gap-10">
                     <a href="#"
-                        class="button-standard button-text-with-icon gap-10" [routerLink]="['/admin/report-post']">
+                        class="button-standard button-text-with-icon gap-10">
                         <i
-                            class="icon-size-16 icon icon-ic_fluent_document_one_page_multiple_16_regular"  ></i>
+                            class="icon-size-16 icon icon-ic_fluent_document_one_page_multiple_16_regular"></i>
                         Post
                     </a>
                     <a href="#"
@@ -100,8 +100,8 @@
                     <tbody>
                         <tr  *ngFor="let item of listReport">
                             <td><input type="checkbox"></td>
-                            <td >{{item.user.profile.display_name}}</td>
-                            <td>{{item.sender.profile.display_name}}</td>
+                            <td>{{item.user.profile.display_name}}</td>
+                            <td >{{item.sender.profile.display_name}}</td>
                             <td>{{shortenTextByWords(item.content,8)}}</td>
                             <td>{{item.status}}</td>
                             <td>{{item.created_at_date}}</td>
