@@ -7,6 +7,7 @@ import { filter } from 'rxjs';
 import { EventService } from '../service/event.service';
 import { ChatService } from '../service/chat.service';
 import { MiniChatComponent } from '../mini-chat/mini-chat.component';
+import { NotificationService } from '../service/notification.service';
 
 @Component({
   selector: 'app-header',
@@ -21,12 +22,14 @@ export class HeaderComponent implements OnInit {
   keyword: string = '';
   currentRoute: string | undefined;
   conversation: any[] = [];
+  notification: any;
 
   constructor(
     private router: Router,
     private authService: AuthService,
     private eventService: EventService,
-    private chatService: ChatService
+    private chatService: ChatService,
+    private notificationService: NotificationService,
   ) { }
 
   ngOnInit(): void {
@@ -59,8 +62,13 @@ export class HeaderComponent implements OnInit {
           this.chatService.updateConversation(this.conversation);
 
         });
-      }
-    )
+      });
+
+    this.notificationService.getNotification().subscribe(
+      (data) => {
+        console.log(data);
+        this.notification = data.data;
+      });
   }
 
   clearSearch() {

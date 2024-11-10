@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PostService } from '../../service/post.service';
 import { CommonModule } from '@angular/common';
@@ -8,11 +8,13 @@ import { AuthService } from '../../service/auth.service';
 import { EventService } from '../../service/event.service';
 import { RouterModule } from '@angular/router';
 import { ChatService } from '../../service/chat.service';
+import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
+import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 
 @Component({
   selector: 'app-center-home',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule],
+  imports: [FormsModule, CommonModule, RouterModule, EmojiModule, PickerComponent],
   templateUrl: './center-home.component.html',
   styleUrl: './center-home.component.css'
 })
@@ -35,8 +37,8 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   listUser: any;
   listGroup: any;
   friendSuggestions: any;
-  contentCommentInput:string = '';
-  
+  contentCommentInput: string = '';
+
   constructor(
     private cdr: ChangeDetectorRef,
     private postService: PostService,
@@ -61,15 +63,14 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
 
     this.authService.getFriendSuggestions().subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         this.friendSuggestions = response.data;
-      }
-    )
+      });
 
     this.postService.getHomePost().subscribe(
       (data) => {
         this.listPost = data.data;
-        console.log(this.listPost);
+        // console.log(this.listPost);
 
         this.eventService.bindEvent('App\\Events\\UserPostEvent', (data: any) => {
           console.log('Post event:', data);
@@ -100,7 +101,7 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
         friendfriend.is_sent_friend_request = !friendfriend.is_sent_friend_request;
       });
   }
-  
+
   unFriend(user_id: number): void {
     this.authService.unFriend(user_id).subscribe(
       (response) => {
@@ -195,16 +196,53 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
           this.poll_input = [];
           this.showPoll = false;
           this.onCancelPostImg();
+          this.showEmojiPicker = false;
           console.log(response);
         });
     }
+  }
+
+  vietnameseI18n: any = {
+    search: 'Tìm kiếm',
+    categories: {
+      search: 'Kết quả tìm kiếm',
+      recent: 'Gần đây',
+      people: 'Mọi người',
+      nature: 'Thiên nhiên',
+      foods: 'Đồ ăn & Uống',
+      activity: 'Hoạt động',
+      places: 'Địa điểm',
+      objects: 'Đồ vật',
+      symbols: 'Biểu tượng',
+      flags: 'Cờ',
+    },
+    skinTones: {
+      1: 'Màu da mặc định',
+      2: 'Màu da sáng',
+      3: 'Màu da trung bình sáng',
+      4: 'Màu da trung bình',
+      5: 'Màu da trung bình tối',
+      6: 'Màu da tối',
+    },
+  };
+
+
+
+  showEmojiPicker: boolean = false;
+
+  toggleEmojiPicker() {
+    this.showEmojiPicker = !this.showEmojiPicker;
+  }
+
+  addEmoji(event: any) {
+    this.content += event.emoji.native;
   }
 
 
 
   postComment(value: any) {
     console.log(value);
-    
+
     const formData = new FormData();
     formData.append('content', value.content);
     formData.append('post_id', value.post_id);
@@ -344,8 +382,9 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   messageReport: string = '';
   @ViewChild('checkboxesContainer') checkboxesContainer!: ElementRef;
 
-  showDialogReport(post_id: number) {
-    this.diaLogReport = post_id;
+  showDialogReport(id: any) {
+
+    this.diaLogReport = id;
     if (this.diaLogReport == 0) {
       this.valueReport = [];
       this.contentReport = '';
@@ -363,9 +402,9 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
     else this.valueReport = this.valueReport.filter(value => value !== checkboxValue);
   }
 
-  listIdPostReport: any[] = [];
+  listIdReport: any[] = [];
 
-  postReport(value: any, post_id: number): any {
+  postReport(value: any): any {
 
     const valueReport = this.valueReport.join(', ');
     let content = '';
@@ -377,13 +416,19 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
 
     content = content.charAt(0).toUpperCase() + content.slice(1).toLowerCase() + '.';
 
-    this.postService.postReport({ content, post_id }).subscribe(
+    const postReport: any = this.diaLogReport;
+    postReport.content = content;
+
+    console.log(postReport);
+
+
+    this.postService.postReport(postReport).subscribe(
       (response: any) => {
         console.log(response);
 
-        this.listIdPostReport.push({ post_id: response.data.post_id, id: response.data.id });
-
-        console.log(this.listIdPostReport);
+        if (response.data.type == 'post') {
+          this.listIdReport.push({ id: response.data.id, post_id: response.data.post_id });
+        }
 
         this.messageReport =
           `<p class="validation-message validation-sucess text-body text-primary pt-15 px-20">
@@ -396,17 +441,16 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   }
 
   cancelReport(post_id: number) {
-    const report = this.listIdPostReport.find((item: any) => item.post_id === post_id);
+    const report = this.listIdReport.find((item: any) => item.post_id === post_id);
     this.postService.cancelReport(report.id).subscribe(
       (response: any) => {
-        this.listIdPostReport = this.listIdPostReport.filter((id: any) => id.id !== report.id);
-        console.log(this.listIdPostReport);
-      }
-    )
+        this.listIdReport = this.listIdReport.filter((id: any) => id.id !== report.id);
+        console.log(this.listIdReport);
+      });
   }
 
   isPostIdExist(post_id: number): boolean {
-    return this.listIdPostReport.some((item: any) => item.post_id === post_id);
+    return this.listIdReport.some((item: any) => item.post_id === post_id);
   }
 
   //report
