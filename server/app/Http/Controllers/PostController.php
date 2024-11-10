@@ -102,7 +102,7 @@ class PostController extends Controller
             }
         }
 
-        event(new UserPostEvent($post->user_id, $post->id, $post->content));
+        event(new UserPostEvent($post->user_id, $post->id, $post->content, 'create'));
 
         $this->sendNotification($post);
 
@@ -177,7 +177,7 @@ class PostController extends Controller
             }
         }
 
-
+        event(new UserPostEvent($post->user_id, $post->id, $post->content, 'update'));
         return new PostResource($post);
     }
 
@@ -192,6 +192,7 @@ class PostController extends Controller
     {
         $post = PostModel::find($id);
         $post->delete();
+        event(new UserPostEvent($post->user_id, $post->id, $post->content, 'delete'));
         return response()->json([
             'message' => 'Post deleted successfully.',
         ], 200);
