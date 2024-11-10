@@ -160,6 +160,24 @@ class PostController extends Controller
                 ]);
             }
         }
+
+        if ($request->hasFile('medias')) {
+            $post->update([
+                'post_type' => 'with_media',
+            ]);
+            $post->medias()->delete();
+            foreach ($request->file('medias') as $media) {
+                $media_path = $media->store('uploads', 'public');
+                $media_type = $media->getMimeType();
+                PostMediaModel::create([
+                    'post_id' => $post->id,
+                    'path' => asset('storage/' . $media_path),
+                    'type' => $media_type,
+                ]);
+            }
+        }
+
+
         return new PostResource($post);
     }
 

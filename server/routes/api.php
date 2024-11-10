@@ -94,8 +94,9 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
     Route::post('cancel-friend-request/{user_id}', [FriendRequestController::class, 'cancel'])->name('cancel-friend-request');
 
     // API cho Bài viết
+    Route::post('post/{id}', [PostController::class, 'update']);
     Route::resource('post', PostController::class)
-    ->only(['index', 'store', 'show', 'update', 'destroy'])
+    ->only(['index', 'store', 'show', 'destroy'])
     ->parameters(['post' => 'id']);
 
     // Người dùng
