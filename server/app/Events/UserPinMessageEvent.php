@@ -9,6 +9,7 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use App\Http\Resources\MessageResource;
 
 class UserPinMessageEvent implements ShouldBroadcast
 {
@@ -34,5 +35,13 @@ class UserPinMessageEvent implements ShouldBroadcast
         }
 
         return $channels;
+    }
+
+    public function broadcastWith(): array
+    {
+        return [
+            'message' => new MessageResource($this->message),
+            'type' => $this->type,
+        ];
     }
 }
