@@ -33,8 +33,8 @@ class CancelFriendRequestEvent implements ShouldBroadcast
     {
         $friend_request = $this->friend_request;
         return [
-            new PrivateChannel('user.' . $friend_request->sender_id),
-            new PrivateChannel('user.' . $friend_request->receiver_id),
+            new Channel('user.' . $friend_request->sender_id),
+            new Channel('user.' . $friend_request->receiver_id),
         ];
     }
 
