@@ -9,17 +9,19 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use App\Models\FriendRequest;
+use App\Http\Resources\UserResource;
+use App\Models\User as UserModel;
 
-class CancelFriendRequestEvent
+
+class CancelFriendRequestEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    /**
-     * Create a new event instance.
-     */
-    public function __construct()
+    protected $friend_request;
+    public function __construct($friend_request)
     {
-        //
+        $this->friend_request = $friend_request;
     }
 
     /**
@@ -29,8 +31,20 @@ class CancelFriendRequestEvent
      */
     public function broadcastOn(): array
     {
+        $friend_request = $this->friend_request;
         return [
-            new PrivateChannel('channel-name'),
+            new PrivateChannel('user.' . $friend_request->sender_id),
+            new PrivateChannel('user.' . $friend_request->receiver_id),
+        ];
+    }
+
+    public function broadcastWith(): array
+    {
+        return [
+            'id' => $this->friend_request->id,
+            'sender' => new UserResource(UserModel::find($this->friend_request->sender_id)),
+            'receiver' => new UserResource(UserModel::find($this->friend_request->receiver_id)),
+            'status' => $this->friend_request->status,
         ];
     }
 }

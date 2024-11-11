@@ -14,6 +14,7 @@ use App\Events\FriendRequestEvent;
 use App\Models\Conversation as ConversationModel;
 use Illuminate\Support\Facades\Log;
 use App\Models\Notification as NotificationModel;
+use App\Events\CancelFriendRequestEvent;
 
 class FriendRequestController extends Controller
 {
@@ -168,7 +169,7 @@ class FriendRequestController extends Controller
     public function cancel(Request $request, string $user_id)
     {
         $friend_request = FriendRequestModel::where('sender_id', $request->user()->id)->where('receiver_id', $user_id)->where('status', 'pending')->first();
-
+        event(new CancelFriendRequestEvent($friend_request));
 
         $friend_request->delete();
 
