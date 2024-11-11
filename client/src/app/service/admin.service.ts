@@ -90,8 +90,12 @@ export class AdminService {
     return this.http.get<{ data: number }>('api_endpoint_here');
   }
   updateReportStatus(id: number, status: string): Observable<any> {
-    return this.http.patch(`/reports/${id}`, { status });
-  }
+    const headers = this.authService.getToken();  
+    return this.http.post(`${this.apiUrl}/report/${id}`, { status }, { headers });
+}
+
+  
+  
   
   
 }

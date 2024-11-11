@@ -3,7 +3,7 @@ import { NavComponent } from "../nav/nav.component";
 import { AdminService } from '../../service/admin.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { FormsModule, NgModel } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-report',
@@ -37,7 +37,7 @@ export class ReportComponent {
   updateStatus(item: any): void {
     this.adminService.updateReportStatus(item.id, item.status).subscribe(
       (response) => {
-        console.log('Cập nhật trạng thái thành công:', response);
+        console.log('Trạng thái đã được cập nhật:', response);
       },
       (error) => {
         console.error('Lỗi khi cập nhật trạng thái:', error);
