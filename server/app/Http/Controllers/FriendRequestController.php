@@ -168,8 +168,9 @@ class FriendRequestController extends Controller
 
     public function cancel(Request $request, string $user_id)
     {
+        
         $friend_request = FriendRequestModel::where('sender_id', $request->user()->id)->where('receiver_id', $user_id)->where('status', 'pending')->first();
-        event(new CancelFriendRequestEvent($friend_request));
+        event(new CancelFriendRequestEvent($friend_request->id, $friend_request->sender_id, $friend_request->receiver_id));
 
         $friend_request->delete();
 
