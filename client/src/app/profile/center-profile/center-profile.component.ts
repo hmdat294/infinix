@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { PostService } from '../../service/post.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -10,15 +10,17 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ChatService } from '../../service/chat.service';
 import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
+import { QuillModule } from 'ngx-quill';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-center-profile',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule, EmojiModule, PickerComponent],
+  imports: [FormsModule, CommonModule, RouterModule, EmojiModule, PickerComponent, QuillModule],
   templateUrl: './center-profile.component.html',
   styleUrl: './center-profile.component.css'
 })
-export class CenterProfileComponent implements OnInit {
+export class CenterProfileComponent implements OnInit, AfterViewInit {
 
   content: string = '';
   selectedFilesPost: File[] = [];
@@ -45,6 +47,7 @@ export class CenterProfileComponent implements OnInit {
     private eventService: EventService,
     private authService: AuthService,
     private chatService: ChatService,
+    private sanitizer: DomSanitizer
   ) { }
 
   ngOnInit(): void {
@@ -154,7 +157,6 @@ export class CenterProfileComponent implements OnInit {
 
       this.postService.postPost(formData).subscribe(
         (response) => {
-          (document.querySelector('.textarea-post') as HTMLTextAreaElement).style.height = '32px';
           this.content = '';
           this.poll_input = [];
           this.showPoll = false;
@@ -163,6 +165,25 @@ export class CenterProfileComponent implements OnInit {
         });
     }
   }
+
+  changeHtmlContent(content: string) {
+    return this.sanitizer.bypassSecurityTrustHtml(content);
+  }
+
+  editorModules = {
+    toolbar: [
+      [{ 'header': [1, 2, false] }],
+      ['bold', 'italic', 'underline', 'strike'],
+      [{ 'color': [] }, { 'background': [] }],
+      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+      [{ 'script': 'sub' }, { 'script': 'super' }],
+      [{ 'indent': '-1' }, { 'indent': '+1' }],
+      [{ 'direction': 'rtl' }],
+      [{ 'align': [] }],
+      ['clean'],
+      // ['link', 'image', 'video']
+    ]
+  };
 
   vietnameseI18n: any = {
     search: 'Tìm kiếm',

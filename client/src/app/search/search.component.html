@@ -236,8 +236,7 @@
                             </div>
 
                             <div class="layout w-fill">
-                                <p class="text-body text-primary w-fill text-wrap" style="white-space: pre-line;">
-                                    {{post.content}}</p>
+                                <p class="text-primary text-wrap" style="white-space: pre-line;" [innerHTML]="changeHtmlContent(post.content)"></p>
                             </div>
 
                             <div class="layout w-fill h-fill" *ngIf="post.medias.length>0">
@@ -320,10 +319,7 @@
                                             </div>
                                             <div class="layout-vertical w-fill h-fill overflow-scroll-vertical">
                                                 <div class="layout w-fill h-hug p-10">
-                                                    <p class="text-body text-primary text-wrap"
-                                                        style="white-space: pre-line;">
-                                                        {{post.content}}
-                                                    </p>
+                                                    <p class="text-primary text-wrap" style="white-space: pre-line;" [innerHTML]="changeHtmlContent(post.content)"></p>
                                                 </div>
                                                 <div
                                                     class="layout-horizontal w-fill py-5 border-top border-card-default">
