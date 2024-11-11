@@ -9,6 +9,7 @@ import { EventService } from '../service/event.service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ChatService } from '../service/chat.service';
 import { MiniChatComponent } from '../mini-chat/mini-chat.component';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-friend-profile',
@@ -49,6 +50,7 @@ export class FriendProfileComponent implements OnInit {
     private authService: AuthService,
     private chatService: ChatService,
     private router: Router,
+    private sanitizer: DomSanitizer
   ) { }
 
   ngOnInit(): void {
@@ -150,6 +152,10 @@ export class FriendProfileComponent implements OnInit {
 
   ngAfterViewInit(): void {
     this.initCarousels();
+  }
+
+  changeHtmlContent(content: string) {
+    return this.sanitizer.bypassSecurityTrustHtml(content);
   }
 
   initCarousels(): void {

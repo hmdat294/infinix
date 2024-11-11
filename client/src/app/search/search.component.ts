@@ -8,6 +8,7 @@ import { EventService } from '../service/event.service';
 import { CarouselService } from '../service/carousel.service';
 import moment from 'moment';
 import { ChatService } from '../service/chat.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-search',
@@ -41,6 +42,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
     private carouselService: CarouselService,
     private chatService: ChatService,
     private eventService: EventService,
+    private sanitizer: DomSanitizer
   ) { }
 
   ngOnInit(): void {
@@ -72,6 +74,10 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.initCarousels();
+  }
+
+  changeHtmlContent(content: string) {
+    return this.sanitizer.bypassSecurityTrustHtml(content);
   }
 
   initCarousels(): void {
