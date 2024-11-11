@@ -20,7 +20,7 @@ export class DashboardComponent implements OnInit {
   Post_Growth: any[] = []; // Khởi tạo mảng rỗng cho Post_Growth
   totalPost: any;
   totalReport: any;
-  
+
   constructor(private adminService: AdminService) { }
 
 
@@ -30,14 +30,14 @@ export class DashboardComponent implements OnInit {
     // this.renderDonutChart();
     // this.renderRadialBarChart();
     // this.renderLineChart1();
-    this.adminService.getConversationsGrowthData().subscribe(data => {
-      this.Conversations_Growth = data;  // Lưu trữ dữ liệu từ API
-      this.renderLineChart1();
-      console.log(this.Conversations_Growth);
-      // Vẽ biểu đồ sau khi có dữ liệu
-    }, error => {
-      console.error('Lỗi khi lấy dữ liệu:', error);
-    });
+    // this.adminService.getConversationsGrowthData().subscribe(data => {
+    //   this.Conversations_Growth = data;  // Lưu trữ dữ liệu từ API
+    //   this.renderLineChart1();
+    //   console.log(this.Conversations_Growth);
+    //   // Vẽ biểu đồ sau khi có dữ liệu
+    // }, error => {
+    //   console.error('Lỗi khi lấy dữ liệu:', error);
+    // });
 
     this.adminService.getTotalUser().subscribe(
       (response) => {
@@ -78,9 +78,11 @@ export class DashboardComponent implements OnInit {
 
       this.adminService.getPostGrowthData().subscribe(postGrowthData => {
         this.Post_Growth = postGrowthData;
-
-        // Sau khi có dữ liệu từ cả hai API, gọi hàm để vẽ biểu đồ
-        this.renderChart();
+          this.adminService.getConversationsGrowthData().subscribe(data => {
+            this.Conversations_Growth = data;
+          // Sau khi có dữ liệu từ cả hai API, gọi hàm để vẽ biểu đồ
+          this.renderChart();
+        });
       });
     });
   }
@@ -91,6 +93,15 @@ export class DashboardComponent implements OnInit {
 
     const postTotals = this.Post_Growth.map((item: any) => item.total);
     const postDates = this.Post_Growth.map((item: any) => item.date);
+
+    const conversationsTotals = this.Conversations_Growth.map((item: any) => item.total);
+    const conversationsDates = this.Conversations_Growth.map((item: any) => item.date);
+    console.log('show growth:', userTotals, conversationsTotals, postTotals);
+    
+    const longestDates = userDates.length >= postDates.length 
+    ? (userDates.length >= conversationsDates.length ? userDates : conversationsDates) 
+    : (postDates.length >= conversationsDates.length ? postDates : conversationsDates);
+    
     const chartOptions: ApexOptions = {
       chart: {
         foreColor: '#9ba7b2',
@@ -110,13 +121,13 @@ export class DashboardComponent implements OnInit {
         data: postTotals  // Sử dụng userData từ API
       },
       {
-        name: "Report",
-        data: [42, 25, 23, 31]  // Sử dụng userData từ API
+        name: "Conversations",
+        data: conversationsTotals // Sử dụng userData từ API
       }
       ],
       xaxis: {
         type: 'datetime',
-        categories: userDates.length > postDates.length ? userDates : postDates,
+        categories: longestDates,
       },
       title: {
         text: 'Growth statistics',
@@ -152,52 +163,52 @@ export class DashboardComponent implements OnInit {
     }).catch(error => {
       console.error('Lỗi khi gọi API:', error);
     });
-}
-renderDonutChart(seriesData: number[]): void {
-  // Kiểm tra dữ liệu trước khi render biểu đồ
-  console.log('Data passed to renderDonutChart:', seriesData);
+  }
+  renderDonutChart(seriesData: number[]): void {
+    // Kiểm tra dữ liệu trước khi render biểu đồ
+    console.log('Data passed to renderDonutChart:', seriesData);
 
-  const donutChartOptions: ApexOptions = {
-    series: seriesData,
-    chart: {
-      foreColor: '#9ba7b2',
-      height: 240,
-      type: 'donut',
-      dropShadow: { enabled: true, top: 3, left: 2, blur: 4, opacity: 0.1 }
-    },
-    colors: ["#ffc107", "#17a00e", "#0d6efd", "#f41127"],
-    title: {
-      text: 'Total Post',
-      offsetY: 0,
-      offsetX: 0
-    },
-    labels: ['Post Bookmarks', 'Post Comments', 'Post Likes', 'Post Shares'],
-    legend: {
-      position: 'bottom',
-      formatter: (val: string) => val,
-    },
-  };
+    const donutChartOptions: ApexOptions = {
+      series: seriesData,
+      chart: {
+        foreColor: '#9ba7b2',
+        height: 240,
+        type: 'donut',
+        dropShadow: { enabled: true, top: 3, left: 2, blur: 4, opacity: 0.1 }
+      },
+      colors: ["#ffc107", "#17a00e", "#0d6efd", "#f41127"],
+      title: {
+        text: 'Total Post',
+        offsetY: 0,
+        offsetX: 0
+      },
+      labels: ['Post Bookmarks', 'Post Comments', 'Post Likes', 'Post Shares'],
+      legend: {
+        position: 'bottom',
+        formatter: (val: string) => val,
+      },
+    };
 
-  const donutChart = new ApexCharts(document.querySelector('#chart9'), donutChartOptions);
-  donutChart.render();
-}
+    const donutChart = new ApexCharts(document.querySelector('#chart9'), donutChartOptions);
+    donutChart.render();
+  }
 
 
-fetchReportDataAndRenderDonutChart(): void {
-  this.adminService.getReports().subscribe((response: any) => {
-    const reportData = Array.isArray(response.data) ? response.data : [];
+  fetchReportDataAndRenderDonutChart(): void {
+    this.adminService.getReports().subscribe((response: any) => {
+      const reportData = Array.isArray(response.data) ? response.data : [];
 
-    const userReports = reportData.filter((item: any) => item.type === 'user').length;
-    const postReports = reportData.filter((item: any) => item.type === 'post').length;
-    const commentReports = reportData.filter((item: any) => item.type === 'comment').length;
-    const messageReports = reportData.filter((item: any) => item.type === 'message').length;
-    console.log('Data passed to :',userReports,postReports,commentReports,messageReports);
-    
-    this.renderRadialBarChart(userReports, postReports, commentReports, messageReports);
-  }, error => {
-    console.error("Error fetching report data:", error);
-  });
-}
+      const userReports = reportData.filter((item: any) => item.type === 'user').length;
+      const postReports = reportData.filter((item: any) => item.type === 'post').length;
+      const commentReports = reportData.filter((item: any) => item.type === 'comment').length;
+      const messageReports = reportData.filter((item: any) => item.type === 'message').length;
+      console.log('Data passed to :', userReports, postReports, commentReports, messageReports);
+
+      this.renderRadialBarChart(userReports, postReports, commentReports, messageReports);
+    }, error => {
+      console.error("Error fetching report data:", error);
+    });
+  }
   renderRadialBarChart(userReports: number, postReports: number, commentReports: number, messageReports: number): void {
     const donutChartOptions: ApexOptions = {
       series: [userReports, postReports, commentReports, messageReports],
