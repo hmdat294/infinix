@@ -50,7 +50,7 @@ export class HeaderComponent implements OnInit {
     this.authService.getUser(0).subscribe(
       (res: any) => {
         this.eventService.bindEvent('App\\Events\\UserSendMessageEvent', (data: any) => {
-          console.log('Message received:', data);
+          console.log('Message event received:', data);
 
           if (this.conversation.includes(data.data.conversation_id))
             this.conversation = this.conversation.filter(id => id !== data.data.conversation_id);
@@ -66,8 +66,15 @@ export class HeaderComponent implements OnInit {
 
     this.notificationService.getNotification().subscribe(
       (data) => {
+
         console.log(data);
         this.notification = data.data;
+        this.eventService.bindEvent('App\\Events\\NotificationEvent', (data: any) => {
+          console.log('Notification event received:', data);
+
+          this.notification.unshift(data.data);
+        });
+
       });
   }
 
