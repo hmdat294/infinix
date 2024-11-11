@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { PostService } from '../../service/post.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -8,15 +8,19 @@ import { CarouselService } from '../../service/carousel.service';
 import { EventService } from '../../service/event.service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ChatService } from '../../service/chat.service';
+import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
+import { PickerComponent } from '@ctrl/ngx-emoji-mart';
+import { QuillModule } from 'ngx-quill';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-center-profile',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule],
+  imports: [FormsModule, CommonModule, RouterModule, EmojiModule, PickerComponent, QuillModule],
   templateUrl: './center-profile.component.html',
   styleUrl: './center-profile.component.css'
 })
-export class CenterProfileComponent implements OnInit {
+export class CenterProfileComponent implements OnInit, AfterViewInit {
 
   content: string = '';
   selectedFilesPost: File[] = [];
@@ -34,7 +38,8 @@ export class CenterProfileComponent implements OnInit {
   currentUser: any;
   listUser: any;
   listGroup: any;
-  
+  contentCommentInput: string = '';
+
   constructor(
     private cdr: ChangeDetectorRef,
     private postService: PostService,
@@ -42,21 +47,10 @@ export class CenterProfileComponent implements OnInit {
     private eventService: EventService,
     private authService: AuthService,
     private chatService: ChatService,
+    private sanitizer: DomSanitizer
   ) { }
 
   ngOnInit(): void {
-    this.postService.getPostByUser().subscribe(
-      (data) => {
-        this.listPost = data.data;
-        console.log(this.listPost);
-
-        this.eventService.bindEvent('App\\Events\\UserPostEvent', (data: any) => {
-          console.log('Post event:', data);
-          this.listPost.unshift(data.data);
-        });
-
-      });
-
     this.authService.getUser(0).subscribe(
       (data) => {
         this.currentUser = data.data;
@@ -67,9 +61,19 @@ export class CenterProfileComponent implements OnInit {
         this.listUser = response.data.filter((item: any) => item.is_group == 0);
         this.listGroup = response.data.filter((item: any) => item.is_group == 1);
       });
+
+    this.postService.getPostByUser().subscribe(
+      (data) => {
+        this.listPost = data.data;
+        console.log(this.listPost);
+
+        this.eventService.bindEvent('App\\Events\\UserPostEvent', (data: any) => {
+          console.log('Post event:', data);
+          this.listPost.unshift(data.data);
+        });
+      });
   }
 
-  @ViewChild('commentInput') commentInput!: ElementRef;
   @ViewChildren('carouselInner') carouselInners!: QueryList<ElementRef<HTMLDivElement>>;
   @ViewChildren('nextButton') nextButtons!: QueryList<ElementRef<HTMLButtonElement>>;
   @ViewChildren('prevButton') prevButtons!: QueryList<ElementRef<HTMLButtonElement>>;
@@ -153,7 +157,6 @@ export class CenterProfileComponent implements OnInit {
 
       this.postService.postPost(formData).subscribe(
         (response) => {
-          (document.querySelector('.textarea-post') as HTMLTextAreaElement).style.height = '32px';
           this.content = '';
           this.poll_input = [];
           this.showPoll = false;
@@ -163,13 +166,69 @@ export class CenterProfileComponent implements OnInit {
     }
   }
 
+  changeHtmlContent(content: string) {
+    return this.sanitizer.bypassSecurityTrustHtml(content);
+  }
+
+  editorModules = {
+    toolbar: [
+      [{ 'header': [1, 2, false] }],
+      ['bold', 'italic', 'underline', 'strike'],
+      [{ 'color': [] }, { 'background': [] }],
+      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+      [{ 'script': 'sub' }, { 'script': 'super' }],
+      [{ 'indent': '-1' }, { 'indent': '+1' }],
+      [{ 'direction': 'rtl' }],
+      [{ 'align': [] }],
+      ['clean'],
+      // ['link', 'image', 'video']
+    ]
+  };
+
+  vietnameseI18n: any = {
+    search: 'Tìm kiếm',
+    categories: {
+      search: 'Kết quả tìm kiếm',
+      recent: 'Gần đây',
+      people: 'Mọi người',
+      nature: 'Thiên nhiên',
+      foods: 'Đồ ăn & Uống',
+      activity: 'Hoạt động',
+      places: 'Địa điểm',
+      objects: 'Đồ vật',
+      symbols: 'Biểu tượng',
+      flags: 'Cờ',
+    },
+    skinTones: {
+      1: 'Màu da mặc định',
+      2: 'Màu da sáng',
+      3: 'Màu da trung bình sáng',
+      4: 'Màu da trung bình',
+      5: 'Màu da trung bình tối',
+      6: 'Màu da tối',
+    },
+  };
+
+
+
+  showEmojiPicker: boolean = false;
+
+  toggleEmojiPicker() {
+    this.showEmojiPicker = !this.showEmojiPicker;
+  }
+
+  addEmoji(event: any) {
+    this.content += event.emoji.native;
+  }
 
 
   postComment(value: any) {
+    console.log(value);
 
     const formData = new FormData();
     formData.append('content', value.content);
     formData.append('post_id', value.post_id);
+    formData.append('user_id', value.user_id);
 
     if (this.selectedFilesComment.length > 0)
       formData.append('media', this.selectedFilesComment[0], this.selectedFilesComment[0].name);
@@ -177,7 +236,7 @@ export class CenterProfileComponent implements OnInit {
     this.postService.postComment(formData).subscribe(
       (response) => {
         console.log(response);
-        this.commentInput.nativeElement.value = '';
+        this.contentCommentInput = '';
         this.removeCommentImage();
       }
     )
@@ -272,7 +331,26 @@ export class CenterProfileComponent implements OnInit {
       (response: any) => {
         console.log(response);
 
-        this.listPost = this.listPost.filter(item => item.id !== post_id);
+        const shared = this.listPost.find(item => item.id === post_id);
+        shared.shared = !shared.shared;
+        shared.shared_by.unshift(this.currentUser);
+
+        if (shared.shared) {
+          shared.shares_count++;
+          this.shareSuccess =
+            `<p class="validation-message validation-sucess text-body text-primary py-10 px-15">
+              <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
+              <span>Bạn đã chia sẽ đến trang cá nhân của mình!</span>
+            </p>`
+        }
+        else {
+          shared.shares_count--;
+          this.shareSuccess =
+            `<p class="validation-message validation-critical text-body text-primary py-10 px-15">
+              <i class="icon-size-16 icon icon-ic_fluent_dismiss_circle_16_filled"></i>
+              <span>Bạn đã hủy chia sẽ bài viết này!</span>
+            </p>`;
+        }
       }
     )
   }
@@ -287,8 +365,9 @@ export class CenterProfileComponent implements OnInit {
   messageReport: string = '';
   @ViewChild('checkboxesContainer') checkboxesContainer!: ElementRef;
 
-  showDialogReport(post_id: number) {
-    this.diaLogReport = post_id;
+  showDialogReport(id: any) {
+
+    this.diaLogReport = id;
     if (this.diaLogReport == 0) {
       this.valueReport = [];
       this.contentReport = '';
@@ -306,7 +385,9 @@ export class CenterProfileComponent implements OnInit {
     else this.valueReport = this.valueReport.filter(value => value !== checkboxValue);
   }
 
-  postReport(value: any, post_id: number): any {
+  listIdReport: any[] = [];
+
+  postReport(value: any): any {
 
     const valueReport = this.valueReport.join(', ');
     let content = '';
@@ -318,17 +399,41 @@ export class CenterProfileComponent implements OnInit {
 
     content = content.charAt(0).toUpperCase() + content.slice(1).toLowerCase() + '.';
 
-    this.postService.postReport({ content, post_id }).subscribe(
+    const postReport: any = this.diaLogReport;
+    postReport.content = content;
+
+    console.log(postReport);
+
+
+    this.postService.postReport(postReport).subscribe(
       (response: any) => {
         console.log(response);
+
+        if (response.data.type == 'post') {
+          this.listIdReport.push({ id: response.data.id, post_id: response.data.post_id });
+        }
+
         this.messageReport =
           `<p class="validation-message validation-sucess text-body text-primary pt-15 px-20">
               <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
               <span>Gửi báo cáo thành công.</span>
           </p>`;
-        setTimeout(() => this.showDialogReport(0), 3000);
+        this.showDialogReport(0);
       })
 
+  }
+
+  cancelReport(post_id: number) {
+    const report = this.listIdReport.find((item: any) => item.post_id === post_id);
+    this.postService.cancelReport(report.id).subscribe(
+      (response: any) => {
+        this.listIdReport = this.listIdReport.filter((id: any) => id.id !== report.id);
+        console.log(this.listIdReport);
+      });
+  }
+
+  isPostIdExist(post_id: number): boolean {
+    return this.listIdReport.some((item: any) => item.post_id === post_id);
   }
 
   //report

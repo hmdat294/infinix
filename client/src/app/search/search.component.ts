@@ -8,6 +8,7 @@ import { EventService } from '../service/event.service';
 import { CarouselService } from '../service/carousel.service';
 import moment from 'moment';
 import { ChatService } from '../service/chat.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-search',
@@ -31,6 +32,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
   currentUser: any;
   listUser: any;
   listGroup: any;
+  contentCommentInput: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -40,6 +42,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
     private carouselService: CarouselService,
     private chatService: ChatService,
     private eventService: EventService,
+    private sanitizer: DomSanitizer
   ) { }
 
   ngOnInit(): void {
@@ -71,6 +74,10 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.initCarousels();
+  }
+
+  changeHtmlContent(content: string) {
+    return this.sanitizer.bypassSecurityTrustHtml(content);
   }
 
   initCarousels(): void {
@@ -162,6 +169,8 @@ export class SearchComponent implements OnInit, AfterViewInit {
     this.authService.addFriend(receiver_id).subscribe(
       (response) => {
         console.log(response);
+        const friendfriend = this.valueSearchUsers.find((item: any) => item.id === receiver_id);
+        friendfriend.is_sent_friend_request = !friendfriend.is_sent_friend_request;
       });
   }
 
@@ -173,9 +182,11 @@ export class SearchComponent implements OnInit, AfterViewInit {
   }
 
   cancelRequest(receiver_id: number) {
-    this.authService.acceptFriend({ id: receiver_id, status: 'rejected' }).subscribe(
+    this.authService.cancelFriend(receiver_id).subscribe(
       (response) => {
         console.log(response);
+        const friendfriend = this.valueSearchUsers.find((item: any) => item.id === receiver_id);
+        friendfriend.is_sent_friend_request = !friendfriend.is_sent_friend_request;
       });
   }
 
@@ -193,10 +204,12 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
 
   postComment(value: any) {
+    console.log(value);
 
     const formData = new FormData();
     formData.append('content', value.content);
     formData.append('post_id', value.post_id);
+    formData.append('user_id', value.user_id);
 
     if (this.selectedFilesComment.length > 0)
       formData.append('media', this.selectedFilesComment[0], this.selectedFilesComment[0].name);
@@ -204,7 +217,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
     this.postService.postComment(formData).subscribe(
       (response) => {
         console.log(response);
-        this.commentInput.nativeElement.value = '';
+        this.contentCommentInput = '';
         this.removeCommentImage();
       }
     )
@@ -332,8 +345,9 @@ export class SearchComponent implements OnInit, AfterViewInit {
   messageReport: string = '';
   @ViewChild('checkboxesContainer') checkboxesContainer!: ElementRef;
 
-  showDialogReport(post_id: number) {
-    this.diaLogReport = post_id;
+  showDialogReport(id: any) {
+
+    this.diaLogReport = id;
     if (this.diaLogReport == 0) {
       this.valueReport = [];
       this.contentReport = '';
@@ -351,9 +365,9 @@ export class SearchComponent implements OnInit, AfterViewInit {
     else this.valueReport = this.valueReport.filter(value => value !== checkboxValue);
   }
 
-  listIdPostReport: any[] = [];
+  listIdReport: any[] = [];
 
-  postReport(value: any, post_id: number): any {
+  postReport(value: any): any {
 
     const valueReport = this.valueReport.join(', ');
     let content = '';
@@ -365,13 +379,19 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
     content = content.charAt(0).toUpperCase() + content.slice(1).toLowerCase() + '.';
 
-    this.postService.postReport({ content, post_id }).subscribe(
+    const postReport: any = this.diaLogReport;
+    postReport.content = content;
+
+    console.log(postReport);
+
+
+    this.postService.postReport(postReport).subscribe(
       (response: any) => {
         console.log(response);
 
-        this.listIdPostReport.push({ post_id: response.data.post_id, id: response.data.id });
-
-        console.log(this.listIdPostReport);
+        if (response.data.type == 'post') {
+          this.listIdReport.push({ id: response.data.id, post_id: response.data.post_id });
+        }
 
         this.messageReport =
           `<p class="validation-message validation-sucess text-body text-primary pt-15 px-20">
@@ -384,17 +404,16 @@ export class SearchComponent implements OnInit, AfterViewInit {
   }
 
   cancelReport(post_id: number) {
-    const report = this.listIdPostReport.find((item: any) => item.post_id === post_id);
+    const report = this.listIdReport.find((item: any) => item.post_id === post_id);
     this.postService.cancelReport(report.id).subscribe(
       (response: any) => {
-        this.listIdPostReport = this.listIdPostReport.filter((id: any) => id.id !== report.id);
-        console.log(this.listIdPostReport);
-      }
-    )
+        this.listIdReport = this.listIdReport.filter((id: any) => id.id !== report.id);
+        console.log(this.listIdReport);
+      });
   }
 
   isPostIdExist(post_id: number): boolean {
-    return this.listIdPostReport.some((item: any) => item.post_id === post_id);
+    return this.listIdReport.some((item: any) => item.post_id === post_id);
   }
 
   //report

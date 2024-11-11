@@ -63,65 +63,70 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
     this.authService.getUser(0).subscribe(
       (response) => {
         this.user = response.data;
-      });
 
-    // this.conversation = JSON.parse(localStorage.getItem('conversation') || '[]');
+        // this.conversation = JSON.parse(localStorage.getItem('conversation') || '[]');
 
-    this.chatService.conversation$.subscribe(conversation => {
-      // console.log('Updated conversation from localStorage:', conversation);
-      this.conversation = conversation;
-      this.filterListChat();
-
-      if(this.chatService.tagOpenBoxChat){
-        this.chatService.tagOpenBoxChat = false;
-        this.showChat = true;
-        this.getMiniChat(conversation[conversation.length - 1]);
-      }
-    });
-
-    this.chatService.getListChat().subscribe(
-      (data: any) => {
-        this.listChat = data.data;
-
-        this.filterListChat();
-
-        if (!this.chat)
-          this.chat = this.filteredConversations[0];
-        // console.log(this.chat);
-
-        this.eventService.bindEvent('App\\Events\\UserSendMessageEvent', (data: any) => {
-          console.log('Message received:', data);
-
-          if (this.conversation.includes(data.data.conversation_id))
-            this.conversation = this.conversation.filter(id => id !== data.data.conversation_id);
-
-          if (this.conversation.length >= 5)
-            this.conversation.shift();
-
-          this.conversation.push(data.data.conversation_id);
-
+        this.chatService.conversation$.subscribe(conversation => {
+          // console.log('Updated conversation from localStorage:', conversation);
+          this.conversation = conversation;
           this.filterListChat();
 
-          this.isScrollingToElement = false;
-          if (this.chat?.id == data.data.conversation_id)
-            this.chat.messages.push(data.data);
+          if (this.chatService.tagOpenBoxChat) {
+            this.chatService.tagOpenBoxChat = false;
+            this.showChat = true;
+            this.getMiniChat(conversation[conversation.length - 1]);
+          }
+          else {
+            this.showChat = false;
+          }
         });
 
-        this.eventService.bindEvent('App\\Events\\UserRecallMessageEvent', (data: any) => {
-          console.log('Recall Message event:', data);
-          if (this.chat.id == data.data.conversation_id)
-            this.chat.messages.find((item: any) => item.id === data.data.id).is_recalled = data.data.is_recalled;
-        });
+        this.chatService.getListChat().subscribe(
+          (data: any) => {
+            const listChat = data.data;
 
-        this.eventService.bindEvent('App\\Events\\UserEditMessageEvent', (data: any) => {
-          console.log('Edit Message event:', data);
-          if (this.chat.id == data.data.conversation_id)
-            this.chat.messages.find((item: any) => item.id === data.data.id).content = data.data.content;
-        });
+            this.listChat = listChat.map((item: any) => ({
+              ...item,
+              users: item.users.filter((user: any) => user.id !== this.user?.id)
+            }))
 
+            this.filterListChat();
 
+            if (!this.chat)
+              this.chat = this.filteredConversations[0];
+            console.log(this.chat);
+
+            this.eventService.bindEvent('App\\Events\\UserSendMessageEvent', (data: any) => {
+              console.log('Message received:', data);
+
+              if (this.conversation.includes(data.data.conversation_id))
+                this.conversation = this.conversation.filter(id => id !== data.data.conversation_id);
+
+              if (this.conversation.length >= 5)
+                this.conversation.shift();
+
+              this.conversation.push(data.data.conversation_id);
+
+              this.filterListChat();
+
+              this.isScrollingToElement = false;
+              if (this.chat?.id == data.data.conversation_id)
+                this.chat.messages.push(data.data);
+            });
+
+            this.eventService.bindEvent('App\\Events\\UserRecallMessageEvent', (data: any) => {
+              console.log('Recall Message event:', data);
+              if (this.chat.id == data.data.conversation_id)
+                this.chat.messages.find((item: any) => item.id === data.data.id).is_recalled = data.data.is_recalled;
+            });
+
+            this.eventService.bindEvent('App\\Events\\UserEditMessageEvent', (data: any) => {
+              console.log('Edit Message event:', data);
+              if (this.chat.id == data.data.conversation_id)
+                this.chat.messages.find((item: any) => item.id === data.data.id).content = data.data.content;
+            });
+          });
       });
-
   }
 
   deleteMiniChat(conversation_id: number) {
@@ -157,6 +162,26 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
 
   toggleDialogChat(id: number) {
     this.idDialogChat = id;
+  }
+
+
+  addFriend(receiver_id: number): void {
+    this.authService.addFriend(receiver_id).subscribe(
+      (response) => {
+        console.log(response);
+      });
+  }
+
+  cancelRequest(receiver_id: number) {
+    this.authService.cancelFriend(receiver_id).subscribe(
+      (response) => {
+        console.log(response);
+      });
+  }
+
+  shortenTextByWords(text: string, maxWords: number): string {
+    const words = text.split(' ');
+    return words.length > maxWords ? words.slice(0, maxWords).join(' ') + '...' : text;
   }
 
   getReply(id: number) {
@@ -211,7 +236,7 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
       .then(() => console.log('Copy success.'))
       .catch(err => console.error('Copy: ', err));
   }
-  
+
   isDifferentDate(i: number): boolean {
     if (i === 0) return true;
     return this.chat.messages[i].created_at_date !== this.chat.messages[i - 1].created_at_date;
@@ -238,37 +263,37 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
     this.previewReply = null;
   }
 
-    //pin
+  //pin
 
-    pinMessage(message_id: number) {
-      this.chatService.pinMessage(message_id).subscribe(
-        (data: any) => {
-          console.log(data);
-  
-          if (data.message == "Pinned")
-            this.chat.pinned_messages.push(data.data);
-          else if (data.message == "Unpinned")
-            this.chat.pinned_messages = this.chat.pinned_messages.filter((item: any) => item.id !== message_id);
-  
-        });
-    }
-  
-    checkPined(message_id: number): boolean {
-      return this.chat.pinned_messages.some((item: any) => item.id === message_id);
-    }
-  
-    dialogPin: boolean = false;
-    checkPinLength(message_id: number) {
-      if (this.chat.pinned_messages.length > 2) this.dialogPin = true;
-      else this.pinMessage(message_id);
-    }
-  
-    morePin: boolean = false;
-    morePinMessage() {
-      this.morePin = !this.morePin;
-    }
-  
-    //pin
+  pinMessage(message_id: number) {
+    this.chatService.pinMessage(message_id).subscribe(
+      (data: any) => {
+        console.log(data);
+
+        if (data.message == "Pinned")
+          this.chat.pinned_messages.push(data.data);
+        else if (data.message == "Unpinned")
+          this.chat.pinned_messages = this.chat.pinned_messages.filter((item: any) => item.id !== message_id);
+
+      });
+  }
+
+  checkPined(message_id: number): boolean {
+    return this.chat.pinned_messages.some((item: any) => item.id === message_id);
+  }
+
+  dialogPin: boolean = false;
+  checkPinLength(message_id: number) {
+    if (this.chat.pinned_messages.length > 2) this.dialogPin = true;
+    else this.pinMessage(message_id);
+  }
+
+  morePin: boolean = false;
+  morePinMessage() {
+    this.morePin = !this.morePin;
+  }
+
+  //pin
 
   recallMessage(id: number) {
     const message = this.chat.messages.find((item: any) => item.id === id);

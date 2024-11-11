@@ -23,6 +23,7 @@ export class GeneralSettingsComponent implements OnInit {
 
   listUserReport: any;
   listPostReport: any;
+  listCommentReport: any;
   listBlock: any;
 
   constructor(
@@ -45,9 +46,11 @@ export class GeneralSettingsComponent implements OnInit {
         // console.log('Report:', response);
         this.listPostReport = response.data.filter((item: any) => item.type == "post");
         this.listUserReport = response.data.filter((item: any) => item.type == "user");
+        this.listCommentReport = response.data.filter((item: any) => item.type == "comment");
 
         console.log(this.listPostReport);
         console.log(this.listUserReport);
+        console.log(this.listCommentReport);
 
       })
 
@@ -67,7 +70,7 @@ export class GeneralSettingsComponent implements OnInit {
   blockUser(user_id: number) {
     this.authService.postUserBlock(user_id).subscribe(
       (response: any) => {
-        // console.log(response);
+        console.log(response);
         this.listBlock = this.listBlock.filter((item: any) => item.id !== user_id);
       });
   }
@@ -82,8 +85,7 @@ export class GeneralSettingsComponent implements OnInit {
         else if (type == 'user') {
           this.listUserReport = this.listUserReport.filter((id: any) => id.id !== report_id);
         }
-      }
-    )
+      });
   }
 
   shortenTextByWords(text: string, maxWords: number): string {

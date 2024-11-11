@@ -23,11 +23,13 @@ class UserPostEvent implements ShouldBroadcast
     protected $user_id;
     protected $post_id;
     protected $content;
-    public function __construct($user_id, $post_id, $content)
+    protected $action;
+    public function __construct($user_id, $post_id, $content, $action)
     {
         $this->user_id = $user_id;
         $this->post_id = $post_id;
         $this->content = $content;
+        $this->action = $action;
     }
 
     
@@ -50,6 +52,7 @@ class UserPostEvent implements ShouldBroadcast
         $post = PostModel::find($this->post_id);
         return [
             "data" => new PostResource($post),
+            "action" => $this->action,
         ];
     }
 }

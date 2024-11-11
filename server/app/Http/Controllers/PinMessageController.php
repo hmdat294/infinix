@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserPinMessageEvent;
 use App\Http\Resources\MessageResource;
 use Illuminate\Http\Request;
 use App\Models\Message as MessageModel;
@@ -23,6 +24,8 @@ class PinMessageController extends Controller
         if ($pinnedMessage) {
             $pinnedMessage->delete();
 
+            event(new UserPinMessageEvent($message, 'unpin'));
+
             return response()->json([
                 'message' => 'Unpinned',
             ]);
@@ -32,6 +35,8 @@ class PinMessageController extends Controller
                 'message_id' => $message->id,
                 'conversation_id' => $conversation->id,
             ]);
+
+            event(new UserPinMessageEvent($message, 'pin'));
 
             return response()->json([
                 'message' => 'Pinned',

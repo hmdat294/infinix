@@ -9,6 +9,7 @@ import { EventService } from '../service/event.service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ChatService } from '../service/chat.service';
 import { MiniChatComponent } from '../mini-chat/mini-chat.component';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-friend-profile',
@@ -38,6 +39,7 @@ export class FriendProfileComponent implements OnInit {
   friendOfFriend: any;
   friendOfFriendLimit: any;
   showMoreFriend: boolean = false;
+  contentCommentInput: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -48,6 +50,7 @@ export class FriendProfileComponent implements OnInit {
     private authService: AuthService,
     private chatService: ChatService,
     private router: Router,
+    private sanitizer: DomSanitizer
   ) { }
 
   ngOnInit(): void {
@@ -75,15 +78,10 @@ export class FriendProfileComponent implements OnInit {
 
             this.authService.getFriendOfFriend(this.user.id).subscribe(
               (response) => {
-                console.log(response);
+                // console.log(response);
                 this.friendOfFriend = response.data;
                 this.friendOfFriendLimit = response.data.slice(0, 9);
               });
-
-            this.eventService.bindEvent('App\\Events\\FriendRequestEvent', (data: any) => {
-              console.log('Friend request event:', data);
-            });
-
           });
 
         this.postService.getPostByUser(user_id).subscribe(
@@ -98,6 +96,14 @@ export class FriendProfileComponent implements OnInit {
             this.eventService.bindEvent('App\\Events\\UserPostEvent', (data: any) => {
               console.log('Post event:', data);
               this.listPost.unshift(data.data);
+            });
+
+            this.eventService.bindEvent('App\\Events\\UserBlockUserEvent', (data: any) => {
+              console.log('Block event:', data);
+            });
+
+            this.eventService.bindEvent('App\\Events\\FriendRequestEvent', (data: any) => {
+              console.log('Friend request event:', data);
             });
           });
 
@@ -139,7 +145,6 @@ export class FriendProfileComponent implements OnInit {
       });
   }
 
-  @ViewChild('commentInput') commentInput!: ElementRef;
   @ViewChildren('carouselInner') carouselInners!: QueryList<ElementRef<HTMLDivElement>>;
   @ViewChildren('nextButton') nextButtons!: QueryList<ElementRef<HTMLButtonElement>>;
   @ViewChildren('prevButton') prevButtons!: QueryList<ElementRef<HTMLButtonElement>>;
@@ -147,6 +152,10 @@ export class FriendProfileComponent implements OnInit {
 
   ngAfterViewInit(): void {
     this.initCarousels();
+  }
+
+  changeHtmlContent(content: string) {
+    return this.sanitizer.bypassSecurityTrustHtml(content);
   }
 
   initCarousels(): void {
@@ -201,6 +210,14 @@ export class FriendProfileComponent implements OnInit {
     this.authService.addFriend(receiver_id).subscribe(
       (response) => {
         console.log(response);
+
+        if (this.user.id == receiver_id) {
+          this.user.is_sent_friend_request = !this.user.is_sent_friend_request;
+        }
+        else {
+          const friendfriend = this.friendOfFriend.find((item: any) => item.id === receiver_id);
+          friendfriend.is_sent_friend_request = !friendfriend.is_sent_friend_request;
+        }
       });
   }
 
@@ -236,9 +253,12 @@ export class FriendProfileComponent implements OnInit {
   }
 
   postComment(value: any) {
+    console.log(value);
+
     const formData = new FormData();
     formData.append('content', value.content);
     formData.append('post_id', value.post_id);
+    formData.append('user_id', value.user_id);
 
     if (this.selectedFilesComment.length > 0)
       formData.append('media', this.selectedFilesComment[0], this.selectedFilesComment[0].name);
@@ -246,7 +266,7 @@ export class FriendProfileComponent implements OnInit {
     this.postService.postComment(formData).subscribe(
       (response) => {
         console.log(response);
-        this.commentInput.nativeElement.value = '';
+        this.contentCommentInput = '';
         this.removeCommentImage();
       }
     )
@@ -393,7 +413,7 @@ export class FriendProfileComponent implements OnInit {
     else this.valueReport = this.valueReport.filter(value => value !== checkboxValue);
   }
 
-  listIdPostReport: number[] = [];
+  listIdReport: any[] = [];
 
   postReport(value: any): any {
 
@@ -407,14 +427,16 @@ export class FriendProfileComponent implements OnInit {
 
     content = content.charAt(0).toUpperCase() + content.slice(1).toLowerCase() + '.';
 
-    const valuePost: any = this.diaLogReport;
-    valuePost.content = content;
+    const postReport: any = this.diaLogReport;
+    postReport.content = content;
 
-    this.postService.postReport(valuePost).subscribe(
+    this.postService.postReport(postReport).subscribe(
       (response: any) => {
         console.log(response);
 
-        this.listIdPostReport.push(response.data.post_id);
+        if (response.data.type == 'post') {
+          this.listIdReport.push({ id: response.data.id, post_id: response.data.post_id });
+        }
 
         this.messageReport =
           `<p class="validation-message validation-sucess text-body text-primary pt-15 px-20">
@@ -426,14 +448,17 @@ export class FriendProfileComponent implements OnInit {
   }
 
   cancelReport(post_id: number) {
-    this.postService.cancelReport(post_id).subscribe(
+    const report = this.listIdReport.find((item: any) => item.post_id === post_id);
+    this.postService.cancelReport(report.id).subscribe(
       (response: any) => {
-        console.log(response);
-        this.listIdPostReport = this.listIdPostReport.filter((id: number) => id !== post_id);
-      }
-    )
+        this.listIdReport = this.listIdReport.filter((id: any) => id.id !== report.id);
+        console.log(this.listIdReport);
+      });
   }
 
+  isPostIdExist(post_id: number): boolean {
+    return this.listIdReport.some((item: any) => item.post_id === post_id);
+  }
   //report
 
   //block
@@ -442,6 +467,17 @@ export class FriendProfileComponent implements OnInit {
     this.authService.postUserBlock(user_id).subscribe(
       (response: any) => {
         console.log(response);
+
+        if (this.user.id == user_id) {
+          this.user.blocked_user = !this.user.blocked_user;
+        }
+
+        this.chatService.getMessageUser(user_id).subscribe(
+          (response: any) => {
+            this.conversation = this.conversation.filter(id => id !== response.data.id);
+            this.chatService.updateConversation(this.conversation);
+            this.chatService.tagOpenBoxChat = false;
+          });
       });
   }
 
