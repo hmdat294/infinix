@@ -29,6 +29,16 @@ export class PostService {
     return this.http.post(`${this.apiUrl}/post`, value, { headers });
   }
 
+  updatePost(id: number): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.patch(`${this.apiUrl}/post/${id}`, { headers });
+  }
+
+  deletePost(id: number): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.delete(`${this.apiUrl}/post/${id}`, { headers });
+  }
+
   getComment(post_id: number): Observable<any> {
     const headers = this.authService.getToken();
     return this.http.get(`${this.apiUrl}/post/${post_id}/comments`, { headers });
