@@ -9,6 +9,10 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use App\Models\FriendRequest;
+use App\Http\Resources\UserResource;
+use App\Models\User as UserModel;
+
 
 class CancelFriendRequestEvent implements ShouldBroadcast
 {
@@ -37,7 +41,10 @@ class CancelFriendRequestEvent implements ShouldBroadcast
     public function broadcastWith(): array
     {
         return [
-            'friend_request' => $this->friend_request,
+            'id' => $this->friend_request->id,
+            'sender' => new UserResource(UserModel::find($this->friend_request->sender_id)),
+            'receiver' => new UserResource(UserModel::find($this->friend_request->receiver_id)),
+            'status' => $this->friend_request->status,
         ];
     }
 }
