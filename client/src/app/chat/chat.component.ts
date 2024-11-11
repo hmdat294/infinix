@@ -92,6 +92,10 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
       (response) => {
         this.user = response.data;
 
+        this.eventService.bindEvent('App\\Events\\UserBlockUserEvent', (data: any) => {
+          console.log('Block event:', data);
+        });
+        
         this.chatService.getListChat().subscribe(
           (data: any) => {
             const friends = data.data || null;
@@ -100,11 +104,13 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
               ...item,
               users: item.users.filter((user: any) => user.id !== this.user?.id)
             }))
-            console.log(this.friends);
+            // console.log(this.friends);
 
             if (this.friends.length > 0) {
               this.MessageUser(this.friends[0]);
             }
+
+           
 
             this.eventService.bindEvent('App\\Events\\UserSendMessageEvent', (data: any) => {
               this.isScrollingToElement = false;
@@ -561,6 +567,18 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   }
 
   //pin
+
+  //block
+
+  blockUser(user_id: number) {
+    this.authService.postUserBlock(user_id).subscribe(
+      (response: any) => {
+        console.log(response);
+        this.conversation.users[0].blocked_user = !this.conversation.users[0].blocked_user;
+      });
+  }
+
+  //block
 
   searchMessage(): void {
     if (this.keywordSearch && !/^\s*$/.test(this.keywordSearch)) {

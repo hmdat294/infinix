@@ -98,10 +98,6 @@ export class FriendProfileComponent implements OnInit {
               this.listPost.unshift(data.data);
             });
 
-            this.eventService.bindEvent('App\\Events\\UserBlockUserEvent', (data: any) => {
-              console.log('Block event:', data);
-            });
-
             this.eventService.bindEvent('App\\Events\\FriendRequestEvent', (data: any) => {
               console.log('Friend request event:', data);
             });
