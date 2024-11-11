@@ -102,7 +102,7 @@ class PostController extends Controller
             }
         }
 
-        event(new UserPostEvent($post->user_id, $post->id, $post->content));
+        event(new UserPostEvent($post->user_id, $post->id, $post->content, 'create'));
 
         $this->sendNotification($post);
 
@@ -160,6 +160,24 @@ class PostController extends Controller
                 ]);
             }
         }
+
+        if ($request->hasFile('medias')) {
+            $post->update([
+                'post_type' => 'with_media',
+            ]);
+            $post->medias()->delete();
+            foreach ($request->file('medias') as $media) {
+                $media_path = $media->store('uploads', 'public');
+                $media_type = $media->getMimeType();
+                PostMediaModel::create([
+                    'post_id' => $post->id,
+                    'path' => asset('storage/' . $media_path),
+                    'type' => $media_type,
+                ]);
+            }
+        }
+
+        event(new UserPostEvent($post->user_id, $post->id, $post->content, 'update'));
         return new PostResource($post);
     }
 
@@ -174,6 +192,7 @@ class PostController extends Controller
     {
         $post = PostModel::find($id);
         $post->delete();
+        event(new UserPostEvent($post->user_id, $post->id, $post->content, 'delete'));
         return response()->json([
             'message' => 'Post deleted successfully.',
         ], 200);
