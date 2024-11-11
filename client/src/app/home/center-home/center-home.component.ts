@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PostService } from '../../service/post.service';
 import { CommonModule } from '@angular/common';
