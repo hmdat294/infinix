@@ -47,6 +47,11 @@ export class LeftHomeComponent implements OnInit {
             this.userRequest = this.userRequest.filter((request: any) => request.id !== data.id);
           }
         });
+
+        this.eventService.bindEvent('App\\Events\\CancelFriendRequestEvent', (data: any) => {
+          console.log('Cancel friend request event:', data);
+
+        });
       });
 
     this.chatService.getGroup().subscribe(
