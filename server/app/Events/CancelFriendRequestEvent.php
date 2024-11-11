@@ -12,16 +12,22 @@ use Illuminate\Queue\SerializesModels;
 use App\Models\FriendRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User as UserModel;
-
+use Illuminate\Support\Facades\Log;
 
 class CancelFriendRequestEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    protected $friend_request;
-    public function __construct($friend_request)
+    protected $id;
+    protected $sender_id;
+    protected $receiver_id;
+
+    public function __construct($id, $sender_id, $receiver_id)
     {
-        $this->friend_request = $friend_request;
+        $this->id = $id;
+        $this->sender_id = $sender_id;
+        $this->receiver_id = $receiver_id;
+
     }
 
     /**
@@ -31,20 +37,18 @@ class CancelFriendRequestEvent implements ShouldBroadcast
      */
     public function broadcastOn(): array
     {
-        $friend_request = $this->friend_request;
         return [
-            new Channel('user.' . $friend_request->sender_id),
-            new Channel('user.' . $friend_request->receiver_id),
+            new Channel('user.' . $this->sender_id),
+            new Channel('user.' . $this->receiver_id),
         ];
     }
 
     public function broadcastWith(): array
     {
         return [
-            'id' => $this->friend_request->id,
-            'sender' => new UserResource(UserModel::find($this->friend_request->sender_id)),
-            'receiver' => new UserResource(UserModel::find($this->friend_request->receiver_id)),
-            'status' => $this->friend_request->status,
+            'id' => $this->id,
+            'sender' => new UserResource(UserModel::find($this->sender_id)),
+            'receiver' => new UserResource(UserModel::find($this->receiver_id)),
         ];
     }
 }
