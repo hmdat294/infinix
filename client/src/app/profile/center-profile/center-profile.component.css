@@ -119,8 +119,6 @@
 }
 
 ::ng-deep .ql-editor {
-    border: none !important;
-    box-shadow: none !important;
     padding: 5px;
     border-radius: 4px;
     color: var(--text-primary);

@@ -169,10 +169,8 @@ export class SearchComponent implements OnInit, AfterViewInit {
     this.authService.addFriend(receiver_id).subscribe(
       (response) => {
         console.log(response);
-
         const friendfriend = this.valueSearchUsers.find((item: any) => item.id === receiver_id);
         friendfriend.is_sent_friend_request = !friendfriend.is_sent_friend_request;
-
       });
   }
 
@@ -187,6 +185,8 @@ export class SearchComponent implements OnInit, AfterViewInit {
     this.authService.cancelFriend(receiver_id).subscribe(
       (response) => {
         console.log(response);
+        const friendfriend = this.valueSearchUsers.find((item: any) => item.id === receiver_id);
+        friendfriend.is_sent_friend_request = !friendfriend.is_sent_friend_request;
       });
   }
 
