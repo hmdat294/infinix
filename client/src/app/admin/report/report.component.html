@@ -103,7 +103,12 @@
                             <td >{{item.user.profile.display_name}}</td>
                             <td>{{item.sender.profile.display_name}}</td>
                             <td>{{shortenTextByWords(item.content,8)}}</td>
-                            <td>{{item.status}}</td>
+                            <td>
+                                <select [(ngModel)]="item.status" (change)="updateStatus(item)">
+                                  <option value="pending">UNSOLVED</option>
+                                  <option value="approved">BANNED</option>
+                                  <option value="rejected">WARN</option>
+                                </select>
                             <td>{{item.created_at_date}}</td>
                             <td
                                 class="layout-horizontal gap-20  w-fill">

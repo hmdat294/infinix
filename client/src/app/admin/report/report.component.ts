@@ -3,24 +3,24 @@ import { NavComponent } from "../nav/nav.component";
 import { AdminService } from '../../service/admin.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { FormsModule, NgModel } from '@angular/forms';
 
 @Component({
   selector: 'app-report',
   standalone: true,
-  imports: [NavComponent,CommonModule,RouterModule],
+  imports: [NavComponent, CommonModule, RouterModule, FormsModule],
   templateUrl: './report.component.html',
   styleUrl: './report.component.css'
 })
 export class ReportComponent {
   listReport: any;
+  
   constructor(private adminService: AdminService) { }
+  
   ngOnInit(): void {
-    
     this.adminService.getReports().subscribe(
       (response) => {
-        // Gán mảng `data` từ response vào `listUser`
         this.listReport = response.data.filter((item: any) => item.type === 'user');
-        
         console.log(this.listReport);
       },
       (error) => {
@@ -28,8 +28,20 @@ export class ReportComponent {
       }
     );
   }
+  
   shortenTextByWords(text: string, maxWords: number): string {
     const words = text.split(' ');
     return words.length > maxWords ? words.slice(0, maxWords).join(' ') + '...' : text;
+  }
+  
+  updateStatus(item: any): void {
+    this.adminService.updateReportStatus(item.id, item.status).subscribe(
+      (response) => {
+        console.log('Cập nhật trạng thái thành công:', response);
+      },
+      (error) => {
+        console.error('Lỗi khi cập nhật trạng thái:', error);
+      }
+    );
   }
 }

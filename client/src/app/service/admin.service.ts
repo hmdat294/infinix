@@ -89,6 +89,9 @@ export class AdminService {
   getTotalUsers(): Observable<{ data: number }> {
     return this.http.get<{ data: number }>('api_endpoint_here');
   }
+  updateReportStatus(id: number, status: string): Observable<any> {
+    return this.http.patch(`/api/reports/${id}`, { status });
+  }
   
   
 }
