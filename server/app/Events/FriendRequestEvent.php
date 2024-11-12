@@ -18,16 +18,12 @@ class FriendRequestEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    protected $sender_id;
-    protected $receiver_id;
-    protected $status;
+    protected $friend_request;
 
 
-    public function __construct($sender_id, $receiver_id, $status)
+    public function __construct($friend_request)
     {
-        $this->sender_id = $sender_id;
-        $this->receiver_id = $receiver_id;
-        $this->status = $status;
+        $this->friend_request = $friend_request;
     }
 
     /**
@@ -38,22 +34,18 @@ class FriendRequestEvent implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new Channel('user.' . $this->sender_id),
-            new Channel('user.' . $this->receiver_id)
+            new Channel('user.' . $this->friend_request->sender_id),
+            new Channel('user.' . $this->friend_request->receiver_id)
         ];
     }
 
     public function broadcastWith(): array
     {
-        Log::info($this->sender_id." - ".$this->receiver_id." - ".$this->status);
-        $friend_request = FriendRequest::where('sender_id', $this->sender_id)
-            ->where('receiver_id', $this->receiver_id)
-            ->first();
         return [
-            'id' => $friend_request->id,
-            'sender' => new UserResource(UserModel::find($this->sender_id)),
-            'receiver' => new UserResource(UserModel::find($this->receiver_id)),
-            'status' => $this->status,
+            'id' => $this->friend_request->id,
+            'sender' => new UserResource(UserModel::find($this->friend_request->sender_id)),
+            'receiver' => new UserResource(UserModel::find($this->friend_request->receiver_id)),
+            'status' => $this->friend_request->status,
         ];
     }
 }
