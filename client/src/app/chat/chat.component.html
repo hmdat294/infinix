@@ -49,9 +49,9 @@
                         </button>
                     </div>
 
-                    <div class="w-fill layout-horizontal align-center-center px-20 py-15 border-top">
+                    <!-- <div class="w-fill layout-horizontal align-center-center px-20 py-15 border-top">
                         <a href="" class="link">Xem thêm</a>
-                    </div>
+                    </div> -->
                 </div>
 
             </div>
@@ -767,7 +767,31 @@
                     [style]="{ position: 'absolute', bottom: '20px', right: '20px', background: '#363636' }"
                     (emojiSelect)="addEmoji($event)"></emoji-mart>
 
-                <div class="h-hug">
+
+                <div class="w-fill p-20" *ngIf="conversation?.users[0].blocked_by_user">
+                    <div class="p-10 card-background-default border border-card-default rounded-8">
+                        <p class="text-body text-secondary text-center">Tài khoản này hiện không muốn nhận tin
+                            nhắn của
+                            bạn!
+                        </p>
+                    </div>
+                </div>
+
+                <div class="w-fill p-20" *ngIf="conversation?.users[0].blocked_user">
+                    <div class="p-10 card-background-default border border-card-default rounded-8 layout-horizontal gap-15 align-center-center">
+                        <p class="text-body text-secondary text-center">Bạn đã chặn tài khoản này!
+                        </p>
+                        <button type="button" class="button-standard button-text-with-icon"
+                            (click)="blockUser(conversation?.users[0].id)">
+                            Bỏ chặn
+                            <i class="icon-size-16 icon icon-ic_fluent_person_key_20_regular"></i>
+                        </button>
+                    </div>
+                </div>
+
+
+                <div class="h-hug"
+                    *ngIf="!conversation?.users[0].blocked_by_user && !conversation?.users[0].blocked_user">
                     <form class="border-top" (submit)="sendMessage(frm.value)" #frm="ngForm"
                         enctype="multipart/form-data">
 
