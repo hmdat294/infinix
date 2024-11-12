@@ -178,6 +178,8 @@ export class SearchComponent implements OnInit, AfterViewInit {
     this.authService.unFriend(user_id).subscribe(
       (response) => {
         console.log(response);
+        const friendfriend = this.valueSearchUsers.find((item: any) => item.id === user_id);
+        friendfriend.is_friend = !friendfriend.is_friend;
       });
   }
 
