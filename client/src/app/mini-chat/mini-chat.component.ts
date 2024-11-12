@@ -6,11 +6,13 @@ import { ChatService } from '../service/chat.service';
 import { filter } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
+import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 
 @Component({
   selector: 'app-mini-chat',
   standalone: true,
-  imports: [RouterModule, CommonModule, FormsModule],
+  imports: [RouterModule, CommonModule, FormsModule, EmojiModule, PickerComponent],
   templateUrl: './mini-chat.component.html',
   styleUrl: './mini-chat.component.css'
 })
@@ -242,6 +244,16 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
     return this.chat.messages[i].created_at_date !== this.chat.messages[i - 1].created_at_date;
   }
 
+  resizeTextarea(event: any): void {
+    const textarea = event.target;
+    if (!textarea.value) {
+      textarea.style.height = '32px'; // Chiều cao mặc định khi không có nội dung
+    } else if (textarea.scrollHeight < 110) {
+      textarea.style.height = 'fit-content';
+      textarea.style.height = textarea.scrollHeight + 'px';
+    }
+  }
+
   onReply(id: number) {
     this.reply_id = id;
     const reply = this.chat.messages.find((data: any) => data.id == id);
@@ -294,6 +306,18 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
   }
 
   //pin
+
+  //block
+
+  blockUser(user_id: number) {
+    this.authService.postUserBlock(user_id).subscribe(
+      (response: any) => {
+        console.log(response);
+        this.chat.users[0].blocked_user = !this.chat.users[0].blocked_user;
+      });
+  }
+
+  //block
 
   recallMessage(id: number) {
     const message = this.chat.messages.find((item: any) => item.id === id);
@@ -362,6 +386,43 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
     }
 
   }
+
+  vietnameseI18n: any = {
+    search: 'Tìm kiếm',
+    categories: {
+      search: 'Kết quả tìm kiếm',
+      recent: 'Gần đây',
+      people: 'Mọi người',
+      nature: 'Thiên nhiên',
+      foods: 'Đồ ăn & Uống',
+      activity: 'Hoạt động',
+      places: 'Địa điểm',
+      objects: 'Đồ vật',
+      symbols: 'Biểu tượng',
+      flags: 'Cờ',
+    },
+    skinTones: {
+      1: 'Màu da mặc định',
+      2: 'Màu da sáng',
+      3: 'Màu da trung bình sáng',
+      4: 'Màu da trung bình',
+      5: 'Màu da trung bình tối',
+      6: 'Màu da tối',
+    },
+  };
+
+
+
+  showEmojiPicker: boolean = false;
+
+  toggleEmojiPicker() {
+    this.showEmojiPicker = !this.showEmojiPicker;
+  }
+
+  addEmoji(event: any) {
+    this.content += event.emoji.native;
+  }
+
 
 
   onFileSelected(event: any) {

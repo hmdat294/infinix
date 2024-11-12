@@ -332,15 +332,6 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     this.isScrollingToElement = false;
     (document.querySelector('.textarea-chat') as HTMLTextAreaElement)?.focus();
 
-    // if (conversation.is_group == 0) {
-    // } else {
-    //   this.chatService.getMessageGroup(conversation.id).subscribe(
-    //     (data: any) => {
-    //       this.conversation = data.data;
-    //       this.isScrollingToElement = false;
-    //       (document.querySelector('.textarea-chat') as HTMLTextAreaElement)?.focus();
-    //     });
-    // }
   }
 
   acceptFriend(id: number): void {

@@ -43,7 +43,7 @@ export class LeftHomeComponent implements OnInit {
 
           if (data.status == "pending") this.userRequest.push(data);
 
-          if (data.status == "accepted") {
+          if (data.status == "accepted" || data.status == "canceled" || data.status == "rejected") {
             this.userRequest = this.userRequest.filter((request: any) => request.id !== data.id);
           }
         });
