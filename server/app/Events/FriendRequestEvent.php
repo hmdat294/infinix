@@ -41,6 +41,7 @@ class FriendRequestEvent implements ShouldBroadcast
 
     public function broadcastWith(): array
     {
+        Log::info('event id request:' . $this->friend_request->id);
         return [
             'id' => $this->friend_request->id,
             'sender' => new UserResource(UserModel::find($this->friend_request->sender_id)),

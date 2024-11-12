@@ -138,6 +138,7 @@ class FriendRequestController extends Controller
         ]);
 
         if ($request->input('status') === 'accepted') {
+            Log::info('id request accepted' . $friend_request->id);
             event(new FriendRequestEvent($friend_request));
             RelationshipModel::create([
                 'user_id' => FriendRequestModel::find($id)->sender_id,
@@ -161,6 +162,7 @@ class FriendRequestController extends Controller
             $this->sendNotification($id, 'accepted');
         } else {
 
+            Log::info('id request rejected' . $friend_request->id);
             event(new FriendRequestEvent($friend_request));
         }
         Log::info(json_encode($friend_request));
@@ -173,6 +175,7 @@ class FriendRequestController extends Controller
         $friend_request = FriendRequestModel::where('sender_id', $request->user()->id)->where('receiver_id', $user_id)->where('status', 'pending')->first();
         
 
+        Log::info('id request canceled' . $friend_request->id);
         event(new FriendRequestEvent($friend_request));
         $friend_request->delete();
 
