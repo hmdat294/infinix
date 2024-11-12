@@ -36,8 +36,8 @@ class UserBlockUserEvent implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('user.' . $this->blocked->id),
-            new PrivateChannel('user.' . $this->blocker->id),
+            new Channel('user.' . $this->blocked->id),
+            new Channel('user.' . $this->blocker->id),
         ];
     }
 
