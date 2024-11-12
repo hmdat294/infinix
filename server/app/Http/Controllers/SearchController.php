@@ -7,6 +7,7 @@ use App\Http\Resources\PostResource;
 use Illuminate\Http\Request;
 use App\Models\User as UserModel;
 use App\Models\Post as PostModel;
+use Illuminate\Support\Facades\Log;
 
 class SearchController extends Controller
 {
@@ -17,15 +18,22 @@ class SearchController extends Controller
             $query->where('display_name', 'like', '%' . $keyword . '%')
                   ->orWhere('email', 'like', '%' . $keyword . '%');
         });
+        Log::info('user_ids: '. $users->pluck('id'));
 
         // loại trừ bản thân
         $users = $users->where('id', '!=', $request->user()->id);
+        Log::info('user_ids: '. $users->pluck('id'));
 
-        $blocked_by_ids = $request->user()->blockedBy->pluck('blocker_id');
-        $blocked_ids = $request->user()->blockings->pluck('blocked_id');
+        $blocked_by_ids = $request->user()->blockedBy->pluck('id');
+        Log::info('blocked_by_ids: '. $blocked_by_ids);
+        $blocked_ids = $request->user()->blockings->pluck('id');
+        Log::info('blocked_ids: '. $blocked_ids);
 
         $users = $users->whereNotIn('id', $blocked_by_ids)
                        ->whereNotIn('id', $blocked_ids);
+
+                       
+        Log::info('user_ids: '. $users->pluck('id'));
 
         if ($limit) {
             $users = $users->limit($limit);
