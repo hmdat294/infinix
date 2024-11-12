@@ -14,8 +14,15 @@ class CommentResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $liked = false;
+
+        if ($request->user()) {
+            $liked = $this->likes->contains('user_id', $request->user()->id);
+        }
+
         return [
             'id' => $this->id,
+            'liked' => $liked,
             'like_count' => $this->likes->count(),
             'post' => $this->post,
             'user' => new UserResource($this->user),
