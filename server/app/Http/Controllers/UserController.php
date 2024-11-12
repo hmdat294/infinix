@@ -146,7 +146,7 @@ class UserController extends Controller
         $user = UserModel::find($user_id);
 
         if ($request->user()->blockings->contains($user)) {
-            BlockedUser::where('user_id', $request->user()->id)->where('blocked_id', $user->id)->delete();
+            BlockedUser::where('blocker_id', $request->user()->id)->where('blocked_id', $user->id)->delete();
             event(new UserBlockUserEvent($request->user(), $user, 'unblock'));
         } else {
             BlockedUser::create([
