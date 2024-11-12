@@ -40,7 +40,7 @@
                             <img [src]="
                                 (friend?.is_group == 1) ? friend.image : friend?.users[0].profile.profile_photo
                             " alt="" style="width: 35px; height: 35px;"
-                                class="rounded-circle border border-card-default">
+                                class="rounded-circle border border-card-default object-fit-cover">
                             <p class="text-secondary text-body-strong w-fill layout">
                                 {{
                                 (friend?.is_group == 1) ? friend.name : friend?.users[0].profile.display_name
@@ -72,7 +72,7 @@
                         <div class="layout py-20 w-fill align-center-center">
                             <div class="background-card-default" style="width: 100px; height: 100px;">
                                 <img class="border border-card-default w-fill h-fill rounded-circle object-fit-cover"
-                                    src="{{(selectedFilesGroup.length > 0)?previewGroupImages:'assets/image/avatar.png'}}"
+                                    src="{{(selectedFilesGroup.length > 0)?previewGroupImages:'http://localhost:8000/storage/uploads/default-profile-photo.png'}}"
                                     alt="">
 
                                 <input class="display-none" type="file" [ngModel]="fileImageGroup" name="fileImageGroup"
