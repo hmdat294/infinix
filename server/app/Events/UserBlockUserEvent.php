@@ -43,6 +43,9 @@ class UserBlockUserEvent implements ShouldBroadcast
 
     public function broadcastWith(): array
     {
+        Log::info('blocker: ' . $this->blocker);
+        Log::info('blocked: ' . $this->blocked);
+        Log::info('type: ' . $this->type);
         return [
             'blocker' => new UserResource($this->blocker),
             'blocked' => new UserResource($this->blocked),
