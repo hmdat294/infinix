@@ -182,6 +182,8 @@ export class FriendProfileComponent implements OnInit {
         (response) => {
 
           this.commentByPostId[post_id] = response.data;
+          console.log(this.commentByPostId[post_id]);
+
           this.goSlide(post_id, slideIndex)
 
           this.eventService.bindEventPost('App\\Events\\UserCommentPostEvent', (data: any) => {
@@ -280,6 +282,18 @@ export class FriendProfileComponent implements OnInit {
       }
     )
   }
+
+  //like comment
+  likeComment(comment_id: number, post_id: number) {
+    this.postService.postLikeComment(comment_id).subscribe(
+      (response: any) => {
+        console.log(response);
+        const comment = this.commentByPostId[post_id].find((item: any) => item.id == comment_id);
+        comment.liked = !comment.liked;
+        (response.type == 'like') ? comment.like_count++ : comment.like_count--;
+      })
+  }
+  //like comment
 
   //bookmark
 

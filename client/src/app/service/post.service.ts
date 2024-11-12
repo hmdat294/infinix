@@ -93,4 +93,10 @@ export class PostService {
     const headers = this.authService.getToken();
     return this.http.delete(`${this.apiUrl}/report/${report_id}`, { headers });
   }
+
+  postLikeComment(comment_id: number): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.post(`${this.apiUrl}/like-comment/`, { 'comment_id': comment_id }, { headers });
+  }
+
 }
