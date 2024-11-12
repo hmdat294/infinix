@@ -121,3 +121,48 @@
         </div>
     </div>
 </div>
+
+
+<div
+    class="w-fill layout-vertical rounded-8 border border-card-default card-background-default">
+    <div class="w-fill layout-horizontal align-center-space-between px-20 py-10">
+        <p class="text-secondary text-body-strong">Người liên hệ</p>
+    </div>
+    <div class="px-20 py-10 border-top border-card-default" *ngFor="let friend of friends_limit">
+
+        <a [routerLink]="['/friend-profile', friend.profile.user_id]"
+            class="layout-horizontal align-center-center gap-15 w-fill">
+
+            <div class="user-{{friend.online_status}}" style="width: 35px; height: 35px;">
+                <img class="rounded-circle border border-card-default object-fit-cover" src="{{friend.profile.profile_photo}}" alt="" style="width: 35px; height: 35px;">
+            </div>
+            <p class="text-secondary text-body-strong w-fill">{{friend.profile.display_name}}</p>
+        </a>
+
+    </div>
+    <div class="w-fill layout-horizontal align-center-space-between px-20 py-10 border-top border-card-default">
+        <a (click)="friendMore()" class="link" style="cursor: pointer;">Xem thêm</a>
+    </div>
+</div>
+
+<div
+    class="w-fill layout-vertical rounded-8 border border-card-default card-background-default">
+    <div class="w-fill layout-horizontal align-center-space-between px-20 py-10">
+        <p class="text-secondary text-body-strong">Nhóm</p>
+    </div>
+    <div class="px-20 py-10 border-top border-card-default" *ngFor="let friend of friends_limit">
+
+        <a [routerLink]="['/friend-profile', friend.profile.user_id]"
+            class="layout-horizontal align-center-center gap-15 w-fill">
+
+            <div class="user-{{friend.online_status}}" style="width: 35px; height: 35px;">
+                <img class="rounded-circle border border-card-default object-fit-cover" src="{{friend.profile.profile_photo}}" alt="" style="width: 35px; height: 35px;">
+            </div>
+            <p class="text-secondary text-body-strong w-fill">{{friend.profile.display_name}}</p>
+        </a>
+
+    </div>
+    <div class="w-fill layout-horizontal align-center-space-between px-20 py-10 border-top border-card-default">
+        <a (click)="friendMore()" class="link" style="cursor: pointer;">Xem thêm</a>
+    </div>
+</div>

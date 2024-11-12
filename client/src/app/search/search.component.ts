@@ -138,6 +138,17 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
         this.eventService.bindEvent('App\\Events\\FriendRequestEvent', (data: any) => {
           console.log('Friend request event:', data);
+
+          if (data.status == "accepted") {
+            const friendfriend = this.valueSearchUsers.find((item: any) => item.id === data.receiver.id);
+            friendfriend.is_friend = true;
+          }
+
+          if (data.status == "rejected") {
+            const friendfriend = this.valueSearchUsers.find((item: any) => item.id === data.receiver.id);
+            friendfriend.is_friend = false;
+            friendfriend.is_sent_friend_request = false;
+          }
         });
       }
     )
@@ -178,6 +189,9 @@ export class SearchComponent implements OnInit, AfterViewInit {
     this.authService.unFriend(user_id).subscribe(
       (response) => {
         console.log(response);
+        const friendfriend = this.valueSearchUsers.find((item: any) => item.id === user_id);
+        friendfriend.is_friend = false;
+        friendfriend.is_sent_friend_request = false;
       });
   }
 
