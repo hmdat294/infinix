@@ -38,10 +38,10 @@
     <div class="w-fill layout-horizontal align-center-space-between px-20 py-10">
         <p class="text-secondary text-body-strong">Bạn bè</p>
     </div>
-    <div class="px-20 py-10 border-top border-card-default" *ngFor="let friend of friends_limit">
+    <div class="p-10 border-top border-card-default" *ngFor="let friend of friends_limit">
 
         <a [routerLink]="['/friend-profile', friend.profile.user_id]"
-            class="layout-horizontal align-center-center gap-15 w-fill">
+            class="list-item layout-horizontal align-center-center gap-15 w-fill">
 
             <div class="user-{{friend.online_status}}" style="width: 35px; height: 35px;">
                 <img class="rounded-circle border border-card-default object-fit-cover"
@@ -132,19 +132,16 @@
     <div class="w-fill layout-horizontal align-center-space-between px-20 py-10">
         <p class="text-secondary text-body-strong">Người liên hệ</p>
     </div>
-    <div class="px-20 py-10 border-top border-card-default" *ngFor="let user of listUser">
+    <div class="p-10 border-top border-card-default" *ngFor="let user of listUser">
 
         <div class="list-item layout-horizontal align-center-center gap-15 w-fill" (click)="createChat(user?.id)">
             <div style="width: 35px; height: 35px;">
-                <img class="rounded-circle border border-card-default object-fit-cover" [src]="
-                (user?.users[0].id == user?.id) ? user?.users[1].profile.profile_photo :
-                user?.users[0].profile.profile_photo
-                " alt="" style="width: 35px; height: 35px;">
+                <img class="rounded-circle border border-card-default object-fit-cover" 
+                [src]="user?.users[0].profile.profile_photo" 
+                alt="" style="width: 35px; height: 35px;">
             </div>
             <p class="text-secondary text-body-strong w-fill">
-                {{(user?.users[0].id == user?.id) ?
-                user?.users[1].profile.display_name :
-                user?.users[0].profile.display_name}}</p>
+                {{user?.users[0].profile.display_name}}</p>
         </div>
 
     </div>
@@ -157,7 +154,7 @@
     <div class="w-fill layout-horizontal align-center-space-between px-20 py-10">
         <p class="text-secondary text-body-strong">Nhóm</p>
     </div>
-    <div class="px-20 py-10 border-top border-card-default" *ngFor="let group of listGroup">
+    <div class="p-10 border-top border-card-default" *ngFor="let group of listGroup">
 
         <div class="list-item layout-horizontal align-center-center gap-15 w-fill" (click)="createChat(group?.id)">
             <div style="width: 35px; height: 35px;">

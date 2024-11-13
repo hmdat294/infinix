@@ -65,22 +65,25 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
     this.authService.getUser(0).subscribe(
       (response) => {
         this.user = response.data;
-
+        
         // this.conversation = JSON.parse(localStorage.getItem('conversation') || '[]');
-
+        
         this.chatService.conversation$.subscribe(conversation => {
+          // console.log(this.chatService.tagOpenBoxChat);
           // console.log('Updated conversation from localStorage:', conversation);
           this.conversation = conversation;
           this.filterListChat();
 
           if (this.chatService.tagOpenBoxChat) {
-            this.chatService.tagOpenBoxChat = false;
+            // this.chatService.tagOpenBoxChat = false;
             this.showChat = true;
             this.getMiniChat(conversation[conversation.length - 1]);
           }
           else {
             this.showChat = false;
           }
+
+
         });
 
         this.chatService.getListChat().subscribe(
@@ -96,7 +99,7 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
 
             if (!this.chat)
               this.chat = this.filteredConversations[0];
-            console.log(this.chat);
+            // console.log(this.chat);
 
             this.eventService.bindEvent('App\\Events\\UserSendMessageEvent', (data: any) => {
               console.log('Message received:', data);

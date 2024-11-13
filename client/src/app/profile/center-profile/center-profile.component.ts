@@ -23,12 +23,16 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class CenterProfileComponent implements OnInit, AfterViewInit {
 
   content: string = '';
+  contentUpdate: string = '';
   selectedFilesPost: File[] = [];
+  selectedFilesUpdatePost: File[] = [];
   previewPostImages: string[] = [];
   selectedFilesComment: File[] = [];
+  previewUpdatePostImages: string[] = [];
   previewCommentImages: string[] = [];
   listPost: any[] = [];
   filePost: any;
+  fileUpdatePost: any;
   fileComment: any;
   showPoll: boolean = false;
   poll_input: any[] = [];
@@ -69,7 +73,13 @@ export class CenterProfileComponent implements OnInit, AfterViewInit {
 
         this.eventService.bindEvent('App\\Events\\UserPostEvent', (data: any) => {
           console.log('Post event:', data);
-          this.listPost.unshift(data.data);
+          if (data.action == "create") {
+            this.listPost.unshift(data.data);
+          } else {
+            const index = this.listPost.findIndex((post: any) => post.id === data.data.id);
+            if (index !== -1) this.listPost[index] = data.data;
+          }
+
         });
       });
   }
@@ -166,6 +176,82 @@ export class CenterProfileComponent implements OnInit, AfterViewInit {
     }
   }
 
+  
+  deletePost(post_id: number) {
+    this.postService.deletePost(post_id).subscribe(
+      (response) => {
+        console.log(response);
+      }
+    );
+  }
+
+  updatePost(value: any) {
+    const urlImg = this.previewUpdatePostImages.filter(url => url.startsWith("http"));
+
+    if (value.contentUpdate && !this.spaceCheck.test(value.contentUpdate)) {
+      const formData = new FormData();
+      formData.append('content', value.contentUpdate);
+
+      if (this.selectedFilesUpdatePost.length > 0)
+        this.selectedFilesUpdatePost.forEach(image => formData.append('medias[]', image, image.name));
+
+      if (urlImg.length > 0)
+        urlImg.forEach(imagePath => formData.append('urls[]', imagePath));
+
+      this.postService.updatePost(this.postUpdateId, formData).subscribe(
+        (response) => {
+          console.log(response);
+          this.showDiaLogUpdatePost(null);
+        },
+        (error) => {
+          console.error("Error updating post:", error);
+        }
+      );
+    }
+  }
+
+
+  postUpdateId: number = 0;
+
+  showDiaLogUpdatePost(post: any) {
+    if (post == null) {
+      this.postUpdateId = 0;
+      this.onCancelUpdatePostImg();
+    }
+    else {
+      this.postUpdateId = post.id;
+      this.previewUpdatePostImages = post.medias.map((media: any) => media.path);
+      this.contentUpdate = post.content;
+    }
+  }
+
+  onFileUpdatePostSelected(event: any) {
+
+    const files: File[] = Array.from(event.target.files);
+    // console.log(files);
+    if (files && files.length > 0) {
+      files.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = e => this.previewUpdatePostImages.push(reader.result as string);
+        reader.readAsDataURL(file);
+        this.selectedFilesUpdatePost.push(file);
+      });
+    }
+  }
+
+  removeUpdatePostImage(index: number): void {
+    this.previewUpdatePostImages.splice(index, 1);
+    this.selectedFilesUpdatePost.splice(index, 1);
+  }
+
+  onCancelUpdatePostImg() {
+    this.contentUpdate = '';
+    this.selectedFilesUpdatePost = [];
+    this.previewUpdatePostImages = [];
+    if (this.fileUpdatePost) this.fileUpdatePost.nativeElement.value = '';
+  }
+
+
   changeHtmlContent(content: string) {
     return this.sanitizer.bypassSecurityTrustHtml(content);
   }
@@ -220,6 +306,16 @@ export class CenterProfileComponent implements OnInit, AfterViewInit {
   addEmoji(event: any) {
     this.content += event.emoji.native;
   }
+  
+  showEmojiPickerUpdate: boolean = false;
+
+  toggleEmojiPickerUpdate() {
+    this.showEmojiPickerUpdate = !this.showEmojiPickerUpdate;
+  }
+
+  addEmojiUpdate(event: any) {
+    this.contentUpdate += event.emoji.native;
+  }
 
 
   postComment(value: any) {
@@ -255,6 +351,17 @@ export class CenterProfileComponent implements OnInit, AfterViewInit {
     )
   }
 
+  //like comment
+  likeComment(comment_id: number, post_id: number) {
+    this.postService.postLikeComment(comment_id).subscribe(
+      (response: any) => {
+        console.log(response);
+        const comment = this.commentByPostId[post_id].find((item: any) => item.id == comment_id);
+        comment.liked = !comment.liked;
+        (response.type == 'like') ? comment.like_count++ : comment.like_count--;
+      })
+  }
+  //like comment
 
   //bookmark
 

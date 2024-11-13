@@ -22,9 +22,10 @@
             style="border-radius: 999px !important; width: 50px !important; height: 50px !important;">
             <i class="icon-size-20 icon icon-ic_fluent_comment_edit_20_filled"></i>
         </button>
-        <p class="position-absolute rounded-circle top-0 end-0 text-on-accent-primary layout align-center-center"
+        <p class="position-absolute rounded-circle top-0 end-0 text-on-accent-primary text-caption layout align-center-center"
             style="background-color: #C42B1C; width: 20px; height: 20px;" *ngIf="!showChat && conversation.length > 0">
-            {{conversation.length}}</p>
+            <span style="margin-top: -2px;">{{conversation.length}}</span>
+        </p>
 
     </div>
 </div>

@@ -79,10 +79,17 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
 
             this.chatService.getListChat().subscribe(
               (response) => {
-                this.listUser = response.data.filter((item: any) => item.is_group == 0);
-                this.listGroup = response.data.filter((item: any) => item.is_group == 1);
-                console.log(this.listUser);
-                console.log(this.listGroup);
+
+                const friends = response.data.map((item: any) => ({
+                  ...item,
+                  users: item.users.filter((user: any) => user.id !== this.user.data.id)
+                }))
+                // console.log(friends);
+
+                this.listUser = friends.filter((item: any) => item.is_group == 0);
+                this.listGroup = friends.filter((item: any) => item.is_group == 1);
+                // console.log(this.listUser);
+                // console.log(this.listGroup);
               });
           });
       }

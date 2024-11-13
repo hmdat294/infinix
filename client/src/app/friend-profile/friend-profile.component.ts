@@ -10,19 +10,26 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ChatService } from '../service/chat.service';
 import { MiniChatComponent } from '../mini-chat/mini-chat.component';
 import { DomSanitizer } from '@angular/platform-browser';
+import { QuillModule } from 'ngx-quill';
+import { PickerComponent } from '@ctrl/ngx-emoji-mart';
+import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 
 @Component({
   selector: 'app-friend-profile',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule],
+  imports: [FormsModule, CommonModule, RouterModule, EmojiModule, PickerComponent, QuillModule],
   templateUrl: './friend-profile.component.html',
   styleUrl: './friend-profile.component.css'
 })
 export class FriendProfileComponent implements OnInit {
 
+  contentUpdate: string = '';
+  selectedFilesUpdatePost: File[] = [];
   selectedFilesComment: File[] = [];
+  previewUpdatePostImages: string[] = [];
   previewCommentImages: string[] = [];
   listPost: any[] = [];
+  fileUpdatePost: any;
   fileComment: any;
   showPoll: boolean = false;
   poll_input: any[] = [];
@@ -203,6 +210,133 @@ export class FriendProfileComponent implements OnInit {
     this.cdr.detectChanges();
     this.initCarousels();
   }
+
+
+  deletePost(post_id: number) {
+    this.postService.deletePost(post_id).subscribe(
+      (response) => {
+        console.log(response);
+      }
+    );
+  }
+
+  updatePost(value: any) {
+    const urlImg = this.previewUpdatePostImages.filter(url => url.startsWith("http"));
+
+    if (value.contentUpdate && !this.spaceCheck.test(value.contentUpdate)) {
+      const formData = new FormData();
+      formData.append('content', value.contentUpdate);
+
+      if (this.selectedFilesUpdatePost.length > 0)
+        this.selectedFilesUpdatePost.forEach(image => formData.append('medias[]', image, image.name));
+
+      if (urlImg.length > 0)
+        urlImg.forEach(imagePath => formData.append('urls[]', imagePath));
+
+      this.postService.updatePost(this.postUpdateId, formData).subscribe(
+        (response) => {
+          console.log(response);
+          this.showDiaLogUpdatePost(null);
+        },
+        (error) => {
+          console.error("Error updating post:", error);
+        }
+      );
+    }
+  }
+
+
+  postUpdateId: number = 0;
+
+  showDiaLogUpdatePost(post: any) {
+    if (post == null) {
+      this.postUpdateId = 0;
+      this.onCancelUpdatePostImg();
+    }
+    else {
+      this.postUpdateId = post.id;
+      this.previewUpdatePostImages = post.medias.map((media: any) => media.path);
+      this.contentUpdate = post.content;
+    }
+  }
+
+  onFileUpdatePostSelected(event: any) {
+
+    const files: File[] = Array.from(event.target.files);
+    // console.log(files);
+    if (files && files.length > 0) {
+      files.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = e => this.previewUpdatePostImages.push(reader.result as string);
+        reader.readAsDataURL(file);
+        this.selectedFilesUpdatePost.push(file);
+      });
+    }
+  }
+
+  removeUpdatePostImage(index: number): void {
+    this.previewUpdatePostImages.splice(index, 1);
+    this.selectedFilesUpdatePost.splice(index, 1);
+  }
+
+  onCancelUpdatePostImg() {
+    this.contentUpdate = '';
+    this.selectedFilesUpdatePost = [];
+    this.previewUpdatePostImages = [];
+    if (this.fileUpdatePost) this.fileUpdatePost.nativeElement.value = '';
+  }
+
+
+  showEmojiPickerUpdate: boolean = false;
+
+  toggleEmojiPickerUpdate() {
+    this.showEmojiPickerUpdate = !this.showEmojiPickerUpdate;
+  }
+
+  addEmojiUpdate(event: any) {
+    this.contentUpdate += event.emoji.native;
+  }
+
+
+  editorModules = {
+    toolbar: [
+      [{ 'header': [1, 2, false] }],
+      ['bold', 'italic', 'underline', 'strike'],
+      [{ 'color': [] }, { 'background': [] }],
+      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+      [{ 'script': 'sub' }, { 'script': 'super' }],
+      [{ 'indent': '-1' }, { 'indent': '+1' }],
+      [{ 'direction': 'rtl' }],
+      [{ 'align': [] }],
+      ['clean'],
+      // ['link', 'image', 'video']
+    ]
+  };
+
+  vietnameseI18n: any = {
+    search: 'Tìm kiếm',
+    categories: {
+      search: 'Kết quả tìm kiếm',
+      recent: 'Gần đây',
+      people: 'Mọi người',
+      nature: 'Thiên nhiên',
+      foods: 'Đồ ăn & Uống',
+      activity: 'Hoạt động',
+      places: 'Địa điểm',
+      objects: 'Đồ vật',
+      symbols: 'Biểu tượng',
+      flags: 'Cờ',
+    },
+    skinTones: {
+      1: 'Màu da mặc định',
+      2: 'Màu da sáng',
+      3: 'Màu da trung bình sáng',
+      4: 'Màu da trung bình',
+      5: 'Màu da trung bình tối',
+      6: 'Màu da tối',
+    },
+  };
+
 
   addFriend(receiver_id: number): void {
     this.authService.addFriend(receiver_id).subscribe(
