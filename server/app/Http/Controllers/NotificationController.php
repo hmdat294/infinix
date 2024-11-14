@@ -142,14 +142,14 @@ class NotificationController extends Controller
 
     public function show(string $id)
     {
-        $notification = DisabledNotificationModel::find($id);
+        $notification = NotificationModel::find($id);
         return new NotificationResource($notification);
     }
 
     public function update(Request $request, string $id)
     {
         if ($request->has('is_read')) {
-            $notification = DisabledNotificationModel::find($id);
+            $notification = NotificationModel::find($id);
             $notification->is_read = true;
             $notification->save();
         }
@@ -159,7 +159,7 @@ class NotificationController extends Controller
 
     public function destroy(string $id)
     {
-        $notification = DisabledNotificationModel::find($id);
+        $notification = NotificationModel::find($id);
         $notification->delete();
 
         return response()->json([
