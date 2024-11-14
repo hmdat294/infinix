@@ -48,6 +48,11 @@
                 class="button-subtle button-icon-only {{(diaLogNoti)?'text-accent-default':'text-secondary'}}">
                 <i *ngIf="(diaLogNoti)" class="icon-size-24 icon icon-ic_fluent_alert_24_filled"></i>
                 <i *ngIf="(!diaLogNoti)" class="icon-size-24 icon icon-ic_fluent_alert_24_regular"></i>
+
+                <p class="position-absolute rounded-circle top-0 end-0 text-on-accent-primary layout align-center-center"
+                    style="background-color: #C42B1C; width: 13px; height: 13px; font-size: 10px; margin-right: 5px;">
+                    <span>{{notification?.length}}</span>
+                </p>
             </a>
             <a [routerLink]="['/setting']"
                 class="button-subtle button-icon-only {{(currentRoute == 'setting')?'text-accent-default':'text-secondary'}}">
@@ -98,10 +103,12 @@
 
                     <!-- Nội dung thông báo -->
                     <div class="layout-horizontal gap-10 w-fill align-center-center">
-                        <img [src]="noti.target_user.profile.profile_photo" alt="" class="rounded-circle object-fit-cover" style="width: 35px; height: 35px;">
+                        <img [src]="noti.target_user.profile.profile_photo" alt=""
+                            class="rounded-circle object-fit-cover" style="width: 35px; height: 35px;">
                         <div class="layout-vertical gap-5 w-fill">
                             <p class="text-body"><span class="text-body-strong">{{noti.content}}</span></p>
-                            <p class="text-secondary text-caption">{{noti.created_at_time}} - {{noti.created_at_date}}</p>
+                            <p class="text-secondary text-caption">{{noti.created_at_time}} - {{noti.created_at_date}}
+                            </p>
                         </div>
                     </div>
                 </div>

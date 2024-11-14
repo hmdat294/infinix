@@ -29,9 +29,9 @@ export class PostService {
     return this.http.post(`${this.apiUrl}/post`, value, { headers });
   }
 
-  updatePost(id: number): Observable<any> {
+  updatePost(id: number, value: any): Observable<any> {
     const headers = this.authService.getToken();
-    return this.http.patch(`${this.apiUrl}/post/${id}`, { headers });
+    return this.http.post(`${this.apiUrl}/post/${id}`, value, { headers });
   }
 
   deletePost(id: number): Observable<any> {
@@ -93,4 +93,10 @@ export class PostService {
     const headers = this.authService.getToken();
     return this.http.delete(`${this.apiUrl}/report/${report_id}`, { headers });
   }
+
+  postLikeComment(comment_id: number): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.post(`${this.apiUrl}/like-comment/`, { 'comment_id': comment_id }, { headers });
+  }
+
 }

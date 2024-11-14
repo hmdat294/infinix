@@ -22,9 +22,10 @@
             style="border-radius: 999px !important; width: 50px !important; height: 50px !important;">
             <i class="icon-size-20 icon icon-ic_fluent_comment_edit_20_filled"></i>
         </button>
-        <p class="position-absolute rounded-circle top-0 end-0 text-on-accent-primary layout align-center-center"
+        <p class="position-absolute rounded-circle top-0 end-0 text-on-accent-primary text-caption layout align-center-center"
             style="background-color: #C42B1C; width: 20px; height: 20px;" *ngIf="!showChat && conversation.length > 0">
-            {{conversation.length}}</p>
+            <span style="margin-top: -2px;">{{conversation.length}}</span>
+        </p>
 
     </div>
 </div>
@@ -655,68 +656,105 @@
 
 
     </div>
-    <form class="w-fill h-hug layout-vertical p-10 gap-10 border-top border-card-default"
-        (submit)="sendMessage(frm.value)" #frm="ngForm" enctype="multipart/form-data">
+    <emoji-mart *ngIf="showEmojiPicker" [i18n]="vietnameseI18n"
+        [style]="{ position: 'absolute', bottom: '20px', right: '20px', background: '#363636' }"
+        (emojiSelect)="addEmoji($event)"></emoji-mart>
 
-        <div *ngIf="previewReply" class="p-10 position-relative">
-            <div style="border-left: 3px solid #005FB8E6;" class="p-10">
-                <img *ngIf="previewReply.medias.length > 0" src="{{previewReply.medias[0].path}}" alt="Image"
-                    height="40px" class="rounded-4">
-                <span class="text-secondary" style="white-space: pre-line;">
-                    {{previewReply.content}}
-                </span>
-            </div>
-            <button type="button" (click)="onCancelReply()"
-                class="button-subtle button-icon-only position-absolute top-0 end-0 m-5">
-                <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
+
+    <div class="w-fill p-20" *ngIf="chat?.is_group == 0 && chat?.users[0].blocked_by_user">
+        <div class="p-10 card-background-default border border-card-default rounded-8">
+            <p class="text-body text-secondary text-center">Tài khoản này hiện không muốn nhận tin
+                nhắn của
+                bạn!
+            </p>
+        </div>
+    </div>
+
+    <div class="w-fill p-20" *ngIf="chat?.is_group == 0 && chat?.users[0].blocked_user">
+        <div
+            class="p-10 card-background-default border border-card-default rounded-8 layout-horizontal gap-15 align-center-center">
+            <p class="text-body text-secondary text-center">Bạn đã chặn tài khoản này!
+            </p>
+            <button type="button" class="button-standard button-text-with-icon" (click)="blockUser(chat?.users[0].id)">
+                Bỏ chặn
+                <i class="icon-size-16 icon icon-ic_fluent_person_key_20_regular"></i>
             </button>
         </div>
+    </div>
 
-        <div *ngIf="previewUrls.length > 0" class="p-10 position-relative">
-            <div class="layout gap-10">
-                <div *ngFor="let previewUrl of previewUrls; let i = index" class="position-relative">
-                    <img [src]="previewUrl" alt="Image preview" height="70px" class="rounded-4">
-                    <button type="button" (click)="removeImage(i)"
-                        class="button-standard button-icon-only position-absolute top-0 end-0">
-                        <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
+    <!-- *ngIf="(chat?.is_group == 0 && (!chat?.users[0].blocked_by_user && !chat?.users[0].blocked_user))" -->
+    <div class="h-hug"
+        [class]="(chat?.is_group == 1)?'display-block':(!chat?.users[0].blocked_by_user && !chat?.users[0].blocked_user)?'display-block':'display-none'">
+        <form class="border-top" (submit)="sendMessage(frm.value)" #frm="ngForm" enctype="multipart/form-data">
+
+            <div *ngIf="previewReply" class="p-10 position-relative">
+                <div style="border-left: 3px solid #005FB8E6;" class="p-10">
+                    <img *ngIf="previewReply.medias.length > 0" src="{{previewReply.medias[0].path}}" alt="Image"
+                        height="50px" class="rounded-4">
+                    <span class="text-secondary" style="white-space: pre-line;">
+                        {{previewReply.content}}
+                    </span>
+                </div>
+                <button type="button" (click)="onCancelReply()"
+                    class="button-subtle button-icon-only position-absolute top-0 end-0 m-5">
+                    <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
+                </button>
+            </div>
+
+            <div *ngIf="previewUrls.length > 0" class="p-10 position-relative">
+                <div class="layout-wrap gap-10">
+                    <div *ngFor="let previewUrl of previewUrls; let i = index" class="position-relative">
+                        <img [src]="previewUrl" alt="Image preview" height="100px" class="rounded-4">
+                        <button type="button" (click)="removeImage(i)"
+                            class="button-standard button-icon-only position-absolute top-0 end-0">
+                            <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
+                        </button>
+                    </div>
+                </div>
+                <button type="button" (click)="onCancelSendImg()"
+                    class="button-subtle button-icon-only position-absolute top-0 end-0 m-5">
+                    <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
+                </button>
+            </div>
+
+            <div class="w-fill h-hug layout align-center-center px-20 py-15 gap-15">
+                <img [src]="user.profile.profile_photo"
+                    class="rounded-circle border border-card-default object-fit-cover" alt=""
+                    style="width: 35px; height: 35px;">
+
+                <div class="control w-fill h-hug" style="padding: 0;">
+                    <input type="hidden" name="id" ngModel [(ngModel)]="chat.id">
+
+                    <textarea [(ngModel)]="content" name="content" ngModel
+                        class="textarea-chat control text-area-control w-fill"
+                        (keydown)="handleKeydown($event, frm.value)" #textArea spellcheck="false"
+                        (input)="resizeTextarea($event)" required></textarea>
+
+                    <button type="button" class="input-button">
+                        <i class="icon-size-16 icon icon-ic_fluent_mic_16_regular"></i>
+                    </button>
+
+                    <label style="cursor: pointer;" class="input-button">
+                        <i class="icon-size-16 icon icon-ic_fluent_image_16_regular"></i>
+                        <input type="file" [ngModel]="fileInput" name="fileInput" (change)="onFileSelected($event)"
+                            accept="image/*" multiple style="display: none;">
+                    </label>
+
+
+                    <button type="button" class="input-button" (click)="toggleEmojiPicker()">
+                        <i *ngIf="showEmojiPicker"
+                            class="text-accent-default icon-size-16 icon icon-ic_fluent_emoji_16_regular"></i>
+                        <i *ngIf="!showEmojiPicker" class="icon-size-16 icon icon-ic_fluent_emoji_16_regular"></i>
                     </button>
                 </div>
-            </div>
-            <button type="button" (click)="onCancelSendImg()"
-                class="button-subtle button-icon-only position-absolute top-0 end-0 m-5">
-                <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
-            </button>
-        </div>
 
-        <div class="w-fill h-hug layout-horizontal p-5 gap-10">
-            <img [src]="user?.profile.profile_photo" class="rounded-circle border border-card-default object-fit-cover"
-                alt="" style="width: 35px; height: 35px;">
-
-            <div class="control w-fill h-hug" style="padding: 0;">
-                <input type="hidden" name="id" ngModel [(ngModel)]="chat.id">
-
-                <textarea [(ngModel)]="content" name="content" ngModel
-                    class="textarea-chat control text-area-control w-fill" (keydown)="handleKeydown($event, frm.value)"
-                    #textArea spellcheck="false" required></textarea>
-
-                <button type="button" class="input-button">
-                    <i class="icon-size-16 icon icon-ic_fluent_mic_16_regular"></i>
-                </button>
-
-                <label style="cursor: pointer;" class="input-button">
-                    <i class="icon-size-16 icon icon-ic_fluent_image_16_regular"></i>
-                    <input type="file" [ngModel]="fileInput" name="fileInput" (change)="onFileSelected($event)"
-                        accept="image/*" multiple style="display: none;">
-                </label>
-                <button type="button" class="input-button">
-                    <i class="icon-size-16 icon icon-ic_fluent_emoji_16_regular"></i>
+                <button type="submit" class="button-accent button-text-with-icon"
+                    *ngIf="(!frm.invalid && !spaceCheck.test(frm.value.content)) || previewUrls.length > 0">
+                    Send
+                    <i class="icon-size-16 icon icon-ic_fluent_send_16_filled"></i>
                 </button>
             </div>
+        </form>
 
-            <button type="submit" class="button-subtle button-icon-only"
-                *ngIf="(!frm.invalid && !spaceCheck.test(frm.value.content)) || previewUrls.length > 0">
-                <i class="icon-size-16 text-accent-default icon icon-ic_fluent_send_16_filled"></i>
-            </button>
-        </div>
-    </form>
+    </div>
 </div>
