@@ -682,7 +682,6 @@
         </div>
     </div>
 
-    <!-- *ngIf="(chat?.is_group == 0 && (!chat?.users[0].blocked_by_user && !chat?.users[0].blocked_user))" -->
     <div class="h-hug"
         [class]="(chat?.is_group == 1)?'display-block':(!chat?.users[0].blocked_by_user && !chat?.users[0].blocked_user)?'display-block':'display-none'">
         <form class="border-top" (submit)="sendMessage(frm.value)" #frm="ngForm" enctype="multipart/form-data">

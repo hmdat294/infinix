@@ -116,10 +116,27 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
     this.chatService.tagOpenBoxChat = true;
   }
 
+  removeVietnameseTones(str: string): string {
+    return str.normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[đĐ]/g, "d")
+      .replace(/[ăâä]/g, "a")
+      .replace(/[ưùụũưû]/g, "u")
+      .replace(/[êéẹèẽ]/g, "e")
+      .replace(/[ôơóòõọ]/g, "o")
+      .replace(/[íìịĩi]/g, "i")
+      .replace(/[ýỳỵỹy]/g, "y");
+  }
+
   searchFriend() {
     if (this.keyword && !/^\s*$/.test(this.keyword)) {
-      this.friendsSearch = this.friends.filter((friend: any) =>
-        friend.profile.display_name.toLowerCase().includes(this.keyword.trim().toLowerCase()) || friend.email.toLowerCase().includes(this.keyword.trim().toLowerCase())
+      this.friendsSearch = this.friends.filter((friend: any) => {
+        const keyword = this.removeVietnameseTones(this.keyword.toLowerCase().trim());
+        const displayName = this.removeVietnameseTones(friend.profile.display_name.toLowerCase() || "");
+        const email = this.removeVietnameseTones(friend.email.toLowerCase() || "");
+        
+        return displayName.includes(keyword) || email.includes(keyword);
+      }
       );
     }
     else {

@@ -92,24 +92,27 @@
                 </div>
             </div>
 
-            <div class="layout-vertical gap-10 p-10 h-fill overflow-scroll-vertical">
+            <div class="layout-vertical p-10 h-fill overflow-scroll-vertical">
 
                 <!-- Thông báo like bài viết -->
-                <div class="list-item layout px-20 py-10 gap-20" *ngFor="let noti of notification">
+                <div class="layout" *ngFor="let noti of notification">
 
                     <!-- Đánh dấu là thông báo chưa đọc -->
-                    <div class="position-absolute accent-default rounded-2 start-0"
-                        style="width: 3px; height: 30px; top: 13px;"></div>
+                    <div *ngIf="noti.is_read == 0" class="position-absolute accent-default rounded-2 start-0"
+                        style="width: 3px; height: calc(100% - 25px); top: 13px;"></div>
 
                     <!-- Nội dung thông báo -->
-                    <div class="layout-horizontal gap-10 w-fill align-center-center">
+                    <div class="noti-hover layout-horizontal gap-10 w-fill align-center-space-between ps-20 py-10">
                         <img [src]="noti.target_user.profile.profile_photo" alt=""
                             class="rounded-circle object-fit-cover" style="width: 35px; height: 35px;">
-                        <div class="layout-vertical gap-5 w-fill">
+                        <div class="list-item layout-vertical gap-5 w-fill" (click)="updateNotification(noti.id)">
                             <p class="text-body"><span class="text-body-strong">{{noti.content}}</span></p>
                             <p class="text-secondary text-caption">{{noti.created_at_time}} - {{noti.created_at_date}}
                             </p>
                         </div>
+                        <button type="button" class="button-standard button-icon-only" (click)="deleteNotification(noti.id)">
+                            <i class="icon-size-16 icon icon-ic_fluent_delete_16_filled"></i>
+                        </button>
                     </div>
                 </div>
                 <!-- Thông báo comment bài viết -->

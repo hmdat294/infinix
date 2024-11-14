@@ -78,6 +78,20 @@ export class HeaderComponent implements OnInit {
       });
   }
 
+  updateNotification(notification_id: number){
+    this.notificationService.updateNotification(notification_id).subscribe(
+      (res: any) => {
+        console.log(res);
+      });
+  }
+
+  deleteNotification(notification_id: number){
+    this.notificationService.deleteNotification(notification_id).subscribe(
+      (res: any) => {
+        console.log(res);
+      });
+  }
+
   clearSearch() {
     this.keyword = '';
     this.friends = [];

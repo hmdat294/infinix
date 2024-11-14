@@ -768,7 +768,7 @@
                     (emojiSelect)="addEmoji($event)"></emoji-mart>
 
 
-                <div class="w-fill p-20" *ngIf="conversation?.users[0].blocked_by_user">
+                <div class="w-fill p-20" *ngIf="conversation?.is_group == 0 && conversation?.users[0].blocked_by_user">
                     <div class="p-10 card-background-default border border-card-default rounded-8">
                         <p class="text-body text-secondary text-center">Tài khoản này hiện không muốn nhận tin
                             nhắn của
@@ -777,8 +777,9 @@
                     </div>
                 </div>
 
-                <div class="w-fill p-20" *ngIf="conversation?.users[0].blocked_user">
-                    <div class="p-10 card-background-default border border-card-default rounded-8 layout-horizontal gap-15 align-center-center">
+                <div class="w-fill p-20" *ngIf="conversation?.is_group == 0 && conversation?.users[0].blocked_user">
+                    <div
+                        class="p-10 card-background-default border border-card-default rounded-8 layout-horizontal gap-15 align-center-center">
                         <p class="text-body text-secondary text-center">Bạn đã chặn tài khoản này!
                         </p>
                         <button type="button" class="button-standard button-text-with-icon"
@@ -789,9 +790,8 @@
                     </div>
                 </div>
 
-
                 <div class="h-hug"
-                    *ngIf="!conversation?.users[0].blocked_by_user && !conversation?.users[0].blocked_user">
+                    [class]="(conversation?.is_group == 1)?'display-block':(!conversation?.users[0].blocked_by_user && !conversation?.users[0].blocked_user)?'display-block':'display-none'">
                     <form class="border-top" (submit)="sendMessage(frm.value)" #frm="ngForm"
                         enctype="multipart/form-data">
 
@@ -877,7 +877,7 @@
                 style="width: 100%; height: 100vh; z-index: 10; background-color: rgba(0, 0, 0, 0.2);">
                 <div class="dialog-panel position-absolute top-50 start-50 translate-middle" style="z-index: 12;">
                     <form
-                        class="layout-vertical gap-20 p-20 rounded-8 acrylic-background-default blur-acrylic border border-card-default"
+                        class="layout-vertical gap-20 p-20 rounded-8 solid-background-senary border border-card-default"
                         style="width: 400px;" (submit)="editGroup(frm.value)" #frm="ngForm"
                         enctype="multipart/form-data">
                         <div class="w-fill layout-vertical gap-5">
@@ -886,7 +886,7 @@
                         <div class="layout py-20 w-fill align-center-center">
                             <div class="background-card-default" style="width: 100px; height: 100px;">
                                 <img class="border border-card-default w-fill h-fill rounded-circle object-fit-cover"
-                                    src="{{(selectedFilesEditGroup.length > 0)?previewEditGroupImages:conversation.image}}"
+                                    [src]="(selectedFilesEditGroup.length > 0)?previewEditGroupImages:conversation.image"
                                     alt="">
 
                                 <input class="display-none" type="file" [ngModel]="fileImageEditGroup"
@@ -1093,7 +1093,7 @@
                 <div
                     class="layout-horizontal pb-10 w-fill border-bottom border-card-default align-center-space-between">
                     <p class="text-body text-primary">{{images?.length}} phương tiện</p>
-                    <a href="" class="link text-nowrap">Xem thêm</a>
+                    <!-- <a href="" class="link text-nowrap">Xem thêm</a> -->
                 </div>
                 <div class="layout-vertical w-fill p-0">
                     <div class="w-fill layout-wrap gap-20 align-center-left" *ngIf="images?.length>0">
