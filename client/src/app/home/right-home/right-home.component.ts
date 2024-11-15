@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { EventService } from '../../service/event.service';
 import { FormsModule } from '@angular/forms';
 import { ChatService } from '../../service/chat.service';
+import { SettingService } from '../../service/setting.service';
 
 @Component({
   selector: 'app-right-home',
@@ -30,7 +31,8 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
     private router: Router,
     private authService: AuthService,
     private chatService: ChatService,
-    private eventService: EventService
+    private eventService: EventService,
+    private settingService: SettingService,
   ) { }
 
   ngOnInit(): void {
@@ -118,8 +120,13 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
 
   searchFriend() {
     if (this.keyword && !/^\s*$/.test(this.keyword)) {
-      this.friendsSearch = this.friends.filter((friend: any) =>
-        friend.profile.display_name.toLowerCase().includes(this.keyword.trim().toLowerCase()) || friend.email.toLowerCase().includes(this.keyword.trim().toLowerCase())
+      this.friendsSearch = this.friends.filter((friend: any) => {
+        const keyword = this.settingService.removeVietnameseTones(this.keyword.toLowerCase().trim());
+        const displayName = this.settingService.removeVietnameseTones(friend.profile.display_name.toLowerCase() || "");
+        const email = this.settingService.removeVietnameseTones(friend.email.toLowerCase() || "");
+        
+        return displayName.includes(keyword) || email.includes(keyword);
+      }
       );
     }
     else {

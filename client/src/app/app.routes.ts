@@ -14,6 +14,7 @@ import { SearchComponent } from './search/search.component';
 import { FriendProfileComponent } from './friend-profile/friend-profile.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { BookmarkComponent } from './bookmark/bookmark.component';
+import { ShopComponent } from './shop/shop.component';
 import { ReportComponent } from './admin/report/report.component';
 import { ReportpostComponent } from './admin/report-post/report-post.component';
 import { EventComponent } from './admin/event/event.component';
@@ -29,6 +30,8 @@ export const routes: Routes = [
     { path: 'friend-profile/:user_id', component: FriendProfileComponent, canActivate: [AuthGuard] },
     { path: 'friend-profile/:user_id/:post_id', component: FriendProfileComponent, canActivate: [AuthGuard] },
     { path: 'bookmark', component: BookmarkComponent, canActivate: [AuthGuard] },
+
+    { path: 'shop', component: ShopComponent, canActivate: [AuthGuard] },
 
     { path: 'login', component: LoginComponent, canActivate: [AuthGuard] },
     { path: 'register', component: RegisterComponent, canActivate: [AuthGuard] },
