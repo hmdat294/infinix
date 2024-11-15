@@ -86,6 +86,7 @@ export class AdminService {
     const headers = this.authService.getToken();
     return this.http.get(`${this.apiUrl}/statistics/posts-growth`, { headers });
   }
+  
   getTotalUsers(): Observable<{ data: number }> {
     return this.http.get<{ data: number }>('api_endpoint_here');
   }

@@ -1,130 +1,180 @@
-<section class="gradient-background layout-horizontal" style="height: 100vh;">
-    <app-nav class="h-fill"></app-nav>
+<section class="gradient-background layout-horizontal"
+            style="height: 100vh;">
+            <app-nav class="h-fill"></app-nav>
 
-    <article class="py-20 m-20 w-fill overflow-scroll-vertical ">
-        <div class="layout-horizontal  align-center-space-between mt-20 p-20" >
-            <div class="layout-horizontal gap-10 " style="padding: 10px;">
-                <!-- search -->
-                <div class="search-dropdown-control">
-                    <div class="control search-control">
-                        <input type="search"
-                            placeholder="placeholder"
-                            spellcheck="false">
-                        <button type="button"
-                            class="input-button clear-content-button">
-                            <i
-                                class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
-                        </button>
-                        <button type="button"
-                            class="input-button search-button">
-                            <i
-                                class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
-                        </button>
-                    </div>
-                    <div class="dropdown-menu">
-                        <div class="list-item">
-                            <div class="text-body">Item 1</div>
+            <article class="py-20 m-20 w-fill overflow-scroll-vertical ">
+                <div
+                    class="layout-horizontal  align-center-space-between mt-20  " style="padding:0 20px;">
+                    <div class="layout-horizontal gap-10  "
+                        style="padding: 10px;">
+                        <!-- search -->
+                        <div class="search-dropdown-control">
+                            <div class="control search-control">
+                                <input type="search"
+                                    placeholder="placeholder"
+                                    spellcheck="false">
+                                <button type="button"
+                                    class="input-button clear-content-button">
+                                    <i
+                                        class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
+                                </button>
+                                <button type="button"
+                                    class="input-button search-button">
+                                    <i
+                                        class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
+                                </button>
+                            </div>
+                            <div class="dropdown-menu">
+                                <div class="list-item">
+                                    <div class="text-body">Item 1</div>
+                                </div>
+                                <div class="list-item">
+                                    <div class="text-body">Item 2</div>
+                                </div>
+                                <div class="list-item">
+                                    <div class="text-body">Item 3</div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="list-item">
-                            <div class="text-body">Item 2</div>
+                        <!-- fillter -->
+                        <div class="layout-horizontal gap-10">
+                            <a href="#"
+                                class="button-standard button-text-with-icon gap-10">
+                                <i
+                                    class="icon-size-16 icon icon-ic_fluent_document_one_page_multiple_16_regular"></i>
+                                Post
+                            </a>
+                            <a href="#"
+                                class="button-standard button-text-with-icon gap-10">
+                                <i
+                                    class="icon-size-20 icon icon-ic_fluent_check_20_regular"></i>
+                                Comment
+                            </a>
+                            <a href="#"
+                                class="button-standard button-text-with-icon gap-10">
+                                <i
+                                    class="icon-size-16 icon icon-ic_fluent_person_16_regular"></i>
+                                User
+                            </a>
+                            <a href="#"
+                                class="button-standard button-text-only gap-10">
+                                <!-- <i
+                                class="icon-size-16 icon icon-ic_fluent_person_24_regular"></i> -->
+                                See All
+                            </a>
                         </div>
-                        <div class="list-item">
-                            <div class="text-body">Item 3</div>
-                        </div>
-                    </div>
-                </div>
-                <!-- fillter -->
-                <div class="layout-horizontal gap-10">
-                    <a href="#"
-                        class="button-standard button-text-with-icon gap-10">
-                        <i
-                            class="icon-size-16 icon icon-ic_fluent_document_one_page_multiple_16_regular"></i>
-                        Post
-                    </a>
-                    <a href="#"
-                        class="button-standard button-text-with-icon gap-10">
-                        <i
-                            class="icon-size-20 icon icon-ic_fluent_check_20_regular"></i>
-                        Comment
-                    </a>
-                    <a href="#"
-                        class="button-standard button-text-with-icon gap-10">
-                        <i
-                            class="icon-size-16 icon icon-ic_fluent_person_16_regular"></i>
-                        User
-                    </a>
-                    <a href="#"
-                        class="button-standard button-text-only gap-10">
-                        <!-- <i
-                            class="icon-size-16 icon icon-ic_fluent_person_24_regular"></i> -->
-                        See All
-                    </a>
-                </div>
 
-            </div>
-            <div class="me-25">
-                <div class="pagination layout-horizontal">
-                    <button
-                        class="pagination-item button-subtle button-icon-only text-accent-default"><i
-                            class="icon-size-24 icon icon-ic_fluent_caret_left_24_filled"></i></button>
-                    <button
-                        class="pagination-item button-subtle button-icon-only text-accent-default">1</button>
-                    <button
-                        class="pagination-item button-subtle button-icon-only text-accent-default">2</button>
-                    <button
-                        class="pagination-item button-subtle button-icon-only text-accent-default">3</button>
-                    <button
-                        class="pagination-item button-subtle button-icon-only text-accent-default">4</button>
-                    <button
-                        class="pagination-item button-subtle button-icon-only text-accent-default">5</button>
-                    <button
-                        class="pagination-item button-subtle button-icon-only text-accent-default"><i
-                            class="icon-size-24 icon icon-ic_fluent_caret_right_24_filled"></i></button>
+                    </div>
+                    <div class="me-25">
+                        <div class="pagination layout-horizontal">
+                            <button
+                                class="pagination-item button-subtle button-icon-only text-accent-default"><i
+                                    class="icon-size-24 icon icon-ic_fluent_caret_left_24_filled"></i></button>
+                            <button
+                                class="pagination-item button-subtle button-icon-only text-accent-default">1</button>
+                            <button
+                                class="pagination-item button-subtle button-icon-only text-accent-default">2</button>
+                            <button
+                                class="pagination-item button-subtle button-icon-only text-accent-default">3</button>
+                            <button
+                                class="pagination-item button-subtle button-icon-only text-accent-default">4</button>
+                            <button
+                                class="pagination-item button-subtle button-icon-only text-accent-default">5</button>
+                            <button
+                                class="pagination-item button-subtle button-icon-only text-accent-default"><i
+                                    class="icon-size-24 icon icon-ic_fluent_caret_right_24_filled"></i></button>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div style="padding: 20px;">
-            <div class="table-container solid-background-senary p-10 rounded-8  ">
-                <table class="table w-fill text-center">
-                    <thead>
-                        <tr class>
-                            <th><input type="checkbox"></th>
-                            <th>User Report</th>
-                            <th>User Name</th>
-                            <th>Report Content</th>
-                            <th>Status</th>
-                            <th>Report date</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr  *ngFor="let item of listReport">
-                            <td><input type="checkbox"></td>
-                            
-                            <td>{{item.user.profile.display_name}}</td>
-                            <td>{{item.sender.profile.display_name}}</td>
-                            <td>{{shortenTextByWords(item.content,2)}}</td>
-                            <td>{{item.status}}</td>
-                            <td>{{item.created_at_date}}</td>
-                            <td
-                                class="layout-horizontal gap-20  w-fill">
-                                <a href="#"
-                                    class="button-subtle button-icon-only text-accent-default">
-                                    <i
-                                        class="icon-size-24 icon icon-ic_fluent_settings_24_filled"></i>
-                                </a>
-                                <a href="#"
-                                    class="button-subtle button-icon-only text-accent-default">
-                                    <i
-                                        class="icon-size-24 icon icon-ic_fluent_info_24_filled"></i>
-                                </a>
-                            </td>
-                        </tr>
+                <div style="padding: 20px;">
+                    <div
+                        class="table-container solid-background-senary p-10 rounded-8 ">
                         
-                    </tbody>
-                </table>
-            </div>
-        </div>
+                        <div class="w-fill layout-vertical gap-20">
+                            <div
+                                class="head gap-20  w-fill align-center-space-between text-subtitle p-20">
+                                <div><input type="checkbox"></div>
+                                <div>User Report</div>
+                                <div>User Name</div>
+                                <div>Report Content</div>
+                                <div>Status</div>
+                                <div>Report date</div>
+                                <div>Actions</div>
+                            </div>
+                            <div class="" *ngFor="let item of listReport; let i = index;">
+
+                                <div
+                                    class="report-show gap-20  w-fill align-center-space-between p-20">
+                                    <div><input type="checkbox"></div>
     
-    </article>
-</section>
+                                    <div>{{item.user.profile.display_name}}</div>
+                                    <div>{{item.sender.profile.display_name}}</div>
+                                    <div>{{shortenTextByWords(item.content,8)}}</div>
+                                    <div>{{item.status}}</div>
+                                    <div>{{item.created_at_date}}</div>
+                                    <div
+                                        class="layout-horizontal gap-20  ">
+                                        <a
+                                            class="button-subtle button-icon-only text-accent-default"
+                                            (click)="tabChild('show_chitiet_'+i)">
+                                            <i
+                                                class="icon-size-24 icon icon-ic_fluent_settings_24_filled"></i>
+                                        </a>
+    
+                                        <a href="#"
+                                            class="button-subtle button-icon-only text-accent-default">
+                                            <i
+                                                class="icon-size-24 icon icon-ic_fluent_info_24_filled"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="accordion-panel open layout-horizontal show_chitiet_{{i}} w-fill" >
+                                    <div class="layout-horizontal w-fill" style="padding:50px;">
+
+                                        <div class="p-15 layout-horizontal align-center-space-between w-fill-column-6"  >
+                                            <div class="sender layout-vertical gap-10">
+                                                <div class="text-subtitle accent-text-primary">Sender</div>
+                                                <div class="layout-horizontal gap-10">
+                                                    <div class="text-body-strong">Name: </div>
+                                                    <div>{{item.sender.profile.display_name}}</div>
+                                                </div>
+                                                <div class="layout-horizontal gap-10">
+                                                    <div class="text-body-strong">Email:</div>
+                                                    <div> {{item.sender.email}}</div>
+                                                </div>
+                                                <div class="layout-horizontal gap-10">
+                                                    <div class="text-body-strong">Phone number: </div>
+                                                    <div> {{item.sender.phone_number}}</div>
+                                                </div>
+                                            </div>
+                                            <div class="sender layout-vertical ">
+                                                <div class="text-subtitle accent-text-primary">User Report</div>
+                                                <div class="layout-horizontal gap-10">
+                                                    <div class="text-body-strong">Name: </div>
+                                                    <div>{{item.user.profile.display_name}}</div>
+                                                </div>
+                                                <div class="layout-horizontal gap-10">
+                                                    <div class="text-body-strong">Email:</div>
+                                                    <div> {{item.user.email}}</div>
+                                                </div>
+                                                <div class="layout-horizontal gap-10">
+                                                    <div class="text-body-strong">Phone number: </div>
+                                                    <div> {{item.user.phone_number}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="p-15 layout-horizontal align-center-space-between w-fill-column-6">
+                                            <textarea style="min-height: 110px;" class="control text-area-control"
+                                            spellcheck="false" name="" id="" [(ngModel)]="item.content"></textarea>
+                                            <button class="button-standard button-text-only">Lưu</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+
+            </article>
+        </section>

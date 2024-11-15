@@ -11,36 +11,10 @@ article{
 }
 
 
-th, td {
-    text-align: left;
-    padding: 8px;
-   
+.head,.report-show{
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
 }
-
-
-/* Điều chỉnh kích thước checkbox */
-th:first-child input, td:first-child input {
-    width: 15px;
-    height: 15px;
-    align-items: center;
-}
-
-/* Điều chỉnh kích thước của các biểu tượng hành động */
-td .button-subtle i {
-    font-size: 16px; /* Kích thước nhỏ hơn */
-}
-
-/* Căn giữa nội dung trong cột Actions */
-th:last-child, td:last-child {
-    text-align: center;
-    vertical-align: middle;
-}
-
-td:last-child {
-    width: 100%;
-    height: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px; /* Khoảng cách giữa các biểu tượng */
+.table-container{
+    padding: 20px;
 }
