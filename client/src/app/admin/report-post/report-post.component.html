@@ -98,29 +98,50 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr  *ngFor="let item of listReport">
-                            <td><input type="checkbox"></td>
-                            <td>{{item.user.profile.display_name}}</td>
-                            <td >{{item.sender.profile.display_name}}</td>
-                            <td>{{shortenTextByWords(item.content,8)}}</td>
-                            <td>{{item.status}}</td>
-                            <td>{{item.created_at_date}}</td>
-                            <td
-                                class="layout-horizontal gap-20  w-fill">
-                                <a href="#"
-                                    class="button-subtle button-icon-only text-accent-default">
-                                    <i
-                                        class="icon-size-24 icon icon-ic_fluent_settings_24_filled"></i>
-                                </a>
-                                <a href="#"
-                                    class="button-subtle button-icon-only text-accent-default">
-                                    <i
-                                        class="icon-size-24 icon icon-ic_fluent_info_24_filled"></i>
-                                </a>
-                            </td>
-                        </tr>
+                        <tr *ngFor="let item of listReport; let i = index">
+                          <td><input type="checkbox"></td>
+                          <td>{{item.user.profile.display_name}}</td>
+                          <td>{{item.sender.profile.display_name}}</td>
+                          <td>
+                            <span [ngClass]="{ 'expanded': item.isExpanded }">
+                              {{ item.isExpanded ? item.content : shortenTextByWords(item.content, 8) }}
+                            </span>
+                          </td>
+                          <td>
+                            <div class="status-select-container">
+                                <select 
+                                    [(ngModel)]="item.status" 
+                                    (change)="updateStatus(item)" 
+                                    class="status-select"
+                                    [class.text-red]="item.status === 'pending'"
+                                    [class.text-green]="item.status === 'resolved'">
+                                    <option value="pending">Pending</option>
+                                    <option value="resolved">Resolved</option>
+                                </select>
+                            </div>
+                        </td>
                         
-                    </tbody>
+                        
+                          <td>{{item.created_at_date}}</td>
+                          <td class="layout-horizontal gap-20 w-fill">
+                            <a href="#" 
+                               class="button-subtle button-icon-only text-accent-default"
+                               (click)="toggleDetails(i, $event)">
+                              <!-- Biểu tượng thay đổi dựa trên trạng thái -->
+                              <i 
+                                class="icon-size-24 icon"
+                                [class.icon-ic_fluent_settings_24_filled]="!item.isExpanded"
+                                [class.icon-ic_fluent_dismiss_16_regular]="item.isExpanded"></i>
+                            </a>
+                            <a href="#" 
+     class="button-subtle button-icon-only text-accent-default"
+     (click)="confirmDelete(item.id, $event)">
+    <i class="icon-size-24 icon icon-ic_fluent_info_24_filled"></i>
+  </a>
+                          </td>
+                        </tr>
+                      </tbody>
+                      
                 </table>
             </div>
         </div>
