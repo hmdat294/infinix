@@ -2,24 +2,24 @@
     <div class="layout-vertical h-fill pb-10" style="min-width: 200px;">
         <div class="h-fill">
             <div class="nav layout-vertical gap-10">
-                <a type="button" class="button-subtle button-text-with-icon text-left" [routerLink]="['/admin']"><i
+                <a type="button" class="button-subtle button-text-with-icon text-left w-fill" [routerLink]="['/admin']"><i
                         class="ms-15 accent-text-tertiary icon-size-24 icon icon-ic_fluent_home_24_regular"></i>Dashboard</a>
-                <a type="button" class="button-subtle button-text-with-icon text-left"[routerLink]="['/admin/user']"><i
+                <a type="button" class="button-subtle button-text-with-icon text-left w-fill"[routerLink]="['/admin/user']"><i
                         class="ms-15 accent-text-tertiary icon-size-24 icon icon-ic_fluent_person_24_regular"></i>User</a>
-                <button type="button" class="button-subtle button-text-with-icon text-left"><i
+                <button type="button" class="button-subtle button-text-with-icon text-left w-fill"><i
                         class="ms-15 accent-text-tertiary icon-size-24 icon icon-ic_fluent_content_view_28_regular"></i>Content</button>
-                <a type="button" class="button-subtle button-text-with-icon text-left"[routerLink]="['/admin/report']"><i
+                <a type="button" class="button-subtle button-text-with-icon text-left w-fill"[routerLink]="['/admin/report']"><i
                         class="ms-15 accent-text-tertiary icon-size-24 icon icon-ic_fluent_chat_warning_24_regular"></i>Report</a>
-                <button type="button" class="button-subtle button-text-with-icon text-left"><i
+                <button type="button" class="button-subtle button-text-with-icon text-left w-fill"><i
                         class="ms-15 accent-text-tertiary icon-size-24 icon icon-ic_fluent_calendar_48_regular"></i>Event</button>
             </div>
         </div>
         <div class="h-hug layout-vertical gap-10">
-            <button type="button" class="button-subtle button-text-with-icon text-left" [routerLink]="['/']">
+            <button type="button" class="button-subtle button-text-with-icon w-fill text-left" [routerLink]="['/']">
                 <i class="ms-15 accent-text-tertiary icon-size-24 icon icon-ic_fluent_home_24_regular"></i>
                 Home
             </button>
-            <button type="button" class="button-subtle button-text-with-icon text-left" (click)="logout();">
+            <button type="button" class="button-subtle button-text-with-icon w-fill text-left" (click)="logout();">
                 <i class="ms-15 accent-text-tertiary icon-size-24 icon icon-ic_fluent_door_arrow_left_24_regular"></i>
                 Logout
             </button>

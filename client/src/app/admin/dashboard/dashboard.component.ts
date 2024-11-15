@@ -14,6 +14,8 @@ export class DashboardComponent implements OnInit {
   totalUsers: number = 0;
   totalPosts: number = 0;
   totalReports: number = 0;
+  totalConversations: number = 0;
+  
   listUser: any;
   Conversations_Growth: any;
   User_Growth: any[] = []; // Khởi tạo mảng rỗng cho User_Growth
@@ -61,6 +63,15 @@ export class DashboardComponent implements OnInit {
       (response) => {
         this.totalReport = response.data;
         console.log(this.totalReport);
+      },
+      (error) => {
+        console.error('Lỗi khi gọi API:', error);
+      }
+    );
+    this.adminService.getTotalConversations().subscribe(
+      (response) => {
+        this.totalConversations = response.data;
+        console.log(this.totalConversations);
       },
       (error) => {
         console.error('Lỗi khi gọi API:', error);
