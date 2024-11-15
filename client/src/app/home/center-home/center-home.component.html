@@ -223,7 +223,8 @@
         (click)="setDeleteId(0)">
     </div>
     <div class="dialog-panel position-absolute top-50 start-50 translate-middle" style="z-index: 2;">
-        <div class="layout-vertical p-20 gap-20 rounded-8 acrylic-background-default blur-acrylic border border-card-default w-hug h-hug">
+        <div
+            class="layout-vertical p-20 gap-20 rounded-8 acrylic-background-default blur-acrylic border border-card-default w-hug h-hug">
 
             <div class="pb-20 pt-5 border-bottom">
                 <p class="text-subtitle text-primary text-center">Xóa bài viết</p>
@@ -860,7 +861,8 @@
                 <img class="w-fill object-fit-cover rounded-top-6" [src]="user?.profile.profile_photo" alt=""
                     style="height: 125px;">
                 <div class="layout-vertical align-center-center w-fill gap-15 p-10">
-                    <p class="text-body-strong text-primary">{{user?.profile.display_name}}</p>
+                    <a [routerLink]="['/friend-profile', user?.id]"
+                        class="text-body-strong text-primary">{{user?.profile.display_name}}</a>
                     <button *ngIf="!user?.is_friend && !user?.is_sent_friend_request" type="button"
                         class="button-accent button-text-only" (click)="addFriend(user?.id)">Thêm bạn bè
                     </button>

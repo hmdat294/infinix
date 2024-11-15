@@ -1,0 +1,90 @@
+<div class="w-fill h-fill layout-vertical gap-20 overflow-scroll-vertical">
+
+    <div class="layout-vertical w-fill gap-20 mb-20">
+
+        <div class="layout-vertical w-fill gap-5">
+            <p class="text-body-strong text-primary">Cửa hàng</p>
+
+            <div class="border border-card-default card-background-default rounded-4">
+                <div class="layout-horizontal gap-15 p-15 align-center-center">
+                    <i class="icon-size-20 icon text-primary icon-ic_fluent_cart_20_regular"></i>
+                    <div class="layout-vertical w-fill">
+                        <p class="text-body text-primary">Gian hàng của bạn</p>
+                    </div>
+                    <button type="button" class="button-standard button-icon-only">
+                        Bật
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="layout-vertical w-fill gap-5">
+            <p class="text-body-strong text-primary">Danh sách danh mục</p>
+
+            <div class="border border-card-default card-background-default rounded-4">
+                <div class="layout-horizontal gap-15 p-15 align-center-right">
+                    <button type="button" class="button-accent button-icon-only">
+                        Thêm
+                    </button>
+                </div>
+                <table class="text-primary w-fill" border>
+                    <tr>
+                        <th>STT</th>
+                        <th>Tên</th>
+                        <th>#</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td class="text-body-strong">{{shortenTextByWords('Quần short nam Choice HT15 chất cotton Basic thể thao phong cách Hàn Quốc', 10)}}</td>
+                        <td>
+                            <button type="button" class="button-standard button-icon-only">
+                                <i class="icon-size-16 icon icon-ic_fluent_edit_16_filled"></i>
+                            </button>
+                            <button type="button" class="button-standard button-icon-only">
+                                <i class="icon-size-16 icon icon-ic_fluent_delete_16_filled"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="layout-vertical w-fill gap-5">
+            <p class="text-body-strong text-primary">Danh sách sản phẩm</p>
+
+            <div class="border border-card-default card-background-default rounded-4">
+                <div class="layout-horizontal gap-15 p-15 align-center-right">
+                    <button type="button" class="button-accent button-icon-only">
+                        Thêm
+                    </button>
+                </div>
+                <table class="text-primary w-fill" border>
+                    <tr>
+                        <th>STT</th>
+                        <th>Hình ảnh</th>
+                        <th>Tên</th>
+                        <th>Số lượng</th>
+                        <th>Giá</th>
+                        <th>#</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td><img src="assets/image/hinh.jpg" alt="" style="height: 50px; width: 50px;"
+                                class="object-fit-cover rounded-4"></td>
+                        <td class="text-body-strong">{{shortenTextByWords('Quần short nam Choice HT15 chất cotton Basic thể thao phong cách Hàn Quốc', 10)}}</td>
+                        <td class="text-body">1</td>
+                        <td class="text-body">{{ 5000000 | currencyVND }}</td>
+                        <td>
+                            <button type="button" class="button-standard button-icon-only">
+                                <i class="icon-size-16 icon icon-ic_fluent_edit_16_filled"></i>
+                            </button>
+                            <button type="button" class="button-standard button-icon-only">
+                                <i class="icon-size-16 icon icon-ic_fluent_delete_16_filled"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
