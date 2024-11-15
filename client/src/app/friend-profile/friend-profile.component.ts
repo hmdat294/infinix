@@ -9,19 +9,27 @@ import { EventService } from '../service/event.service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ChatService } from '../service/chat.service';
 import { MiniChatComponent } from '../mini-chat/mini-chat.component';
+import { DomSanitizer } from '@angular/platform-browser';
+import { QuillModule } from 'ngx-quill';
+import { PickerComponent } from '@ctrl/ngx-emoji-mart';
+import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 
 @Component({
   selector: 'app-friend-profile',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule],
+  imports: [FormsModule, CommonModule, RouterModule, EmojiModule, PickerComponent, QuillModule],
   templateUrl: './friend-profile.component.html',
   styleUrl: './friend-profile.component.css'
 })
 export class FriendProfileComponent implements OnInit {
 
+  contentUpdate: string = '';
+  selectedFilesUpdatePost: File[] = [];
   selectedFilesComment: File[] = [];
+  previewUpdatePostImages: string[] = [];
   previewCommentImages: string[] = [];
   listPost: any[] = [];
+  fileUpdatePost: any;
   fileComment: any;
   showPoll: boolean = false;
   poll_input: any[] = [];
@@ -38,6 +46,7 @@ export class FriendProfileComponent implements OnInit {
   friendOfFriend: any;
   friendOfFriendLimit: any;
   showMoreFriend: boolean = false;
+  contentCommentInput: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -48,6 +57,7 @@ export class FriendProfileComponent implements OnInit {
     private authService: AuthService,
     private chatService: ChatService,
     private router: Router,
+    private sanitizer: DomSanitizer
   ) { }
 
   ngOnInit(): void {
@@ -75,15 +85,10 @@ export class FriendProfileComponent implements OnInit {
 
             this.authService.getFriendOfFriend(this.user.id).subscribe(
               (response) => {
-                console.log(response);
+                // console.log(response);
                 this.friendOfFriend = response.data;
                 this.friendOfFriendLimit = response.data.slice(0, 9);
               });
-
-            this.eventService.bindEvent('App\\Events\\FriendRequestEvent', (data: any) => {
-              console.log('Friend request event:', data);
-            });
-
           });
 
         this.postService.getPostByUser(user_id).subscribe(
@@ -98,6 +103,10 @@ export class FriendProfileComponent implements OnInit {
             this.eventService.bindEvent('App\\Events\\UserPostEvent', (data: any) => {
               console.log('Post event:', data);
               this.listPost.unshift(data.data);
+            });
+
+            this.eventService.bindEvent('App\\Events\\FriendRequestEvent', (data: any) => {
+              console.log('Friend request event:', data);
             });
           });
 
@@ -139,7 +148,6 @@ export class FriendProfileComponent implements OnInit {
       });
   }
 
-  @ViewChild('commentInput') commentInput!: ElementRef;
   @ViewChildren('carouselInner') carouselInners!: QueryList<ElementRef<HTMLDivElement>>;
   @ViewChildren('nextButton') nextButtons!: QueryList<ElementRef<HTMLButtonElement>>;
   @ViewChildren('prevButton') prevButtons!: QueryList<ElementRef<HTMLButtonElement>>;
@@ -147,6 +155,10 @@ export class FriendProfileComponent implements OnInit {
 
   ngAfterViewInit(): void {
     this.initCarousels();
+  }
+
+  changeHtmlContent(content: string) {
+    return this.sanitizer.bypassSecurityTrustHtml(content);
   }
 
   initCarousels(): void {
@@ -177,6 +189,8 @@ export class FriendProfileComponent implements OnInit {
         (response) => {
 
           this.commentByPostId[post_id] = response.data;
+          console.log(this.commentByPostId[post_id]);
+
           this.goSlide(post_id, slideIndex)
 
           this.eventService.bindEventPost('App\\Events\\UserCommentPostEvent', (data: any) => {
@@ -197,10 +211,145 @@ export class FriendProfileComponent implements OnInit {
     this.initCarousels();
   }
 
+
+  deletePost(post_id: number) {
+    this.postService.deletePost(post_id).subscribe(
+      (response) => {
+        console.log(response);
+      }
+    );
+  }
+
+  updatePost(value: any) {
+    const urlImg = this.previewUpdatePostImages.filter(url => url.startsWith("http"));
+
+    if (value.contentUpdate && !this.spaceCheck.test(value.contentUpdate)) {
+      const formData = new FormData();
+      formData.append('content', value.contentUpdate);
+
+      if (this.selectedFilesUpdatePost.length > 0)
+        this.selectedFilesUpdatePost.forEach(image => formData.append('medias[]', image, image.name));
+
+      if (urlImg.length > 0)
+        urlImg.forEach(imagePath => formData.append('urls[]', imagePath));
+
+      this.postService.updatePost(this.postUpdateId, formData).subscribe(
+        (response) => {
+          console.log(response);
+          this.showDiaLogUpdatePost(null);
+        },
+        (error) => {
+          console.error("Error updating post:", error);
+        }
+      );
+    }
+  }
+
+
+  postUpdateId: number = 0;
+
+  showDiaLogUpdatePost(post: any) {
+    if (post == null) {
+      this.postUpdateId = 0;
+      this.onCancelUpdatePostImg();
+    }
+    else {
+      this.postUpdateId = post.id;
+      this.previewUpdatePostImages = post.medias.map((media: any) => media.path);
+      this.contentUpdate = post.content;
+    }
+  }
+
+  onFileUpdatePostSelected(event: any) {
+
+    const files: File[] = Array.from(event.target.files);
+    // console.log(files);
+    if (files && files.length > 0) {
+      files.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = e => this.previewUpdatePostImages.push(reader.result as string);
+        reader.readAsDataURL(file);
+        this.selectedFilesUpdatePost.push(file);
+      });
+    }
+  }
+
+  removeUpdatePostImage(index: number): void {
+    this.previewUpdatePostImages.splice(index, 1);
+    this.selectedFilesUpdatePost.splice(index, 1);
+  }
+
+  onCancelUpdatePostImg() {
+    this.contentUpdate = '';
+    this.selectedFilesUpdatePost = [];
+    this.previewUpdatePostImages = [];
+    if (this.fileUpdatePost) this.fileUpdatePost.nativeElement.value = '';
+  }
+
+
+  showEmojiPickerUpdate: boolean = false;
+
+  toggleEmojiPickerUpdate() {
+    this.showEmojiPickerUpdate = !this.showEmojiPickerUpdate;
+  }
+
+  addEmojiUpdate(event: any) {
+    this.contentUpdate += event.emoji.native;
+  }
+
+
+  editorModules = {
+    toolbar: [
+      [{ 'header': [1, 2, false] }],
+      ['bold', 'italic', 'underline', 'strike'],
+      [{ 'color': [] }, { 'background': [] }],
+      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+      [{ 'script': 'sub' }, { 'script': 'super' }],
+      [{ 'indent': '-1' }, { 'indent': '+1' }],
+      [{ 'direction': 'rtl' }],
+      [{ 'align': [] }],
+      ['clean'],
+      // ['link', 'image', 'video']
+    ]
+  };
+
+  vietnameseI18n: any = {
+    search: 'Tìm kiếm',
+    categories: {
+      search: 'Kết quả tìm kiếm',
+      recent: 'Gần đây',
+      people: 'Mọi người',
+      nature: 'Thiên nhiên',
+      foods: 'Đồ ăn & Uống',
+      activity: 'Hoạt động',
+      places: 'Địa điểm',
+      objects: 'Đồ vật',
+      symbols: 'Biểu tượng',
+      flags: 'Cờ',
+    },
+    skinTones: {
+      1: 'Màu da mặc định',
+      2: 'Màu da sáng',
+      3: 'Màu da trung bình sáng',
+      4: 'Màu da trung bình',
+      5: 'Màu da trung bình tối',
+      6: 'Màu da tối',
+    },
+  };
+
+
   addFriend(receiver_id: number): void {
     this.authService.addFriend(receiver_id).subscribe(
       (response) => {
         console.log(response);
+
+        if (this.user.id == receiver_id) {
+          this.user.is_sent_friend_request = !this.user.is_sent_friend_request;
+        }
+        else {
+          const friendfriend = this.friendOfFriend.find((item: any) => item.id === receiver_id);
+          friendfriend.is_sent_friend_request = !friendfriend.is_sent_friend_request;
+        }
       });
   }
 
@@ -236,9 +385,12 @@ export class FriendProfileComponent implements OnInit {
   }
 
   postComment(value: any) {
+    console.log(value);
+
     const formData = new FormData();
     formData.append('content', value.content);
     formData.append('post_id', value.post_id);
+    formData.append('user_id', value.user_id);
 
     if (this.selectedFilesComment.length > 0)
       formData.append('media', this.selectedFilesComment[0], this.selectedFilesComment[0].name);
@@ -246,7 +398,7 @@ export class FriendProfileComponent implements OnInit {
     this.postService.postComment(formData).subscribe(
       (response) => {
         console.log(response);
-        this.commentInput.nativeElement.value = '';
+        this.contentCommentInput = '';
         this.removeCommentImage();
       }
     )
@@ -264,6 +416,18 @@ export class FriendProfileComponent implements OnInit {
       }
     )
   }
+
+  //like comment
+  likeComment(comment_id: number, post_id: number) {
+    this.postService.postLikeComment(comment_id).subscribe(
+      (response: any) => {
+        console.log(response);
+        const comment = this.commentByPostId[post_id].find((item: any) => item.id == comment_id);
+        comment.liked = !comment.liked;
+        (response.type == 'like') ? comment.like_count++ : comment.like_count--;
+      })
+  }
+  //like comment
 
   //bookmark
 
@@ -393,7 +557,7 @@ export class FriendProfileComponent implements OnInit {
     else this.valueReport = this.valueReport.filter(value => value !== checkboxValue);
   }
 
-  listIdPostReport: number[] = [];
+  listIdReport: any[] = [];
 
   postReport(value: any): any {
 
@@ -407,14 +571,16 @@ export class FriendProfileComponent implements OnInit {
 
     content = content.charAt(0).toUpperCase() + content.slice(1).toLowerCase() + '.';
 
-    const valuePost: any = this.diaLogReport;
-    valuePost.content = content;
+    const postReport: any = this.diaLogReport;
+    postReport.content = content;
 
-    this.postService.postReport(valuePost).subscribe(
+    this.postService.postReport(postReport).subscribe(
       (response: any) => {
         console.log(response);
 
-        this.listIdPostReport.push(response.data.post_id);
+        if (response.data.type == 'post') {
+          this.listIdReport.push({ id: response.data.id, post_id: response.data.post_id });
+        }
 
         this.messageReport =
           `<p class="validation-message validation-sucess text-body text-primary pt-15 px-20">
@@ -426,14 +592,17 @@ export class FriendProfileComponent implements OnInit {
   }
 
   cancelReport(post_id: number) {
-    this.postService.cancelReport(post_id).subscribe(
+    const report = this.listIdReport.find((item: any) => item.post_id === post_id);
+    this.postService.cancelReport(report.id).subscribe(
       (response: any) => {
-        console.log(response);
-        this.listIdPostReport = this.listIdPostReport.filter((id: number) => id !== post_id);
-      }
-    )
+        this.listIdReport = this.listIdReport.filter((id: any) => id.id !== report.id);
+        console.log(this.listIdReport);
+      });
   }
 
+  isPostIdExist(post_id: number): boolean {
+    return this.listIdReport.some((item: any) => item.post_id === post_id);
+  }
   //report
 
   //block
@@ -442,6 +611,17 @@ export class FriendProfileComponent implements OnInit {
     this.authService.postUserBlock(user_id).subscribe(
       (response: any) => {
         console.log(response);
+
+        if (this.user.id == user_id) {
+          this.user.blocked_user = !this.user.blocked_user;
+        }
+
+        this.chatService.getMessageUser(user_id).subscribe(
+          (response: any) => {
+            this.conversation = this.conversation.filter(id => id !== response.data.id);
+            this.chatService.updateConversation(this.conversation);
+            this.chatService.tagOpenBoxChat = false;
+          });
       });
   }
 

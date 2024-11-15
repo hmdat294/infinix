@@ -12,6 +12,8 @@ use App\Events\UserConnectionEvent;
 use App\Http\Resources\PostResource;
 use Illuminate\Support\Facades\Log;
 use App\Http\Resources\ReportResource;
+use App\Events\UserBlockUserEvent;
+use App\Models\BlockedUser;
 
 class UserController extends Controller
 {
@@ -144,9 +146,14 @@ class UserController extends Controller
         $user = UserModel::find($user_id);
 
         if ($request->user()->blockings->contains($user)) {
-            $request->user()->blockings()->detach($user);
+            BlockedUser::where('blocker_id', $request->user()->id)->where('blocked_id', $user->id)->delete();
+            event(new UserBlockUserEvent($request->user(), $user, 'unblock'));
         } else {
-            $request->user()->blockings()->attach($user);
+            BlockedUser::create([
+                'blocker_id' => $request->user()->id,
+                'blocked_id' => $user->id,
+            ]);
+            event(new UserBlockUserEvent($request->user(), $user, 'block'));
         }
         return new UserResource($user);
     }
@@ -201,10 +208,24 @@ class UserController extends Controller
             ->whereNotIn('id', $blocking_user_ids)
             ->whereNotIn('id', $blocked_by_user_ids)
             ->whereNotIn('id', $reporting_user_ids);
+
+        $more_friends = null;
+
+        // if size < 5, get more 5 random friends who are not in the list and not is friend of user
+        if ($friend_suggestions->count() < 10) {
+            $more_friends = UserModel::
+                whereNotIn('id', $friends->pluck('id'))
+                ->whereNotIn('id', $friend_suggestions->pluck('id'))
+                ->where('id', '<>', $user->id)
+                ->inRandomOrder()
+                ->limit(10 - $friend_suggestions->count())
+                ->get();
+        }
         
             
+        $friend_suggestions = $friend_suggestions->get()->concat($more_friends);
         Log::info("friend_suggestions: " . $friend_suggestions->pluck('id'));
-        return UserResource::collection($friend_suggestions->get());
+        return UserResource::collection($friend_suggestions);
 
 
 

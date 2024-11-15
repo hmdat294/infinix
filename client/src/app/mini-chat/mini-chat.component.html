@@ -22,9 +22,10 @@
             style="border-radius: 999px !important; width: 50px !important; height: 50px !important;">
             <i class="icon-size-20 icon icon-ic_fluent_comment_edit_20_filled"></i>
         </button>
-        <p class="position-absolute rounded-circle top-0 end-0 text-on-accent-primary layout align-center-center"
+        <p class="position-absolute rounded-circle top-0 end-0 text-on-accent-primary text-caption layout align-center-center"
             style="background-color: #C42B1C; width: 20px; height: 20px;" *ngIf="!showChat && conversation.length > 0">
-            {{conversation.length}}</p>
+            <span style="margin-top: -2px;">{{conversation.length}}</span>
+        </p>
 
     </div>
 </div>
@@ -63,19 +64,33 @@
             <i class="icon-size-16 text-accent-default icon icon-ic_fluent_dismiss_16_filled"></i>
         </button>
     </div>
-    <div
-        class="h-fill w-fill overflow-scroll-vertical gap-20 layout-vertical solid-background-tertiary position-relative">
+    <div class="h-fill w-fill overflow-scroll-vertical layout-vertical solid-background-tertiary position-relative">
 
+        <div class="border_bottom w-fill" *ngIf="chat.is_group==0 && !chat.users[0].is_friend">
+            <div class="layout-horizontal align-center-space-between gap-10 p-10 border-bottom">
+                <div class="layout-horizontal align-center-left gap-15 text-left w-fill p-10 text-primary">
+                    <i class="icon-size-20 text-accent-default icon icon-ic_fluent_person_add_20_regular"></i>
+                    <p class="layout-vertical">
+                        <span class="text-body text-primary">Chưa phải là bạn, gửi yêu cầu kết bạn</span>
+                    </p>
+                </div>
+                <button *ngIf="!chat.users[0].is_sent_friend_request" type="button"
+                    class="button-accent button-text-only me-10" (click)="addFriend(chat.users[0].id)">Thêm bạn bè
+                </button>
+                <button *ngIf="chat.users[0].is_sent_friend_request" type="button"
+                    class="button-standard button-text-only me-10" (click)="cancelRequest(chat.users[0].id)">Hủy yêu cầu
+                </button>
+            </div>
+        </div>
 
-        <div class="border_bottom w-fill position-absolute card-background-tertiary" style="top: 0px; z-index: 5;"
-            *ngIf="morePin && chat.pinned_messages.length > 0">
+        <div class="border_bottom w-fill" *ngIf="morePin && chat.pinned_messages.length > 0">
             <div *ngFor="let msg_pin of chat.pinned_messages"
                 class="layout-horizontal align-center-space-between gap-10 px-10 py-5 border-bottom">
                 <button class="button-subtle text-left w-fill px-10 py-5" (click)="scrollToElement(msg_pin.id)">
                     <!-- <i class="icon-size-24 icon icon-ic_fluent_pin_24_filled"></i> -->
                     <p class="layout-vertical">
                         <span class="text-body-strong text-primary">Tin nhắn</span>
-                        <span class="text-body text-secondary">{{msg_pin.content}}</span>
+                        <span class="text-body text-secondary">{{shortenTextByWords(msg_pin.content, 15)}}</span>
                     </p>
                 </button>
                 <button type="button" class="button-subtle button-icon-only me-10" (click)="pinMessage(msg_pin.id)">
@@ -88,15 +103,14 @@
             </div>
         </div>
 
-        <div class="border_bottom w-fill position-absolute card-background-tertiary" style="top: 0px; z-index: 5;"
-            *ngIf="!morePin && chat.pinned_messages.length > 0">
+        <div class="border_bottom w-fill" *ngIf="!morePin && chat.pinned_messages.length > 0">
             <div class="layout-horizontal align-center-space-between gap-10 px-10 py-5 border-bottom">
                 <div class="layout-horizontal align-center-left gap-15 text-left w-fill px-10 py-5 text-primary">
                     <i class="icon-size-20 icon icon-ic_fluent_pin_20_regular"></i>
                     <p class="layout-vertical">
                         <span class="text-body-strong text-primary">Tin nhắn</span>
                         <span class="text-body text-secondary">
-                            {{chat.pinned_messages[chat.pinned_messages.length-1].content}}
+                            {{shortenTextByWords(chat.pinned_messages[chat.pinned_messages.length-1].content, 5)}}
                         </span>
                     </p>
                 </div>
@@ -151,7 +165,7 @@
         </div>
 
 
-        <div #scrollBox class="h-fill w-fill box-chat gap-20 layout-vertical" style="padding-bottom: 100px;">
+        <div #scrollBox class="h-fill w-fill box-chat gap-20 layout-vertical">
 
             <div *ngFor="let msg of chat?.messages; let i = index;" [attr.id]="'item-' + msg.id">
 
@@ -170,13 +184,28 @@
                             </div>
                             <div>
 
-                                <div class="w-fill layout align-top-right" *ngIf="(user?.id == msg.user_id)"
+                                <div class="w-fill layout align-top-right" *ngIf="(user.id == msg.user_id)"
                                     style="max-height: 65vh;" class="overflow-scroll-vertical">
                                     <div class="layout-horizontal gap-15 p-5 align-top-right">
-                                        <div style="max-width: calc(100% - 100px);">
-                                            <p class="text-tertiary text-caption mb-5 layout align-top-right">
-                                                {{msg.created_at_time}} - {{msg.updated_at_date}}
-                                            </p>
+                                        <div>
+                                            <div
+                                                class="w-fill layout-horizontal align-center-space-between mb-5 gap-10">
+                                                <p class="text-tertiary text-caption">
+                                                    {{msg.created_at_time}} - {{msg.created_at_date}}
+                                                </p>
+                                                <p class="text-primary text-body">
+                                                    {{msg.user.profile.display_name}}
+                                                </p>
+                                            </div>
+                                            <div *ngIf="msg.link"
+                                                class="layout-horizontal gap-10 align-center-right text-primary">
+                                                <i class="icon-size-16 icon icon-ic_fluent_arrow_forward_16_filled"></i>
+                                                <p class="text-body-strong text-primary">
+                                                    {{msg.user.profile.display_name}}
+                                                    <span class="text-body text-secondary">đã chia sẻ bài đăng
+                                                        này</span>
+                                                </p>
+                                            </div>
                                             <div class="layout align-center-right" *ngIf="msg.is_recalled == 0">
 
                                                 <div>
@@ -212,9 +241,9 @@
                                                             *ngIf="msg.medias.length>0">
                                                             <div
                                                                 class="w-fill h-fill {{(msg.medias.length<6)?'layout-3-'+msg.medias.length:(msg.medias.length%2==0)?'layout-3-6':'layout-3-5'}}">
-                                                                <div class="w-fill h-fill rounded-4"
+                                                                <div class="w-fill h-fill  border border-card-default rounded-4 overflow-hidden"
                                                                     *ngFor="let img of msg.medias">
-                                                                    <img class="w-fill object-fit-cover object-position-center rounded-4"
+                                                                    <img class="w-fill object-fit-cover object-position-center"
                                                                         [src]="getPathImg(img)" alt="Image">
                                                                 </div>
                                                             </div>
@@ -235,23 +264,37 @@
                                             </div>
                                         </div>
 
-                                        <img [src]="msg.user?.profile.profile_photo"
+                                        <img [src]="msg.user.profile.profile_photo"
                                             class="rounded-circle border border-card-default object-fit-cover" alt=""
                                             style="width: 35px; height: 35px;">
                                     </div>
                                 </div>
 
-                                <div class="w-fill layout align-top-left" *ngIf="(user?.id != msg.user_id)">
+                                <div class="w-fill layout align-top-left" *ngIf="(user.id != msg.user_id)">
                                     <div class="layout-horizontal gap-15 p-5">
-                                        <img [src]="msg.user?.profile.profile_photo"
+                                        <img [src]="msg.user.profile.profile_photo"
                                             class="rounded-circle border border-card-default object-fit-cover" alt=""
                                             style="width: 35px; height: 35px;">
                                         <div>
-                                            <p class="text-tertiary text-caption mb-5 layout align-top-left">
-                                                {{msg.created_at_time}} - {{msg.updated_at_date}}
-                                            </p>
-                                            <div class="mess-hover layout align-center-left"
-                                                *ngIf="msg.is_recalled == 0">
+                                            <div
+                                                class="w-fill layout-horizontal align-center-space-between mb-5 gap-10">
+                                                <p class="text-primary text-body">
+                                                    {{msg.user.profile.display_name}}
+                                                </p>
+                                                <p class="text-tertiary text-caption">
+                                                    {{msg.created_at_time}} - {{msg.created_at_date}}
+                                                </p>
+                                            </div>
+                                            <div *ngIf="msg.link"
+                                                class="layout-horizontal gap-10 align-center-right text-primary">
+                                                <i class="icon-size-16 icon icon-ic_fluent_arrow_forward_16_filled"></i>
+                                                <p class="text-body-strong text-primary">
+                                                    {{msg.user.profile.display_name}}
+                                                    <span class="text-body text-secondary">đã chia sẻ bài đăng
+                                                        này</span>
+                                                </p>
+                                            </div>
+                                            <div class="layout align-center-left" *ngIf="msg.is_recalled == 0">
                                                 <div>
                                                     <div>
                                                         <div *ngIf="msg.reply_to_message_id">
@@ -284,9 +327,9 @@
                                                         <div class="layout w-fill h-fill" *ngIf="msg.medias.length>0">
                                                             <div style="max-height: 60vh;"
                                                                 class="w-fill h-fill {{(msg.medias.length<6)?'layout-3-'+msg.medias.length:(msg.medias.length%2==0)?'layout-3-6':'layout-3-5'}}">
-                                                                <div class="w-fill h-fill rounded-6 overflow-hidden rounded-4"
+                                                                <div class="w-fill h-fill  border border-card-default rounded-4 overflow-hidden"
                                                                     *ngFor="let img of msg.medias">
-                                                                    <img class="w-fill h-fill object-fit-cover object-position-center rounded-4"
+                                                                    <img class="w-fill h-fill object-fit-cover object-position-center"
                                                                         [src]="getPathImg(img)" alt="Image">
                                                                 </div>
                                                             </div>
@@ -313,8 +356,8 @@
                             <div *ngIf="msg.is_edited == 1" class="border-top pt-10">
 
                                 <p style="font-size: 0.9em;"
-                                    class="text-secondary text-{{(user?.id == msg.user_id)?'right':'left'}}">
-                                    Đã sửa - {{msg.updated_at_date}} - {{msg.updated_at_time}}
+                                    class="text-secondary text-{{(user.id == msg.user_id)?'right':'left'}}">
+                                    Đã sửa - {{msg.updated_at_time}} - {{msg.updated_at_date}}
                                 </p>
 
                             </div>
@@ -329,57 +372,62 @@
                 </div>
 
                 <div class="w-fill layout align-top-right" *ngIf="(user?.id == msg.user_id)">
-                    <div class="layout-horizontal gap-15 p-20">
-                        <div>
+                    <div class="mess-hover layout-horizontal gap-15 p-20">
+                        <div style="position: relative;">
                             <p class="text-primary text-body mb-5 text-right">
                                 {{msg.user.profile.display_name}}
                             </p>
-                            <div class="mess-hover layout align-top-right" *ngIf="msg.is_recalled == 0">
-                                <div style="height: 45px; overflow: visible; z-index: 1;">
-                                    <div
-                                        class="mess-menu layout-vertical mx-15 gap-5 p-5 acrylic-background-default blur-acrylic border border-card-default rounded-8">
-                                        <div class="list-item layout-horizontal gap-10 align-center-left"
-                                            (click)="toggleDialogChat(msg.id)">
-                                            <i
-                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_more_horizontal_20_regular"></i>
-                                        </div>
-                                        <div *ngIf="!checkPined(msg.id)"
-                                            class="list-item layout-horizontal gap-10 align-center-left"
-                                            (click)="checkPinLength(msg.id)">
-                                            <i
-                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_pin_20_regular"></i>
-                                        </div>
-                                        <div *ngIf="checkPined(msg.id)"
-                                            class="list-item layout-horizontal gap-10 align-center-left"
-                                            (click)="pinMessage(msg.id)">
-                                            <i
-                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_pin_off_20_regular"></i>
-                                        </div>
-                                        <div class="list-item layout-horizontal gap-10 align-center-left"
-                                            (click)="copyMessage(msg.content)">
-                                            <i
-                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_copy_20_regular"></i>
-                                        </div>
-                                        <div class="list-item layout-horizontal gap-10 align-center-left"
-                                            (click)="onReply(msg.id)">
-                                            <i
-                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_arrow_reply_20_regular"></i>
-                                        </div>
-                                        <div class="list-item layout-horizontal gap-10 align-center-left"
-                                            (click)="editMessage(msg.id)">
-                                            <i
-                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_edit_20_regular"></i>
-                                        </div>
-                                        <div class="list-item layout-horizontal gap-10 align-center-left"
-                                            (click)="recallMessage(msg.id)">
-                                            <i
-                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_arrow_counterclockwise_20_regular"></i>
-                                        </div>
-
+                            <div *ngIf="msg.link" class="layout-horizontal gap-10 align-center-right text-primary">
+                                <i class="icon-size-16 icon icon-ic_fluent_arrow_forward_16_filled"></i>
+                                <p class="text-body-strong text-primary">
+                                    {{msg.user.profile.display_name}}
+                                    <span class="text-body text-secondary">đã chia sẻ</span>
+                                </p>
+                            </div>
+                            <div class="layout align-top-right" *ngIf="msg.is_recalled == 0">
+                                <div [style]="(i == chat?.messages.length - 1 && i != 0) ? 'bottom: 20px; left: -85px;':'left: -85px;'"
+                                    class="mess-menu layout-vertical mx-15 gap-5 p-5 acrylic-background-default blur-acrylic border border-card-default rounded-8">
+                                    <div class="list-item layout-horizontal gap-10 align-center-left"
+                                        (click)="toggleDialogChat(msg.id)">
+                                        <i
+                                            class="icon-size-20 accent-text-primary icon icon-ic_fluent_more_horizontal_20_regular"></i>
                                     </div>
+                                    <div *ngIf="!checkPined(msg.id)"
+                                        class="list-item layout-horizontal gap-10 align-center-left"
+                                        (click)="checkPinLength(msg.id)">
+                                        <i
+                                            class="icon-size-20 accent-text-primary icon icon-ic_fluent_pin_20_regular"></i>
+                                    </div>
+                                    <div *ngIf="checkPined(msg.id)"
+                                        class="list-item layout-horizontal gap-10 align-center-left"
+                                        (click)="pinMessage(msg.id)">
+                                        <i
+                                            class="icon-size-20 accent-text-primary icon icon-ic_fluent_pin_off_20_regular"></i>
+                                    </div>
+                                    <div class="list-item layout-horizontal gap-10 align-center-left"
+                                        (click)="copyMessage(msg.content)">
+                                        <i
+                                            class="icon-size-20 accent-text-primary icon icon-ic_fluent_copy_20_regular"></i>
+                                    </div>
+                                    <div class="list-item layout-horizontal gap-10 align-center-left"
+                                        (click)="onReply(msg.id)">
+                                        <i
+                                            class="icon-size-20 accent-text-primary icon icon-ic_fluent_arrow_reply_20_regular"></i>
+                                    </div>
+                                    <div class="list-item layout-horizontal gap-10 align-center-left"
+                                        (click)="editMessage(msg.id)">
+                                        <i
+                                            class="icon-size-20 accent-text-primary icon icon-ic_fluent_edit_20_regular"></i>
+                                    </div>
+                                    <div class="list-item layout-horizontal gap-10 align-center-left"
+                                        (click)="recallMessage(msg.id)">
+                                        <i
+                                            class="icon-size-20 accent-text-primary icon icon-ic_fluent_arrow_counterclockwise_20_regular"></i>
+                                    </div>
+
                                 </div>
                                 <div>
-                                    <div style="max-width: 350px;">
+                                    <div style="max-width: 220px;">
                                         <div *ngIf="msg.reply_to_message_id">
                                             <div *ngIf="getReply(msg.reply_to_message_id).is_recalled == 0"
                                                 style="border-right: 3px solid var(--accent-default);">
@@ -406,8 +454,9 @@
                                             </div>
                                         </div>
 
-                                        <div [class]="(msg.link) ? 'layout-horizontal gap-20' : ''">
-                                            <div class="layout w-fill gradient-background p-10 rounded-top-8"
+                                        <div [class]="(msg.link) ? 'layout-horizontal gradient-background' : ''"
+                                            class="rounded-8 overflow-hidden">
+                                            <div class="layout align-center-center w-fill gradient-background p-10"
                                                 *ngIf="msg.medias.length>0">
                                                 <div style="max-width: 500px;"
                                                     class="w-fill {{(msg.medias.length<6)?'layout-'+msg.medias.length:(msg.medias.length%2==0)?'layout-6':'layout-5'}}">
@@ -422,25 +471,25 @@
 
                                             <div>
                                                 <a *ngIf="msg.link" [routerLink]="[ msg.link ]"
-                                                    style="white-space: pre-line;"
-                                                    class="display-block text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
+                                                    style="white-space: pre-line; width: 150px;"
+                                                    class="display-block text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10">
                                                     {{ msg.content }}
                                                 </a>
                                                 <p *ngIf="!msg.link" style="white-space: pre-line;"
-                                                    class="display-block text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
+                                                    class="display-block text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10">
                                                     {{ msg.content }}
                                                 </p>
 
-                                                <div class="text-tertiary text-caption layout-horizontal align-center-space-between mt-5"
-                                                    style="font-size: 0.9em;">
-                                                    <p class="text-left w-fill">
-                                                        {{ msg.created_at_time }}
-                                                    </p>
-                                                    <p *ngIf="msg.is_edited == 1" class="text-right w-fill">
-                                                        Đã sửa
-                                                    </p>
-                                                </div>
                                             </div>
+                                        </div>
+                                        <div class="text-tertiary text-caption layout-horizontal align-center-space-between mt-5"
+                                            style="font-size: 0.9em;">
+                                            <p class="text-left w-fill">
+                                                {{ msg.created_at_time }}
+                                            </p>
+                                            <p *ngIf="msg.is_edited == 1" class="text-right w-fill">
+                                                Đã sửa
+                                            </p>
                                         </div>
                                     </div>
 
@@ -462,7 +511,7 @@
                             </div>
                         </div>
 
-                        <img [src]="msg.user?.profile.profile_photo"
+                        <img [src]="msg.user.profile.profile_photo"
                             class="rounded-circle border border-card-default object-fit-cover" alt=""
                             style="width: 35px; height: 35px;">
 
@@ -470,17 +519,25 @@
                 </div>
 
                 <div class="w-fill layout align-top-left" *ngIf="(user?.id != msg.user_id)">
-                    <div class="layout-horizontal gap-15 p-20">
-                        <img [src]="msg.user?.profile.profile_photo"
+                    <div class="mess-hover layout-horizontal gap-15 p-20">
+                        <img [src]="msg.user.profile.profile_photo"
                             class="rounded-circle border border-card-default object-fit-cover" alt=""
                             style="width: 35px; height: 35px;">
-                        <div>
+
+                        <div style="position: relative;">
                             <p class="text-primary text-body mb-5 text-left">
                                 {{msg.user.profile.display_name}}
                             </p>
-                            <div class="mess-hover layout align-top-left" *ngIf="msg.is_recalled == 0">
+                            <div *ngIf="msg.link" class="layout-horizontal gap-10 align-center-right text-primary">
+                                <i class="icon-size-16 icon icon-ic_fluent_arrow_forward_16_filled"></i>
+                                <p class="text-body-strong text-primary">
+                                    {{msg.user.profile.display_name}}
+                                    <span class="text-body text-secondary">đã chia sẻ</span>
+                                </p>
+                            </div>
+                            <div class="layout align-top-left" *ngIf="msg.is_recalled == 0">
                                 <div>
-                                    <div style="max-width: 350px;">
+                                    <div style="max-width: 220px;">
                                         <div *ngIf="msg.reply_to_message_id">
                                             <div *ngIf="getReply(msg.reply_to_message_id).is_recalled == 0"
                                                 style="border-left: 3px solid var(--control-strong-stroke-default);">
@@ -507,9 +564,9 @@
                                             </div>
                                         </div>
 
-                                        <div [class]="(msg.link) ? 'layout-horizontal gap-20' : ''">
-
-                                            <div class="layout w-fill gradient-background p-10 rounded-top-8"
+                                        <div [class]="(msg.link) ? 'layout-horizontal gradient-background' : ''"
+                                            class="rounded-8 overflow-hidden">
+                                            <div class="layout align-center-center w-fill gradient-background p-10"
                                                 *ngIf="msg.medias.length>0">
                                                 <div style="max-width: 500px;"
                                                     class="w-fill {{(msg.medias.length<6)?'layout-'+msg.medias.length:(msg.medias.length%2==0)?'layout-6':'layout-5'}}">
@@ -524,59 +581,57 @@
 
                                             <div>
                                                 <a *ngIf="msg.link" [routerLink]="[ msg.link ]"
-                                                    style="white-space: pre-line;"
-                                                    class="display-block text-wrap card-background-default text-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
+                                                    style="white-space: pre-line; width: 150px;"
+                                                    class="display-block text-wrap card-background-default text-primary border border-card-default px-15 py-10">
                                                     {{ msg.content }}
                                                 </a>
                                                 <p *ngIf="!msg.link" style="white-space: pre-line;"
-                                                    class="display-block text-wrap card-background-default text-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
+                                                    class="display-block text-wrap card-background-default text-primary border border-card-default px-15 py-10">
                                                     {{ msg.content }}
                                                 </p>
 
-                                                <div class="text-tertiary text-caption layout-horizontal align-center-space-between mt-5"
-                                                    style="font-size: 0.9em;">
-                                                    <p *ngIf="msg.is_edited == 1" class="text-left w-fill">
-                                                        Đã sửa
-                                                    </p>
-                                                    <p class="text-right w-fill">
-                                                        {{ msg.created_at_time }}
-                                                    </p>
-                                                </div>
                                             </div>
+                                        </div>
+                                        <div class="text-tertiary text-caption layout-horizontal align-center-space-between mt-5"
+                                            style="font-size: 0.9em;">
+                                            <p *ngIf="msg.is_edited == 1" class="text-left w-fill">
+                                                Đã sửa
+                                            </p>
+                                            <p class="text-right w-fill">
+                                                {{ msg.created_at_time }}
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div style="height: 45px; overflow: visible; z-index: 1;">
-                                    <div
-                                        class="mess-menu mx-15 layout-vertical mx-15 gap-5 p-5 acrylic-background-default blur-acrylic border border-card-default rounded-8">
-                                        <div class="list-item layout-horizontal gap-10 align-center-left"
-                                            (click)="toggleDialogChat(msg.id)">
-                                            <i
-                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_more_horizontal_20_regular"></i>
-                                        </div>
-                                        <div *ngIf="!checkPined(msg.id)"
-                                            class="list-item layout-horizontal gap-10 align-center-left"
-                                            (click)="checkPinLength(msg.id)">
-                                            <i
-                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_pin_20_regular"></i>
-                                        </div>
-                                        <div *ngIf="checkPined(msg.id)"
-                                            class="list-item layout-horizontal gap-10 align-center-left"
-                                            (click)="pinMessage(msg.id)">
-                                            <i
-                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_pin_off_20_regular"></i>
-                                        </div>
-                                        <div class="list-item layout-horizontal gap-10 align-center-left"
-                                            (click)="copyMessage(msg.content)">
-                                            <i
-                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_copy_20_regular"></i>
-                                        </div>
-                                        <div class="list-item layout-horizontal gap-10 align-center-left"
-                                            (click)="onReply(msg.id)">
-                                            <i
-                                                class="icon-size-20 accent-text-primary icon icon-ic_fluent_arrow_reply_20_regular"></i>
-                                        </div>
+                                <div [style]="(i == chat?.messages.length - 1 && i != 0) ? 'bottom: 20px; right: -85px;':'right: -85px;'"
+                                    class="mess-menu mx-15 layout-vertical mx-15 gap-5 p-5 acrylic-background-default blur-acrylic border border-card-default rounded-8">
+                                    <div class="list-item layout-horizontal gap-10 align-center-left"
+                                        (click)="toggleDialogChat(msg.id)">
+                                        <i
+                                            class="icon-size-20 accent-text-primary icon icon-ic_fluent_more_horizontal_20_regular"></i>
+                                    </div>
+                                    <div *ngIf="!checkPined(msg.id)"
+                                        class="list-item layout-horizontal gap-10 align-center-left"
+                                        (click)="checkPinLength(msg.id)">
+                                        <i
+                                            class="icon-size-20 accent-text-primary icon icon-ic_fluent_pin_20_regular"></i>
+                                    </div>
+                                    <div *ngIf="checkPined(msg.id)"
+                                        class="list-item layout-horizontal gap-10 align-center-left"
+                                        (click)="pinMessage(msg.id)">
+                                        <i
+                                            class="icon-size-20 accent-text-primary icon icon-ic_fluent_pin_off_20_regular"></i>
+                                    </div>
+                                    <div class="list-item layout-horizontal gap-10 align-center-left"
+                                        (click)="copyMessage(msg.content)">
+                                        <i
+                                            class="icon-size-20 accent-text-primary icon icon-ic_fluent_copy_20_regular"></i>
+                                    </div>
+                                    <div class="list-item layout-horizontal gap-10 align-center-left"
+                                        (click)="onReply(msg.id)">
+                                        <i
+                                            class="icon-size-20 accent-text-primary icon icon-ic_fluent_arrow_reply_20_regular"></i>
                                     </div>
                                 </div>
                             </div>
@@ -601,68 +656,105 @@
 
 
     </div>
-    <form class="w-fill h-hug layout-vertical p-10 gap-10 border-top border-card-default"
-        (submit)="sendMessage(frm.value)" #frm="ngForm" enctype="multipart/form-data">
+    <emoji-mart *ngIf="showEmojiPicker" [i18n]="vietnameseI18n"
+        [style]="{ position: 'absolute', bottom: '20px', right: '20px', background: '#363636' }"
+        (emojiSelect)="addEmoji($event)"></emoji-mart>
 
-        <div *ngIf="previewReply" class="p-10 position-relative">
-            <div style="border-left: 3px solid #005FB8E6;" class="p-10">
-                <img *ngIf="previewReply.medias.length > 0" src="{{previewReply.medias[0].path}}" alt="Image"
-                    height="40px" class="rounded-4">
-                <span class="text-secondary" style="white-space: pre-line;">
-                    {{previewReply.content}}
-                </span>
-            </div>
-            <button type="button" (click)="onCancelReply()"
-                class="button-subtle button-icon-only position-absolute top-0 end-0 m-5">
-                <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
+
+    <div class="w-fill p-20" *ngIf="chat?.is_group == 0 && chat?.users[0].blocked_by_user">
+        <div class="p-10 card-background-default border border-card-default rounded-8">
+            <p class="text-body text-secondary text-center">Tài khoản này hiện không muốn nhận tin
+                nhắn của
+                bạn!
+            </p>
+        </div>
+    </div>
+
+    <div class="w-fill p-20" *ngIf="chat?.is_group == 0 && chat?.users[0].blocked_user">
+        <div
+            class="p-10 card-background-default border border-card-default rounded-8 layout-horizontal gap-15 align-center-center">
+            <p class="text-body text-secondary text-center">Bạn đã chặn tài khoản này!
+            </p>
+            <button type="button" class="button-standard button-text-with-icon" (click)="blockUser(chat?.users[0].id)">
+                Bỏ chặn
+                <i class="icon-size-16 icon icon-ic_fluent_person_key_20_regular"></i>
             </button>
         </div>
+    </div>
 
-        <div *ngIf="previewUrls.length > 0" class="p-10 position-relative">
-            <div class="layout gap-10">
-                <div *ngFor="let previewUrl of previewUrls; let i = index" class="position-relative">
-                    <img [src]="previewUrl" alt="Image preview" height="70px" class="rounded-4">
-                    <button type="button" (click)="removeImage(i)"
-                        class="button-standard button-icon-only position-absolute top-0 end-0">
-                        <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
+    <!-- *ngIf="(chat?.is_group == 0 && (!chat?.users[0].blocked_by_user && !chat?.users[0].blocked_user))" -->
+    <div class="h-hug"
+        [class]="(chat?.is_group == 1)?'display-block':(!chat?.users[0].blocked_by_user && !chat?.users[0].blocked_user)?'display-block':'display-none'">
+        <form class="border-top" (submit)="sendMessage(frm.value)" #frm="ngForm" enctype="multipart/form-data">
+
+            <div *ngIf="previewReply" class="p-10 position-relative">
+                <div style="border-left: 3px solid #005FB8E6;" class="p-10">
+                    <img *ngIf="previewReply.medias.length > 0" src="{{previewReply.medias[0].path}}" alt="Image"
+                        height="50px" class="rounded-4">
+                    <span class="text-secondary" style="white-space: pre-line;">
+                        {{previewReply.content}}
+                    </span>
+                </div>
+                <button type="button" (click)="onCancelReply()"
+                    class="button-subtle button-icon-only position-absolute top-0 end-0 m-5">
+                    <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
+                </button>
+            </div>
+
+            <div *ngIf="previewUrls.length > 0" class="p-10 position-relative">
+                <div class="layout-wrap gap-10">
+                    <div *ngFor="let previewUrl of previewUrls; let i = index" class="position-relative">
+                        <img [src]="previewUrl" alt="Image preview" height="100px" class="rounded-4">
+                        <button type="button" (click)="removeImage(i)"
+                            class="button-standard button-icon-only position-absolute top-0 end-0">
+                            <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
+                        </button>
+                    </div>
+                </div>
+                <button type="button" (click)="onCancelSendImg()"
+                    class="button-subtle button-icon-only position-absolute top-0 end-0 m-5">
+                    <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
+                </button>
+            </div>
+
+            <div class="w-fill h-hug layout align-center-center px-20 py-15 gap-15">
+                <img [src]="user.profile.profile_photo"
+                    class="rounded-circle border border-card-default object-fit-cover" alt=""
+                    style="width: 35px; height: 35px;">
+
+                <div class="control w-fill h-hug" style="padding: 0;">
+                    <input type="hidden" name="id" ngModel [(ngModel)]="chat.id">
+
+                    <textarea [(ngModel)]="content" name="content" ngModel
+                        class="textarea-chat control text-area-control w-fill"
+                        (keydown)="handleKeydown($event, frm.value)" #textArea spellcheck="false"
+                        (input)="resizeTextarea($event)" required></textarea>
+
+                    <button type="button" class="input-button">
+                        <i class="icon-size-16 icon icon-ic_fluent_mic_16_regular"></i>
+                    </button>
+
+                    <label style="cursor: pointer;" class="input-button">
+                        <i class="icon-size-16 icon icon-ic_fluent_image_16_regular"></i>
+                        <input type="file" [ngModel]="fileInput" name="fileInput" (change)="onFileSelected($event)"
+                            accept="image/*" multiple style="display: none;">
+                    </label>
+
+
+                    <button type="button" class="input-button" (click)="toggleEmojiPicker()">
+                        <i *ngIf="showEmojiPicker"
+                            class="text-accent-default icon-size-16 icon icon-ic_fluent_emoji_16_regular"></i>
+                        <i *ngIf="!showEmojiPicker" class="icon-size-16 icon icon-ic_fluent_emoji_16_regular"></i>
                     </button>
                 </div>
-            </div>
-            <button type="button" (click)="onCancelSendImg()"
-                class="button-subtle button-icon-only position-absolute top-0 end-0 m-5">
-                <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
-            </button>
-        </div>
 
-        <div class="w-fill h-hug layout-horizontal p-5 gap-10">
-            <img [src]="user?.profile.profile_photo" class="rounded-circle border border-card-default object-fit-cover"
-                alt="" style="width: 35px; height: 35px;">
-
-            <div class="control w-fill h-hug" style="padding: 0;">
-                <input type="hidden" name="id" ngModel [(ngModel)]="chat.id">
-
-                <textarea [(ngModel)]="content" name="content" ngModel
-                    class="textarea-chat control text-area-control w-fill" (keydown)="handleKeydown($event, frm.value)"
-                    #textArea spellcheck="false" required></textarea>
-
-                <button type="button" class="input-button">
-                    <i class="icon-size-16 icon icon-ic_fluent_mic_16_regular"></i>
-                </button>
-
-                <label style="cursor: pointer;" class="input-button">
-                    <i class="icon-size-16 icon icon-ic_fluent_image_16_regular"></i>
-                    <input type="file" [ngModel]="fileInput" name="fileInput" (change)="onFileSelected($event)"
-                        accept="image/*" multiple style="display: none;">
-                </label>
-                <button type="button" class="input-button">
-                    <i class="icon-size-16 icon icon-ic_fluent_emoji_16_regular"></i>
+                <button type="submit" class="button-accent button-text-with-icon"
+                    *ngIf="(!frm.invalid && !spaceCheck.test(frm.value.content)) || previewUrls.length > 0">
+                    Send
+                    <i class="icon-size-16 icon icon-ic_fluent_send_16_filled"></i>
                 </button>
             </div>
+        </form>
 
-            <button type="submit" class="button-subtle button-icon-only"
-                *ngIf="(!frm.invalid && !spaceCheck.test(frm.value.content)) || previewUrls.length > 0">
-                <i class="icon-size-16 text-accent-default icon icon-ic_fluent_send_16_filled"></i>
-            </button>
-        </div>
-    </form>
+    </div>
 </div>

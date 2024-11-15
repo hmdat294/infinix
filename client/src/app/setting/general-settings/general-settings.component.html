@@ -268,11 +268,11 @@
                                 [disabled]="tabAccordion == 'user_report'" (click)="tabChild('user_report')">
                                 User
                             </button>
-                            <!-- <button type="button" class="list-item tab-report text-primary w-fill"
+                            <button type="button" class="list-item tab-report text-primary w-fill"
                                 [class]="tabAccordion == 'comment_report'?'tab-report-active':''"
                                 [disabled]="tabAccordion == 'comment_report'" (click)="tabChild('comment_report')">
                                 Comment
-                            </button> -->
+                            </button>
                         </div>
 
                     </div>
@@ -358,8 +358,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="layout-vertical gap-10">
-                                                    <p class="text-body text-primary text-justify">
-                                                        {{report.post.content}}</p>
+                                                    <p class="text-body text-primary text-justify" [innerHTML]="report.post.content"></p>
                                                     <p class="text-body-strong text-primary">
                                                         {{report.post.profile.display_name}}</p>
                                                 </div>
@@ -396,7 +395,8 @@
                         <div class="p-15 layout-horizontal align-center-space-between"
                             *ngFor="let report of listUserReport">
                             <div class="layout-horizontal align-center-center gap-15 w-fill">
-                                <a [routerLink]="['/friend-profile', report.user.profile.user_id]" class="layout-horizontal align-center-center gap-15 w-fill">
+                                <a [routerLink]="['/friend-profile', report.user.profile.user_id]"
+                                    class="layout-horizontal align-center-center gap-15 w-fill">
                                     <div style="width: 35px; height: 35px;">
                                         <img class="rounded-circle border border-card-default object-fit-cover"
                                             [src]="report.user.profile.profile_photo" alt=""
@@ -488,9 +488,107 @@
                         <!-- for -->
 
                     </div>
+
+                    <!-- danh sách báo cáo comment -->
+                    <div class="accordion-panel open layout-vertical comment_report">
+
+                        <div class="px-15 py-10" *ngIf="listCommentReport?.length==0">
+                            <div class="w-fill py-10 card-background-default border border-card-default rounded-6">
+                                <p class="text-body text-secondary text-center">Trống</p>
+                            </div>
+                        </div>
+
+                        <!-- for -->
+                        <div class="p-15 layout-horizontal align-center-space-between"
+                            *ngFor="let report of listCommentReport">
+                            <div class="layout-horizontal align-center-center gap-15 w-fill">
+                                <a
+                                    class="w-fill">
+                                    <p class="text-secondary text-body-strong">
+                                        {{report.comment.user.profile.display_name}}</p>
+                                    <p class="text-secondary text-body">
+                                        {{shortenTextByWords(report.comment.content, 7)}}
+                                    </p>
+                                </a>
+                                <button type="button" class="button-standard button-text-with-icon"
+                                    (click)="viewReport(report.id)">
+                                    Xem
+                                    <i class="icon-size-16 icon icon-ic_fluent_eye_tracking_16_regular"></i>
+                                </button>
+                            </div>
+
+                            <div class="position-fixed top-0 start-0"
+                                *ngIf="report_id == report.id && report.type == 'comment'"
+                                style="width: 100%; height: 100vh; z-index: 20;">
+                                <div class="position-absolute top-0 start-0"
+                                    style="width: 100%; height: 100vh; z-index: 1; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px);"
+                                    (click)="viewReport(0)">
+                                </div>
+                                <div class="dialog-panel position-absolute top-50 start-50 translate-middle"
+                                    style="z-index: 2;">
+                                    <div class="layout-vertical p-20 gap-20 rounded-8 acrylic-background-default blur-acrylic border border-card-default"
+                                        style="width: 700px;">
+
+                                        <button type="button"
+                                            class="button-subtle button-icon-only w-hug position-absolute"
+                                            style="right: 20px; top: 20px; z-index: 1;" (click)="viewReport(0)">
+                                            <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_filled"></i>
+                                        </button>
+
+                                        <div class="pb-20 pt-5 border-bottom">
+                                            <p class="text-subtitle text-primary text-center">Báo cáo bình luận</p>
+                                        </div>
+
+                                        <div class="layout-horizontal gap-5">
+                                            <p class="text-body-strong text-primary" style="min-width: 100px;">Nội dung:
+                                            </p>
+                                            <p class="text-body text-primary">{{report.content}}</p>
+                                        </div>
+
+                                        <div class="layout-horizontal gap-5">
+                                            <p class="text-body-strong text-primary" style="min-width: 100px;">Thời
+                                                gian:</p>
+                                            <p class="text-body text-primary">{{report.created_at_time}} -
+                                                {{report.created_at_date}}</p>
+                                        </div>
+
+                                        <div class="layout-horizontal gap-5">
+                                            <p class="text-body-strong text-primary" style="min-width: 100px;">Trạng
+                                                thái:</p>
+                                            <p class="text-body text-primary">Đã gửi</p>
+                                        </div>
+
+                                        <div class="layout-vertical gap-5">
+                                            <p class="text-body-strong text-primary" style="min-width: 100px;">Bình luận:
+                                            </p>
+                                            <div class="border rounded-6 px-15 py-10 layout-horizontal gap-10 w-fill">
+                                                <div class="layout-vertical gap-10">
+                                                    <p class="text-body text-primary text-justify">
+                                                        {{report.comment.content}}</p>
+                                                    <p class="text-body-strong text-primary">
+                                                        {{report.comment.user.profile.display_name}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="layout-horizontal align-center-right">
+                                            <button type="button" class="button-standard button-text-with-icon"
+                                                (click)="cancelReport(report.id, report.type)">
+                                                Thu hồi báo cáo
+                                                <i class="icon-size-16 icon icon-ic_fluent_arrow_reset_48_regular"></i>
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- for -->
+
+                    </div>
                 </div>
             </div>
-
         </div>
+
     </div>
 </div>

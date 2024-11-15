@@ -35,7 +35,6 @@ class PostController extends Controller
             } else {
                 $posts = PostModel::where('user_id', $user_id)->orderBy('created_at', 'desc')->paginate(10);
             }
-            
         } else {
             $posts = PostModel::orderBy('created_at', 'desc')->paginate(10);
         }
@@ -102,7 +101,7 @@ class PostController extends Controller
             }
         }
 
-        event(new UserPostEvent($post->user_id, $post->id, $post->content));
+        event(new UserPostEvent($post->user_id, $post->id, $post->content, 'create'));
 
         $this->sendNotification($post);
 
@@ -131,7 +130,7 @@ class PostController extends Controller
         $post = PostModel::find($id);
         return new PostResource($post);
     }
-    
+
 
     /**
      * Cập nhật bài viết
@@ -147,7 +146,7 @@ class PostController extends Controller
     public function update(Request $request, string $id)
     {
         $post = PostModel::find($id);
-        $post->update($request->only(['content', 'post_type', 'medias']));
+        $post->update($request->only(['content', 'post_type']));
         if ($request->post_type === 'with_poll' && $request->has('poll_option', 'end_at')) {
             $poll = $post->poll()->update([
                 'end_at' => $request->end_at,
@@ -160,6 +159,43 @@ class PostController extends Controller
                 ]);
             }
         }
+
+        $post->update([
+            'post_type' => 'default',
+        ]);
+        $post->medias()->delete();
+
+        if ($request->hasFile('medias')) {
+            $post->update([
+                'post_type' => 'with_media',
+            ]);
+
+            foreach ($request->file('medias') as $media) {
+                $media_path = $media->store('uploads', 'public');
+                $media_type = $media->getMimeType();
+                PostMediaModel::create([
+                    'post_id' => $post->id,
+                    'path' => asset('storage/' . $media_path),
+                    'type' => $media_type,
+                ]);
+            }
+        }
+        
+        if ($request->has('urls')) {
+            $post->update([
+                'post_type' => 'with_media',
+            ]);
+            
+            foreach ($request->urls as $url) {
+                PostMediaModel::create([
+                    'post_id' => $post->id,
+                    'path' => $url,
+                    'type' => 'url',
+                ]);
+            }
+        }
+
+        event(new UserPostEvent($post->user_id, $post->id, $post->content, 'update'));
         return new PostResource($post);
     }
 
@@ -174,6 +210,7 @@ class PostController extends Controller
     {
         $post = PostModel::find($id);
         $post->delete();
+        event(new UserPostEvent($post->user_id, $post->id, $post->content, 'delete'));
         return response()->json([
             'message' => 'Post deleted successfully.',
         ], 200);
@@ -239,19 +276,19 @@ class PostController extends Controller
 
         $recipient_ids = $recipients->pluck('id');
 
-        Log::info('friends and follower ids: '.$recipient_ids);
+        Log::info('friends and follower ids: ' . $recipient_ids);
 
         $disabled_notification_users = DisabledNotificationModel::where('target_user_id', $user_id)->pluck('user_id');
 
-        Log::info('disabled_notification_users: '.$disabled_notification_users);
+        Log::info('disabled_notification_users: ' . $disabled_notification_users);
 
         $recipients_id = $recipient_ids->diff($disabled_notification_users);
 
-        Log::info('recipients_id: '.$recipients_id);
+        Log::info('recipients_id: ' . $recipients_id);
 
         $recipients = $recipients->whereIn('id', $recipients_id);
 
-        Log::info('recipients: '.$recipients);
+        Log::info('recipients: ' . $recipients);
 
         foreach ($recipients as $recipient) {
             Notification::create([
@@ -267,38 +304,38 @@ class PostController extends Controller
     public function getHomePost(Request $request)
     {
         $post_ids = PostModel::where('user_id', $request->user()->id)->pluck('id');
-        Log::info('post_ids: '.$post_ids);
+        Log::info('post_ids: ' . $post_ids);
 
         $shared_post_ids = PostShare::where('user_id', $request->user()->id)->pluck('post_id');
-        Log::info('shared_post_ids: '.$shared_post_ids);
+        Log::info('shared_post_ids: ' . $shared_post_ids);
 
         $friend_ids = $request->user()->friendsOf->concat($request->user()->friendsOfMine)->pluck('id');
         $friend_post_ids = PostModel::whereIn('user_id', $friend_ids)->pluck('id');
-        Log::info('friend_post_ids: '.$friend_post_ids);
+        Log::info('friend_post_ids: ' . $friend_post_ids);
 
         $followings_post_ids = PostModel::whereIn('user_id', $request->user()->followings->pluck('id'))->pluck('id');
-        Log::info('followings_post_ids: '.$followings_post_ids);
+        Log::info('followings_post_ids: ' . $followings_post_ids);
 
         $reported_post_ids = Report::where('sender_id', $request->user()->id)->where('type', 'post')->pluck('post_id');
-        Log::info('reported_post_ids: '.$reported_post_ids);
+        Log::info('reported_post_ids: ' . $reported_post_ids);
 
         $blocked_users = $request->user()->blockings;
         $blocked_user_post_ids = PostModel::whereIn('user_id', $blocked_users->pluck('id'))->pluck('id');
-        Log::info('blocked_user_post_ids: '.$blocked_user_post_ids);
+        Log::info('blocked_user_post_ids: ' . $blocked_user_post_ids);
 
         $posts = PostModel::whereIn('id', $post_ids)
-        ->orWhereIn('id', $shared_post_ids)
-        ->orWhereIn('id', $friend_post_ids)
-        ->orWhereIn('id', $followings_post_ids)
-        ->whereNotIn('id', $reported_post_ids)
-        ->whereNotIn('id', $blocked_user_post_ids);
-        
-        Log::info('post_ids: '.$posts->pluck('id'));
+            ->orWhereIn('id', $shared_post_ids)
+            ->orWhereIn('id', $friend_post_ids)
+            ->orWhereIn('id', $followings_post_ids)
+            ->whereNotIn('id', $reported_post_ids)
+            ->whereNotIn('id', $blocked_user_post_ids);
+
+        Log::info('post_ids: ' . $posts->pluck('id'));
 
         $posts = $posts->get();
         foreach ($posts as &$post) {
             if ($shared_post_ids->contains($post->id)) {
-               $post["created_at"] = PostShare::where('post_id', $post->id)->first()->created_at;
+                $post["created_at"] = PostShare::where('post_id', $post->id)->first()->created_at;
             }
         }
         $posts = $posts->sortByDesc('created_at');
@@ -312,21 +349,21 @@ class PostController extends Controller
         $user_id = $user->id;
 
         $post_ids = PostModel::where('user_id', $user_id)->pluck('id');
-        Log::info('post_ids: '.$post_ids);
+        Log::info('post_ids: ' . $post_ids);
 
         $shared_post_ids = PostShare::where('user_id', $user_id)->pluck('post_id');
-        Log::info('shared_post_ids: '.$shared_post_ids);
+        Log::info('shared_post_ids: ' . $shared_post_ids);
 
 
 
         $posts = PostModel::whereIn('id', $post_ids)
-        ->orWhereIn('id', $shared_post_ids);
-        Log::info('post_ids: '.$posts->pluck('id'));
+            ->orWhereIn('id', $shared_post_ids);
+        Log::info('post_ids: ' . $posts->pluck('id'));
 
         $posts = $posts->get();
         foreach ($posts as &$post) {
             if ($shared_post_ids->contains($post->id)) {
-               $post["created_at"] = PostShare::where('post_id', $post->id)->first()->created_at;
+                $post["created_at"] = PostShare::where('post_id', $post->id)->first()->created_at;
             }
         }
         $posts = $posts->sortByDesc('created_at');

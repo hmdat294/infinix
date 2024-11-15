@@ -7,10 +7,13 @@
 
 .mess-hover .mess-menu {
     display: none;
+    position: absolute;
+    overflow: visible;
+    z-index: 1;
 }
 
 .mess-hover:hover .mess-menu {
-    display: block;
+    display: flex;
 }
 
 .textarea-chat {

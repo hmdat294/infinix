@@ -8,23 +8,32 @@ import { AuthService } from '../../service/auth.service';
 import { EventService } from '../../service/event.service';
 import { RouterModule } from '@angular/router';
 import { ChatService } from '../../service/chat.service';
+import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
+import { PickerComponent } from '@ctrl/ngx-emoji-mart';
+import { QuillModule } from 'ngx-quill';
+import { DomSanitizer } from '@angular/platform-browser';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-center-home',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule],
+  imports: [FormsModule, CommonModule, RouterModule, EmojiModule, PickerComponent, QuillModule],
   templateUrl: './center-home.component.html',
   styleUrl: './center-home.component.css'
 })
 export class CenterHomeComponent implements OnInit, AfterViewInit {
 
   content: string = '';
+  contentUpdate: string = '';
   selectedFilesPost: File[] = [];
+  selectedFilesUpdatePost: File[] = [];
   previewPostImages: string[] = [];
+  previewUpdatePostImages: string[] = [];
   selectedFilesComment: File[] = [];
   previewCommentImages: string[] = [];
   listPost: any[] = [];
   filePost: any;
+  fileUpdatePost: any;
   fileComment: any;
   showPoll: boolean = false;
   poll_input: any[] = [];
@@ -35,8 +44,8 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   listUser: any;
   listGroup: any;
   friendSuggestions: any;
-  contentCommentInput:string = '';
-  
+  contentCommentInput: string = '';
+
   constructor(
     private cdr: ChangeDetectorRef,
     private postService: PostService,
@@ -44,6 +53,7 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
     private eventService: EventService,
     private authService: AuthService,
     private chatService: ChatService,
+    private sanitizer: DomSanitizer
   ) { }
 
   ngOnInit(): void {
@@ -61,19 +71,24 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
 
     this.authService.getFriendSuggestions().subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         this.friendSuggestions = response.data;
-      }
-    )
+      });
 
     this.postService.getHomePost().subscribe(
       (data) => {
         this.listPost = data.data;
-        console.log(this.listPost);
+        // console.log(this.listPost);
 
         this.eventService.bindEvent('App\\Events\\UserPostEvent', (data: any) => {
           console.log('Post event:', data);
-          this.listPost.unshift(data.data);
+          if (data.action == "create") {
+            this.listPost.unshift(data.data);
+          } else {
+            const index = this.listPost.findIndex((post: any) => post.id === data.data.id);
+            if (index !== -1) this.listPost[index] = data.data;
+          }
+
         });
       });
   }
@@ -93,6 +108,23 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
 
   addFriend(receiver_id: number): void {
     this.authService.addFriend(receiver_id).subscribe(
+      (response) => {
+        console.log(response);
+
+        const friendfriend = this.friendSuggestions.find((item: any) => item.id === receiver_id);
+        friendfriend.is_sent_friend_request = !friendfriend.is_sent_friend_request;
+      });
+  }
+
+  unFriend(user_id: number): void {
+    this.authService.unFriend(user_id).subscribe(
+      (response) => {
+        console.log(response);
+      });
+  }
+
+  cancelRequest(receiver_id: number) {
+    this.authService.cancelFriend(receiver_id).subscribe(
       (response) => {
         console.log(response);
       });
@@ -173,21 +205,161 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
 
       this.postService.postPost(formData).subscribe(
         (response) => {
-          (document.querySelector('.textarea-post') as HTMLTextAreaElement).style.height = '32px';
           this.content = '';
           this.poll_input = [];
           this.showPoll = false;
           this.onCancelPostImg();
+          this.showEmojiPicker = false;
           console.log(response);
         });
     }
+  }
+
+  deletePost(post_id: number) {
+    this.postService.deletePost(post_id).subscribe(
+      (response) => {
+        console.log(response);
+      }
+    );
+  }
+
+  updatePost(value: any) {
+    const urlImg = this.previewUpdatePostImages.filter(url => url.startsWith("http"));
+
+    if (value.contentUpdate && !this.spaceCheck.test(value.contentUpdate)) {
+      const formData = new FormData();
+      formData.append('content', value.contentUpdate);
+
+      if (this.selectedFilesUpdatePost.length > 0)
+        this.selectedFilesUpdatePost.forEach(image => formData.append('medias[]', image, image.name));
+
+      if (urlImg.length > 0)
+        urlImg.forEach(imagePath => formData.append('urls[]', imagePath));
+
+      this.postService.updatePost(this.postUpdateId, formData).subscribe(
+        (response) => {
+          console.log(response);
+          this.showDiaLogUpdatePost(null);
+        },
+        (error) => {
+          console.error("Error updating post:", error);
+        }
+      );
+    }
+  }
+
+
+  postUpdateId: number = 0;
+
+  showDiaLogUpdatePost(post: any) {
+    if (post == null) {
+      this.postUpdateId = 0;
+      this.onCancelUpdatePostImg();
+    }
+    else {
+      this.postUpdateId = post.id;
+      this.previewUpdatePostImages = post.medias.map((media: any) => media.path);
+      this.contentUpdate = post.content;
+    }
+  }
+
+  onFileUpdatePostSelected(event: any) {
+
+    const files: File[] = Array.from(event.target.files);
+    // console.log(files);
+    if (files && files.length > 0) {
+      files.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = e => this.previewUpdatePostImages.push(reader.result as string);
+        reader.readAsDataURL(file);
+        this.selectedFilesUpdatePost.push(file);
+      });
+    }
+  }
+
+  removeUpdatePostImage(index: number): void {
+    this.previewUpdatePostImages.splice(index, 1);
+    this.selectedFilesUpdatePost.splice(index, 1);
+  }
+
+  onCancelUpdatePostImg() {
+    this.contentUpdate = '';
+    this.selectedFilesUpdatePost = [];
+    this.previewUpdatePostImages = [];
+    if (this.fileUpdatePost) this.fileUpdatePost.nativeElement.value = '';
+  }
+
+  changeHtmlContent(content: string) {
+    return this.sanitizer.bypassSecurityTrustHtml(content);
+  }
+
+  editorModules = {
+    toolbar: [
+      [{ 'header': [1, 2, false] }],
+      ['bold', 'italic', 'underline', 'strike'],
+      [{ 'color': [] }, { 'background': [] }],
+      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+      [{ 'script': 'sub' }, { 'script': 'super' }],
+      [{ 'indent': '-1' }, { 'indent': '+1' }],
+      [{ 'direction': 'rtl' }],
+      [{ 'align': [] }],
+      ['clean'],
+      // ['link', 'image', 'video']
+    ]
+  };
+
+  vietnameseI18n: any = {
+    search: 'Tìm kiếm',
+    categories: {
+      search: 'Kết quả tìm kiếm',
+      recent: 'Gần đây',
+      people: 'Mọi người',
+      nature: 'Thiên nhiên',
+      foods: 'Đồ ăn & Uống',
+      activity: 'Hoạt động',
+      places: 'Địa điểm',
+      objects: 'Đồ vật',
+      symbols: 'Biểu tượng',
+      flags: 'Cờ',
+    },
+    skinTones: {
+      1: 'Màu da mặc định',
+      2: 'Màu da sáng',
+      3: 'Màu da trung bình sáng',
+      4: 'Màu da trung bình',
+      5: 'Màu da trung bình tối',
+      6: 'Màu da tối',
+    },
+  };
+
+
+
+  showEmojiPicker: boolean = false;
+
+  toggleEmojiPicker() {
+    this.showEmojiPicker = !this.showEmojiPicker;
+  }
+
+  addEmoji(event: any) {
+    this.content += event.emoji.native;
+  }
+
+
+  showEmojiPickerUpdate: boolean = false;
+
+  toggleEmojiPickerUpdate() {
+    this.showEmojiPickerUpdate = !this.showEmojiPickerUpdate;
+  }
+
+  addEmojiUpdate(event: any) {
+    this.contentUpdate += event.emoji.native;
   }
 
 
 
   postComment(value: any) {
     console.log(value);
-    
+
     const formData = new FormData();
     formData.append('content', value.content);
     formData.append('post_id', value.post_id);
@@ -217,6 +389,18 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
       }
     )
   }
+
+  //like comment
+  likeComment(comment_id: number, post_id: number) {
+    this.postService.postLikeComment(comment_id).subscribe(
+      (response: any) => {
+        console.log(response);
+        const comment = this.commentByPostId[post_id].find((item: any) => item.id == comment_id);
+        comment.liked = !comment.liked;
+        (response.type == 'like') ? comment.like_count++ : comment.like_count--;
+      })
+  }
+  //like comment
 
   //bookmark
 
@@ -327,8 +511,9 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   messageReport: string = '';
   @ViewChild('checkboxesContainer') checkboxesContainer!: ElementRef;
 
-  showDialogReport(post_id: number) {
-    this.diaLogReport = post_id;
+  showDialogReport(id: any) {
+
+    this.diaLogReport = id;
     if (this.diaLogReport == 0) {
       this.valueReport = [];
       this.contentReport = '';
@@ -346,9 +531,9 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
     else this.valueReport = this.valueReport.filter(value => value !== checkboxValue);
   }
 
-  listIdPostReport: any[] = [];
+  listIdReport: any[] = [];
 
-  postReport(value: any, post_id: number): any {
+  postReport(value: any): any {
 
     const valueReport = this.valueReport.join(', ');
     let content = '';
@@ -360,13 +545,19 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
 
     content = content.charAt(0).toUpperCase() + content.slice(1).toLowerCase() + '.';
 
-    this.postService.postReport({ content, post_id }).subscribe(
+    const postReport: any = this.diaLogReport;
+    postReport.content = content;
+
+    console.log(postReport);
+
+
+    this.postService.postReport(postReport).subscribe(
       (response: any) => {
         console.log(response);
 
-        this.listIdPostReport.push({ post_id: response.data.post_id, id: response.data.id });
-
-        console.log(this.listIdPostReport);
+        if (response.data.type == 'post') {
+          this.listIdReport.push({ id: response.data.id, post_id: response.data.post_id });
+        }
 
         this.messageReport =
           `<p class="validation-message validation-sucess text-body text-primary pt-15 px-20">
@@ -379,17 +570,16 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   }
 
   cancelReport(post_id: number) {
-    const report = this.listIdPostReport.find((item: any) => item.post_id === post_id);
+    const report = this.listIdReport.find((item: any) => item.post_id === post_id);
     this.postService.cancelReport(report.id).subscribe(
       (response: any) => {
-        this.listIdPostReport = this.listIdPostReport.filter((id: any) => id.id !== report.id);
-        console.log(this.listIdPostReport);
-      }
-    )
+        this.listIdReport = this.listIdReport.filter((id: any) => id.id !== report.id);
+        console.log(this.listIdReport);
+      });
   }
 
   isPostIdExist(post_id: number): boolean {
-    return this.listIdPostReport.some((item: any) => item.post_id === post_id);
+    return this.listIdReport.some((item: any) => item.post_id === post_id);
   }
 
   //report

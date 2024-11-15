@@ -40,7 +40,7 @@
                             <img [src]="
                                 (friend?.is_group == 1) ? friend.image : friend?.users[0].profile.profile_photo
                             " alt="" style="width: 35px; height: 35px;"
-                                class="rounded-circle border border-card-default">
+                                class="rounded-circle border border-card-default object-fit-cover">
                             <p class="text-secondary text-body-strong w-fill layout">
                                 {{
                                 (friend?.is_group == 1) ? friend.name : friend?.users[0].profile.display_name
@@ -49,9 +49,9 @@
                         </button>
                     </div>
 
-                    <div class="w-fill layout-horizontal align-center-center px-20 py-15 border-top">
+                    <!-- <div class="w-fill layout-horizontal align-center-center px-20 py-15 border-top">
                         <a href="" class="link">Xem thêm</a>
-                    </div>
+                    </div> -->
                 </div>
 
             </div>
@@ -72,7 +72,7 @@
                         <div class="layout py-20 w-fill align-center-center">
                             <div class="background-card-default" style="width: 100px; height: 100px;">
                                 <img class="border border-card-default w-fill h-fill rounded-circle object-fit-cover"
-                                    src="{{(selectedFilesGroup.length > 0)?previewGroupImages:'assets/image/avatar.png'}}"
+                                    src="{{(selectedFilesGroup.length > 0)?previewGroupImages:'http://localhost:8000/storage/uploads/default-profile-photo.png'}}"
                                     alt="">
 
                                 <input class="display-none" type="file" [ngModel]="fileImageGroup" name="fileImageGroup"
@@ -149,19 +149,20 @@
                     </div>
                 </div>
 
-                <div class="border_bottom w-fill" *ngIf="!conversation.users[0].is_friend">
+                <div class="border_bottom w-fill" *ngIf="conversation.is_group==0 && !conversation.users[0].is_friend">
                     <div class="layout-horizontal align-center-space-between gap-10 p-10 border-bottom">
-                        <div
-                            class="layout-horizontal align-center-left gap-15 text-left w-fill p-10 text-primary">
+                        <div class="layout-horizontal align-center-left gap-15 text-left w-fill p-10 text-primary">
                             <i class="icon-size-20 text-accent-default icon icon-ic_fluent_person_add_20_regular"></i>
                             <p class="layout-vertical">
                                 <span class="text-body text-primary">Chưa phải là bạn, gửi yêu cầu kết bạn</span>
                             </p>
                         </div>
-                        <button *ngIf="!conversation.users[0].is_sent_friend_request" type="button" class="button-accent button-text-only me-10"
+                        <button *ngIf="!conversation.users[0].is_sent_friend_request" type="button"
+                            class="button-accent button-text-only me-10"
                             (click)="addFriend(conversation.users[0].id)">Thêm bạn bè
                         </button>
-                        <button *ngIf="conversation.users[0].is_sent_friend_request" type="button" class="button-standard button-text-only me-10"
+                        <button *ngIf="conversation.users[0].is_sent_friend_request" type="button"
+                            class="button-standard button-text-only me-10"
                             (click)="cancelRequest(conversation.users[0].id)">Hủy yêu cầu
                         </button>
                     </div>
@@ -174,7 +175,8 @@
                             <!-- <i class="icon-size-24 icon icon-ic_fluent_pin_24_filled"></i> -->
                             <p class="layout-vertical">
                                 <span class="text-body-strong text-primary">Tin nhắn</span>
-                                <span class="text-body text-secondary">{{msg_pin.content}}</span>
+                                <span class="text-body text-secondary">{{shortenTextByWords(msg_pin.content,
+                                    20)}}</span>
                             </p>
                         </button>
                         <button type="button" class="button-subtle button-icon-only me-10"
@@ -285,6 +287,16 @@
                                                             {{msg.user.profile.display_name}}
                                                         </p>
                                                     </div>
+                                                    <div *ngIf="msg.link"
+                                                        class="layout-horizontal gap-10 align-center-right text-primary">
+                                                        <i
+                                                            class="icon-size-16 icon icon-ic_fluent_arrow_forward_16_filled"></i>
+                                                        <p class="text-body-strong text-primary">
+                                                            {{msg.user.profile.display_name}}
+                                                            <span class="text-body text-secondary">đã chia sẻ bài đăng
+                                                                này</span>
+                                                        </p>
+                                                    </div>
                                                     <div class="layout align-center-right" *ngIf="msg.is_recalled == 0">
 
                                                         <div>
@@ -363,6 +375,16 @@
                                                         </p>
                                                         <p class="text-tertiary text-caption">
                                                             {{msg.created_at_time}} - {{msg.created_at_date}}
+                                                        </p>
+                                                    </div>
+                                                    <div *ngIf="msg.link"
+                                                        class="layout-horizontal gap-10 align-center-right text-primary">
+                                                        <i
+                                                            class="icon-size-16 icon icon-ic_fluent_arrow_forward_16_filled"></i>
+                                                        <p class="text-body-strong text-primary">
+                                                            {{msg.user.profile.display_name}}
+                                                            <span class="text-body text-secondary">đã chia sẻ bài đăng
+                                                                này</span>
                                                         </p>
                                                     </div>
                                                     <div class="layout align-center-left" *ngIf="msg.is_recalled == 0">
@@ -450,6 +472,14 @@
                                     <p class="text-primary text-body mb-5 text-right">
                                         {{msg.user.profile.display_name}}
                                     </p>
+                                    <div *ngIf="msg.link"
+                                        class="layout-horizontal gap-10 align-center-right text-primary">
+                                        <i class="icon-size-16 icon icon-ic_fluent_arrow_forward_16_filled"></i>
+                                        <p class="text-body-strong text-primary">
+                                            {{msg.user.profile.display_name}}
+                                            <span class="text-body text-secondary">đã chia sẻ bài đăng này</span>
+                                        </p>
+                                    </div>
                                     <div class="layout align-top-right" *ngIf="msg.is_recalled == 0">
                                         <div [style]="(i == conversation.messages.length - 1 && i != 0) ? 'bottom: 20px; left: -180px;':'left: -180px;'"
                                             class="mess-menu layout-vertical mx-15 gap-5 p-5 acrylic-background-default blur-acrylic border border-card-default rounded-8">
@@ -500,7 +530,7 @@
 
                                         </div>
                                         <div>
-                                            <div style="max-width: 350px;">
+                                            <div style="max-width: 400px;">
                                                 <div *ngIf="msg.reply_to_message_id">
                                                     <div *ngIf="getReply(msg.reply_to_message_id).is_recalled == 0"
                                                         style="border-right: 3px solid var(--accent-default);">
@@ -527,8 +557,9 @@
                                                     </div>
                                                 </div>
 
-                                                <div [class]="(msg.link) ? 'layout-horizontal gap-20' : ''">
-                                                    <div class="layout w-fill gradient-background p-10 rounded-top-8"
+                                                <div [class]="(msg.link) ? 'layout-horizontal gradient-background' : ''"
+                                                    class="rounded-8 overflow-hidden">
+                                                    <div class="layout align-center-center w-fill gradient-background p-10"
                                                         *ngIf="msg.medias.length>0">
                                                         <div style="max-width: 500px;"
                                                             class="w-fill {{(msg.medias.length<6)?'layout-'+msg.medias.length:(msg.medias.length%2==0)?'layout-6':'layout-5'}}">
@@ -544,24 +575,24 @@
                                                     <div>
                                                         <a *ngIf="msg.link" [routerLink]="[ msg.link ]"
                                                             style="white-space: pre-line;"
-                                                            class="display-block text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
+                                                            class="display-block text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10">
                                                             {{ msg.content }}
                                                         </a>
                                                         <p *ngIf="!msg.link" style="white-space: pre-line;"
-                                                            class="display-block text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
+                                                            class="display-block text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10">
                                                             {{ msg.content }}
                                                         </p>
 
-                                                        <div class="text-tertiary text-caption layout-horizontal align-center-space-between mt-5"
-                                                            style="font-size: 0.9em;">
-                                                            <p class="text-left w-fill">
-                                                                {{ msg.created_at_time }}
-                                                            </p>
-                                                            <p *ngIf="msg.is_edited == 1" class="text-right w-fill">
-                                                                Đã sửa
-                                                            </p>
-                                                        </div>
                                                     </div>
+                                                </div>
+                                                <div class="text-tertiary text-caption layout-horizontal align-center-space-between mt-5"
+                                                    style="font-size: 0.9em;">
+                                                    <p class="text-left w-fill">
+                                                        {{ msg.created_at_time }}
+                                                    </p>
+                                                    <p *ngIf="msg.is_edited == 1" class="text-right w-fill">
+                                                        Đã sửa
+                                                    </p>
                                                 </div>
                                             </div>
 
@@ -600,9 +631,17 @@
                                     <p class="text-primary text-body mb-5 text-left">
                                         {{msg.user.profile.display_name}}
                                     </p>
+                                    <div *ngIf="msg.link"
+                                        class="layout-horizontal gap-10 align-center-right text-primary">
+                                        <i class="icon-size-16 icon icon-ic_fluent_arrow_forward_16_filled"></i>
+                                        <p class="text-body-strong text-primary">
+                                            {{msg.user.profile.display_name}}
+                                            <span class="text-body text-secondary">đã chia sẻ bài đăng này</span>
+                                        </p>
+                                    </div>
                                     <div class="layout align-top-left" *ngIf="msg.is_recalled == 0">
                                         <div>
-                                            <div style="max-width: 350px;">
+                                            <div style="max-width: 400px;">
                                                 <div *ngIf="msg.reply_to_message_id">
                                                     <div *ngIf="getReply(msg.reply_to_message_id).is_recalled == 0"
                                                         style="border-left: 3px solid var(--control-strong-stroke-default);">
@@ -629,9 +668,9 @@
                                                     </div>
                                                 </div>
 
-                                                <div [class]="(msg.link) ? 'layout-horizontal gap-20' : ''">
-
-                                                    <div class="layout w-fill gradient-background p-10 rounded-top-8"
+                                                <div [class]="(msg.link) ? 'layout-horizontal gradient-background' : ''"
+                                                    class="rounded-8 overflow-hidden">
+                                                    <div class="layout align-center-center w-fill gradient-background p-10"
                                                         *ngIf="msg.medias.length>0">
                                                         <div style="max-width: 500px;"
                                                             class="w-fill {{(msg.medias.length<6)?'layout-'+msg.medias.length:(msg.medias.length%2==0)?'layout-6':'layout-5'}}">
@@ -647,24 +686,24 @@
                                                     <div>
                                                         <a *ngIf="msg.link" [routerLink]="[ msg.link ]"
                                                             style="white-space: pre-line;"
-                                                            class="display-block text-wrap card-background-default text-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
+                                                            class="display-block text-wrap card-background-default text-primary border border-card-default px-15 py-10">
                                                             {{ msg.content }}
                                                         </a>
                                                         <p *ngIf="!msg.link" style="white-space: pre-line;"
-                                                            class="display-block text-wrap card-background-default text-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
+                                                            class="display-block text-wrap card-background-default text-primary border border-card-default px-15 py-10">
                                                             {{ msg.content }}
                                                         </p>
 
-                                                        <div class="text-tertiary text-caption layout-horizontal align-center-space-between mt-5"
-                                                            style="font-size: 0.9em;">
-                                                            <p *ngIf="msg.is_edited == 1" class="text-left w-fill">
-                                                                Đã sửa
-                                                            </p>
-                                                            <p class="text-right w-fill">
-                                                                {{ msg.created_at_time }}
-                                                            </p>
-                                                        </div>
                                                     </div>
+                                                </div>
+                                                <div class="text-tertiary text-caption layout-horizontal align-center-space-between mt-5"
+                                                    style="font-size: 0.9em;">
+                                                    <p *ngIf="msg.is_edited == 1" class="text-left w-fill">
+                                                        Đã sửa
+                                                    </p>
+                                                    <p class="text-right w-fill">
+                                                        {{ msg.created_at_time }}
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -723,7 +762,36 @@
                         </div>
                     </div>
                 </div>
-                <div class="h-hug">
+
+                <emoji-mart *ngIf="showEmojiPicker" [i18n]="vietnameseI18n"
+                    [style]="{ position: 'absolute', bottom: '20px', right: '20px', background: '#363636' }"
+                    (emojiSelect)="addEmoji($event)"></emoji-mart>
+
+
+                <div class="w-fill p-20" *ngIf="conversation?.users[0].blocked_by_user">
+                    <div class="p-10 card-background-default border border-card-default rounded-8">
+                        <p class="text-body text-secondary text-center">Tài khoản này hiện không muốn nhận tin
+                            nhắn của
+                            bạn!
+                        </p>
+                    </div>
+                </div>
+
+                <div class="w-fill p-20" *ngIf="conversation?.users[0].blocked_user">
+                    <div class="p-10 card-background-default border border-card-default rounded-8 layout-horizontal gap-15 align-center-center">
+                        <p class="text-body text-secondary text-center">Bạn đã chặn tài khoản này!
+                        </p>
+                        <button type="button" class="button-standard button-text-with-icon"
+                            (click)="blockUser(conversation?.users[0].id)">
+                            Bỏ chặn
+                            <i class="icon-size-16 icon icon-ic_fluent_person_key_20_regular"></i>
+                        </button>
+                    </div>
+                </div>
+
+
+                <div class="h-hug"
+                    *ngIf="!conversation?.users[0].blocked_by_user && !conversation?.users[0].blocked_user">
                     <form class="border-top" (submit)="sendMessage(frm.value)" #frm="ngForm"
                         enctype="multipart/form-data">
 
@@ -757,7 +825,7 @@
                             </button>
                         </div>
 
-                        <div class="w-fill h-hug layout px-20 py-15 gap-15">
+                        <div class="w-fill h-hug layout align-center-center px-20 py-15 gap-15">
                             <img [src]="user.profile.profile_photo"
                                 class="rounded-circle border border-card-default object-fit-cover" alt=""
                                 style="width: 35px; height: 35px;">
@@ -780,8 +848,13 @@
                                         (change)="onFileSelected($event)" accept="image/*" multiple
                                         style="display: none;">
                                 </label>
-                                <button type="button" class="input-button">
-                                    <i class="icon-size-16 icon icon-ic_fluent_emoji_16_regular"></i>
+
+
+                                <button type="button" class="input-button" (click)="toggleEmojiPicker()">
+                                    <i *ngIf="showEmojiPicker"
+                                        class="text-accent-default icon-size-16 icon icon-ic_fluent_emoji_16_regular"></i>
+                                    <i *ngIf="!showEmojiPicker"
+                                        class="icon-size-16 icon icon-ic_fluent_emoji_16_regular"></i>
                                 </button>
                             </div>
 
@@ -1002,7 +1075,7 @@
                     </div>
                 </div>
 
-                <a href=""
+                <!-- <a href=""
                     class="layout-horizontal gap-15 px-20 py-15 border-top align-center-center text-accent-default">
                     <i class="icon-size-20 icon icon-ic_fluent_alert_20_regular"></i>
                     <p class="text-primary text-body w-fill">Thông báo</p>
@@ -1012,7 +1085,7 @@
                     class="layout-horizontal gap-15 px-20 py-15 border-top align-center-center text-accent-default">
                     <i class="icon-size-20 icon icon-ic_fluent_pin_20_regular"></i>
                     <p class="text-primary text-body w-fill">Tin nhắn được gim</p>
-                </a>
+                </a> -->
             </div>
 
             <div

@@ -1,7 +1,7 @@
 <div class="w-fill h-hug card-background-default border border-card-default rounded-8 layout-vertical">
-    <img [src]="user?.profile.cover_photo || 'assets/image/splash.png'" alt="" class="w-fill rounded-top-8">
+    <img [src]="user?.profile.cover_photo || 'assets/image/splash.png'" alt="" class="w-fill rounded-top-8 object-fit-cover">
     <div class="layout-vertical py-20 pb-20 gap-20 align-center-center" style="margin-top: -60px;">
-        <img [src]="user?.profile.profile_photo" alt="" class="rounded-circle border border-card-default"
+        <img [src]="user?.profile.profile_photo" alt="" class="rounded-circle object-fit-cover border border-card-default"
             style="width: 120px; height: 120px;">
 
         <div class="layout-vertical gap-5 w-fill align-center-center pb-20 border-bottom border-card-default">
@@ -37,7 +37,7 @@
     <div class="layout-vertical w-fill p-0">
         <div class="w-fill layout-wrap gap-20 align-center-left" *ngIf="friendOfFriendLimit?.length>0">
             <div class="w-fill-column-4" *ngFor="let user of friendOfFriendLimit">
-                <a [routerLink]="['/friend-profile', user?.id]" style="height: 80px;">
+                <a [routerLink]="['/friend-profile', user?.id]" style="width: 80px;; height: 80px;">
                     <img [src]="user?.profile.profile_photo" class="w-fill h-fill object-fit-cover rounded-4">
                     <p class="text-body text-primary">{{user?.profile.display_name}}</p>
                 </a>

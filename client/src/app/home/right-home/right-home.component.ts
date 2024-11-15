@@ -20,6 +20,9 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
   showFriendMore: boolean = false;
   keyword: string = '';
   friendsSearch: any = [];
+  listUser: any;
+  listGroup: any;
+  conversation: any[] = [];
 
   constructor(
     private el: ElementRef,
@@ -73,9 +76,44 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
 
 
               });
+
+            this.chatService.getListChat().subscribe(
+              (response) => {
+
+                const friends = response.data.map((item: any) => ({
+                  ...item,
+                  users: item.users.filter((user: any) => user.id !== this.user.data.id)
+                }))
+                // console.log(friends);
+
+                this.listUser = friends.filter((item: any) => item.is_group == 0);
+                this.listGroup = friends.filter((item: any) => item.is_group == 1);
+                // console.log(this.listUser);
+                // console.log(this.listGroup);
+              });
           });
       }
     });
+
+    this.chatService.conversation$.subscribe(conversation => {
+      // console.log('Updated conversation from localStorage:', conversation);
+      this.conversation = conversation;
+    });
+  }
+
+  createChat(conversation_id: number) {
+    if (this.conversation.includes(conversation_id)) {
+      this.conversation = this.conversation.filter(id => id !== conversation_id);
+    }
+
+    if (this.conversation.length >= 5) {
+      this.conversation.shift();
+    }
+
+    this.conversation.push(conversation_id);
+
+    this.chatService.updateConversation(this.conversation);
+    this.chatService.tagOpenBoxChat = true;
   }
 
   searchFriend() {

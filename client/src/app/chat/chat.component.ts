@@ -4,13 +4,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../service/auth.service';
 import { EventService } from '../service/event.service';
-import { i } from 'vite/dist/node/types.d-aGj9QkWt';
 import { RouterModule } from '@angular/router';
+import { PickerComponent } from '@ctrl/ngx-emoji-mart';
+import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule],
+  imports: [FormsModule, CommonModule, RouterModule, EmojiModule, PickerComponent],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css',
 })
@@ -105,6 +106,16 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
               this.MessageUser(this.friends[0]);
             }
 
+            this.eventService.bindEvent('App\\Events\\UserBlockUserEvent', (data: any) => {
+              console.log('Block event:', data);
+              const blocker = data.blocker;
+              const type = data.type;
+              this.friends.find((friend: any) =>
+                friend.users[0].id == blocker.id && friend.is_group == 0)
+                  .users[0].blocked_by_user = (type == "block") ? true : false;
+            });
+
+
             this.eventService.bindEvent('App\\Events\\UserSendMessageEvent', (data: any) => {
               this.isScrollingToElement = false;
               console.log('Message event:', data);
@@ -143,6 +154,11 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
       });
   }
 
+  shortenTextByWords(text: string, maxWords: number): string {
+    const words = text.split(' ');
+    return words.length > maxWords ? words.slice(0, maxWords).join(' ') + '...' : text;
+  }
+
   removeVietnameseTones(str: string): string {
     return str.normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
@@ -155,22 +171,16 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
       .replace(/[ýỳỵỹy]/g, "y");
   }
 
-  shortenTextByWords(text: string, maxWords: number): string {
-    const words = text.split(' ');
-    return words.length > maxWords ? words.slice(0, maxWords).join(' ') + '...' : text;
-  }
-
   searchFriend() {
-    console.log(this.keyword);
 
     if (this.keyword && !/^\s*$/.test(this.keyword)) {
       this.friendsSearch = this.friendsFilter.filter((friend: any) => {
         const keyword = this.removeVietnameseTones(this.keyword.trim().toLowerCase());
-        const friendName = this.removeVietnameseTones(friend.name?.toLowerCase() || "");
+        const groupName = this.removeVietnameseTones(friend.name?.toLowerCase() || "");
         const displayName = this.removeVietnameseTones(friend.users[0]?.profile.display_name.toLowerCase() || "");
         const email = this.removeVietnameseTones(friend.users[0]?.email.toLowerCase() || "");
 
-        return displayName.includes(keyword) || email.includes(keyword) || friendName.includes(keyword);
+        return displayName.includes(keyword) || email.includes(keyword) || groupName.includes(keyword);
       });
     }
     else {
@@ -186,7 +196,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   }
 
   cancelRequest(receiver_id: number) {
-    this.authService.acceptFriend({ id: receiver_id, status: 'rejected' }).subscribe(
+    this.authService.cancelFriend(receiver_id).subscribe(
       (response) => {
         console.log(response);
       });
@@ -316,20 +326,12 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
       }
     )
 
-    if (conversation.is_group == 0) {
-      this.conversation = conversation;
-      console.log(this.conversation);
+    this.conversation = conversation;
+    console.log(this.conversation);
 
-      this.isScrollingToElement = false;
-      (document.querySelector('.textarea-chat') as HTMLTextAreaElement)?.focus();
-    } else {
-      this.chatService.getMessageGroup(conversation.id).subscribe(
-        (data: any) => {
-          this.conversation = data.data;
-          this.isScrollingToElement = false;
-          (document.querySelector('.textarea-chat') as HTMLTextAreaElement)?.focus();
-        });
-    }
+    this.isScrollingToElement = false;
+    (document.querySelector('.textarea-chat') as HTMLTextAreaElement)?.focus();
+
   }
 
   acceptFriend(id: number): void {
@@ -368,6 +370,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
           this.content = '';
           this.onCancelSendImg();
           this.onCancelReply();
+          this.showEmojiPicker = false;
         }
       );
     }
@@ -379,12 +382,56 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
           this.content = '';
           this.onCancelSendImg();
           this.onCancelReply();
+          this.showEmojiPicker = false;
           this.is_edit_message = false;
         }
       );
     }
-
   }
+
+
+  vietnameseI18n: any = {
+    search: 'Tìm kiếm',
+    categories: {
+      search: 'Kết quả tìm kiếm',
+      recent: 'Gần đây',
+      people: 'Mọi người',
+      nature: 'Thiên nhiên',
+      foods: 'Đồ ăn & Uống',
+      activity: 'Hoạt động',
+      places: 'Địa điểm',
+      objects: 'Đồ vật',
+      symbols: 'Biểu tượng',
+      flags: 'Cờ',
+    },
+    skinTones: {
+      1: 'Màu da mặc định',
+      2: 'Màu da sáng',
+      3: 'Màu da trung bình sáng',
+      4: 'Màu da trung bình',
+      5: 'Màu da trung bình tối',
+      6: 'Màu da tối',
+    },
+  };
+
+
+
+  showEmojiPicker: boolean = false;
+
+  toggleEmojiPicker() {
+    this.showEmojiPicker = !this.showEmojiPicker;
+  }
+
+  addEmoji(event: any) {
+    this.content += event.emoji.native;
+  }
+
+
+
+
+
+
+
 
   resetFileInput() {
     if (this.fileInput) {
@@ -433,7 +480,10 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
       if (message.countdown > 0) message.countdown--;
       else {
         this.chatService.recallMessage(id, { 'is_recalled': 1 }).subscribe(
-          (response) => console.log(response),
+          (response) => {
+            console.log(response);
+            if (this.checkPined(id)) this.pinMessage(id);
+          },
           (error) => console.error('Error recalling message', error)
         );
         message.showUndoBtn = false;
@@ -513,14 +563,35 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
   //pin
 
+  //block
+
+  blockUser(user_id: number) {
+    this.authService.postUserBlock(user_id).subscribe(
+      (response: any) => {
+        console.log(response);
+        this.conversation.users[0].blocked_user = !this.conversation.users[0].blocked_user;
+      });
+  }
+
+  //block
+
   searchMessage(): void {
     if (this.keywordSearch && !/^\s*$/.test(this.keywordSearch)) {
-      this.valueSearch = this.conversation.messages.filter((msg: any) =>
-        msg.content && msg.content.toLowerCase().includes(this.keywordSearch.toLowerCase().trim())
-      );
+
+      this.valueSearch = this.conversation.messages.filter((msg: any) => {
+        if (msg.is_recalled == 0) {
+          const keywordSearch = this.removeVietnameseTones(this.keywordSearch.trim().toLowerCase());
+          const msgContent = this.removeVietnameseTones(msg.content?.toLowerCase() || "");
+
+          return msgContent.includes(keywordSearch);
+        }
+        else {
+          return false;
+        }
+      });
+
       this.valueSearch.reverse();
-    }
-    else {
+    } else {
       this.valueSearch = [];
     }
   }

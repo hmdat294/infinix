@@ -101,3 +101,66 @@
     background-color: #005FB8E6;
     cursor: pointer;
 }
+
+
+::ng-deep quill-editor {
+    background-color: var(--card-background-default);
+    border-radius: 8px;
+}
+
+::ng-deep .ql-container {
+    border: none !important;
+    box-shadow: none !important;
+    height: auto !important; 
+    min-height: 0;
+    max-height: none;
+    overflow: visible;
+    padding: 10px;
+}
+
+::ng-deep .ql-editor {
+    padding: 5px;
+    border-radius: 4px;
+    color: var(--text-primary);
+    background-color: var(--control-default);
+    border-bottom: 1px inset var(--control-stroke-secondary);
+    border-left: 1px inset var(--control-stroke-default);
+    border-top: 1px inset var(--control-stroke-default);
+    border-right: 1px inset var(--control-stroke-default);
+}
+
+::ng-deep .ql-toolbar {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+::ng-deep .ql-editor::before {
+    content: none !important;
+}
+
+::ng-deep .ql-toolbar .ql-stroke {
+    stroke: var(--text-primary);
+}
+
+::ng-deep .ql-picker-label {
+    color: var(--text-primary);
+}
+
+::ng-deep .ql-toolbar .ql-fill {
+    fill: var(--text-primary);
+}
+
+::ng-deep .ql-toolbar button {
+    border: 1px solid var(--text-primary);
+    color: var(--text-primary);
+}
+
+::ng-deep .ql-toolbar button:hover {
+    background-color: var(--subtle-secondary);
+    color: var(--accent-text-primary);
+}
+
+::ng-deep .ql-toolbar .ql-active {
+    background-color: var(--subtle-secondary);
+    color: var(--accent-text-primary);
+}

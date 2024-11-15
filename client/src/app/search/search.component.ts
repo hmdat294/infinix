@@ -8,20 +8,28 @@ import { EventService } from '../service/event.service';
 import { CarouselService } from '../service/carousel.service';
 import moment from 'moment';
 import { ChatService } from '../service/chat.service';
+import { DomSanitizer } from '@angular/platform-browser';
+import { PickerComponent } from '@ctrl/ngx-emoji-mart';
+import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
+import { QuillModule } from 'ngx-quill';
 
 @Component({
   selector: 'app-search',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, EmojiModule, PickerComponent, QuillModule],
   templateUrl: './search.component.html',
   styleUrl: './search.component.css'
 })
 export class SearchComponent implements OnInit, AfterViewInit {
 
+  contentUpdate: string = '';
   valueSearchPosts: any[] = [];
   valueSearchUsers: any[] = [];
+  selectedFilesUpdatePost: File[] = [];
   selectedFilesComment: File[] = [];
+  previewUpdatePostImages: string[] = [];
   previewCommentImages: string[] = [];
+  fileUpdatePost: any;
   fileComment: any;
   idDialog: number = 0;
   commentByPostId: any[] = [];
@@ -31,6 +39,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
   currentUser: any;
   listUser: any;
   listGroup: any;
+  contentCommentInput: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -40,6 +49,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
     private carouselService: CarouselService,
     private chatService: ChatService,
     private eventService: EventService,
+    private sanitizer: DomSanitizer
   ) { }
 
   ngOnInit(): void {
@@ -71,6 +81,10 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.initCarousels();
+  }
+
+  changeHtmlContent(content: string) {
+    return this.sanitizer.bypassSecurityTrustHtml(content);
   }
 
   initCarousels(): void {
@@ -121,6 +135,131 @@ export class SearchComponent implements OnInit, AfterViewInit {
     this.initCarousels();
   }
 
+  
+  deletePost(post_id: number) {
+    this.postService.deletePost(post_id).subscribe(
+      (response) => {
+        console.log(response);
+      }
+    );
+  }
+
+  updatePost(value: any) {
+    const urlImg = this.previewUpdatePostImages.filter(url => url.startsWith("http"));
+
+    if (value.contentUpdate && !this.spaceCheck.test(value.contentUpdate)) {
+      const formData = new FormData();
+      formData.append('content', value.contentUpdate);
+
+      if (this.selectedFilesUpdatePost.length > 0)
+        this.selectedFilesUpdatePost.forEach(image => formData.append('medias[]', image, image.name));
+
+      if (urlImg.length > 0)
+        urlImg.forEach(imagePath => formData.append('urls[]', imagePath));
+
+      this.postService.updatePost(this.postUpdateId, formData).subscribe(
+        (response) => {
+          console.log(response);
+          this.showDiaLogUpdatePost(null);
+        },
+        (error) => {
+          console.error("Error updating post:", error);
+        }
+      );
+    }
+  }
+
+
+  postUpdateId: number = 0;
+
+  showDiaLogUpdatePost(post: any) {
+    if (post == null) {
+      this.postUpdateId = 0;
+      this.onCancelUpdatePostImg();
+    }
+    else {
+      this.postUpdateId = post.id;
+      this.previewUpdatePostImages = post.medias.map((media: any) => media.path);
+      this.contentUpdate = post.content;
+    }
+  }
+
+  onFileUpdatePostSelected(event: any) {
+
+    const files: File[] = Array.from(event.target.files);
+    // console.log(files);
+    if (files && files.length > 0) {
+      files.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = e => this.previewUpdatePostImages.push(reader.result as string);
+        reader.readAsDataURL(file);
+        this.selectedFilesUpdatePost.push(file);
+      });
+    }
+  }
+
+  removeUpdatePostImage(index: number): void {
+    this.previewUpdatePostImages.splice(index, 1);
+    this.selectedFilesUpdatePost.splice(index, 1);
+  }
+
+  onCancelUpdatePostImg() {
+    this.contentUpdate = '';
+    this.selectedFilesUpdatePost = [];
+    this.previewUpdatePostImages = [];
+    if (this.fileUpdatePost) this.fileUpdatePost.nativeElement.value = '';
+  }
+
+
+  showEmojiPickerUpdate: boolean = false;
+
+  toggleEmojiPickerUpdate() {
+    this.showEmojiPickerUpdate = !this.showEmojiPickerUpdate;
+  }
+
+  addEmojiUpdate(event: any) {
+    this.contentUpdate += event.emoji.native;
+  }
+
+  editorModules = {
+    toolbar: [
+      [{ 'header': [1, 2, false] }],
+      ['bold', 'italic', 'underline', 'strike'],
+      [{ 'color': [] }, { 'background': [] }],
+      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+      [{ 'script': 'sub' }, { 'script': 'super' }],
+      [{ 'indent': '-1' }, { 'indent': '+1' }],
+      [{ 'direction': 'rtl' }],
+      [{ 'align': [] }],
+      ['clean'],
+      // ['link', 'image', 'video']
+    ]
+  };
+
+  vietnameseI18n: any = {
+    search: 'Tìm kiếm',
+    categories: {
+      search: 'Kết quả tìm kiếm',
+      recent: 'Gần đây',
+      people: 'Mọi người',
+      nature: 'Thiên nhiên',
+      foods: 'Đồ ăn & Uống',
+      activity: 'Hoạt động',
+      places: 'Địa điểm',
+      objects: 'Đồ vật',
+      symbols: 'Biểu tượng',
+      flags: 'Cờ',
+    },
+    skinTones: {
+      1: 'Màu da mặc định',
+      2: 'Màu da sáng',
+      3: 'Màu da trung bình sáng',
+      4: 'Màu da trung bình',
+      5: 'Màu da trung bình tối',
+      6: 'Màu da tối',
+    },
+  };
+
   search(keyword: string = this.keyword) {
     this.postService.getSearch(keyword).subscribe(
       (response) => {
@@ -131,6 +270,17 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
         this.eventService.bindEvent('App\\Events\\FriendRequestEvent', (data: any) => {
           console.log('Friend request event:', data);
+
+          if (data.status == "accepted") {
+            const friendfriend = this.valueSearchUsers.find((item: any) => item.id === data.receiver.id);
+            friendfriend.is_friend = true;
+          }
+
+          if (data.status == "rejected") {
+            const friendfriend = this.valueSearchUsers.find((item: any) => item.id === data.receiver.id);
+            friendfriend.is_friend = false;
+            friendfriend.is_sent_friend_request = false;
+          }
         });
       }
     )
@@ -162,6 +312,8 @@ export class SearchComponent implements OnInit, AfterViewInit {
     this.authService.addFriend(receiver_id).subscribe(
       (response) => {
         console.log(response);
+        const friendfriend = this.valueSearchUsers.find((item: any) => item.id === receiver_id);
+        friendfriend.is_sent_friend_request = !friendfriend.is_sent_friend_request;
       });
   }
 
@@ -169,13 +321,18 @@ export class SearchComponent implements OnInit, AfterViewInit {
     this.authService.unFriend(user_id).subscribe(
       (response) => {
         console.log(response);
+        const friendfriend = this.valueSearchUsers.find((item: any) => item.id === user_id);
+        friendfriend.is_friend = false;
+        friendfriend.is_sent_friend_request = false;
       });
   }
 
   cancelRequest(receiver_id: number) {
-    this.authService.acceptFriend({ id: receiver_id, status: 'rejected' }).subscribe(
+    this.authService.cancelFriend(receiver_id).subscribe(
       (response) => {
         console.log(response);
+        const friendfriend = this.valueSearchUsers.find((item: any) => item.id === receiver_id);
+        friendfriend.is_sent_friend_request = !friendfriend.is_sent_friend_request;
       });
   }
 
@@ -193,10 +350,12 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
 
   postComment(value: any) {
+    console.log(value);
 
     const formData = new FormData();
     formData.append('content', value.content);
     formData.append('post_id', value.post_id);
+    formData.append('user_id', value.user_id);
 
     if (this.selectedFilesComment.length > 0)
       formData.append('media', this.selectedFilesComment[0], this.selectedFilesComment[0].name);
@@ -204,7 +363,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
     this.postService.postComment(formData).subscribe(
       (response) => {
         console.log(response);
-        this.commentInput.nativeElement.value = '';
+        this.contentCommentInput = '';
         this.removeCommentImage();
       }
     )
@@ -222,6 +381,18 @@ export class SearchComponent implements OnInit, AfterViewInit {
       }
     )
   }
+
+  //like comment
+  likeComment(comment_id: number, post_id: number) {
+    this.postService.postLikeComment(comment_id).subscribe(
+      (response: any) => {
+        console.log(response);
+        const comment = this.commentByPostId[post_id].find((item: any) => item.id == comment_id);
+        comment.liked = !comment.liked;
+        (response.type == 'like') ? comment.like_count++ : comment.like_count--;
+      })
+  }
+  //like comment
 
   //bookmark
 
@@ -332,8 +503,9 @@ export class SearchComponent implements OnInit, AfterViewInit {
   messageReport: string = '';
   @ViewChild('checkboxesContainer') checkboxesContainer!: ElementRef;
 
-  showDialogReport(post_id: number) {
-    this.diaLogReport = post_id;
+  showDialogReport(id: any) {
+
+    this.diaLogReport = id;
     if (this.diaLogReport == 0) {
       this.valueReport = [];
       this.contentReport = '';
@@ -351,9 +523,9 @@ export class SearchComponent implements OnInit, AfterViewInit {
     else this.valueReport = this.valueReport.filter(value => value !== checkboxValue);
   }
 
-  listIdPostReport: any[] = [];
+  listIdReport: any[] = [];
 
-  postReport(value: any, post_id: number): any {
+  postReport(value: any): any {
 
     const valueReport = this.valueReport.join(', ');
     let content = '';
@@ -365,13 +537,19 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
     content = content.charAt(0).toUpperCase() + content.slice(1).toLowerCase() + '.';
 
-    this.postService.postReport({ content, post_id }).subscribe(
+    const postReport: any = this.diaLogReport;
+    postReport.content = content;
+
+    console.log(postReport);
+
+
+    this.postService.postReport(postReport).subscribe(
       (response: any) => {
         console.log(response);
 
-        this.listIdPostReport.push({ post_id: response.data.post_id, id: response.data.id });
-
-        console.log(this.listIdPostReport);
+        if (response.data.type == 'post') {
+          this.listIdReport.push({ id: response.data.id, post_id: response.data.post_id });
+        }
 
         this.messageReport =
           `<p class="validation-message validation-sucess text-body text-primary pt-15 px-20">
@@ -384,17 +562,16 @@ export class SearchComponent implements OnInit, AfterViewInit {
   }
 
   cancelReport(post_id: number) {
-    const report = this.listIdPostReport.find((item: any) => item.post_id === post_id);
+    const report = this.listIdReport.find((item: any) => item.post_id === post_id);
     this.postService.cancelReport(report.id).subscribe(
       (response: any) => {
-        this.listIdPostReport = this.listIdPostReport.filter((id: any) => id.id !== report.id);
-        console.log(this.listIdPostReport);
-      }
-    )
+        this.listIdReport = this.listIdReport.filter((id: any) => id.id !== report.id);
+        console.log(this.listIdReport);
+      });
   }
 
   isPostIdExist(post_id: number): boolean {
-    return this.listIdPostReport.some((item: any) => item.post_id === post_id);
+    return this.listIdReport.some((item: any) => item.post_id === post_id);
   }
 
   //report
