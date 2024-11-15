@@ -7,3 +7,12 @@ section>article {
         margin-top: 92px;
     }
 }
+
+.noti-hover>button{
+    transform: translateX(75px);
+    transition: 0.2s;
+}
+
+.noti-hover:hover>button{
+    transform: translateX(0);
+}

@@ -8,11 +8,12 @@ import { EventService } from '../service/event.service';
 import { ChatService } from '../service/chat.service';
 import { MiniChatComponent } from '../mini-chat/mini-chat.component';
 import { NotificationService } from '../service/notification.service';
+import { CurrencyVNDPipe } from '../currency-vnd.pipe';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterModule, CommonModule, FormsModule, MiniChatComponent],
+  imports: [RouterModule, CommonModule, FormsModule, MiniChatComponent, CurrencyVNDPipe],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
@@ -82,6 +83,7 @@ export class HeaderComponent implements OnInit {
     this.notificationService.updateNotification(notification_id).subscribe(
       (res: any) => {
         console.log(res);
+        this.notification.find((item:any) => item.id == notification_id).is_read = 1;
       });
   }
 
@@ -89,6 +91,7 @@ export class HeaderComponent implements OnInit {
     this.notificationService.deleteNotification(notification_id).subscribe(
       (res: any) => {
         console.log(res);
+        this.notification = this.notification.filter((item:any) => item.id != notification_id);
       });
   }
 
@@ -112,11 +115,12 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  diaLogNoti: boolean = false;
+  diaLogHeader: string = '';
 
-  diaLogNotification() {
-    this.diaLogNoti = !this.diaLogNoti;
+  viewDiaLogHeader(action:string) {
+    this.diaLogHeader = (this.diaLogHeader == action) ? '' : action;
   }
+
 
 
 }
