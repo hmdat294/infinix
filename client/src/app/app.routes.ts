@@ -40,7 +40,7 @@ export const routes: Routes = [
     { path: 'admin', component: DashboardComponent, canActivate: [AuthGuard] },
     { path: 'admin/user', component: UserComponent, canActivate: [AuthGuard] },
     { path: 'admin/report', component: ReportComponent, canActivate: [AuthGuard] },
-    { path: 'admin/report-post', component: ReportpostComponent, canActivate: [AuthGuard] },
+    { path: 'admin/report/post', component: ReportpostComponent, canActivate: [AuthGuard] },
     { path: 'admin/event', component: EventComponent, canActivate: [AuthGuard] },
 
     { path: '**', redirectTo: '', pathMatch: 'full' }

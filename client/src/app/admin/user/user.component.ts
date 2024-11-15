@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { NavComponent } from '../nav/nav.component';
 import { AdminService } from '../../service/admin.service';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [NavComponent, CommonModule],
+  imports: [NavComponent, CommonModule,RouterModule],
   templateUrl: './user.component.html',
   styleUrl: './user.component.css'
 })
