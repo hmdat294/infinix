@@ -94,6 +94,18 @@ export class AdminService {
   getTotalUsers(): Observable<{ data: number }> {
     return this.http.get<{ data: number }>('api_endpoint_here');
   }
+  updateReportStatus(id: number, status: string): Observable<any> {
+    const headers = this.authService.getToken();  
+    return this.http.post(`${this.apiUrl}/report/${id}`, { status }, { headers });
+}
+
+deleteReport(id: number): Observable<any> {
+  const headers = this.authService.getToken();
+  return this.http.delete(`${this.apiUrl}/report/${id}`, { headers });
+}
+
+
+  
   
   
 }

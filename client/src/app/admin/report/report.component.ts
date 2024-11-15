@@ -25,9 +25,7 @@ export class ReportComponent {
   ngOnInit(): void {
     this.adminService.getReports().subscribe(
       (response) => {
-        // Gán mảng `data` từ response vào `listUser`
         this.listReport = response.data.filter((item: any) => item.type === 'user');
-        
         console.log(this.listReport);
       },
       (error) => {
