@@ -188,7 +188,7 @@
                                             Report : </div>
                                         <div>{{item.content}}</div>
                                     </div>
-                                    <div class="w-fill-column-3">
+                                    <div class="w-fill-column-3 align-center-center">
 
                                         <select [(ngModel)]="item.status"
                                             class="status-select">
@@ -198,16 +198,9 @@
                                                 value="resolved">Resolved</option>
                                         </select>
                                     </div>
-                                    <div class="w-fill-column-3">
-                                        <select class="status-select ">
-                                            <option
-                                                value="pending">Banned</option>
-                                            <option
-                                                value="resolved">Mute</option>
-                                            <option
-                                                value="resolved">Warn</option>
-                                        </select>
-
+                                    <div class="w-fill-column-3 layout-horizontal gap-10">
+                                        <div class="text-body-strong accent-text-primary "> Type: </div>
+                                        <div>{{item.type}}</div>
                                     </div>
                                     <div class="w-fill-column-3">
                                         <button
