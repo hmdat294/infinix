@@ -18,13 +18,15 @@ class FriendRequestEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    protected $id;
     protected $sender_id;
     protected $receiver_id;
     protected $status;
 
 
-    public function __construct($sender_id, $receiver_id, $status)
+    public function __construct($id, $sender_id, $receiver_id, $status)
     {
+        $this->id = $id;
         $this->sender_id = $sender_id;
         $this->receiver_id = $receiver_id;
         $this->status = $status;
@@ -45,12 +47,9 @@ class FriendRequestEvent implements ShouldBroadcast
 
     public function broadcastWith(): array
     {
-        Log::info($this->sender_id." - ".$this->receiver_id." - ".$this->status);
-        $friend_request = FriendRequest::where('sender_id', $this->sender_id)
-            ->where('receiver_id', $this->receiver_id)
-            ->first();
+        Log::info('event id request:' . $this->id);
         return [
-            'id' => $friend_request->id,
+            'id' => $this->id,
             'sender' => new UserResource(UserModel::find($this->sender_id)),
             'receiver' => new UserResource(UserModel::find($this->receiver_id)),
             'status' => $this->status,

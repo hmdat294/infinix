@@ -6,11 +6,14 @@ import { ChatService } from '../service/chat.service';
 import { filter } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
+import { PickerComponent } from '@ctrl/ngx-emoji-mart';
+import { SettingService } from '../service/setting.service';
 
 @Component({
   selector: 'app-mini-chat',
   standalone: true,
-  imports: [RouterModule, CommonModule, FormsModule],
+  imports: [RouterModule, CommonModule, FormsModule, EmojiModule, PickerComponent],
   templateUrl: './mini-chat.component.html',
   styleUrl: './mini-chat.component.css'
 })
@@ -49,6 +52,7 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
     private authService: AuthService,
     private eventService: EventService,
     private chatService: ChatService,
+    private settingService: SettingService,
   ) { }
 
   ngOnInit(): void {
@@ -63,22 +67,25 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
     this.authService.getUser(0).subscribe(
       (response) => {
         this.user = response.data;
-
+        
         // this.conversation = JSON.parse(localStorage.getItem('conversation') || '[]');
-
+        
         this.chatService.conversation$.subscribe(conversation => {
+          // console.log(this.chatService.tagOpenBoxChat);
           // console.log('Updated conversation from localStorage:', conversation);
           this.conversation = conversation;
           this.filterListChat();
 
           if (this.chatService.tagOpenBoxChat) {
-            this.chatService.tagOpenBoxChat = false;
+            // this.chatService.tagOpenBoxChat = false;
             this.showChat = true;
             this.getMiniChat(conversation[conversation.length - 1]);
           }
           else {
             this.showChat = false;
           }
+
+
         });
 
         this.chatService.getListChat().subscribe(
@@ -94,7 +101,7 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
 
             if (!this.chat)
               this.chat = this.filteredConversations[0];
-            console.log(this.chat);
+            // console.log(this.chat);
 
             this.eventService.bindEvent('App\\Events\\UserSendMessageEvent', (data: any) => {
               console.log('Message received:', data);
@@ -180,8 +187,7 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
   }
 
   shortenTextByWords(text: string, maxWords: number): string {
-    const words = text.split(' ');
-    return words.length > maxWords ? words.slice(0, maxWords).join(' ') + '...' : text;
+    return this.settingService.shortenTextByWords(text, maxWords);
   }
 
   getReply(id: number) {
@@ -242,6 +248,16 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
     return this.chat.messages[i].created_at_date !== this.chat.messages[i - 1].created_at_date;
   }
 
+  resizeTextarea(event: any): void {
+    const textarea = event.target;
+    if (!textarea.value) {
+      textarea.style.height = '32px'; // Chiều cao mặc định khi không có nội dung
+    } else if (textarea.scrollHeight < 110) {
+      textarea.style.height = 'fit-content';
+      textarea.style.height = textarea.scrollHeight + 'px';
+    }
+  }
+
   onReply(id: number) {
     this.reply_id = id;
     const reply = this.chat.messages.find((data: any) => data.id == id);
@@ -294,6 +310,18 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
   }
 
   //pin
+
+  //block
+
+  blockUser(user_id: number) {
+    this.authService.postUserBlock(user_id).subscribe(
+      (response: any) => {
+        console.log(response);
+        this.chat.users[0].blocked_user = !this.chat.users[0].blocked_user;
+      });
+  }
+
+  //block
 
   recallMessage(id: number) {
     const message = this.chat.messages.find((item: any) => item.id === id);
@@ -362,6 +390,43 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
     }
 
   }
+
+  vietnameseI18n: any = {
+    search: 'Tìm kiếm',
+    categories: {
+      search: 'Kết quả tìm kiếm',
+      recent: 'Gần đây',
+      people: 'Mọi người',
+      nature: 'Thiên nhiên',
+      foods: 'Đồ ăn & Uống',
+      activity: 'Hoạt động',
+      places: 'Địa điểm',
+      objects: 'Đồ vật',
+      symbols: 'Biểu tượng',
+      flags: 'Cờ',
+    },
+    skinTones: {
+      1: 'Màu da mặc định',
+      2: 'Màu da sáng',
+      3: 'Màu da trung bình sáng',
+      4: 'Màu da trung bình',
+      5: 'Màu da trung bình tối',
+      6: 'Màu da tối',
+    },
+  };
+
+
+
+  showEmojiPicker: boolean = false;
+
+  toggleEmojiPicker() {
+    this.showEmojiPicker = !this.showEmojiPicker;
+  }
+
+  addEmoji(event: any) {
+    this.content += event.emoji.native;
+  }
+
 
 
   onFileSelected(event: any) {

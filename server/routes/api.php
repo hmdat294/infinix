@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VerificationCodeController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CommentLikeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\FriendRequestController;
 use App\Http\Controllers\PostCommentController;
@@ -113,6 +114,8 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
     Route::resource('like', PostLikeController::class)
     ->only(['index', 'store'])
     ->parameters(['like' => 'post-id']);
+
+    Route::post('like-comment', [CommentLikeController::class, 'store']);
 
     // Share bài viết
     // Route::resource('share', PostShareController::class)

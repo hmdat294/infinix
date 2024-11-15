@@ -7,6 +7,7 @@ import { EventService } from '../service/event.service';
 import { RouterModule } from '@angular/router';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
+import { SettingService } from '../service/setting.service';
 
 @Component({
   selector: 'app-chat',
@@ -74,7 +75,8 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     private renderer: Renderer2,
     private chatService: ChatService,
     private authService: AuthService,
-    private eventService: EventService
+    private eventService: EventService,
+    private settingService: SettingService
   ) { }
 
   @ViewChild('scrollBox') private scrollBox!: ElementRef;
@@ -105,6 +107,16 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
             if (this.friends.length > 0) {
               this.MessageUser(this.friends[0]);
             }
+
+            this.eventService.bindEvent('App\\Events\\UserBlockUserEvent', (data: any) => {
+              console.log('Block event:', data);
+              const blocker = data.blocker;
+              const type = data.type;
+              this.friends.find((friend: any) =>
+                friend.users[0].id == blocker.id && friend.is_group == 0)
+                  .users[0].blocked_by_user = (type == "block") ? true : false;
+            });
+
 
             this.eventService.bindEvent('App\\Events\\UserSendMessageEvent', (data: any) => {
               this.isScrollingToElement = false;
@@ -145,30 +157,19 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   }
 
   shortenTextByWords(text: string, maxWords: number): string {
-    const words = text.split(' ');
-    return words.length > maxWords ? words.slice(0, maxWords).join(' ') + '...' : text;
+    return this.settingService.shortenTextByWords(text, maxWords);
   }
 
-  removeVietnameseTones(str: string): string {
-    return str.normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/[đĐ]/g, "d")
-      .replace(/[ăâä]/g, "a")
-      .replace(/[ưùụũưû]/g, "u")
-      .replace(/[êéẹèẽ]/g, "e")
-      .replace(/[ôơóòõọ]/g, "o")
-      .replace(/[íìịĩi]/g, "i")
-      .replace(/[ýỳỵỹy]/g, "y");
-  }
+
 
   searchFriend() {
 
     if (this.keyword && !/^\s*$/.test(this.keyword)) {
       this.friendsSearch = this.friendsFilter.filter((friend: any) => {
-        const keyword = this.removeVietnameseTones(this.keyword.trim().toLowerCase());
-        const groupName = this.removeVietnameseTones(friend.name?.toLowerCase() || "");
-        const displayName = this.removeVietnameseTones(friend.users[0]?.profile.display_name.toLowerCase() || "");
-        const email = this.removeVietnameseTones(friend.users[0]?.email.toLowerCase() || "");
+        const keyword = this.settingService.removeVietnameseTones(this.keyword.trim().toLowerCase());
+        const groupName = this.settingService.removeVietnameseTones(friend.name?.toLowerCase() || "");
+        const displayName = this.settingService.removeVietnameseTones(friend.users[0]?.profile.display_name.toLowerCase() || "");
+        const email = this.settingService.removeVietnameseTones(friend.users[0]?.email.toLowerCase() || "");
 
         return displayName.includes(keyword) || email.includes(keyword) || groupName.includes(keyword);
       });
@@ -322,15 +323,6 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     this.isScrollingToElement = false;
     (document.querySelector('.textarea-chat') as HTMLTextAreaElement)?.focus();
 
-    // if (conversation.is_group == 0) {
-    // } else {
-    //   this.chatService.getMessageGroup(conversation.id).subscribe(
-    //     (data: any) => {
-    //       this.conversation = data.data;
-    //       this.isScrollingToElement = false;
-    //       (document.querySelector('.textarea-chat') as HTMLTextAreaElement)?.focus();
-    //     });
-    // }
   }
 
   acceptFriend(id: number): void {
@@ -562,13 +554,25 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
   //pin
 
+  //block
+
+  blockUser(user_id: number) {
+    this.authService.postUserBlock(user_id).subscribe(
+      (response: any) => {
+        console.log(response);
+        this.conversation.users[0].blocked_user = !this.conversation.users[0].blocked_user;
+      });
+  }
+
+  //block
+
   searchMessage(): void {
     if (this.keywordSearch && !/^\s*$/.test(this.keywordSearch)) {
 
       this.valueSearch = this.conversation.messages.filter((msg: any) => {
         if (msg.is_recalled == 0) {
-          const keywordSearch = this.removeVietnameseTones(this.keywordSearch.trim().toLowerCase());
-          const msgContent = this.removeVietnameseTones(msg.content?.toLowerCase() || "");
+          const keywordSearch = this.settingService.removeVietnameseTones(this.keywordSearch.trim().toLowerCase());
+          const msgContent = this.settingService.removeVietnameseTones(msg.content?.toLowerCase() || "");
 
           return msgContent.includes(keywordSearch);
         }

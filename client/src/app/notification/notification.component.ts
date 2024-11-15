@@ -25,4 +25,21 @@ export class NotificationComponent implements OnInit {
       });
 
   }
+
+  
+  updateNotification(notification_id: number){
+    this.notificationService.updateNotification(notification_id).subscribe(
+      (res: any) => {
+        console.log(res);
+        this.notification.find((item:any) => item.id == notification_id).is_read = 1;
+      });
+  }
+
+  deleteNotification(notification_id: number){
+    this.notificationService.deleteNotification(notification_id).subscribe(
+      (res: any) => {
+        console.log(res);
+        this.notification = this.notification.filter((item:any) => item.id != notification_id);
+      });
+  }
 }

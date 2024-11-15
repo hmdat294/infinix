@@ -85,6 +85,9 @@ export class GeneralSettingsComponent implements OnInit {
         else if (type == 'user') {
           this.listUserReport = this.listUserReport.filter((id: any) => id.id !== report_id);
         }
+        else if (type == 'comment') {
+          this.listCommentReport = this.listCommentReport.filter((id: any) => id.id !== report_id);
+        }
       });
   }
 

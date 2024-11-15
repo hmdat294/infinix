@@ -51,7 +51,7 @@ class NotificationController extends Controller
     //                 $data['content'] = $targer_user_display_name . ' đã gửi lời mời kết bạn';
     //                 $data['friend_request_id'] = $request->input('friend_request_id');
     //             }
-    
+
     //             if ($request->input('action_type') == 'user_accept_friend_request' ) {
     //                 $data['action_type'] = 'user_accept_friend_request';
     //                 $data['content'] = $targer_user_display_name . ' đã chấp nhận lời mời kết bạn';
@@ -65,7 +65,7 @@ class NotificationController extends Controller
     //                 $data['content'] = $targer_user_display_name . ' đã gửi lời mời tham gia nhóm trò chuyện';
     //                 $data['conversation_invitation_id'] = $request->input('conversation_invitation_id');
     //             }
-    
+
     //             if ($request->input('action_type') == 'user_accept_conversation_invitation' ) {
     //                 $data['action_type'] = 'user_accept_conversation_invitation';
     //                 $data['content'] = $targer_user_display_name . ' đã chấp nhận lời mời tham gia nhóm trò chuyện';
@@ -83,20 +83,20 @@ class NotificationController extends Controller
     //                     $data['content'] = $targer_user_display_name . ' đã đăng một bài viết mới';
     //                     $data['post_id'] = $request->input('post_id');
     //                 }
-    
+
     //                 if ($request->input('action_type') == 'user_like_post' ) {
     //                     $data['action_type'] = 'user_like_post';
     //                     $data['content'] = $targer_user_display_name . ' đã thích bài viết của bạn';
     //                     $data['post_id'] = $request->input('post_id');
     //                 }
-    
+
     //                 if ($request->input('action_type') == 'user_comment_post' ) {
     //                     $data['action_type'] = 'user_comment_post';
     //                     $data['content'] = $targer_user_display_name . ' đã bình luận bài viết của bạn';
     //                     $data['comment_id'] = $request->input('comment_id');
     //                     $data['post_id'] = $request->input('post_id');
     //                 }
-    
+
     //                 if ($request->input('action_type') == 'user_share_post' ) {
     //                     $data['action_type'] = 'user_share_post';
     //                     $data['content'] = $targer_user_display_name . ' đã chia sẻ bài viết của bạn';
@@ -137,29 +137,27 @@ class NotificationController extends Controller
     //         ], 200);
 
     //     }
-        
+
     // }
 
     public function show(string $id)
     {
-        $notification = DisabledNotificationModel::find($id);
+        $notification = NotificationModel::find($id);
         return new NotificationResource($notification);
     }
 
     public function update(Request $request, string $id)
     {
-        if ($request->has('is_read')) {
-            $notification = DisabledNotificationModel::find($id);
-            $notification->is_read = true;
-            $notification->save();
-        }
+        $notification = NotificationModel::find($id);
+        $notification->is_read = true;
+        $notification->save();
 
         return new NotificationResource(NotificationModel::find($id));
     }
 
     public function destroy(string $id)
     {
-        $notification = DisabledNotificationModel::find($id);
+        $notification = NotificationModel::find($id);
         $notification->delete();
 
         return response()->json([

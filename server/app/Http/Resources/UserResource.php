@@ -30,17 +30,19 @@ class UserResource extends JsonResource
 
         if ($request->user()) {
 
-            $blocked_by_user = $request->user()->blockedBy->contains($this->id);
-            $blocked_user = $request->user()->blockings->contains($this->id);
+            $current_user = User::find($request->user()->id);
 
-            $friendsOf =  $request->user()->friendsOf ?: collect();
-            $friendsOfMine =$request->user()->friendsOfMine ?: collect();
+            $blocked_by_user = $current_user->blockedBy->contains($this->id);
+            $blocked_user = $current_user->blockings->contains($this->id);
+
+            $friendsOf =  $current_user->friendsOf ?: collect();
+            $friendsOfMine =$current_user->friendsOfMine ?: collect();
             $friends = $friendsOf->concat($friendsOfMine);
             
             $followers = $this->followers;
             $followings = $this->followings;
 
-            $friend_request = FriendRequestModel::where('sender_id', $request->user()->id)
+            $friend_request = FriendRequestModel::where('sender_id', $current_user->id)
             ->where('receiver_id', $this->id)
             ->where('status', "pending")
             ->first();

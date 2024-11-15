@@ -93,7 +93,7 @@ class FriendRequestController extends Controller
             'receiver_id' => $request->receiver_id,
         ]);
 
-        event(new FriendRequestEvent($request->user()->id, $request->receiver_id, 'pending'));
+        event(new FriendRequestEvent($friend_request->id, $friend_request->sender_id, $friend_request->receiver_id, 'pending'));
         $this->sendNotification($friend_request->id, 'pending');
         return new FriendRequestResource($friend_request);
     }
@@ -138,7 +138,8 @@ class FriendRequestController extends Controller
         ]);
 
         if ($request->input('status') === 'accepted') {
-            event(new FriendRequestEvent(FriendRequestModel::find($id)->sender_id, FriendRequestModel::find($id)->receiver_id, 'accepted'));
+            Log::info('id request accepted: ' . $friend_request->id);
+            event(new FriendRequestEvent($friend_request->id, $friend_request->sender_id, $friend_request->receiver_id, 'accepted'));
             RelationshipModel::create([
                 'user_id' => FriendRequestModel::find($id)->sender_id,
                 'related_user_id' => FriendRequestModel::find($id)->receiver_id,
@@ -160,7 +161,9 @@ class FriendRequestController extends Controller
 
             $this->sendNotification($id, 'accepted');
         } else {
-            event(new FriendRequestEvent(FriendRequestModel::find($id)->sender_id, FriendRequestModel::find($id)->receiver_id, 'rejected'));
+
+            Log::info('id request rejected: ' . $friend_request->id);
+            event(new FriendRequestEvent($friend_request->id, $friend_request->sender_id, $friend_request->receiver_id, 'rejected'));
         }
         Log::info(json_encode($friend_request));
         return new FriendRequestResource($friend_request);
@@ -168,9 +171,12 @@ class FriendRequestController extends Controller
 
     public function cancel(Request $request, string $user_id)
     {
+        
         $friend_request = FriendRequestModel::where('sender_id', $request->user()->id)->where('receiver_id', $user_id)->where('status', 'pending')->first();
-        event(new CancelFriendRequestEvent($friend_request));
+        
 
+        Log::info('id request canceled: ' . $friend_request->id);
+        event(new FriendRequestEvent($friend_request->id, $friend_request->sender_id, $friend_request->receiver_id, 'canceled'));
         $friend_request->delete();
 
         return response()->json([

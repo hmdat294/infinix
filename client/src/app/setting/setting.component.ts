@@ -5,24 +5,21 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { GeneralSettingsComponent } from "./general-settings/general-settings.component";
 import { AccountSettingsComponent } from "./account-settings/account-settings.component";
 import { AppearanceSettingsComponent } from "./appearance-settings/appearance-settings.component";
+import { ShopSettingsComponent } from "./shop-settings/shop-settings.component";
 
 
 @Component({
   selector: 'app-setting',
   standalone: true,
-  imports: [CommonModule, FormsModule, GeneralSettingsComponent, AccountSettingsComponent, AppearanceSettingsComponent],
+  imports: [CommonModule, FormsModule, GeneralSettingsComponent, AccountSettingsComponent, AppearanceSettingsComponent, ShopSettingsComponent],
   templateUrl: './setting.component.html',
   styleUrl: './setting.component.css'
 })
 export class SettingComponent implements OnInit {
 
-  tabSetting: string = 'general-settings';
+  tabSetting: string = 'shop-settings';
 
-  constructor(
-    private authService: AuthService,
-    private renderer: Renderer2,
-    private el: ElementRef,
-  ) { }
+  constructor() { }
 
   ngOnInit(): void {
 

@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { EventService } from '../../service/event.service';
 import { FormsModule } from '@angular/forms';
 import { ChatService } from '../../service/chat.service';
+import { SettingService } from '../../service/setting.service';
 
 @Component({
   selector: 'app-right-home',
@@ -20,6 +21,9 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
   showFriendMore: boolean = false;
   keyword: string = '';
   friendsSearch: any = [];
+  listUser: any;
+  listGroup: any;
+  conversation: any[] = [];
 
   constructor(
     private el: ElementRef,
@@ -27,7 +31,8 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
     private router: Router,
     private authService: AuthService,
     private chatService: ChatService,
-    private eventService: EventService
+    private eventService: EventService,
+    private settingService: SettingService,
   ) { }
 
   ngOnInit(): void {
@@ -73,15 +78,55 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
 
 
               });
+
+            this.chatService.getListChat().subscribe(
+              (response) => {
+
+                const friends = response.data.map((item: any) => ({
+                  ...item,
+                  users: item.users.filter((user: any) => user.id !== this.user.data.id)
+                }))
+                // console.log(friends);
+
+                this.listUser = friends.filter((item: any) => item.is_group == 0);
+                this.listGroup = friends.filter((item: any) => item.is_group == 1);
+                // console.log(this.listUser);
+                // console.log(this.listGroup);
+              });
           });
       }
     });
+
+    this.chatService.conversation$.subscribe(conversation => {
+      // console.log('Updated conversation from localStorage:', conversation);
+      this.conversation = conversation;
+    });
+  }
+
+  createChat(conversation_id: number) {
+    if (this.conversation.includes(conversation_id)) {
+      this.conversation = this.conversation.filter(id => id !== conversation_id);
+    }
+
+    if (this.conversation.length >= 5) {
+      this.conversation.shift();
+    }
+
+    this.conversation.push(conversation_id);
+
+    this.chatService.updateConversation(this.conversation);
+    this.chatService.tagOpenBoxChat = true;
   }
 
   searchFriend() {
     if (this.keyword && !/^\s*$/.test(this.keyword)) {
-      this.friendsSearch = this.friends.filter((friend: any) =>
-        friend.profile.display_name.toLowerCase().includes(this.keyword.trim().toLowerCase()) || friend.email.toLowerCase().includes(this.keyword.trim().toLowerCase())
+      this.friendsSearch = this.friends.filter((friend: any) => {
+        const keyword = this.settingService.removeVietnameseTones(this.keyword.toLowerCase().trim());
+        const displayName = this.settingService.removeVietnameseTones(friend.profile.display_name.toLowerCase() || "");
+        const email = this.settingService.removeVietnameseTones(friend.email.toLowerCase() || "");
+        
+        return displayName.includes(keyword) || email.includes(keyword);
+      }
       );
     }
     else {
