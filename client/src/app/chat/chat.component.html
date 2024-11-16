@@ -292,7 +292,8 @@
                                                                 này</span>
                                                         </p>
                                                     </div>
-                                                    <div class="layout align-center-right pb-10" *ngIf="msg.is_recalled == 0">
+                                                    <div class="layout align-center-right pb-10"
+                                                        *ngIf="msg.is_recalled == 0">
 
                                                         <div>
                                                             <div>
@@ -387,7 +388,8 @@
                                                                 này</span>
                                                         </p>
                                                     </div>
-                                                    <div class="layout align-center-left pb-10" *ngIf="msg.is_recalled == 0">
+                                                    <div class="layout align-center-left pb-10"
+                                                        *ngIf="msg.is_recalled == 0">
                                                         <div>
                                                             <div>
                                                                 <div *ngIf="msg.reply_to_message_id">
@@ -599,9 +601,12 @@
                                                     </p>
                                                 </div>
                                                 <p class="position-absolute rounded-circle text-tertiary solid-background-tertiary shadow-dialog layout align-center-center"
-                                                    style="cursor: pointer; width: 20px; height: 20px; font-size: 10px; right: -10px; bottom: 12px;">
-                                                    <span><i style="font-size: 14px;"
-                                                            class="icon icon-ic_fluent_thumb_like_16_regular"></i></span>
+                                                    style="cursor: pointer; width: 20px; height: 20px; font-size: 10px; right: -10px; bottom: 12px;"
+                                                    (click)="likeMessage(msg.id)">
+                                                    <span>
+                                                        <i *ngIf="msg.liked" style="font-size: 14px;" class="icon icon-ic_fluent_thumb_like_16_filled"></i>
+                                                        <i *ngIf="!msg.liked" style="font-size: 14px;" class="icon icon-ic_fluent_thumb_like_16_regular"></i>
+                                                    </span>
                                                 </p>
                                             </div>
 

@@ -41,7 +41,7 @@
 
                 <div class="layout-horizontal align-center-space-between px-20 py-15">
                     <p class="text-primary text-subtitle">Tất cả sản phẩm</p>
-                    
+
                     <select name="" id="" class="control text-primary">
                         <option value="">Tất cả</option>
                         <option value="">Tất cả</option>
@@ -51,10 +51,11 @@
 
                 <div class="layout-wrap gap-20 p-20 border-top border-card-default w-fill overflow-scroll-vertical">
 
-                    <div class="border rounded-4 layout-vertical w-fill-column-6 overflow-hidden">
+                    <div class="border rounded-4 layout-vertical w-fill-column-4 overflow-hidden"><!-- for -->
                         <img src="assets/image/hinh.jpg" alt="" style="height: 150px;" class="w-fill object-fit-cover">
                         <div class="layout-vertical gap-20 w-fill p-10">
-                            <p class="text-primary text-body-strong">{{shortenTextByWords('Quần short nam Choice HT15 chất cotton Basic thể thao phong cách Hàn Quốc', 10)}}</p>
+                            <p class="text-primary text-body-strong cursor-pointer"
+                                (click)="showDiaLogDetailProduct({'id':1})">{{shortenTextByWords(text, 10)}}</p>
                             <div class="layout-horizontal align-center-space-between">
                                 <p class="text-primary text-body w-fill">{{ 5000000 | currencyVND }}</p>
                                 <button type="button" class="button-standard button-icon-only">
@@ -63,98 +64,44 @@
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="border rounded-4 layout-vertical w-fill-column-6 overflow-hidden">
-                        <img src="assets/image/hinh.jpg" alt="" style="height: 150px;" class="w-fill object-fit-cover">
-                        <div class="layout-vertical gap-20 w-fill p-10">
-                            <p class="text-primary text-body-strong">{{shortenTextByWords('Quần short nam Choice HT15 chất cotton Basic thể thao phong cách Hàn Quốc', 10)}}</p>
-                            <div class="layout-horizontal align-center-space-between">
-                                <p class="text-primary text-body w-fill">{{ 5000000 | currencyVND }}</p>
-                                <button type="button" class="button-standard button-icon-only">
-                                    <i class="icon-size-16 icon icon-ic_fluent_cart_16_filled"></i>
-                                </button>
+
+                </div>
+
+
+                <div class="position-fixed top-0 start-0 {{(productId != 0) ? 'display-block' : 'display-none'}}"
+                    style="width: 100%; height: 100vh; z-index: 20;">
+                    <div class="position-absolute top-0 start-0" (click)="showDiaLogDetailProduct(null)"
+                        style="width: 100%; height: 100vh; z-index: 1; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px);">
+                    </div>
+                    <div class="dialog-panel position-absolute top-50 start-50 translate-middle" style="z-index: 2;">
+                        <div class="layout-vertical p-20 gap-20 rounded-8 solid-background-base border border-card-default"
+                            style="width: 500px;">
+
+                            <button type="button" class="button-subtle button-icon-only w-hug position-absolute"
+                                (click)="showDiaLogDetailProduct(null)" style="right: 20px; top: 20px; z-index: 1;">
+                                <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_filled"></i>
+                            </button>
+
+                            <div class="pb-20 pt-5 border-bottom">
+                                <p class="text-subtitle text-primary text-center">Chi tiết sản phẩm</p>
+                            </div>
+
+                            <div class="border rounded-4 layout-vertical w-fill-column-4 overflow-hidden">
+                                <img src="assets/image/hinh.jpg" alt="" style="height: 150px;"
+                                    class="w-fill object-fit-cover">
+                                <div class="layout-vertical gap-20 w-fill p-10">
+                                    <p class="text-primary text-body-strong cursor-pointer">{{shortenTextByWords(text,
+                                        10)}}</p>
+                                    <div class="layout-horizontal align-center-space-between">
+                                        <p class="text-primary text-body w-fill">{{ 5000000 | currencyVND }}</p>
+                                        <button type="button" class="button-standard button-icon-only">
+                                            <i class="icon-size-16 icon icon-ic_fluent_cart_16_filled"></i>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="border rounded-4 layout-vertical w-fill-column-6 overflow-hidden">
-                        <img src="assets/image/hinh.jpg" alt="" style="height: 150px;" class="w-fill object-fit-cover">
-                        <div class="layout-vertical gap-20 w-fill p-10">
-                            <p class="text-primary text-body-strong">{{shortenTextByWords('Quần short nam Choice HT15 chất cotton Basic thể thao phong cách Hàn Quốc', 10)}}</p>
-                            <div class="layout-horizontal align-center-space-between">
-                                <p class="text-primary text-body w-fill">{{ 5000000 | currencyVND }}</p>
-                                <button type="button" class="button-standard button-icon-only">
-                                    <i class="icon-size-16 icon icon-ic_fluent_cart_16_filled"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="border rounded-4 layout-vertical w-fill-column-6 overflow-hidden">
-                        <img src="assets/image/hinh.jpg" alt="" style="height: 150px;" class="w-fill object-fit-cover">
-                        <div class="layout-vertical gap-20 w-fill p-10">
-                            <p class="text-primary text-body-strong">{{shortenTextByWords('Quần short nam Choice HT15 chất cotton Basic thể thao phong cách Hàn Quốc', 10)}}</p>
-                            <div class="layout-horizontal align-center-space-between">
-                                <p class="text-primary text-body w-fill">{{ 5000000 | currencyVND }}</p>
-                                <button type="button" class="button-standard button-icon-only">
-                                    <i class="icon-size-16 icon icon-ic_fluent_cart_16_filled"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="border rounded-4 layout-vertical w-fill-column-6 overflow-hidden">
-                        <img src="assets/image/hinh.jpg" alt="" style="height: 150px;" class="w-fill object-fit-cover">
-                        <div class="layout-vertical gap-20 w-fill p-10">
-                            <p class="text-primary text-body-strong">{{shortenTextByWords('Quần short nam Choice HT15 chất cotton Basic thể thao phong cách Hàn Quốc', 10)}}</p>
-                            <div class="layout-horizontal align-center-space-between">
-                                <p class="text-primary text-body w-fill">{{ 5000000 | currencyVND }}</p>
-                                <button type="button" class="button-standard button-icon-only">
-                                    <i class="icon-size-16 icon icon-ic_fluent_cart_16_filled"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="border rounded-4 layout-vertical w-fill-column-6 overflow-hidden">
-                        <img src="assets/image/hinh.jpg" alt="" style="height: 150px;" class="w-fill object-fit-cover">
-                        <div class="layout-vertical gap-20 w-fill p-10">
-                            <p class="text-primary text-body-strong">{{shortenTextByWords('Quần short nam Choice HT15 chất cotton Basic thể thao phong cách Hàn Quốc', 10)}}</p>
-                            <div class="layout-horizontal align-center-space-between">
-                                <p class="text-primary text-body w-fill">{{ 5000000 | currencyVND }}</p>
-                                <button type="button" class="button-standard button-icon-only">
-                                    <i class="icon-size-16 icon icon-ic_fluent_cart_16_filled"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="border rounded-4 layout-vertical w-fill-column-6 overflow-hidden">
-                        <img src="assets/image/hinh.jpg" alt="" style="height: 150px;" class="w-fill object-fit-cover">
-                        <div class="layout-vertical gap-20 w-fill p-10">
-                            <p class="text-primary text-body-strong">{{shortenTextByWords('Quần short nam Choice HT15 chất cotton Basic thể thao phong cách Hàn Quốc', 10)}}</p>
-                            <div class="layout-horizontal align-center-space-between">
-                                <p class="text-primary text-body w-fill">{{ 5000000 | currencyVND }}</p>
-                                <button type="button" class="button-standard button-icon-only">
-                                    <i class="icon-size-16 icon icon-ic_fluent_cart_16_filled"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="border rounded-4 layout-vertical w-fill-column-6 overflow-hidden">
-                        <img src="assets/image/hinh.jpg" alt="" style="height: 150px;" class="w-fill object-fit-cover">
-                        <div class="layout-vertical gap-20 w-fill p-10">
-                            <p class="text-primary text-body-strong">{{shortenTextByWords('Quần short nam Choice HT15 chất cotton Basic thể thao phong cách Hàn Quốc', 10)}}</p>
-                            <div class="layout-horizontal align-center-space-between">
-                                <p class="text-primary text-body w-fill">{{ 5000000 | currencyVND }}</p>
-                                <button type="button" class="button-standard button-icon-only">
-                                    <i class="icon-size-16 icon icon-ic_fluent_cart_16_filled"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    
                 </div>
 
             </div>

@@ -114,7 +114,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
               const type = data.type;
               this.friends.find((friend: any) =>
                 friend.users[0].id == blocker.id && friend.is_group == 0)
-                  .users[0].blocked_by_user = (type == "block") ? true : false;
+                .users[0].blocked_by_user = (type == "block") ? true : false;
             });
 
 
@@ -565,6 +565,16 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   }
 
   //block
+
+  //like
+  likeMessage(message_id: number) {
+    this.chatService.likeMessage(message_id).subscribe(
+      (response: any) => {
+        console.log(response);
+      }
+    )
+  }
+  //like
 
   searchMessage(): void {
     if (this.keywordSearch && !/^\s*$/.test(this.keywordSearch)) {
