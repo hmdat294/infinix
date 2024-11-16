@@ -38,7 +38,7 @@ class UserLikeMessageEvent
         $channels = [];
 
         foreach ($users as $user) {
-            $channels[] = new PrivateChannel('user.' . $user->id);
+            $channels[] = new Channel('user.' . $user->id);
         }
 
         return $channels;
