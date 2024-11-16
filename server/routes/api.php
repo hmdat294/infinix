@@ -22,6 +22,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\Statistics\GrowthStatisticsController;
 use App\Http\Controllers\Statistics\TotalController;
 use App\Http\Controllers\DisabledNotificationController;
+use App\Http\Controllers\MessageLikeController;
 use App\Http\Controllers\PinMessageController;
 use App\Http\Middleware\UpdateUserLastActivity;
 use App\Http\Controllers\NotificationController;
@@ -116,6 +117,7 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
     ->parameters(['like' => 'post-id']);
 
     Route::post('like-comment', [CommentLikeController::class, 'store']);
+    Route::post('like-message', [MessageLikeController::class, 'store']);
 
     // Share bài viết
     // Route::resource('share', PostShareController::class)

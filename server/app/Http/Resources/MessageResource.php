@@ -14,6 +14,12 @@ class MessageResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $liked = false;
+
+        if ($request->user()) {
+            $liked = $this->likes->contains($request->user());
+        }
+
         $data = parent::toArray($request);
         
         $data['created_at_time'] = $this->created_at->format('H:i');
@@ -25,6 +31,8 @@ class MessageResource extends JsonResource
         $data['user'] = new UserResource($this->user);
         $data['reply_to_message'] = $this->replyToMessage;
         $data['medias'] = $this->medias;
+        $data['likes'] = $this->likes->count();
+        $data['liked'] = $liked;
 
         return $data;
     }

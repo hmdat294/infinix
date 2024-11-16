@@ -39,4 +39,9 @@ class Message extends Model
     {
         return $this->hasMany(MessageMedia::class, 'message_id', 'id');
     }
+
+    public function likes()
+    {
+        return $this->belongsToMany(User::class, 'message_likes', 'message_id', 'user_id');
+    }
 }
