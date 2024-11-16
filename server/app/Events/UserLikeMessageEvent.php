@@ -10,6 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use App\Http\Resources\MessageResource;
+use App\Models\Message;
 
 class UserLikeMessageEvent implements ShouldBroadcast
 {
@@ -47,7 +48,7 @@ class UserLikeMessageEvent implements ShouldBroadcast
     public function broadcastWith(): array
     {
         return [
-            'message' => new MessageResource($this->message),
+            'message' => new MessageResource(Message::find($this->message->id)),
             'type' => $this->type,
         ];
     }
