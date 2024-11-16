@@ -177,8 +177,14 @@ export class CenterProfileComponent implements OnInit, AfterViewInit {
   }
 
   
-  deletePost(post_id: number) {
-    this.postService.deletePost(post_id).subscribe(
+  postDeleteId: number = 0;
+
+  setDeleteId(post_id: number) {
+    this.postDeleteId = post_id;
+  }
+
+  deletePost() {
+    this.postService.deletePost(this.postDeleteId).subscribe(
       (response) => {
         console.log(response);
       }

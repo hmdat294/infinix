@@ -50,7 +50,7 @@ export class AccountSettingsComponent implements OnInit {
     this.authService.updateUser(value).subscribe(
       (response) => {
         console.log(response);
-        this.tabAccordion = '';
+        this.tabChild('');
 
         if (value.email) {
           this.error1 =
@@ -60,7 +60,6 @@ export class AccountSettingsComponent implements OnInit {
             </p>`;
           setTimeout(() => this.error1 = '', 2000);
           this.error2 = '';
-          this.tabChild('');
         }
       })
   }

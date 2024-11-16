@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="https://chick2004.io.vn/css/index.css">
+        <link rel="stylesheet" href="report.css">
+    </head>
+    <body>
+        <section class="gradient-background layout-horizontal"
+            style="height: 100vh;">
+            <app-nav class="h-fill"></app-nav>
+
+            <article class="py-20 m-20 w-fill overflow-scroll-vertical ">
+                <div
+                    class="layout-horizontal  align-center-space-between mt-20 p-20">
+                    <div class="layout-horizontal gap-10 "
+                        style="padding: 10px;">
+                        <!-- search -->
+                        <div class="search-dropdown-control">
+                            <div class="control search-control">
+                                <input type="search"
+                                    placeholder="placeholder"
+                                    spellcheck="false">
+                                <button type="button"
+                                    class="input-button clear-content-button">
+                                    <i
+                                        class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
+                                </button>
+                                <button type="button"
+                                    class="input-button search-button">
+                                    <i
+                                        class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
+                                </button>
+                            </div>
+                            <div class="dropdown-menu">
+                                <div class="list-item">
+                                    <div class="text-body">Item 1</div>
+                                </div>
+                                <div class="list-item">
+                                    <div class="text-body">Item 2</div>
+                                </div>
+                                <div class="list-item">
+                                    <div class="text-body">Item 3</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- fillter -->
+                        <div class="layout-horizontal gap-10">
+                            <a href="#"
+                                class="button-standard button-text-with-icon gap-10">
+                                <i
+                                    class="icon-size-16 icon icon-ic_fluent_document_one_page_multiple_16_regular"></i>
+                                Post
+                            </a>
+                            <a href="#"
+                                class="button-standard button-text-with-icon gap-10">
+                                <i
+                                    class="icon-size-20 icon icon-ic_fluent_check_20_regular"></i>
+                                Comment
+                            </a>
+                            <a href="#"
+                                class="button-standard button-text-with-icon gap-10">
+                                <i
+                                    class="icon-size-16 icon icon-ic_fluent_person_16_regular"></i>
+                                User
+                            </a>
+                            <a href="#"
+                                class="button-standard button-text-only gap-10">
+                                <!-- <i
+                                class="icon-size-16 icon icon-ic_fluent_person_24_regular"></i> -->
+                                See All
+                            </a>
+                        </div>
+
+                    </div>
+                    <div class="me-25">
+                        <div class="pagination layout-horizontal">
+                            <button
+                                class="pagination-item button-subtle button-icon-only text-accent-default"><i
+                                    class="icon-size-24 icon icon-ic_fluent_caret_left_24_filled"></i></button>
+                            <button
+                                class="pagination-item button-subtle button-icon-only text-accent-default">1</button>
+                            <button
+                                class="pagination-item button-subtle button-icon-only text-accent-default">2</button>
+                            <button
+                                class="pagination-item button-subtle button-icon-only text-accent-default">3</button>
+                            <button
+                                class="pagination-item button-subtle button-icon-only text-accent-default">4</button>
+                            <button
+                                class="pagination-item button-subtle button-icon-only text-accent-default">5</button>
+                            <button
+                                class="pagination-item button-subtle button-icon-only text-accent-default"><i
+                                    class="icon-size-24 icon icon-ic_fluent_caret_right_24_filled"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div style="padding: 20px;">
+                    <div
+                        class="table-container solid-background-senary p-10 rounded-8  ">
+                        
+                        <div class="w-fill">
+                            <div
+                                class="head gap-20  w-fill align-center-space-between text-subtitle p-20">
+                                <div><input type="checkbox"></div>
+                                <div>User Report</div>
+                                <div>User Name</div>
+                                <div>Report Content</div>
+                                <div>Status</div>
+                                <div>Report date</div>
+                                <div>Actions</div>
+                            </div>
+                            <div class="">
+
+                                <div
+                                    class="report-show gap-20  w-fill align-center-space-between p-20">
+                                    <div><input type="checkbox"></div>
+    
+                                    <div>{{item.user.profile.display_name}}</div>
+                                    <div>{{item.sender.profile.display_name}}</div>
+                                    <div>{{shortenTextByWords(item.content,2)}}</div>
+                                    <div>{{item.status}}</div>
+                                    <div>{{item.created_at_date}}</div>
+                                    <div
+                                        class="layout-horizontal gap-20  ">
+                                        <a
+                                            class="button-subtle button-icon-only text-accent-default"
+                                            (click)="tabChild('display_name')">
+                                            <i
+                                                class="icon-size-24 icon icon-ic_fluent_settings_24_filled"></i>
+                                        </a>
+    
+                                        <a href="#"
+                                            class="button-subtle button-icon-only text-accent-default">
+                                            <i
+                                                class="icon-size-24 icon icon-ic_fluent_info_24_filled"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="accordion-panel open layout-vertical display_name">
+                                    <div class="p-15 layout-horizontal align-center-space-between">
+                                        <div class="control text-control w-hug">
+                                            <input type="text" spellcheck="false" name="display_name" >
+                                        </div>
+            
+                                        <button class="button-standard button-text-only"
+                                            >Lưu</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+
+            </article>
+        </section>
+    </body>
+    <script src="https://chick2004.io.vn/js/index.js" type="module"></script>
+</html>

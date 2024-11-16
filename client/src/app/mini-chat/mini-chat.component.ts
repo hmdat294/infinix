@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
+import { SettingService } from '../service/setting.service';
 
 @Component({
   selector: 'app-mini-chat',
@@ -51,6 +52,7 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
     private authService: AuthService,
     private eventService: EventService,
     private chatService: ChatService,
+    private settingService: SettingService,
   ) { }
 
   ngOnInit(): void {
@@ -185,8 +187,7 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
   }
 
   shortenTextByWords(text: string, maxWords: number): string {
-    const words = text.split(' ');
-    return words.length > maxWords ? words.slice(0, maxWords).join(' ') + '...' : text;
+    return this.settingService.shortenTextByWords(text, maxWords);
   }
 
   getReply(id: number) {

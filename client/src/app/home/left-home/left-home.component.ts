@@ -4,11 +4,13 @@ import { CommonModule } from '@angular/common';
 import { EventService } from '../../service/event.service';
 import { Router, RouterModule } from '@angular/router';
 import { ChatService } from '../../service/chat.service';
+import { CurrencyVNDPipe } from '../../currency-vnd.pipe';
+import { SettingService } from '../../service/setting.service';
 
 @Component({
   selector: 'app-left-home',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, CurrencyVNDPipe],
   templateUrl: './left-home.component.html',
   styleUrl: './left-home.component.css'
 })
@@ -22,10 +24,9 @@ export class LeftHomeComponent implements OnInit {
     private authService: AuthService,
     private eventService: EventService,
     private chatService: ChatService,
+    private settingService: SettingService,
     private router: Router,
-  ) {
-
-  }
+  ) { }
 
   ngOnInit(): void {
 
@@ -85,6 +86,10 @@ export class LeftHomeComponent implements OnInit {
         console.log(response);
         if (status == 'accepted') this.router.navigate(['/chat']);
       });
+  }
+
+  shortenTextByWords(text: string, maxWords: number): string {
+    return this.settingService.shortenTextByWords(text, maxWords);
   }
 
 }

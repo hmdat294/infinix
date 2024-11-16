@@ -20,6 +20,11 @@ export class NotificationService {
     return this.http.get(`${this.apiUrl}/notification`, { headers });
   }
 
+  updateNotification(notification_id: number): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.post(`${this.apiUrl}/notification/${notification_id}`, {}, { headers });
+  }
+
   deleteNotification(notification_id: number): Observable<any> {
     const headers = this.authService.getToken();
     return this.http.delete(`${this.apiUrl}/notification/${notification_id}`, { headers });

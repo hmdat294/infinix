@@ -7,6 +7,7 @@ import { EventService } from '../service/event.service';
 import { RouterModule } from '@angular/router';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
+import { SettingService } from '../service/setting.service';
 
 @Component({
   selector: 'app-chat',
@@ -74,7 +75,8 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     private renderer: Renderer2,
     private chatService: ChatService,
     private authService: AuthService,
-    private eventService: EventService
+    private eventService: EventService,
+    private settingService: SettingService
   ) { }
 
   @ViewChild('scrollBox') private scrollBox!: ElementRef;
@@ -112,7 +114,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
               const type = data.type;
               this.friends.find((friend: any) =>
                 friend.users[0].id == blocker.id && friend.is_group == 0)
-                  .users[0].blocked_by_user = (type == "block") ? true : false;
+                .users[0].blocked_by_user = (type == "block") ? true : false;
             });
 
 
@@ -150,35 +152,32 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
                 mess.is_edited = data.data.is_edited;
               }
             });
+
+            this.eventService.bindEvent('App\\Events\\UserLikeMessageEvent', (data: any) => {
+              console.log('Like Message event:', data);
+              if (this.conversation.id == data.message.conversation_id) {
+                const mess = this.conversation.messages.find((item: any) => item.id === data.message.id);
+                mess.likes = data.message.likes;
+              }
+            });
           });
       });
   }
 
   shortenTextByWords(text: string, maxWords: number): string {
-    const words = text.split(' ');
-    return words.length > maxWords ? words.slice(0, maxWords).join(' ') + '...' : text;
+    return this.settingService.shortenTextByWords(text, maxWords);
   }
 
-  removeVietnameseTones(str: string): string {
-    return str.normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/[đĐ]/g, "d")
-      .replace(/[ăâä]/g, "a")
-      .replace(/[ưùụũưû]/g, "u")
-      .replace(/[êéẹèẽ]/g, "e")
-      .replace(/[ôơóòõọ]/g, "o")
-      .replace(/[íìịĩi]/g, "i")
-      .replace(/[ýỳỵỹy]/g, "y");
-  }
+
 
   searchFriend() {
 
     if (this.keyword && !/^\s*$/.test(this.keyword)) {
       this.friendsSearch = this.friendsFilter.filter((friend: any) => {
-        const keyword = this.removeVietnameseTones(this.keyword.trim().toLowerCase());
-        const groupName = this.removeVietnameseTones(friend.name?.toLowerCase() || "");
-        const displayName = this.removeVietnameseTones(friend.users[0]?.profile.display_name.toLowerCase() || "");
-        const email = this.removeVietnameseTones(friend.users[0]?.email.toLowerCase() || "");
+        const keyword = this.settingService.removeVietnameseTones(this.keyword.trim().toLowerCase());
+        const groupName = this.settingService.removeVietnameseTones(friend.name?.toLowerCase() || "");
+        const displayName = this.settingService.removeVietnameseTones(friend.users[0]?.profile.display_name.toLowerCase() || "");
+        const email = this.settingService.removeVietnameseTones(friend.users[0]?.email.toLowerCase() || "");
 
         return displayName.includes(keyword) || email.includes(keyword) || groupName.includes(keyword);
       });
@@ -575,13 +574,25 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
   //block
 
+  //like
+  likeMessage(message_id: number) {
+    this.chatService.likeMessage(message_id).subscribe(
+      (response: any) => {
+        console.log(response);
+        const message = this.conversation.messages.find((item: any) => item.id === message_id);
+        message.liked = !message.liked;
+      }
+    )
+  }
+  //like
+
   searchMessage(): void {
     if (this.keywordSearch && !/^\s*$/.test(this.keywordSearch)) {
 
       this.valueSearch = this.conversation.messages.filter((msg: any) => {
         if (msg.is_recalled == 0) {
-          const keywordSearch = this.removeVietnameseTones(this.keywordSearch.trim().toLowerCase());
-          const msgContent = this.removeVietnameseTones(msg.content?.toLowerCase() || "");
+          const keywordSearch = this.settingService.removeVietnameseTones(this.keywordSearch.trim().toLowerCase());
+          const msgContent = this.settingService.removeVietnameseTones(msg.content?.toLowerCase() || "");
 
           return msgContent.includes(keywordSearch);
         }

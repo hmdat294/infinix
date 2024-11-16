@@ -4,3 +4,13 @@ header{
     left: 0;
     z-index: 10;
 }
+
+
+.noti-hover>button{
+    transform: translateX(75px);
+    transition: 0.2s;
+}
+
+.noti-hover:hover>button{
+    transform: translateX(0);
+}

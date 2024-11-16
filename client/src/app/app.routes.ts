@@ -14,6 +14,8 @@ import { SearchComponent } from './search/search.component';
 import { FriendProfileComponent } from './friend-profile/friend-profile.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { BookmarkComponent } from './bookmark/bookmark.component';
+import { ShopComponent } from './shop/shop.component';
+import { ReportComponent } from './admin/report/report.component';
 
 export const routes: Routes = [
     { path: '', component: MainHomeComponent, canActivate: [AuthGuard] },
@@ -27,12 +29,15 @@ export const routes: Routes = [
     { path: 'friend-profile/:user_id/:post_id', component: FriendProfileComponent, canActivate: [AuthGuard] },
     { path: 'bookmark', component: BookmarkComponent, canActivate: [AuthGuard] },
 
+    { path: 'shop', component: ShopComponent, canActivate: [AuthGuard] },
+
     { path: 'login', component: LoginComponent, canActivate: [AuthGuard] },
     { path: 'register', component: RegisterComponent, canActivate: [AuthGuard] },
     { path: 'forgot-password', component: ForgotPasswordComponent, canActivate: [AuthGuard] },
 
     { path: 'admin', component: DashboardComponent, canActivate: [AuthGuard] },
     { path: 'admin/user', component: UserComponent, canActivate: [AuthGuard] },
+    { path: 'admin/report', component: ReportComponent, canActivate: [AuthGuard] },
 
     { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
