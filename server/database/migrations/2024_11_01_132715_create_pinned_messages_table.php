@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('pinned_messages', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('message_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('conversation_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('message_id')->constrained()->onDelete('cascade');
+            $table->foreignId('conversation_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

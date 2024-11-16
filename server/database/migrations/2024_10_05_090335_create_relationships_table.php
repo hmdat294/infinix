@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('relationships', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId(column: 'related_user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->onDelete('cascade');
+            $table->foreignId('related_user_id')->constrained('users')->onDelete('cascade')->onDelete('cascade');
             $table->enum('type', ['follow', 'friend']);
             $table->timestamps();
         });
