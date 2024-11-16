@@ -152,6 +152,14 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
                 mess.is_edited = data.data.is_edited;
               }
             });
+
+            this.eventService.bindEvent('App\\Events\\UserLikeMessageEvent', (data: any) => {
+              console.log('Like Message event:', data);
+              if (this.conversation.id == data.message.conversation_id) {
+                const mess = this.conversation.messages.find((item: any) => item.id === data.message.id);
+                mess.likes = data.message.likes;
+              }
+            });
           });
       });
   }
@@ -571,6 +579,8 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     this.chatService.likeMessage(message_id).subscribe(
       (response: any) => {
         console.log(response);
+        const message = this.conversation.messages.find((item: any) => item.id === message_id);
+        message.liked = !message.liked;
       }
     )
   }
