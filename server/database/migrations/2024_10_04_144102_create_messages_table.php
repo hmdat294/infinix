@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
             $table->foreignId('conversation_id')->constrained('conversations')->onDelete('cascade');
-            $table->foreignId('reply_to_message_id')->nullable()->constrained('messages')->default(null);
+            $table->foreignId('reply_to_message_id')->nullable()->constrained('messages')->default(null)->onDelete('cascade');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('link')->nullable()->default(null);
             $table->boolean('is_recalled')->default(false);
