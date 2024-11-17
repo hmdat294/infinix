@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PaymentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VerificationCodeController;
@@ -201,6 +202,8 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
     Route::get('search-post/{keyword}', [SearchController::class, 'post'])->name('search.post');
     
     Route::post('update-user', [UserController::class, 'update']);
+
+    Route::post('vnpay-payment', [PaymentController::class, 'vnpay_payment']);
 
 
     // thống kê

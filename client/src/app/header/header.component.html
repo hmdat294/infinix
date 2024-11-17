@@ -54,7 +54,7 @@
                     <span>{{notification?.length}}</span>
                 </p>
             </a>
-            
+
             <a (click)="viewDiaLogHeader('cart')"
                 class="button-subtle button-icon-only {{(diaLogHeader == 'cart')?'text-accent-default':'text-secondary'}}">
                 <i *ngIf="(diaLogHeader == 'cart')" class="icon-size-24 icon icon-ic_fluent_cart_24_filled"></i>
@@ -158,8 +158,8 @@
                     <img src="assets/image/hinh.jpg" alt="" style="height: 100px; width: 100px;"
                         class="ms-10 object-fit-cover rounded-4">
                     <div class="layout-vertical gap-20 w-fill p-10">
-                        <p class="text-primary text-body-strong">{{'Quần short nam Choice HT15 chất cotton Basic thể
-                            thao phong cách Hàn Quốc'}}</p>
+                        <p class="text-primary text-body-strong">Quần short nam Choice HT15 chất cotton Basic thể thao
+                            phong cách Hàn Quốc</p>
                         <div class="layout-horizontal align-center-space-between">
                             <p class="text-primary text-body w-fill">{{ 5000000 | currencyVND }}</p>
                             <div class="control number-control">
@@ -180,7 +180,7 @@
             <div class="p-10 layout-horizontal align-center-space-between gap-20 border-top">
                 <p class="text-primary text-body-strong">Tổng tiền: <span class="text-body">{{1000000 |
                         currencyVND}}</span></p>
-                <button type="button" class="button-accent button-text-only">Thanh toán</button>
+                <button type="button" class="button-accent button-text-only" (click)="paymentVnpay()">Thanh toán</button>
             </div>
         </div>
     </div>

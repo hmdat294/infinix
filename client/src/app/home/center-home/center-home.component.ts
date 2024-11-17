@@ -225,6 +225,8 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
     this.postService.deletePost(this.postDeleteId).subscribe(
       (response) => {
         console.log(response);
+        this.listPost = this.listPost.filter((post: any) => post.id != this.postDeleteId);
+        this.postDeleteId = 0;
       }
     );
   }
