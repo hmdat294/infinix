@@ -204,6 +204,8 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
     Route::post('update-user', [UserController::class, 'update']);
 
     Route::post('vnpay-payment', [PaymentController::class, 'vnpay_payment']);
+    Route::post('zalopay-payment', [PaymentController::class, 'zalopay_payment']);
+    Route::post('/callback-payment', [PaymentController::class, 'callback_payment'])->name('callback-payment');
 
 
     // thống kê
