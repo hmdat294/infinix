@@ -38,7 +38,6 @@ export class GeneralSettingsComponent implements OnInit {
     this.authService.getUser(0).subscribe(
       (response) => {
         this.user = response.data;
-        // console.log(this.user);
       });
 
     this.authService.getUserReport().subscribe(
@@ -56,10 +55,10 @@ export class GeneralSettingsComponent implements OnInit {
 
     this.authService.getUserBlock().subscribe(
       (response) => {
-        // console.log('Block:', response);
         this.listBlock = response.data;
-        // console.log(this.listBlock);
       })
+
+
   }
 
   report_id: number = 0;
@@ -107,18 +106,12 @@ export class GeneralSettingsComponent implements OnInit {
     this.authService.updateUser(value).subscribe(
       (response) => {
         console.log(response);
-        this.tabAccordion = '';
+        this.tabChild('');
 
-        if (value.email) {
-          this.error1 =
-            `<p class="validation-message validation-sucess text-body text-primary">
-                <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
-                <span>Đổi email thành công!</span>
-            </p>`;
-          setTimeout(() => this.error1 = '', 2000);
-          this.error2 = '';
-          this.tabChild('');
+        if (value.display_name) {
+          this.settingService.updateValue({ 'display_name': value.display_name });
         }
+
       })
   }
 
@@ -130,7 +123,12 @@ export class GeneralSettingsComponent implements OnInit {
     const files: File[] = Array.from(event.target.files);
     const file = files[0];
     const reader = new FileReader();
-    reader.onload = e => this.previewProfileImages = [reader.result as string];
+    reader.onload = e => {
+
+      this.previewProfileImages = [reader.result as string];
+      this.settingService.updateValue({ 'profile_photo': this.previewProfileImages[0] });
+
+    };
     reader.readAsDataURL(file);
     this.selectedFilesProfile = [file];
 
@@ -138,6 +136,7 @@ export class GeneralSettingsComponent implements OnInit {
     if (this.selectedFilesProfile.length > 0)
       formData.append('profile_photo', this.selectedFilesProfile[0], this.selectedFilesProfile[0].name);
     this.updateUser(formData);
+
   }
 
   fileCover: any;

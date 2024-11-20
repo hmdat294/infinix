@@ -54,11 +54,18 @@
                     <span>{{notification?.length}}</span>
                 </p>
             </a>
-            <a [routerLink]="['/setting']"
-                class="button-subtle button-icon-only {{(currentRoute == 'setting')?'text-accent-default':'text-secondary'}}">
-                <i *ngIf="(currentRoute == 'setting')" class="icon-size-24 icon icon-ic_fluent_settings_24_filled"></i>
-                <i *ngIf="(currentRoute != 'setting')" class="icon-size-24 icon icon-ic_fluent_settings_24_regular"></i>
+
+            <a (click)="viewDiaLogHeader('cart')"
+                class="button-subtle button-icon-only {{(diaLogHeader == 'cart')?'text-accent-default':'text-secondary'}}">
+                <i *ngIf="(diaLogHeader == 'cart')" class="icon-size-24 icon icon-ic_fluent_cart_24_filled"></i>
+                <i *ngIf="(diaLogHeader != 'cart')" class="icon-size-24 icon icon-ic_fluent_cart_24_regular"></i>
+
+                <p class="position-absolute rounded-circle top-0 end-0 text-on-accent-primary layout align-center-center"
+                    style="background-color: #C42B1C; width: 13px; height: 13px; font-size: 10px; margin-right: 5px;">
+                    <span>9</span>
+                </p>
             </a>
+
             <a [routerLink]="['/bookmark']"
                 class="button-subtle button-icon-only {{(currentRoute == 'bookmark')?'text-accent-default':'text-secondary'}}">
                 <i *ngIf="(currentRoute == 'bookmark')" class="icon-size-24 icon icon-ic_fluent_bookmark_24_filled"></i>
@@ -71,16 +78,10 @@
                 <i *ngIf="(currentRoute != 'chat')" class="icon-size-24 icon icon-ic_fluent_chat_24_regular"></i>
             </a>
 
-
-            <a (click)="viewDiaLogHeader('cart')"
-                class="button-subtle button-icon-only {{(diaLogHeader == 'cart')?'text-accent-default':'text-secondary'}}">
-                <i *ngIf="(diaLogHeader == 'cart')" class="icon-size-24 icon icon-ic_fluent_cart_24_filled"></i>
-                <i *ngIf="(diaLogHeader != 'cart')" class="icon-size-24 icon icon-ic_fluent_cart_24_regular"></i>
-
-                <p class="position-absolute rounded-circle top-0 end-0 text-on-accent-primary layout align-center-center"
-                    style="background-color: #C42B1C; width: 13px; height: 13px; font-size: 10px; margin-right: 5px;">
-                    <span>9</span>
-                </p>
+            <a [routerLink]="['/setting']"
+                class="button-subtle button-icon-only {{(currentRoute == 'setting')?'text-accent-default':'text-secondary'}}">
+                <i *ngIf="(currentRoute == 'setting')" class="icon-size-24 icon icon-ic_fluent_settings_24_filled"></i>
+                <i *ngIf="(currentRoute != 'setting')" class="icon-size-24 icon icon-ic_fluent_settings_24_regular"></i>
             </a>
             <a href="#" class="hide-in-desktop show-in-mobile button-subtle button-icon-only text-secondary">
                 <i class="icon-size-24 icon icon-ic_fluent_navigation_24_regular"></i>
@@ -154,9 +155,11 @@
             <div class="layout-vertical p-10 h-fill overflow-scroll-vertical">
 
                 <div class="border-bottom layout-horizontal align-center-center w-fill pb-10">
-                    <img src="assets/image/hinh.jpg" alt="" style="height: 100px; width: 100px;" class="ms-10 object-fit-cover rounded-4">
+                    <img src="assets/image/hinh.jpg" alt="" style="height: 100px; width: 100px;"
+                        class="ms-10 object-fit-cover rounded-4">
                     <div class="layout-vertical gap-20 w-fill p-10">
-                        <p class="text-primary text-body-strong">{{'Quần short nam Choice HT15 chất cotton Basic thể thao phong cách Hàn Quốc'}}</p>
+                        <p class="text-primary text-body-strong">Quần short nam Choice HT15 chất cotton Basic thể thao
+                            phong cách Hàn Quốc</p>
                         <div class="layout-horizontal align-center-space-between">
                             <p class="text-primary text-body w-fill">{{ 5000000 | currencyVND }}</p>
                             <div class="control number-control">
@@ -177,7 +180,8 @@
             <div class="p-10 layout-horizontal align-center-space-between gap-20 border-top">
                 <p class="text-primary text-body-strong">Tổng tiền: <span class="text-body">{{1000000 |
                         currencyVND}}</span></p>
-                <button type="button" class="button-accent button-text-only">Thanh toán</button>
+                <button type="button" class="button-accent button-text-only" (click)="paymentVnpay()">Thanh toán VnPay</button>
+                <button type="button" class="button-accent button-text-only" (click)="paymentZalopay()">Thanh toán ZaloPay</button>
             </div>
         </div>
     </div>

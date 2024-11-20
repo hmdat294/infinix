@@ -1,9 +1,20 @@
 import { ElementRef, Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SettingService {
+
+  private sharedValue = new BehaviorSubject<any>('Default Value');
+  sharedValue$ = this.sharedValue.asObservable();
+
+  updateValue(newValue: any) {
+    this.sharedValue.next(newValue);
+  }
+
+  profile_photo: string = '';
+  display_name: string = '';
 
   constructor() { }
 
@@ -43,4 +54,5 @@ export class SettingService {
       .replace(/[íìịĩi]/g, "i")
       .replace(/[ýỳỵỹy]/g, "y");
   }
+
 }
