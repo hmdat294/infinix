@@ -114,7 +114,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
               const type = data.type;
               this.friends.find((friend: any) =>
                 friend.users[0].id == blocker.id && friend.is_group == 0)
-                  .users[0].blocked_by_user = (type == "block") ? true : false;
+                .users[0].blocked_by_user = (type == "block") ? true : false;
             });
 
 
@@ -150,6 +150,14 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
                 const mess = this.conversation.messages.find((item: any) => item.id === data.data.id);
                 mess.content = data.data.content;
                 mess.is_edited = data.data.is_edited;
+              }
+            });
+
+            this.eventService.bindEvent('App\\Events\\UserLikeMessageEvent', (data: any) => {
+              console.log('Like Message event:', data);
+              if (this.conversation.id == data.message.conversation_id) {
+                const mess = this.conversation.messages.find((item: any) => item.id === data.message.id);
+                mess.likes = data.message.likes;
               }
             });
           });
@@ -565,6 +573,18 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   }
 
   //block
+
+  //like
+  likeMessage(message_id: number) {
+    this.chatService.likeMessage(message_id).subscribe(
+      (response: any) => {
+        console.log(response);
+        const message = this.conversation.messages.find((item: any) => item.id === message_id);
+        message.liked = !message.liked;
+      }
+    )
+  }
+  //like
 
   searchMessage(): void {
     if (this.keywordSearch && !/^\s*$/.test(this.keywordSearch)) {

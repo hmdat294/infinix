@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('relationships', function (Blueprint $table) {
+        Schema::create('reviews', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->onDelete('cascade');
-            $table->foreignId('related_user_id')->constrained('users')->onDelete('cascade')->onDelete('cascade');
-            $table->enum('type', ['follow', 'friend']);
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('product_id')->constrained()->onDelete('cascade');
+            $table->text('content');
+            $table->integer('rating');
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('relationships');
+        Schema::dropIfExists('reviews');
     }
 };

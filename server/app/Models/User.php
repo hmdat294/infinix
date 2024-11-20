@@ -110,4 +110,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(DeletedMessage::class, 'user_id');
     }
+
+    public function cart()
+    {
+        return $this->hasOne(Cart::class, 'user_id');
+    }
+
+    public function shop()
+    {
+        return $this->hasOne(Shop::class, 'user_id');
+    }
 }
