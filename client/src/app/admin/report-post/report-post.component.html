@@ -89,8 +89,8 @@
                     <thead>
                         <tr class>
                             <th><input type="checkbox"></th>
+                            <th>Post Report</th>
                             <th>User Report</th>
-                            <th>User Name</th>
                             <th>Report Content</th>
                             <th>Status</th>
                             <th>Report date</th>
@@ -99,8 +99,9 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of listReport; let i = index">
+                            
                           <td><input type="checkbox"></td>
-                          <td>{{item.user.profile.display_name}}</td>
+                          <td><a class=" accent-text-primary text-body" [routerLink]="['/friend-profile', item.user_id, item.post.id]">{{shortenTextByWords(item.post.content, 5)}} </a></td>
                           <td>{{item.sender.profile.display_name}}</td>
                           <td>
                             <span [ngClass]="{ 'expanded': item.isExpanded }">
