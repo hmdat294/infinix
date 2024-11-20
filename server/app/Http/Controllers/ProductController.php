@@ -87,4 +87,16 @@ class ProductController extends Controller
 
         return ProductResource::collection($products);
     }
+
+    public function byShop(Request $request, $shop_id) {
+        $products = ProductModel::where('shop_id', $shop_id)->get();
+
+        return ProductResource::collection($products);
+    }
+
+    public function byCategory(Request $request, $category_id) {
+        $products = ProductModel::where('category_id', $category_id)->get();
+
+        return ProductResource::collection($products);
+    }
 }

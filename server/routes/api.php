@@ -55,6 +55,9 @@ Route::middleware(['guest'])->group(function () {
 
 Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(function () {
 
+    Route::get('shop/{shop_id}/products', [ProductController::class, 'byShop']);
+    Route::get('category/{category_id}/products', [ProductController::class, 'byCategory']);
+
     Route::get('shop', [ShopController::class, 'index']);
     Route::post('shop', [ShopController::class, 'store']);
     Route::get('shop/{id}', [ShopController::class, 'show']);
