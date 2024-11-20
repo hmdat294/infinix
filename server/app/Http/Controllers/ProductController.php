@@ -10,7 +10,9 @@ use App\Models\ProductImage as ProductImageModel;
 class ProductController extends Controller
 {
     public function index() {
+        $products = ProductModel::all()->sortByDesc('created_at');
 
+        return ProductResource::collection($products);
     }
 
     public function store(Request $request) {

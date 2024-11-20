@@ -6,13 +6,15 @@ use App\Http\Resources\ShopResource;
 use Illuminate\Http\Request;
 use App\Models\Shop as ShopModel;
 
+use function Psy\sh;
+
 class ShopController extends Controller
 {
     public function index(Request $request)
     {
-        $shops = ShopModel::all();
+        $shops = ShopModel::all()->sortByDesc('created_at');
 
-        return response()->json(['data' => ShopResource::collection($shops)]);
+        return ShopResource::collection($shops);
     }
 
     public function store(Request $request)
