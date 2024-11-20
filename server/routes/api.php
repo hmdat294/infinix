@@ -34,6 +34,7 @@ use App\Models\PinnedMessage;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CartController;
 
 Route::middleware(['guest'])->group(function () {
 
@@ -69,6 +70,12 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
     Route::get('product/{id}', [ProductController::class, 'show']);
     Route::post('product/{id}', [ProductController::class, 'update']);
     Route::delete('product/{id}', [ProductController::class, 'destroy']);
+
+    Route::get('cart/{id}', [CartController::class, 'show']);
+    Route::post('cart/{id}/add-product', [CartController::class, 'addProduct']);
+    Route::post('cart/{id}/remove-product', [CartController::class, 'removeProduct']);
+    Route::post('cart/{id}/update-product', [CartController::class, 'updateProduct']);
+
 
 
 

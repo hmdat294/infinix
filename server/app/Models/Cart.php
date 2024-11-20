@@ -12,8 +12,7 @@ class Cart extends Model
     protected $table = 'carts';
 
     protected $fillable = [
-        'user_id',
-        'total'
+        'user_id'
     ];
 
     public function user()
@@ -25,4 +24,5 @@ class Cart extends Model
         return $this->belongsToMany(Product::class, 'cart_details', 'cart_id', 'product_id')
         ->withPivot('quantity, price');
     }
+
 }
