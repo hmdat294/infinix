@@ -8,6 +8,13 @@ use App\Http\Resources\CategoryResource;
 
 class CategoryController extends Controller
 {
+    public function index(Request $request)
+    {
+        $categories = CategoryModel::all()->sortByDesc('created_at');
+
+        return CategoryResource::collection($categories);
+    }
+
     public function store(Request $request)
     {
         $category_data = $request->only(['shop_id', 'name']);
@@ -40,13 +47,6 @@ class CategoryController extends Controller
         $category = CategoryModel::findOrFail($id);
 
         $category->delete();
-    }
-
-    public function index(Request $request)
-    {
-        $categories = CategoryModel::all();
-
-        return CategoryResource::collection($categories);
     }
 
 }

@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Resources\ProductResource;
 use Illuminate\Http\Request;
 use App\Models\Product as ProductModel;
+use App\Models\ProductImage as ProductImageModel;
 
 class ProductController extends Controller
 {
     public function index() {
+        $products = ProductModel::all()->sortByDesc('created_at');
 
+        return ProductResource::collection($products);
     }
 
     public function store(Request $request) {
@@ -24,11 +27,18 @@ class ProductController extends Controller
             'is_active',
         ]);
 
-        if ($request->hasFile('image')) {
-            $product_data['image'] = asset('storage/' . $request->file('image')->store('uploads', 'public'));
-        }
-
         $product = ProductModel::create($product_data);
+
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $image_path = asset('storage/' . $image->store('uploads', 'public'));
+                ProductImageModel::create([
+                    'product_id' => $product->id,
+                    'image' => $image_path,
+                ]);
+            }
+        }
 
         return new ProductResource($product);
     }
@@ -51,12 +61,18 @@ class ProductController extends Controller
             'is_active',
         ]);
 
-        if ($request->hasFile('image')) {
-            $product_data['image'] = asset('storage/' . $request->file('image')->store('uploads', 'public'));
-        }
-
         $product = ProductModel::findOrFail($id);
         $product->update($product_data);
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $image_path = asset('storage/' . $image->store('uploads', 'public'));
+                ProductImageModel::create([
+                    'product_id' => $product->id,
+                    'image' => $image_path,
+                ]);
+            }
+        }
 
         return new ProductResource($product);
     }
@@ -70,6 +86,18 @@ class ProductController extends Controller
 
     public function search(Request $request) {
         $products = ProductModel::where('name', 'like', '%' . $request->query('q') . '%')->get();
+
+        return ProductResource::collection($products);
+    }
+
+    public function byShop(Request $request, $shop_id) {
+        $products = ProductModel::where('shop_id', $shop_id)->get();
+
+        return ProductResource::collection($products);
+    }
+
+    public function byCategory(Request $request, $category_id) {
+        $products = ProductModel::where('category_id', $category_id)->get();
 
         return ProductResource::collection($products);
     }
