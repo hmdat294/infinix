@@ -42,6 +42,9 @@ class CartController extends Controller
 
         $product = ProductModel::find($product_id);
 
+        if ($cart->products->contains($product_id)) {
+            $quantity += $cart->products->find($product_id)->pivot->quantity;
+        }
 
 
         $cart->products()->attach($product, [
