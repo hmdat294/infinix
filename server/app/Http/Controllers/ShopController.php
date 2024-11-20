@@ -17,6 +17,12 @@ class ShopController extends Controller
 
     public function store(Request $request)
     {
+        $shop = ShopModel::where('user_id', $request->user()->id)->first();
+
+        if ($shop) {
+            return response()->json(['message' => 'User already has a shop']);
+        }
+
         $shop_data = $request->only(['name', 'description', 'address', 'phone_number']);
         $shop_data['user_id'] = $request->user()->id;
 

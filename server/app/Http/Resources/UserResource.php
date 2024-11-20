@@ -76,6 +76,8 @@ class UserResource extends JsonResource
             'online_status' => $this->online_status,
             'blocked_by_user' => $blocked_by_user,
             'blocked_user' => $blocked_user,
+            'cart_id' => $this->cart ? $this->cart->id : null,
+            'shop_id' => $this->shop ? $this->shop->id : null,
         ];
     }
 }
