@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\ProductResource;
 use Illuminate\Http\Request;
 use App\Models\Product as ProductModel;
+use App\Models\ProductImage as ProductImageModel;
 
 class ProductController extends Controller
 {
@@ -24,11 +25,18 @@ class ProductController extends Controller
             'is_active',
         ]);
 
-        if ($request->hasFile('image')) {
-            $product_data['image'] = asset('storage/' . $request->file('image')->store('uploads', 'public'));
-        }
-
         $product = ProductModel::create($product_data);
+
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $image_path = asset('storage/' . $image->store('uploads', 'public'));
+                ProductImageModel::create([
+                    'product_id' => $product->id,
+                    'image' => $image_path,
+                ]);
+            }
+        }
 
         return new ProductResource($product);
     }
@@ -51,12 +59,18 @@ class ProductController extends Controller
             'is_active',
         ]);
 
-        if ($request->hasFile('image')) {
-            $product_data['image'] = asset('storage/' . $request->file('image')->store('uploads', 'public'));
-        }
-
         $product = ProductModel::findOrFail($id);
         $product->update($product_data);
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $image_path = asset('storage/' . $image->store('uploads', 'public'));
+                ProductImageModel::create([
+                    'product_id' => $product->id,
+                    'image' => $image_path,
+                ]);
+            }
+        }
 
         return new ProductResource($product);
     }

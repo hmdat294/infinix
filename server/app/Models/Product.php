@@ -14,7 +14,6 @@ class Product extends Model
     protected $fillable = [
         'shop_id',
         'category_id',
-        'name',
         'description',
         'image',
         'price',
@@ -36,6 +35,11 @@ class Product extends Model
     public function reviews()
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function images()
+    {
+        return $this->hasMany(ProductImage::class);
     }
 
 }
