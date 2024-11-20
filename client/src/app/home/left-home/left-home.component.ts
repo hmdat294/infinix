@@ -32,7 +32,7 @@ export class LeftHomeComponent implements OnInit {
 
     this.authService.getUser(0).subscribe(
       (response) => {
-        this.user = response;
+        this.user = response.data;
       });
 
     this.authService.getRequestFriend().subscribe(
@@ -42,7 +42,7 @@ export class LeftHomeComponent implements OnInit {
         this.eventService.bindEvent('App\\Events\\FriendRequestEvent', (data: any) => {
           console.log('Friend request event:', data);
 
-          if (data.status == "pending") this.userRequest.push(data);
+          if (data.status == "pending" && data.receiver.id == this.user.id && data.sender.id != this.user.id) this.userRequest.push(data);
 
           if (data.status == "accepted" || data.status == "canceled" || data.status == "rejected") {
             this.userRequest = this.userRequest.filter((request: any) => request.id !== data.id);

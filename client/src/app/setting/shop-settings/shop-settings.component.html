@@ -5,18 +5,131 @@
         <div class="layout-vertical w-fill gap-5">
             <p class="text-body-strong text-primary">Cửa hàng</p>
 
-            <div class="border border-card-default card-background-default rounded-4">
-                <div class="layout-horizontal gap-15 p-15 align-center-center">
-                    <i class="icon-size-20 icon text-primary icon-ic_fluent_cart_20_regular"></i>
-                    <div class="layout-vertical w-fill">
-                        <p class="text-body text-primary">Gian hàng của bạn</p>
+
+            <div class="accordion active border border-card-default card-background-default rounded-4">
+                <div class="accordion-item">
+                    <div class="accordion-header layout-horizontal gap-15 p-15 align-center-center"
+                        (click)="tabChild('create_shop')">
+                        <i class="icon-size-20 icon text-primary icon-ic_fluent_person_lock_20_regular"></i>
+                        <div class="layout-vertical w-fill">
+                            <p class="text-body text-primary">Cửa hàng của bạn</p>
+                        </div>
+                        <button type="button" class="button-standard button-text-only">
+                            Tạo cửa hàng
+                        </button>
                     </div>
-                    <button type="button" class="button-standard button-icon-only">
-                        Bật
-                    </button>
+
+                    <!-- accordion-panel -->
+                    <form class="open layout-vertical p-20 gap-20 create_shop" (submit)="createShop(shop.value)"
+                        #shop="ngForm">
+
+                        <div class="layout-horizontal gap-20 w-fill">
+                            <div class="layout align-center-center" style="width: 200px;">
+                                <div class="background-card-default " style="width: 70px; height: 70px;">
+                                    <img class="border border-card-default w-fill h-fill rounded-circle object-fit-cover"
+                                        src="{{(selectedFilesLogo.length > 0)?previewLogo:'http://localhost:8000/storage/uploads/default-profile-photo.png'}}"
+                                        alt="">
+
+                                    <input class="display-none" type="file" [ngModel]="fileLogo" name="fileLogo"
+                                        (change)="onFileLogoSelected($event)" accept="image/*" id="logo_input">
+                                    <label for="logo_input"
+                                        class="p-0 button-accent button-icon-only position-absolute bottom-0 end-0"
+                                        style="z-index: 1;">
+                                        <i class="icon-size-16 icon icon-ic_fluent_camera_16_filled"></i>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="w-fill layout-horizontal gap-20">
+                                <div class="w-fill-column-8 layout-vertical gap-5">
+                                    <p class="text-body text-primary">Tên cửa hàng</p>
+                                    <div class="w-fill control text-control">
+                                        <input type="text" spellcheck="false" name="name" ngModel required>
+                                    </div>
+                                </div>
+                                <div class="w-fill layout-vertical gap-5">
+                                    <p class="text-body text-primary">Số điện thoại</p>
+                                    <div class="control text-control w-fill">
+                                        <input type="text" spellcheck="false" name="phone_number" ngModel required>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="w-fill layout-vertical gap-5">
+                            <p class="text-body text-primary">Mô tả</p>
+                            <textarea style="min-height: 110px;" class="control text-area-control w-fill"
+                                spellcheck="false" name="description" ngModel required></textarea>
+                        </div>
+
+
+
+                        <div class="layout-horizontal gap-20 align-center-space-between">
+                            <div class="w-fill-column-3 layout-vertical gap-5">
+                                <p class="text-body text-primary">Tỉnh/Thành phố</p>
+                                <div class="control text-control w-fill">
+                                    <input type="text" spellcheck="false" name="province" ngModel required>
+                                </div>
+                            </div>
+                            <div class="w-fill-column-3 layout-vertical gap-5">
+                                <p class="text-body text-primary">Quận/Huyện</p>
+                                <div class="control text-control w-fill">
+                                    <input type="text" spellcheck="false" name="district" ngModel required>
+                                </div>
+                            </div>
+                            <div class="w-fill-column-3 layout-vertical gap-5">
+                                <p class="text-body text-primary">Phường/Xã</p>
+                                <div class="control text-control w-fill">
+                                    <input type="text" spellcheck="false" name="ward" ngModel required>
+                                </div>
+                            </div>
+                            <div class="w-fill-column-3 layout-vertical gap-5">
+                                <p class="text-body text-primary">Số nhà/Chi tiết</p>
+                                <div class="control text-control w-fill">
+                                    <input type="text" spellcheck="false" name="detail" ngModel required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="layout-horizontal align-center-right">
+                            <button type="submit" class="button-accent button-text-only" [disabled]="shop.invalid">
+                                Tạo cửa hàng
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
+
         </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         <div class="layout-vertical w-fill gap-5">
             <p class="text-body-strong text-primary">Danh sách danh mục</p>
@@ -35,7 +148,8 @@
                     </tr>
                     <tr>
                         <td>1</td>
-                        <td class="text-body-strong">{{shortenTextByWords('Quần short nam Choice HT15 chất cotton Basic thể thao phong cách Hàn Quốc', 10)}}</td>
+                        <td class="text-body-strong">{{shortenTextByWords('Quần short nam Choice HT15 chất cotton Basic
+                            thể thao phong cách Hàn Quốc', 10)}}</td>
                         <td>
                             <button type="button" class="button-standard button-icon-only">
                                 <i class="icon-size-16 icon icon-ic_fluent_edit_16_filled"></i>
@@ -71,7 +185,8 @@
                         <td>1</td>
                         <td><img src="assets/image/hinh.jpg" alt="" style="height: 50px; width: 50px;"
                                 class="object-fit-cover rounded-4"></td>
-                        <td class="text-body-strong">{{shortenTextByWords('Quần short nam Choice HT15 chất cotton Basic thể thao phong cách Hàn Quốc', 10)}}</td>
+                        <td class="text-body-strong">{{shortenTextByWords('Quần short nam Choice HT15 chất cotton Basic
+                            thể thao phong cách Hàn Quốc', 10)}}</td>
                         <td class="text-body">1</td>
                         <td class="text-body">{{ 5000000 | currencyVND }}</td>
                         <td>
