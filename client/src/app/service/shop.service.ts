@@ -13,6 +13,11 @@ export class ShopService {
   private apiUrl = 'http://localhost:8000/api';
 
   //shop
+  getListShop(shop_id: number): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.get(`${this.apiUrl}/shop`, { headers });
+  }
+
   getShop(shop_id: number): Observable<any> {
     const headers = this.authService.getToken();
     return this.http.get(`${this.apiUrl}/shop/${shop_id}`, { headers });
@@ -34,14 +39,14 @@ export class ShopService {
   }
 
   //category
-  getCategory(category_id: number): Observable<any> {
-    const headers = this.authService.getToken();
-    return this.http.get(`${this.apiUrl}/category/${category_id}`, { headers });
-  }
-
   getListCategory(): Observable<any> {
     const headers = this.authService.getToken();
     return this.http.get(`${this.apiUrl}/category`, { headers });
+  }
+
+  getCategory(category_id: number): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.get(`${this.apiUrl}/category/${category_id}`, { headers });
   }
 
   createCategory(value: any): Observable<any> {
@@ -60,9 +65,14 @@ export class ShopService {
   }
 
   //product
-  getProduct(product_id: number): Observable<any> {
+  getListProductByShop(shop_id: number): Observable<any> {
     const headers = this.authService.getToken();
-    return this.http.get(`${this.apiUrl}/product/${product_id}`, { headers });
+    return this.http.get(`${this.apiUrl}/shop/${shop_id}/products`, { headers });
+  }
+
+  getListProductByCategory(category_id: number): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.get(`${this.apiUrl}/category/${category_id}/products`, { headers });
   }
 
   getListProduct(): Observable<any> {
@@ -70,14 +80,9 @@ export class ShopService {
     return this.http.get(`${this.apiUrl}/product`, { headers });
   }
 
-  getListProductByShop(shop_id:number): Observable<any> {
+  getProduct(product_id: number): Observable<any> {
     const headers = this.authService.getToken();
-    return this.http.get(`${this.apiUrl}/shop/${shop_id}/products`, { headers });
-  }
-
-  getListProductByCategory(category_id:number): Observable<any> {
-    const headers = this.authService.getToken();
-    return this.http.get(`${this.apiUrl}/category/${category_id}/products`, { headers });
+    return this.http.get(`${this.apiUrl}/product/${product_id}`, { headers });
   }
 
   createProduct(value: any): Observable<any> {
@@ -93,5 +98,26 @@ export class ShopService {
   deleteProduct(product_id: number): Observable<any> {
     const headers = this.authService.getToken();
     return this.http.delete(`${this.apiUrl}/product/${product_id}`, { headers });
+  }
+
+  //cart
+  getCart(cart_id: number): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.get(`${this.apiUrl}/cart/${cart_id}`, { headers });
+  }
+
+  addProductToCart(value: any, cart_id: number): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.post(`${this.apiUrl}/cart/${cart_id}/add-product`, value, { headers });
+  }
+
+  updateProductToCart(value: any, cart_id: number): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.post(`${this.apiUrl}/cart/${cart_id}/update-product`, value, { headers });
+  }
+
+  removeProductToCart(value: any, cart_id: number): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.post(`${this.apiUrl}/cart/${cart_id}/remove-product`, value, { headers });
   }
 }
