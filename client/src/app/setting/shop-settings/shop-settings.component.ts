@@ -17,11 +17,11 @@ export class ShopSettingsComponent implements OnInit {
 
   spaceCheck: any = /^\s*$/;
   tabAccordion: string = '';
-  tab_shop: string = 'tab_category';
+  tab_shop: string = 'tab_product';
   user: any;
   shop: any;
   products: any;
-
+  originalProducts: any[] = [];
   province: string = '';
   district: string = '';
   ward: string = '';
@@ -64,6 +64,7 @@ export class ShopSettingsComponent implements OnInit {
             (res) => {
               console.log(res);
               this.products = res.data;
+              this.originalProducts = [...this.products];
             });
         }
       });
@@ -85,6 +86,7 @@ export class ShopSettingsComponent implements OnInit {
     this.shopService.createShop(formData).subscribe(
       (res) => {
         console.log(res);
+        this.user.shop_id = res.data.id;
         this.tabChild('');
       }
     )
@@ -111,6 +113,17 @@ export class ShopSettingsComponent implements OnInit {
         this.tabChild('');
       }
     )
+  }
+
+  is_delete_shop: boolean = false;
+  deleteShop() {
+    this.shopService.deleteShop(this.user.shop_id).subscribe(
+      (res) => {
+        console.log(res);
+        this.user.shop_id = null;
+        this.tabChild('');
+        this.is_delete_shop = false;
+      });
   }
 
   fileLogo: any;
@@ -203,7 +216,8 @@ export class ShopSettingsComponent implements OnInit {
   showDiaLogCreateProduct() {
     this.diaLogCreateProduct = !this.diaLogCreateProduct;
     if (!this.diaLogCreateProduct) {
-      this.category_id_product = '';
+      this.onCancelProductImg();
+      this.category_id_product = 0;
       this.name_product = '';
       this.description_product = '';
       this.price_product = 0;
@@ -212,7 +226,6 @@ export class ShopSettingsComponent implements OnInit {
       this.is_active_product = '0';
     }
   }
-
 
   selectedFilesProduct: File[] = [];
   previewProductImages: string[] = [];
@@ -230,7 +243,7 @@ export class ShopSettingsComponent implements OnInit {
     }
   }
 
-  onCancelPostImg() {
+  onCancelProductImg() {
     this.selectedFilesProduct = [];
     this.previewProductImages = [];
     if (this.fileProduct) this.fileProduct.nativeElement.value = '';
@@ -241,22 +254,13 @@ export class ShopSettingsComponent implements OnInit {
     this.selectedFilesProduct.splice(index, 1);
   }
 
-
-  category_id_product: string = '';
+  category_id_product: number = 0;
   name_product: string = '';
   description_product: string = '';
   price_product: number = 0;
   discount_product: number = 0;
   stock_product: number = 1;
   is_active_product: string = '0';
-
-
-
-
-
-
-
-
 
   createProduct(value: any) {
 
@@ -276,12 +280,34 @@ export class ShopSettingsComponent implements OnInit {
     this.shopService.createProduct(formData).subscribe(
       (response: any) => {
         console.log(response);
+        this.onCancelProductImg();
         this.showDiaLogCreateProduct();
+
+        this.products.push(response.data);
       }
     )
   }
 
+  id_product_delete: number = 0;
+  showDiaLogProductCategory(id_product: number) {
+    this.id_product_delete = id_product;
+  }
+  deleteProduct() {
+    this.shopService.deleteProduct(this.id_product_delete).subscribe(
+      (res) => {
+        this.products = this.products.filter((product: any) => product.id !== this.id_product_delete);
+        this.originalProducts = [...this.products];
+        this.showDiaLogProductCategory(0);
+      })
+  }
 
+  sort(category_id: number) {
+    if (category_id > 0) {
+      this.products = this.originalProducts.filter(
+        (product: any) => product.category_id === Number(category_id)
+      );
+    } else this.products = [...this.originalProducts];
+  }
 
 
   shortenTextByWords(text: string, maxWords: number): string {
