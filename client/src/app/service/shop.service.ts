@@ -13,7 +13,7 @@ export class ShopService {
   private apiUrl = 'http://localhost:8000/api';
 
   //shop
-  getListShop(shop_id: number): Observable<any> {
+  getListShop(): Observable<any> {
     const headers = this.authService.getToken();
     return this.http.get(`${this.apiUrl}/shop`, { headers });
   }
