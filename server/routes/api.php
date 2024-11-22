@@ -77,10 +77,10 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
     Route::post('product/{id}', [ProductController::class, 'update']);
     Route::delete('product/{id}', [ProductController::class, 'destroy']);
 
-    Route::get('cart/{id}', [CartController::class, 'show']);
-    Route::post('cart/{id}/add-product', [CartController::class, 'addProduct']);
-    Route::post('cart/{id}/remove-product', [CartController::class, 'removeProduct']);
-    Route::post('cart/{id}/update-product', [CartController::class, 'updateProduct']);
+    Route::get('cart', [CartController::class, 'show']);
+    Route::post('cart/add-product', [CartController::class, 'addProduct']);
+    Route::post('cart/remove-product', [CartController::class, 'removeProduct']);
+    Route::post('cart/update-product', [CartController::class, 'updateProduct']);
 
 
 
