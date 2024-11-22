@@ -54,7 +54,8 @@
 
                     <button type="button" class="border-none subtle-transparent text-accent-default"
                         (click)="toggleEmojiPicker()">
-                        <i class="icon-size-20 icon icon-ic_fluent_emoji_20_regular"></i>
+                        <i *ngIf="showEmojiPicker" class="icon-size-20 icon icon-ic_fluent_emoji_20_filled"></i>
+                        <i *ngIf="!showEmojiPicker" class="icon-size-20 icon icon-ic_fluent_emoji_20_regular"></i>
                     </button>
 
                     <button type="button" class="border-none subtle-transparent text-accent-default">
@@ -552,6 +553,12 @@
 
                             </div>
                         </div>
+
+                        <emoji-mart *ngIf="showEmojiPickerComment" [i18n]="vietnameseI18n"
+                            [style]="{ position: 'absolute', bottom: '0', right: 'calc(100% + 20px)', background: '#363636' }"
+                            (emojiSelect)="addEmojiComment($event)"></emoji-mart>
+
+
                         <div class="layout w-fill border-top border-card-default">
                             <div class="layout-horizontal gap-10 p-10 w-fill">
                                 <img class="rounded-circle border border-card-default object-fit-cover"
@@ -591,9 +598,12 @@
                                                 class="layout align-center-center border-none subtle-transparent text-accent-default">
                                                 <i class="icon-size-20 icon icon-ic_fluent_image_20_regular"></i>
                                             </label>
-                                            <button type="button"
+                                            <button type="button" (click)="toggleEmojiPickerComment()"
                                                 class="border-none subtle-transparent text-accent-default">
-                                                <i class="icon-size-20 icon icon-ic_fluent_emoji_20_regular"></i>
+                                                <i *ngIf="showEmojiPickerComment"
+                                                    class="icon-size-20 icon icon-ic_fluent_emoji_20_filled"></i>
+                                                <i *ngIf="!showEmojiPickerComment"
+                                                    class="icon-size-20 icon icon-ic_fluent_emoji_20_regular"></i>
                                             </button>
                                             <button type="button"
                                                 class="speech-to-text border-none subtle-transparent text-accent-default"
@@ -676,15 +686,6 @@
                             class="layout-vertial w-fill border-bottom border-card-default pb-10">
                             <div class="w-fill layout-horizontal py-10 px-20 gap-10">
                                 <p class="text-body-strong text-primary w-fill">Chia sẻ với bạn bè</p>
-                                <!-- <div class="control search-control">
-                                    <input type="search" placeholder="placeholder" spellcheck="false">
-                                    <button type="button" class="input-button clear-content-button">
-                                        <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
-                                    </button>
-                                    <button type="button" class="input-button search-button">
-                                        <i class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
-                                    </button>
-                                </div> -->
                             </div>
                             <div class="layout w-fill">
                                 <button type="button"
@@ -728,15 +729,6 @@
                             class="layout-vertial w-fill border-bottom border-card-default pb-10">
                             <div class="w-fill layout-horizontal py-10 px-20 gap-10">
                                 <p class="text-body-strong text-primary w-fill">Chia sẻ với nhóm</p>
-                                <!-- <div class="control search-control">
-                                    <input type="search" placeholder="placeholder" spellcheck="false">
-                                    <button type="button" class="input-button clear-content-button">
-                                        <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
-                                    </button>
-                                    <button type="button" class="input-button search-button">
-                                        <i class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
-                                    </button>
-                                </div> -->
                             </div>
                             <div class="layout w-fill">
                                 <button type="button"

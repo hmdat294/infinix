@@ -162,7 +162,6 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.initCarousels();
-
   }
 
   showFriendSuggestions(i: number): number {
@@ -315,9 +314,6 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
         (response) => {
           console.log(response);
           this.showDiaLogUpdatePost(null);
-        },
-        (error) => {
-          console.error("Error updating post:", error);
         }
       );
     }
@@ -417,6 +413,17 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
 
   addEmoji(event: any) {
     this.content += event.emoji.native;
+  }
+
+
+  showEmojiPickerComment: boolean = false;
+
+  toggleEmojiPickerComment() {
+    this.showEmojiPickerComment = !this.showEmojiPickerComment;
+  }
+
+  addEmojiComment(event: any) {
+    this.contentCommentInput += event.emoji.native;
   }
 
 
