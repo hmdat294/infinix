@@ -32,6 +32,10 @@ use App\Models\User as UserModel;
 
 use App\Http\Resources\UserResource;
 use App\Models\PinnedMessage;
+use App\Http\Controllers\ShopController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CartController;
 
 Route::middleware(['guest'])->group(function () {
 
@@ -51,6 +55,35 @@ Route::middleware(['guest'])->group(function () {
 });
 
 Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(function () {
+
+    Route::get('shop/{shop_id}/products', [ProductController::class, 'byShop']);
+    Route::get('category/{category_id}/products', [ProductController::class, 'byCategory']);
+
+    Route::get('shop', [ShopController::class, 'index']);
+    Route::post('shop', [ShopController::class, 'store']);
+    Route::get('shop/{id}', [ShopController::class, 'show']);
+    Route::post('shop/{id}', [ShopController::class, 'update']);
+    Route::delete('shop/{id}', [ShopController::class, 'destroy']);
+
+    Route::get('category', [CategoryController::class, 'index']);
+    Route::post('category', [CategoryController::class, 'store']);
+    Route::get('category/{id}', [CategoryController::class, 'show']);
+    Route::post('category/{id}', [CategoryController::class, 'update']);
+    Route::delete('category/{id}', [CategoryController::class, 'destroy']);
+
+    Route::get('product', [ProductController::class, 'index']);
+    Route::post('product', [ProductController::class, 'store']);
+    Route::get('product/{id}', [ProductController::class, 'show']);
+    Route::post('product/{id}', [ProductController::class, 'update']);
+    Route::delete('product/{id}', [ProductController::class, 'destroy']);
+
+    Route::get('cart', [CartController::class, 'show']);
+    Route::post('cart/add-product', [CartController::class, 'addProduct']);
+    Route::post('cart/remove-product', [CartController::class, 'removeProduct']);
+    Route::post('cart/update-product', [CartController::class, 'updateProduct']);
+
+
+
 
     Route::get('friend-suggestions', [UserController::class, 'friendSuggestions']);
 

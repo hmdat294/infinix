@@ -1,0 +1,35 @@
+.rotate_icon_0 {
+    transition: 0.3s;
+    transform: rotate(0deg);
+}
+
+.rotate_icon_180 {
+    transition: 0.3s;
+    transform: rotate(180deg);
+}
+
+.update-shop .control {
+    background-color: transparent !important;
+}
+
+th,
+td {
+    padding: 10px;
+}
+
+.tab-shop {
+    background-color: transparent;
+    padding: 10px 20px;
+    text-align: center;
+    border-radius: 6px 6px 0 0;
+    border: none;
+}
+
+.tab-shop-active {
+    background-color: var(--subtle-secondary);
+    border: 1px solid var(--card-stroke-default);
+}
+
+.opacity-5{
+    opacity: 0.5;
+}

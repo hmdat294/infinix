@@ -104,30 +104,64 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   @ViewChildren('prevButton') prevButtons!: QueryList<ElementRef<HTMLButtonElement>>;
   @ViewChildren('indicatorsContainer') indicatorsContainers!: QueryList<ElementRef<HTMLDivElement>>;
 
+  isSliding: boolean = false; // Biến để kiểm tra trạng thái hiệu ứng
+
+  nextslide() {
+    if (this.isSliding) return;
+
+    const slideInner = document.querySelector<HTMLDivElement>('.slide_inner');
+    const slideItems = document.querySelectorAll<HTMLDivElement>('.slide_item');
+
+    if (slideInner && slideItems.length > 0) {
+      this.isSliding = true;
+
+      const firstItem = slideItems[0];
+
+      slideInner.style.transition = 'transform 0.3s ease-in-out';
+      slideInner.style.transform = `translateX(-165px)`;
+
+      setTimeout(() => {
+        slideInner.style.transition = 'none';
+        slideInner.style.transform = 'translateX(0)';
+
+        slideInner.appendChild(firstItem);
+
+        this.isSliding = false;
+      }, 300);
+    }
+  }
+
+
+  prevslide() {
+    if (this.isSliding) return;
+
+    const slideInner = document.querySelector<HTMLDivElement>('.slide_inner');
+    const slideItems = document.querySelectorAll<HTMLDivElement>('.slide_item');
+
+    if (slideInner && slideItems.length > 0) {
+      this.isSliding = true;
+
+      const lastItem = slideItems[slideItems.length - 1];
+
+      slideInner.insertBefore(lastItem, slideItems[0]);
+
+      slideInner.style.transition = 'none';
+      slideInner.style.transform = `translateX(-165px)`;
+
+      setTimeout(() => {
+        slideInner.style.transition = 'transform 0.3s ease-in-out';
+        slideInner.style.transform = 'translateX(0)';
+      }, 0);
+
+      setTimeout(() => {
+        this.isSliding = false;
+      }, 300);
+    }
+  }
+
+
   ngAfterViewInit(): void {
     this.initCarousels();
-
-    // Khởi tạo Swiper
-    const swiper = new Swiper('.swiper', {
-      slidesPerView: 3,
-      spaceBetween: 10,
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-      },
-      scrollbar: {
-        el: '.swiper-scrollbar',
-        draggable: true,
-      },
-      loop: true,
-      breakpoints: {
-        640: { slidesPerView: 2, spaceBetween: 20 },
-        768: { slidesPerView: 3, spaceBetween: 30 },
-        1024: { slidesPerView: 4, spaceBetween: 40 },
-      },
-    });
-
-    console.log('Swiper initialized:', swiper);
   }
 
   showFriendSuggestions(i: number): number {
@@ -138,7 +172,6 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
     this.authService.addFriend(receiver_id).subscribe(
       (response) => {
         console.log(response);
-
         const friendfriend = this.friendSuggestions.find((item: any) => item.id === receiver_id);
         friendfriend.is_sent_friend_request = !friendfriend.is_sent_friend_request;
       });
@@ -148,6 +181,9 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
     this.authService.unFriend(user_id).subscribe(
       (response) => {
         console.log(response);
+        const friendfriend = this.friendSuggestions.find((item: any) => item.id === user_id);
+        friendfriend.is_friend = false;
+        friendfriend.is_sent_friend_request = false;
       });
   }
 
@@ -155,6 +191,8 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
     this.authService.cancelFriend(receiver_id).subscribe(
       (response) => {
         console.log(response);
+        const friendfriend = this.friendSuggestions.find((item: any) => item.id === receiver_id);
+        friendfriend.is_sent_friend_request = !friendfriend.is_sent_friend_request;
       });
   }
 
@@ -276,9 +314,6 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
         (response) => {
           console.log(response);
           this.showDiaLogUpdatePost(null);
-        },
-        (error) => {
-          console.error("Error updating post:", error);
         }
       );
     }
@@ -378,6 +413,17 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
 
   addEmoji(event: any) {
     this.content += event.emoji.native;
+  }
+
+
+  showEmojiPickerComment: boolean = false;
+
+  toggleEmojiPickerComment() {
+    this.showEmojiPickerComment = !this.showEmojiPickerComment;
+  }
+
+  addEmojiComment(event: any) {
+    this.contentCommentInput += event.emoji.native;
   }
 
 

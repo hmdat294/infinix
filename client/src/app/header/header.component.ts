@@ -70,7 +70,7 @@ export class HeaderComponent implements OnInit {
     this.notificationService.getNotification().subscribe(
       (data) => {
 
-        console.log(data);
+        // console.log(data);
         this.notification = data.data;
         this.eventService.bindEvent('App\\Events\\NotificationEvent', (data: any) => {
           console.log('Notification event received:', data);

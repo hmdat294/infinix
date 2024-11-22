@@ -5,86 +5,271 @@
         <div class="layout-vertical w-fill gap-5">
             <p class="text-body-strong text-primary">Cửa hàng</p>
 
-            <div class="border border-card-default card-background-default rounded-4">
-                <div class="layout-horizontal gap-15 p-15 align-center-center">
-                    <i class="icon-size-20 icon text-primary icon-ic_fluent_cart_20_regular"></i>
-                    <div class="layout-vertical w-fill">
-                        <p class="text-body text-primary">Gian hàng của bạn</p>
+
+            <div class="accordion active border border-card-default card-background-default rounded-6">
+                <div class="accordion-item">
+                    <div class="accordion-header layout-horizontal gap-15 p-15 align-center-center"
+                        (click)="tabChild('create_shop')">
+                        <i class="icon-size-20 icon text-primary icon-ic_fluent_person_lock_20_regular"></i>
+                        <div class="layout-vertical w-fill">
+                            <p class="text-body text-primary">Cửa hàng của bạn</p>
+                        </div>
+                        <button type="button" class="button-subtle button-icon-only">
+                            <span [class]="tabAccordion == 'create_shop' ? 'rotate_icon_180' : 'rotate_icon_0'">
+                                <i class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
+                            </span>
+                        </button>
                     </div>
-                    <button type="button" class="button-standard button-icon-only">
-                        Bật
-                    </button>
+
+                    <div class="accordion-panel open create_shop">
+
+                        <form *ngIf="this.user?.shop_id == null" class="layout-vertical p-20 gap-20"
+                            (submit)="createShop(shop.value)" #shop="ngForm">
+
+                            <div class="layout-horizontal gap-20 w-fill">
+                                <div class="layout align-center-center" style="width: 200px;">
+                                    <div class="background-card-default " style="width: 70px; height: 70px;">
+                                        <img class="border border-card-default w-fill h-fill rounded-circle object-fit-cover"
+                                            src="{{(selectedFilesLogo.length > 0)?previewLogo:'http://localhost:8000/storage/uploads/default-profile-photo.png'}}"
+                                            alt="">
+
+                                        <input class="display-none" type="file" [ngModel]="fileLogo" name="fileLogo"
+                                            (change)="onFileLogoSelected($event)" accept="image/*" id="logo_input">
+                                        <label for="logo_input"
+                                            class="p-0 button-accent button-icon-only position-absolute bottom-0 end-0"
+                                            style="z-index: 1;">
+                                            <i class="icon-size-16 icon icon-ic_fluent_camera_16_filled"></i>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="w-fill layout-horizontal gap-20">
+                                    <div class="w-fill-column-8 layout-vertical gap-5">
+                                        <p class="text-body text-primary">Tên cửa hàng</p>
+                                        <div class="w-fill control text-control">
+                                            <input type="text" spellcheck="false" name="name" ngModel required>
+                                        </div>
+                                    </div>
+                                    <div class="w-fill layout-vertical gap-5">
+                                        <p class="text-body text-primary">Số điện thoại</p>
+                                        <div class="control text-control w-fill">
+                                            <input type="text" spellcheck="false" name="phone_number" ngModel required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="w-fill layout-vertical gap-5">
+                                <p class="text-body text-primary">Mô tả</p>
+                                <textarea style="min-height: 110px;" class="control text-area-control w-fill"
+                                    spellcheck="false" name="description" ngModel required></textarea>
+                            </div>
+
+
+
+                            <div class="layout-horizontal gap-20 align-center-space-between">
+                                <div class="w-fill-column-3 layout-vertical gap-5">
+                                    <p class="text-body text-primary">Tỉnh/Thành phố</p>
+                                    <div class="control text-control w-fill">
+                                        <input type="text" spellcheck="false" name="province" ngModel required>
+                                    </div>
+                                </div>
+                                <div class="w-fill-column-3 layout-vertical gap-5">
+                                    <p class="text-body text-primary">Quận/Huyện</p>
+                                    <div class="control text-control w-fill">
+                                        <input type="text" spellcheck="false" name="district" ngModel required>
+                                    </div>
+                                </div>
+                                <div class="w-fill-column-3 layout-vertical gap-5">
+                                    <p class="text-body text-primary">Phường/Xã</p>
+                                    <div class="control text-control w-fill">
+                                        <input type="text" spellcheck="false" name="ward" ngModel required>
+                                    </div>
+                                </div>
+                                <div class="w-fill-column-3 layout-vertical gap-5">
+                                    <p class="text-body text-primary">Số nhà/Chi tiết</p>
+                                    <div class="control text-control w-fill">
+                                        <input type="text" spellcheck="false" name="detail" ngModel required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="layout-horizontal align-center-right">
+                                <button type="submit" class="button-accent button-text-only" [disabled]="shop.invalid">
+                                    Tạo cửa hàng
+                                </button>
+                            </div>
+                        </form>
+
+                        <form *ngIf="user?.shop_id > 0" [class]="is_update_shop?'update-shop':''"
+                            class="layout-vertical p-20 gap-20" (submit)="updateShop(shopUpdate.value)"
+                            #shopUpdate="ngForm">
+
+                            <div class="layout-horizontal gap-20 w-fill">
+                                <div class="layout align-center-center" style="width: 200px;">
+                                    <div class="background-card-default " style="width: 70px; height: 70px;">
+                                        <img class="border border-card-default w-fill h-fill rounded-circle object-fit-cover"
+                                            [src]="(selectedFilesUpdateLogo.length > 0)?previewUpdateLogo:shop?.logo"
+                                            alt="">
+
+                                        <input class="display-none" type="file" [ngModel]="fileUpdateLogo"
+                                            name="fileUpdateLogo" (change)="onFileUpdateLogoSelected($event)"
+                                            accept="image/*" id="logo_update_input" [disabled]="is_update_shop">
+                                        <label for="logo_update_input"
+                                            class="p-0 button-accent button-icon-only position-absolute bottom-0 end-0"
+                                            style="z-index: 1;">
+                                            <i class="icon-size-16 icon icon-ic_fluent_camera_16_filled"></i>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="w-fill layout-horizontal gap-20">
+                                    <div class="w-fill-column-8 layout-vertical gap-5">
+                                        <p class="text-body text-primary">Tên cửa hàng</p>
+                                        <div class="w-fill control text-control">
+                                            <input type="text" spellcheck="false" name="name" [ngModel]="shop?.name"
+                                                required [disabled]="is_update_shop">
+                                        </div>
+                                    </div>
+                                    <div class="w-fill layout-vertical gap-5">
+                                        <p class="text-body text-primary">Số điện thoại</p>
+                                        <div class="control text-control w-fill">
+                                            <input type="text" spellcheck="false" name="phone_number"
+                                                [ngModel]="shop?.phone_number" required [disabled]="is_update_shop">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="w-fill layout-vertical gap-5">
+                                <p class="text-body text-primary">Mô tả</p>
+                                <textarea style="min-height: 110px;" class="control text-area-control w-fill"
+                                    spellcheck="false" name="description" [ngModel]="shop?.description" required
+                                    [disabled]="is_update_shop"></textarea>
+                            </div>
+
+
+
+                            <div class="layout-horizontal gap-20 align-center-space-between">
+                                <div class="w-fill-column-3 layout-vertical gap-5">
+                                    <p class="text-body text-primary">Tỉnh/Thành phố</p>
+                                    <div class="control text-control w-fill">
+                                        <input type="text" spellcheck="false" name="province" [ngModel]="province"
+                                            required [disabled]="is_update_shop">
+                                    </div>
+                                </div>
+                                <div class="w-fill-column-3 layout-vertical gap-5">
+                                    <p class="text-body text-primary">Quận/Huyện</p>
+                                    <div class="control text-control w-fill">
+                                        <input type="text" spellcheck="false" name="district" [ngModel]="district"
+                                            required [disabled]="is_update_shop">
+                                    </div>
+                                </div>
+                                <div class="w-fill-column-3 layout-vertical gap-5">
+                                    <p class="text-body text-primary">Phường/Xã</p>
+                                    <div class="control text-control w-fill">
+                                        <input type="text" spellcheck="false" name="ward" [ngModel]="ward" required
+                                            [disabled]="is_update_shop">
+                                    </div>
+                                </div>
+                                <div class="w-fill-column-3 layout-vertical gap-5">
+                                    <p class="text-body text-primary">Số nhà/Chi tiết</p>
+                                    <div class="control text-control w-fill">
+                                        <input type="text" spellcheck="false" name="detail" [ngModel]="detail" required
+                                            [disabled]="is_update_shop">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="layout-horizontal">
+                                <div class="w-fill">
+                                    <button type="button" class="button-standard button-text-only"
+                                        *ngIf="is_update_shop" (click)="is_delete_shop = !is_delete_shop">
+                                        Xóa cửa hàng
+                                    </button>
+                                </div>
+                                <div class="w-hug layout-horizontal gap-20">
+                                    <button type="button" class="button-standard button-text-only"
+                                        (click)="is_update_shop = !is_update_shop">
+                                        {{is_update_shop?'Sửa thông tin':'Hủy'}}
+                                    </button>
+                                    <button type="submit" class="button-accent button-text-only"
+                                        [disabled]="shopUpdate.invalid" *ngIf="!is_update_shop">
+                                        Cập nhật
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="position-fixed top-0 start-0 {{(is_delete_shop) ? 'display-block' : 'display-none'}}"
+                                style="width: 100%; height: 100vh; z-index: 20;">
+                                <div class="position-absolute top-0 start-0" (click)="is_delete_shop = !is_delete_shop"
+                                    style="width: 100%; height: 100vh; z-index: 1; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px);">
+                                </div>
+                                <div class="dialog-panel position-absolute top-50 start-50 translate-middle"
+                                    style="z-index: 2;">
+                                    <div class="layout-vertical p-20 gap-20 rounded-8 solid-background-base border border-card-default"
+                                        style="width: 500px;">
+
+                                        <button type="button"
+                                            class="button-subtle button-icon-only w-hug position-absolute"
+                                            (click)="is_delete_shop = !is_delete_shop"
+                                            style="right: 20px; top: 20px; z-index: 1;">
+                                            <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_filled"></i>
+                                        </button>
+
+                                        <div class="pb-20 pt-5 border-bottom">
+                                            <p class="text-subtitle text-primary text-center">Xóa cửa hàng</p>
+                                        </div>
+
+                                        <div class="layout-vertical overflow-hidden">
+                                            <div class="layout-horizontal gap-20">
+                                                <button type="button" class="button-standard button-text-only w-fill"
+                                                    (click)="is_delete_shop = !is_delete_shop">
+                                                    Hủy</button>
+
+                                                <button type="button" class="button-accent button-text-only w-fill"
+                                                    (click)="deleteShop()">
+                                                    Xóa</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="layout-vertical w-fill gap-5">
-            <p class="text-body-strong text-primary">Danh sách danh mục</p>
-
-            <div class="border border-card-default card-background-default rounded-4">
-                <div class="layout-horizontal gap-15 p-15 align-center-right">
-                    <button type="button" class="button-accent button-icon-only">
-                        Thêm
-                    </button>
-                </div>
-                <table class="text-primary w-fill" border>
-                    <tr>
-                        <th>STT</th>
-                        <th>Tên</th>
-                        <th>#</th>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td class="text-body-strong">{{shortenTextByWords('Quần short nam Choice HT15 chất cotton Basic thể thao phong cách Hàn Quốc', 10)}}</td>
-                        <td>
-                            <button type="button" class="button-standard button-icon-only">
-                                <i class="icon-size-16 icon icon-ic_fluent_edit_16_filled"></i>
-                            </button>
-                            <button type="button" class="button-standard button-icon-only">
-                                <i class="icon-size-16 icon icon-ic_fluent_delete_16_filled"></i>
-                            </button>
-                        </td>
-                    </tr>
-                </table>
+        <div *ngIf="user?.shop_id > 0" class="layout-vertical">
+            <div class="layout-horizontal align-center-left">
+                <button type="button" class="list-item tab-shop text-primary w-hug"
+                    [class]="tab_shop == 'tab_category'?'tab-shop-active':''" [disabled]="tab_shop == 'tab_category'"
+                    (click)="tabShop('tab_category')">
+                    Danh mục
+                </button>
+                <button type="button" class="list-item tab-shop text-primary w-hug"
+                    [class]="tab_shop == 'tab_product'?'tab-shop-active':''" [disabled]="tab_shop == 'tab_product'"
+                    (click)="tabShop('tab_product')">
+                    Sản phẩm
+                </button>
+                <button type="button" class="list-item tab-shop text-primary w-hug"
+                    [class]="tab_shop == 'tab_order'?'tab-shop-active':''" [disabled]="tab_shop == 'tab_order'"
+                    (click)="tabShop('tab_order')">
+                    Đơn hàng
+                </button>
+                <button type="button" class="list-item tab-shop text-primary w-hug"
+                    [class]="tab_shop == 'tab_feedback'?'tab-shop-active':''" [disabled]="tab_shop == 'tab_feedback'"
+                    (click)="tabShop('tab_feedback')">
+                    Đánh giá
+                </button>
             </div>
+
+            <app-category *ngIf="tab_shop == 'tab_category'" class="ayout-vertical w-fill"></app-category>
+            <app-product *ngIf="tab_shop == 'tab_product'" class="layout-vertical w-fill"></app-product>
+            <app-order *ngIf="tab_shop == 'tab_order'" class="layout-vertical w-fill"></app-order>
+            <app-feedback *ngIf="tab_shop == 'tab_feedback'" class="layout-vertical w-fill"></app-feedback>
         </div>
 
-        <div class="layout-vertical w-fill gap-5">
-            <p class="text-body-strong text-primary">Danh sách sản phẩm</p>
-
-            <div class="border border-card-default card-background-default rounded-4">
-                <div class="layout-horizontal gap-15 p-15 align-center-right">
-                    <button type="button" class="button-accent button-icon-only">
-                        Thêm
-                    </button>
-                </div>
-                <table class="text-primary w-fill" border>
-                    <tr>
-                        <th>STT</th>
-                        <th>Hình ảnh</th>
-                        <th>Tên</th>
-                        <th>Số lượng</th>
-                        <th>Giá</th>
-                        <th>#</th>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td><img src="assets/image/hinh.jpg" alt="" style="height: 50px; width: 50px;"
-                                class="object-fit-cover rounded-4"></td>
-                        <td class="text-body-strong">{{shortenTextByWords('Quần short nam Choice HT15 chất cotton Basic thể thao phong cách Hàn Quốc', 10)}}</td>
-                        <td class="text-body">1</td>
-                        <td class="text-body">{{ 5000000 | currencyVND }}</td>
-                        <td>
-                            <button type="button" class="button-standard button-icon-only">
-                                <i class="icon-size-16 icon icon-ic_fluent_edit_16_filled"></i>
-                            </button>
-                            <button type="button" class="button-standard button-icon-only">
-                                <i class="icon-size-16 icon icon-ic_fluent_delete_16_filled"></i>
-                            </button>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </div>
     </div>
 </div>
