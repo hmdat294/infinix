@@ -64,6 +64,8 @@ class ProductController extends Controller
         $product = ProductModel::findOrFail($id);
         $product->update($product_data);
 
+        $product->images()->delete();
+
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
                 $image_path = asset('storage/' . $image->store('uploads', 'public'));

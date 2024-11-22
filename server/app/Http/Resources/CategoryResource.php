@@ -16,6 +16,7 @@ class CategoryResource extends JsonResource
     {
         $data = parent::toArray($request);
         $data['products'] = $this->products ?? [];
+        $data['product_count'] = $this->products->count() ?? 0;
 
         return $data;
     }
