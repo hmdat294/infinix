@@ -49,7 +49,7 @@
                 <i *ngIf="(diaLogHeader == 'noti')" class="icon-size-24 icon icon-ic_fluent_alert_24_filled"></i>
                 <i *ngIf="(diaLogHeader != 'noti')" class="icon-size-24 icon icon-ic_fluent_alert_24_regular"></i>
 
-                <p class="position-absolute rounded-circle top-0 end-0 text-on-accent-primary layout align-center-center"
+                <p *ngIf="notification?.length > 0" class="position-absolute rounded-circle top-0 end-0 text-on-accent-primary layout align-center-center"
                     style="background-color: #C42B1C; width: 13px; height: 13px; font-size: 10px; margin-right: 5px;">
                     <span>{{notification?.length}}</span>
                 </p>

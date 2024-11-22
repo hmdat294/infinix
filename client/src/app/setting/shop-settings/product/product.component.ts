@@ -59,6 +59,8 @@ export class ProductComponent implements OnInit {
           this.shopService.getListProductByShop(this.user.shop_id).subscribe(
             (res) => {
               this.products = res.data;
+              console.log(this.products);
+              
               this.originalProducts = [...this.products];
             });
         }
