@@ -74,6 +74,15 @@ class ProductController extends Controller
             }
         }
 
+        if ($request->has('urls')) {
+            foreach ($request->urls as $url) {
+                ProductImageModel::create([
+                    'product_id' => $product->id,
+                    'image' => $url,
+                ]);
+            }
+        }
+
         return new ProductResource($product);
     }
 
