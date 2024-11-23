@@ -750,9 +750,9 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     this.removeEditGroupImage();
   }
 
-  zoomImg: string = '';
+  zoomMedia: any = null;
 
-  setZoomIng(img: string) {
-    this.zoomImg = img;
+  setZoomMedia(media: any) {
+    this.zoomMedia = media;
   }
 }

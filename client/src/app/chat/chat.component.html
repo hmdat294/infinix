@@ -1233,9 +1233,17 @@
                 </div>
                 <div class="layout-vertical w-fill p-0">
                     <div class="w-fill layout-wrap gap-20 align-center-left" *ngIf="images?.length>0">
-                        <div class="w-fill-column-4" style="height: 80px;" *ngFor="let img of images">
-                            <img [src]="img.path" class="w-fill h-fill object-fit-cover rounded-4"
-                                (click)="setZoomIng(img.path)">
+                        <div class="w-fill-column-4" style="height: 80px;" *ngFor="let img of images" (click)="setZoomMedia(img)">
+                            <ng-container *ngIf="img.type === 'image/webp'">
+                                <img [src]="img.path" alt="Image preview" class="w-fill h-fill object-fit-cover rounded-4">
+                            </ng-container>
+            
+                            <ng-container *ngIf="img.type === 'video/mp4'">
+                                <div class="position-absolute top-50 start-50 translate-middle" style="z-index: 5;">
+                                    <i class="icon-size-20 icon icon-ic_fluent_video_clip_20_regular"></i>
+                                </div>
+                                <video [src]="img.path" class="w-fill h-fill object-fit-cover rounded-4"></video>
+                            </ng-container>
                         </div>
                     </div>
 
@@ -1246,15 +1254,23 @@
                 </div>
             </div>
 
-            <div class="position-fixed top-0 start-0" *ngIf="zoomImg != ''" style="width: 100%; height: 100vh;">
-                <div class="position-fixed top-0 start-0"
-                    style="width: 100%; height: 100vh; z-index: 20; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px);"
-                    (click)="setZoomIng('')">
+            <div class="position-fixed top-0 start-0" *ngIf="zoomMedia != null" style="width: 100%; height: 100vh; z-index: 20;">
+                <div class="position-absolute top-0 start-0"
+                    style="width: 100%; height: 100vh; z-index: 1; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px);"
+                    (click)="setZoomMedia(null)">
                 </div>
-                <div class="dialog-panel position-absolute top-50 start-50 translate-middle" style="z-index: 21;">
+                <div class="dialog-panel position-absolute top-50 start-50 translate-middle" style="z-index: 2;">
                     <div class="layout-vertical p-10 rounded-8 acrylic-background-default blur-acrylic border border-card-default"
-                        style="max-width: 700px;">
-                        <img [src]="zoomImg" class="w-fill h-fill rounded-6" alt="">
+                        style="width: 700px; height: 600px;">
+                        <ng-container *ngIf="zoomMedia.type === 'image/webp'">
+                            <img [src]="zoomMedia.path" alt="Image preview" class="w-fill h-fill object-fit-contain rounded-6"
+                                alt="" style=" background-color: rgb(27, 27, 27);">
+                        </ng-container>
+            
+                        <ng-container *ngIf="zoomMedia.type === 'video/mp4'">
+                            <video [src]="zoomMedia.path" controls class="w-fill h-fill object-fit-contain rounded-6" alt=""
+                                style=" background-color: rgb(27, 27, 27);"></video>
+                        </ng-container>
                     </div>
                 </div>
             </div>
