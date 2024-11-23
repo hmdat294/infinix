@@ -47,10 +47,10 @@ export class LeftProfileComponent implements OnInit {
       });
   }
 
-  zoomImg: string = '';
+  zoomMedia: any = null;
 
-  setZoomIng(img: string) {
-    this.zoomImg = img;
+  setZoomMedia(media: any) {
+    this.zoomMedia = media;
   }
 
   viewMoreFriend() {

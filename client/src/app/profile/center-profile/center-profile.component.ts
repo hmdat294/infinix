@@ -26,9 +26,9 @@ export class CenterProfileComponent implements OnInit, AfterViewInit {
   contentUpdate: string = '';
   selectedFilesPost: File[] = [];
   selectedFilesUpdatePost: File[] = [];
-  previewPostImages: string[] = [];
+  previewPostImages: any[] = [];
+  previewUpdatePostImages: any[] = [];
   selectedFilesComment: File[] = [];
-  previewUpdatePostImages: string[] = [];
   previewCommentImages: string[] = [];
   listPost: any[] = [];
   filePost: any;
@@ -147,7 +147,7 @@ export class CenterProfileComponent implements OnInit, AfterViewInit {
   }
 
   getPathImg(img: any) {
-    return img.path;
+    return { 'path': img.path, 'type': img.type };
   }
 
   post(value: any) {
@@ -176,7 +176,7 @@ export class CenterProfileComponent implements OnInit, AfterViewInit {
     }
   }
 
-  
+
   postDeleteId: number = 0;
 
   setDeleteId(post_id: number) {
@@ -226,20 +226,28 @@ export class CenterProfileComponent implements OnInit, AfterViewInit {
     }
     else {
       this.postUpdateId = post.id;
-      this.previewUpdatePostImages = post.medias.map((media: any) => media.path);
+      this.previewUpdatePostImages = [...post.medias];
       this.contentUpdate = post.content;
     }
   }
 
   onFileUpdatePostSelected(event: any) {
-
     const files: File[] = Array.from(event.target.files);
-    // console.log(files);
     if (files && files.length > 0) {
       files.forEach(file => {
         const reader = new FileReader();
-        reader.onload = e => this.previewUpdatePostImages.push(reader.result as string);
-        reader.readAsDataURL(file);
+
+        if (file.type.startsWith('image/')) {
+          // Xử lý ảnh
+          reader.onload = () => this.previewUpdatePostImages.push({ type: 'image/webp', path: reader.result as string });
+          reader.readAsDataURL(file);
+        } else if (file.type.startsWith('video/')) {
+          // Xử lý video
+          const videoURL = URL.createObjectURL(file);
+          this.previewUpdatePostImages.push({ type: 'video/mp4', path: videoURL });
+        }
+
+        // Lưu tệp vào danh sách đã chọn
         this.selectedFilesUpdatePost.push(file);
       });
     }
@@ -312,7 +320,19 @@ export class CenterProfileComponent implements OnInit, AfterViewInit {
   addEmoji(event: any) {
     this.content += event.emoji.native;
   }
-  
+
+
+  showEmojiPickerComment: boolean = false;
+
+  toggleEmojiPickerComment() {
+    this.showEmojiPickerComment = !this.showEmojiPickerComment;
+  }
+
+  addEmojiComment(event: any) {
+    this.contentCommentInput += event.emoji.native;
+  }
+
+
   showEmojiPickerUpdate: boolean = false;
 
   toggleEmojiPickerUpdate() {
@@ -573,8 +593,18 @@ export class CenterProfileComponent implements OnInit, AfterViewInit {
     if (files && files.length > 0) {
       files.forEach(file => {
         const reader = new FileReader();
-        reader.onload = e => this.previewPostImages.push(reader.result as string);
-        reader.readAsDataURL(file);
+
+        if (file.type.startsWith('image/')) {
+          // Xử lý ảnh
+          reader.onload = () => this.previewPostImages.push({ type: 'image/webp', path: reader.result as string });
+          reader.readAsDataURL(file);
+        } else if (file.type.startsWith('video/')) {
+          // Xử lý video
+          const videoURL = URL.createObjectURL(file);
+          this.previewPostImages.push({ type: 'video/mp4', path: videoURL });
+        }
+
+        // Lưu tệp vào danh sách đã chọn
         this.selectedFilesPost.push(file);
       });
     }

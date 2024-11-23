@@ -33,7 +33,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
   fileInput: any;
   selectedFiles: File[] = [];
-  previewUrls: string[] = [];
+  previewUrls: any[] = [];
 
   is_edit_message: boolean = false;
   id_message: number = 0;
@@ -248,7 +248,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   }
 
   getPathImg(img: any) {
-    return img.path;
+    return { 'path': img.path, 'type': img.type };
   }
 
   copyMessage(message: string) {
@@ -374,7 +374,16 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
       );
     }
     else {
-      this.chatService.recallMessage(this.id_message, { 'content': mess.content }).subscribe(
+      const formData = new FormData();
+      formData.append('content', mess.content);
+
+      if (this.selectedFiles.length > 0) {
+        this.selectedFiles.forEach(image => {
+          formData.append('medias[]', image, image.name);
+        });
+      }
+
+      this.chatService.recallMessage(this.id_message, formData).subscribe(
         (response) => {
           console.log(response);
           (document.querySelector('.textarea-chat') as HTMLTextAreaElement).style.height = '32px';
@@ -428,10 +437,6 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
 
 
-
-
-
-
   resetFileInput() {
     if (this.fileInput) {
       this.fileInput.nativeElement.value = '';
@@ -443,8 +448,18 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     if (files && files.length > 0) {
       files.forEach(file => {
         const reader = new FileReader();
-        reader.onload = e => this.previewUrls.push(reader.result as string);
-        reader.readAsDataURL(file);
+
+        if (file.type.startsWith('image/')) {
+          // Xử lý ảnh
+          reader.onload = () => this.previewUrls.push({ type: 'image/webp', path: reader.result as string });
+          reader.readAsDataURL(file);
+        } else if (file.type.startsWith('video/')) {
+          // Xử lý video
+          const videoURL = URL.createObjectURL(file);
+          this.previewUrls.push({ type: 'video/mp4', path: videoURL });
+        }
+
+        // Lưu tệp vào danh sách đã chọn
         this.selectedFiles.push(file);
       });
     }

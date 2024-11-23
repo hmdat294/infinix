@@ -331,8 +331,18 @@
                                                                         class="w-fill h-fill {{(msg.medias.length<6)?'layout-3-'+msg.medias.length:(msg.medias.length%2==0)?'layout-3-6':'layout-3-5'}}">
                                                                         <div class="w-fill h-fill  border border-card-default rounded-4 overflow-hidden"
                                                                             *ngFor="let img of msg.medias">
-                                                                            <img class="w-fill object-fit-cover object-position-center"
-                                                                                [src]="getPathImg(img)" alt="Image">
+                                                                            <ng-container
+                                                                                *ngIf="img.type === 'image/webp'||img.type === 'url'">
+                                                                                <img [src]="img.path"
+                                                                                    alt="Image preview"
+                                                                                    class="w-fill h-fill object-fit-cover object-position-center">
+                                                                            </ng-container>
+
+                                                                            <ng-container
+                                                                                *ngIf="img.type === 'video/mp4'||img.type === 'url'">
+                                                                                <video [src]="img.path" controls
+                                                                                    class="w-fill h-fill object-fit-cover object-position-center"></video>
+                                                                            </ng-container>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -433,8 +443,18 @@
                                                                         class="w-fill h-fill {{(msg.medias.length<6)?'layout-3-'+msg.medias.length:(msg.medias.length%2==0)?'layout-3-6':'layout-3-5'}}">
                                                                         <div class="w-fill h-fill  border border-card-default rounded-4 overflow-hidden"
                                                                             *ngFor="let img of msg.medias">
-                                                                            <img class="w-fill h-fill object-fit-cover object-position-center"
-                                                                                [src]="getPathImg(img)" alt="Image">
+                                                                            <ng-container
+                                                                                *ngIf="img.type === 'image/webp'||img.type === 'url'">
+                                                                                <img [src]="img.path"
+                                                                                    alt="Image preview"
+                                                                                    class="w-fill h-fill object-fit-cover object-position-center">
+                                                                            </ng-container>
+
+                                                                            <ng-container
+                                                                                *ngIf="img.type === 'video/mp4'||img.type === 'url'">
+                                                                                <video [src]="img.path" controls
+                                                                                    class="w-fill h-fill object-fit-cover object-position-center"></video>
+                                                                            </ng-container>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -556,17 +576,32 @@
                                                     <div *ngIf="getReply(msg.reply_to_message_id).is_recalled == 0"
                                                         style="border-right: 3px solid var(--accent-default);">
 
-                                                        <p class="px-10 py-5 my-5 text-secondary button-subtle"
+                                                        <div class="px-10 py-5 my-5 text-secondary button-subtle"
                                                             (click)="scrollToElement(msg.reply_to_message_id)">
-                                                            <img *ngIf="getReply(msg.reply_to_message_id).images"
-                                                                src="{{getReply(msg.reply_to_message_id).images.path}}"
-                                                                alt="Image" height="50px" class="m-2 rounded-4">
 
-                                                            <span class="text-secondary" style="white-space: pre-line;">
+                                                            <div *ngIf="getReply(msg.reply_to_message_id).images">
+
+                                                                <ng-container
+                                                                    *ngIf="getReply(msg.reply_to_message_id).images.type === 'image/webp'||getReply(msg.reply_to_message_id).images.type === 'url'">
+                                                                    <img [src]="getReply(msg.reply_to_message_id).images.path"
+                                                                        alt="Image" height="50px" class="m-2 rounded-4">
+                                                                </ng-container>
+
+                                                                <!-- Hiển thị video -->
+                                                                <ng-container
+                                                                    *ngIf="getReply(msg.reply_to_message_id).images.type === 'video/mp4'||getReply(msg.reply_to_message_id).images.type === 'url'">
+                                                                    <video
+                                                                        [src]="getReply(msg.reply_to_message_id).images.path"
+                                                                        alt="Image" height="50px"
+                                                                        class="m-2 rounded-4"></video>
+                                                                </ng-container>
+                                                            </div>
+
+                                                            <span class="text-secondary ms-5" style="white-space: pre-line;">
                                                                 {{getReply(msg.reply_to_message_id
                                                                 ).content}}
                                                             </span>
-                                                        </p>
+                                                        </div>
                                                     </div>
                                                     <div *ngIf="getReply(msg.reply_to_message_id).is_recalled == 1"
                                                         style="border-right: 3px solid var(--accent-default);">
@@ -586,9 +621,20 @@
                                                             class="w-fill {{(msg.medias.length<6)?'layout-'+msg.medias.length:(msg.medias.length%2==0)?'layout-6':'layout-5'}}">
                                                             <div class="w-fill h-fill border border-card-default rounded-4 overflow-hidden"
                                                                 *ngFor="let img of msg.medias">
-                                                                <img class="w-fill h-fill object-fit-cover object-position-center"
-                                                                    [src]="getPathImg(img)" alt="Image"
-                                                                    [style]="(msg.link) ? 'max-height:100px' : ''">
+                                                                <ng-container
+                                                                    *ngIf="getPathImg(img).type === 'image/webp'||getPathImg(img).type === 'url'">
+                                                                    <img [src]="getPathImg(img).path"
+                                                                        alt="Image preview"
+                                                                        class="w-fill h-fill object-fit-cover object-position-center"
+                                                                        [style]="(msg.link) ? 'max-height:100px' : ''">
+                                                                </ng-container>
+
+                                                                <ng-container
+                                                                    *ngIf="getPathImg(img).type === 'video/mp4'||getPathImg(img).type === 'url'">
+                                                                    <video [src]="getPathImg(img).path" controls
+                                                                        class="w-fill h-fill object-fit-cover object-position-center"
+                                                                        [style]="(msg.link) ? 'max-height:100px' : ''"></video>
+                                                                </ng-container>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -678,17 +724,32 @@
                                                     <div *ngIf="getReply(msg.reply_to_message_id).is_recalled == 0"
                                                         style="border-left: 3px solid var(--control-strong-stroke-default);">
 
-                                                        <p class="px-10 py-5 my-5 text-secondary"
+                                                        <div class="px-10 py-5 my-5 text-secondary"
                                                             (click)="scrollToElement(msg.reply_to_message_id)">
-                                                            <img *ngIf="getReply(msg.reply_to_message_id).images"
-                                                                src="{{getReply(msg.reply_to_message_id).images.path}}"
-                                                                alt="Image" height="50px" class="m-2 rounded-4">
 
-                                                            <span class="text-secondary" style="white-space: pre-line;">
+                                                            <div *ngIf="getReply(msg.reply_to_message_id).images">
+
+                                                                <ng-container
+                                                                    *ngIf="getReply(msg.reply_to_message_id).images.type === 'image/webp'||getReply(msg.reply_to_message_id).images.type === 'url'">
+                                                                    <img [src]="getReply(msg.reply_to_message_id).images.path"
+                                                                        alt="Image" height="50px" class="m-2 rounded-4">
+                                                                </ng-container>
+
+                                                                <!-- Hiển thị video -->
+                                                                <ng-container
+                                                                    *ngIf="getReply(msg.reply_to_message_id).images.type === 'video/mp4'||getReply(msg.reply_to_message_id).images.type === 'url'">
+                                                                    <video
+                                                                        [src]="getReply(msg.reply_to_message_id).images.path"
+                                                                        alt="Image" height="50px"
+                                                                        class="m-2 rounded-4"></video>
+                                                                </ng-container>
+                                                            </div>
+
+                                                            <span class="text-secondary ms-5" style="white-space: pre-line;">
                                                                 {{getReply(msg.reply_to_message_id
                                                                 ).content}}
                                                             </span>
-                                                        </p>
+                                                        </div>
                                                     </div>
                                                     <div *ngIf="getReply(msg.reply_to_message_id).is_recalled == 1"
                                                         style="border-left: 3px solid var(--control-strong-stroke-default);">
@@ -708,9 +769,20 @@
                                                             class="w-fill {{(msg.medias.length<6)?'layout-'+msg.medias.length:(msg.medias.length%2==0)?'layout-6':'layout-5'}}">
                                                             <div class="w-fill h-fill  border border-card-default rounded-4 overflow-hidden"
                                                                 *ngFor="let img of msg.medias">
-                                                                <img class="w-fill h-fill object-fit-cover object-position-center"
-                                                                    [src]="getPathImg(img)" alt="Image"
-                                                                    [style]="(msg.link) ? 'max-height:100px' : ''">
+                                                                <ng-container
+                                                                    *ngIf="getPathImg(img).type === 'image/webp'||getPathImg(img).type === 'url'">
+                                                                    <img [src]="getPathImg(img).path"
+                                                                        alt="Image preview"
+                                                                        class="w-fill h-fill object-fit-cover object-position-center"
+                                                                        [style]="(msg.link) ? 'max-height:100px' : ''">
+                                                                </ng-container>
+
+                                                                <ng-container
+                                                                    *ngIf="getPathImg(img).type === 'video/mp4'||getPathImg(img).type === 'url'">
+                                                                    <video [src]="getPathImg(img).path" controls
+                                                                        class="w-fill h-fill object-fit-cover object-position-center"
+                                                                        [style]="(msg.link) ? 'max-height:100px' : ''"></video>
+                                                                </ng-container>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -840,8 +912,22 @@
 
                         <div *ngIf="previewReply" class="p-10 position-relative">
                             <div style="border-left: 3px solid #005FB8E6;" class="p-10">
-                                <img *ngIf="previewReply.medias.length > 0" src="{{previewReply.medias[0].path}}"
-                                    alt="Image" height="50px" class="rounded-4">
+                                <div *ngIf="previewReply.medias.length > 0">
+
+                                    <ng-container
+                                        *ngIf="previewReply.medias[0].type === 'image/webp'||previewReply.medias[0].type === 'url'">
+                                        <img [src]="previewReply.medias[0].path" alt="Image preview" height="50px"
+                                            class="rounded-4">
+                                    </ng-container>
+
+                                    <ng-container
+                                        *ngIf="previewReply.medias[0].type === 'video/mp4'||previewReply.medias[0].type === 'url'">
+                                        <video [src]="previewReply.medias[0].path" height="50px"
+                                            class="rounded-4"></video>
+                                    </ng-container>
+
+                                </div>
+
                                 <span class="text-secondary" style="white-space: pre-line;">
                                     {{previewReply.content}}
                                 </span>
@@ -854,8 +940,15 @@
 
                         <div *ngIf="previewUrls.length > 0" class="p-10 position-relative">
                             <div class="layout-wrap gap-10">
-                                <div *ngFor="let previewUrl of previewUrls; let i = index" class="position-relative">
-                                    <img [src]="previewUrl" alt="Image preview" height="100px" class="rounded-4">
+                                <div *ngFor="let preview of previewUrls; let i = index" class="position-relative">
+                                    <ng-container *ngIf="preview.type === 'image/webp'||preview.type === 'url'">
+                                        <img [src]="preview.path" alt="Image preview" height="100px" class="rounded-4">
+                                    </ng-container>
+
+                                    <!-- Hiển thị video -->
+                                    <ng-container *ngIf="preview.type === 'video/mp4'||preview.type === 'url'">
+                                        <video [src]="preview.path" controls height="100px" class="rounded-4"></video>
+                                    </ng-container>
                                     <button type="button" (click)="removeImage(i)"
                                         class="button-standard button-icon-only position-absolute top-0 end-0">
                                         <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
@@ -888,7 +981,7 @@
                                 <label style="cursor: pointer;" class="input-button">
                                     <i class="icon-size-16 icon icon-ic_fluent_image_16_regular"></i>
                                     <input type="file" [ngModel]="fileInput" name="fileInput"
-                                        (change)="onFileSelected($event)" accept="image/*" multiple
+                                        (change)="onFileSelected($event)" accept="image/*,video/*" multiple
                                         style="display: none;">
                                 </label>
 

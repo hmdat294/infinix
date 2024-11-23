@@ -29,3 +29,7 @@ td {
     background-color: var(--subtle-secondary);
     border: 1px solid var(--card-stroke-default);
 }
+
+.opacity-5{
+    opacity: 0.5;
+}
