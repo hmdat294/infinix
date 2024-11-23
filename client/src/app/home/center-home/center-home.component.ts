@@ -33,8 +33,8 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   contentUpdate: string = '';
   selectedFilesPost: File[] = [];
   selectedFilesUpdatePost: File[] = [];
-  previewPostImages: string[] = [];
-  previewUpdatePostImages: string[] = [];
+  previewPostImages: any[] = [];
+  previewUpdatePostImages: any[] = [];
   selectedFilesComment: File[] = [];
   previewCommentImages: string[] = [];
   listPost: any[] = [];
@@ -84,7 +84,7 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
     this.postService.getHomePost().subscribe(
       (data) => {
         this.listPost = data.data;
-        // console.log(this.listPost);
+        console.log(this.listPost);
 
         this.eventService.bindEvent('App\\Events\\UserPostEvent', (data: any) => {
           console.log('Post event:', data);
@@ -250,7 +250,7 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   }
 
   getPathImg(img: any) {
-    return img.path;
+    return { 'path': img.path, 'type': img.type };
   }
 
 
@@ -298,7 +298,7 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   }
 
   updatePost(value: any) {
-    const urlImg = this.previewUpdatePostImages.filter(url => url.startsWith("http"));
+    const urlImg = this.previewUpdatePostImages.filter(url => url.path.startsWith("http"));
 
     if (value.contentUpdate && !this.spaceCheck.test(value.contentUpdate)) {
       const formData = new FormData();
@@ -308,7 +308,7 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
         this.selectedFilesUpdatePost.forEach(image => formData.append('medias[]', image, image.name));
 
       if (urlImg.length > 0)
-        urlImg.forEach(imagePath => formData.append('urls[]', imagePath));
+        urlImg.forEach(imagePath => formData.append('urls[]', imagePath.path));
 
       this.postService.updatePost(this.postUpdateId, formData).subscribe(
         (response) => {
@@ -329,21 +329,32 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
     }
     else {
       this.postUpdateId = post.id;
-      this.previewUpdatePostImages = post.medias.map((media: any) => media.path);
+      this.previewUpdatePostImages = [...post.medias];
       this.contentUpdate = post.content;
     }
   }
 
-  onFileUpdatePostSelected(event: any) {
 
+  onFileUpdatePostSelected(event: any) {
     const files: File[] = Array.from(event.target.files);
-    // console.log(files);
     if (files && files.length > 0) {
       files.forEach(file => {
         const reader = new FileReader();
-        reader.onload = e => this.previewUpdatePostImages.push(reader.result as string);
-        reader.readAsDataURL(file);
+
+        if (file.type.startsWith('image/')) {
+          // Xử lý ảnh
+          reader.onload = () => this.previewUpdatePostImages.push({ type: 'image/webp', path: reader.result as string });
+          reader.readAsDataURL(file);
+        } else if (file.type.startsWith('video/')) {
+          // Xử lý video
+          const videoURL = URL.createObjectURL(file);
+          this.previewUpdatePostImages.push({ type: 'video/mp4', path: videoURL });
+        }
+
+        // Lưu tệp vào danh sách đã chọn
         this.selectedFilesUpdatePost.push(file);
+        console.log(this.selectedFilesUpdatePost);
+        
       });
     }
   }
@@ -688,12 +699,23 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
     if (files && files.length > 0) {
       files.forEach(file => {
         const reader = new FileReader();
-        reader.onload = e => this.previewPostImages.push(reader.result as string);
-        reader.readAsDataURL(file);
+
+        if (file.type.startsWith('image/')) {
+          // Xử lý ảnh
+          reader.onload = () => this.previewPostImages.push({ type: 'image/webp', path: reader.result as string });
+          reader.readAsDataURL(file);
+        } else if (file.type.startsWith('video/')) {
+          // Xử lý video
+          const videoURL = URL.createObjectURL(file);
+          this.previewPostImages.push({ type: 'video/mp4', path: videoURL });
+        }
+
+        // Lưu tệp vào danh sách đã chọn
         this.selectedFilesPost.push(file);
       });
     }
   }
+
 
   onFileCommentSelected(event: any) {
     const files: File[] = Array.from(event.target.files);

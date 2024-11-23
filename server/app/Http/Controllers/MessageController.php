@@ -107,6 +107,26 @@ class MessageController extends Controller
         if ($message->is_recalled) {
             $message->medias()->delete();
         }
+
+        if ($request->hasFile('medias')) {
+            $message->medias()->delete();
+            $medias = $request->file('medias');
+            foreach ($medias as $media) {
+                $message->medias()->create([
+                    'message_id' => $message->id,
+                    'type' => $media->getMimeType(),
+                    'path' => asset('storage/' . $media->store('uploads', 'public'))
+                ]);
+            }
+        } else if ($request->has("medias")) {
+            $message->medias()->delete();
+            $message->medias()->create([
+                'message_id' => $message->id,
+                'type' => $request->type,
+                'path' =>  $request->medias
+            ]);
+        }
+        
         if ($request->has('is_recalled')) {
             event(new UserRecallMessageEvent($request->user()->id, $message->id));
         } else {

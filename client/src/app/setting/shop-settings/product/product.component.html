@@ -98,9 +98,17 @@
 
                             <div class="w-fill-column-2 layout-vertical gap-5">
                                 <p class="text-body text-primary">Số lượng</p>
-                                <div class="control text-control w-fill">
+                                <div class="control number-control w-fill">
                                     <input type="number" min="1" spellcheck="false" name="stock_product" ngModel
                                         [(ngModel)]="stock_product" required>
+                                    <button type="button" class="input-button increase-number-button"
+                                        (click)="stock_create('add')">
+                                        <i class="icon-size-16 icon icon-ic_fluent_chevron_up_16_regular"></i>
+                                    </button>
+                                    <button type="button" class="input-button decrease-number-button"
+                                        (click)="stock_create('reduce')">
+                                        <i class="icon-size-16 icon icon-ic_fluent_chevron_down_16_regular"></i>
+                                    </button>
                                 </div>
                                 <div *ngIf="stock_product < 1"
                                     class="text-caption position-absolute top-100 mt-5 text-system-critical">
@@ -132,9 +140,17 @@
 
                             <div class="w-fill-column-3 layout-vertical gap-5">
                                 <p class="text-body text-primary">Giá</p>
-                                <div class="control text-control w-fill">
+                                <div class="control number-control w-fill">
                                     <input type="number" min="0" spellcheck="false" name="price_product" ngModel
                                         [(ngModel)]="price_product" required>
+                                    <button type="button" class="input-button increase-number-button"
+                                        (click)="price_create('add')">
+                                        <i class="icon-size-16 icon icon-ic_fluent_chevron_up_16_regular"></i>
+                                    </button>
+                                    <button type="button" class="input-button decrease-number-button"
+                                        (click)="price_create('reduce')">
+                                        <i class="icon-size-16 icon icon-ic_fluent_chevron_down_16_regular"></i>
+                                    </button>
                                 </div>
                                 <div *ngIf="price_product < 0"
                                     class="text-caption position-absolute top-100 mt-5 text-system-critical">
@@ -144,9 +160,17 @@
 
                             <div class="w-fill-column-3 layout-vertical gap-5">
                                 <p class="text-body text-primary">Giảm giá</p>
-                                <div class="control text-control w-fill">
+                                <div class="control number-control w-fill">
                                     <input type="number" min="0" max="100" spellcheck="false" name="discount_product"
                                         ngModel [(ngModel)]="discount_product" required>
+                                    <button type="button" class="input-button increase-number-button"
+                                        (click)="discount_create('add')">
+                                        <i class="icon-size-16 icon icon-ic_fluent_chevron_up_16_regular"></i>
+                                    </button>
+                                    <button type="button" class="input-button decrease-number-button"
+                                        (click)="discount_create('reduce')">
+                                        <i class="icon-size-16 icon icon-ic_fluent_chevron_down_16_regular"></i>
+                                    </button>
                                 </div>
                                 <div *ngIf="discount_product < 0 || discount_product > 100"
                                     class="text-caption position-absolute top-100 mt-5 text-system-critical">
@@ -243,9 +267,17 @@
 
                             <div class="w-fill-column-2 layout-vertical gap-5">
                                 <p class="text-body text-primary">Số lượng</p>
-                                <div class="control text-control w-fill">
+                                <div class="control number-control w-fill">
                                     <input type="number" min="1" spellcheck="false" name="stock_product_update" ngModel
                                         [(ngModel)]="stock_product_update" required>
+                                    <button type="button" class="input-button increase-number-button"
+                                        (click)="stock_update('add')">
+                                        <i class="icon-size-16 icon icon-ic_fluent_chevron_up_16_regular"></i>
+                                    </button>
+                                    <button type="button" class="input-button decrease-number-button"
+                                        (click)="stock_update('reduce')">
+                                        <i class="icon-size-16 icon icon-ic_fluent_chevron_down_16_regular"></i>
+                                    </button>
                                 </div>
                                 <div *ngIf="stock_product_update < 1"
                                     class="text-caption position-absolute top-100 mt-5 text-system-critical">
@@ -279,9 +311,17 @@
 
                             <div class="w-fill-column-3 layout-vertical gap-5">
                                 <p class="text-body text-primary">Giá</p>
-                                <div class="control text-control w-fill">
+                                <div class="control number-control w-fill">
                                     <input type="number" min="0" spellcheck="false" name="price_product_update" ngModel
                                         [(ngModel)]="price_product_update" required>
+                                    <button type="button" class="input-button increase-number-button"
+                                        (click)="price_update('add')">
+                                        <i class="icon-size-16 icon icon-ic_fluent_chevron_up_16_regular"></i>
+                                    </button>
+                                    <button type="button" class="input-button decrease-number-button"
+                                        (click)="price_update('reduce')">
+                                        <i class="icon-size-16 icon icon-ic_fluent_chevron_down_16_regular"></i>
+                                    </button>
                                 </div>
                                 <div *ngIf="price_product_update < 0"
                                     class="text-caption position-absolute top-100 mt-5 text-system-critical">
@@ -291,10 +331,18 @@
 
                             <div class="w-fill-column-3 layout-vertical gap-5">
                                 <p class="text-body text-primary">Giảm giá</p>
-                                <div class="control text-control w-fill">
+                                <div class="control number-control w-fill">
                                     <input type="number" min="0" max="100" spellcheck="false"
                                         name="discount_product_update" ngModel [(ngModel)]="discount_product_update"
                                         required>
+                                    <button type="button" class="input-button increase-number-button"
+                                        (click)="discount_update('add')">
+                                        <i class="icon-size-16 icon icon-ic_fluent_chevron_up_16_regular"></i>
+                                    </button>
+                                    <button type="button" class="input-button decrease-number-button"
+                                        (click)="discount_update('reduce')">
+                                        <i class="icon-size-16 icon icon-ic_fluent_chevron_down_16_regular"></i>
+                                    </button>
                                 </div>
                                 <div *ngIf="discount_product_update < 0 || discount_product_update > 100"
                                     class="text-caption position-absolute top-100 mt-5 text-system-critical">

@@ -10,8 +10,16 @@
 
             <div *ngIf="previewPostImages.length > 0" class="p-10 position-relative border rounded-6">
                 <div class="layout-wrap gap-10">
-                    <div *ngFor="let previewImage of previewPostImages; let i = index" class="w-fill-column-6">
-                        <img [src]="previewImage" alt="Image preview" width="100%" class="rounded-4">
+                    <div *ngFor="let preview of previewPostImages; let i = index" class="w-fill-column-6">
+                        <ng-container *ngIf="preview.type === 'image/webp'">
+                            <img [src]="preview.path" alt="Image preview" width="100%" class="rounded-4">
+                        </ng-container>
+
+                        <!-- Hiển thị video -->
+                        <ng-container *ngIf="preview.type === 'video/mp4'">
+                            <video [src]="preview.path" controls width="100%" class="rounded-4"></video>
+                        </ng-container>
+
                         <button type="button" (click)="removePostImage(i)"
                             class="button-standard button-icon-only position-absolute top-0 end-0">
                             <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
@@ -46,7 +54,7 @@
             <div class="layout-horizontal w-fill">
                 <div class="layout horizontal w-fill gap-10">
                     <input class="display-none" type="file" [ngModel]="filePost" name="filePost"
-                        (change)="onFilePostSelected($event)" accept="image/*" id="post_media_input" multiple>
+                        (change)="onFilePostSelected($event)" accept="image/*,video/*" id="post_media_input" multiple>
                     <label for="post_media_input"
                         class="layout align-center-center border-none subtle-transparent text-accent-default">
                         <i class="icon-size-20 icon icon-ic_fluent_image_20_regular"></i>
@@ -175,9 +183,16 @@
                 <div *ngIf="previewUpdatePostImages.length > 0"
                     class="p-10 position-relative border rounded-6 overflow-scroll-vertical" style="height: 300px;">
                     <div class="layout-wrap gap-10">
-                        <div *ngFor="let previewImage of previewUpdatePostImages; let i = index"
+                        <div *ngFor="let preview of previewUpdatePostImages; let i = index"
                             class="w-fill-column-6">
-                            <img [src]="previewImage" alt="Image preview" width="100%" class="rounded-4">
+                            <ng-container *ngIf="preview.type === 'image/webp'||preview.type === 'url'">
+                                <img [src]="preview.path" alt="Image preview" width="100%" class="rounded-4">
+                            </ng-container>
+
+                            <!-- Hiển thị video -->
+                            <ng-container *ngIf="preview.type === 'video/mp4'||preview.type === 'url'">
+                                <video [src]="preview.path" controls width="100%" class="rounded-4"></video>
+                            </ng-container>
                             <button type="button" (click)="removeUpdatePostImage(i)"
                                 class="button-standard button-icon-only position-absolute top-0 end-0">
                                 <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
@@ -193,7 +208,7 @@
                 <div class="layout-horizontal w-fill">
                     <div class="layout horizontal w-fill gap-10">
                         <input class="display-none" type="file" [ngModel]="fileUpdatePost" name="fileUpdatePost"
-                            (change)="onFileUpdatePostSelected($event)" accept="image/*" id="update_post_media_input"
+                            (change)="onFileUpdatePostSelected($event)" accept="image/*,video/*" id="update_post_media_input"
                             multiple>
                         <label for="update_post_media_input"
                             class="layout align-center-center border-none subtle-transparent text-accent-default">
@@ -338,8 +353,15 @@
                 <div [attr.data-content-media]="'+'+(post.medias.length-5)"
                     class="w-fill h-fill  border border-card-default rounded-6 overflow-hidden"
                     *ngFor="let img of post.medias | slice:0:5; let i = index" (click)="toggleDialog(post.id, i)">
-                    <img class="w-fill h-fill object-fit-cover object-position-center" [src]="getPathImg(img)"
-                        alt="Image">
+                    <ng-container *ngIf="getPathImg(img).type === 'image/webp'||getPathImg(img).type === 'url'">
+                        <img [src]="getPathImg(img).path" alt="Image preview"
+                            class="w-fill h-fill object-fit-cover object-position-center rounded-4">
+                    </ng-container>
+
+                    <ng-container *ngIf="getPathImg(img).type === 'video/mp4'||getPathImg(img).type === 'url'">
+                        <video [src]="getPathImg(img).path" controls
+                            class="w-fill h-fill object-fit-cover object-position-center rounded-4"></video>
+                    </ng-container>
                 </div>
             </div>
         </div>
@@ -369,8 +391,15 @@
                                 </div>
                                 <div class="carousel-inner  h-fill" #carouselInner>
                                     <div class="carousel-item" *ngFor="let img of post.medias">
-                                        <img id="aa" [src]="img.path" alt="Image 1" class="h-fill"
-                                            style="object-fit: contain !important; background-color: rgb(27, 27, 27);">
+                                        <ng-container *ngIf="img.type === 'image/webp'||img.type === 'url'">
+                                            <img [src]="img.path" alt="Image preview" class="h-fill"
+                                                style="object-fit: contain !important; background-color: rgb(27, 27, 27);">
+                                        </ng-container>
+
+                                        <ng-container *ngIf="img.type === 'video/mp4'||img.type === 'url'">
+                                            <video [src]="img.path" controls class="h-fill"
+                                                style="object-fit: contain !important; background-color: rgb(27, 27, 27);"></video>
+                                        </ng-container>
                                     </div>
                                 </div>
 

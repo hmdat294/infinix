@@ -60,7 +60,7 @@ export class ProductComponent implements OnInit {
             (res) => {
               this.products = res.data;
               console.log(this.products);
-              
+
               this.originalProducts = [...this.products];
             });
         }
@@ -68,7 +68,7 @@ export class ProductComponent implements OnInit {
   }
 
 
-  
+
   //create product
   diaLogCreateProduct: boolean = false;
   showDiaLogCreateProduct() {
@@ -230,6 +230,33 @@ export class ProductComponent implements OnInit {
     )
   }
 
+
+  stock_create(method: string) {
+    if (method == 'add') this.stock_product++;
+    else if (method == 'reduce' && this.stock_product > 1) this.stock_product--;
+  }
+  stock_update(method: string) {
+    if (method == 'add') this.stock_product_update++;
+    else if (method == 'reduce' && this.stock_product_update > 1) this.stock_product_update--;
+  }
+
+  price_create(method: string) {
+    if (method == 'add') this.price_product++;
+    else if (method == 'reduce' && this.price_product > 0) this.price_product--;
+  }
+  price_update(method: string) {
+    if (method == 'add') this.price_product_update++;
+    else if (method == 'reduce' && this.price_product_update > 0) this.price_product_update--;
+  }
+
+  discount_create(method: string) {
+    if (method == 'add'  && this.discount_product < 100) this.discount_product++;
+    else if (method == 'reduce' && this.discount_product > 1) this.discount_product--;
+  }
+  discount_update(method: string) {
+    if (method == 'add'  && this.discount_product_update < 100) this.discount_product_update++;
+    else if (method == 'reduce' && this.discount_product_update > 1) this.discount_product_update--;
+  }
 
   //delete product
   id_product_delete: number = 0;

@@ -101,23 +101,26 @@ export class ShopService {
   }
 
   //cart
-  getCart(cart_id: number): Observable<any> {
+  getCart(): Observable<any> {
     const headers = this.authService.getToken();
-    return this.http.get(`${this.apiUrl}/cart/${cart_id}`, { headers });
+    return this.http.get(`${this.apiUrl}/cart`, { headers });
   }
 
-  addProductToCart(value: any, cart_id: number): Observable<any> {
+  //{ product_id , quantity }
+  addProductToCart(value: any): Observable<any> {
     const headers = this.authService.getToken();
-    return this.http.post(`${this.apiUrl}/cart/${cart_id}/add-product`, value, { headers });
+    return this.http.post(`${this.apiUrl}/cart/add-product`, value, { headers });
   }
 
-  updateProductToCart(value: any, cart_id: number): Observable<any> {
+  //{ product_id , quantity }
+  updateProductToCart(value: any): Observable<any> {
     const headers = this.authService.getToken();
-    return this.http.post(`${this.apiUrl}/cart/${cart_id}/update-product`, value, { headers });
+    return this.http.post(`${this.apiUrl}/cart/update-product`, value, { headers });
   }
 
-  removeProductToCart(value: any, cart_id: number): Observable<any> {
+  //{ product_id }
+  removeProductToCart(value: any): Observable<any> {
     const headers = this.authService.getToken();
-    return this.http.post(`${this.apiUrl}/cart/${cart_id}/remove-product`, value, { headers });
+    return this.http.post(`${this.apiUrl}/cart/remove-product`, value, { headers });
   }
 }
