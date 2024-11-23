@@ -11,7 +11,7 @@
             *ngFor="let cate of shop?.categories; let i = index;">
             <td>{{i+1}}</td>
             <td class="text-body-strong">{{cate.name}}</td>
-            <td class="text-body-strong">1</td>
+            <td class="text-body-strong">{{cate.product_count || 0}}</td>
             <td class="layout-horizontal gap-10">
                 <button type="button" class="button-standard button-icon-only w-hug"
                     (click)="showDiaLogUpdateCategory(cate.id, cate.name)">

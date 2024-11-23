@@ -47,10 +47,6 @@ export class GeneralSettingsComponent implements OnInit {
         this.listUserReport = response.data.filter((item: any) => item.type == "user");
         this.listCommentReport = response.data.filter((item: any) => item.type == "comment");
 
-        console.log(this.listPostReport);
-        console.log(this.listUserReport);
-        console.log(this.listCommentReport);
-
       })
 
     this.authService.getUserBlock().subscribe(
