@@ -84,7 +84,7 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
 
 
 
-
+    Route::post('remove-member', [ConversationController::class, 'removeMember']);
     Route::get('friend-suggestions', [UserController::class, 'friendSuggestions']);
 
     Route::get('user/blocked-users', [UserController::class, 'blockedUsers']);
