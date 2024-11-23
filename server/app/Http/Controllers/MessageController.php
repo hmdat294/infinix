@@ -48,13 +48,14 @@ class MessageController extends Controller
                     'path' => asset('storage/' . $media->store('uploads', 'public'))
                 ]);
             }
-        } else if ($request->has("medias")) {
-            $message->medias()->create([
-                'message_id' => $message->id,
-                'type' => $request->type,
-                'path' =>  $request->medias
-            ]);
         }
+        //  else if ($request->has("medias")) {
+        //     $message->medias()->create([
+        //         'message_id' => $message->id,
+        //         'type' => $request->type,
+        //         'path' =>  $request->medias
+        //     ]);
+        // }
 
         event(new UserSendMessageEvent($request->user()->id, $message->id, $message->content));
         $this->sendNotification($request->user()->id, $request->conversation_id, 'send');
@@ -108,8 +109,10 @@ class MessageController extends Controller
             $message->medias()->delete();
         }
 
+        
+        $message->medias()->delete();
+
         if ($request->hasFile('medias')) {
-            $message->medias()->delete();
             $medias = $request->file('medias');
             foreach ($medias as $media) {
                 $message->medias()->create([
@@ -118,13 +121,15 @@ class MessageController extends Controller
                     'path' => asset('storage/' . $media->store('uploads', 'public'))
                 ]);
             }
-        } else if ($request->has("medias")) {
-            $message->medias()->delete();
-            $message->medias()->create([
-                'message_id' => $message->id,
-                'type' => $request->type,
-                'path' =>  $request->medias
-            ]);
+        }
+        if ($request->has("urls")) {
+            foreach ($request->urls as $url) {
+                $message->medias()->create([
+                    'message_id' => $message->id,
+                    'type' => $request->type,
+                    'path' =>  $url
+                ]);
+            }
         }
         
         if ($request->has('is_recalled')) {
