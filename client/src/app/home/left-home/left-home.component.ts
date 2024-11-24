@@ -83,7 +83,7 @@ export class LeftHomeComponent implements OnInit, AfterViewInit {
     this.shopService.getListProduct().subscribe(
       (response) => {
         this.listProduct = response.data;
-        console.log(this.listProduct);
+        // console.log(this.listProduct);
       });
   }
 

@@ -10,6 +10,7 @@ import { MiniChatComponent } from '../mini-chat/mini-chat.component';
 import { NotificationService } from '../service/notification.service';
 import { CurrencyVNDPipe } from '../currency-vnd.pipe';
 import { PaymentService } from '../service/payment.service';
+import { ShopService } from '../service/shop.service';
 
 @Component({
   selector: 'app-header',
@@ -25,6 +26,7 @@ export class HeaderComponent implements OnInit {
   currentRoute: string | undefined;
   conversation: any[] = [];
   notification: any;
+  cart: any;
 
   constructor(
     private router: Router,
@@ -32,7 +34,8 @@ export class HeaderComponent implements OnInit {
     private eventService: EventService,
     private chatService: ChatService,
     private notificationService: NotificationService,
-    private paymentService: PaymentService
+    private paymentService: PaymentService,
+    private shopService: ShopService,
   ) { }
 
   ngOnInit(): void {
@@ -78,6 +81,13 @@ export class HeaderComponent implements OnInit {
           this.notification.unshift(data.data);
         });
 
+      });
+
+    this.shopService.getCart().subscribe(
+      (data) => {
+        console.log(data);
+        
+        this.cart = data.data;
       });
   }
 
@@ -134,7 +144,7 @@ export class HeaderComponent implements OnInit {
       }
     );
   }
-  
+
   paymentZalopay() {
     const data = {
       'price': 19000,
