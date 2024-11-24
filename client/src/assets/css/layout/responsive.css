@@ -1,0 +1,40 @@
+.show-in-mobile {
+    display: none !important;
+}
+
+.show-in-tablet {
+    display: none !important;
+}
+
+.hide-in-mobile {
+    display: inherit !important;
+}
+
+.hide-in-tablet {
+    display: inherit !important;
+}
+
+.hide-in-desktop {
+    display: none !important;
+}
+
+@media (min-width: 480px) and (max-width: 850px) {
+    .show-in-tablet {
+        display: inherit !important;
+    }
+
+    .hide-in-tablet {
+        display: none !important;
+    }
+}
+
+
+@media (max-width: 479px) {
+    .show-in-mobile {
+        display: inherit !important;
+    }
+
+    .hide-in-mobile {
+        display: none !important;
+    }
+}

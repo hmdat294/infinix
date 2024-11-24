@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infinix Theme Document</title>
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css">
+</head>
+<body style="height: 100vh;" class="layout">
+    <style>
+        pre {
+            white-space: pre-wrap;
+            tab-size: 2;
+        }
+
+        .hljs {
+            background: unset !important;
+            padding: 0px !important;
+        }
+
+        body {
+            background: rgb(245,231,255);
+            background: linear-gradient(117deg, rgb(245, 231, 255) 0%, rgba(255,255,255,1) 21%, rgba(255,255,255,1) 80%, rgba(232,242,255,1) 100%);
+        }
+    </style>
+    <div class="h-fill w-fill layout-horizontal gap-20">
+        <div id="left-panel" class="h-fill w-fill-column-2 layout-vertical gap-20 py-20 overflow-scroll-vertical">
+            <div class="w-fill h-hug layout-vertical px-20">
+                <p class="text-primary text-subtitle">Usages</p>
+                <div class="w-fill h-hug list-item">Usages</div>
+            </div>
+            <div class="w-fill h-hug layout-vertical px-20">
+                <p class="text-primary text-subtitle">Theme</p>
+                <div class="w-fill h-hug list-item">Border</div>
+                <div class="w-fill h-hug list-item">Border Radius</div>
+                <div class="w-fill h-hug list-item">Color</div>
+                <div class="w-fill h-hug list-item">Effect</div>
+                <div class="w-fill h-hug list-item">Typography</div>
+            </div>
+            <div class="w-fill h-hug layout-vertical px-20">
+                <p class="text-primary text-subtitle">Layout</p>
+                <div class="w-fill h-hug list-item">Layout</div>
+                <div class="w-fill h-hug list-item">Responsive</div>
+            </div>
+            <div class="w-fill h-hug layout-vertical px-20">
+                <p class="text-primary text-subtitle">Components</p>
+                <div class="w-fill h-hug list-item disabled">Badge</div>
+                <div class="w-fill h-hug list-item">Button</div>
+                <div class="w-fill h-hug list-item">Checkbox</div>
+                <div class="w-fill h-hug list-item">Carousel</div>
+                <div class="w-fill h-hug list-item disabled">Combobox</div>
+                <div class="w-fill h-hug list-item">Dialog</div>
+                <div class="w-fill h-hug list-item disabled">Divider</div>
+                <div class="w-fill h-hug list-item">Dropdown</div>
+                <div class="w-fill h-hug list-item disabled">Field</div>
+                <div class="w-fill h-hug list-item disabled">Image</div>
+                <div class="w-fill h-hug list-item">Input</div>
+                <div class="w-fill h-hug list-item">Link</div>
+                <div class="w-fill h-hug list-item disabled">Menu</div>
+                <div class="w-fill h-hug list-item disabled">MessageBar</div>
+                <div class="w-fill h-hug list-item">Radio</div>
+                <div class="w-fill h-hug list-item disabled">Slider</div>
+                <div class="w-fill h-hug list-item disabled">Switch</div>
+                <div class="w-fill h-hug list-item disabled">TabList</div>
+                <div class="w-fill h-hug list-item disabled">TagPicker</div>
+                <div class="w-fill h-hug list-item">TextArea</div>
+                <div class="w-fill h-hug list-item disabled">Toast</div>
+            </div>
+            <div class="w-fill h-hug layout-vertical px-20">
+                <p class="text-primary text-subtitle">Icons</p>
+                <div class="w-fill h-hug list-item">Icons</div>
+            </div>
+
+        </div>
+        <div id="right-panel" class="h-fill w-fill-column-10 layout-vertical overflow-scroll-vertical gap-25 px-20 pt-20">
+            
+            <div id="usages-tab" class="w-fill layout-vertical gap-15">
+                <div class="layout-vertical gap-5">
+                    <p class="text-title text-primary">Usage</p>
+                </div>
+                <div class="layout-vertical gap-15 w-fill">
+                    <p class="text-subtitle text-primary">Usage</p>
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-secondary">
+                        <div class="p-10 border-bottom border-card-default">Usage</div>
+<pre class="p-20">
+<link rel="stylesheet" href="https://chick2004.io.vn/css/index.css">
+
+<script src="https://chick2004.io.vn/js/index.js" type="module"></script>
+</pre>
+                    </div>
+                </div>
+            </div>
+            <hr class="card-stroke-default">
+            <div id="border-tab" class="w-fill layout-vertical gap-15">
+                <div class="layout-vertical gap-5">
+                    <p class="text-title text-primary">Border</p>
+                    <p class="text-body-large text-secondary">Dùng cho stroke</p>
+                </div>
+                <div class="layout-vertical gap-15 w-fill">
+                    <p class="text-subtitle text-primary">Border</p>
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-secondary">
+                        <div class="p-10 border-bottom border-card-default">Border</div>
+                        <div class="layout-horizontal gap-20 p-20 border-bottom border-card-default card-background-default">
+                            <div class="border border-control-secondary card-background-secondary" style="width: 100px; height: 100px;"></div>
+                            <div class="border-none border-control-secondary card-background-secondary" style="width: 100px; height: 100px;"></div>
+                            <div class="border-top border-control-secondary card-background-secondary" style="width: 100px; height: 100px;"></div>
+                            <div class="border-right border-control-secondary card-background-secondary" style="width: 100px; height: 100px;"></div>
+                            <div class="border-bottom border-control-secondary card-background-secondary" style="width: 100px; height: 100px;"></div>
+                            <div class="border-left border-control-secondary card-background-secondary" style="width: 100px; height: 100px;"></div>
+                        </div>
+<pre class="p-20">
+    <div class="border"></div>
+    <div class="border-none"></div>
+    <div class="border-top"></div>
+    <div class="border-right"></div>
+    <div class="border-bottom"></div>
+    <div class="border-left"></div>
+</pre>
+                    </div>
+                </div>
+
+                
+                <div class="layout-vertical gap-15 w-fill">
+                    <p class="text-subtitle text-primary">Border Color</p>
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-default">
+                        <div class="p-10 card-background-secondary border-bottom border-card-default">Card</div>
+                        <div class="layout-horizontal gap-20 p-20 border-bottom border-card-default">
+                            <div class="border border-card-default card-background-secondary" style="width: 100px; height: 100px;"></div>
+                            <div class="border border-card-solid card-background-secondary" style="width: 100px; height: 100px;"></div>
+                        </div>
+<pre class="p-20 card-background-secondary">
+    <div class="border border-card-default"></div>
+    <div class="border border-card-solid"></div>
+</pre>
+                    </div>
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-default">
+                        <div class="p-10 card-background-secondary border-bottom border-card-default">Control</div>
+                        <div class="layout-horizontal gap-20 p-20 border-bottom border-card-default">
+                            <div class="border border-control-default card-background-secondary" style="width: 100px; height: 100px;"></div>
+                            <div class="border border-control-secondary card-background-secondary" style="width: 100px; height: 100px;"></div>
+                        </div>
+<pre class="p-20 card-background-secondary">
+    <div class="border border-control-default"></div>
+    <div class="border border-control-secondary"></div>
+</pre>
+                    </div>
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-default">
+                        <div class="p-10 card-background-secondary border-bottom border-card-default">Control on accent</div>
+                        <div class="layout-horizontal gap-20 p-20 border-bottom border-card-default">
+                            <div class="border border-control-on-accent-default accent-secondary" style="width: 100px; height: 100px;"></div>
+                            <div class="border border-control-on-accent-secondary accent-secondary" style="width: 100px; height: 100px;"></div>
+                            <div class="border border-control-on-accent-tertiary accent-secondary" style="width: 100px; height: 100px;"></div>
+                            <div class="border border-control-on-accent-disabled accent-secondary" style="width: 100px; height: 100px;"></div>
+                        </div>
+<pre class="p-20 card-background-secondary">
+    <div class="border border-control-on-accent-default"></div>
+    <div class="border border-control-on-accent-secondary"></div>
+    <div class="border border-control-on-accent-tertiary"></div>
+    <div class="border border-control-on-accent-disabled"></div>
+</pre>
+                    </div>
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-default">
+                        <div class="p-10 card-background-secondary border-bottom border-card-default">Systen</div>
+                        <div class="layout-horizontal gap-20 p-20 border-bottom border-card-default">
+                            <div class="border border-system-attention" style="width: 100px; height: 100px;"></div>
+                            <div class="border border-system-success" style="width: 100px; height: 100px;"></div>
+                            <div class="border border-system-caution" style="width: 100px; height: 100px;"></div>
+                            <div class="border border-system-critical" style="width: 100px; height: 100px;"></div>
+                        </div>
+<pre class="p-20 card-background-secondary">
+    <div class="border border-system-attention"></div>
+    <div class="border border-system-success"></div>
+    <div class="border border-system-caution"></div>
+    <div class="border border-system-critical"></div>
+</pre>
+                    </div>
+                </div>
+            </div>
+            <hr class="card-stroke-default">
+            <div id="border-radius-tab" class="w-fill layout-vertical gap-15">
+                <div class="layout-vertical">
+                    <p class="text-title text-primary">Border Radius</p>
+                    <p class="text-body-large text-secondary"></p>
+                </div>
+                <div class="layout-vertical gap-15 w-fill">
+                    <p class="text-subtitle text-primary">Border Radius</p>
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-secondary">
+                        <div class="p-10 border-bottom border-card-default">Default</div>
+                        <div class="layout-horizontal gap-20 p-20 border-bottom border-card-default card-background-default">
+                            <div class="rounded-2 border border-control-secondary card-background-secondary" style="width: 100px; height: 100px;"></div>
+                            <div class="rounded-4 border border-control-secondary card-background-secondary" style="width: 100px; height: 100px;"></div>
+                            <div class="rounded-6 border border-control-secondary card-background-secondary" style="width: 100px; height: 100px;"></div>
+                            <div class="rounded-8 border border-control-secondary card-background-secondary" style="width: 100px; height: 100px;"></div>
+                            <div class="rounded-circle border border-control-secondary card-background-secondary" style="width: 100px; height: 100px;"></div>
+                            <div class="rounded-pill border border-control-secondary card-background-secondary" style="width: 200px; height: 100px;"></div>
+                        </div>
+<pre class="p-20">
+<div class="rounded-2"></div>
+<div class="rounded-4"></div>
+<div class="rounded-6"></div>
+<div class="rounded-8"></div>
+<div class="rounded-circle"></div>
+<div class="rounded-pill"></div>
+</pre>
+                    </div>
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-secondary">
+                        <div class="p-10 border-bottom border-card-default">Custom</div>
+                        <div class="layout-horizontal gap-20 p-20 border-bottom border-card-default card-background-default">
+                            <div class="rounded-top-2 border border-control-secondary card-background-secondary" style="width: 100px; height: 100px;"></div>
+                            <div class="rounded-bottom-4 border border-control-secondary card-background-secondary" style="width: 100px; height: 100px;"></div>
+                            <div class="rounded-bottom-left-6 border border-control-secondary card-background-secondary" style="width: 100px; height: 100px;"></div>
+                            <div class="rounded-top-right-8 border border-control-secondary card-background-secondary" style="width: 100px; height: 100px;"></div>
+                            <div class="rounded-left-circle border border-control-secondary card-background-secondary" style="width: 100px; height: 100px;"></div>
+                            <div class="rounded-right-pill border border-control-secondary card-background-secondary" style="width: 200px; height: 100px;"></div>
+                        </div>
+<pre class="p-20">
+<div class="rounded-top-2"></div>
+<div class="rounded-bottom-4"></div>
+<div class="rounded-bottom-left-6"></div>
+<div class="rounded-top-right-8"></div>
+<div class="rounded-left-circle"></div>
+<div class="rounded-right-pill"></div>
+</pre>
+                    </div>
+                </div>
+            </div>
+            <hr class="card-stroke-default">
+            <div id="color-tab" class="w-fill layout-vertical gap-15">
+                <div class="layout-vertical">
+                    <p class="text-title text-primary">Color</p>
+                    <p class="text-body-large text-secondary"></p>
+                </div>
+                <div class="layout-vertical gap-15 w-fill">
+                    <p class="text-subtitle text-primary">Text color</p>
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-secondary">
+                        <div class="p-10 border-bottom border-card-default">Default</div>
+                        <div class="layout-vertical gap-20 p-20 border-bottom border-card-default card-background-default">
+                            <p class="text-body text-primary">Neque porro quisquam est qui dolorem ipsum</p>
+                            <p class="text-body text-secondary">Neque porro quisquam est qui dolorem ipsum</p>
+                            <p class="text-body text-tertiary">Neque porro quisquam est qui dolorem ipsum</p>
+                            <p class="text-body text-disabled">Neque porro quisquam est qui dolorem ipsum</p>
+                        </div>
+<pre class="p-20">
+<p class="text-primary">Neque porro quisquam est qui dolorem ipsum</p>
+<p class="text-secondary">Neque porro quisquam est qui dolorem ipsum</p>
+<p class="text-tertiary">Neque porro quisquam est qui dolorem ipsum</p>
+<p class="text-disabled">Neque porro quisquam est qui dolorem ipsum</p>
+</pre>
+                    </div>
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-secondary">
+                        <div class="p-10 border-bottom border-card-default">Accent</div>
+                        <div class="layout-vertical gap-20 p-20 border-bottom border-card-default card-background-default">
+                            <p class="text-body accent-text-primary">Neque porro quisquam est qui dolorem ipsum</p>
+                            <p class="text-body accent-text-secondary">Neque porro quisquam est qui dolorem ipsum</p>
+                            <p class="text-body accent-text-tertiary">Neque porro quisquam est qui dolorem ipsum</p>
+                            <p class="text-body accent-text-disabled">Neque porro quisquam est qui dolorem ipsum</p>
+                        </div>
+<pre class="p-20">
+<p class="accent-text-primary">Neque porro quisquam est qui dolorem ipsum</p>
+<p class="accent-text-secondary">Neque porro quisquam est qui dolorem ipsum</p>
+<p class="accent-text-tertiary">Neque porro quisquam est qui dolorem ipsum</p>
+<p class="accent-text-disabled">Neque porro quisquam est qui dolorem ipsum</p>
+</pre>
+                    </div>
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-secondary">
+                        <div class="p-10 border-bottom border-card-default">On accent</div>
+                        <div class="layout-vertical gap-20 p-20 border-bottom border-card-default accent-secondary">
+                            <p class="text-body text-on-accent-primary">Neque porro quisquam est qui dolorem ipsum</p>
+                            <p class="text-body text-on-accent-secondary">Neque porro quisquam est qui dolorem ipsum</p>
+                            <p class="text-body text-on-accent-tertiary">Neque porro quisquam est qui dolorem ipsum</p>
+                            <p class="text-body text-on-accent-disabled">Neque porro quisquam est qui dolorem ipsum</p>
+                        </div>
+<pre class="p-20">
+<p class="text-on-accent-primary">Neque porro quisquam est qui dolorem ipsum</p>
+<p class="text-on-accent-secondary">Neque porro quisquam est qui dolorem ipsum</p>
+<p class="text-on-accent-tertiary">Neque porro quisquam est qui dolorem ipsum</p>
+<p class="text-on-accent-disabled">Neque porro quisquam est qui dolorem ipsum</p>
+</pre>
+                    </div>
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-secondary">
+                        <div class="p-10 border-bottom border-card-default">Text System</div>
+                        <div class="layout-vertical gap-20 p-20 border-bottom border-card-default card-background-default">
+                            <p class="text-body text-system-critical">Neque porro quisquam est qui dolorem ipsum</p>
+                            <p class="text-body text-system-caution">Neque porro quisquam est qui dolorem ipsum</p>
+                            <p class="text-body text-system-success">Neque porro quisquam est qui dolorem ipsum</p>
+                            <p class="text-body text-system-attention">Neque porro quisquam est qui dolorem ipsum</p>
+                        </div>
+<pre class="p-20">
+    <p class="text-system-critical">Neque porro quisquam est qui dolorem ipsum</p>
+    <p class="text-system-caution">Neque porro quisquam est qui dolorem ipsum</p>
+    <p class="text-system-success">Neque porro quisquam est qui dolorem ipsum</p>
+    <p class="text-system-attention">Neque porro quisquam est qui dolorem ipsum</p>
+</pre>
+                    </div>
+                    <p class="text-subtitle text-primary">Background color</p>
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-secondary">
+                        <div class="p-10 border-bottom border-card-default">Card</div>
+                        <div class="layout-wrap gap-20 p-20 border-bottom border-card-default card-background-default">
+                            <div class="card-background-default control-strong-stroke-default" style="width: 100px; height: 100px;"></div>
+                            <div class="card-background-secondary control-strong-stroke-default" style="width: 100px; height: 100px;"></div>
+                            <div class="card-background-tertiary control-strong-stroke-default" style="width: 100px; height: 100px;"></div>
+                        </div>
+<pre class="p-20">
+<div class="card-background-default"></div>
+<div class="card-background-secondary"></div>
+<div class="card-background-tertiary"></div>
+</pre>
+                    </div>
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-secondary">
+                        <div class="p-10 border-bottom border-card-default">Smoke</div>
+                        <div class="layout-wrap gap-20 p-20 border-bottom border-card-default card-background-default">
+                            <div class="smoke-default control-strong-stroke-default" style="width: 100px; height: 100px;"></div>
+                        </div>
+<pre class="p-20">
+<div class="smoke-default"></div>
+</pre>
+                    </div>
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-secondary">
+                        <div class="p-10 border-bottom border-card-default">Layer</div>
+                        <div class="layout-wrap gap-20 p-20 border-bottom border-card-default card-background-default">
+                            <div class="layer-default control-strong-stroke-default" style="width: 100px; height: 100px;"></div>
+                            <div class="layer-alt control-strong-stroke-default" style="width: 100px; height: 100px;"></div>
+                        </div>
+<pre class="p-20">
+<div class="layer-default"></div>
+<div class="layer-alt"></div>
+</pre>
+                    </div>
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-secondary">
+                        <div class="p-10 border-bottom border-card-default">Solid Background</div>
+                        <div class="layout-wrap gap-20 p-20 border-bottom border-card-default card-background-default">
+                            <div class="gradient-background control-strong-stroke-default" style="width: 100px; height: 100px;"></div>
+                            <div class="solid-background-base control-strong-stroke-default" style="width: 100px; height: 100px;"></div>
+                            <div class="solid-background-secondary control-strong-stroke-default" style="width: 100px; height: 100px;"></div>
+                            <div class="solid-background-tertiary control-strong-stroke-default" style="width: 100px; height: 100px;"></div>
+                            <div class="solid-background-quarternary control-strong-stroke-default" style="width: 100px; height: 100px;"></div>
+                            <div class="solid-background-quinary control-strong-stroke-default" style="width: 100px; height: 100px;"></div>
+                            <div class="solid-background-senary control-strong-stroke-default" style="width: 100px; height: 100px;"></div>
+                            <div class="solid-background-base-alt control-strong-stroke-default" style="width: 100px; height: 100px;"></div>
+                        </div>
+<pre class="p-20">
+<div class="gradient-background"></div>
+<div class="solid-background-base"></div>
+<div class="solid-background-secondary"></div>
+<div class="solid-background-tertiary"></div>
+<div class="solid-background-quarternary"></div>
+<div class="solid-background-quinary"></div>
+<div class="solid-background-senary"></div>
+<div class="solid-background-base-alt"></div>
+</pre>
+                    </div>
+                    
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-secondary">
+                        <div class="p-10 border-bottom border-card-default">System background</div>
+                        <div class="layout-wrap gap-20 p-20 border-bottom border-card-default card-background-default">
+                            <div class="system-attention control-strong-stroke-default" style="width: 100px; height: 100px;"></div>
+                            <div class="system-success control-strong-stroke-default" style="width: 100px; height: 100px;"></div>
+                            <div class="system-caution control-strong-stroke-default" style="width: 100px; height: 100px;"></div>
+                            <div class="system-critical control-strong-stroke-default" style="width: 100px; height: 100px;"></div>
+
+                            <div class="system-attention-background control-strong-stroke-default" style="width: 100px; height: 100px;"></div>
+                            <div class="system-success-background control-strong-stroke-default" style="width: 100px; height: 100px;"></div>
+                            <div class="system-caution-background control-strong-stroke-default" style="width: 100px; height: 100px;"></div>
+                            <div class="system-critical-background control-strong-stroke-default" style="width: 100px; height: 100px;"></div>
+                        </div>
+<pre class="p-20">
+<div class="system-attention"></div>
+<div class="system-success"></div>
+<div class="system-caution"></div>
+<div class="system-critical"></div>
+
+<div class="system-attention-background"></div>
+<div class="system-success-background"></div>
+<div class="system-caution-background"></div>
+<div class="system-critical-background"></div>
+</pre>
+                    </div>
+                </div>
+            </div>
+            <hr class="card-stroke-default">
+            <div id="effect-tab" class="w-fill layout-vertical gap-15">
+                <div class="layout-vertical">
+                    <p class="text-title text-primary">Effect</p>
+                    <p class="text-body-large text-secondary"></p>
+                </div>
+                <div class="layout-vertical gap-15 w-fill">
+                    <p class="text-subtitle text-primary">Shadow</p>
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-secondary">
+                        <div class="p-10 border-bottom border-card-default">Shadow</div>
+                        <div class="layout-horizontal gap-20 p-20 border-bottom border-card-default card-background-default">
+                            <div class="shadow-card border border-control-secondary card-background-secondary" style="width: 100px; height: 100px;"></div>
+                            <div class="shadow-tooltip border border-control-secondary card-background-secondary" style="width: 100px; height: 100px;"></div>
+                            <div class="shadow-flyout border border-control-secondary card-background-secondary" style="width: 100px; height: 100px;"></div>
+                            <div class="shadow-dialog border border-control-secondary card-background-secondary" style="width: 100px; height: 100px;"></div>
+                        </div>
+<pre class="p-20">
+<div class="shadow-card"></div>
+<div class="shadow-tooltip"></div>
+<div class="shadow-flyout"></div>
+<div class="shadow-dialog"></div>
+</pre>
+                    </div>
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-secondary">
+                        <div class="p-10 border-bottom border-card-default">Blur</div>
+                        <div class="layout-horizontal gap-20 p-20 border-bottom border-card-default card-background-default" style="background-image: url('https://cdn.dribbble.com/userupload/14949866/file/original-c2de56a5347d4e52cfbd440e7694b06c.png?resize=1024x1024&vertical=center'); background-position: center; background-size: cover; background-repeat: no-repeat;">
+                            <div class="acrylic-background-default blur-acrylic border border-control-secondary" style="width: 100px; height: 100px;"></div>
+                            <div class="acrylic-background-default blur-mica border border-control-secondary" style="width: 100px; height: 100px;"></div>
+                        </div>
+<pre class="p-20">
+<div class="acrylic-background-default blur-acrylic"></div>
+<div class="acrylic-background-default blur-mica"></div>
+</pre>
+                    </div>
+                </div>
+            </div>
+            <hr class="card-stroke-default">
+            <div id="typography-tab" class="w-fill layout-vertical gap-15">
+                <div class="layout-vertical">
+                    <p class="text-title text-primary">Typography</p>
+                    <p class="text-body-large text-secondary"></p>
+                </div>
+                <div class="layout-vertical gap-15 w-fill">
+                    <p class="text-subtitle text-primary">Typography</p>
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-secondary">
+                        <div class="p-10 border-bottom border-card-default">Typography</div>
+                        <div class="layout-vertical gap-20 p-20 border-bottom border-card-default card-background-default">
+                            <p class="text-caption text-primary">Text caption</p>
+                            <p class="text-body text-primary">Text body</p>
+                            <p class="text-body-strong text-primary">Text body strong</p>
+                            <p class="text-body-large text-primary">Text body large</p>
+                            <p class="text-subtitle text-primary">Text subtitle</p>
+                            <p class="text-title text-primary">Text title</p>
+                            <p class="text-title-large text-primary">Text title large</p>
+                            <p class="text-display text-primary">Text display</p>
+                        </div>
+<pre class="p-20">
+<p class="text-caption">Text caption</p>
+<p class="text-body">Text body</p>
+<p class="text-body-strong">Text body strong</p>
+<p class="text-body-large">Text body large</p>
+<p class="text-subtitle">Text subtitle</p>
+<p class="text-title">Text title</p>
+<p class="text-title-large">Text title large</p>
+<p class="text-display">Text display</p>
+</pre>
+                    </div>
+                </div>
+            </div>
+            <hr class="card-stroke-default">
+            <div id="layout-tab" class="w-fill layout-vertical gap-15">
+                <div class="layout-vertical">
+                    <p class="text-title text-primary">Layout</p>
+                </div>
+                <div class="layout-vertical gap-15 w-fill">
+                    <p class="text-subtitle text-primary">Padding & Margin</p>
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-secondary">
+                        <div class="p-10 border-bottom border-card-default">Padding</div>
+<pre class="p-20">
+<div class="p-5"></div>
+<div class="px-10"></div>
+<div class="py-15"></div>
+<div class="ps-20"></div>
+<div class="pt-25"></div>
+<div class="pe-25"></div>
+<div class="pb-25"></div>
+</pre>
+                    </div>
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-secondary">
+                        <div class="p-10 border-bottom border-card-default">Margin</div>
+<pre class="p-20">
+<div class="m-5"></div>
+<div class="mx-10"></div>
+<div class="my-15"></div>
+<div class="ms-20"></div>
+<div class="mt-25"></div>
+<div class="me-25"></div>
+<div class="mb-25"></div>
+</pre>
+                    </div>
+                    <p class="text-subtitle text-primary">Auto layout</p>
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-secondary">
+                        <div class="p-10 border-bottom border-card-default">Auto layout & Gap</div>
+                        <div class="layout-horizontal gap-20 p-20 border-bottom border-card-default card-background-default">
+                            <div class="layout-horizontal gap-10 card-background-secondary border border-card-default p-10">
+                                <div class="card-background-default border border-card-default" style="width: 100px; height: 100px;"></div>
+                                <div class="card-background-default border border-card-default" style="width: 100px; height: 100px;"></div>
+                            </div>
+                            <div class="layout-vertical gap-10 card-background-secondary border border-card-default p-10">
+                                <div class="card-background-default border border-card-default" style="width: 100px; height: 100px;"></div>
+                                <div class="card-background-default border border-card-default" style="width: 100px; height: 100px;"></div>
+                            </div>
+                            <div class="layout-wrap gap-10 card-background-secondary border border-card-default p-10">
+                                <div class="card-background-default border border-card-default" style="width: 100px; height: 100px;"></div>
+                                <div class="card-background-default border border-card-default" style="width: 100px; height: 100px;"></div>
+                                <div class="card-background-default border border-card-default" style="width: 100px; height: 100px;"></div>
+                                <div class="card-background-default border border-card-default" style="width: 100px; height: 100px;"></div>
+                                <div class="card-background-default border border-card-default" style="width: 100px; height: 100px;"></div>
+                                <div class="card-background-default border border-card-default" style="width: 100px; height: 100px;"></div>
+                                <div class="card-background-default border border-card-default" style="width: 100px; height: 100px;"></div>
+                            </div>
+                        </div>
+<pre class="p-20">
+<div class="layout-horizontal gap-10"></div>
+<div class="layout-vertical gap-10"></div>
+<div class="layout-wrap gap-10"></div>
+</pre>
+                    </div>
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-secondary">
+                        <div class="p-10 border-bottom border-card-default">Gap (phải đi kèm với auto layout)</div>
+<pre class="p-20">
+<div class="gap-5"></div>
+<div class="gap-10"></div>
+<div class="gap-15"></div>
+<div class="gap-20"></div>
+<div class="gap-25"></div>
+</pre>
+                    </div>
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-secondary">
+                        <div class="p-10 border-bottom border-card-default">Layout 12 Columns <span style="color: var(--system-critical);">(Chỉ được dùng với layout-horizontal & gap-20)</span></div>
+                        <div class="layout-horizontal gap-20 p-20 border-bottom border-card-default card-background-default">
+                            <div class="layout-horizontal gap-20 w-fill card-background-secondary border border-card-default p-10" style="height: 230px;">
+                                <div class="w-fill-column-3 h-fill card-background-default border border-card-default">Content - 3 column</div>
+                                <div class="w-fill-column-6 h-fill card-background-default border border-card-default">Content - 6 column</div>
+                                <div class="w-fill-column-3 h-fill card-background-default border border-card-default">Content - 3 column</div>
+                            </div>
+                        </div>
+<pre class="p-20">
+<div class="layout-horizontal gap-20">
+    <div class="w-fill-column-3"></div>
+    <div class="w-fill-column-6"></div>
+    <div class="w-fill-column-3"></div>
+</div>
+</pre>
+                    </div>
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-secondary">
+                        <div class="p-10 border-bottom border-card-default">Size</div>
+                        <div class="layout-horizontal gap-20 p-20 border-bottom border-card-default card-background-default">
+                            <div class="layout-horizontal gap-10 card-background-secondary border border-card-default p-10" style="width: 230px; height: 230px;">
+                                <div class="w-fill h-fill card-background-default border border-card-default">Content</div>
+                                <div class="w-hug h-hug card-background-default border border-card-default">Content</div>
+                            </div>
+                            <div class="layout-vertical gap-10 card-background-secondary border border-card-default p-10" style="width: 230px; height: 230px;">
+                                <div class="w-fill h-fill card-background-default border border-card-default">Content</div>
+                                <div class="w-hug h-hug card-background-default border border-card-default">Content</div>
+                            </div>
+                        </div>
+<pre class="p-20">
+    <div class="w-fill"></div>
+    <div class="w-hug"></div>
+    <div class="h-fill"></div>
+    <div class="h-hug"></div>
+</pre>
+                    </div>
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-secondary">
+                        <div class="p-10 border-bottom border-card-default">Align (phải đi kèm với auto layout)</div>
+                        <div class="layout-wrap gap-20 p-20 border-bottom border-card-default card-background-default">
+                            <div class="layout-horizontal align-top-left gap-10 card-background-secondary border border-card-default p-10" style="width: 300px; height: 300px;">
+                                <div class="w-hug h-hug card-background-default border border-card-default">Align</div>
+                                <div class="w-hug h-hug card-background-default border border-card-default">Top</div>
+                                <div class="w-hug h-hug card-background-default border border-card-default">Left</div>
+                            </div>
+                            <div class="layout-horizontal align-top-center gap-10 card-background-secondary border border-card-default p-10" style="width: 300px; height: 300px;">
+                                <div class="w-hug h-hug card-background-default border border-card-default">Align</div>
+                                <div class="w-hug h-hug card-background-default border border-card-default">Top</div>
+                                <div class="w-hug h-hug card-background-default border border-card-default">Center</div>
+                            </div>
+                            <div class="layout-horizontal align-top-right gap-10 card-background-secondary border border-card-default p-10" style="width: 300px; height: 300px;">
+                                <div class="w-hug h-hug card-background-default border border-card-default">Align</div>
+                                <div class="w-hug h-hug card-background-default border border-card-default">Top</div>
+                                <div class="w-hug h-hug card-background-default border border-card-default">Right</div>
+                            </div>
+                            <div class="layout-horizontal align-center-left gap-10 card-background-secondary border border-card-default p-10" style="width: 300px; height: 300px;">
+                                <div class="w-hug h-hug card-background-default border border-card-default">Align</div>
+                                <div class="w-hug h-hug card-background-default border border-card-default">Center</div>
+                                <div class="w-hug h-hug card-background-default border border-card-default">Left</div>
+                            </div>
+                            <div class="layout-horizontal align-center-center gap-10 card-background-secondary border border-card-default p-10" style="width: 300px; height: 300px;">
+                                <div class="w-hug h-hug card-background-default border border-card-default">Align</div>
+                                <div class="w-hug h-hug card-background-default border border-card-default">Center</div>
+                                <div class="w-hug h-hug card-background-default border border-card-default">Center</div>
+                            </div>
+                            <div class="layout-horizontal align-center-right gap-10 card-background-secondary border border-card-default p-10" style="width: 300px; height: 300px;">
+                                <div class="w-hug h-hug card-background-default border border-card-default">Align</div>
+                                <div class="w-hug h-hug card-background-default border border-card-default">Center</div>
+                                <div class="w-hug h-hug card-background-default border border-card-default">Right</div>
+                            </div>
+                            <div class="layout-horizontal align-bottom-left gap-10 card-background-secondary border border-card-default p-10" style="width: 300px; height: 300px;">
+                                <div class="w-hug h-hug card-background-default border border-card-default">Align</div>
+                                <div class="w-hug h-hug card-background-default border border-card-default">Bottom</div>
+                                <div class="w-hug h-hug card-background-default border border-card-default">Left</div>
+                            </div>
+                            <div class="layout-horizontal align-bottom-center gap-10 card-background-secondary border border-card-default p-10" style="width: 300px; height: 300px;">
+                                <div class="w-hug h-hug card-background-default border border-card-default">Align</div>
+                                <div class="w-hug h-hug card-background-default border border-card-default">Bottom</div>
+                                <div class="w-hug h-hug card-background-default border border-card-default">Center</div>
+                            </div>
+                            <div class="layout-horizontal align-bottom-right gap-10 card-background-secondary border border-card-default p-10" style="width: 300px; height: 300px;">
+                                <div class="w-hug h-hug card-background-default border border-card-default">Align</div>
+                                <div class="w-hug h-hug card-background-default border border-card-default">Bottom</div>
+                                <div class="w-hug h-hug card-background-default border border-card-default">Right</div>
+                            </div>
+                            <div class="layout-horizontal align-top-space-between gap-10 card-background-secondary border border-card-default p-10" style="width: 300px; height: 300px;">
+                                <div class="w-hug h-hug card-background-default border border-card-default">Align</div>
+                                <div class="w-hug h-hug card-background-default border border-card-default">Top</div>
+                                <div class="w-hug h-hug card-background-default border border-card-default">Space between</div>
+                            </div>
+                            <div class="layout-horizontal align-center-space-around gap-10 card-background-secondary border border-card-default p-10" style="width: 300px; height: 300px;">
+                                <div class="w-hug h-hug card-background-default border border-card-default">Align</div>
+                                <div class="w-hug h-hug card-background-default border border-card-default">Center</div>
+                                <div class="w-hug h-hug card-background-default border border-card-default">Space around</div>
+                            </div>
+                            <div class="layout-horizontal align-bottom-space-evenly gap-10 card-background-secondary border border-card-default p-10" style="width: 300px; height: 300px;">
+                                <div class="w-hug h-hug card-background-default border border-card-default">Align</div>
+                                <div class="w-hug h-hug card-background-default border border-card-default">Bottom</div>
+                                <div class="w-hug h-hug card-background-default border border-card-default">Space evenly</div>
+                            </div>
+                        </div>
+<pre class="p-20">
+    <div class="layout-horizontal align-top-left"></div>
+    <div class="layout-horizontal align-top-center"></div>
+    <div class="layout-horizontal align-top-right"></div>
+    <div class="layout-horizontal align-center-left"></div>
+    <div class="layout-horizontal align-center-center"></div>
+    <div class="layout-horizontal align-center-right"></div>
+    <div class="layout-horizontal align-bottom-left"></div>
+    <div class="layout-horizontal align-bottom-center"></div>
+    <div class="layout-horizontal align-bottom-right"></div>
+
+    
+    <div class="layout-horizontal align-top-space-between"></div>
+    <div class="layout-horizontal align-bottom-space-around"></div>
+    <div class="layout-horizontal align-bottom-space-evenly"></div>
+</pre>
+                    </div>
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-secondary">
+                        <div class="p-10 border-bottom border-card-default">Overflow</div>
+<pre class="p-20">
+    <div class="overflow-scroll-vertical"></div>
+    <div class="overflow-scroll-horizontal"></div>
+</pre>
+                    </div>
+                </div>
+                <div id="responsive-tab" class="w-fill layout-vertical gap-15">
+                    <div class="layout-vertical">
+                        <p class="text-title text-primary">Responsive</p>
+                        <p class="text-body-large text-secondary"></p>
+                    </div>
+                    <div class="layout-vertical gap-15 w-fill">
+                        <p class="text-subtitle text-primary">Responsive</p>
+                        <div class="rounded-4 layout-vertical border border-card-default card-background-secondary">
+                            <div class="p-10 border-bottom border-card-default">Show / Hide</div>
+<pre class="p-20">
+    <div class="show-in-mobile">Mặc định ẩn, chỉ hiện trên mobile</div>
+    <div class="show-in-tablet">Mặc định ẩn, chỉ hiện trên tablet</div>
+
+    <div class="hide-in-mobile">Mặc định hiện, chỉ ẩn trên mobile</div>
+    <div class="hide-in-tablet">Mặc định hiện, chỉ ẩn trên tablet</div>
+    <div class="hide-in-desktop">Mặc định hiện, chỉ ẩn trên desktop</div>
+</pre>
+                        </div>
+                        
+                        <div class="rounded-4 layout-vertical border border-card-default card-background-secondary">
+                            <div class="p-10 border-bottom border-card-default">
+                                Responsive Style
+                                <p class="text-primary text-body">Thêm các tiền tố "in-mobile-" hoặc "in-tablet-" vào đầu tên class để áp dụng style riêng.</p>
+                                <p style="color: var(--system-critical);" class="text-body">(chỉ áp dụng với border, rounded, layout, margin, padding)</p>
+
+                            </div>
+<pre class="p-20">
+    <div class="p-20 in-tablet-p-10">Mặc định padding 20px, trên tablet padding 10px</div>
+    <div class="rounded-8 in-mobile-rounded-2">Mặc định rounded 8px, trên mobile rounded 2px</div>
+</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="card-stroke-default">
+            <div id="button-tab" class="w-fill layout-vertical gap-15">
+                <div class="layout-vertical">
+                    <p class="text-title text-primary">Button</p>
+                </div>
+                <div class="layout-vertical gap-15 w-fill">
+                    <p class="text-subtitle text-primary">Button</p>
+
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-secondary">
+                        <div class="p-10 border-bottom border-card-default">Text only</div>
+                        <div class="layout-horizontal gap-20 p-20 border-bottom border-card-default card-background-default">
+                            <button type="button"  class="button-accent button-text-only">
+                                Button Accent
+                            </button>
+                            <button type="button"  class="button-standard button-text-only">
+                                Button Standard
+                            </button>
+                            <button type="button"  class="button-subtle button-text-only">
+                                Button Subtle
+                            </button>
+                        </div>
+<pre class="p-20">
+    <button type="button"  class="button-accent button-text-only">Button</button>
+    <button type="button"  class="button-standard button-text-only">Button</button>
+    <button type="button"  class="button-subtle button-text-only">Button Subtle</button>
+</pre>
+                    </div>
+                    
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-secondary">
+                        <div class="p-10 border-bottom border-card-default">Text with icon</div>
+                        <div class="layout-horizontal gap-20 p-20 border-bottom border-card-default card-background-default">
+                            <button type="button"  class="button-accent button-text-with-icon">
+                                Button
+                                <i class="icon-size-16 icon icon-ic_fluent_send_16_filled"></i>
+                            </button>
+                            
+                            <button type="button"  class="button-standard button-text-with-icon">
+                                Button
+                                <i class="icon-size-16 icon icon-ic_fluent_send_16_filled"></i>
+                            </button>
+                            <button type="button"  class="button-subtle button-text-with-icon">
+                                Button Subtle
+                                <i class="icon-size-16 icon icon-ic_fluent_send_16_filled"></i>
+                            </button>
+                        </div>
+<pre class="p-20">
+    <button type="button"  class="button-accent button-text-with-icon">
+        Button
+        <i class="icon-size-16 icon icon-ic_fluent_send_16_filled"></i>
+    </button>
+
+    <button type="button"  class="button-standard button-text-with-icon">
+        Button
+        <i class="icon-size-16 icon icon-ic_fluent_send_16_filled"></i>
+    </button>
+
+    <button type="button"  class="button-subtle button-text-with-icon">
+        Button Subtle
+        <i class="icon-size-16 icon icon-ic_fluent_send_16_filled"></i>
+    </button>
+</pre>
+                    </div>
+
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-secondary">
+                        <div class="p-10 border-bottom border-card-default">Icon only</div>
+                        <div class="layout-horizontal gap-20 p-20 border-bottom border-card-default card-background-default">
+                            <button type="button"  class="button-accent button-icon-only">
+                                <i class="icon-size-16 icon icon-ic_fluent_send_16_filled"></i>
+                            </button>
+                            <button type="button"  class="button-standard button-icon-only">
+                                <i class="icon-size-16 icon icon-ic_fluent_send_16_filled"></i>
+                            </button>
+                            <button type="button"  class="button-subtle button-icon-only">
+                                <i class="icon-size-16 icon icon-ic_fluent_send_16_filled"></i>
+                            </button>
+                        </div>
+<pre class="p-20">
+    <button type="button"  class="button-accent button-icon-only">
+        <i class="icon-size-16 icon icon-ic_fluent_send_16_filled"></i>
+    </button>
+
+    <button type="button"  class="button-standard button-icon-only">
+        <i class="icon-size-16 icon icon-ic_fluent_send_16_filled"></i>
+    </button>
+
+    <button type="button"  class="button-subtle button-icon-only">
+        <i class="icon-size-16 icon icon-ic_fluent_send_16_filled"></i>
+    </button>
+</pre>
+                    </div>
+                </div>
+            </div>
+            <hr class="card-stroke-default">
+            <div id="checkbox-tab" class="w-fill layout-vertical gap-15">
+                <div class="layout-vertical">
+                    <p class="text-title text-primary">Checkbox</p>
+                </div>
+                <div class="layout-vertical gap-15 w-fill">
+                    <p class="text-subtitle text-primary">Checkbox</p>
+
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-secondary">
+                        <div class="p-10 border-bottom border-card-default">Checkbox</div>
+                        <div class="layout-horizontal align-center-left gap-20 p-20 border-bottom border-card-default card-background-default">
+                            <input class="checkbox-control" type="checkbox">
+
+                            <label class="label-checkbox-control"> 
+                                <input class="checkbox-control" type="checkbox">
+                                <span>This is a label</span>
+                            </label>
+                        </div>
+<pre class="p-20">
+    <input class="checkbox-control" type="checkbox">
+
+    <label class="label-checkbox-control"> 
+        <input class="checkbox-control" type="checkbox">
+        <span>This is a label</span>
+    </label>
+</pre>
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div id="carousel-tab" class="w-fill layout-vertical gap-15">
+                <div class="layout-vertical">
+                    <p class="text-title text-primary">Carousel</p>
+                </div>
+                <div class="layout-vertical gap-15 w-fill">
+                    <p class="text-subtitle text-primary">Carousel</p>
+
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-secondary">
+                        <div class="p-10 border-bottom border-card-default">Checkbox</div>
+                        <div class="layout-horizontal align-center-left gap-20 p-20 border-bottom border-card-default card-background-default">
+                            <div class="carousel ">
+                                <div class="carousel-indicators">
+                                    <button class="border-none rounded-circle active">
+                                    </button>
+                                    <button class="border-none rounded-circle">
+                                    </button>
+                                    <button class="border-none rounded-circle">
+                                    </button>
+                                  </div>
+                                <div class="carousel-inner">
+                                    <div class="carousel-item">
+                                        <img src="https://placehold.co/600x400/orange/white" alt="Image 1">
+                                    </div>
+                                    <div class="carousel-item">
+                                        <img src="https://placehold.co/600x400/blue/cyan" alt="Image 2">
+                                    </div>
+                                    <div class="carousel-item">
+                                        <img src="https://placehold.co/600x400/white/red" alt="Image 3">
+                                    </div>
+                                </div>
+                                
+                                <button class="carousel-button-previous p-5 rounded-circle">
+                                    <i class="icon-size-20 icon icon-ic_fluent_chevron_left_20_filled"></i>
+                                </button>
+                            
+                            
+                                <button class="carousel-button-next p-5 rounded-circle">
+                                    <i class="icon-size-20 icon icon-ic_fluent_chevron_right_20_filled"></i>
+                                </button>
+                            </div>
+                        </div>
+<pre class="p-20">
+<div class="carousel ">
+    <div class="carousel-indicators">
+        <button class="border-none rounded-circle active">
+        </button>
+        <button class="border-none rounded-circle">
+        </button>
+        <button class="border-none rounded-circle">
+        </button>
+        </div>
+    <div class="carousel-inner">
+        <div class="carousel-item">
+            <img src="https://placehold.co/600x400/orange/white" alt="Image 1">
+        </div>
+        <div class="carousel-item">
+            <img src="https://placehold.co/600x400/blue/cyan" alt="Image 2">
+        </div>
+        <div class="carousel-item">
+            <img src="https://placehold.co/600x400/white/red" alt="Image 3">
+        </div>
+    </div>
+    
+    <button class="carousel-button-previous p-5 rounded-circle">
+        <i class="icon-size-20 icon icon-ic_fluent_chevron_left_20_filled"></i>
+    </button>
+
+
+    <button class="carousel-button-next p-5 rounded-circle">
+        <i class="icon-size-20 icon icon-ic_fluent_chevron_right_20_filled"></i>
+    </button>
+</div>
+</pre>
+                    </div>
+                    
+                </div>
+            </div>
+            <hr class="card-stroke-default">
+            <div id="dialog-tab" class="w-fill layout-vertical gap-15">
+                <div class="layout-vertical">
+                    <p class="text-title text-primary">Dialog</p>
+                </div>
+                <div class="layout-vertical gap-15 w-fill">
+                    <p class="text-subtitle text-primary">Dialog</p>
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-secondary">
+                        <div class="p-10 border-bottom border-card-default">Dialog</div>
+                        <div class="layout-horizontal align-center-left gap-20 p-20 border-bottom border-card-default card-background-default">
+                            <div class="dialog">
+                                <button type="button"  class="button-standard button-text-only">
+                                    Open dialog
+                                </button>
+                                <div class="dialog-panel">
+                                    <div class="solid-background-senary rounded-4 p-20 gap-20 layout-vertical border border-card-default">
+                                        <p class="text-title">Dialog title</p>
+                                        <p class="text-body">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam exercitationem cumque repellendus eaque est dolor eius expedita nulla ullam? Tenetur reprehenderit aut voluptatum impedit voluptates in natus iure cumque eaque?</p>
+                                        <div class="layout-horizontal gap-10 w-fill align-center-right">
+                                            <button type="button"  class="button-standard button-text-only">
+                                                Cancel
+                                            </button>
+                                            <button type="button"  class="button-accent button-text-only">
+                                                Confirm
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+<pre class="p-20">
+<div class="dialog">
+    <button type="button"  class="button-standard button-text-only">
+        Open dialog
+    </button>
+    <div class="dialog-panel">
+        <div class="solid-background-senary rounded-4 p-20 gap-20 layout-vertical border border-card-default">
+            <p class="text-title">Dialog title</p>
+            <p class="text-body">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam exercitationem cumque repellendus eaque est dolor eius expedita nulla ullam? Tenetur reprehenderit aut voluptatum impedit voluptates in natus iure cumque eaque?</p>
+            <div class="layout-horizontal gap-10 w-fill align-center-right">
+                <button type="button"  class="button-standard button-text-only">
+                    Cancel
+                </button>
+                <button type="button"  class="button-accent button-text-only">
+                    Confirm
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+</pre>
+                    </div>
+                </div>
+            </div>
+            <hr class="card-stroke-default">
+            <div id="dropdown-tab" class="w-fill layout-vertical gap-15">
+                <div class="layout-vertical">
+                    <p class="text-title text-primary">Dropdown</p>
+                </div>
+                <div class="layout-vertical gap-15 w-fill">
+                    <p class="text-subtitle text-primary">Dropdown</p>
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-secondary">
+                        <div class="p-10 border-bottom border-card-default">Dropdown</div>
+                        <div class="layout-horizontal align-center-left gap-20 p-20 border-bottom border-card-default card-background-default">
+                            <div class="dropdown-control">
+                                <button type="button"  class="button button-standard button-text-with-icon  w-fill">
+                                    <i class="icon-size-16 icon icon-ic_fluent_chevron_down_16_regular"></i>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <div class="list-item">
+                                        <div class="text-body">Item 1</div>
+                                    </div>
+                                    <div class="list-item">
+                                        <div class="text-body">Item 2</div>
+                                    </div>
+                                    <div class="list-item">
+                                        <div class="text-body">Item 3</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+<pre class="p-20">
+<div class="dropdown-control">
+    <button type="button"  class="button button-standard button-text-with-icon  w-fill">
+        <i class="icon-size-16 icon icon-ic_fluent_chevron_down_16_regular"></i>
+    </button>
+    <div class="dropdown-menu">
+        <div class="list-item">
+            <div class="text-body">Item 1</div>
+        </div>
+        <div class="list-item">
+            <div class="text-body">Item 2</div>
+        </div>
+        <div class="list-item">
+            <div class="text-body">Item 3</div>
+        </div>
+    </div>
+</div>
+</pre>
+                    </div>
+                </div>
+            </div>
+            <div id="input-tab" class="w-fill layout-vertical gap-15">
+                <div class="layout-vertical">
+                    <p class="text-title text-primary">Input</p>
+                </div>
+                <div class="layout-vertical gap-15 w-fill">
+                    <p class="text-subtitle text-primary">Input</p>
+                    
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-secondary">
+                        <div class="p-10 border-bottom border-card-default">Validation message</div>
+                        <div class="layout-vertical gap-20 p-20 border-bottom border-card-default card-background-default">
+                            <p class="validation-message validation-attention text-body text-primary">
+                                <i class="icon-size-16 icon icon-ic_fluent_info_16_filled"></i>
+                                <span class="text-body-strong">Title</span>
+                                <span>this is a info message</span>
+                            </p>
+                
+                            <p class="validation-message validation-sucess text-body text-primary">
+                                <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
+                                <span class="text-body-strong">Title</span>
+                                <span>this is a success message</span>
+                            </p>
+                
+                            
+                            <p class="validation-message validation-caution text-body text-primary">
+                                <i class="icon-size-16 icon icon-ic_fluent_warning_16_filled"></i>
+                                <span class="text-body-strong">Title</span>
+                                <span>this is a warning message</span>
+                            </p>
+                            
+                            <p class="validation-message validation-critical text-body text-primary">
+                                <i class="icon-size-16 icon icon-ic_fluent_dismiss_circle_16_filled"></i>
+                                <span class="text-body-strong">Title</span>
+                                <span>this is a error message</span>
+                            </p>
+                        </div>
+<pre class="p-20">
+    <p class="validation-message validation-attention text-body text-primary">
+        <i class="icon-size-16 icon icon-ic_fluent_info_16_filled"></i>
+        <span class="text-body-strong">Title</span>
+        <span>this is a info message</span>
+    </p>
+
+    <p class="validation-message validation-sucess text-body text-primary">
+        <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
+        <span class="text-body-strong">Title</span>
+        <span>this is a success message</span>
+    </p>
+
+    
+    <p class="validation-message validation-caution text-body text-primary">
+        <i class="icon-size-16 icon icon-ic_fluent_warning_16_filled"></i>
+        <span class="text-body-strong">Title</span>
+        <span>this is a warning message</span>
+    </p>
+    
+    <p class="validation-message validation-critical text-body text-primary">
+        <i class="icon-size-16 icon icon-ic_fluent_dismiss_circle_16_filled"></i>
+        <span class="text-body-strong">Title</span>
+        <span>this is a error message</span>
+    </p>
+</pre>
+                    </div>
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-secondary">
+                        <div class="p-10 border-bottom border-card-default">Text</div>
+                        <div class="layout-horizontal align-center-left gap-20 p-20 border-bottom border-card-default card-background-default">
+                            <div class="control text-control">
+                                <input type="text" placeholder="placeholder" spellcheck="false">
+                            </div>
+                        </div>
+<pre class="p-20">
+<div class="control text-control">
+    <input type="text" placeholder="placeholder" spellcheck="false">
+</div>
+</pre>
+                    </div>
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-secondary">
+                        <div class="p-10 border-bottom border-card-default">Password</div>
+                        <div class="layout-horizontal align-center-left gap-20 p-20 border-bottom border-card-default card-background-default">
+                            <div class="control password-control">
+                                <input type="password" placeholder="placeholder" spellcheck="false">
+                                <button type="button"  class="input-button show-password-button">
+                                    <i class="icon-size-16 icon icon-ic_fluent_eye_16_regular"></i>
+                                </button>
+                            </div>
+                        </div>
+<pre class="p-20">
+<div class="control password-control">
+    <input type="password" placeholder="placeholder" spellcheck="false">
+    <button type="button"  class="input-button show-password-button">
+        <i class="icon-size-16 icon icon-ic_fluent_eye_16_regular"></i>
+    </button>
+</div>
+</pre>
+                    </div>
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-secondary">
+                        <div class="p-10 border-bottom border-card-default">Number</div>
+                        <div class="layout-horizontal align-center-left gap-20 p-20 border-bottom border-card-default card-background-default">
+                            <div class="control number-control">
+                                <input type="number" placeholder="placeholder" min="1" max="100" step="1">
+                                <button type="button"  class="input-button increase-number-button">
+                                    <i class="icon-size-16 icon icon-ic_fluent_chevron_up_16_regular"></i>
+                                </button>
+                                <button type="button"  class="input-button decrease-number-button">
+                                    <i class="icon-size-16 icon icon-ic_fluent_chevron_down_16_regular"></i>
+                                </button>
+                            </div>
+                        </div>
+<pre class="p-20">
+<div class="control number-control">
+    <input type="number" placeholder="placeholder" min="1" max="100" step="1">
+    <button type="button"  class="input-button increase-number-button">
+        <i class="icon-size-16 icon icon-ic_fluent_chevron_up_16_regular"></i>
+    </button>
+    <button type="button"  class="input-button decrease-number-button">
+        <i class="icon-size-16 icon icon-ic_fluent_chevron_down_16_regular"></i>
+    </button>
+</div>
+</pre>
+                    </div>
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-secondary">
+                        <div class="p-10 border-bottom border-card-default">Search</div>
+                        <div class="layout-horizontal align-center-left gap-20 p-20 border-bottom border-card-default card-background-default">
+                            <div class="control search-control">
+                                <input type="search" placeholder="placeholder" spellcheck="false">
+                                <button type="button"  class="input-button clear-content-button">
+                                    <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
+                                </button>
+                                <button type="button"  class="input-button search-button">
+                                    <i class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
+                                </button>
+                            </div>
+                        </div>
+<pre class="p-20">
+<div class="control search-control">
+    <input type="search" placeholder="placeholder" spellcheck="false">
+    <button type="button"  class="input-button clear-content-button">
+        <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
+    </button>
+    <button type="button"  class="input-button search-button">
+        <i class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
+    </button>
+</div>
+</pre>
+                    </div>
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-secondary">
+                        <div class="p-10 border-bottom border-card-default">Search with dropdown</div>
+                        <div class="layout-horizontal align-center-left gap-20 p-20 border-bottom border-card-default card-background-default">
+                            <div class="search-dropdown-control">
+                                <div class="control search-control">
+                                    <input type="search" placeholder="placeholder" spellcheck="false">
+                                    <button type="button"  class="input-button clear-content-button">
+                                        <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
+                                    </button>
+                                    <button type="button"  class="input-button search-button">
+                                        <i class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
+                                    </button>
+                                </div>
+                                <div class="dropdown-menu">
+                                    <div class="list-item">
+                                        <div class="text-body">Item 1</div>
+                                    </div>
+                                    <div class="list-item">
+                                        <div class="text-body">Item 2</div>
+                                    </div>
+                                    <div class="list-item">
+                                        <div class="text-body">Item 3</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+<pre class="p-20">
+<div class="search-dropdown-control">
+    <div class="control search-control">
+        <input type="search" placeholder="placeholder" spellcheck="false">
+        <button type="button"  class="input-button clear-content-button">
+            <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
+        </button>
+        <button type="button"  class="input-button search-button">
+            <i class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
+        </button>
+    </div>
+    <div class="dropdown-menu">
+        <div class="list-item">
+            <div class="text-body">Item 1</div>
+        </div>
+        <div class="list-item">
+            <div class="text-body">Item 2</div>
+        </div>
+        <div class="list-item">
+            <div class="text-body">Item 3</div>
+        </div>
+    </div>
+</div>
+</pre>
+                    </div>
+                </div>
+            </div>
+            <hr class="card-stroke-default">
+            <div id="radio-tab" class="w-fill layout-vertical gap-15">
+                <div class="layout-vertical">
+                    <p class="text-title text-primary">Radio</p>
+                </div>
+                <div class="layout-vertical gap-15 w-fill">
+                    <p class="text-subtitle text-primary">Radio</p>
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-secondary">
+                        <div class="p-10 border-bottom border-card-default">Radio</div>
+                        <div class="layout-horizontal align-center-left gap-20 p-20 border-bottom border-card-default card-background-default">
+                            <input class="radio-control" type="radio" name="option">
+                            <label class="label-radio-control"> 
+                                <input class="radio-control" type="radio" name="option">
+                                <span>This is a label</span>
+                            </label>
+                        </div>
+<pre class="p-20">
+    <input class="radio-control" type="radio" name="option">
+    <label class="label-radio-control"> 
+        <input class="radio-control" type="radio" name="option">
+        <span>This is a label</span>
+    </label>
+</pre>
+                    </div>
+                </div>
+            </div>
+            <hr class="card-stroke-default">
+            <div id="textarea-tab" class="w-fill layout-vertical gap-15">
+                <div class="layout-vertical">
+                    <p class="text-title text-primary">Text area</p>
+                </div>
+                <div class="layout-vertical gap-15 w-fill">
+                    <p class="text-subtitle text-primary">Text area</p>
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-secondary">
+                        <div class="p-10 border-bottom border-card-default">Text area</div>
+                        <div class="layout-horizontal align-center-left gap-20 p-20 border-bottom border-card-default card-background-default">
+                            <textarea class="control text-area-control" placeholder="placeholder" name="" id="" spellcheck="false"></textarea>
+                        </div>
+<pre class="p-20">
+<textarea class="control text-area-control" placeholder="placeholder" name="" id="" spellcheck="false"></textarea>
+</pre>
+                    </div>
+                </div>
+            </div>
+            <hr class="card-stroke-default">
+            <div id="icons-tab" class="w-fill layout-vertical gap-15">
+                <div class="layout-vertical">
+                    <p class="text-title text-primary">Icons</p>
+                </div>
+                <div class="layout-vertical gap-15 w-fill">
+                    <p class="text-subtitle text-primary">Icons</p>
+                    <div class="rounded-4 layout-vertical border border-card-default card-background-secondary">
+                        <div class="p-10 border-bottom border-card-default">Text area</div>
+                        <div class="layout-horizontal align-center-left gap-20 p-20 border-bottom border-card-default card-background-default">
+                            <a href="/FluentSystemIcons-Regular.html" class="button-accent button-text-only">Danh sách icon Regular</a>
+                            <a href="/FluentSystemIcons-Filled.html" class="button-accent button-text-only">Danh sách icon Filled</a>
+                        </div>
+                        <div class="layout-horizontal align-center-left gap-20 p-20 border-bottom border-card-default card-background-default"> 
+                            <i class="icon-size-16 icon icon-ic_fluent_send_16_filled"></i>
+                            <i class="icon-size-20 icon icon-ic_fluent_send_20_regular"></i>
+                            <i class="icon-size-24 icon icon-ic_fluent_person_note_24_filled"></i>
+                        </div>
+<pre class="p-20">
+    class cần có (đúng theo thứ tự): "icon-size-[size]",  "icon",  "icon-ic_fluent_[tên icon]_[size]_[regular/filled]"
+    <!-- Ví dụ icon tên "send", size là 16, loại "filled" -->
+    <i class="icon-size-16 icon icon-ic_fluent_send_16_filled"></i>
+    
+    <!-- Ví dụ icon tên "send", size là 20, loại "regular" -->
+    <i class="icon-size-20 icon icon-ic_fluent_send_20_regular"></i>
+
+    <!-- Ví dụ icon tên "person_note", size là 24, loại "filled" -->
+    <i class="icon-size-24 icon icon-ic_fluent_person_note_24_filled"></i>
+
+</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <script src="/js/index.js" type="module"></script>
+    <script>
+        /* Pre convert */
+        document.querySelectorAll('pre').forEach((block) => {
+            var content = block.innerHTML;
+            content = content.replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+
+            block.innerHTML = `<code class="language-html">${content}</code>`;
+        });
+
+        document.querySelector('#left-panel').querySelectorAll(".list-item").forEach((item) => {
+            if (item.classList.contains('disabled')) return;
+            item.addEventListener('click', (e) => {
+                var id = item.innerText.toLowerCase().replace(' ', '-') + '-tab';
+                document.querySelector(`#${id}`).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>

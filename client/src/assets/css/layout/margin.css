@@ -1,0 +1,457 @@
+/* margin */
+.m-5 {
+    margin: 5px;
+}
+
+.ms-5 {
+    margin-left: 5px;
+}
+
+.me-5 {
+    margin-right: 5px;
+}
+
+.mb-5 {
+    margin-bottom: 5px;
+}
+
+.mt-5 {
+    margin-top: 5px;
+}
+
+.mx-5 {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.my-5 {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.m-10 {
+    margin: 10px;
+}
+
+.ms-10 {
+    margin-left: 10px;
+}
+
+.me-10 {
+    margin-right: 10px;
+}
+
+.mb-10 {
+    margin-bottom: 10px;
+}
+
+.mt-10 {
+    margin-top: 10px;
+}
+
+.mx-10 {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.my-10 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.m-15 {
+    margin: 15px;
+}
+
+.ms-15 {
+    margin-left: 15px;
+}
+
+.me-15 {
+    margin-right: 15px;
+}
+
+.mb-15 {
+    margin-bottom: 15px;
+}
+
+.mt-15 {
+    margin-top: 15px;
+}
+
+.mx-15 {
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.my-15 {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.m-20 {
+    margin: 20px;
+}
+
+.ms-20 {
+    margin-left: 20px;
+}
+
+.me-20 {
+    margin-right: 20px;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.mx-20 {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.my-20 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.m-25 {
+    margin: 25px;
+}
+
+.ms-25 {
+    margin-left: 25px;
+}
+
+.me-25 {
+    margin-right: 25px;
+}
+
+.mb-25 {
+    margin-bottom: 25px;
+}
+
+.mt-25 {
+    margin-top: 25px;
+}
+
+.mx-25 {
+    margin-left: 25px;
+    margin-right: 25px;
+}
+
+.my-25 {
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+
+@media (min-width: 480px) and (max-width: 850px) {
+    /* margin */
+    .in-tablet-m-5 {
+        margin: 5px;
+    }
+
+    .in-tablet-ms-5 {
+        margin-left: 5px;
+    }
+
+    .in-tablet-me-5 {
+        margin-right: 5px;
+    }
+
+    .in-tablet-mb-5 {
+        margin-bottom: 5px;
+    }
+
+    .in-tablet-mt-5 {
+        margin-top: 5px;
+    }
+
+    .in-tablet-mx-5 {
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+    .in-tablet-my-5 {
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
+    .in-tablet-m-10 {
+        margin: 10px;
+    }
+
+    .in-tablet-ms-10 {
+        margin-left: 10px;
+    }
+
+    .in-tablet-me-10 {
+        margin-right: 10px;
+    }
+
+    .in-tablet-mb-10 {
+        margin-bottom: 10px;
+    }
+
+    .in-tablet-mt-10 {
+        margin-top: 10px;
+    }
+
+    .in-tablet-mx-10 {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .in-tablet-my-10 {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .in-tablet-m-15 {
+        margin: 15px;
+    }
+
+    .in-tablet-ms-15 {
+        margin-left: 15px;
+    }
+
+    .in-tablet-me-15 {
+        margin-right: 15px;
+    }
+
+    .in-tablet-mb-15 {
+        margin-bottom: 15px;
+    }
+
+    .in-tablet-mt-15 {
+        margin-top: 15px;
+    }
+
+    .in-tablet-mx-15 {
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+
+    .in-tablet-my-15 {
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+
+    .in-tablet-m-20 {
+        margin: 20px;
+    }
+
+    .in-tablet-ms-20 {
+        margin-left: 20px;
+    }
+
+    .in-tablet-me-20 {
+        margin-right: 20px;
+    }
+
+    .in-tablet-mb-20 {
+        margin-bottom: 20px;
+    }
+
+    .in-tablet-mt-20 {
+        margin-top: 20px;
+    }
+
+    .in-tablet-mx-20 {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    .in-tablet-my-20 {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .in-tablet-m-25 {
+        margin: 25px;
+    }
+
+    .in-tablet-ms-25 {
+        margin-left: 25px;
+    }
+
+    .in-tablet-me-25 {
+        margin-right: 25px;
+    }
+
+    .in-tablet-mb-25 {
+        margin-bottom: 25px;
+    }
+
+    .in-tablet-mt-25 {
+        margin-top: 25px;
+    }
+
+    .in-tablet-mx-25 {
+        margin-left: 25px;
+        margin-right: 25px;
+    }
+
+    .in-tablet-my-25 {
+        margin-top: 25px;
+        margin-bottom: 25px;
+    }
+}
+
+@media (max-width: 479px) {
+    /* margin */
+    .in-mobile-m-5 {
+        margin: 5px;
+    }
+
+    .in-mobile-ms-5 {
+        margin-left: 5px;
+    }
+
+    .in-mobile-me-5 {
+        margin-right: 5px;
+    }
+
+    .in-mobile-mb-5 {
+        margin-bottom: 5px;
+    }
+
+    .in-mobile-mt-5 {
+        margin-top: 5px;
+    }
+
+    .in-mobile-mx-5 {
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+    .in-mobile-my-5 {
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
+    .in-mobile-m-10 {
+        margin: 10px;
+    }
+
+    .in-mobile-ms-10 {
+        margin-left: 10px;
+    }
+
+    .in-mobile-me-10 {
+        margin-right: 10px;
+    }
+
+    .in-mobile-mb-10 {
+        margin-bottom: 10px;
+    }
+
+    .in-mobile-mt-10 {
+        margin-top: 10px;
+    }
+
+    .in-mobile-mx-10 {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .in-mobile-my-10 {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .in-mobile-m-15 {
+        margin: 15px;
+    }
+
+    .in-mobile-ms-15 {
+        margin-left: 15px;
+    }
+
+    .in-mobile-me-15 {
+        margin-right: 15px;
+    }
+
+    .in-mobile-mb-15 {
+        margin-bottom: 15px;
+    }
+
+    .in-mobile-mt-15 {
+        margin-top: 15px;
+    }
+
+    .in-mobile-mx-15 {
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+
+    .in-mobile-my-15 {
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+
+    .in-mobile-m-20 {
+        margin: 20px;
+    }
+
+    .in-mobile-ms-20 {
+        margin-left: 20px;
+    }
+
+    .in-mobile-me-20 {
+        margin-right: 20px;
+    }
+
+    .in-mobile-mb-20 {
+        margin-bottom: 20px;
+    }
+
+    .in-mobile-mt-20 {
+        margin-top: 20px;
+    }
+
+    .in-mobile-mx-20 {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    .in-mobile-my-20 {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .in-mobile-m-25 {
+        margin: 25px;
+    }
+
+    .in-mobile-ms-25 {
+        margin-left: 25px;
+    }
+
+    .in-mobile-me-25 {
+        margin-right: 25px;
+    }
+
+    .in-mobile-mb-25 {
+        margin-bottom: 25px;
+    }
+
+    .in-mobile-mt-25 {
+        margin-top: 25px;
+    }
+
+    .in-mobile-mx-25 {
+        margin-left: 25px;
+        margin-right: 25px;
+    }
+
+    .in-mobile-my-25 {
+        margin-top: 25px;
+        margin-bottom: 25px;
+    }
+}

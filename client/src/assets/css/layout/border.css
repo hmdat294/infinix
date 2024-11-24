@@ -1,0 +1,188 @@
+.border-none {
+    border: none;
+}
+
+.border {
+    border: 1px solid var(--card-stroke-default);
+}
+
+.border-top {
+    border-top: 1px solid var(--card-stroke-default);
+}
+
+.border-bottom {
+    border-bottom: 1px solid var(--card-stroke-default);
+}
+
+.border-left {
+    border-left: 1px solid var(--card-stroke-default);
+}
+
+.border-right {
+    border-right: 1px solid var(--card-stroke-default);
+}
+
+.border-card-default {
+    border-color: var(--card-stroke-default);
+}
+
+.border-card-solid {
+    border-color: var(--card-stroke-default-solid);
+}
+
+.border-control-default {
+    border-color: var(--control-stroke-default);
+}
+
+.border-control-secondary {
+    border-color: var(--control-stroke-secondary);
+}
+
+.border-control-on-accent-default {
+    border-color: var(--control-stroke-on-accent-default);
+}
+
+.border-control-on-accent-secondary {
+    border-color: var(--control-stroke-on-accent-secondary);
+}
+
+.border-control-on-accent-tertiary {
+    border-color: var(--control-stroke-on-accent-tertiary);
+}
+
+.border-control-on-accent-disabled {
+    border-color: var(--control-stroke-on-accent-disabled);
+}
+
+
+.border-system-attention {
+    border-color: var(--system-attention);
+}
+
+.border-system-success {
+    border-color: var(--system-success);
+}
+
+.border-system-caution {
+    border-color: var(--system-caution);
+}
+
+.border-system-critical {
+    border-color: var(--system-critical);
+}
+
+@media (min-width: 480px) and (max-width: 850px) {
+    .in-tablet-border-none {
+        border: none;
+    }
+    
+    .in-tablet-border {
+        border: 1px solid var(--card-stroke-default);
+    }
+    
+    .in-tablet-border-top {
+        border-top: 1px solid var(--card-stroke-default);
+    }
+    
+    .in-tablet-border-bottom {
+        border-bottom: 1px solid var(--card-stroke-default);
+    }
+    
+    .in-tablet-border-left {
+        border-left: 1px solid var(--card-stroke-default);
+    }
+    
+    .in-tablet-border-right {
+        border-right: 1px solid var(--card-stroke-default);
+    }
+    
+    .in-tablet-border-card-default {
+        border-color: var(--card-stroke-default);
+    }
+    
+    .in-tablet-border-card-solid {
+        border-color: var(--card-stroke-default-solid);
+    }
+    
+    .in-tablet-border-control-default {
+        border-color: var(--control-stroke-default);
+    }
+    
+    .in-tablet-border-control-secondary {
+        border-color: var(--control-stroke-secondary);
+    }
+    
+    .in-tablet-border-control-on-accent-default {
+        border-color: var(--control-stroke-on-accent-default);
+    }
+    
+    .in-tablet-border-control-on-accent-secondary {
+        border-color: var(--control-stroke-on-accent-secondary);
+    }
+    
+    .in-tablet-border-control-on-accent-tertiary {
+        border-color: var(--control-stroke-on-accent-tertiary);
+    }
+    
+    .in-tablet-border-control-on-accent-disabled {
+        border-color: var(--control-stroke-on-accent-disabled);
+    }
+}
+
+@media (max-width: 479px) {
+    .in-mobile-border-none {
+        border: none;
+    }
+    
+    .in-mobile-border {
+        border: 1px solid var(--card-stroke-default);
+    }
+    
+    .in-mobile-border-top {
+        border-top: 1px solid var(--card-stroke-default);
+    }
+    
+    .in-mobile-border-bottom {
+        border-bottom: 1px solid var(--card-stroke-default);
+    }
+    
+    .in-mobile-border-left {
+        border-left: 1px solid var(--card-stroke-default);
+    }
+    
+    .in-mobile-border-right {
+        border-right: 1px solid var(--card-stroke-default);
+    }
+    
+    .in-mobile-border-card-default {
+        border-color: var(--card-stroke-default);
+    }
+    
+    .in-mobile-border-card-solid {
+        border-color: var(--card-stroke-default-solid);
+    }
+    
+    .in-mobile-border-control-default {
+        border-color: var(--control-stroke-default);
+    }
+    
+    .in-mobile-border-control-secondary {
+        border-color: var(--control-stroke-secondary);
+    }
+    
+    .in-mobile-border-control-on-accent-default {
+        border-color: var(--control-stroke-on-accent-default);
+    }
+    
+    .in-mobile-border-control-on-accent-secondary {
+        border-color: var(--control-stroke-on-accent-secondary);
+    }
+    
+    .in-mobile-border-control-on-accent-tertiary {
+        border-color: var(--control-stroke-on-accent-tertiary);
+    }
+    
+    .in-mobile-border-control-on-accent-disabled {
+        border-color: var(--control-stroke-on-accent-disabled);
+    }
+}
