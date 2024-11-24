@@ -32,7 +32,7 @@ export class RegisterComponent {
 
     this.authService.register(value.value).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         if (response.token) {
           this.authService.updateAuthToken(response.token);
 
@@ -49,7 +49,7 @@ export class RegisterComponent {
   getCode(email: string) {
     this.authService.getCode(email).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         if (response.verify) {
           this.stepNext();
           this.error =
@@ -72,7 +72,7 @@ export class RegisterComponent {
   postCode(email: string, code: number) {
     this.authService.postCode(email, code).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         if (response.verify) {
           this.stepNext();
           this.error =

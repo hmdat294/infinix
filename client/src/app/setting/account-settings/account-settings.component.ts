@@ -13,7 +13,7 @@ import { SettingService } from '../../service/setting.service';
 })
 export class AccountSettingsComponent implements OnInit {
 
-  user:any;
+  user: any;
   username: string = '';
   email: string = '';
   password: string = '';
@@ -34,7 +34,7 @@ export class AccountSettingsComponent implements OnInit {
     this.authService.getUser(0).subscribe(
       (response) => {
         this.user = response.data;
-        console.log(this.user);
+        // console.log(this.user);
       });
   }
 
@@ -47,10 +47,16 @@ export class AccountSettingsComponent implements OnInit {
   error3: string = '';
 
   updateUser(value: any) {
+    // console.log(value);
+
     this.authService.updateUser(value).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         this.tabChild('');
+
+        if (value.accept_stranger_message || !value.accept_stranger_message) {
+          this.user.accept_stranger_message = value.accept_stranger_message;
+        }
 
         if (value.email) {
           this.error1 =
@@ -63,15 +69,15 @@ export class AccountSettingsComponent implements OnInit {
         }
       })
   }
-  
+
   updatePassword(value: any) {
-    console.log(value);
+    // console.log(value);
     this.authService.updatePassword({
       'old_password': value.old_password,
       'new_password': value.new_password
     }).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         if (response.status) {
           this.error3 =
             `<p class="validation-message validation-sucess text-body text-primary">
@@ -97,11 +103,11 @@ export class AccountSettingsComponent implements OnInit {
     return form.controls['new_password']?.value === form.controls['confirm']?.value;
   }
 
-  
+
   getCode(email: string) {
     this.authService.getCodeForGot(email).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         if (response.verify) {
           this.tabChild('email');
           this.error1 =
@@ -124,7 +130,7 @@ export class AccountSettingsComponent implements OnInit {
   postCode(email: string, code: number) {
     this.authService.postCode(email, code).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         if (response.verify) {
           this.tabChild('verify-code');
           this.error2 =

@@ -55,7 +55,7 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
                 this.friends_limit = this.friends.slice(0, 5);
 
                 this.eventService.bindEvent('App\\Events\\FriendRequestEvent', (data: any) => {
-                  console.log('Friend request event:', data);
+                  // console.log('Friend request event:', data);
 
                   // nếu status là accepted thì data có sender và receiver, bản thân là 1 trong 2 thì thêm vào danh sách bạn bè người còn lại
                   if (data.status == "accepted") {
@@ -69,7 +69,7 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
                 });
 
                 this.eventService.bindEvent('App\\Events\\UserConnectionEvent', (data: any) => {
-                  console.log('User online event:', data);
+                  // console.log('User online event:', data);
 
                   const friends = this.friends.find((item: any) => item.id == data.user.id) || {};
                   friends.online_status = data.user?.online_status;
@@ -167,7 +167,7 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
     // )
     this.authService.logout().subscribe(
       (response) => {
-        console.log('Logout Success:', response);
+        // console.log('Logout Success:', response);
 
         this.authService.removeAuthToken();
         this.chatService.removeConversation();

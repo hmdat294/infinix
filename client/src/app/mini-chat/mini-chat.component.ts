@@ -104,7 +104,7 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
             // console.log(this.chat);
 
             this.eventService.bindEvent('App\\Events\\UserSendMessageEvent', (data: any) => {
-              console.log('Message received:', data);
+              // console.log('Message received:', data);
 
               if (this.conversation.includes(data.data.conversation_id))
                 this.conversation = this.conversation.filter(id => id !== data.data.conversation_id);
@@ -122,13 +122,13 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
             });
 
             this.eventService.bindEvent('App\\Events\\UserRecallMessageEvent', (data: any) => {
-              console.log('Recall Message event:', data);
+              // console.log('Recall Message event:', data);
               if (this.chat.id == data.data.conversation_id)
                 this.chat.messages.find((item: any) => item.id === data.data.id).is_recalled = data.data.is_recalled;
             });
 
             this.eventService.bindEvent('App\\Events\\UserEditMessageEvent', (data: any) => {
-              console.log('Edit Message event:', data);
+              // console.log('Edit Message event:', data);
               if (this.chat.id == data.data.conversation_id)
                 this.chat.messages.find((item: any) => item.id === data.data.id).content = data.data.content;
             });
@@ -175,14 +175,14 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
   addFriend(receiver_id: number): void {
     this.authService.addFriend(receiver_id).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
       });
   }
 
   cancelRequest(receiver_id: number) {
     this.authService.cancelFriend(receiver_id).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
       });
   }
 
@@ -284,7 +284,7 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
   pinMessage(message_id: number) {
     this.chatService.pinMessage(message_id).subscribe(
       (data: any) => {
-        console.log(data);
+        // console.log(data);
 
         if (data.message == "Pinned")
           this.chat.pinned_messages.push(data.data);
@@ -316,7 +316,7 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
   blockUser(user_id: number) {
     this.authService.postUserBlock(user_id).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
         this.chat.users[0].blocked_user = !this.chat.users[0].blocked_user;
       });
   }
@@ -368,7 +368,7 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
 
       this.chatService.sendMessage(formData).subscribe(
         (response: any) => {
-          console.log(response);
+          // console.log(response);
           (document.querySelector('.textarea-chat') as HTMLTextAreaElement).style.height = '32px';
           this.content = '';
           this.onCancelSendImg();
@@ -379,7 +379,7 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
     else {
       this.chatService.recallMessage(this.id_message, { 'content': mess.content }).subscribe(
         (response) => {
-          console.log(response);
+          // console.log(response);
           (document.querySelector('.textarea-chat') as HTMLTextAreaElement).style.height = '32px';
           this.content = '';
           this.onCancelSendImg();

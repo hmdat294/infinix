@@ -210,7 +210,7 @@
                             bạn</p>
                     </div>
                     <button type="button" class="button-standard button-text-only"
-                        (click)="updateUser({'accept_stranger_message':true})">
+                        (click)="updateUser({'accept_stranger_message':!user?.accept_stranger_message})">
                         {{(user?.accept_stranger_message)?'Tắt':'Bật'}}
                     </button>
                 </div>

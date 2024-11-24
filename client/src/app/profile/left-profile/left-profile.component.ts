@@ -39,7 +39,7 @@ export class LeftProfileComponent implements OnInit {
 
         this.authService.getFriendOfFriend(this.user.id).subscribe(
           (response) => {
-            console.log(response);
+            // console.log(response);
             this.friendOfFriend = response.data;
             this.friendOfFriendLimit = response.data.slice(0, 9);
           });
@@ -60,7 +60,7 @@ export class LeftProfileComponent implements OnInit {
   addFriend(receiver_id: number): void {
     this.authService.addFriend(receiver_id).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         this.user.is_sent_friend_request = true;
       });
   }

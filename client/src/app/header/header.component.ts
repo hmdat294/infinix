@@ -57,7 +57,7 @@ export class HeaderComponent implements OnInit {
     this.authService.getUser(0).subscribe(
       (res: any) => {
         this.eventService.bindEvent('App\\Events\\UserSendMessageEvent', (data: any) => {
-          console.log('Message event received:', data);
+          // console.log('Message event received:', data);
 
           if (this.conversation.includes(data.data.conversation_id))
             this.conversation = this.conversation.filter(id => id !== data.data.conversation_id);
@@ -77,7 +77,7 @@ export class HeaderComponent implements OnInit {
         // console.log(data);
         this.notification = data.data;
         this.eventService.bindEvent('App\\Events\\NotificationEvent', (data: any) => {
-          console.log('Notification event received:', data);
+          // console.log('Notification event received:', data);
 
           this.notification.unshift(data.data);
         });
@@ -90,14 +90,14 @@ export class HeaderComponent implements OnInit {
 
     this.shopService.getCart().subscribe(
       (data) => {
-        console.log(data);
+        // console.log(data);
         this.cart = data.data;
       });
 
     this.addQuantitySubject.pipe(debounceTime(1000)).subscribe(({ product_id, quantity }) => {
       this.shopService.updateProductToCart({ product_id, quantity }).subscribe(
         (response) => {
-          console.log(response);
+          // console.log(response);
         });
     });
   }
@@ -105,7 +105,7 @@ export class HeaderComponent implements OnInit {
   removeToCart(product_id: number) {
     this.shopService.removeProductToCart({ 'product_id': product_id }).subscribe(
       (data) => {
-        console.log(data);
+        // console.log(data);
         this.cart.products = this.cart.products.filter((item: any) => item.id !== product_id);
       });
   }
@@ -139,7 +139,7 @@ export class HeaderComponent implements OnInit {
   updateNotification(notification_id: number) {
     this.notificationService.updateNotification(notification_id).subscribe(
       (res: any) => {
-        console.log(res);
+        // console.log(res);
         this.notification.find((item: any) => item.id == notification_id).is_read = 1;
       });
   }
@@ -147,7 +147,7 @@ export class HeaderComponent implements OnInit {
   deleteNotification(notification_id: number) {
     this.notificationService.deleteNotification(notification_id).subscribe(
       (res: any) => {
-        console.log(res);
+        // console.log(res);
         this.notification = this.notification.filter((item: any) => item.id != notification_id);
       });
   }
@@ -160,7 +160,7 @@ export class HeaderComponent implements OnInit {
   addFriend(receiver_id: number): void {
     this.authService.addFriend(receiver_id).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         this.clearSearch();
       });
   }

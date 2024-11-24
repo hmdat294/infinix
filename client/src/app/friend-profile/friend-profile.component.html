@@ -23,28 +23,32 @@
                             <p class="text-primary text-body-strong">{{user?.friend_count}}</p>
                         </div>
                         <div class="w-fill layout-vertical align-center-center">
+                            <p class="text-secondary text-body text-center">Bài viết</p>
+                            <p class="text-primary text-body-strong">{{listPost?.length || 0}}</p>
+                        </div>
+                        <!-- <div class="w-fill layout-vertical align-center-center">
                             <p class="text-secondary text-body text-center">Người theo dõi</p>
                             <p class="text-primary text-body-strong">{{user?.follower_count}}</p>
                         </div>
                         <div class="w-fill layout-vertical align-center-center">
                             <p class="text-secondary text-body text-center">Đang theo dõi</p>
                             <p class="text-primary text-body-strong">{{user?.following_count}}</p>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="layout-horizontal px-20 align-center-space-between w-fill gap-10">
                         <button *ngIf="!user?.is_friend && !user?.is_sent_friend_request" type="button"
-                            class="button-accent p-5 w-fill" (click)="addFriend(user?.id)">
+                            class="cursor-pointer button-accent p-5 w-fill" (click)="addFriend(user?.id)">
                             Thêm bạn bè
                         </button>
                         <button *ngIf="!user?.is_friend && user?.is_sent_friend_request" type="button"
-                            class="button-standard p-5 w-fill" (click)="cancelRequest(user?.id)">
+                            class="cursor-pointer button-standard p-5 w-fill" (click)="cancelRequest(user?.id)">
                             Hủy yêu cầu
                         </button>
-                        <button *ngIf="user?.is_friend" type="button" class="button-standard p-5 w-fill"
+                        <button *ngIf="user?.is_friend" type="button" class="cursor-pointer button-standard p-5 w-fill"
                             (click)="unFriend(user?.id)">
                             Hủy kết bạn
                         </button>
-                        <button type="button" class="button-accent p-5 w-fill" (click)="createChat(user?.id)">Nhắn
+                        <button *ngIf="user?.is_friend || (!user?.is_friend && !user?.accept_stranger_message)"  type="button" class="cursor-pointer button-accent p-5 w-fill" (click)="createChat(user?.id)">Nhắn
                             tin</button>
                         <button type="button" class="user-hover button-standard p-5 w-hug">
                             <i class="icon-size-20 icon icon-ic_fluent_more_horizontal_20_filled"></i>
@@ -68,6 +72,9 @@
                                 </div>
                             </div>
                         </button>
+                    </div>
+                    <div *ngIf="!user?.is_friend && user?.accept_stranger_message" class="text-secondary text-caption text-center">
+                        <i>Kết bạn để nhắn tin!</i>
                     </div>
                 </div>
             </div>

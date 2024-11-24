@@ -101,14 +101,14 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
               ...item,
               users: item.users.filter((user: any) => user.id !== this.user?.id)
             }))
-            console.log(this.friends);
+            // console.log(this.friends);
 
             if (this.friends.length > 0) {
               this.MessageUser(this.friends[0]);
             }
 
             this.eventService.bindEvent('App\\Events\\UserBlockUserEvent', (data: any) => {
-              console.log('Block event:', data);
+              // console.log('Block event:', data);
               const blocker = data.blocker;
               const type = data.type;
               this.friends.find((friend: any) =>
@@ -119,7 +119,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
             this.eventService.bindEvent('App\\Events\\UserSendMessageEvent', (data: any) => {
               this.isScrollingToElement = false;
-              console.log('Message event:', data);
+              // console.log('Message event:', data);
               if (this.conversation?.id == data.data?.conversation_id)
                 this.conversation.messages.push(data.data);
 
@@ -130,7 +130,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
                 if (!user_receiver) {
                   this.chatService.getMessageUser(data.data.user_id).subscribe(
                     (response: any) => {
-                      console.log(response);
+                      // console.log(response);
                       this.friends.unshift(response.data);
                     });
                 }
@@ -138,13 +138,13 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
             });
 
             this.eventService.bindEvent('App\\Events\\UserRecallMessageEvent', (data: any) => {
-              console.log('Recall Message event:', data);
+              // console.log('Recall Message event:', data);
               if (this.conversation.id == data.data.conversation_id)
                 this.conversation.messages.find((item: any) => item.id === data.data.id).is_recalled = data.data.is_recalled;
             });
 
             this.eventService.bindEvent('App\\Events\\UserEditMessageEvent', (data: any) => {
-              console.log('Edit Message event:', data);
+              // console.log('Edit Message event:', data);
               if (this.conversation.id == data.data.conversation_id) {
                 const mess = this.conversation.messages.find((item: any) => item.id === data.data.id);
                 mess.content = data.data.content;
@@ -154,7 +154,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
             });
 
             this.eventService.bindEvent('App\\Events\\UserLikeMessageEvent', (data: any) => {
-              console.log('Like Message event:', data);
+              // console.log('Like Message event:', data);
               if (this.conversation.id == data.message.conversation_id) {
                 const mess = this.conversation.messages.find((item: any) => item.id === data.message.id);
                 mess.likes = data.message.likes;
@@ -190,14 +190,14 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   addFriend(receiver_id: number): void {
     this.authService.addFriend(receiver_id).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
       });
   }
 
   cancelRequest(receiver_id: number) {
     this.authService.cancelFriend(receiver_id).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
       });
   }
 
@@ -318,7 +318,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     )
 
     this.conversation = conversation;
-    console.log(this.conversation);
+    // console.log(this.conversation);
 
     this.isScrollingToElement = false;
     (document.querySelector('.textarea-chat') as HTMLTextAreaElement)?.focus();
@@ -356,7 +356,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
       this.chatService.sendMessage(formData).subscribe(
         (response: any) => {
-          console.log(response);
+          // console.log(response);
           (document.querySelector('.textarea-chat') as HTMLTextAreaElement).style.height = '32px';
           this.content = '';
           this.onCancelSendImg();
@@ -386,7 +386,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
       this.chatService.recallMessage(this.id_edit_message, formData).subscribe(
         (response) => {
-          console.log(response);
+          // console.log(response);
           (document.querySelector('.textarea-chat') as HTMLTextAreaElement).style.height = '32px';
           this.content = '';
           this.onCancelSendImg();
@@ -401,7 +401,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   editMessage(id: number) {
     if (id > 0) {
       const message = this.conversation.messages.find((item: any) => item.id === id);
-      console.log(message);
+      // console.log(message);
       this.previewUrls = [...message.medias];
       this.content = message.content;
       this.id_edit_message = message.id;
@@ -516,7 +516,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
       else {
         this.chatService.recallMessage(id, { 'is_recalled': 1 }).subscribe(
           (response) => {
-            console.log(response);
+            // console.log(response);
             if (this.checkPined(id)) this.pinMessage(id);
           },
           (error) => console.error('Error recalling message', error)
@@ -562,7 +562,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   pinMessage(message_id: number) {
     this.chatService.pinMessage(message_id).subscribe(
       (data: any) => {
-        console.log(data);
+        // console.log(data);
 
         if (data.message == "Pinned")
           this.conversation.pinned_messages.push(data.data);
@@ -594,7 +594,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   blockUser(user_id: number) {
     this.authService.postUserBlock(user_id).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
         this.conversation.users[0].blocked_user = !this.conversation.users[0].blocked_user;
       });
   }
@@ -605,7 +605,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   likeMessage(message_id: number) {
     this.chatService.likeMessage(message_id).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
         const message = this.conversation.messages.find((item: any) => item.id === message_id);
         message.liked = !message.liked;
       }
@@ -670,10 +670,15 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
     this.chatService.createGroup(formData).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
         this.closeCreateGroup();
         this.nameGroup.nativeElement.value = '';
         this.friends.unshift(response.data);
+
+        this.friends = this.friends.map((item: any) => ({
+          ...item,
+          users: item.users.filter((user: any) => user.id !== this.user?.id)
+        }))
       }
     )
   }
@@ -691,11 +696,11 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   }
 
   addGroup(receiver_id: number, conversation_id: number) {
-    console.log(receiver_id, conversation_id);
+    // console.log(receiver_id, conversation_id);
 
     this.chatService.addGroup({ receiver_id, conversation_id }).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
       }
     )
   }
@@ -703,7 +708,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   removeMember(conversation_id: number, user_id: number) {
     this.chatService.removeMember(conversation_id, user_id).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
       })
   }
 
@@ -724,7 +729,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
     this.chatService.updateGroup(formData).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
         this.closeEditGroup();
         this.nameEditGroup.nativeElement.value = '';
 
@@ -736,7 +741,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
   onFileImageGroupSelected(event: any) {
     const files: File[] = Array.from(event.target.files);
-    console.log(files);
+    // console.log(files);
 
     const file = files[0];
     const reader = new FileReader();
@@ -747,7 +752,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
   onFileImageEditGroupSelected(event: any) {
     const files: File[] = Array.from(event.target.files);
-    console.log(files);
+    // console.log(files);
 
     const file = files[0];
     const reader = new FileReader();
