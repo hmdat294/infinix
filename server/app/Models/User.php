@@ -21,7 +21,8 @@ class User extends Authenticatable
         'online_status',
         'language',
         'theme',
-        'last_activity'
+        'last_activity',
+        'accept_stranger_message'
     ];
 
     protected $hidden = [

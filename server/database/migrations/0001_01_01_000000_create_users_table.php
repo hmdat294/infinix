@@ -21,6 +21,7 @@ return new class extends Migration
             $table->enum('online_status', ['online', 'offline', 'idle'])->default('offline');
             $table->string('language')->default('vi');
             $table->string('theme')->default('light');
+            $table->string('accept_stranger_message')->default('false');
             $table->timestamp('last_activity');
             $table->rememberToken();
             $table->timestamps();
