@@ -9,8 +9,7 @@
                 <div class="accordion-item">
                     <div class="accordion-header layout-horizontal gap-15 p-15 align-center-center"
                         (click)="tabChild('username')">
-                        <i
-                            class="icon-size-20 icon text-primary icon-ic_fluent_contact_card_20_regular"></i>
+                        <i class="icon-size-20 icon text-primary icon-ic_fluent_contact_card_20_regular"></i>
                         <div class="layout-vertical w-fill">
                             <p class="text-body text-primary">Tên tài khoản</p>
                             <p class="text-caption text-secondary">{{username ||
@@ -18,10 +17,8 @@
                                 'Trống'}}</p>
                         </div>
                         <button type="button" class="button-subtle button-icon-only">
-                            <span
-                                [class]="tabAccordion == 'username' ? 'rotate_icon_180' : 'rotate_icon_0'">
-                                <i
-                                    class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
+                            <span [class]="tabAccordion == 'username' ? 'rotate_icon_180' : 'rotate_icon_0'">
+                                <i class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
                             </span>
                         </button>
                     </div>
@@ -30,8 +27,7 @@
                         <div
                             class="p-15 layout-horizontal align-center-space-between border-bottom border-card-default">
                             <div class="control text-control">
-                                <input type="text" spellcheck="false" name="username"
-                                    [(ngModel)]="username">
+                                <input type="text" spellcheck="false" name="username" [(ngModel)]="username">
                             </div>
                             <button class="button-standard button-text-only"
                                 (click)="updateUser({'username':username})">Lưu</button>
@@ -58,8 +54,7 @@
                             <div class="layout-vertical w-fill gap-5">
                                 <p class="text-body text-primary">Mật khẩu cũ</p>
                                 <div class="control password-control w-fill">
-                                    <input type="password" spellcheck="false" name="old_password"
-                                        ngModel required>
+                                    <input type="password" spellcheck="false" name="old_password" ngModel required>
                                     <button type="button" class="input-button show-password-button">
                                         <i class="icon-size-16 icon icon-ic_fluent_eye_16_regular"></i>
                                     </button>
@@ -68,8 +63,8 @@
                             <div class="layout-vertical w-fill gap-5">
                                 <p class="text-body text-primary">Mật khẩu mới</p>
                                 <div class="control password-control w-fill">
-                                    <input type="password" spellcheck="false" name="new_password"
-                                        ngModel #new_password="ngModel" required minlength="8">
+                                    <input type="password" spellcheck="false" name="new_password" ngModel
+                                        #new_password="ngModel" required minlength="8">
                                     <button type="button" class="input-button show-password-button">
                                         <i class="icon-size-16 icon icon-ic_fluent_eye_16_regular"></i>
                                     </button>
@@ -84,8 +79,8 @@
                             <div class="layout-vertical w-fill gap-5">
                                 <p class="text-body text-primary">Xác nhận mật khẩu mới</p>
                                 <div class="control password-control w-fill">
-                                    <input type="password" spellcheck="false" ngModel name="confirm"
-                                        #confirm="ngModel" required>
+                                    <input type="password" spellcheck="false" ngModel name="confirm" #confirm="ngModel"
+                                        required>
                                     <button type="button" class="input-button show-password-button">
                                         <i class="icon-size-16 icon icon-ic_fluent_eye_16_regular"></i>
                                     </button>
@@ -111,19 +106,16 @@
                     </div>
                 </div>
 
-                <button type="button" class="button-standard button-text-only"
-                    (click)="tabChild('password')">
+                <button type="button" class="button-standard button-text-only" (click)="tabChild('password')">
                     Đổi mật khẩu
                 </button>
             </div>
 
             <div class="accordion active border border-card-default card-background-default rounded-6">
                 <div class="accordion-item">
-                    <div
-                        class="accordion-header layout-horizontal gap-25 p-15 align-center-space-between">
+                    <div class="accordion-header layout-horizontal gap-25 p-15 align-center-space-between">
                         <div class="layout-horizontal gap-15 align-center-center">
-                            <i
-                                class="icon-size-20 icon text-primary icon-ic_fluent_mail_20_regular"></i>
+                            <i class="icon-size-20 icon text-primary icon-ic_fluent_mail_20_regular"></i>
                             <div class="layout-vertical">
                                 <p class="text-body text-primary">Email</p>
                                 <p class="text-caption text-secondary">{{email ||
@@ -148,8 +140,7 @@
                             <div>
                                 <label for="code" class="text-body text-primary">Mã xác nhận</label>
                                 <div class="control text-control">
-                                    <input id="code" type="text" spellcheck="false" name="code"
-                                        #code="ngModel" ngModel>
+                                    <input id="code" type="text" spellcheck="false" name="code" #code="ngModel" ngModel>
                                 </div>
                             </div>
                             <div class="layout-horizontal gap-20 align-center-right">
@@ -169,8 +160,7 @@
                             <div>
                                 <label for="email" class="text-body text-primary">Email</label>
                                 <div class="control text-control">
-                                    <input id="email" type="text" spellcheck="false" name="email"
-                                        [(ngModel)]="email">
+                                    <input id="email" type="text" spellcheck="false" name="email" [(ngModel)]="email">
                                 </div>
                             </div>
                             <button class="button-standard button-text-only"
@@ -192,10 +182,8 @@
                                 'Trống'}}</p>
                         </div>
                         <button type="button" class="button-subtle button-icon-only">
-                            <span
-                                [class]="tabAccordion == 'phone_number' ? 'rotate_icon_180' : 'rotate_icon_0'">
-                                <i
-                                    class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
+                            <span [class]="tabAccordion == 'phone_number' ? 'rotate_icon_180' : 'rotate_icon_0'">
+                                <i class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
                             </span>
                         </button>
                     </div>
@@ -204,8 +192,7 @@
                         <div
                             class="p-15 layout-horizontal align-center-space-between border-bottom border-card-default">
                             <div class="control text-control">
-                                <input type="text" spellcheck="false" name="phone_number"
-                                    [(ngModel)]="phone_number">
+                                <input type="text" spellcheck="false" name="phone_number" [(ngModel)]="phone_number">
                             </div>
                             <button class="button-standard button-text-only"
                                 (click)="updateUser({'phone_number':phone_number})">Lưu</button>
@@ -214,31 +201,20 @@
                 </div>
             </div>
 
-            <!-- <div class="accordion active border border-card-default card-background-default rounded-6">
-                <div class="accordion-item">
-                    <div class="accordion-header layout-horizontal gap-15 p-15 align-center-center" (click)="tabChild('display_name')">
-                        <i class="icon-size-20 icon text-primary icon-ic_fluent_image_20_regular"></i>
-                        <div class="layout-vertical w-fill">
-                            <p class="text-body text-primary">Ảnh bìa</p>
-                            <p class="text-caption text-secondary">Điều chỉnh ảnh bìa của bạn</p>
-                        </div>
-                        <button type="button" class="button-subtle button-icon-only">
-                            <i class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
-                        </button>
+            <div class="border border-card-default card-background-default rounded-6">
+                <div class="layout-horizontal gap-15 p-15 align-center-center">
+                    <i class="icon-size-20 icon text-primary icon-ic_fluent_person_delete_20_regular"></i>
+                    <div class="layout-vertical w-fill">
+                        <p class="text-body text-primary">Chặn người lạ</p>
+                        <p class="text-caption text-secondary">Những người chưa kết bạn sẽ không thể gửi tin nhắn cho
+                            bạn</p>
                     </div>
-                
-                    <div class="accordion-panel open layout-vertical" style="max-height: fit-content;" *ngIf="tabAccordion == 'display_name'">
-                        <div class="p-15 layout-horizontal align-center-space-between border-bottom border-card-default">
-                            <p class="text-body text-primary">Chụp ảnh</p>
-                            <button class="button-standard button-text-only">Mở máy ảnh</button>
-                        </div>
-                        <div class="p-15 layout-horizontal align-center-space-between">
-                            <p class="text-body text-primary">Chọn ảnh từ thiết bị</p>
-                            <button class="button-standard button-text-only">Mở thư mục</button>
-                        </div>
-                    </div>
+                    <button type="button" class="button-standard button-text-only"
+                        (click)="updateUser({'accept_stranger_message':true})">
+                        {{(user?.accept_stranger_message)?'Tắt':'Bật'}}
+                    </button>
                 </div>
-            </div> -->
+            </div>
         </div>
     </div>
 </div>

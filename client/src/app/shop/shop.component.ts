@@ -73,6 +73,17 @@ export class ShopComponent implements OnInit {
     if (this.quantity > 1) this.quantity--;
   }
 
+
+  addToCart(product_id: number) {
+    console.log({ 'product_id': product_id, 'quantity': this.quantity });
+    
+    this.shopService.addProductToCart({ 'product_id': product_id, 'quantity': this.quantity }).subscribe(
+      (response) => {
+        console.log(response);
+        this.shopService.updateCart(response.data);
+      })
+  }
+
   shortenTextByWords(text: string, maxWords: number): string {
     return this.settingService.shortenTextByWords(text, maxWords);
   }

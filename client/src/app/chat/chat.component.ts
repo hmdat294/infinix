@@ -38,7 +38,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   id_edit_message: number = 0;
 
   isScrollingToElement: boolean = false;
-  isVisible = false;
+  isVisible = true;
   showBoxSearch = false;
   showBoxSearchUser = false;
   showUserGroup = false;
@@ -700,7 +700,12 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     )
   }
 
-
+  removeMember(conversation_id: number, user_id: number) {
+    this.chatService.removeMember(conversation_id, user_id).subscribe(
+      (response: any) => {
+        console.log(response);
+      })
+  }
 
 
   toggleDialogEditGroup() {

@@ -111,4 +111,9 @@ export class ChatService {
     return this.http.post(`${this.apiUrl}/like-message`, { 'message_id': message_id }, { headers });
   }
 
+  removeMember(conversation_id: number, user_id: number): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.post(`${this.apiUrl}/remove-member`, { 'conversation_id': conversation_id, 'user_id ': user_id }, { headers });
+  }
+
 }

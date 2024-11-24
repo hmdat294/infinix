@@ -1147,18 +1147,20 @@
                             <div class="layout-vertical p-5 px-15">
 
                                 <div class="layout-horizontal gap-15 p-10 w-fill list-item border-top"
-                                    *ngFor="let user of conversation?.users">
+                                    *ngFor="let userGr of conversation?.users">
                                     <div class="layout-horizontal align-center-center gap-15 w-fill">
                                         <div style="width: 35px; height: 35px;">
-                                            <img [src]="user.profile.profile_photo"
+                                            <img [src]="userGr.profile.profile_photo"
                                                 class="rounded-circle border border-card-default object-fit-cover"
                                                 style="width: 35px; height: 35px;" alt="">
                                         </div>
                                         <div class="layout-vertical w-fill">
                                             <p class="text-secondary text-body-strong w-fill">
-                                                {{user.profile.display_name}}</p>
-                                            <p class="text-caption text-tertiary">{{user.email}}</p>
+                                                {{userGr.profile.display_name}}</p>
+                                            <p class="text-caption text-tertiary">{{userGr.email}}</p>
                                         </div>
+                                        <button *ngIf="user.id == conversation.user_id" type="button" class="button-standard button-icon-only"
+                                        (click)="removeMember(conversation.id, userGr.id)">-</button>
                                     </div>
                                 </div>
 

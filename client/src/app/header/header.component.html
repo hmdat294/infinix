@@ -51,7 +51,8 @@
                 <i *ngIf="(diaLogHeader == 'noti')" class="icon-size-24 icon icon-ic_fluent_alert_24_filled"></i>
                 <i *ngIf="(diaLogHeader != 'noti')" class="icon-size-24 icon icon-ic_fluent_alert_24_regular"></i>
 
-                <p *ngIf="notification?.length > 0" class="position-absolute rounded-circle top-0 end-0 text-on-accent-primary layout align-center-center"
+                <p *ngIf="notification?.length > 0"
+                    class="position-absolute rounded-circle top-0 end-0 text-on-accent-primary layout align-center-center"
                     style="background-color: #C42B1C; width: 13px; height: 13px; font-size: 10px; margin-right: 5px;">
                     <span>{{notification?.length}}</span>
                 </p>
@@ -62,9 +63,10 @@
                 <i *ngIf="(diaLogHeader == 'cart')" class="icon-size-24 icon icon-ic_fluent_cart_24_filled"></i>
                 <i *ngIf="(diaLogHeader != 'cart')" class="icon-size-24 icon icon-ic_fluent_cart_24_regular"></i>
 
-                <p class="position-absolute rounded-circle top-0 end-0 text-on-accent-primary layout align-center-center"
+                <p *ngIf="cart.products?.length > 0"
+                    class="position-absolute rounded-circle top-0 end-0 text-on-accent-primary layout align-center-center"
                     style="background-color: #C42B1C; width: 13px; height: 13px; font-size: 10px; margin-right: 5px;">
-                    <span>9</span>
+                    <span>{{cart.products?.length}}</span>
                 </p>
             </a>
 
@@ -150,26 +152,43 @@
         *ngIf="diaLogHeader == 'cart'">
         <div class="layout-vertical h-fill rounded-8 border border-card-default solid-background-senary">
 
-            <div class="layout-vertical gap-10 px-10 py-20 border-bottom border-card-default">
-                <p class="text-subtitle text-primary">Giỏ hàng</p>
+            <div class="layout-horizontal gap-10 px-10 py-20 border-bottom border-card-default">
+                <p class="text-subtitle text-primary w-fill">Giỏ hàng</p>
+                <button type="button" class="button-subtle button-icon-only" (click)="viewDiaLogHeader('cart')">
+                    <i class=" icon-size-16 icon icon-ic_fluent_dismiss_16_filled"></i>
+                </button>
             </div>
 
             <div class="layout-vertical p-10 h-fill overflow-scroll-vertical">
 
-                <div class="border-bottom layout-horizontal align-center-center w-fill pb-10">
-                    <img src="assets/image/hinh.jpg" alt="" style="height: 100px; width: 100px;"
+                <div class="border-bottom layout-horizontal align-center-center w-fill pb-10"
+                    *ngFor="let item of cart?.products">
+                    <img [src]="item.images[0].image" alt="" style="height: 100px; width: 100px;"
                         class="ms-10 object-fit-cover rounded-4">
                     <div class="layout-vertical gap-20 w-fill p-10">
-                        <p class="text-primary text-body-strong">Quần short nam Choice HT15 chất cotton Basic thể thao
-                            phong cách Hàn Quốc</p>
+                        <div class="layout-horizontal gap-10">
+                            <p class="text-primary text-body-strong w-fill">{{item.name}}</p>
+                            <button type="button" class="button-subtle button-icon-only"
+                                (click)="removeToCart(item.id)">
+                                <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_filled"></i>
+                            </button>
+                        </div>
                         <div class="layout-horizontal align-center-space-between">
-                            <p class="text-primary text-body w-fill">{{ 5000000 | currencyVND }}</p>
+                            <div class="layout-vertical">
+                                <p class="text-primary text-caption w-fill">{{
+                                    item.price-((item.price*item.discount)/100) | currencyVND }}</p>
+                                <p class="text-primary text-body-strong w-fill">{{
+                                    (item.price-((item.price*item.discount)/100))*item.pivot.quantity | currencyVND }}
+                                </p>
+                            </div>
                             <div class="control number-control">
-                                <input type="number" [value]="0" min="1" max="100" step="1">
-                                <button type="button" class="input-button increase-number-button">
+                                <input type="number" [(ngModel)]="item.pivot.quantity" min="1" step="1">
+                                <button type="button" class="input-button increase-number-button"
+                                    (click)="addQuantity(item.id)">
                                     <i class="icon-size-16 icon icon-ic_fluent_chevron_up_16_regular"></i>
                                 </button>
-                                <button type="button" class="input-button decrease-number-button">
+                                <button type="button" class="input-button decrease-number-button"
+                                    (click)="reduceQuantity(item.id)">
                                     <i class="icon-size-16 icon icon-ic_fluent_chevron_down_16_regular"></i>
                                 </button>
                             </div>
@@ -179,11 +198,14 @@
 
             </div>
 
-            <div class="p-10 layout-horizontal align-center-space-between gap-20 border-top">
-                <p class="text-primary text-body-strong">Tổng tiền: <span class="text-body">{{1000000 |
+            <div class="p-10 layout-horizontal align-center-space-between gap-10 border-top">
+                <p class="text-primary text-body-strong">Tổng tiền: <span class="text-body">{{cart?.total |
                         currencyVND}}</span></p>
-                <button type="button" class="button-accent button-text-only" (click)="paymentVnpay()">Thanh toán VnPay</button>
-                <button type="button" class="button-accent button-text-only" (click)="paymentZalopay()">Thanh toán ZaloPay</button>
+                <!-- <button type="button" class="button-accent button-text-only" (click)="paymentVnpay()">Thanh toán
+                    VnPay</button>
+                <button type="button" class="button-accent button-text-only" (click)="paymentZalopay()">Thanh toán
+                    ZaloPay</button> -->
+                <button type="button" class="button-accent button-text-only">Thanh toán</button>
             </div>
         </div>
     </div>

@@ -3,7 +3,7 @@ import { NavigationEnd, Router, RouterModule, RouterOutlet } from '@angular/rout
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../service/auth.service';
-import { filter } from 'rxjs';
+import { debounceTime, filter, Subject } from 'rxjs';
 import { EventService } from '../service/event.service';
 import { ChatService } from '../service/chat.service';
 import { MiniChatComponent } from '../mini-chat/mini-chat.component';
@@ -27,6 +27,7 @@ export class HeaderComponent implements OnInit {
   conversation: any[] = [];
   notification: any;
   cart: any;
+  addQuantitySubject = new Subject<{ product_id: number, quantity: number }>();
 
   constructor(
     private router: Router,
@@ -83,13 +84,57 @@ export class HeaderComponent implements OnInit {
 
       });
 
+    this.shopService.cart$.subscribe(cart => {
+      this.cart = cart;
+    });
+
     this.shopService.getCart().subscribe(
       (data) => {
         console.log(data);
-        
         this.cart = data.data;
       });
+
+    this.addQuantitySubject.pipe(debounceTime(1000)).subscribe(({ product_id, quantity }) => {
+      this.shopService.updateProductToCart({ product_id, quantity }).subscribe(
+        (response) => {
+          console.log(response);
+        });
+    });
   }
+
+  removeToCart(product_id: number) {
+    this.shopService.removeProductToCart({ 'product_id': product_id }).subscribe(
+      (data) => {
+        console.log(data);
+        this.cart.products = this.cart.products.filter((item: any) => item.id !== product_id);
+      });
+  }
+
+  addQuantity(product_id: number) {
+    const product = this.cart.products.find((item: any) => item.id == product_id);
+    product.pivot.quantity++;
+
+    this.addQuantitySubject.next({ product_id: product_id, quantity: product.pivot.quantity });
+    this.getTotal();
+  }
+
+  reduceQuantity(product_id: number) {
+    const product = this.cart.products.find((item: any) => item.id == product_id);
+    if (product.pivot.quantity > 1) {
+      product.pivot.quantity--;
+
+      this.addQuantitySubject.next({ product_id: product_id, quantity: product.pivot.quantity });
+      this.getTotal();
+    }
+  }
+
+  getTotal() {
+    this.cart.total = this.cart.products.reduce((sum: any, item: any) => {
+      const totalPrice = (item.price - (item.price * parseFloat(item.discount)) / 100) * item.pivot.quantity;
+      return sum + totalPrice;
+    }, 0);
+  }
+
 
   updateNotification(notification_id: number) {
     this.notificationService.updateNotification(notification_id).subscribe(
