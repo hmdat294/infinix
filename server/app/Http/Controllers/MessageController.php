@@ -14,6 +14,7 @@ use App\Models\Notification;
 use App\Models\User;
 use App\Events\NotificationEvent;
 use App\Models\DeletedMessage as DeletedMessageModel;
+use Illuminate\Support\Facades\Log;
 
 class MessageController extends Controller
 {
@@ -91,6 +92,7 @@ class MessageController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        Log::info($request->all());
 
         $message = MessageModel::find($id);
 
@@ -124,10 +126,11 @@ class MessageController extends Controller
         }
         if ($request->has("urls")) {
             foreach ($request->urls as $url) {
+                $data = json_decode($url, true);
                 $message->medias()->create([
                     'message_id' => $message->id,
-                    'type' => $request->type,
-                    'path' =>  $url
+                    'type' => $data['type'],
+                    'path' => $data['path']
                 ]);
             }
         }

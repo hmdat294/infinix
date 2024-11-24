@@ -307,8 +307,15 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
       if (this.selectedFilesUpdatePost.length > 0)
         this.selectedFilesUpdatePost.forEach(image => formData.append('medias[]', image, image.name));
 
-      if (urlImg.length > 0)
-        urlImg.forEach(imagePath => formData.append('urls[]', imagePath.path));
+      if (urlImg.length > 0) {
+        urlImg.forEach(imagePath => {
+          const data = {
+            path: imagePath.path,
+            type: imagePath.type
+          };
+          formData.append('urls[]', JSON.stringify(data));
+        });
+      }
 
       this.postService.updatePost(this.postUpdateId, formData).subscribe(
         (response) => {

@@ -187,10 +187,11 @@ class PostController extends Controller
             ]);
             
             foreach ($request->urls as $url) {
+                $data = json_decode($url, true);
                 PostMediaModel::create([
                     'post_id' => $post->id,
-                    'path' => $url,
-                    'type' => 'url',
+                    'type' => $data['type'],
+                    'path' => $data['path']
                 ]);
             }
         }

@@ -73,7 +73,7 @@ export class ChatService {
 
   recallMessage(id: number, value: any): Observable<any> {
     const headers = this.authService.getToken();
-    return this.http.patch(`${this.apiUrl}/message/${id}`, value, { headers });
+    return this.http.post(`${this.apiUrl}/update-message/${id}`, value, { headers });
   }
 
   createGroup(value: any): Observable<any> {

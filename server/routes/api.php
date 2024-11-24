@@ -181,6 +181,7 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
     ->parameters(['chat-group-invititaion' => 'id']);
 
     // API cho tin nhắn
+    Route::post('update-message/{id}', [MessageController::class, 'update']);
     Route::resource('message', MessageController::class)
     ->only(['store', 'show', 'update', 'destroy'])
     ->parameters(['message' => 'id']);

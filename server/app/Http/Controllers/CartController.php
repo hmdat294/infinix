@@ -52,7 +52,6 @@ class CartController extends Controller
             $quantity += $cart->products->find($product_id)->pivot->quantity;
         }
 
-
         $cart->products()->attach($product, [
             'quantity' => $quantity
         ]);

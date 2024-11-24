@@ -35,8 +35,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   selectedFiles: File[] = [];
   previewUrls: any[] = [];
 
-  is_edit_message: boolean = false;
-  id_message: number = 0;
+  id_edit_message: number = 0;
 
   isScrollingToElement: boolean = false;
   isVisible = false;
@@ -149,6 +148,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
               if (this.conversation.id == data.data.conversation_id) {
                 const mess = this.conversation.messages.find((item: any) => item.id === data.data.id);
                 mess.content = data.data.content;
+                mess.medias = data.data.medias;
                 mess.is_edited = data.data.is_edited;
               }
             });
@@ -307,15 +307,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     return this.conversation.messages[i + 1].user_id !== id;
   }
 
-  resizeTextarea(event: any): void {
-    const textarea = event.target;
-    if (!textarea.value) {
-      textarea.style.height = '32px'; // Chiều cao mặc định khi không có nội dung
-    } else if (textarea.scrollHeight < 110) {
-      textarea.style.height = 'fit-content';
-      textarea.style.height = textarea.scrollHeight + 'px';
-    }
-  }
+
 
   MessageUser(conversation: any) {
 
@@ -346,7 +338,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   }
 
   sendMessage(mess: any) {
-    if (!this.is_edit_message) {
+    if (this.id_edit_message == 0) {
 
       const formData = new FormData();
       formData.append('conversation_id', mess.id.toString());
@@ -374,16 +366,25 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
       );
     }
     else {
+      const urlImg = this.previewUrls.filter(url => url.path.startsWith("http"));
+
       const formData = new FormData();
       formData.append('content', mess.content);
 
-      if (this.selectedFiles.length > 0) {
-        this.selectedFiles.forEach(image => {
-          formData.append('medias[]', image, image.name);
+      if (this.selectedFiles.length > 0)
+        this.selectedFiles.forEach(image => formData.append('medias[]', image, image.name));
+
+      if (urlImg.length > 0) {
+        urlImg.forEach(imagePath => {
+          const data = {
+            path: imagePath.path,
+            type: imagePath.type
+          };
+          formData.append('urls[]', JSON.stringify(data));
         });
       }
 
-      this.chatService.recallMessage(this.id_message, formData).subscribe(
+      this.chatService.recallMessage(this.id_edit_message, formData).subscribe(
         (response) => {
           console.log(response);
           (document.querySelector('.textarea-chat') as HTMLTextAreaElement).style.height = '32px';
@@ -391,11 +392,71 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
           this.onCancelSendImg();
           this.onCancelReply();
           this.showEmojiPicker = false;
-          this.is_edit_message = false;
+          this.id_edit_message = 0;
         }
       );
     }
   }
+
+  editMessage(id: number) {
+    if (id > 0) {
+      const message = this.conversation.messages.find((item: any) => item.id === id);
+      console.log(message);
+      this.previewUrls = [...message.medias];
+      this.content = message.content;
+      this.id_edit_message = message.id;
+    }
+    else {
+      (document.querySelector('.textarea-chat') as HTMLTextAreaElement).style.height = '32px';
+      this.content = '';
+      this.onCancelSendImg();
+      this.onCancelReply();
+      this.showEmojiPicker = false;
+      this.id_edit_message = 0;
+    }
+  }
+
+
+  onFileSelected(event: any) {
+    const files: File[] = Array.from(event.target.files);
+    if (files && files.length > 0) {
+      files.forEach(file => {
+        const reader = new FileReader();
+
+        if (file.type.startsWith('image/')) {
+          // Xử lý ảnh
+          reader.onload = () => this.previewUrls.push({ type: 'image/webp', path: reader.result as string });
+          reader.readAsDataURL(file);
+        } else if (file.type.startsWith('video/')) {
+          // Xử lý video
+          const videoURL = URL.createObjectURL(file);
+          this.previewUrls.push({ type: 'video/mp4', path: videoURL });
+        }
+
+        // Lưu tệp vào danh sách đã chọn
+        this.selectedFiles.push(file);
+      });
+    }
+  }
+
+  onCancelSendImg() {
+    this.selectedFiles = [];
+    this.previewUrls = [];
+    this.resetFileInput();
+  }
+
+  removeImage(index: number): void {
+    this.previewUrls.splice(index, 1);
+    this.selectedFiles.splice(index, 1);
+  }
+
+  handleKeydown(event: KeyboardEvent, frm: any) {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      this.sendMessage(frm);
+    }
+  }
+
 
 
   vietnameseI18n: any = {
@@ -440,46 +501,6 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   resetFileInput() {
     if (this.fileInput) {
       this.fileInput.nativeElement.value = '';
-    }
-  }
-
-  onFileSelected(event: any) {
-    const files: File[] = Array.from(event.target.files);
-    if (files && files.length > 0) {
-      files.forEach(file => {
-        const reader = new FileReader();
-
-        if (file.type.startsWith('image/')) {
-          // Xử lý ảnh
-          reader.onload = () => this.previewUrls.push({ type: 'image/webp', path: reader.result as string });
-          reader.readAsDataURL(file);
-        } else if (file.type.startsWith('video/')) {
-          // Xử lý video
-          const videoURL = URL.createObjectURL(file);
-          this.previewUrls.push({ type: 'video/mp4', path: videoURL });
-        }
-
-        // Lưu tệp vào danh sách đã chọn
-        this.selectedFiles.push(file);
-      });
-    }
-  }
-
-  onCancelSendImg() {
-    this.selectedFiles = [];
-    this.previewUrls = [];
-    this.resetFileInput();
-  }
-
-  removeImage(index: number): void {
-    this.previewUrls.splice(index, 1);
-    this.selectedFiles.splice(index, 1);
-  }
-
-  handleKeydown(event: KeyboardEvent, frm: any) {
-    if (event.key === 'Enter' && !event.shiftKey) {
-      event.preventDefault();
-      this.sendMessage(frm);
     }
   }
 
@@ -529,15 +550,6 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     const reply = this.conversation.messages.find((data: any) => data.id == id);
     this.previewReply = reply;
     (document.querySelector('.textarea-chat') as HTMLTextAreaElement)?.focus();
-  }
-
-  editMessage(id: number) {
-    const message = this.conversation.messages.find((item: any) => item.id === id);
-    // console.log(message);
-    this.previewReply = message;
-    this.content = message.content;
-    this.is_edit_message = true;
-    this.id_message = message.id;
   }
 
   onCancelReply() {
@@ -754,5 +766,15 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
   setZoomMedia(media: any) {
     this.zoomMedia = media;
+  }
+
+  resizeTextarea(event: any): void {
+    const textarea = event.target;
+    if (!textarea.value) {
+      textarea.style.height = '32px'; // Chiều cao mặc định khi không có nội dung
+    } else if (textarea.scrollHeight < 110) {
+      textarea.style.height = 'fit-content';
+      textarea.style.height = textarea.scrollHeight + 'px';
+    }
   }
 }
