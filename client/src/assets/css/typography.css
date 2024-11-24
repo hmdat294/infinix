@@ -1,0 +1,63 @@
+.text-caption {
+    font-family: var(--font-family);
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 0%;
+    font-weight: 400;
+}
+
+.text-body {
+    font-family: var(--font-family);
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0%;
+    font-weight: 400;
+}
+
+.text-body-strong {
+    font-family: var(--font-family);
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0%;
+    font-weight: 600;
+}
+
+.text-body-large {
+    font-family: var(--font-family);
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    font-weight: 400;
+}
+
+.text-subtitle {
+    font-family: var(--font-family);
+    font-size: 20px;
+    line-height: 24px;
+    letter-spacing: 0%;
+    font-weight: 600;
+}
+
+.text-title {
+    font-family: var(--font-family);
+    font-size: 28px;
+    line-height: 36px;
+    letter-spacing: 0%;
+    font-weight: 600;
+}
+
+.text-title-large {
+    font-family: var(--font-family);
+    font-size: 40px;
+    line-height: 52px;
+    letter-spacing: 0%;
+    font-weight: 600;
+}
+
+.text-display {
+    font-family: var(--font-family);
+    font-size: 68px;
+    line-height: 92px;
+    letter-spacing: 0%;
+    font-weight: 600;
+}

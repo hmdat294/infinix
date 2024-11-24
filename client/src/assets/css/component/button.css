@@ -1,0 +1,154 @@
+.button-text-only {
+    min-width: 98px;
+    max-width: 100%;
+    width: fit-content;
+    height: 32px;
+    padding: 5px 12px 7px 12px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.button-icon-only {
+    min-width: 32px;
+    max-width: 100%;
+    width: fit-content;
+    height: 32px;
+    padding: 8px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.button-text-with-icon {
+    min-width: 98px;
+    max-width: 100%;
+    width: fit-content;
+    height: 32px;
+    padding: 5px 11px 7px 11px;
+    gap: 8px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.button-accent {
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--accent-default);
+    color: var(--text-on-accent-primary);
+    font-family: var(--font-family);
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0%;
+    font-weight: 400;
+    outline: none;
+    border: none;
+    box-shadow:
+        inset 0px -1px 0px var(--control-stroke-on-accent-secondary),
+        inset 0px 1px 0px var(--control-stroke-on-accent-default),
+        inset -1px 0px 0px var(--control-stroke-on-accent-default),
+        inset 1px 0px 0px var(--control-stroke-on-accent-default);
+}
+
+.button-accent:hover {
+    background-color: var(--accent-secondary);
+}
+
+.button-accent:active {
+    background-color: var(--accent-tertiary);
+    color: var(--text-on-accent-secondary);
+    border: none;
+    box-shadow:
+        inset 0px -1px 0px var(--control-stroke-on-accent-default),
+        inset 0px 1px 0px var(--control-stroke-on-accent-default),
+        inset -1px 0px 0px var(--control-stroke-on-accent-default),
+        inset 1px 0px 0px var(--control-stroke-on-accent-default);
+}
+
+
+.button-accent:disabled {
+    background-color: var(--accent-disabled);
+    border: none;
+    box-shadow: none;
+    color: var(--text-on-accent-disabled);
+}
+
+
+/* 
+    Standard Button
+*/
+
+.button-standard {
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--control-default);
+    color: var(--text-primary);
+    font-family: var(--font-family);
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0%;
+    font-weight: 400;
+    outline: none;
+    border: none;
+    box-shadow:
+        inset 0px -1px 0px var(--control-stroke-secondary),
+        inset 0px 1px 0px var(--control-stroke-default),
+        inset -1px 0px 0px var(--control-stroke-default),
+        inset 1px 0px 0px var(--control-stroke-default);
+}
+
+.button-standard:hover {
+    background-color: var(--control-secondary);
+}
+
+.button-standard:active {
+    background-color: var(--control-tertiary);
+    color: var(--text-secondary);
+    border: none;
+    box-shadow:
+        inset 0px -1px 0px var(--control-stroke-default),
+        inset 0px 1px 0px var(--control-stroke-default),
+        inset -1px 0px 0px var(--control-stroke-default),
+        inset 1px 0px 0px var(--control-stroke-default);
+}
+
+.button-standard:disabled {
+    background-color: var(--control-disabled);
+    color: var(--text-disabled);
+    border: none;
+    box-shadow:
+        inset 0px -1px 0px var(--control-stroke-default),
+        inset 0px 1px 0px var(--control-stroke-default),
+        inset -1px 0px 0px var(--control-stroke-default),
+        inset 1px 0px 0px var(--control-stroke-default);
+}
+
+.button-subtle {
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--subtle-transparent);
+    color: var(--text-primary);
+    font-family: var(--font-family);
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0%;
+    font-weight: 400;
+    outline: none;
+    border: none;
+}
+
+.button-subtle:hover {
+    background-color: var(--subtle-secondary);
+    box-shadow: inset 0px 0px 1px var(--subtle-secondary);
+}
+
+.button-subtle:active {
+    background-color: var(--subtle-tertiary);
+    color: var(--text-secondary);
+    box-shadow: inset 0px 0px 1px var(--subtle-tertiary);
+}
+
