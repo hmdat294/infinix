@@ -1,0 +1,109 @@
+<div class="layout-vertical card-background-default border border-card-default rounded-8"
+    style="height: calc(100vh - 85px);">
+
+    <div class="layout-horizontal align-center-space-between px-20 py-15">
+        <p class="text-primary text-subtitle">Tất cả sản phẩm</p>
+
+        <select name="" id="" class="control text-primary">
+            <option value="">Tất cả</option>
+            <option value="">Tất cả</option>
+            <option value="">Tất cả</option>
+        </select>
+    </div>
+
+    <div class="layout-vertical gap-20 p-20 border-top border-card-default w-fill overflow-scroll-vertical">
+
+        <div class="text-body text-primary text-center w-fill">
+            <div class="layout-horizontal">
+                <div style="width: 50px;">Mã đơn</div>
+                <div class="w-fill-column-2">Hình ảnh</div>
+                <div class="w-fill-column-2">Tên</div>
+                <div class="w-fill-column-2">Số lượng</div>
+                <div class="w-fill-column-2">Tổng tiền</div>
+                <div class="w-fill-column-2">Trạng thái</div>
+
+                <!-- danh sách sản phẩm -->
+                <!-- hủy đơn, ghi chú, ngày đặt hàng, phương thức thanh toán, username, sđt, email, địa chỉ -->
+            </div>
+            <div class="layout-vertical border-top border-card-default">
+                <div class="w-fill layout-horizontal">
+                    <div style="width: 50px;">I123</div>
+                    <div class="w-fill-column-2">
+                        <img class="object-fit-cover rounded-4" src="assets/image/hinh.jpg" height="70px" width="50px"
+                            alt="">
+                    </div>
+                    <div class="w-fill-column-2">Gấu bông hình con gấu</div>
+                    <div class="w-fill-column-2">2</div>
+                    <div class="w-fill-column-2">{{1000000 | currencyVND}}</div>
+                    <div class="w-fill-column-2">Đã đặt hàng</div>
+                </div>
+                <div class="w-fill layout-horizontal gap-20">
+                    <table class="w-fill-column-6 border-top border-card-default">
+                        <tr>
+                            <th>Hình ảnh</th>
+                            <th>Tên</th>
+                            <th>Giá</th>
+                            <th>Số lượng</th>
+                            <th>Tổng tiền</th>
+                        </tr>
+                        <tr>
+                            <td><img class="object-fit-cover rounded-4" src="assets/image/hinh.jpg" height="50px"
+                                    width="50px" alt=""></td>
+                            <td>Gấu bông hình con gấu</td>
+                            <td>{{100000 | currencyVND}}</td>
+                            <td>2</td>
+                            <td>{{200000 | currencyVND}}</td>
+                        </tr>
+                        <tr>
+                            <td><img class="object-fit-cover rounded-4" src="assets/image/hinh.jpg" height="50px"
+                                    width="50px" alt=""></td>
+                            <td>Gấu bông hình con gấu</td>
+                            <td>{{100000 | currencyVND}}</td>
+                            <td>2</td>
+                            <td>{{200000 | currencyVND}}</td>
+                        </tr>
+                    </table>
+                    <div class="w-fill-column-6 layout-vertical">
+                        <table class="w-fill mb-20">
+                            <tr>
+                                <th>Họ và tên</th>
+                                <td>Minh Đạt</td>
+                            </tr>
+                            <tr>
+                                <th>Số điện thoại</th>
+                                <td>0123456789</td>
+                            </tr>
+                            <tr>
+                                <th>Email</th>
+                                <td>user.gmail.com</td>
+                            </tr>
+                            <tr>
+                                <th>Địa chỉ</th>
+                                <td>Q12/HCM</td>
+                            </tr>
+                            <tr>
+                                <th>Ngày đặt hàng</th>
+                                <td>25/11/2024</td>
+                            </tr>
+                            <tr>
+                                <th>Phương thức thanh toán</th>
+                                <td>ZaloPay</td>
+                            </tr>
+                            <tr>
+                                <th>Ghi chú</th>
+                                <td>Không</td>
+                            </tr>
+                        </table>
+                        <div class="w-fill">
+                            <button type="button" class="button-standard button-text-only w-fill">
+                                Hủy đơn
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

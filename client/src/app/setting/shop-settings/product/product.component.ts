@@ -251,7 +251,7 @@ export class ProductComponent implements OnInit {
 
   discount_create(method: string) {
     if (method == 'add'  && this.discount_product < 100) this.discount_product++;
-    else if (method == 'reduce' && this.discount_product > 1) this.discount_product--;
+    else if (method == 'reduce' && this.discount_product > 0) this.discount_product--;
   }
   discount_update(method: string) {
     if (method == 'add'  && this.discount_product_update < 100) this.discount_product_update++;

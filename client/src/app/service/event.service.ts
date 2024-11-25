@@ -100,7 +100,7 @@ export class EventService implements OnDestroy {
 
 
   private idleTimeout: any;
-  private idleTimeLimit = 15 * 60 * 1000; // 15 phút
+  private idleTimeLimit = 60 * 60 * 1000; // 60 phút
   private isIdle = false;
   private idleState = new Subject<boolean>();
 
@@ -131,11 +131,11 @@ export class EventService implements OnDestroy {
 
   private onUserEnter() {
     // console.log("Người dùng đã truy cập vào trang lần đầu.");
-    this.updateOnlineStatus('online').subscribe(
-      (response) => {
+    // this.updateOnlineStatus('online').subscribe(
+    //   (response) => {
         // console.log(response);
-      }
-    )
+    //   }
+    // )
   }
 
   private onIdleTimeout() {

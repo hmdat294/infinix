@@ -349,8 +349,8 @@
 
                                                                 <a *ngIf="msg.link" [routerLink]="[ msg.link ]"
                                                                     style="white-space: pre-line;"
-                                                                    class="display-block text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
-                                                                    {{ msg.content }}
+                                                                    class="display-block text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}"
+                                                                    [innerHTML]="msg.content">
                                                                 </a>
                                                                 <p *ngIf="!msg.link" style="white-space: pre-line;"
                                                                     class="display-block text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
@@ -461,8 +461,8 @@
 
                                                                 <a *ngIf="msg.link" [routerLink]="[ msg.link ]"
                                                                     style="white-space: pre-line;"
-                                                                    class="display-block text-wrap card-background-default text-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
-                                                                    {{ msg.content }}
+                                                                    class="display-block text-wrap card-background-default text-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}"
+                                                                    [innerHTML]="msg.content">
                                                                 </a>
                                                                 <p *ngIf="!msg.link" style="white-space: pre-line;"
                                                                     class="display-block text-wrap card-background-default text-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
@@ -643,8 +643,8 @@
                                                     <div>
                                                         <a *ngIf="msg.link" [routerLink]="[ msg.link ]"
                                                             style="white-space: pre-line;"
-                                                            class="display-block text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10 rounded-6">
-                                                            {{ msg.content }}
+                                                            class="display-block text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10 rounded-6"
+                                                            [innerHTML]="msg.content">
                                                         </a>
                                                         <p *ngIf="!msg.link" style="white-space: pre-line;"
                                                             class="display-block text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10 rounded-6">
@@ -792,8 +792,8 @@
                                                     <div>
                                                         <a *ngIf="msg.link" [routerLink]="[ msg.link ]"
                                                             style="white-space: pre-line;"
-                                                            class="display-block text-wrap card-background-default text-primary border border-card-default px-15 py-10 rounded-6">
-                                                            {{ msg.content }}
+                                                            class="display-block text-wrap card-background-default text-primary border border-card-default px-15 py-10 rounded-6"
+                                                            [innerHTML]="msg.content">
                                                         </a>
                                                         <p *ngIf="!msg.link" style="white-space: pre-line;"
                                                             class="display-block text-wrap card-background-default text-primary border border-card-default px-15 py-10 rounded-6">

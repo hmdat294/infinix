@@ -50,13 +50,13 @@ class MessageController extends Controller
                 ]);
             }
         }
-        //  else if ($request->has("medias")) {
-        //     $message->medias()->create([
-        //         'message_id' => $message->id,
-        //         'type' => $request->type,
-        //         'path' =>  $request->medias
-        //     ]);
-        // }
+         else if ($request->has("medias")) {
+            $message->medias()->create([
+                'message_id' => $message->id,
+                'type' => $request->type,
+                'path' =>  $request->medias
+            ]);
+        }
 
         event(new UserSendMessageEvent($request->user()->id, $message->id, $message->content));
         $this->sendNotification($request->user()->id, $request->conversation_id, 'send');

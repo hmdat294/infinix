@@ -318,7 +318,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     )
 
     this.conversation = conversation;
-    // console.log(this.conversation);
+    console.log(this.conversation);
 
     this.isScrollingToElement = false;
     (document.querySelector('.textarea-chat') as HTMLTextAreaElement)?.focus();

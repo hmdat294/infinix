@@ -165,7 +165,7 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   }
 
   showFriendSuggestions(i: number): number {
-    return (i >= 0) ? 0 : this.listPost.length - 1;
+    return (i >= 2) ? 2 : this.listPost.length - 1;
   }
 
   addFriend(receiver_id: number): void {
