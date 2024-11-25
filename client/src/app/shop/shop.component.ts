@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
 })
 export class ShopComponent implements OnInit {
 
-  tab_shop: string = 'tab_product';
+  tab_shop: string = 'tab_order';
 
   constructor() {
 
