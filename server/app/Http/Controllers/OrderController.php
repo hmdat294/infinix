@@ -26,32 +26,12 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        // $order_data = $request->only(['total', 'payment_method', 'payment_status', 'address', 'phone_number', 'fullname', 'email', 'note']);
-        // $order_data['user_id'] = $request->user()->id;
-
-        // $order = Order::create($order_data);
-
-        // $products = $request->products;
-
-        // $products->each(function ($product) use ($order) {
-        //     $product_id = $product['id'];
-        //     $product_price = $product['price'];
-        //     $product_quantity = $product['quantity'];
-
-        //     $order->products()->syncWithoutDetaching([
-        //         $product_id => [
-        //             'quantity' => $product_quantity,
-        //             'price' => $product_price
-        //         ]
-        //     ]);
-        // });
 
         $order_group_data = $request->only(['payment_method', 'payment_status', 'address', 'phone_number', 'fullname']);
         $order_group_data['user_id'] = $request->user()->id;
 
         $order_group = OrderGroup::create($order_group_data);
 
-        // lấy danh sách các sản phẩm, và gom nhóm theo shop_id sau đó tạo các order tương ứng
         $products = $request->input('products');
         $grouped_products = collect($products)->groupBy('shop_id');
 
@@ -84,5 +64,14 @@ class OrderController extends Controller
         });
 
         return new OrderGroupResource($order_group);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $order = Order::findOrFail($id);
+
+        $order->update($request->only(['status']));
+
+        return new OrderResource($order);
     }
 }
