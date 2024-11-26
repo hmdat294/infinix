@@ -18,7 +18,7 @@ import { SettingService } from '../service/setting.service';
 })
 export class SettingComponent implements OnInit {
 
-  tabSetting: string = 'account-settings';
+  tabSetting: string = 'general-settings';
   profile_photo: string = '';
   display_name: string = '';
 

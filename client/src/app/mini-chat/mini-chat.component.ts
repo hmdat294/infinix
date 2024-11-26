@@ -234,7 +234,7 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
   }
 
   getPathImg(img: any) {
-    return img.path;
+    return { 'path': img.path, 'type': img.type };
   }
 
   copyMessage(message: string) {

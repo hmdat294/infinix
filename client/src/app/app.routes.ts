@@ -16,6 +16,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { BookmarkComponent } from './bookmark/bookmark.component';
 import { ShopComponent } from './shop/shop.component';
 import { ReportComponent } from './admin/report/report.component';
+import { StoreComponent } from './store/store.component';
 
 export const routes: Routes = [
     { path: '', component: MainHomeComponent, canActivate: [AuthGuard] },
@@ -29,7 +30,8 @@ export const routes: Routes = [
     { path: 'friend-profile/:user_id/:post_id', component: FriendProfileComponent, canActivate: [AuthGuard] },
     { path: 'bookmark', component: BookmarkComponent, canActivate: [AuthGuard] },
 
-    { path: 'shop', component: ShopComponent, canActivate: [AuthGuard] },
+    { path: 'shop/:shop_id', component: ShopComponent, canActivate: [AuthGuard] },
+    { path: 'store', component: StoreComponent, canActivate: [AuthGuard] },
 
     { path: 'login', component: LoginComponent, canActivate: [AuthGuard] },
     { path: 'register', component: RegisterComponent, canActivate: [AuthGuard] },

@@ -1,102 +1,40 @@
 import { ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { CurrencyVNDPipe } from '../currency-vnd.pipe';
+import { CurrencyVNDPipe } from '../../currency-vnd.pipe';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { SettingService } from '../service/setting.service';
-import { CarouselService } from '../service/carousel.service';
-import { ShopService } from '../service/shop.service';
-import { ActivatedRoute, RouterModule } from '@angular/router';
-import { ChatService } from '../service/chat.service';
+import { SettingService } from '../../service/setting.service';
+import { CarouselService } from '../../service/carousel.service';
+import { ShopService } from '../../service/shop.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-shop',
+  selector: 'app-store-product',
   standalone: true,
   imports: [CommonModule, FormsModule, CurrencyVNDPipe, RouterModule],
-  templateUrl: './shop.component.html',
-  styleUrl: './shop.component.css'
+  templateUrl: './store-product.component.html',
+  styleUrl: './store-product.component.css'
 })
-export class ShopComponent implements OnInit {
+export class StoreProductComponent implements OnInit {
 
   listProduct: any = [];
-  originalProducts: any[] = [];
   productDetail_id: number = 0;
   quantity: number = 1;
   content_feedback: string = '';
-  tab_shop: string = 'tab_all';
-  shop: any;
-  sort_by_id: number = 0;
-  conversation: any[] = [];
 
   constructor(
     private cdr: ChangeDetectorRef,
     private settingService: SettingService,
     private carouselService: CarouselService,
     private shopService: ShopService,
-    private chatService: ChatService,
-    private route: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-
-      this.shopService.getShop(params['shop_id']).subscribe(
-        (res: any) => {
-          this.shop = res.data;
-          console.log(this.shop);
-
-        })
-
-      this.shopService.getListProductByShop(params['shop_id']).subscribe(
-        (response) => {
-          this.listProduct = response.data;
-          console.log(this.listProduct);
-
-          this.originalProducts = [...this.listProduct];
-        });
-
-    });
-
-    this.chatService.conversation$.subscribe(conversation => {
-      // console.log('Updated conversation from localStorage:', conversation);
-      this.conversation = conversation;
-    });
-
-  }
-
-  sortProduct() {
-    if (this.sort_by_id > 0) {
-      this.listProduct = this.originalProducts.filter(
-        (product: any) => product.category_id == this.sort_by_id
-      );
-    } else this.listProduct = [...this.originalProducts];
-  }
-
-
-  createChat(receiver_id: number) {
-    this.chatService.getMessageUser(receiver_id).subscribe(
-      (response: any) => {
-        // console.log(response);
-
-        if (this.conversation.includes(response.data.id)) {
-          this.conversation = this.conversation.filter(id => id !== response.data.id);
-        }
-
-        if (this.conversation.length >= 5) {
-          this.conversation.shift();
-        }
-
-        this.conversation.push(response.data.id);
-
-        this.chatService.updateConversation(this.conversation);
-        this.chatService.tagOpenBoxChat = true;
+    this.shopService.getListProduct().subscribe(
+      (response) => {
+        this.listProduct = response.data;
+        // console.log(this.listProduct);
       });
   }
-
-
-
-
-
-
 
 
   @ViewChildren('carouselInner') carouselInners!: QueryList<ElementRef<HTMLDivElement>>;
@@ -139,7 +77,7 @@ export class ShopComponent implements OnInit {
 
   addToCart(product_id: number) {
     console.log({ 'product_id': product_id, 'quantity': this.quantity });
-
+    
     this.shopService.addProductToCart({ 'product_id': product_id, 'quantity': this.quantity }).subscribe(
       (response) => {
         console.log(response);
@@ -159,9 +97,5 @@ export class ShopComponent implements OnInit {
       textarea.style.height = 'fit-content';
       textarea.style.height = textarea.scrollHeight + 'px';
     }
-  }
-
-  tabShop(tab: string) {
-    this.tab_shop = this.tab_shop === tab ? '' : tab;
   }
 }

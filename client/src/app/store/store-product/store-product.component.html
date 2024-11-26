@@ -1,65 +1,19 @@
-<div class="w-fill layout-vertical rounded-8 border border-card-default card-background-default">
+<div class="layout-vertical card-background-default border border-card-default rounded-8"
+    style="height: calc(100vh - 85px);">
 
-    <div class="w-fill layout-horizontal align-center-space-between px-20 py-10">
-        <p class="text-secondary text-body-strong">Lời mời kết bạn</p>
-    </div>
-    <div class="layout-horizontal gap-15 px-20 py-10 border-top border-card-default align-center-center"
-        *ngFor="let request of userRequest">
-        <a [routerLink]="['/friend-profile', request.sender.profile.user_id]"
-            class="layout-horizontal align-center-center gap-15 w-fill">
-            <img [src]="request.sender.profile.profile_photo" class="rounded-circle border border-card-default" alt=""
-                style="width: 35px; height: 35px;">
-            <p class="text-secondary text-body-strong w-fill">{{request.sender.profile.display_name}}</p>
-        </a>
+    <div class="layout-horizontal align-center-space-between px-20 py-15">
+        <p class="text-primary text-subtitle">Cửa hàng</p>
 
-        <button type="button" class="button-subtle button-icon-only" (click)="acceptRequest(request.id, 'rejected')">
-            <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_filled"></i>
-        </button>
-
-        <button type="button" class="button-subtle button-icon-only" (click)="acceptRequest(request.id, 'accepted')">
-            <i class="icon-size-16 icon icon-ic_fluent_checkmark_16_filled"></i>
-        </button>
+        <select name="" id="" class="control text-primary">
+            <option value="">Tất cả</option>
+            <option value="">Tất cả</option>
+            <option value="">Tất cả</option>
+        </select>
     </div>
 
-</div>
-<div class="w-fill layout-vertical rounded-8 border border-card-default card-background-default">
+    <div class="layout-wrap gap-20 p-20 border-top border-card-default w-fill overflow-scroll-vertical">
 
-    <div class="w-fill layout-horizontal align-center-space-between px-20 py-10">
-        <p class="text-secondary text-body-strong">Lời mời vào nhóm</p>
-    </div>
-    <div class="layout-horizontal gap-15 px-20 py-10 border-top border-card-default align-center-center"
-        *ngFor="let request of groupRequest">
-        <div class="layout-horizontal align-center-left gap-15 w-fill">
-            <img [src]="request.sender.profile.profile_photo" class="rounded-circle border border-card-default" alt=""
-                style="width: 35px; height: 35px;">
-            <div class="layout-vertical">
-                <p class="text-secondary text-body-strong w-fill">{{request.conversation.name}}</p>
-                <p class="text-secondary text-body w-fill">{{request.sender.profile.display_name}}</p>
-            </div>
-        </div>
-
-        <button type="button" class="button-subtle button-icon-only"
-            (click)="acceptGroupRequest(request.id, 'rejected')">
-            <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_filled"></i>
-        </button>
-
-        <button type="button" class="button-subtle button-icon-only"
-            (click)="acceptGroupRequest(request.id, 'accepted')">
-            <i class="icon-size-16 icon icon-ic_fluent_checkmark_16_filled"></i>
-        </button>
-    </div>
-
-</div>
-
-
-<div class="w-fill layout-vertical p-20 gap-10 rounded-8 border border-card-default card-background-default">
-    <div class="w-fill layout-horizontal align-center-space-between">
-        <p class="text-secondary text-body-strong">Cửa hàng</p>
-        <a [routerLink]="['/store']" class="link">Xem thêm</a>
-    </div>
-    <div class="layout-wrap gap-20 pt-10 border-top border-card-default w-fill">
-
-        <div class="border rounded-4 layout-vertical w-fill-column-6 overflow-hidden card-background-default"
+        <div class="border rounded-4 layout-vertical w-fill-column-4 overflow-hidden card-background-default"
             *ngFor="let product of listProduct">
             <div class="position-absolute top-0 w-fill text-right" style="z-index: 5;">
                 <span *ngIf="product.discount>0" class="text-caption p-5"
@@ -170,10 +124,12 @@
                                         <p class="text-primary text-caption">Đánh giá 0</p>|
                                         <p class="text-primary text-caption">Đã bán 0</p>
                                     </div>
-                                    <p class="text-primary text-caption">{{product.stock}} sản phẩm có sẵn</p>
+                                    <p class="text-primary text-caption">{{product.stock}} sản phẩm có sẵn
+                                    </p>
 
                                     <div class="layout-horizontal gap-20">
-                                        <p class="text-primary text-caption"><del>{{product.price | currencyVND}}</del>
+                                        <p class="text-primary text-caption"><del>{{product.price |
+                                                currencyVND}}</del>
                                         </p>
                                         <p class="text-primary text-caption"><u>Giảm {{product.discount |
                                                 number:'1.0-0'}}%</u>
@@ -181,10 +137,12 @@
                                     </div>
 
                                     <p class="text-subtitle" style="color: #C42B1C;">{{
-                                        product.price-((product.price*product.discount)/100) | currencyVND }}</p>
+                                        product.price-((product.price*product.discount)/100) | currencyVND
+                                        }}</p>
 
                                     <div class="layout-horizontal align-center-space-between">
-                                        <label for="quantity" class="text-primary text-body">Số lượng</label>
+                                        <label for="quantity" class="text-primary text-body">Số
+                                            lượng</label>
                                         <div class="control number-control">
                                             <input id="quantity" type="number" [(ngModel)]="quantity" min="1" step="1">
                                             <button type="button" class="input-button increase-number-button"
@@ -213,12 +171,14 @@
                                     </div>
 
                                     <div class="layout-horizontal align-center-space-between gap-20 my-10">
-                                        <img [src]="product.shop_logo" style="width: 35px; height: 35px;" class="rounded-circle" alt="">
+                                        <img [src]="product.shop_logo" style="width: 35px; height: 35px;"
+                                            class="rounded-circle" alt="">
                                         <div class="w-fill">
                                             <p class="text-primary text-body-strong">{{product.shop_name}}</p>
                                             <p class="text-primary text-body">{{product.shop_description}}</p>
                                         </div>
-                                        <a [routerLink]="['/shop', product.shop_id]" class="button-accent button-text-only">
+                                        <a [routerLink]="['/shop', product.shop_id]"
+                                            class="button-accent button-text-only">
                                             Đến cửa hàng
                                         </a>
                                     </div>
@@ -277,9 +237,10 @@
                                                         <div
                                                             class="layout-vertical card-background-secondary border border-card-default rounded-8 p-10 gap-5 w-fill">
                                                             <!-- <div *ngIf="item.media">
-                                                                <img [src]="item.media" class="rounded-4 w-fill" alt="">
-                                                            </div> -->
-                                                            <p class="text-right text-body text-primary w-fill">hahaha
+                                                        <img [src]="item.media" class="rounded-4 w-fill" alt="">
+                                                    </div> -->
+                                                            <p class="text-right text-body text-primary w-fill">
+                                                                hahaha
                                                             </p>
                                                         </div>
                                                         <p class="text-caption text-secondary text-right">
@@ -305,9 +266,10 @@
                                                         <div
                                                             class="layout-vertical card-background-secondary border border-card-default rounded-8 p-10 gap-5 w-fill">
                                                             <!-- <div *ngIf="item.media">
-                                                                <img [src]="item.media" class="rounded-4 w-fill" alt="">
-                                                            </div> -->
-                                                            <p class="text-left text-body text-primary w-fill">huhuhu
+                                                        <img [src]="item.media" class="rounded-4 w-fill" alt="">
+                                                    </div> -->
+                                                            <p class="text-left text-body text-primary w-fill">
+                                                                huhuhu
                                                             </p>
                                                         </div>
                                                         <p class="text-caption text-secondary text-left">
@@ -324,6 +286,5 @@
                 </div>
             </div>
         </div>
-
-
     </div>
+</div>
