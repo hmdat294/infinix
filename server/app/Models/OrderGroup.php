@@ -5,23 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Order extends Model
+class OrderGroup extends Model
 {
     use HasFactory;
 
-    protected $table = 'orders';
+    protected $table = 'order_groups';
 
     protected $fillable = [
         'user_id',
-        'total',
-        'status',
         'payment_method',
         'payment_status',
+        'fullname',
         'address',
         'phone_number',
-        'fullname',
-        'email',
-        'note',
     ];
 
     public function user()
@@ -29,9 +25,13 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'order_details', 'order_id', 'product_id')
-            ->withPivot('quantity', 'price');
+        return $this->hasManyThrough(Product::class, Order::class);
     }
 }
