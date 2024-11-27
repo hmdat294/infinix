@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderGroup;
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
 
 
 class OrderController extends Controller
@@ -35,10 +36,20 @@ class OrderController extends Controller
         $products = $request->input('products');
         $grouped_products = collect($products)->groupBy('shop_id');
 
+        Log::info(  $grouped_products);
+
         $grouped_products->each(function ($products, $shop_id) use ($order_group, $request) {
+            
+            $total = 0;
+
+            $products->each(function ($product) use (&$total) {
+                $total += $product['price'] * $product['quantity'];
+            });
+
+
             $order_data = [
                 'user_id' => $request->user()->id,
-                'total' => $products->sum('price'),
+                'total' => $total,
                 'status' => 'pending',
                 'note' => $request->input('notes.' . $shop_id),
                 'shop_id' => $shop_id,
