@@ -13,15 +13,11 @@ class Order extends Model
 
     protected $fillable = [
         'user_id',
+        'shop_id',
+        'order_group_id',
         'total',
-        'status',
-        'payment_method',
-        'payment_status',
-        'address',
-        'phone_number',
-        'fullname',
-        'email',
         'note',
+        'status'
     ];
 
     public function user()
@@ -32,6 +28,6 @@ class Order extends Model
     public function products()
     {
         return $this->belongsToMany(Product::class, 'order_details', 'order_id', 'product_id')
-            ->withPivot('quantity', 'price', 'total');
+            ->withPivot('quantity', 'price');
     }
 }
