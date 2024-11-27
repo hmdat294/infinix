@@ -17,6 +17,7 @@ import { BookmarkComponent } from './bookmark/bookmark.component';
 import { ShopComponent } from './shop/shop.component';
 import { ReportComponent } from './admin/report/report.component';
 import { StoreComponent } from './store/store.component';
+import { CheckoutComponent } from './checkout/checkout.component';
 
 export const routes: Routes = [
     { path: '', component: MainHomeComponent, canActivate: [AuthGuard] },
@@ -32,6 +33,7 @@ export const routes: Routes = [
 
     { path: 'shop/:shop_id', component: ShopComponent, canActivate: [AuthGuard] },
     { path: 'store', component: StoreComponent, canActivate: [AuthGuard] },
+    { path: 'checkout', component: CheckoutComponent, canActivate: [AuthGuard] },
 
     { path: 'login', component: LoginComponent, canActivate: [AuthGuard] },
     { path: 'register', component: RegisterComponent, canActivate: [AuthGuard] },

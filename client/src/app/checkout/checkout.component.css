@@ -1,3 +1,7 @@
+section>article {
+    margin-top: 45px;
+}
+
 .table-product th,
 .table-product td {
     padding: 10px;

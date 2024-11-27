@@ -26,7 +26,8 @@
             </div>
             <div class="w-fill layout-vertical border-top border-card-default"
                 *ngFor="let order of orders; let i = index;">
-                <div class="w-fill gap-20 layout-horizontal align-center-center py-10 list-item"
+                <div class="w-fill gap-20 layout-horizontal align-center-center py-10 rounded-8"
+                    [class]="tabAccordion == 'order_detail_'+i?'card-background-default':'list-item'"
                     (click)="tabChild('order_detail_'+i)">
                     <div class="w-fill-column-1">I123</div>
                     <div class="w-fill-column-2">
@@ -37,27 +38,27 @@
                     <div class="w-fill-column-2">2</div>
                     <div class="w-fill-column-2">{{1000000 | currencyVND}}</div>
                 </div>
-                <div
-                    class="accordion-panel order_detail_{{i}} w-fill layout-horizontal gap-10">
+                <div class="accordion-panel order_detail_{{i}} w-fill layout-horizontal gap-10">
 
                     <div class="layout-vertical w-fill-column-8 mt-10 h-hug">
 
-                        <div class="layout-vertical border rounded-8 p-10 mb-10" *ngFor="let product of product_order"><!-- for -->
+                        <div class="layout-vertical border rounded-8 p-10 mb-10 card-background-default"
+                            *ngFor="let product of product_order"><!-- for -->
                             <div class="border rounded-6">
                                 <div class="layout-horizontal align-center-space-between p-10 border-bottom">
-                                    <p class="text-primary text-body-strong">Cửa hàng:</p>
-                                    <p class="text-primary text-body">Shop1</p>
+                                    <p class="text-body-strong">Cửa hàng:</p>
+                                    <p class="text-body">Shop1</p>
                                 </div>
                                 <div class="layout-horizontal align-center-space-between p-10 border-bottom">
-                                    <p class="text-primary text-body-strong">Trạng thái:</p>
+                                    <p class="text-body-strong">Trạng thái:</p>
                                     <p class="text-system-success text-body">Đã đặt hàng</p>
                                 </div>
                                 <div class="layout-horizontal align-center-space-between p-10">
-                                    <p class="text-primary text-body-strong">Ghi chú:</p>
-                                    <p class="text-primary text-body">Không</p>
+                                    <p class="text-body-strong">Ghi chú:</p>
+                                    <p class="text-body">Không</p>
                                 </div>
                             </div>
-                            <table class="h-hug">
+                            <table class="h-hug table-product">
                                 <tr class="h-hug text-body-strong">
                                     <td>Hình ảnh</td>
                                     <td>Tên</td>
@@ -77,30 +78,30 @@
                         </div>
 
                     </div>
-                    <div class="w-fill h-hug layout-vertical border rounded-8 my-10">
-                        <table class="w-fill text-left">
+                    <div class="w-fill h-hug layout-vertical border rounded-8 my-10 card-background-default">
+                        <table class="w-fill text-left table-info-bill">
                             <tr class="border-bottom">
-                                <th class="h-hug text-body-strong">Họ và tên</th>
+                                <th class="h-hug text-body-strong">Họ và tên:</th>
                                 <td>Minh Đạt</td>
                             </tr>
                             <tr class="border-bottom">
-                                <th class="h-hug text-body-strong">Số điện thoại</th>
+                                <th class="h-hug text-body-strong">Số điện thoại:</th>
                                 <td>0123456789</td>
                             </tr>
                             <tr class="border-bottom">
-                                <th class="h-hug text-body-strong">Email</th>
+                                <th class="h-hug text-body-strong">Email:</th>
                                 <td>user.gmail.com</td>
                             </tr>
                             <tr class="border-bottom">
-                                <th class="h-hug text-body-strong">Địa chỉ</th>
+                                <th class="h-hug text-body-strong">Địa chỉ:</th>
                                 <td>Q12/HCM</td>
                             </tr>
                             <tr class="border-bottom">
-                                <th class="h-hug text-body-strong">Ngày đặt hàng</th>
+                                <th class="h-hug text-body-strong">Ngày đặt hàng:</th>
                                 <td>25/11/2024</td>
                             </tr>
                             <tr class="border-bottom">
-                                <th class="h-hug text-body-strong">Phương thức thanh toán</th>
+                                <th class="h-hug text-body-strong">Phương thức thanh toán:</th>
                                 <td>ZaloPay</td>
                             </tr>
                         </table>
