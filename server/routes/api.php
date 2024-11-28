@@ -38,6 +38,9 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 
+use App\Http\Controllers\ZaloPayController;
+
+
 Route::middleware(['guest'])->group(function () {
 
     // Gửi mã xác thực email
@@ -53,9 +56,12 @@ Route::middleware(['guest'])->group(function () {
 
     Route::post('update-online-status', [UserController::class, 'updateOnlineStatus'])->name('update-online-status');
 
+    Route::post('/zalopay/create-order', [ZaloPayController::class, 'createOrder']);
+    Route::post('/zalopay/callback', [ZaloPayController::class, 'handleCallback']);
 });
 
 Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(function () {
+
 
     Route::get('shop/{shop_id}/products', [ProductController::class, 'byShop']);
     Route::get('category/{category_id}/products', [ProductController::class, 'byCategory']);
