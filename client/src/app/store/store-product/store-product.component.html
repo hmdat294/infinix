@@ -4,11 +4,17 @@
     <div class="layout-horizontal align-center-space-between px-20 py-15">
         <p class="text-primary text-subtitle">Cửa hàng</p>
 
-        <select name="" id="" class="control text-primary">
-            <option value="">Tất cả</option>
-            <option value="">Tất cả</option>
-            <option value="">Tất cả</option>
-        </select>
+        <div class="search-dropdown-control">
+            <div class="control search-control">
+                <input type="search" name="search" [(ngModel)]="keyword" (input)="searchProduct()" spellcheck="false" placeholder="Tìm kiếm sản phẩm">
+                <button type="button" class="input-button clear-content-button" (click)="keyword = ''">
+                    <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
+                </button>
+                <button type="button" class="input-button search-button" (click)="searchProduct()">
+                    <i class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
+                </button>
+            </div>
+        </div>
     </div>
 
     <div class="layout-wrap gap-20 p-20 border-top border-card-default w-fill overflow-scroll-vertical">

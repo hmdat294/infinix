@@ -188,6 +188,24 @@
         </div>
 
         <div class="layout-vertical w-fill gap-5">
+            <p class="text-body-strong text-primary">{{ 'setting.general_settings.language_title' | translate }}</p>
+
+            <div class="border border-card-default card-background-default rounded-6">
+                <div class="layout-horizontal gap-15 p-15 align-center-center">
+                    <i class="icon-size-20 icon text-primary icon-ic_fluent_translate_auto_20_regular"></i>
+                    <div class="layout-vertical w-fill">
+                        <p class="text-body text-primary">Chuyển đổi ngôn ngữ</p>
+                    </div>
+                    <select name="lang" [(ngModel)]="lang" (change)="switchLanguage()" class="control text-primary">
+                        <option class="gradient-background" value="vi">Tiếng việt</option>
+                        <option class="gradient-background" value="en">English</option>
+                    </select>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="layout-vertical w-fill gap-5">
             <p class="text-body-strong text-primary">Chặn và báo cáo</p>
 
             <div class="accordion active border border-card-default card-background-default rounded-6">
@@ -358,7 +376,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="layout-vertical gap-10">
-                                                    <p class="text-body text-primary text-justify" [innerHTML]="report.post.content"></p>
+                                                    <p class="text-body text-primary text-justify"
+                                                        [innerHTML]="report.post.content"></p>
                                                     <p class="text-body-strong text-primary">
                                                         {{report.post.profile.display_name}}</p>
                                                 </div>
@@ -502,8 +521,7 @@
                         <div class="p-15 layout-horizontal align-center-space-between"
                             *ngFor="let report of listCommentReport">
                             <div class="layout-horizontal align-center-center gap-15 w-fill">
-                                <a
-                                    class="w-fill">
+                                <a class="w-fill">
                                     <p class="text-secondary text-body-strong">
                                         {{report.comment.user.profile.display_name}}</p>
                                     <p class="text-secondary text-body">
@@ -559,7 +577,8 @@
                                         </div>
 
                                         <div class="layout-vertical gap-5">
-                                            <p class="text-body-strong text-primary" style="min-width: 100px;">Bình luận:
+                                            <p class="text-body-strong text-primary" style="min-width: 100px;">Bình
+                                                luận:
                                             </p>
                                             <div class="border rounded-6 px-15 py-10 layout-horizontal gap-10 w-fill">
                                                 <div class="layout-vertical gap-10">

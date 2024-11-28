@@ -11,11 +11,12 @@ import { NotificationService } from '../service/notification.service';
 import { CurrencyVNDPipe } from '../currency-vnd.pipe';
 import { PaymentService } from '../service/payment.service';
 import { ShopService } from '../service/shop.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterModule, CommonModule, FormsModule, MiniChatComponent, CurrencyVNDPipe],
+  imports: [RouterModule, CommonModule, FormsModule, MiniChatComponent, CurrencyVNDPipe, TranslateModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
@@ -25,9 +26,13 @@ export class HeaderComponent implements OnInit {
   keyword: string = '';
   currentRoute: string | undefined;
   conversation: any[] = [];
-  notification: any;
+  notification: any = [];
+  notificationFilter: any = [];
+  is_read_notification: string = 'all';
   cart: any;
   addQuantitySubject = new Subject<{ product_id: number, quantity: number }>();
+  productChecked: any = [];
+  groupedShops: any = [];
 
   constructor(
     private router: Router,
@@ -40,6 +45,7 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
     this.currentRoute = this.router.url.split('/')[1];
 
     this.router.events.pipe(
@@ -74,52 +80,95 @@ export class HeaderComponent implements OnInit {
     this.notificationService.getNotification().subscribe(
       (data) => {
 
-        // console.log(data);
         this.notification = data.data;
+        // console.log(this.notification);
+        this.notificationFilter = [...this.notification];
         this.eventService.bindEvent('App\\Events\\NotificationEvent', (data: any) => {
           // console.log('Notification event received:', data);
 
           this.notification.unshift(data.data);
+          this.notificationFilter = [...this.notification];
         });
 
+      });
+
+    this.shopService.getCart().subscribe(
+      (data) => {
+        this.cart = data.data;
+        // console.log(data.data);
+        this.groupShop();
       });
 
     this.shopService.cart$.subscribe(cart => {
       this.cart = cart;
+      this.groupShop();
     });
-
-    this.shopService.getCart().subscribe(
-      (data) => {
-        // console.log(data);
-        this.cart = data.data;
-      });
 
     this.addQuantitySubject.pipe(debounceTime(1000)).subscribe(({ product_id, quantity }) => {
       this.shopService.updateProductToCart({ product_id, quantity }).subscribe(
         (response) => {
-          // console.log(response);
+          console.log(response);
         });
     });
   }
 
-  removeToCart(product_id: number) {
+  getCheckedProducts() {
+    this.productChecked = this.cart?.products?.filter((item: any) => item.checked) || [];
+
+    this.productChecked = this.productChecked?.reduce((acc: any[], product: any) => {
+      let shop = acc.find((item) => item.shop_id === product.shop_id);
+
+      if (!shop) {
+        shop = {
+          shop_id: product.shop_id,
+          shop_name: product.shop_name,
+          shop_logo: product.shop_logo,
+          products: [],
+        };
+        acc.push(shop);
+      }
+
+      shop.products.push(product);
+
+      return acc;
+    }, []);
+
+    // console.log(this.productChecked);
+  }
+
+  payment() {
+    const data = {
+      'total': this.cart.total,
+      'shop': this.productChecked,
+      'products_count': this.cart.products.length,
+    }
+    this.router.navigate(['/checkout', btoa(unescape(encodeURIComponent(JSON.stringify(data))))]);
+    this.diaLogHeader = '';
+  }
+
+  removeToCart(shop_id: number, product_id: number) {
     this.shopService.removeProductToCart({ 'product_id': product_id }).subscribe(
       (data) => {
-        // console.log(data);
-        this.cart.products = this.cart.products.filter((item: any) => item.id !== product_id);
+        console.log(data);
+        const shop = this.groupedShops.find((shop: any) => shop.shop_id == shop_id);
+        shop.products = shop.products.filter((product: any) => product.id != product_id);
+
+        if (shop.products.length == 0) this.groupedShops.splice(this.groupedShops.indexOf(shop), 1);
       });
   }
 
-  addQuantity(product_id: number) {
-    const product = this.cart.products.find((item: any) => item.id == product_id);
+  addQuantity(shop_id: number, product_id: number) {
+    const product = this.groupedShops.find((shop: any) => shop.shop_id == shop_id)
+      .products.find((product: any) => product.id == product_id);
     product.pivot.quantity++;
 
     this.addQuantitySubject.next({ product_id: product_id, quantity: product.pivot.quantity });
     this.getTotal();
   }
 
-  reduceQuantity(product_id: number) {
-    const product = this.cart.products.find((item: any) => item.id == product_id);
+  reduceQuantity(shop_id: number, product_id: number) {
+    const product = this.groupedShops.find((shop: any) => shop.shop_id == shop_id)
+      .products.find((product: any) => product.id == product_id);
     if (product.pivot.quantity > 1) {
       product.pivot.quantity--;
 
@@ -135,6 +184,32 @@ export class HeaderComponent implements OnInit {
     }, 0);
   }
 
+  groupShop() {
+    this.groupedShops = this.cart.products?.reduce((acc: any[], product: any) => {
+      let shop = acc.find((item) => item.shop_id === product.shop_id);
+
+      if (!shop) {
+        shop = {
+          shop_id: product.shop_id,
+          shop_name: product.shop_name,
+          shop_logo: product.shop_logo,
+          products: [],
+        };
+        acc.push(shop);
+      }
+
+      shop.products.push(product);
+
+      return acc;
+    }, []);
+
+    // console.log(this.groupedShops);
+  }
+
+  filterNotification(action: string) {
+    this.is_read_notification = action;
+    this.notification = (action == 'unread') ? this.notification.filter((noti: any) => noti.is_read == 1) : this.notificationFilter;
+  }
 
   updateNotification(notification_id: number) {
     this.notificationService.updateNotification(notification_id).subscribe(

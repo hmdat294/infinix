@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CurrencyVNDPipe } from '../currency-vnd.pipe';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-checkout',
@@ -13,16 +14,33 @@ export class CheckoutComponent implements OnInit {
   product_order: any = [1];
   payment_method: string = '';
   change_address: number = 0;
+  cart: any = [];
 
-  constructor() {
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+  ) {
 
   }
 
   ngOnInit(): void {
+    this.route.params.subscribe(params => {
+      try {
+        if (!params['data']) {
+          throw new Error('No data in params');
+        }
 
+        this.cart = JSON.parse(decodeURIComponent(escape(atob(params['data']))));
+        console.log(this.cart);
+
+
+      } catch (error) {
+        this.router.navigate(['/']);
+      }
+    })
   }
 
-  setChangeAddress(value:number){
+  setChangeAddress(value: number) {
     this.change_address = value;
   }
 

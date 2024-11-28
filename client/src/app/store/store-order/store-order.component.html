@@ -26,7 +26,7 @@
             </div>
             <div class="w-fill layout-vertical border-top border-card-default"
                 *ngFor="let order of orders; let i = index;">
-                <div class="w-fill gap-20 layout-horizontal align-center-center py-10 rounded-8"
+                <div class="w-fill gap-20 layout-horizontal align-center-center rounded-8 cursor-pointer" style="padding: 7px 11px;"
                     [class]="tabAccordion == 'order_detail_'+i?'card-background-default':'list-item'"
                     (click)="tabChild('order_detail_'+i)">
                     <div class="w-fill-column-1">I123</div>

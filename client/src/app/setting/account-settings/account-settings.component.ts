@@ -3,6 +3,9 @@ import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { AuthService } from '../../service/auth.service';
 import { SettingService } from '../../service/setting.service';
+import { Router } from '@angular/router';
+import { ChatService } from '../../service/chat.service';
+import { EventService } from '../../service/event.service';
 
 @Component({
   selector: 'app-account-settings',
@@ -26,7 +29,9 @@ export class AccountSettingsComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private settingService: SettingService,
-    private renderer: Renderer2,
+    private eventService: EventService,
+    private chatService: ChatService,
+    private router: Router,
     private el: ElementRef,
   ) { }
 
@@ -146,6 +151,25 @@ export class AccountSettingsComponent implements OnInit {
                 <span>${response.message}</span>
             </p>`;
         }
+      }
+    );
+  }
+
+  logout(): void {
+    this.eventService.updateOnlineStatus('offline').subscribe(
+      (response) => console.log(response)
+    )
+    this.authService.logout().subscribe(
+      (response) => {
+        // console.log('Logout Success:', response);
+
+        this.authService.removeAuthToken();
+        this.chatService.removeConversation();
+
+        this.router.navigate(['/landing-page']);
+      },
+      (error) => {
+        console.error('Logout Error:', error);
       }
     );
   }

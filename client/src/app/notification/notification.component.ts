@@ -12,7 +12,9 @@ import { CommonModule } from '@angular/common';
 export class NotificationComponent implements OnInit {
 
   notification: any;
-
+  notificationFilter: any = [];
+  is_read_notification: string = 'all';
+  
   constructor(
     private notificationService: NotificationService,
   ) { }
@@ -22,10 +24,15 @@ export class NotificationComponent implements OnInit {
       (data) => {
         // console.log(data);
         this.notification = data.data;
+        this.notificationFilter = [...this.notification];
       });
 
   }
 
+  filterNotification(action: string) {
+    this.is_read_notification = action;
+    this.notification = (action == 'unread') ? this.notification.filter((noti: any) => noti.is_read == 1) : this.notificationFilter;
+  }
   
   updateNotification(notification_id: number){
     this.notificationService.updateNotification(notification_id).subscribe(

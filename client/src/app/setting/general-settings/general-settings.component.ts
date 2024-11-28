@@ -5,11 +5,12 @@ import { FormsModule } from '@angular/forms';
 import { PostService } from '../../service/post.service';
 import { SettingService } from '../../service/setting.service';
 import { RouterModule } from '@angular/router';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-general-settings',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, TranslateModule],
   templateUrl: './general-settings.component.html',
   styleUrl: './general-settings.component.css'
 })
@@ -25,6 +26,7 @@ export class GeneralSettingsComponent implements OnInit {
   listPostReport: any;
   listCommentReport: any;
   listBlock: any;
+  lang: string = '';
 
   constructor(
     private authService: AuthService,
@@ -32,9 +34,12 @@ export class GeneralSettingsComponent implements OnInit {
     private settingService: SettingService,
     private renderer: Renderer2,
     private el: ElementRef,
+    private translate: TranslateService
   ) { }
 
   ngOnInit(): void {
+    this.lang = localStorage.getItem('language') || 'vi';
+
     this.authService.getUser(0).subscribe(
       (response) => {
         this.user = response.data;
@@ -53,8 +58,12 @@ export class GeneralSettingsComponent implements OnInit {
       (response) => {
         this.listBlock = response.data;
       })
+  }
 
-
+  // Hàm chuyển đổi ngôn ngữ
+  switchLanguage() {
+    localStorage.setItem('language', this.lang);
+    this.translate.use(this.lang);
   }
 
   report_id: number = 0;

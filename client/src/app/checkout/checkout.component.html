@@ -21,12 +21,17 @@
                                 <div class="layout-vertical w-fill-column-8 mt-10 h-hug">
 
                                     <div class="layout-vertical border rounded-8 p-10 mb-10 card-background-default"
-                                        *ngFor="let product of product_order"><!-- for -->
+                                        *ngFor="let shop of cart.shop"><!-- for -->
                                         <div class="border rounded-6">
                                             <div
                                                 class="layout-horizontal align-center-space-between p-10 border-bottom">
                                                 <p class="text-body-strong">Cửa hàng:</p>
-                                                <p class="text-body">Shop1</p>
+                                                <div class="layout-horizontal align-center-center gap-10 w-hug">
+                                                    <p class="text-body">{{shop.shop_name}}</p>
+                                                    <img [src]="shop.shop_logo" alt=""
+                                                        class="object-fit-cover rounded-circle"
+                                                        style="width: 30px; height: 30px;">
+                                                </div>
                                             </div>
                                             <div class="layout-horizontal align-center-space-between p-10">
                                                 <p class="text-body-strong w-fill-column-3 text-left">Ghi
@@ -44,22 +49,23 @@
                                                 <td class="w-hug">Số lượng</td>
                                                 <td>Tổng tiền</td>
                                             </tr>
-                                            <tr class="h-hug border-top">
-                                                <td><img class="object-fit-cover rounded-4" src="assets/image/hinh.jpg"
+                                            <tr class="h-hug border-top" *ngFor="let item of shop.products">
+                                                <td><img class="object-fit-cover rounded-4" [src]="item.images[0].image"
                                                         height="50px" width="50px" alt></td>
-                                                <td>Gấu bông hình con gấu</td>
-                                                <td>{{100000 | currencyVND}}</td>
-                                                <td>2</td>
-                                                <td>{{200000 | currencyVND}}</td>
+                                                <td>{{item.name}}</td>
+                                                <td>{{item.price-((item.price*item.discount)/100) | currencyVND}}</td>
+                                                <td>{{item.pivot.quantity}}</td>
+                                                <td>{{(item.price-((item.price*item.discount)/100))*item.pivot.quantity | currencyVND}}</td>
                                             </tr>
                                         </table>
                                     </div>
 
                                 </div>
                                 <div class="w-fill h-hug my-10">
-                                    <div class="layout-vertical border rounded-8 card-background-default mb-10" *ngIf="change_address == 0 || change_address == 1">
-                                        <div class="cursor-pointer p-10 layout-horizontal align-center-left gap-5 border-bottom list-item" *ngIf="change_address == 1"
-                                            (click)="setChangeAddress(0)">
+                                    <div class="layout-vertical border rounded-8 card-background-default mb-10"
+                                        *ngIf="change_address == 0 || change_address == 1">
+                                        <div class="cursor-pointer p-10 layout-horizontal align-center-left gap-5 border-bottom list-item"
+                                            *ngIf="change_address == 1" (click)="setChangeAddress(0)">
                                             <i class="icon-size-16 icon icon-ic_fluent_arrow_left_16_filled"></i>
                                             <p class="text-body">Quay lại</p>
                                         </div>
@@ -83,7 +89,8 @@
                                         </table>
                                         <div class="w-fill p-10" *ngIf="change_address == 0">
                                             <div class="w-fill p-10 rounded-8 border">
-                                                <p class="text-left text-body mb-10">Dùng thông tin/địa chỉ mặc định:</p>
+                                                <p class="text-left text-body mb-10">Dùng thông tin/địa chỉ mặc định:
+                                                </p>
                                                 <div class="layout-horizontal gap-10">
                                                     <button type="button" (click)="setChangeAddress(2)"
                                                         class="button-standard button-text-only w-fill">
@@ -99,8 +106,8 @@
                                     </div>
 
                                     <div class="layout-vertical border rounded-8 card-background-default">
-                                        <div class="cursor-pointer p-10 layout-horizontal align-center-left gap-5 border-bottom list-item" *ngIf="change_address == 2"
-                                            (click)="setChangeAddress(0)">
+                                        <div class="cursor-pointer p-10 layout-horizontal align-center-left gap-5 border-bottom list-item"
+                                            *ngIf="change_address == 2" (click)="setChangeAddress(0)">
                                             <i class="icon-size-16 icon icon-ic_fluent_arrow_left_16_filled"></i>
                                             <p class="text-body">Quay lại</p>
                                         </div>

@@ -1,0 +1,46 @@
+{
+    "bookmark": {},
+    "chat": {},
+    "checkout": {},
+    "forgot_password": {},
+    "friend_profile": {},
+    "header": {
+        "cart_title": "Cart",
+        "notification_title": " Notification"
+    },
+    "header_default": {},
+    "home": {
+        "center_home": {},
+        "left_home": {},
+        "right_home": {}
+    },
+    "landing_page": {},
+    "login": {},
+    "mini_chat": {},
+    "notification": {},
+    "profile": {
+        "center_profile": {},
+        "left_profile": {}
+    },
+    "register": {},
+    "search": {},
+    "setting": {
+        "setting_title": "Setting",
+        "general_title": "General",
+        "account_title": "Account",
+        "appearance_title": "Appearance",
+        "my_shop_title": "My shop",
+        "account_settings": {},
+        "appearance_settings": {},
+        "general_settings": {
+            "language_title": "Language"
+        },
+        "shop_settings": {}
+    },
+    "shop": {},
+    "store": {
+        "store_infomation": {},
+        "store_order": {},
+        "store_product": {}
+    }
+}

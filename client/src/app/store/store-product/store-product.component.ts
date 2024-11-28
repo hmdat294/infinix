@@ -17,9 +17,11 @@ import { RouterModule } from '@angular/router';
 export class StoreProductComponent implements OnInit {
 
   listProduct: any = [];
+  products: any = [];
   productDetail_id: number = 0;
   quantity: number = 1;
   content_feedback: string = '';
+  keyword: string = '';
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -31,8 +33,10 @@ export class StoreProductComponent implements OnInit {
   ngOnInit(): void {
     this.shopService.getListProduct().subscribe(
       (response) => {
-        this.listProduct = response.data;
-        // console.log(this.listProduct);
+        this.products = response.data.filter((product: any) => product.is_active == 1);
+        console.log(this.products);
+
+        this.listProduct = [...this.products];
       });
   }
 
@@ -77,7 +81,7 @@ export class StoreProductComponent implements OnInit {
 
   addToCart(product_id: number) {
     console.log({ 'product_id': product_id, 'quantity': this.quantity });
-    
+
     this.shopService.addProductToCart({ 'product_id': product_id, 'quantity': this.quantity }).subscribe(
       (response) => {
         console.log(response);
@@ -87,6 +91,18 @@ export class StoreProductComponent implements OnInit {
 
   shortenTextByWords(text: string, maxWords: number): string {
     return this.settingService.shortenTextByWords(text, maxWords);
+  }
+
+  searchProduct() {
+    if (this.keyword && !/^\s*$/.test(this.keyword)) {
+      this.listProduct = this.listProduct.filter((product: any) => {
+        const keyword = this.settingService.removeVietnameseTones(this.keyword.toLowerCase().trim());
+        const name = this.settingService.removeVietnameseTones(product.name.toLowerCase() || "");
+
+        return name.includes(keyword);
+      });
+    }
+    else this.listProduct = [...this.products];
   }
 
   resizeTextarea(event: any): void {

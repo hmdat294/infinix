@@ -48,7 +48,7 @@ export class ShopComponent implements OnInit {
 
       this.shopService.getListProductByShop(params['shop_id']).subscribe(
         (response) => {
-          this.listProduct = response.data;
+          this.listProduct = response.data.filter((product:any) => product.is_active == 1);
           console.log(this.listProduct);
 
           this.originalProducts = [...this.listProduct];

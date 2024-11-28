@@ -100,7 +100,7 @@ export class EventService implements OnDestroy {
 
 
   private idleTimeout: any;
-  private idleTimeLimit = 60 * 60 * 1000; // 60 phút
+  private idleTimeLimit = 10 * 60 * 1000; // 60 phút
   private isIdle = false;
   private idleState = new Subject<boolean>();
 
@@ -116,9 +116,9 @@ export class EventService implements OnDestroy {
     if (this.isIdle && this.isLoggedIn) {
       this.isIdle = false;
       this.idleState.next(false);
-      // console.log('Người dùng đã hoạt động trở lại!');
       this.updateOnlineStatus('online').subscribe(
         (response) => {
+          console.log('Người dùng đã hoạt động trở lại!');
           // console.log(response);
         }
       )
@@ -130,21 +130,21 @@ export class EventService implements OnDestroy {
   }
 
   private onUserEnter() {
-    // console.log("Người dùng đã truy cập vào trang lần đầu.");
-    // this.updateOnlineStatus('online').subscribe(
-    //   (response) => {
+    this.updateOnlineStatus('online').subscribe(
+      (response) => {
+        console.log("Người dùng đã truy cập vào trang lần đầu.");
         // console.log(response);
-    //   }
-    // )
+      }
+    )
   }
 
   private onIdleTimeout() {
     this.isIdle = true;
     this.idleState.next(true);
-    // console.log('Người dùng đã treo máy!');
     if (this.isLoggedIn) {
       this.updateOnlineStatus('idle').subscribe(
         (response) => {
+          console.log('Người dùng đã treo máy!');
           // console.log(response);
         }
       )

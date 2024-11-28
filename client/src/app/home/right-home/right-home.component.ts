@@ -28,7 +28,6 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
   constructor(
     private el: ElementRef,
     private renderer: Renderer2,
-    private router: Router,
     private authService: AuthService,
     private chatService: ChatService,
     private eventService: EventService,
@@ -72,7 +71,7 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
                   // console.log('User online event:', data);
 
                   const friends = this.friends.find((item: any) => item.id == data.user.id) || {};
-                  friends.online_status = data.user?.online_status;
+                  friends.online_status = data.status;
 
                 });
 
@@ -124,7 +123,7 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
         const keyword = this.settingService.removeVietnameseTones(this.keyword.toLowerCase().trim());
         const displayName = this.settingService.removeVietnameseTones(friend.profile.display_name.toLowerCase() || "");
         const email = this.settingService.removeVietnameseTones(friend.email.toLowerCase() || "");
-        
+
         return displayName.includes(keyword) || email.includes(keyword);
       }
       );
@@ -159,24 +158,5 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
 
   friendMore() {
     this.showFriendMore = !this.showFriendMore;
-  }
-
-  logout(): void {
-    // this.eventService.updateOnlineStatus('offline').subscribe(
-    //   (response) => console.log(response)
-    // )
-    this.authService.logout().subscribe(
-      (response) => {
-        // console.log('Logout Success:', response);
-
-        this.authService.removeAuthToken();
-        this.chatService.removeConversation();
-
-        this.router.navigate(['/landing-page']);
-      },
-      (error) => {
-        console.error('Logout Error:', error);
-      }
-    );
   }
 }
