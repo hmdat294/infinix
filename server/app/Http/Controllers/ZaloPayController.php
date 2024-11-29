@@ -26,7 +26,7 @@ class ZaloPayController extends Controller
         $response = $this->zalopayService->createOrder($order_id, $amount, $description);
 
         if ($response['return_code'] == 1) {
-            return response()->json(['url' => $response['order_url']]);
+            return response()->json($response);
         }
 
         return response()->json(['error' => $response['return_message']], 400);
