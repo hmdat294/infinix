@@ -9,6 +9,7 @@ import { ChatService } from '../service/chat.service';
 import { MiniChatComponent } from '../mini-chat/mini-chat.component';
 import { NotificationService } from '../service/notification.service';
 import { CurrencyVNDPipe } from '../currency-vnd.pipe';
+import { PaymentService } from '../service/payment.service';
 
 @Component({
   selector: 'app-header',
@@ -31,6 +32,7 @@ export class HeaderComponent implements OnInit {
     private eventService: EventService,
     private chatService: ChatService,
     private notificationService: NotificationService,
+    private paymentService: PaymentService
   ) { }
 
   ngOnInit(): void {
@@ -79,19 +81,19 @@ export class HeaderComponent implements OnInit {
       });
   }
 
-  updateNotification(notification_id: number){
+  updateNotification(notification_id: number) {
     this.notificationService.updateNotification(notification_id).subscribe(
       (res: any) => {
         console.log(res);
-        this.notification.find((item:any) => item.id == notification_id).is_read = 1;
+        this.notification.find((item: any) => item.id == notification_id).is_read = 1;
       });
   }
 
-  deleteNotification(notification_id: number){
+  deleteNotification(notification_id: number) {
     this.notificationService.deleteNotification(notification_id).subscribe(
       (res: any) => {
         console.log(res);
-        this.notification = this.notification.filter((item:any) => item.id != notification_id);
+        this.notification = this.notification.filter((item: any) => item.id != notification_id);
       });
   }
 
@@ -117,10 +119,32 @@ export class HeaderComponent implements OnInit {
 
   diaLogHeader: string = '';
 
-  viewDiaLogHeader(action:string) {
+  viewDiaLogHeader(action: string) {
     this.diaLogHeader = (this.diaLogHeader == action) ? '' : action;
   }
 
-
+  paymentVnpay() {
+    const data = {
+      'price': 15000,
+    }
+    this.paymentService.paymentVnpay(data).subscribe(
+      (response) => {
+        if (response.url)
+          window.location.href = response.url;
+      }
+    );
+  }
+  
+  paymentZalopay() {
+    const data = {
+      'price': 19000,
+    }
+    this.paymentService.paymentZalopay(data).subscribe(
+      (response) => {
+        if (response.url)
+          window.location.href = response.url;
+      }
+    );
+  }
 
 }

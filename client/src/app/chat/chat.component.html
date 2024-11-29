@@ -349,10 +349,17 @@
 
                                                             </div>
                                                         </div>
-                                                        <p class="position-absolute rounded-circle text-tertiary solid-background-tertiary shadow-dialog layout align-center-center"
-                                                            style="cursor: pointer; width: 20px; height: 20px; font-size: 10px; right: -10px; bottom: 0px;">
-                                                            <span><i style="font-size: 14px;"
-                                                                    class="icon icon-ic_fluent_thumb_like_16_regular"></i></span>
+                                                        <p class="position-absolute rounded-pill text-tertiary solid-background-tertiary shadow-dialog layout align-center-center border w-hug px-5"
+                                                            style="cursor: pointer; height: 20px; font-size: 10px; right: -10px; bottom: 0px;"
+                                                            (click)="likeMessage(msg.id)">
+                                                            <span class="text-secondary text-caption"
+                                                                style="margin-top: -2px;">{{msg.likes}}</span>
+                                                            <span>
+                                                                <i *ngIf="msg.liked" style="font-size: 14px;"
+                                                                    class="text-accent-default icon icon-ic_fluent_thumb_like_16_filled"></i>
+                                                                <i *ngIf="!msg.liked" style="font-size: 14px;"
+                                                                    class="icon icon-ic_fluent_thumb_like_16_regular"></i>
+                                                            </span>
                                                         </p>
                                                     </div>
                                                 </div>
@@ -444,10 +451,17 @@
 
                                                             </div>
                                                         </div>
-                                                        <p class="position-absolute rounded-circle text-tertiary solid-background-tertiary shadow-dialog layout align-center-center"
-                                                            style="cursor: pointer; width: 20px; height: 20px; font-size: 10px; right: -10px; bottom: 0px;">
-                                                            <span><i style="font-size: 14px;"
-                                                                    class="icon icon-ic_fluent_thumb_like_16_regular"></i></span>
+                                                        <p class="position-absolute rounded-pill text-tertiary solid-background-tertiary shadow-dialog layout align-center-center border w-hug px-5"
+                                                            style="cursor: pointer; height: 20px; font-size: 10px; left: -10px; bottom: 0px;"
+                                                            (click)="likeMessage(msg.id)">
+                                                            <span class="text-secondary text-caption"
+                                                                style="margin-top: -2px;">{{msg.likes}}</span>
+                                                            <span>
+                                                                <i *ngIf="msg.liked" style="font-size: 14px;"
+                                                                    class="text-accent-default icon icon-ic_fluent_thumb_like_16_filled"></i>
+                                                                <i *ngIf="!msg.liked" style="font-size: 14px;"
+                                                                    class="icon icon-ic_fluent_thumb_like_16_regular"></i>
+                                                            </span>
                                                         </p>
                                                     </div>
                                                 </div>
@@ -565,7 +579,7 @@
                                                 </div>
 
                                                 <div [class]="(msg.link) ? 'layout-horizontal gradient-background' : ''"
-                                                    class="rounded-8 overflow-hidden">
+                                                    class="rounded-6 overflow-hidden">
                                                     <div class="layout align-center-center w-fill gradient-background p-10"
                                                         *ngIf="msg.medias.length>0">
                                                         <div style="max-width: 500px;"
@@ -582,31 +596,34 @@
                                                     <div>
                                                         <a *ngIf="msg.link" [routerLink]="[ msg.link ]"
                                                             style="white-space: pre-line;"
-                                                            class="display-block text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10">
+                                                            class="display-block text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10 rounded-6">
                                                             {{ msg.content }}
                                                         </a>
                                                         <p *ngIf="!msg.link" style="white-space: pre-line;"
-                                                            class="display-block text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10">
+                                                            class="display-block text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10 rounded-6">
                                                             {{ msg.content }}
                                                         </p>
                                                     </div>
                                                 </div>
-                                                <div class="text-tertiary text-caption layout-horizontal align-center-space-between mt-5"
+                                                <div class="text-tertiary text-caption layout-horizontal align-center-left mt-5 gap-5"
                                                     style="font-size: 0.9em;">
-                                                    <p class="text-left w-fill">
+                                                    <p>
                                                         {{ msg.created_at_time }}
                                                     </p>
-                                                    <p *ngIf="msg.is_edited == 1" class="text-right w-fill">
-                                                        Đã sửa
+                                                    <p *ngIf="msg.is_edited == 1">
+                                                        - Đã sửa
                                                     </p>
                                                 </div>
                                                 <p class="position-absolute rounded-pill text-tertiary solid-background-tertiary shadow-dialog layout align-center-center border w-hug px-5"
                                                     style="cursor: pointer; height: 20px; font-size: 10px; right: -10px; bottom: 12px;"
                                                     (click)="likeMessage(msg.id)">
-                                                    <span class="text-secondary text-caption" style="margin-top: -2px;">{{msg.likes}}</span>
+                                                    <span class="text-secondary text-caption"
+                                                        style="margin-top: -2px;">{{msg.likes}}</span>
                                                     <span>
-                                                        <i *ngIf="msg.liked" style="font-size: 14px;" class="text-accent-default icon icon-ic_fluent_thumb_like_16_filled"></i>
-                                                        <i *ngIf="!msg.liked" style="font-size: 14px;" class="icon icon-ic_fluent_thumb_like_16_regular"></i>
+                                                        <i *ngIf="msg.liked" style="font-size: 14px;"
+                                                            class="text-accent-default icon icon-ic_fluent_thumb_like_16_filled"></i>
+                                                        <i *ngIf="!msg.liked" style="font-size: 14px;"
+                                                            class="icon icon-ic_fluent_thumb_like_16_regular"></i>
                                                     </span>
                                                 </p>
                                             </div>
@@ -684,7 +701,7 @@
                                                 </div>
 
                                                 <div [class]="(msg.link) ? 'layout-horizontal gradient-background' : ''"
-                                                    class="rounded-8 overflow-hidden">
+                                                    class="rounded-6 overflow-hidden">
                                                     <div class="layout align-center-center w-fill gradient-background p-10"
                                                         *ngIf="msg.medias.length>0">
                                                         <div style="max-width: 500px;"
@@ -701,29 +718,36 @@
                                                     <div>
                                                         <a *ngIf="msg.link" [routerLink]="[ msg.link ]"
                                                             style="white-space: pre-line;"
-                                                            class="display-block text-wrap card-background-default text-primary border border-card-default px-15 py-10">
+                                                            class="display-block text-wrap card-background-default text-primary border border-card-default px-15 py-10 rounded-6">
                                                             {{ msg.content }}
                                                         </a>
                                                         <p *ngIf="!msg.link" style="white-space: pre-line;"
-                                                            class="display-block text-wrap card-background-default text-primary border border-card-default px-15 py-10">
+                                                            class="display-block text-wrap card-background-default text-primary border border-card-default px-15 py-10 rounded-6">
                                                             {{ msg.content }}
                                                         </p>
 
                                                     </div>
                                                 </div>
-                                                <div class="text-tertiary text-caption layout-horizontal align-center-space-between mt-5"
+                                                <div class="text-tertiary text-caption layout-horizontal align-center-right mt-5 gap-5"
                                                     style="font-size: 0.9em;">
-                                                    <p *ngIf="msg.is_edited == 1" class="text-left w-fill">
-                                                        Đã sửa
+                                                    <p *ngIf="msg.is_edited == 1">
+                                                        Đã sửa -
                                                     </p>
-                                                    <p class="text-right w-fill">
+                                                    <p>
                                                         {{ msg.created_at_time }}
                                                     </p>
                                                 </div>
-                                                <p class="position-absolute rounded-circle text-tertiary solid-background-tertiary shadow-dialog layout align-center-center"
-                                                    style="cursor: pointer; width: 20px; height: 20px; font-size: 10px; right: -10px; bottom: 12px;">
-                                                    <span><i style="font-size: 14px;"
-                                                            class="icon icon-ic_fluent_thumb_like_16_regular"></i></span>
+                                                <p class="position-absolute rounded-pill text-tertiary solid-background-tertiary shadow-dialog layout align-center-center border w-hug px-5"
+                                                    style="cursor: pointer; height: 20px; font-size: 10px; left: -10px; bottom: 12px;"
+                                                    (click)="likeMessage(msg.id)">
+                                                    <span class="text-secondary text-caption"
+                                                        style="margin-top: -2px;">{{msg.likes}}</span>
+                                                    <span>
+                                                        <i *ngIf="msg.liked" style="font-size: 14px;"
+                                                            class="text-accent-default icon icon-ic_fluent_thumb_like_16_filled"></i>
+                                                        <i *ngIf="!msg.liked" style="font-size: 14px;"
+                                                            class="icon icon-ic_fluent_thumb_like_16_regular"></i>
+                                                    </span>
                                                 </p>
                                             </div>
                                         </div>
@@ -786,7 +810,6 @@
                 <emoji-mart *ngIf="showEmojiPicker" [i18n]="vietnameseI18n"
                     [style]="{ position: 'absolute', bottom: '20px', right: '20px', background: '#363636' }"
                     (emojiSelect)="addEmoji($event)"></emoji-mart>
-
 
                 <div class="w-fill p-20" *ngIf="conversation?.is_group == 0 && conversation?.users[0].blocked_by_user">
                     <div class="p-10 card-background-default border border-card-default rounded-8">

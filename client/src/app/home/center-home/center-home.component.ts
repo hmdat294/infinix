@@ -11,8 +11,14 @@ import { ChatService } from '../../service/chat.service';
 import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { QuillModule } from 'ngx-quill';
-import { DomSanitizer } from '@angular/platform-browser';
-import { HttpClient } from '@angular/common/http';
+import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
+import Swiper from 'swiper';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/scrollbar';
+import { Navigation, Scrollbar } from 'swiper/modules';
+
+Swiper.use([Navigation, Scrollbar]);
 
 @Component({
   selector: 'app-center-home',
@@ -100,10 +106,32 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.initCarousels();
+
+    // Khởi tạo Swiper
+    const swiper = new Swiper('.swiper', {
+      slidesPerView: 3,
+      spaceBetween: 10,
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      scrollbar: {
+        el: '.swiper-scrollbar',
+        draggable: true,
+      },
+      loop: true,
+      breakpoints: {
+        640: { slidesPerView: 2, spaceBetween: 20 },
+        768: { slidesPerView: 3, spaceBetween: 30 },
+        1024: { slidesPerView: 4, spaceBetween: 40 },
+      },
+    });
+
+    console.log('Swiper initialized:', swiper);
   }
 
   showFriendSuggestions(i: number): number {
-    return (i >= 3) ? 3 : this.listPost.length - 1;
+    return (i >= 0) ? 0 : this.listPost.length - 1;
   }
 
   addFriend(receiver_id: number): void {
@@ -225,6 +253,8 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
     this.postService.deletePost(this.postDeleteId).subscribe(
       (response) => {
         console.log(response);
+        this.listPost = this.listPost.filter((post: any) => post.id != this.postDeleteId);
+        this.postDeleteId = 0;
       }
     );
   }
