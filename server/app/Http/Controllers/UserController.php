@@ -61,8 +61,9 @@ class UserController extends Controller
 
     public function update(Request $request)
     {
+        Log::info($request->all());
         $user = UserModel::find($request->user()->id);
-        $user->update($request->only(['username', 'email', 'password', 'theme', 'language', 'phone_number']));
+        $user->update($request->only(['username', 'email', 'password', 'theme', 'language', 'phone_number', 'accept_stranger_message']));
         $user->profile->update($request->only(['display_name', 'biography', 'date_of_birth', 'address', 'gender']));
 
         if ($request->has('profile_photo')) {

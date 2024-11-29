@@ -1,0 +1,34 @@
+.accordion {
+    overflow: hidden;
+    height: fit-content;
+}
+
+.accordion-item {
+    border-bottom: 1px solid var(--card-stroke-default);
+}
+
+.accordion-header {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    border-bottom: 1px solid var(--card-stroke-default);
+}
+
+.open-icon {
+    transition: transform 0.3s ease;
+}
+
+.accordion-header.active .open-icon {
+    transform: rotate(180deg);
+}
+
+.accordion-panel {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    box-sizing: content-box;
+}
+
+.accordion-panel.open {
+    transition: max-height 0.3s ease;
+}

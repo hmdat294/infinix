@@ -39,7 +39,7 @@ export class BookmarkComponent implements OnInit {
 
     this.postService.getBookmarkByUser().subscribe(
       (data) => {
-        console.log('Bookmark Post: ', data.data);
+        // console.log('Bookmark Post: ', data.data);
         this.listPost = data.data;
         this.listPost.reverse();
       }
@@ -103,7 +103,7 @@ export class BookmarkComponent implements OnInit {
 
     this.chatService.sendMessage(formData).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
         this.shareSuccess =
           `<p class="validation-message validation-sucess text-body text-primary py-10 px-15">
           <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
@@ -116,7 +116,7 @@ export class BookmarkComponent implements OnInit {
   sharePostToMyPage(post_id: number) {
     this.postService.sharePostToMyPage(post_id).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
 
         const shared = this.listPost.find(item => item.id === post_id);
         shared.shared = !shared.shared;

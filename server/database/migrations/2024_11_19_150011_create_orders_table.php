@@ -15,12 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('shop_id')->constrained()->onDelete('cascade');
+            $table->foreignId('order_group_id')->constrained()->onDelete('cascade');
             $table->integer('total');
-            $table->string('payment_method');
-            $table->string('payment_status')->default('pending');
-            $table->string('fullname');
-            $table->string('address');
-            $table->string('phone_number');
             $table->string('note')->nullable();
             $table->string('status')->default('pending');
 

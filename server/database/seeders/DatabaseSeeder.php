@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
             FriendRequestTableSeeder::class,
             RelationshipTableSeeder::class,
             PostTableSeeder::class,
+            ShopTableSeeder::class,
+            ProductTableSeeder::class,
         ]);
     }
 }

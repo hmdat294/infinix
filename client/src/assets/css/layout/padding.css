@@ -1,0 +1,454 @@
+/* Padding */
+.p-5 {
+    padding: 5px;
+}
+
+.ps-5 {
+    padding-left: 5px;
+}
+
+.pe-5 {
+    padding-right: 5px;
+}
+
+.pb-5 {
+    padding-bottom: 5px;
+}
+
+.pt-5 {
+    padding-top: 5px;
+}
+
+.px-5 {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.py-5 {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.p-10 {
+    padding: 10px;
+}
+
+.ps-10 {
+    padding-left: 10px;
+}
+
+.pe-10 {
+    padding-right: 10px;
+}
+
+.pb-10 {
+    padding-bottom: 10px;
+}
+
+.pt-10 {
+    padding-top: 10px;
+}
+
+.px-10 {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.py-10 {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.p-15 {
+    padding: 15px;
+}
+
+.ps-15 {
+    padding-left: 15px;
+}
+
+.pe-15 {
+    padding-right: 15px;
+}
+
+.pb-15 {
+    padding-bottom: 15px;
+}
+
+.pt-15 {
+    padding-top: 15px;
+}
+
+.px-15 {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.py-15 {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.p-20 {
+    padding: 20px;
+}
+
+.ps-20 {
+    padding-left: 20px;
+}
+
+.pe-20 {
+    padding-right: 20px;
+}
+
+.pb-20 {
+    padding-bottom: 20px;
+}
+
+.pt-20 {
+    padding-top: 20px;
+}
+
+.px-20 {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.py-20 {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.p-25 {
+    padding: 25px;
+}
+
+.ps-25 {
+    padding-left: 25px;
+}
+
+.pe-25 {
+    padding-right: 25px;
+}
+
+.pb-25 {
+    padding-bottom: 25px;
+}
+
+.pt-25 {
+    padding-top: 25px;
+}
+
+.px-25 {
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+.py-25 {
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+@media (min-width: 480px) and (max-width: 850px) {
+    .in-tablet-p-5 {
+        padding: 5px;
+    }
+    
+    .in-tablet-ps-5 {
+        padding-left: 5px;
+    }
+    
+    .in-tablet-pe-5 {
+        padding-right: 5px;
+    }
+    
+    .in-tablet-pb-5 {
+        padding-bottom: 5px;
+    }
+    
+    .in-tablet-pt-5 {
+        padding-top: 5px;
+    }
+    
+    .in-tablet-px-5 {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+    
+    .in-tablet-py-5 {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    
+    .in-tablet-p-10 {
+        padding: 10px;
+    }
+    
+    .in-tablet-ps-10 {
+        padding-left: 10px;
+    }
+    
+    .in-tablet-pe-10 {
+        padding-right: 10px;
+    }
+    
+    .in-tablet-pb-10 {
+        padding-bottom: 10px;
+    }
+    
+    .in-tablet-pt-10 {
+        padding-top: 10px;
+    }
+    
+    .in-tablet-px-10 {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    
+    .in-tablet-py-10 {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    
+    .in-tablet-p-15 {
+        padding: 15px;
+    }
+    
+    .in-tablet-ps-15 {
+        padding-left: 15px;
+    }
+    
+    .in-tablet-pe-15 {
+        padding-right: 15px;
+    }
+    
+    .in-tablet-pb-15 {
+        padding-bottom: 15px;
+    }
+    
+    .in-tablet-pt-15 {
+        padding-top: 15px;
+    }
+    
+    .in-tablet-px-15 {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    
+    .in-tablet-py-15 {
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+    
+    .in-tablet-p-20 {
+        padding: 20px;
+    }
+    
+    .in-tablet-ps-20 {
+        padding-left: 20px;
+    }
+    
+    .in-tablet-pe-20 {
+        padding-right: 20px;
+    }
+    
+    .in-tablet-pb-20 {
+        padding-bottom: 20px;
+    }
+    
+    .in-tablet-pt-20 {
+        padding-top: 20px;
+    }
+    
+    .in-tablet-px-20 {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    
+    .in-tablet-py-20 {
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+    
+    .in-tablet-p-25 {
+        padding: 25px;
+    }
+    
+    .in-tablet-ps-25 {
+        padding-left: 25px;
+    }
+    
+    .in-tablet-pe-25 {
+        padding-right: 25px;
+    }
+    
+    .in-tablet-pb-25 {
+        padding-bottom: 25px;
+    }
+    
+    .in-tablet-pt-25 {
+        padding-top: 25px;
+    }
+    
+    .in-tablet-px-25 {
+        padding-left: 25px;
+        padding-right: 25px;
+    }
+    
+    .in-tablet-py-25 {
+        padding-top: 25px;
+        padding-bottom: 25px;
+    }
+}
+
+@media (max-width: 479px) {
+    .in-mobile-p-5 {
+        padding: 5px;
+    }
+    
+    .in-mobile-ps-5 {
+        padding-left: 5px;
+    }
+    
+    .in-mobile-pe-5 {
+        padding-right: 5px;
+    }
+    
+    .in-mobile-pb-5 {
+        padding-bottom: 5px;
+    }
+    
+    .in-mobile-pt-5 {
+        padding-top: 5px;
+    }
+    
+    .in-mobile-px-5 {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+    
+    .in-mobile-py-5 {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    
+    .in-mobile-p-10 {
+        padding: 10px;
+    }
+    
+    .in-mobile-ps-10 {
+        padding-left: 10px;
+    }
+    
+    .in-mobile-pe-10 {
+        padding-right: 10px;
+    }
+    
+    .in-mobile-pb-10 {
+        padding-bottom: 10px;
+    }
+    
+    .in-mobile-pt-10 {
+        padding-top: 10px;
+    }
+    
+    .in-mobile-px-10 {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    
+    .in-mobile-py-10 {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    
+    .in-mobile-p-15 {
+        padding: 15px;
+    }
+    
+    .in-mobile-ps-15 {
+        padding-left: 15px;
+    }
+    
+    .in-mobile-pe-15 {
+        padding-right: 15px;
+    }
+    
+    .in-mobile-pb-15 {
+        padding-bottom: 15px;
+    }
+    
+    .in-mobile-pt-15 {
+        padding-top: 15px;
+    }
+    
+    .in-mobile-px-15 {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    
+    .in-mobile-py-15 {
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+    
+    .in-mobile-p-20 {
+        padding: 20px;
+    }
+    
+    .in-mobile-ps-20 {
+        padding-left: 20px;
+    }
+    
+    .in-mobile-pe-20 {
+        padding-right: 20px;
+    }
+    
+    .in-mobile-pb-20 {
+        padding-bottom: 20px;
+    }
+    
+    .in-mobile-pt-20 {
+        padding-top: 20px;
+    }
+    
+    .in-mobile-px-20 {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    
+    .in-mobile-py-20 {
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+    
+    .in-mobile-p-25 {
+        padding: 25px;
+    }
+    
+    .in-mobile-ps-25 {
+        padding-left: 25px;
+    }
+    
+    .in-mobile-pe-25 {
+        padding-right: 25px;
+    }
+    
+    .in-mobile-pb-25 {
+        padding-bottom: 25px;
+    }
+    
+    .in-mobile-pt-25 {
+        padding-top: 25px;
+    }
+    
+    .in-mobile-px-25 {
+        padding-left: 25px;
+        padding-right: 25px;
+    }
+    
+    .in-mobile-py-25 {
+        padding-top: 25px;
+        padding-bottom: 25px;
+    }
+}

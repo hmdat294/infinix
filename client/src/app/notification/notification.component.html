@@ -9,14 +9,16 @@
                     <p class="text-subtitle text-primary">Thông báo</p>
                     <div class="layout-horizontal align-center-space-between">
                         <div class="layout-horizontal gap-10">
-                            <button type="button" class="button-accent button-text-only">Tất cả</button>
-                            <button type="button" class="button-standard button-text-only">Chưa đọc</button>
+                            <button type="button"
+                                class="button-{{is_read_notification == 'all'?'accent':'standard'}} button-text-only"
+                                (click)="filterNotification('all')">Tất cả</button>
+                            <button type="button"
+                                class="button-{{is_read_notification == 'unread'?'accent':'standard'}} button-text-only"
+                                (click)="filterNotification('unread')">Chưa đọc</button>
                         </div>
-                        <button type="button" class="button-standard button-text-only">Đánh dấu tất cả là đã
-                            đọc</button>
                     </div>
                 </div>
-                
+
                 <div class="layout-vertical gap-10 p-10 h-fill overflow-scroll-vertical">
 
                     <!-- Thông báo like bài viết -->
@@ -25,22 +27,26 @@
                         <!-- Đánh dấu là thông báo chưa đọc -->
                         <div *ngIf="noti.is_read == 0" class="position-absolute accent-default rounded-2 start-0"
                             style="width: 3px; height: calc(100% - 25px); top: 13px;"></div>
-    
+
                         <!-- Nội dung thông báo -->
                         <div class="noti-hover layout-horizontal gap-10 w-fill align-center-space-between ps-20 py-10">
                             <img [src]="noti.target_user.profile.profile_photo" alt=""
                                 class="rounded-circle object-fit-cover" style="width: 35px; height: 35px;">
-                            <div *ngIf="noti.is_read == 0" class="list-item layout-vertical gap-5 w-fill" (click)="updateNotification(noti.id)">
+                            <div *ngIf="noti.is_read == 0" class="list-item layout-vertical gap-5 w-fill"
+                                (click)="updateNotification(noti.id)">
                                 <p class="text-body text-primary">{{noti.content}}</p>
-                                <p class="text-secondary text-caption">{{noti.created_at_time}} - {{noti.created_at_date}}
+                                <p class="text-secondary text-caption">{{noti.created_at_time}} -
+                                    {{noti.created_at_date}}
                                 </p>
                             </div>
                             <div *ngIf="noti.is_read != 0" class="list-item layout-vertical gap-5 w-fill">
                                 <p class="text-body text-primary">{{noti.content}}</p>
-                                <p class="text-secondary text-caption">{{noti.created_at_time}} - {{noti.created_at_date}}
+                                <p class="text-secondary text-caption">{{noti.created_at_time}} -
+                                    {{noti.created_at_date}}
                                 </p>
                             </div>
-                            <button type="button" class="button-standard button-icon-only" (click)="deleteNotification(noti.id)">
+                            <button type="button" class="button-standard button-icon-only"
+                                (click)="deleteNotification(noti.id)">
                                 <i class="icon-size-16 icon icon-ic_fluent_delete_16_filled"></i>
                             </button>
                         </div>

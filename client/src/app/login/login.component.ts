@@ -28,7 +28,7 @@ export class LoginComponent {
 
     this.authService.login(value.value).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         if (response.token) {
           this.authService.updateAuthToken(response.token);
 

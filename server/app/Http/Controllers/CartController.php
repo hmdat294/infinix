@@ -6,16 +6,19 @@ use App\Http\Resources\CartResource;
 use App\Models\Cart as CartModel;
 use App\Models\Product as ProductModel;
 
+use Illuminate\Support\Facades\Log;
+
 use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    public function show(Request $request, $id)
+    public function show(Request $request)
     {
-        $cart = CartModel::find($id);
+        $cart = CartModel::where('user_id', $request->user()->id)->first();
 
         if (!$cart) {
-            return $this->store($request);
+            $this->store($request);
+            $cart = CartModel::where('user_id', $request->user()->id)->first();
         }
 
         $cart['products'] = $cart->products ?? [];
@@ -33,19 +36,31 @@ class CartController extends Controller
         return new CartResource($cart);
     }
 
-    public function addProduct(Request $request, $id)
+    public function addProduct(Request $request)
     {
-        $cart = CartModel::find($id);
+        $cart = CartModel::where('user_id', $request->user()->id)->first();
+
+        if (!$cart) {
+            $this->store($request);
+            $cart = CartModel::where('user_id', $request->user()->id)->first();
+        }
 
         $product_id = $request->input('product_id');
-        $quantity = $request->input('quantity');
-
+        $product = ProductModel::find($product_id);
+        $quantity = $request->input('quantity') ?? 1;
+        $price = $request->input('price') ?? $product->price * (100 - $product->discount) / 100;
+        Log::info($price);
         $product = ProductModel::find($product_id);
 
+        $old_quantity = $cart->products()->find($product_id)->pivot->quantity ?? 0;
 
+        $quantity += $old_quantity;
 
-        $cart->products()->attach($product, [
-            'quantity' => $quantity
+        $cart->products()->syncWithoutDetaching([
+            $product_id => [
+                'quantity' => $quantity,
+                'price' => $price
+            ]
         ]);
 
         $cart->save();
@@ -53,9 +68,14 @@ class CartController extends Controller
         return new CartResource($cart);
     }
 
-    public function removeProduct(Request $request, $id)
+    public function removeProduct(Request $request)
     {
-        $cart = CartModel::find($id);
+        $cart = CartModel::where('user_id', $request->user()->id)->first();
+
+        if (!$cart) {
+            $this->store($request);
+            $cart = CartModel::where('user_id', $request->user()->id)->first();
+        }
 
         $product_id = $request->input('product_id');
 
@@ -66,15 +86,22 @@ class CartController extends Controller
         return new CartResource($cart);
     }
 
-    public function updateProduct(Request $request, $id)
+    public function updateProduct(Request $request)
     {
-        $cart = CartModel::find($id);
+        $cart = CartModel::where('user_id', $request->user()->id)->first();
 
         $product_id = $request->input('product_id');
-        $quantity = $request->input('quantity');
+        $product = ProductModel::find($product_id);
+        $quantity = $request->input('quantity') ?? 1;
+        $price = $request->input('price') ?? $product->price * (100 - $product->discount) / 100;
+        Log::info($price);
+        $product = ProductModel::find($product_id);
 
-        $cart->products()->updateExistingPivot($product_id, [
-            'quantity' => $quantity
+        $cart->products()->syncWithoutDetaching([
+            $product_id => [
+                'quantity' => $quantity,
+                'price' => $price
+            ]
         ]);
 
         $cart->save();
@@ -82,13 +109,16 @@ class CartController extends Controller
         return new CartResource($cart);
     }
 
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request)
     {
-        $cart = CartModel::find($id);
+        $cart = CartModel::where('user_id', $request->user()->id)->first();
 
-        $cart->products()->detach();
+        if ($cart) {  
 
-        $cart->delete();
+            $cart->products()->detach();
+
+            $cart->delete();
+        }
 
         return response()->json([
             'message' => 'Cart deleted'

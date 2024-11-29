@@ -1,0 +1,191 @@
+<section class="gradient-background layout-vertical" style="height: 100vh;">
+
+    <article class="layout-horizontal gap-20 px-20 w-fill h-fill overflow-hidden align-top-center">
+
+        <div
+            class="w-fill-column-9 h-fill layout-vertical gap-20 py-20 overflow-scroll-vertical hide-in-tablet hide-in-mobile">
+
+            <div class="layout-vertical card-background-default border border-card-default rounded-8">
+
+                <div class="layout-horizontal align-center-space-between p-20">
+                    <p class="text-primary text-subtitle">Thanh toán</p>
+                </div>
+
+                <div class="layout-vertical gap-20 px-20 py-10 w-fill border-top">
+
+                    <div class="text-body text-primary text-center w-fill">
+                        <div class="w-fill layout-vertical">
+
+                            <div class="w-fill layout-horizontal gap-10">
+
+                                <div class="layout-vertical w-fill-column-8 mt-10 h-hug">
+
+                                    <div class="layout-vertical border rounded-8 p-10 mb-10 card-background-default"
+                                        *ngFor="let shop of cart.shop"><!-- for -->
+                                        <div class="border rounded-6">
+                                            <div
+                                                class="layout-horizontal align-center-space-between p-10 border-bottom">
+                                                <p class="text-body-strong">Cửa hàng:</p>
+                                                <div class="layout-horizontal align-center-center gap-10 w-hug">
+                                                    <p class="text-body">{{shop.shop_name}}</p>
+                                                    <img [src]="shop.shop_logo" alt=""
+                                                        class="object-fit-cover rounded-circle"
+                                                        style="width: 30px; height: 30px;">
+                                                </div>
+                                            </div>
+                                            <div class="layout-horizontal align-center-space-between p-10">
+                                                <p class="text-body-strong w-fill-column-3 text-left">Ghi
+                                                    chú:</p>
+                                                <textarea class="control text-area-control w-fill" spellcheck="false"
+                                                    name="note" ngModel required
+                                                    (input)="resizeTextarea($event)"></textarea>
+                                            </div>
+                                        </div>
+                                        <table class="h-hug table-product">
+                                            <tr class="h-hug text-body-strong">
+                                                <td>Hình ảnh</td>
+                                                <td>Tên</td>
+                                                <td>Giá</td>
+                                                <td class="w-hug">Số lượng</td>
+                                                <td>Tổng tiền</td>
+                                            </tr>
+                                            <tr class="h-hug border-top" *ngFor="let item of shop.products">
+                                                <td><img class="object-fit-cover rounded-4" [src]="item.images[0].image"
+                                                        height="50px" width="50px" alt></td>
+                                                <td>{{item.name}}</td>
+                                                <td>{{item.price-((item.price*item.discount)/100) | currencyVND}}</td>
+                                                <td>{{item.pivot.quantity}}</td>
+                                                <td>{{(item.price-((item.price*item.discount)/100))*item.pivot.quantity | currencyVND}}</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                </div>
+                                <div class="w-fill h-hug my-10">
+                                    <div class="layout-vertical border rounded-8 card-background-default mb-10"
+                                        *ngIf="change_address == 0 || change_address == 1">
+                                        <div class="cursor-pointer p-10 layout-horizontal align-center-left gap-5 border-bottom list-item"
+                                            *ngIf="change_address == 1" (click)="setChangeAddress(0)">
+                                            <i class="icon-size-16 icon icon-ic_fluent_arrow_left_16_filled"></i>
+                                            <p class="text-body">Quay lại</p>
+                                        </div>
+                                        <table class="w-fill text-left table-info-bill">
+                                            <tr class="border-bottom">
+                                                <th class="h-hug text-body-strong">Họ và tên:</th>
+                                                <td>Hồ Minh Đạt</td>
+                                            </tr>
+                                            <tr class="border-bottom">
+                                                <th class="h-hug text-body-strong">Số điện thoại:</th>
+                                                <td>0123456789</td>
+                                            </tr>
+                                            <tr class="border-bottom">
+                                                <th class="h-hug text-body-strong">Email:</th>
+                                                <td>user.gmail.com</td>
+                                            </tr>
+                                            <tr class="border-bottom">
+                                                <th class="h-hug text-body-strong">Địa chỉ:</th>
+                                                <td>Tân Chánh Hiệp/Quận 12/HCM</td>
+                                            </tr>
+                                        </table>
+                                        <div class="w-fill p-10" *ngIf="change_address == 0">
+                                            <div class="w-fill p-10 rounded-8 border">
+                                                <p class="text-left text-body mb-10">Dùng thông tin/địa chỉ mặc định:
+                                                </p>
+                                                <div class="layout-horizontal gap-10">
+                                                    <button type="button" (click)="setChangeAddress(2)"
+                                                        class="button-standard button-text-only w-fill">
+                                                        Không
+                                                    </button>
+                                                    <button type="button" (click)="setChangeAddress(1)"
+                                                        class="button-accent button-text-only w-fill">
+                                                        Có
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="layout-vertical border rounded-8 card-background-default">
+                                        <div class="cursor-pointer p-10 layout-horizontal align-center-left gap-5 border-bottom list-item"
+                                            *ngIf="change_address == 2" (click)="setChangeAddress(0)">
+                                            <i class="icon-size-16 icon icon-ic_fluent_arrow_left_16_filled"></i>
+                                            <p class="text-body">Quay lại</p>
+                                        </div>
+                                        <table class="w-fill text-left table-info-bill" *ngIf="change_address == 2">
+                                            <tr class="border-bottom">
+                                                <th class="h-hug text-body-strong">Họ và tên:</th>
+                                                <th>
+                                                    <div class="control text-control w-fill">
+                                                        <input type="text" spellcheck="false" name="name" ngModel
+                                                            required>
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                            <tr class="border-bottom">
+                                                <th class="h-hug text-body-strong">Số điện thoại:</th>
+                                                <th>
+                                                    <div class="control text-control w-fill">
+                                                        <input type="text" spellcheck="false" name="number_phone"
+                                                            ngModel required>
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                            <tr class="border-bottom">
+                                                <th class="h-hug text-body-strong">Email:</th>
+                                                <th>
+                                                    <div class="control text-control w-fill">
+                                                        <input type="text" spellcheck="false" name="email" ngModel
+                                                            required>
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                            <tr class="border-bottom">
+                                                <th class="h-hug text-body-strong">Địa chỉ:</th>
+                                                <th>
+                                                    <div class="control text-control w-fill">
+                                                        <input type="text" spellcheck="false" name="address" ngModel
+                                                            required>
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                        </table>
+                                        <div
+                                            class="border-bottom p-10 layout-horizontal gap-20 align-center-space-between">
+                                            <div class="h-hug text-body-strong text-left">Phương thức thanh toán:</div>
+                                            <div>
+                                                <div class="w-fill layout-horizontal align-center-center gap-10">
+                                                    <div class="border rounded-8 p-5 cursor-pointer"
+                                                        [class]="payment_method == 'zalo_pay'?'system-success':'card-background-default'"
+                                                        style="width: 50px; height: 50px;"
+                                                        (click)="setPaymentMethod('zalo_pay')">
+                                                        <img src="assets/image/logo_zalopay.png" alt=""
+                                                            class="object-fit-cover w-fill h-fill rounded-6">
+                                                    </div>
+                                                    <div class="border rounded-8 p-5 cursor-pointer"
+                                                        [class]="payment_method == 'vn_pay'?'system-success':'card-background-default'"
+                                                        style="width: 50px; height: 50px;"
+                                                        (click)="setPaymentMethod('vn_pay')">
+                                                        <img src="assets/image/logo_vnpay.png" alt=""
+                                                            class="object-fit-cover w-fill h-fill rounded-6">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="w-fill p-10">
+                                            <button type="button" class="button-accent button-text-only w-fill">
+                                                Thanh toán
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </article>
+</section>

@@ -55,7 +55,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.keyword = params['keyword'];
-      console.log(this.keyword);
+      // console.log(this.keyword);
 
       this.search(this.keyword);
 
@@ -120,12 +120,12 @@ export class SearchComponent implements OnInit, AfterViewInit {
           this.eventService.bindEventPost('App\\Events\\UserCommentPostEvent', (data: any) => {
             this.valueSearchPosts.find(item => item.id === data.data.post.id).comments_count = data.comments_count;
             this.getCommentByPostId(data.data.post.id).unshift(data.data);
-            console.log('Comment event:', data);
+            // console.log('Comment event:', data);
           });
 
           this.eventService.bindEventPost('App\\Events\\UserLikePostEvent', (data: any) => {
             this.valueSearchPosts.find(item => item.id === data.data.id).likes_count = data.likes_count;
-            console.log('Like event:', data);
+            // console.log('Like event:', data);
           });
 
         })
@@ -145,7 +145,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
   deletePost() {
     this.postService.deletePost(this.postDeleteId).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
       }
     );
   }
@@ -165,7 +165,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
       this.postService.updatePost(this.postUpdateId, formData).subscribe(
         (response) => {
-          console.log(response);
+          // console.log(response);
           this.showDiaLogUpdatePost(null);
         },
         (error) => {
@@ -269,13 +269,13 @@ export class SearchComponent implements OnInit, AfterViewInit {
   search(keyword: string = this.keyword) {
     this.postService.getSearch(keyword).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         this.valueSearchPosts = response.posts;
         this.valueSearchUsers = response.users;
         this.tabActive = 'all';
 
         this.eventService.bindEvent('App\\Events\\FriendRequestEvent', (data: any) => {
-          console.log('Friend request event:', data);
+          // console.log('Friend request event:', data);
 
           if (data.status == "accepted") {
             const friendfriend = this.valueSearchUsers.find((item: any) => item.id === data.receiver.id);
@@ -295,7 +295,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
   searchUser(keyword: string = this.keyword) {
     this.postService.getSearchUser(keyword).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         this.valueSearchPosts = [];
         this.valueSearchUsers = response.data;
         this.tabActive = 'user';
@@ -306,7 +306,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
   searchPost(keyword: string = this.keyword) {
     this.postService.getSearchPost(keyword).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         this.valueSearchPosts = response.data;
         this.valueSearchUsers = [];
         this.tabActive = 'post';
@@ -317,7 +317,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
   addFriend(receiver_id: number): void {
     this.authService.addFriend(receiver_id).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         const friendfriend = this.valueSearchUsers.find((item: any) => item.id === receiver_id);
         friendfriend.is_sent_friend_request = !friendfriend.is_sent_friend_request;
       });
@@ -326,7 +326,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
   unFriend(user_id: number): void {
     this.authService.unFriend(user_id).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         const friendfriend = this.valueSearchUsers.find((item: any) => item.id === user_id);
         friendfriend.is_friend = false;
         friendfriend.is_sent_friend_request = false;
@@ -336,7 +336,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
   cancelRequest(receiver_id: number) {
     this.authService.cancelFriend(receiver_id).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         const friendfriend = this.valueSearchUsers.find((item: any) => item.id === receiver_id);
         friendfriend.is_sent_friend_request = !friendfriend.is_sent_friend_request;
       });
@@ -356,7 +356,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
 
   postComment(value: any) {
-    console.log(value);
+    // console.log(value);
 
     const formData = new FormData();
     formData.append('content', value.content);
@@ -368,7 +368,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
     this.postService.postComment(formData).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         this.contentCommentInput = '';
         this.removeCommentImage();
       }
@@ -383,7 +383,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
         else post.likes_count--;
         post.liked = response.liked;
 
-        console.log(response);
+        // console.log(response);
       }
     )
   }
@@ -392,7 +392,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
   likeComment(comment_id: number, post_id: number) {
     this.postService.postLikeComment(comment_id).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
         const comment = this.commentByPostId[post_id].find((item: any) => item.id == comment_id);
         comment.liked = !comment.liked;
         (response.type == 'like') ? comment.like_count++ : comment.like_count--;
@@ -405,7 +405,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
   bookmarkPost(post_id: number) {
     this.postService.bookmarkPost(post_id).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
 
         const bookmark = this.valueSearchPosts.find(item => item.id === post_id);
         bookmark.bookmarked = !bookmark.bookmarked;
@@ -460,7 +460,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
     this.chatService.sendMessage(formData).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
         this.shareSuccess =
           `<p class="validation-message validation-sucess text-body text-primary py-10 px-15">
             <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
@@ -473,7 +473,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
   sharePostToMyPage(post_id: number) {
     this.postService.sharePostToMyPage(post_id).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
 
         const shared = this.valueSearchPosts.find(item => item.id === post_id);
         shared.shared = !shared.shared;
@@ -546,12 +546,12 @@ export class SearchComponent implements OnInit, AfterViewInit {
     const postReport: any = this.diaLogReport;
     postReport.content = content;
 
-    console.log(postReport);
+    // console.log(postReport);
 
 
     this.postService.postReport(postReport).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
 
         if (response.data.type == 'post') {
           this.listIdReport.push({ id: response.data.id, post_id: response.data.post_id });
@@ -572,7 +572,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
     this.postService.cancelReport(report.id).subscribe(
       (response: any) => {
         this.listIdReport = this.listIdReport.filter((id: any) => id.id !== report.id);
-        console.log(this.listIdReport);
+        // console.log(this.listIdReport);
       });
   }
 
@@ -590,7 +590,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
   onFileCommentSelected(event: any) {
     const files: File[] = Array.from(event.target.files);
-    console.log(files);
+    // console.log(files);
 
     const file = files[0];
     const reader = new FileReader();

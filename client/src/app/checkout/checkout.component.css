@@ -1,0 +1,13 @@
+section>article {
+    margin-top: 45px;
+}
+
+.table-product th,
+.table-product td {
+    padding: 10px;
+}
+
+.table-info-bill th,
+.table-info-bill td {
+    padding: 15px 10px;
+}

@@ -3,6 +3,7 @@ import { AuthService } from '../../service/auth.service';
 import { CommonModule } from '@angular/common';
 import { ChatService } from '../../service/chat.service';
 import { Router, RouterModule } from '@angular/router';
+import { PostService } from '../../service/post.service';
 
 @Component({
   selector: 'app-left-profile',
@@ -14,6 +15,7 @@ import { Router, RouterModule } from '@angular/router';
 export class LeftProfileComponent implements OnInit {
 
   user: any;
+  listPost: any;
   images: any;
   friendOfFriend: any;
   friendOfFriendLimit: any;
@@ -21,7 +23,8 @@ export class LeftProfileComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private router: Router,  
+    private postService: PostService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -34,12 +37,16 @@ export class LeftProfileComponent implements OnInit {
         this.authService.getImageByUser(this.user.id).subscribe(
           (response) => {
             this.images = response.data;
-          }
-        )
+          });
+
+        this.postService.getPostByUser().subscribe(
+          (data) => {
+            this.listPost = data.data;
+          });
 
         this.authService.getFriendOfFriend(this.user.id).subscribe(
           (response) => {
-            console.log(response);
+            // console.log(response);
             this.friendOfFriend = response.data;
             this.friendOfFriendLimit = response.data.slice(0, 9);
           });
@@ -47,10 +54,10 @@ export class LeftProfileComponent implements OnInit {
       });
   }
 
-  zoomImg: string = '';
+  zoomMedia: any = null;
 
-  setZoomIng(img: string) {
-    this.zoomImg = img;
+  setZoomMedia(media: any) {
+    this.zoomMedia = media;
   }
 
   viewMoreFriend() {
@@ -60,7 +67,7 @@ export class LeftProfileComponent implements OnInit {
   addFriend(receiver_id: number): void {
     this.authService.addFriend(receiver_id).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         this.user.is_sent_friend_request = true;
       });
   }

@@ -1,0 +1,46 @@
+{
+    "bookmark": {},
+    "chat": {},
+    "checkout": {},
+    "forgot_password": {},
+    "friend_profile": {},
+    "header": {
+        "cart_title": "Giỏ hàng",
+        "notification_title": "Thông báo"
+    },
+    "header_default": {},
+    "home": {
+        "center_home": {},
+        "left_home": {},
+        "right_home": {}
+    },
+    "landing_page": {},
+    "login": {},
+    "mini_chat": {},
+    "notification": {},
+    "profile": {
+        "center_profile": {},
+        "left_profile": {}
+    },
+    "register": {},
+    "search": {},
+    "setting": {
+        "setting_title": "Cài đặt",
+        "general_title": "Chung",
+        "account_title": "Tài khoản",
+        "appearance_title": "Giao diện",
+        "my_shop_title": "Cửa hàng của tôi",
+        "account_settings": {},
+        "appearance_settings": {},
+        "general_settings": {
+            "language_title": "Ngôn ngữ"
+        },
+        "shop_settings": {}
+    },
+    "shop": {},
+    "store": {
+        "store_infomation": {},
+        "store_order": {},
+        "store_product": {}
+    }
+}

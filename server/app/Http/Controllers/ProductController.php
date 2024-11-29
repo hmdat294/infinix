@@ -64,12 +64,23 @@ class ProductController extends Controller
         $product = ProductModel::findOrFail($id);
         $product->update($product_data);
 
+        $product->images()->delete();
+
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
                 $image_path = asset('storage/' . $image->store('uploads', 'public'));
                 ProductImageModel::create([
                     'product_id' => $product->id,
                     'image' => $image_path,
+                ]);
+            }
+        }
+
+        if ($request->has('urls')) {
+            foreach ($request->urls as $url) {
+                ProductImageModel::create([
+                    'product_id' => $product->id,
+                    'image' => $url,
                 ]);
             }
         }

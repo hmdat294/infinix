@@ -1,0 +1,35 @@
+.link, .link:visited {
+    color: var(--accent-text-primary);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+}
+
+.link:hover {
+    color: var(--accent-text-secondary);
+}
+
+.link.active {
+    color: var(--accent-text-tertiary);
+}
+
+.link.disabled {
+    color: var(--accent-text-disabled);
+}
+
+.text-accent-default {
+    color: var(--accent-default);
+}
+
+.text-accent-secondary {
+    color: var(--accent-secondary);
+}
+
+.text-accent-tertiary {
+    color: var(--accent-tertiary);
+}
+
+.text-accent-disabled {
+    color: var(--accent-disabled);
+}

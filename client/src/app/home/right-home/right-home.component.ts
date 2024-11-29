@@ -28,7 +28,6 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
   constructor(
     private el: ElementRef,
     private renderer: Renderer2,
-    private router: Router,
     private authService: AuthService,
     private chatService: ChatService,
     private eventService: EventService,
@@ -55,7 +54,7 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
                 this.friends_limit = this.friends.slice(0, 5);
 
                 this.eventService.bindEvent('App\\Events\\FriendRequestEvent', (data: any) => {
-                  console.log('Friend request event:', data);
+                  // console.log('Friend request event:', data);
 
                   // nếu status là accepted thì data có sender và receiver, bản thân là 1 trong 2 thì thêm vào danh sách bạn bè người còn lại
                   if (data.status == "accepted") {
@@ -69,10 +68,10 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
                 });
 
                 this.eventService.bindEvent('App\\Events\\UserConnectionEvent', (data: any) => {
-                  console.log('User online event:', data);
+                  // console.log('User online event:', data);
 
                   const friends = this.friends.find((item: any) => item.id == data.user.id) || {};
-                  friends.online_status = data.user?.online_status;
+                  friends.online_status = data.status;
 
                 });
 
@@ -124,7 +123,7 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
         const keyword = this.settingService.removeVietnameseTones(this.keyword.toLowerCase().trim());
         const displayName = this.settingService.removeVietnameseTones(friend.profile.display_name.toLowerCase() || "");
         const email = this.settingService.removeVietnameseTones(friend.email.toLowerCase() || "");
-        
+
         return displayName.includes(keyword) || email.includes(keyword);
       }
       );
@@ -159,24 +158,5 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
 
   friendMore() {
     this.showFriendMore = !this.showFriendMore;
-  }
-
-  logout(): void {
-    // this.eventService.updateOnlineStatus('offline').subscribe(
-    //   (response) => console.log(response)
-    // )
-    this.authService.logout().subscribe(
-      (response) => {
-        console.log('Logout Success:', response);
-
-        this.authService.removeAuthToken();
-        this.chatService.removeConversation();
-
-        this.router.navigate(['/landing-page']);
-      },
-      (error) => {
-        console.error('Logout Error:', error);
-      }
-    );
   }
 }
