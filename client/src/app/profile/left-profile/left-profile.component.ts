@@ -72,6 +72,31 @@ export class LeftProfileComponent implements OnInit {
       });
   }
 
+  unFriend(user_id: number): void {
+    this.authService.unFriend(user_id).subscribe(
+      (response) => {
+        // console.log(response);
+
+        if (this.user.id == user_id) {
+          this.user.is_friend = false;
+          this.user.is_sent_friend_request = false;
+        }
+        else {
+          const friendfriend = this.friendOfFriend.find((item: any) => item.id === user_id);
+          friendfriend.is_friend = false;
+          friendfriend.is_sent_friend_request = false;
+        }
+
+      });
+  }
+
+  cancelRequest(receiver_id: number) {
+    this.authService.acceptFriend({ id: receiver_id, status: 'rejected' }).subscribe(
+      (response) => {
+        // console.log(response);
+      });
+  }
+
   goToFriend(user_id: number) {
     this.showMoreFriend = false;
     this.router.navigate(['/friend-profile', user_id]);

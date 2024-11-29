@@ -67,13 +67,24 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
     this.authService.getUser(0).subscribe(
       (response) => {
         this.user = response.data;
-        
+
         // this.conversation = JSON.parse(localStorage.getItem('conversation') || '[]');
-        
+
         this.chatService.conversation$.subscribe(conversation => {
           // console.log(this.chatService.tagOpenBoxChat);
-          // console.log('Updated conversation from localStorage:', conversation);
+          console.log('Updated conversation from localStorage:', conversation);
           this.conversation = conversation;
+
+          const uniqueIds = conversation.filter(item1 => 
+            !this.listChat.some((item2:any) => item2.id === item1)
+          );
+
+          console.log("Unique conversation IDs:", uniqueIds);
+
+          //đã lấy được đúng các conversation_id nhưng đối với những user 
+          //chưa có trong conversation thì listChat chưa cập nhật được data
+          //cần kiểm tra nếu có conversation_id mà listChat không có thì request listChat lại 
+          
           this.filterListChat();
 
           if (this.chatService.tagOpenBoxChat) {
@@ -157,13 +168,14 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
   }
 
   filterListChat() {
+
     this.filteredConversations = this.listChat.filter((convo: any) =>
       this.conversation.includes(convo.id)
     ).sort((a: any, b: any) =>
       this.conversation.indexOf(a.id) - this.conversation.indexOf(b.id)
     );
 
-    // console.log(this.filteredConversations);
+    console.log('Filter conversation from localStorage:', this.filteredConversations);
   }
 
 
@@ -267,7 +279,7 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
 
   editMessage(id: number) {
     const message = this.chat.messages.find((item: any) => item.id === id);
-    console.log(message);
+    // console.log(message);
     this.previewReply = message;
     this.content = message.content;
     this.is_edit_message = true;

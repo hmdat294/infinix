@@ -692,7 +692,7 @@
             </button>
         </div>
 
-        <div class="position-fixed top-0 start-0 {{(dialogShare == post.id) ? 'display-block' : 'display-none'}}"
+        <div class="position-fixed top-0 start-0" *ngIf="dialogShare == post.id"
             style="width: 100%; height: 100vh; z-index: 30;">
             <div class="position-fixed top-0 start-0"
                 style="width: 100%; height: 100vh; z-index: 20; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px);">
@@ -716,23 +716,22 @@
                                 <p class="text-body-strong text-primary w-fill">Chia sẻ với bạn bè</p>
                             </div>
                             <div class="layout w-fill">
-                                <button type="button"
+                                <button type="button" (click)="nextuser('user')"
                                     class="button-subtle button-icon-only position-absolute top-50 translate-middle-y"
                                     style="right: 25px; z-index: 1;">
                                     <i class="icon-size-16 icon icon-ic_fluent_chevron_right_16_filled"></i>
                                 </button>
-                                <button type="button"
+                                <button type="button" (click)="prevuser('user')"
                                     class="button-subtle button-icon-only position-absolute top-50 translate-middle-y"
                                     style="left: 25px; z-index: 1;">
                                     <i class="icon-size-16 icon icon-ic_fluent_chevron_left_16_filled"></i>
                                 </button>
                                 <div class="overflow-hidden" style="width: calc(100% - 135px); margin: auto;">
-                                    <div class="w-fill gap-20 overflow-scroll-horizontal layout-horizontal">
+                                    <div class="user_inner layout-horizontal gap-20 overflow-hidden">
 
 
                                         <!-- for -->
-                                        <div *ngFor="let user of listUser" class="list-item"
-                                            style="width: 100px !important;">
+                                        <div *ngFor="let user of listUser" class="user_item list-item w-fill-column-3">
                                             <div class="layout-vertical align-center-center gap-10 flex-shrink-0"
                                                 (click)="sharePostToMessage(post.id, user?.id, (user?.users[0].id == currentUser?.id) ?
                                         user?.users[1].profile.display_name :
@@ -749,6 +748,7 @@
                                             </div>
                                         </div>
 
+
                                     </div>
                                 </div>
                             </div>
@@ -759,23 +759,21 @@
                                 <p class="text-body-strong text-primary w-fill">Chia sẻ với nhóm</p>
                             </div>
                             <div class="layout w-fill">
-                                <button type="button"
+                                <button type="button" (click)="nextuser('group')"
                                     class="button-subtle button-icon-only position-absolute top-50 translate-middle-y"
                                     style="right: 25px; z-index: 1;">
                                     <i class="icon-size-16 icon icon-ic_fluent_chevron_right_16_filled"></i>
                                 </button>
-                                <button type="button"
+                                <button type="button" (click)="prevuser('group')"
                                     class="button-subtle button-icon-only position-absolute top-50 translate-middle-y"
                                     style="left: 25px; z-index: 1;">
                                     <i class="icon-size-16 icon icon-ic_fluent_chevron_left_16_filled"></i>
                                 </button>
                                 <div class="overflow-hidden" style="width: calc(100% - 135px); margin: auto;">
-                                    <div class="w-fill gap-20 overflow-scroll-horizontal layout-horizontal">
-
+                                    <div class="group_inner layout-horizontal gap-20 overflow-hidden">
 
                                         <!-- for -->
-                                        <div *ngFor="let group of listGroup" class="list-item"
-                                            style="width: 100px !important;">
+                                        <div *ngFor="let group of listGroup" class="group_item list-item w-fill-column-3">
                                             <div class="layout-vertical align-center-center gap-10 flex-shrink-0"
                                                 (click)="sharePostToMessage(post.id, group?.id, group?.name)">
                                                 <img class="border border-card-default rounded-circle w-fill object-fit-cover"
@@ -784,8 +782,6 @@
                                                 <p class="text-body-strong text-primary text-center">{{group?.name}}</p>
                                             </div>
                                         </div>
-
-
 
                                     </div>
                                 </div>

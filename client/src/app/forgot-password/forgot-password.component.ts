@@ -17,7 +17,7 @@ export class ForgotPasswordComponent {
   constructor(private authService: AuthService, private router: Router) { }
 
   checkPasswords(form: NgForm): boolean {
-    return form.controls['password'].value === form.controls['confirm'].value;
+    return form.controls['password']?.value === form.controls['confirm']?.value;
   }
 
   changePassword(value: any) {
