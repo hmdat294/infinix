@@ -56,8 +56,8 @@ Route::middleware(['guest'])->group(function () {
 
     Route::post('update-online-status', [UserController::class, 'updateOnlineStatus'])->name('update-online-status');
 
-    Route::post('/zalopay/create-order', [ZaloPayController::class, 'createOrder']);
-    Route::post('/zalopay/callback', [ZaloPayController::class, 'handleCallback']);
+    // Route::post('/zalopay/create-order', [ZaloPayController::class, 'createOrder']);
+    // Route::post('/zalopay/callback', [ZaloPayController::class, 'handleCallback']);
 });
 
 Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(function () {
@@ -94,6 +94,9 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
     // Route::get('order/{id}', [OrderController::class, 'show']);
     Route::post('order/{id}', [OrderController::class, 'update']);
     // Route::delete('order/{id}', [OrderController::class, 'destroy']);
+
+    
+    Route::post('callback', [OrderController::class, 'callback']);
 
 
 
