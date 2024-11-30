@@ -7,11 +7,17 @@
             "share_to_friend": "Chia sẻ với bạn bè",
             "share_to_group": "Chia sẻ với nhóm",
             "copy_url": "Sao chép đường dẫn",
+            "cancel_share": "Hủy chia sẻ",
             "share_to_profile": "Chia sẻ về trang cá nhân"
-        }
+        },
+        "empty_bookmark": "Không có bài viết nào được lưu"
     },
     "chat": {
         "find": "Tìm kiếm",
+        "empty": "Trống",
+        "blocker": "Bạn đã chặn tài khoản này!",
+        "blocked": "Tài khoản này hiện không muốn nhận tin nhắn của bạn!",
+        "unblock": "Bỏ chặn",
         "create_group": {
             "title": "Tạo nhóm trò chuyện",
             "description": "Tạo nhóm trò chuyện để bắt đầu trò chuyện với nhiều người cùng một lúc",
@@ -30,13 +36,14 @@
             "user": "Thành viên"
         },
         "message": {
-            "title_detail": "Chi tiết tin nhắn",
             "find_message": "Tìm kiếm tin nhắn",
-            "media": "phương tiện",
+            "media": "Phương tiện",
             "empty": "Trống",
             "recalled": "Tin nhắn đã được thu hồi",
             "undo": "Hoàn tác",
-            "send_button": "Gửi"
+            "edit_button": "Sửa",
+            "send_button": "Gửi",
+            "share_this": "đã chia sẻ bài đăng này"
         },
         "not_friend": {
             "title": "Chưa phải là bạn, gửi yêu cầu kết bạn",
@@ -64,6 +71,10 @@
     "forgot_password": {
         "title": "Quên mật khẩu",
         "email_label": "Email",
+        "password_label": "Mật khẩu",
+        "format_email": "Chưa nhập đúng định dạng",
+        "format_password": "Phải có nhiều hơn 8 ký tự",
+        "no_match": "Không khớp",
         "create_code_button": "Gửi mã",
         "verify_code_label": "Mã xác nhận",
         "set_password_label": "Đặt mật khẩu",
@@ -73,16 +84,30 @@
         "submit_button": "Hoàn tất"
     },
     "friend_profile": {
-        "friend": "Bạn bè",
-        "friend_count": "bạn bè",
+        "friend_count": "Bạn bè",
         "add_friend": "Thêm bạn bè",
         "cancel_request_friend": "Hủy yêu cầu",
         "unfriend": "Hủy kết bạn",
         "post_count": "Bài viết",
-        "media_count": "phương tiện",
+        "media_count": "Phương tiện",
         "more": "Xem thêm",
+        "empty": "Trống",
+        "empty_post": "Người dùng này không có bài viết nào",
+        "home_button": "Trang chủ",
+        "dont_view": "Bạn hiện không thể xem nội dung này",
         "chat": "Nhắn tin",
+        "add_friend_to_chat": "Kết bạn để nhắn tin!",
+        "send_comment": "Đăng",
+        "end_poll": "Bình chọn - kết thúc vào",
+        "block": {
+            "title": "Chặn tài khoản",
+            "message": "Sau khi chặn sẽ không thể xem bài viết và nhắn tin!",
+            "cancel_button": "Hủy",
+            "block_button": "Chặn"
+        },
         "report": {
+            "report_of": "Đã báo cáo bài viết của",
+            "reported": "Bài viết này sẽ không hiển thị lại",
             "title": "Báo cáo nội dung",
             "other_content": "Nội dung khác",
             "sample_content_1": "Ngôn từ đã kích",
@@ -91,6 +116,7 @@
             "sample_content_4": "Mang tính bạo lực, thù ghét",
             "sample_content_5": "Lừa đảo, gian lận, mạo danh",
             "submit_button": "Gửi báo cáo",
+            "cancel_button": "Hủy",
             "report_button": "Báo cáo"
         },
         "share": {
@@ -98,13 +124,23 @@
             "share_to_friend": "Chia sẻ với bạn bè",
             "share_to_group": "Chia sẻ với nhóm",
             "copy_url": "Sao chép đường dẫn",
-            "share_to_profile": "Chia sẻ về trang cá nhân"
+            "share_to_profile": "Chia sẻ về trang cá nhân",
+            "cancel_share": "Hủy chia sẻ",
+            "share_this": "đã chia sẻ bài đăng này",
+            "share_and": "và",
+            "share_with": "cùng với",
+            "share_other": "người khác đã chia sẻ bài đăng này"
         }
     },
     "header": {
         "find": "Tìm kiếm",
         "cart_title": "Giỏ hàng",
-        "notification_title": "Thông báo"
+        "notification_title": "Thông báo",
+        "all_notification": "Tất cả",
+        "unread_notification": "Chưa đọc",
+        "more": "Xem thêm",
+        "total": "Tổng tiền",
+        "pay": "Thanh toán"
     },
     "header_default": {
         "home_title": "Trang chủ",
@@ -114,6 +150,13 @@
     "home": {
         "center_home": {
             "post_button": "Đăng bài",
+            "end_poll": "Bình chọn - kết thúc vào",
+            "send_comment": "Đăng",
+            "delete_comment": "Xóa",
+            "friend_suggestions": "Gợi ý kết bạn",
+            "add_friend": "Thêm bạn bè",
+            "cancel_request_friend": "Hủy yêu cầu",
+            "unfriend": "Hủy kết bạn",
             "update_post": {
                 "title": "Cập nhật bài viết",
                 "update_button": "Cập nhật",
@@ -127,6 +170,8 @@
                 "delete_post_button": "Xóa"
             },
             "report": {
+                "report_of": "Đã báo cáo bài viết của",
+                "reported": "Bài viết này sẽ không hiển thị lại",
                 "title": "Báo cáo nội dung",
                 "other_content": "Nội dung khác",
                 "sample_content_1": "Ngôn từ đã kích",
@@ -134,7 +179,8 @@
                 "sample_content_3": "Đường dẫn không an toàn",
                 "sample_content_4": "Mang tính bạo lực, thù ghét",
                 "sample_content_5": "Lừa đảo, gian lận, mạo danh",
-                "submit_report_button": "Gửi báo cáo",
+                "submit_button": "Gửi báo cáo",
+                "cancel_button": "Hủy",
                 "report_button": "Báo cáo"
             },
             "share": {
@@ -142,7 +188,12 @@
                 "share_to_friend": "Chia sẻ với bạn bè",
                 "share_to_group": "Chia sẻ với nhóm",
                 "copy_url": "Sao chép đường dẫn",
-                "share_to_profile": "Chia sẻ về trang cá nhân"
+                "share_to_profile": "Chia sẻ về trang cá nhân",
+                "cancel_share": "Hủy chia sẻ",
+                "share_this": "đã chia sẻ bài đăng này",
+                "share_and": "và",
+                "share_with": "cùng với",
+                "share_other": "người khác đã chia sẻ bài đăng này"
             }
         },
         "left_home": {
@@ -188,6 +239,8 @@
     "login": {
         "title": "Đăng nhập",
         "email_label": "Email",
+        "format_email": "Chưa nhập đúng định dạng",
+        "format_password": "Phải có nhiều hơn 8 ký tự",
         "password_label": "Mật khẩu",
         "dont_have_account": "Bạn chưa có tài khoản?",
         "create_new_account": "Tạo tài khoản mới!",
@@ -195,10 +248,19 @@
         "login_button": "Đăng nhập"
     },
     "mini_chat": {
+        "blocker": "Bạn đã chặn tài khoản này!",
+        "blocked": "Tài khoản này hiện không muốn nhận tin nhắn của bạn!",
+        "unblock": "Bỏ chặn",
         "not_friend": {
             "title": "Chưa phải là bạn, gửi yêu cầu kết bạn",
             "add_friend": "Thêm bạn bè",
             "cancel_request_friend": "Hủy yêu cầu"
+        },
+        "message": {
+            "share_post": "đã chia sẻ",
+            "share_this": "đã chia sẻ bài đăng này",
+            "recalled": "Tin nhắn đã được thu hồi",
+            "undo": "Hoàn tác"
         },
         "popup": {
             "title_detail": "Chi tiết tin nhắn"
@@ -219,6 +281,9 @@
     "profile": {
         "center_profile": {
             "post_button": "Đăng bài",
+            "end_poll": "Bình chọn - kết thúc vào",
+            "send_comment": "Đăng",
+            "delete_comment": "Xóa",
             "update_post": {
                 "title": "Cập nhật bài viết",
                 "update_button": "Cập nhật",
@@ -232,6 +297,8 @@
                 "delete_post_button": "Xóa"
             },
             "report": {
+                "report_of": "Đã báo cáo bài viết của",
+                "reported": "Bài viết này sẽ không hiển thị lại",
                 "title": "Báo cáo nội dung",
                 "other_content": "Nội dung khác",
                 "sample_content_1": "Ngôn từ đã kích",
@@ -239,7 +306,8 @@
                 "sample_content_3": "Đường dẫn không an toàn",
                 "sample_content_4": "Mang tính bạo lực, thù ghét",
                 "sample_content_5": "Lừa đảo, gian lận, mạo danh",
-                "submit_report_button": "Gửi báo cáo",
+                "submit_button": "Gửi báo cáo",
+                "cancel_button": "Hủy",
                 "report_button": "Báo cáo"
             },
             "share": {
@@ -247,24 +315,33 @@
                 "share_to_friend": "Chia sẻ với bạn bè",
                 "share_to_group": "Chia sẻ với nhóm",
                 "copy_url": "Sao chép đường dẫn",
-                "share_to_profile": "Chia sẻ về trang cá nhân"
+                "share_to_profile": "Chia sẻ về trang cá nhân",
+                "cancel_share": "Hủy chia sẻ",
+                "share_this": "đã chia sẻ bài đăng này",
+                "share_and": "và",
+                "share_with": "cùng với",
+                "share_other": "người khác đã chia sẻ bài đăng này"
             }
         },
         "left_profile": {
-            "friend": "Bạn bè",
-            "friend_count": "bạn bè",
+            "friend_count": "Bạn bè",
             "add_friend": "Thêm bạn bè",
             "cancel_request_friend": "Hủy yêu cầu",
             "unfriend": "Hủy kết bạn",
             "post_count": "Bài viết",
-            "media_count": "phương tiện",
-            "more": "Xem thêm"
+            "media_count": "Phương tiện",
+            "more": "Xem thêm",
+            "empty": "Trống"
         }
     },
     "register": {
         "title": "Tạo tài khoản",
         "name_label": "Họ và tên",
         "email_label": "Email",
+        "password_label": "Mật khẩu",
+        "format_email": "Chưa nhập đúng định dạng",
+        "format_password": "Phải có nhiều hơn 8 ký tự",
+        "no_match": "Không khớp",
         "verify_code_label": "Mã xác nhận",
         "set_password_label": "Đặt mật khẩu",
         "confirm_password_label": "Xác nhận mật khẩu",
@@ -278,7 +355,7 @@
     },
     "search": {
         "sort": {
-            "title": "Xem thêm",
+            "title": "Bộ lọc",
             "all": "Tất cả",
             "user": "Người dùng",
             "post": "Bài đăng"
@@ -287,22 +364,13 @@
             "user_title": "Người dùng",
             "add_friend": "Thêm bạn bè",
             "cancel_request_friend": "Hủy yêu cầu",
-            "unfriend": "Hủy kết bạn"
+            "unfriend": "Hủy kết bạn",
+            "empty": "Không tìm thấy người dùng!"
         },
         "post": {
-            "update_post": {
-                "title": "Cập nhật bài viết",
-                "update_button": "Cập nhật",
-                "update_post_button": "Sửa"
-            },
-            "delete_post": {
-                "title": "Xóa bài viết",
-                "message": "Bạn có chắc chắn muốn xóa?",
-                "cancel_button": "Hủy",
-                "delete_button": "Xóa",
-                "delete_post_button": "Xóa"
-            },
             "report": {
+                "report_of": "Đã báo cáo bài viết của",
+                "reported": "Bài viết này sẽ không hiển thị lại",
                 "title": "Báo cáo nội dung",
                 "other_content": "Nội dung khác",
                 "sample_content_1": "Ngôn từ đã kích",
@@ -310,7 +378,8 @@
                 "sample_content_3": "Đường dẫn không an toàn",
                 "sample_content_4": "Mang tính bạo lực, thù ghét",
                 "sample_content_5": "Lừa đảo, gian lận, mạo danh",
-                "submit_report_button": "Gửi báo cáo",
+                "submit_button": "Gửi báo cáo",
+                "cancel_button": "Hủy",
                 "report_button": "Báo cáo"
             },
             "share": {
@@ -318,7 +387,12 @@
                 "share_to_friend": "Chia sẻ với bạn bè",
                 "share_to_group": "Chia sẻ với nhóm",
                 "copy_url": "Sao chép đường dẫn",
-                "share_to_profile": "Chia sẻ về trang cá nhân"
+                "share_to_profile": "Chia sẻ về trang cá nhân",
+                "cancel_share": "Hủy chia sẻ",
+                "share_this": "đã chia sẻ bài đăng này",
+                "share_and": "và",
+                "share_with": "cùng với",
+                "share_other": "người khác đã chia sẻ bài đăng này"
             }
         },
         "more": "Xem thêm"
@@ -332,11 +406,13 @@
         "account_settings": {
             "title": "Thông tin tài khoản",
             "username": {
-                "username_title": "Tên tài khoản"
+                "title": "Tên tài khoản"
             },
             "password": {
-                "password_label": "Mật khẩu",
-                "password_description": "Mật khẩu",
+                "title": "Mật khẩu",
+                "format_password": "Phải có nhiều hơn 8 ký tự",
+                "no_match": "Không khớp",
+                "description": "Thay đổi mật khẩu của bạn",
                 "change_password_title": "Đổi mật khẩu",
                 "change_password_button": "Đổi mật khẩu",
                 "old_password": "Mật khẩu cũ",
@@ -346,14 +422,17 @@
                 "submit_button": "Hoàn tất"
             },
             "number_phone": {
-                "number_phone_label": "Mật khẩu"
+                "title": "Mật khẩu"
             },
             "block_strangers": {
-                "block_strangers_title": "Chặn người lạ",
-                "block_strangers_description": "Những người chưa kết bạn sẽ không thể gửi tin nhắn cho bạn"
+                "title": "Chặn người lạ",
+                "description": "Những người chưa kết bạn sẽ không thể gửi tin nhắn cho bạn",
+                "on": "Bật",
+                "off": "Tắt"
             },
             "save_button": "Lưu",
-            "empty": "Trống"
+            "empty": "Trống",
+            "logout": "Đăng xuất"
         },
         "appearance_settings": {
             "display_title": "Hiển thị",
@@ -381,14 +460,15 @@
                 "open_file": "Chọn ảnh"
             },
             "language": {
-                "language_title": "Ngôn ngữ"
+                "title": "Ngôn ngữ",
+                "label": "Chuyển đổi ngôn ngữ"
             },
             "block_and_report": {
-                "block_and_report_title": "Chặn và báo cáo",
+                "title": "Chặn và báo cáo",
                 "block_title": "Danh sách chặn",
                 "block_description": "Danh sách các tài khoản đã chặn",
                 "unblock_button": "Bỏ chặn",
-                "report_title": "Báo cáo",
+                "report_title": "Danh sách báo cáo",
                 "report_description": "Danh sách các tài khoản và bài viết đã báo cáo",
                 "post_report": "Bài viết",
                 "user_report": "Tài khoản",
@@ -422,7 +502,11 @@
                 "detail": "Số nhà/Chi tiết",
                 "create_button": "Tạo cửa hàng",
                 "edit_button": "Sửa thông tin",
-                "delete_button": "Xóa cửa hàng"
+                "delete_button": "Xóa cửa hàng",
+                "delete_title": "Xóa cửa hàng",
+                "update_button": "Cập nhật",
+                "cancel_button": "Hủy",
+                "submit_delete": "Xóa"
             },
             "category": {
                 "title": "Danh mục",
@@ -432,12 +516,12 @@
                 "create": {
                     "create_button": "Thêm danh mục",
                     "title": "Thêm danh mục",
-                    "name": "Tên danh mục",
+                    "name": "Tên danh mục:",
                     "submit_button": "Thêm"
                 },
                 "edit": {
                     "title": "Sửa danh mục",
-                    "name": "Tên danh mục",
+                    "name": "Tên danh mục:",
                     "submit_button": "Sửa"
                 },
                 "delete": {
@@ -447,6 +531,7 @@
                 }
             },
             "product": {
+                "select": "Tất cả",
                 "title": "Sản phẩm",
                 "index": "STT",
                 "image": "Hình ảnh",
@@ -454,11 +539,15 @@
                 "stock": "Số lượng",
                 "price": "Giá",
                 "create_button": "Thêm sản phẩm",
+                "not_category": "Chưa có danh mục nào!",
                 "create_anh_update": {
                     "create_title": "Thêm sản phẩm",
                     "update_title": "Cập nhật sản phẩm",
                     "name": "Tên sản phẩm",
                     "stock": "Số lượng",
+                    "format_stock": "Giá trị phải lớn hơn 1",
+                    "format_price": "Giá trị phải lớn hơn hoặc bằng 0",
+                    "format_discount": "Giá trị phải nằm trong khoảng từ 0 đến 100",
                     "category": "Danh mục",
                     "description": "Mô tả",
                     "price": "Giá",
@@ -475,8 +564,12 @@
                     "submit_button": "Xóa"
                 }
             },
-            "order": {},
-            "feedback": {}
+            "order": {
+                "title": "Đơn hàng"
+            },
+            "feedback": {
+                "title": "Đánh giá"
+            }
         }
     },
     "checkout": {},
@@ -485,5 +578,6 @@
         "store_infomation": {},
         "store_order": {},
         "store_product": {}
-    }
+    },
+    "product_detail": {}
 }

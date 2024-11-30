@@ -9,11 +9,12 @@ import { CommonModule } from '@angular/common';
 import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { SettingService } from '../service/setting.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-mini-chat',
   standalone: true,
-  imports: [RouterModule, CommonModule, FormsModule, EmojiModule, PickerComponent],
+  imports: [RouterModule, CommonModule, FormsModule, EmojiModule, PickerComponent, TranslateModule],
   templateUrl: './mini-chat.component.html',
   styleUrl: './mini-chat.component.css'
 })
