@@ -35,11 +35,10 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   selectedFiles: File[] = [];
   previewUrls: any[] = [];
 
-  is_edit_message: boolean = false;
-  id_message: number = 0;
+  id_edit_message: number = 0;
 
   isScrollingToElement: boolean = false;
-  isVisible = false;
+  isVisible = true;
   showBoxSearch = false;
   showBoxSearchUser = false;
   showUserGroup = false;
@@ -102,14 +101,14 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
               ...item,
               users: item.users.filter((user: any) => user.id !== this.user?.id)
             }))
-            console.log(this.friends);
+            // console.log(this.friends);
 
             if (this.friends.length > 0) {
               this.MessageUser(this.friends[0]);
             }
 
             this.eventService.bindEvent('App\\Events\\UserBlockUserEvent', (data: any) => {
-              console.log('Block event:', data);
+              // console.log('Block event:', data);
               const blocker = data.blocker;
               const type = data.type;
               this.friends.find((friend: any) =>
@@ -120,7 +119,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
             this.eventService.bindEvent('App\\Events\\UserSendMessageEvent', (data: any) => {
               this.isScrollingToElement = false;
-              console.log('Message event:', data);
+              // console.log('Message event:', data);
               if (this.conversation?.id == data.data?.conversation_id)
                 this.conversation.messages.push(data.data);
 
@@ -131,7 +130,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
                 if (!user_receiver) {
                   this.chatService.getMessageUser(data.data.user_id).subscribe(
                     (response: any) => {
-                      console.log(response);
+                      // console.log(response);
                       this.friends.unshift(response.data);
                     });
                 }
@@ -139,22 +138,23 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
             });
 
             this.eventService.bindEvent('App\\Events\\UserRecallMessageEvent', (data: any) => {
-              console.log('Recall Message event:', data);
+              // console.log('Recall Message event:', data);
               if (this.conversation.id == data.data.conversation_id)
                 this.conversation.messages.find((item: any) => item.id === data.data.id).is_recalled = data.data.is_recalled;
             });
 
             this.eventService.bindEvent('App\\Events\\UserEditMessageEvent', (data: any) => {
-              console.log('Edit Message event:', data);
+              // console.log('Edit Message event:', data);
               if (this.conversation.id == data.data.conversation_id) {
                 const mess = this.conversation.messages.find((item: any) => item.id === data.data.id);
                 mess.content = data.data.content;
+                mess.medias = data.data.medias;
                 mess.is_edited = data.data.is_edited;
               }
             });
 
             this.eventService.bindEvent('App\\Events\\UserLikeMessageEvent', (data: any) => {
-              console.log('Like Message event:', data);
+              // console.log('Like Message event:', data);
               if (this.conversation.id == data.message.conversation_id) {
                 const mess = this.conversation.messages.find((item: any) => item.id === data.message.id);
                 mess.likes = data.message.likes;
@@ -190,14 +190,14 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   addFriend(receiver_id: number): void {
     this.authService.addFriend(receiver_id).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
       });
   }
 
   cancelRequest(receiver_id: number) {
     this.authService.cancelFriend(receiver_id).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
       });
   }
 
@@ -307,15 +307,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     return this.conversation.messages[i + 1].user_id !== id;
   }
 
-  resizeTextarea(event: any): void {
-    const textarea = event.target;
-    if (!textarea.value) {
-      textarea.style.height = '32px'; // Chiều cao mặc định khi không có nội dung
-    } else if (textarea.scrollHeight < 110) {
-      textarea.style.height = 'fit-content';
-      textarea.style.height = textarea.scrollHeight + 'px';
-    }
-  }
+
 
   MessageUser(conversation: any) {
 
@@ -346,7 +338,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   }
 
   sendMessage(mess: any) {
-    if (!this.is_edit_message) {
+    if (this.id_edit_message == 0) {
 
       const formData = new FormData();
       formData.append('conversation_id', mess.id.toString());
@@ -364,7 +356,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
       this.chatService.sendMessage(formData).subscribe(
         (response: any) => {
-          console.log(response);
+          // console.log(response);
           (document.querySelector('.textarea-chat') as HTMLTextAreaElement).style.height = '32px';
           this.content = '';
           this.onCancelSendImg();
@@ -374,28 +366,97 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
       );
     }
     else {
+      const urlImg = this.previewUrls.filter(url => url.path.startsWith("http"));
+
       const formData = new FormData();
       formData.append('content', mess.content);
 
-      if (this.selectedFiles.length > 0) {
-        this.selectedFiles.forEach(image => {
-          formData.append('medias[]', image, image.name);
+      if (this.selectedFiles.length > 0)
+        this.selectedFiles.forEach(image => formData.append('medias[]', image, image.name));
+
+      if (urlImg.length > 0) {
+        urlImg.forEach(imagePath => {
+          const data = {
+            path: imagePath.path,
+            type: imagePath.type
+          };
+          formData.append('urls[]', JSON.stringify(data));
         });
       }
 
-      this.chatService.recallMessage(this.id_message, formData).subscribe(
+      this.chatService.recallMessage(this.id_edit_message, formData).subscribe(
         (response) => {
-          console.log(response);
+          // console.log(response);
           (document.querySelector('.textarea-chat') as HTMLTextAreaElement).style.height = '32px';
           this.content = '';
           this.onCancelSendImg();
           this.onCancelReply();
           this.showEmojiPicker = false;
-          this.is_edit_message = false;
+          this.id_edit_message = 0;
         }
       );
     }
   }
+
+  editMessage(id: number) {
+    if (id > 0) {
+      const message = this.conversation.messages.find((item: any) => item.id === id);
+      // console.log(message);
+      this.previewUrls = [...message.medias];
+      this.content = message.content;
+      this.id_edit_message = message.id;
+    }
+    else {
+      (document.querySelector('.textarea-chat') as HTMLTextAreaElement).style.height = '32px';
+      this.content = '';
+      this.onCancelSendImg();
+      this.onCancelReply();
+      this.showEmojiPicker = false;
+      this.id_edit_message = 0;
+    }
+  }
+
+
+  onFileSelected(event: any) {
+    const files: File[] = Array.from(event.target.files);
+    if (files && files.length > 0) {
+      files.forEach(file => {
+        const reader = new FileReader();
+
+        if (file.type.startsWith('image/')) {
+          // Xử lý ảnh
+          reader.onload = () => this.previewUrls.push({ type: 'image/webp', path: reader.result as string });
+          reader.readAsDataURL(file);
+        } else if (file.type.startsWith('video/')) {
+          // Xử lý video
+          const videoURL = URL.createObjectURL(file);
+          this.previewUrls.push({ type: 'video/mp4', path: videoURL });
+        }
+
+        // Lưu tệp vào danh sách đã chọn
+        this.selectedFiles.push(file);
+      });
+    }
+  }
+
+  onCancelSendImg() {
+    this.selectedFiles = [];
+    this.previewUrls = [];
+    this.resetFileInput();
+  }
+
+  removeImage(index: number): void {
+    this.previewUrls.splice(index, 1);
+    this.selectedFiles.splice(index, 1);
+  }
+
+  handleKeydown(event: KeyboardEvent, frm: any) {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      this.sendMessage(frm);
+    }
+  }
+
 
 
   vietnameseI18n: any = {
@@ -443,46 +504,6 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     }
   }
 
-  onFileSelected(event: any) {
-    const files: File[] = Array.from(event.target.files);
-    if (files && files.length > 0) {
-      files.forEach(file => {
-        const reader = new FileReader();
-
-        if (file.type.startsWith('image/')) {
-          // Xử lý ảnh
-          reader.onload = () => this.previewUrls.push({ type: 'image/webp', path: reader.result as string });
-          reader.readAsDataURL(file);
-        } else if (file.type.startsWith('video/')) {
-          // Xử lý video
-          const videoURL = URL.createObjectURL(file);
-          this.previewUrls.push({ type: 'video/mp4', path: videoURL });
-        }
-
-        // Lưu tệp vào danh sách đã chọn
-        this.selectedFiles.push(file);
-      });
-    }
-  }
-
-  onCancelSendImg() {
-    this.selectedFiles = [];
-    this.previewUrls = [];
-    this.resetFileInput();
-  }
-
-  removeImage(index: number): void {
-    this.previewUrls.splice(index, 1);
-    this.selectedFiles.splice(index, 1);
-  }
-
-  handleKeydown(event: KeyboardEvent, frm: any) {
-    if (event.key === 'Enter' && !event.shiftKey) {
-      event.preventDefault();
-      this.sendMessage(frm);
-    }
-  }
-
 
   recallMessage(id: number) {
     const message = this.conversation.messages.find((item: any) => item.id === id);
@@ -495,7 +516,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
       else {
         this.chatService.recallMessage(id, { 'is_recalled': 1 }).subscribe(
           (response) => {
-            console.log(response);
+            // console.log(response);
             if (this.checkPined(id)) this.pinMessage(id);
           },
           (error) => console.error('Error recalling message', error)
@@ -531,15 +552,6 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     (document.querySelector('.textarea-chat') as HTMLTextAreaElement)?.focus();
   }
 
-  editMessage(id: number) {
-    const message = this.conversation.messages.find((item: any) => item.id === id);
-    // console.log(message);
-    this.previewReply = message;
-    this.content = message.content;
-    this.is_edit_message = true;
-    this.id_message = message.id;
-  }
-
   onCancelReply() {
     this.reply_id = null;
     this.previewReply = null;
@@ -550,7 +562,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   pinMessage(message_id: number) {
     this.chatService.pinMessage(message_id).subscribe(
       (data: any) => {
-        console.log(data);
+        // console.log(data);
 
         if (data.message == "Pinned")
           this.conversation.pinned_messages.push(data.data);
@@ -582,7 +594,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   blockUser(user_id: number) {
     this.authService.postUserBlock(user_id).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
         this.conversation.users[0].blocked_user = !this.conversation.users[0].blocked_user;
       });
   }
@@ -593,7 +605,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   likeMessage(message_id: number) {
     this.chatService.likeMessage(message_id).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
         const message = this.conversation.messages.find((item: any) => item.id === message_id);
         message.liked = !message.liked;
       }
@@ -658,10 +670,15 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
     this.chatService.createGroup(formData).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
         this.closeCreateGroup();
         this.nameGroup.nativeElement.value = '';
         this.friends.unshift(response.data);
+
+        this.friends = this.friends.map((item: any) => ({
+          ...item,
+          users: item.users.filter((user: any) => user.id !== this.user?.id)
+        }))
       }
     )
   }
@@ -679,16 +696,21 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   }
 
   addGroup(receiver_id: number, conversation_id: number) {
-    console.log(receiver_id, conversation_id);
+    // console.log(receiver_id, conversation_id);
 
     this.chatService.addGroup({ receiver_id, conversation_id }).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
       }
     )
   }
 
-
+  removeMember(conversation_id: number, user_id: number) {
+    this.chatService.removeMember(conversation_id, user_id).subscribe(
+      (response: any) => {
+        // console.log(response);
+      })
+  }
 
 
   toggleDialogEditGroup() {
@@ -707,7 +729,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
     this.chatService.updateGroup(formData).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
         this.closeEditGroup();
         this.nameEditGroup.nativeElement.value = '';
 
@@ -719,7 +741,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
   onFileImageGroupSelected(event: any) {
     const files: File[] = Array.from(event.target.files);
-    console.log(files);
+    // console.log(files);
 
     const file = files[0];
     const reader = new FileReader();
@@ -730,7 +752,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
   onFileImageEditGroupSelected(event: any) {
     const files: File[] = Array.from(event.target.files);
-    console.log(files);
+    // console.log(files);
 
     const file = files[0];
     const reader = new FileReader();
@@ -750,9 +772,19 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     this.removeEditGroupImage();
   }
 
-  zoomImg: string = '';
+  zoomMedia: any = null;
 
-  setZoomIng(img: string) {
-    this.zoomImg = img;
+  setZoomMedia(media: any) {
+    this.zoomMedia = media;
+  }
+
+  resizeTextarea(event: any): void {
+    const textarea = event.target;
+    if (!textarea.value) {
+      textarea.style.height = '32px'; // Chiều cao mặc định khi không có nội dung
+    } else if (textarea.scrollHeight < 110) {
+      textarea.style.height = 'fit-content';
+      textarea.style.height = textarea.scrollHeight + 'px';
+    }
   }
 }

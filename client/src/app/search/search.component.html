@@ -715,7 +715,7 @@
                                 </button>
                             </div>
 
-                            <div class="position-fixed top-0 start-0 {{(dialogShare == post.id) ? 'display-block' : 'display-none'}}"
+                            <div class="position-fixed top-0 start-0" *ngIf="dialogShare == post.id"
                                 style="width: 100%; height: 100vh; z-index: 30;">
                                 <div class="position-fixed top-0 start-0"
                                     style="width: 100%; height: 100vh; z-index: 20; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px);">
@@ -740,24 +740,15 @@
                                                 <div class="w-fill layout-horizontal py-10 px-20 gap-10">
                                                     <p class="text-body-strong text-primary w-fill">Chia sẻ với bạn bè
                                                     </p>
-                                                    <!-- <div class="control search-control">
-                                    <input type="search" placeholder="placeholder" spellcheck="false">
-                                    <button type="button" class="input-button clear-content-button">
-                                        <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
-                                    </button>
-                                    <button type="button" class="input-button search-button">
-                                        <i class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
-                                    </button>
-                                </div> -->
                                                 </div>
                                                 <div class="layout w-fill">
-                                                    <button type="button"
+                                                    <button type="button" (click)="nextuser('user')"
                                                         class="button-subtle button-icon-only position-absolute top-50 translate-middle-y"
                                                         style="right: 25px; z-index: 1;">
                                                         <i
                                                             class="icon-size-16 icon icon-ic_fluent_chevron_right_16_filled"></i>
                                                     </button>
-                                                    <button type="button"
+                                                    <button type="button" (click)="prevuser('user')"
                                                         class="button-subtle button-icon-only position-absolute top-50 translate-middle-y"
                                                         style="left: 25px; z-index: 1;">
                                                         <i
@@ -766,21 +757,22 @@
                                                     <div class="overflow-hidden"
                                                         style="width: calc(100% - 135px); margin: auto;">
                                                         <div
-                                                            class="w-fill gap-20 overflow-scroll-horizontal layout-horizontal">
+                                                            class="user_inner layout-horizontal gap-20 overflow-hidden">
 
 
                                                             <!-- for -->
-                                                            <div *ngFor="let user of listUser" class="list-item"
-                                                                style="width: 100px !important;">
+                                                            <div *ngFor="let user of listUser"
+                                                                class="user_item list-item w-fill-column-3">
                                                                 <div class="layout-vertical align-center-center gap-10 flex-shrink-0"
                                                                     (click)="sharePostToMessage(post.id, user?.id, (user?.users[0].id == currentUser?.id) ?
-                                        user?.users[1].profile.display_name :
-                                        user?.users[0].profile.display_name)">
+                                                            user?.users[1].profile.display_name :
+                                                            user?.users[0].profile.display_name)">
                                                                     <img class="border border-card-default rounded-circle w-fill object-fit-cover"
                                                                         [src]="
-                                            (user?.users[0].id == currentUser?.id) ? user?.users[1].profile.profile_photo :
-                                            user?.users[0].profile.profile_photo
-                                            " alt="" style="width: 70px !important; height: 70px !important;">
+                                                                (user?.users[0].id == currentUser?.id) ? user?.users[1].profile.profile_photo :
+                                                                user?.users[0].profile.profile_photo
+                                                                " alt=""
+                                                                        style="width: 70px !important; height: 70px !important;">
                                                                     <p
                                                                         class="text-body-strong text-primary text-center">
                                                                         {{(user?.users[0].id == currentUser?.id) ?
@@ -788,6 +780,7 @@
                                                                         user?.users[0].profile.display_name}}</p>
                                                                 </div>
                                                             </div>
+
 
                                                         </div>
                                                     </div>
@@ -797,24 +790,15 @@
                                                 class="layout-vertial w-fill border-bottom border-card-default pb-10">
                                                 <div class="w-fill layout-horizontal py-10 px-20 gap-10">
                                                     <p class="text-body-strong text-primary w-fill">Chia sẻ với nhóm</p>
-                                                    <!-- <div class="control search-control">
-                                    <input type="search" placeholder="placeholder" spellcheck="false">
-                                    <button type="button" class="input-button clear-content-button">
-                                        <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
-                                    </button>
-                                    <button type="button" class="input-button search-button">
-                                        <i class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
-                                    </button>
-                                </div> -->
                                                 </div>
                                                 <div class="layout w-fill">
-                                                    <button type="button"
+                                                    <button type="button" (click)="nextuser('group')"
                                                         class="button-subtle button-icon-only position-absolute top-50 translate-middle-y"
                                                         style="right: 25px; z-index: 1;">
                                                         <i
                                                             class="icon-size-16 icon icon-ic_fluent_chevron_right_16_filled"></i>
                                                     </button>
-                                                    <button type="button"
+                                                    <button type="button" (click)="prevuser('group')"
                                                         class="button-subtle button-icon-only position-absolute top-50 translate-middle-y"
                                                         style="left: 25px; z-index: 1;">
                                                         <i
@@ -823,12 +807,11 @@
                                                     <div class="overflow-hidden"
                                                         style="width: calc(100% - 135px); margin: auto;">
                                                         <div
-                                                            class="w-fill gap-20 overflow-scroll-horizontal layout-horizontal">
-
+                                                            class="group_inner layout-horizontal gap-20 overflow-hidden">
 
                                                             <!-- for -->
-                                                            <div *ngFor="let group of listGroup" class="list-item"
-                                                                style="width: 100px !important;">
+                                                            <div *ngFor="let group of listGroup"
+                                                                class="group_item list-item w-fill-column-3">
                                                                 <div class="layout-vertical align-center-center gap-10 flex-shrink-0"
                                                                     (click)="sharePostToMessage(post.id, group?.id, group?.name)">
                                                                     <img class="border border-card-default rounded-circle w-fill object-fit-cover"
@@ -839,8 +822,6 @@
                                                                         {{group?.name}}</p>
                                                                 </div>
                                                             </div>
-
-
 
                                                         </div>
                                                     </div>

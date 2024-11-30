@@ -7,18 +7,19 @@ import { AccountSettingsComponent } from "./account-settings/account-settings.co
 import { AppearanceSettingsComponent } from "./appearance-settings/appearance-settings.component";
 import { ShopSettingsComponent } from "./shop-settings/shop-settings.component";
 import { SettingService } from '../service/setting.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @Component({
   selector: 'app-setting',
   standalone: true,
-  imports: [CommonModule, FormsModule, GeneralSettingsComponent, AccountSettingsComponent, AppearanceSettingsComponent, ShopSettingsComponent],
+  imports: [CommonModule, FormsModule, GeneralSettingsComponent, AccountSettingsComponent, AppearanceSettingsComponent, ShopSettingsComponent, TranslateModule],
   templateUrl: './setting.component.html',
   styleUrl: './setting.component.css'
 })
 export class SettingComponent implements OnInit {
 
-  tabSetting: string = 'shop-settings';
+  tabSetting: string = 'general-settings';
   profile_photo: string = '';
   display_name: string = '';
 

@@ -24,7 +24,6 @@ export class PostService {
   }
 
   postPost(value: any): Observable<any> {
-    console.log(value);
     const headers = this.authService.getToken();
     return this.http.post(`${this.apiUrl}/post`, value, { headers });
   }

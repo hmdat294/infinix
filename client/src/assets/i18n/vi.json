@@ -1,0 +1,489 @@
+{
+    "bookmark": {
+        "title": "Danh sách bài viết được lưu",
+        "view_detail_button": "Xem chi tiết",
+        "share": {
+            "title": "Chia sẻ bài đăng",
+            "share_to_friend": "Chia sẻ với bạn bè",
+            "share_to_group": "Chia sẻ với nhóm",
+            "copy_url": "Sao chép đường dẫn",
+            "share_to_profile": "Chia sẻ về trang cá nhân"
+        }
+    },
+    "chat": {
+        "find": "Tìm kiếm",
+        "create_group": {
+            "title": "Tạo nhóm trò chuyện",
+            "description": "Tạo nhóm trò chuyện để bắt đầu trò chuyện với nhiều người cùng một lúc",
+            "name_label": "Tên nhóm",
+            "cancel_button": "Hủy",
+            "submit_button": "Tạo nhóm"
+        },
+        "update_group": {
+            "title": "Sửa thông tin nhóm",
+            "name_label": "Tên nhóm",
+            "cancel_button": "Hủy",
+            "submit_button": "Cập nhật"
+        },
+        "group": {
+            "add_user": "Thêm thành viên",
+            "user": "Thành viên"
+        },
+        "message": {
+            "title_detail": "Chi tiết tin nhắn",
+            "find_message": "Tìm kiếm tin nhắn",
+            "media": "phương tiện",
+            "empty": "Trống",
+            "recalled": "Tin nhắn đã được thu hồi",
+            "undo": "Hoàn tác",
+            "send_button": "Gửi"
+        },
+        "not_friend": {
+            "title": "Chưa phải là bạn, gửi yêu cầu kết bạn",
+            "add_friend": "Thêm bạn bè",
+            "cancel_request_friend": "Hủy yêu cầu"
+        },
+        "pin": {
+            "title": "Tin nhắn",
+            "more": "Xem thêm",
+            "collapse": "Thu gọn",
+            "pin_update": "Cập nhật danh sách gim",
+            "pin_limit": "Đã đạt giới hạn 3 gim, gỡ gim cũ để thêm mới!"
+        },
+        "popup": {
+            "title_detail": "Chi tiết tin nhắn",
+            "view_detail": "Xem chi tiết",
+            "pin": "Gim",
+            "unpin": "Hủy gim",
+            "copy": "Sao chép",
+            "reply": "Phản hổi",
+            "edit": "Chỉnh sửa",
+            "recall": "Thu hồi"
+        }
+    },
+    "forgot_password": {
+        "title": "Quên mật khẩu",
+        "email_label": "Email",
+        "create_code_button": "Gửi mã",
+        "verify_code_label": "Mã xác nhận",
+        "set_password_label": "Đặt mật khẩu",
+        "confirm_password_label": "Xác nhận mật khẩu",
+        "back_button": "Quay lại",
+        "verify_code_button": "Xác nhận",
+        "submit_button": "Hoàn tất"
+    },
+    "friend_profile": {
+        "friend": "Bạn bè",
+        "friend_count": "bạn bè",
+        "add_friend": "Thêm bạn bè",
+        "cancel_request_friend": "Hủy yêu cầu",
+        "unfriend": "Hủy kết bạn",
+        "post_count": "Bài viết",
+        "media_count": "phương tiện",
+        "more": "Xem thêm",
+        "chat": "Nhắn tin",
+        "report": {
+            "title": "Báo cáo nội dung",
+            "other_content": "Nội dung khác",
+            "sample_content_1": "Ngôn từ đã kích",
+            "sample_content_2": "Hình ảnh phản cảm",
+            "sample_content_3": "Đường dẫn không an toàn",
+            "sample_content_4": "Mang tính bạo lực, thù ghét",
+            "sample_content_5": "Lừa đảo, gian lận, mạo danh",
+            "submit_button": "Gửi báo cáo",
+            "report_button": "Báo cáo"
+        },
+        "share": {
+            "title": "Chia sẻ bài đăng",
+            "share_to_friend": "Chia sẻ với bạn bè",
+            "share_to_group": "Chia sẻ với nhóm",
+            "copy_url": "Sao chép đường dẫn",
+            "share_to_profile": "Chia sẻ về trang cá nhân"
+        }
+    },
+    "header": {
+        "find": "Tìm kiếm",
+        "cart_title": "Giỏ hàng",
+        "notification_title": "Thông báo"
+    },
+    "header_default": {
+        "home_title": "Trang chủ",
+        "about_title": "Về chúng tôi",
+        "contact_title": "Liên hệ"
+    },
+    "home": {
+        "center_home": {
+            "post_button": "Đăng bài",
+            "update_post": {
+                "title": "Cập nhật bài viết",
+                "update_button": "Cập nhật",
+                "update_post_button": "Sửa"
+            },
+            "delete_post": {
+                "title": "Xóa bài viết",
+                "message": "Bạn có chắc chắn muốn xóa?",
+                "cancel_button": "Hủy",
+                "delete_button": "Xóa",
+                "delete_post_button": "Xóa"
+            },
+            "report": {
+                "title": "Báo cáo nội dung",
+                "other_content": "Nội dung khác",
+                "sample_content_1": "Ngôn từ đã kích",
+                "sample_content_2": "Hình ảnh phản cảm",
+                "sample_content_3": "Đường dẫn không an toàn",
+                "sample_content_4": "Mang tính bạo lực, thù ghét",
+                "sample_content_5": "Lừa đảo, gian lận, mạo danh",
+                "submit_report_button": "Gửi báo cáo",
+                "report_button": "Báo cáo"
+            },
+            "share": {
+                "title": "Chia sẻ bài đăng",
+                "share_to_friend": "Chia sẻ với bạn bè",
+                "share_to_group": "Chia sẻ với nhóm",
+                "copy_url": "Sao chép đường dẫn",
+                "share_to_profile": "Chia sẻ về trang cá nhân"
+            }
+        },
+        "left_home": {
+            "friend_request": "Lời mời kết bạn",
+            "group_request": "Lời mời vào nhóm",
+            "store": "Cửa hàng",
+            "more": "Xem thêm"
+        },
+        "right_home": {
+            "manage_title": "Quản trị",
+            "profile_title": "Trang cá nhân",
+            "store_title": "Cửa hàng",
+            "more": "Xem thêm",
+            "friend_title": "Bạn bè",
+            "list_title": "Danh sách",
+            "not_found": "Không tìm thấy",
+            "contact_person": "Người liên hệ",
+            "group_title": "Nhóm"
+        }
+    },
+    "landing_page": {
+        "title": "Kết nối - Chia sẻ - Khám phá - Tương tác",
+        "description": "Chào mừng bạn đến với Infinix, nền tảng mạng xã hội hiện đại giúp bạn kết nối với bạn bè, chia sẻ những khoảnh khắc đáng nhớ và truyền cảm hứng đến cộng đồng. Tại Infinix, bạn không chỉ là người theo dõi, mà còn là người tạo nên sự khác biệt. Hãy tham gia cùng chúng tôi để khám phá những câu chuyện thú vị, tạo dựng mối quan hệ bền chặt và khơi nguồn cảm hứng mỗi ngày.",
+        "start_button": "Bắt đầu ngay",
+        "connect_title": "Kết nối",
+        "connect_description": "Kết nối với bạn bè, gia đình và những người có cùng sở thích.",
+        "share_title": "Chia sẻ",
+        "share_description": "Chia sẻ những khoảnh khắc đáng nhớ, ý tưởng sáng tạo và cảm xúc của bạn.",
+        "explore_title": "Khám phá",
+        "explore_description": "Khám phá nội dung mới, thú vị và hữu ích.",
+        "interact_title": "Tương tác",
+        "interact_description": "Tương tác với cộng đồng, tham gia thảo luận và tạo dựng những mối quan hệ mới.",
+        "main_function": "Chức năng chính",
+        "friend_chat_title": "Kết bạn và trò chuyện",
+        "friend_chat_description": "Xây dựng các mối quan hệ có ý nghĩa chỉ với vài thao tác.",
+        "create_group_title": "Tạo nhóm",
+        "create_group_description": "Chia sẻ thông tin, hình ảnh, video với bạn bè trong nhóm.",
+        "personalization_title": "Cá nhân hóa hồ sơ của bạn",
+        "personalization_description": "Tùy chỉnh trang hồ sơ theo phong cách riêng của bạn.",
+        "customize_appearance_title": "Tùy chỉnh giao diện",
+        "customize_appearance_description": "Thiết kế giao diện theo sở thích của bạn, tạo ra trải nghiệm độc đáo."
+    },
+    "login": {
+        "title": "Đăng nhập",
+        "email_label": "Email",
+        "password_label": "Mật khẩu",
+        "dont_have_account": "Bạn chưa có tài khoản?",
+        "create_new_account": "Tạo tài khoản mới!",
+        "forgot_password": "Quên mật khẩu?",
+        "login_button": "Đăng nhập"
+    },
+    "mini_chat": {
+        "not_friend": {
+            "title": "Chưa phải là bạn, gửi yêu cầu kết bạn",
+            "add_friend": "Thêm bạn bè",
+            "cancel_request_friend": "Hủy yêu cầu"
+        },
+        "popup": {
+            "title_detail": "Chi tiết tin nhắn"
+        },
+        "pin": {
+            "title": "Tin nhắn",
+            "more": "Xem thêm",
+            "collapse": "Thu gọn",
+            "pin_update": "Cập nhật danh sách gim",
+            "pin_limit": "Đã đạt giới hạn 3 gim, gỡ gim cũ để thêm mới!"
+        }
+    },
+    "notification": {
+        "title": "Thông báo",
+        "all_notification": "Tất cả",
+        "unread_notification": "Chưa đọc"
+    },
+    "profile": {
+        "center_profile": {
+            "post_button": "Đăng bài",
+            "update_post": {
+                "title": "Cập nhật bài viết",
+                "update_button": "Cập nhật",
+                "update_post_button": "Sửa"
+            },
+            "delete_post": {
+                "title": "Xóa bài viết",
+                "message": "Bạn có chắc chắn muốn xóa?",
+                "cancel_button": "Hủy",
+                "delete_button": "Xóa",
+                "delete_post_button": "Xóa"
+            },
+            "report": {
+                "title": "Báo cáo nội dung",
+                "other_content": "Nội dung khác",
+                "sample_content_1": "Ngôn từ đã kích",
+                "sample_content_2": "Hình ảnh phản cảm",
+                "sample_content_3": "Đường dẫn không an toàn",
+                "sample_content_4": "Mang tính bạo lực, thù ghét",
+                "sample_content_5": "Lừa đảo, gian lận, mạo danh",
+                "submit_report_button": "Gửi báo cáo",
+                "report_button": "Báo cáo"
+            },
+            "share": {
+                "title": "Chia sẻ bài đăng",
+                "share_to_friend": "Chia sẻ với bạn bè",
+                "share_to_group": "Chia sẻ với nhóm",
+                "copy_url": "Sao chép đường dẫn",
+                "share_to_profile": "Chia sẻ về trang cá nhân"
+            }
+        },
+        "left_profile": {
+            "friend": "Bạn bè",
+            "friend_count": "bạn bè",
+            "add_friend": "Thêm bạn bè",
+            "cancel_request_friend": "Hủy yêu cầu",
+            "unfriend": "Hủy kết bạn",
+            "post_count": "Bài viết",
+            "media_count": "phương tiện",
+            "more": "Xem thêm"
+        }
+    },
+    "register": {
+        "title": "Tạo tài khoản",
+        "name_label": "Họ và tên",
+        "email_label": "Email",
+        "verify_code_label": "Mã xác nhận",
+        "set_password_label": "Đặt mật khẩu",
+        "confirm_password_label": "Xác nhận mật khẩu",
+        "have_account": "Bạn đã có tài khoản?",
+        "login_account": "Đăng nhập!",
+        "back_button": "Quay lại",
+        "next_button": "Tiếp theo",
+        "create_code_button": "Gửi mã",
+        "verify_code_button": "Xác nhận",
+        "submit_button": "Hoàn tất"
+    },
+    "search": {
+        "sort": {
+            "title": "Xem thêm",
+            "all": "Tất cả",
+            "user": "Người dùng",
+            "post": "Bài đăng"
+        },
+        "user": {
+            "user_title": "Người dùng",
+            "add_friend": "Thêm bạn bè",
+            "cancel_request_friend": "Hủy yêu cầu",
+            "unfriend": "Hủy kết bạn"
+        },
+        "post": {
+            "update_post": {
+                "title": "Cập nhật bài viết",
+                "update_button": "Cập nhật",
+                "update_post_button": "Sửa"
+            },
+            "delete_post": {
+                "title": "Xóa bài viết",
+                "message": "Bạn có chắc chắn muốn xóa?",
+                "cancel_button": "Hủy",
+                "delete_button": "Xóa",
+                "delete_post_button": "Xóa"
+            },
+            "report": {
+                "title": "Báo cáo nội dung",
+                "other_content": "Nội dung khác",
+                "sample_content_1": "Ngôn từ đã kích",
+                "sample_content_2": "Hình ảnh phản cảm",
+                "sample_content_3": "Đường dẫn không an toàn",
+                "sample_content_4": "Mang tính bạo lực, thù ghét",
+                "sample_content_5": "Lừa đảo, gian lận, mạo danh",
+                "submit_report_button": "Gửi báo cáo",
+                "report_button": "Báo cáo"
+            },
+            "share": {
+                "title": "Chia sẻ bài đăng",
+                "share_to_friend": "Chia sẻ với bạn bè",
+                "share_to_group": "Chia sẻ với nhóm",
+                "copy_url": "Sao chép đường dẫn",
+                "share_to_profile": "Chia sẻ về trang cá nhân"
+            }
+        },
+        "more": "Xem thêm"
+    },
+    "setting": {
+        "setting_title": "Cài đặt",
+        "general_title": "Chung",
+        "account_title": "Tài khoản",
+        "appearance_title": "Giao diện",
+        "my_shop_title": "Cửa hàng của tôi",
+        "account_settings": {
+            "title": "Thông tin tài khoản",
+            "username": {
+                "username_title": "Tên tài khoản"
+            },
+            "password": {
+                "password_label": "Mật khẩu",
+                "password_description": "Mật khẩu",
+                "change_password_title": "Đổi mật khẩu",
+                "change_password_button": "Đổi mật khẩu",
+                "old_password": "Mật khẩu cũ",
+                "new_password": "Mật khẩu mới",
+                "confirm_password": "Xác nhận mật khẩu mới",
+                "cancel_button": "Hủy",
+                "submit_button": "Hoàn tất"
+            },
+            "number_phone": {
+                "number_phone_label": "Mật khẩu"
+            },
+            "block_strangers": {
+                "block_strangers_title": "Chặn người lạ",
+                "block_strangers_description": "Những người chưa kết bạn sẽ không thể gửi tin nhắn cho bạn"
+            },
+            "save_button": "Lưu",
+            "empty": "Trống"
+        },
+        "appearance_settings": {
+            "display_title": "Hiển thị",
+            "theme_title": "Chủ đề",
+            "theme_description": "Chọn chủ đề để thay đổi giao diện",
+            "theme_light": "Sáng",
+            "theme_dark": "Tối"
+        },
+        "general_settings": {
+            "user_infomation": {
+                "user_infomation_title": "Thông tin người dùng",
+                "name_title": "Tên hiển thị",
+                "birth_title": "Ngày sinh",
+                "biography_title": "Tiểu sử",
+                "empty": "Trống",
+                "save_button": "Lưu"
+            },
+            "page_profile": {
+                "page_profile_title": "Trang cá nhân",
+                "profile_photo_title": "Ảnh đại diện",
+                "profile_photo_description": "Điều chỉnh ảnh đại diện của bạn",
+                "cover_photo_title": "Điều chỉnh ảnh bìa của bạn",
+                "cover_photo_description": "Ảnh bìa",
+                "select_photo": "Chọn ảnh từ thiết bị",
+                "open_file": "Chọn ảnh"
+            },
+            "language": {
+                "language_title": "Ngôn ngữ"
+            },
+            "block_and_report": {
+                "block_and_report_title": "Chặn và báo cáo",
+                "block_title": "Danh sách chặn",
+                "block_description": "Danh sách các tài khoản đã chặn",
+                "unblock_button": "Bỏ chặn",
+                "report_title": "Báo cáo",
+                "report_description": "Danh sách các tài khoản và bài viết đã báo cáo",
+                "post_report": "Bài viết",
+                "user_report": "Tài khoản",
+                "comment_report": "Bình luận",
+                "view_report": "Xem",
+                "report": {
+                    "content": "Nội dung:",
+                    "date": "Thời gian:",
+                    "status": "Trạng thái:",
+                    "title_post_report": "Báo cáo bài viết",
+                    "title_user_report": "Báo cáo tài khoản",
+                    "title_comment_report": "Báo cáo bình luận",
+                    "post": "Bài viết:",
+                    "user": "Tài khoản:",
+                    "comment": "Bình luận:",
+                    "cancel_report_button": "Thu hồi báo cáo"
+                },
+                "empty": "Trống"
+            }
+        },
+        "shop_settings": {
+            "shop": {
+                "title": "Cửa hàng",
+                "my_title": "Cửa hàng của bạn",
+                "name": "Tên cửa hàng",
+                "number_phone": "Số điện thoại",
+                "description": "Mô tả",
+                "province": "Tỉnh/Thành phố",
+                "district": "Quận/Huyện",
+                "ward": "Phường/Xã",
+                "detail": "Số nhà/Chi tiết",
+                "create_button": "Tạo cửa hàng",
+                "edit_button": "Sửa thông tin",
+                "delete_button": "Xóa cửa hàng"
+            },
+            "category": {
+                "title": "Danh mục",
+                "index": "STT",
+                "name": "Tên",
+                "product_count": "Sản phẩm",
+                "create": {
+                    "create_button": "Thêm danh mục",
+                    "title": "Thêm danh mục",
+                    "name": "Tên danh mục",
+                    "submit_button": "Thêm"
+                },
+                "edit": {
+                    "title": "Sửa danh mục",
+                    "name": "Tên danh mục",
+                    "submit_button": "Sửa"
+                },
+                "delete": {
+                    "title": "Xóa danh mục",
+                    "cancel_button": "Hủy",
+                    "submit_button": "Xóa"
+                }
+            },
+            "product": {
+                "title": "Sản phẩm",
+                "index": "STT",
+                "image": "Hình ảnh",
+                "name": "Tên",
+                "stock": "Số lượng",
+                "price": "Giá",
+                "create_button": "Thêm sản phẩm",
+                "create_anh_update": {
+                    "create_title": "Thêm sản phẩm",
+                    "update_title": "Cập nhật sản phẩm",
+                    "name": "Tên sản phẩm",
+                    "stock": "Số lượng",
+                    "category": "Danh mục",
+                    "description": "Mô tả",
+                    "price": "Giá",
+                    "discount": "Giảm giá",
+                    "select_image": "Thêm ảnh",
+                    "hide": "Ẩn",
+                    "show": "Hiện",
+                    "create_submit_button": "Thêm",
+                    "update_submit_button": "Sửa"
+                },
+                "delete": {
+                    "title": "Xóa sản phẩm",
+                    "cancel_button": "Hủy",
+                    "submit_button": "Xóa"
+                }
+            },
+            "order": {},
+            "feedback": {}
+        }
+    },
+    "checkout": {},
+    "shop": {},
+    "store": {
+        "store_infomation": {},
+        "store_order": {},
+        "store_product": {}
+    }
+}

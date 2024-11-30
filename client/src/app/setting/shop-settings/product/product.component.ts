@@ -59,7 +59,7 @@ export class ProductComponent implements OnInit {
           this.shopService.getListProductByShop(this.user.shop_id).subscribe(
             (res) => {
               this.products = res.data;
-              console.log(this.products);
+              // console.log(this.products);
 
               this.originalProducts = [...this.products];
             });
@@ -251,7 +251,7 @@ export class ProductComponent implements OnInit {
 
   discount_create(method: string) {
     if (method == 'add'  && this.discount_product < 100) this.discount_product++;
-    else if (method == 'reduce' && this.discount_product > 1) this.discount_product--;
+    else if (method == 'reduce' && this.discount_product > 0) this.discount_product--;
   }
   discount_update(method: string) {
     if (method == 'add'  && this.discount_product_update < 100) this.discount_product_update++;

@@ -84,10 +84,10 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
     this.postService.getHomePost().subscribe(
       (data) => {
         this.listPost = data.data;
-        console.log(this.listPost);
+        // console.log(this.listPost);
 
         this.eventService.bindEvent('App\\Events\\UserPostEvent', (data: any) => {
-          console.log('Post event:', data);
+          // console.log('Post event:', data);
           if (data.action == "create") {
             this.listPost.unshift(data.data);
           } else {
@@ -104,7 +104,61 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   @ViewChildren('prevButton') prevButtons!: QueryList<ElementRef<HTMLButtonElement>>;
   @ViewChildren('indicatorsContainer') indicatorsContainers!: QueryList<ElementRef<HTMLDivElement>>;
 
-  isSliding: boolean = false; // Biến để kiểm tra trạng thái hiệu ứng
+  isSlidingSlide: boolean = false;
+
+  nextuser(value: string) {
+    if (this.isSlidingSlide) return;
+
+    const slideShare = document.querySelector<HTMLDivElement>(`.${value}_inner`);
+    const shareItems = document.querySelectorAll<HTMLDivElement>(`.${value}_item`);
+
+    if (slideShare && shareItems.length > 4) {
+      this.isSlidingSlide = true;
+
+      const first = shareItems[0];
+
+      slideShare.style.transition = 'transform 0.3s ease-in-out';
+      slideShare.style.transform = `translateX(-${shareItems[0].offsetWidth + 20}px)`;
+
+      setTimeout(() => {
+        slideShare.style.transition = 'none';
+        slideShare.style.transform = 'translateX(0)';
+
+        slideShare.appendChild(first);
+
+        this.isSlidingSlide = false;
+      }, 300);
+    }
+  }
+
+  prevuser(value: string) {
+    if (this.isSlidingSlide) return;
+
+    const slideShare = document.querySelector<HTMLDivElement>(`.${value}_inner`);
+    const shareItems = document.querySelectorAll<HTMLDivElement>(`.${value}_item`);
+
+    if (slideShare && shareItems.length > 4) {
+      this.isSlidingSlide = true;
+
+      const last = shareItems[shareItems.length - 1];
+
+      slideShare.insertBefore(last, shareItems[0]);
+
+      slideShare.style.transition = 'none';
+      slideShare.style.transform = `translateX(-${shareItems[0].offsetWidth + 20}px)`;
+
+      setTimeout(() => {
+        slideShare.style.transition = 'transform 0.3s ease-in-out';
+        slideShare.style.transform = 'translateX(0)';
+      }, 0);
+
+      setTimeout(() => {
+        this.isSlidingSlide = false;
+      }, 300);
+    }
+  }
+
+  isSliding: boolean = false;
 
   nextslide() {
     if (this.isSliding) return;
@@ -112,13 +166,13 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
     const slideInner = document.querySelector<HTMLDivElement>('.slide_inner');
     const slideItems = document.querySelectorAll<HTMLDivElement>('.slide_item');
 
-    if (slideInner && slideItems.length > 0) {
+    if (slideInner && slideItems.length > 4) {
       this.isSliding = true;
 
       const firstItem = slideItems[0];
 
       slideInner.style.transition = 'transform 0.3s ease-in-out';
-      slideInner.style.transform = `translateX(-165px)`;
+      slideInner.style.transform = `translateX(-${slideItems[0].offsetWidth + 20}px)`;
 
       setTimeout(() => {
         slideInner.style.transition = 'none';
@@ -138,7 +192,7 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
     const slideInner = document.querySelector<HTMLDivElement>('.slide_inner');
     const slideItems = document.querySelectorAll<HTMLDivElement>('.slide_item');
 
-    if (slideInner && slideItems.length > 0) {
+    if (slideInner && slideItems.length > 4) {
       this.isSliding = true;
 
       const lastItem = slideItems[slideItems.length - 1];
@@ -146,7 +200,7 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
       slideInner.insertBefore(lastItem, slideItems[0]);
 
       slideInner.style.transition = 'none';
-      slideInner.style.transform = `translateX(-165px)`;
+      slideInner.style.transform = `translateX(-${slideItems[0].offsetWidth + 20}px)`;
 
       setTimeout(() => {
         slideInner.style.transition = 'transform 0.3s ease-in-out';
@@ -165,13 +219,13 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   }
 
   showFriendSuggestions(i: number): number {
-    return (i >= 0) ? 0 : this.listPost.length - 1;
+    return (i >= 2) ? 2 : this.listPost.length - 1;
   }
 
   addFriend(receiver_id: number): void {
     this.authService.addFriend(receiver_id).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         const friendfriend = this.friendSuggestions.find((item: any) => item.id === receiver_id);
         friendfriend.is_sent_friend_request = !friendfriend.is_sent_friend_request;
       });
@@ -180,7 +234,7 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   unFriend(user_id: number): void {
     this.authService.unFriend(user_id).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         const friendfriend = this.friendSuggestions.find((item: any) => item.id === user_id);
         friendfriend.is_friend = false;
         friendfriend.is_sent_friend_request = false;
@@ -190,7 +244,7 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   cancelRequest(receiver_id: number) {
     this.authService.cancelFriend(receiver_id).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         const friendfriend = this.friendSuggestions.find((item: any) => item.id === receiver_id);
         friendfriend.is_sent_friend_request = !friendfriend.is_sent_friend_request;
       });
@@ -229,12 +283,12 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
           this.eventService.bindEventPost('App\\Events\\UserCommentPostEvent', (data: any) => {
             this.listPost.find(item => item.id === data.data.post.id).comments_count = data.comments_count;
             this.getCommentByPostId(data.data.post.id).unshift(data.data);
-            console.log('Comment event:', data);
+            // console.log('Comment event:', data);
           });
 
           this.eventService.bindEventPost('App\\Events\\UserLikePostEvent', (data: any) => {
             this.listPost.find(item => item.id === data.data.id).likes_count = data.likes_count;
-            console.log('Like event:', data);
+            // console.log('Like event:', data);
           });
 
         })
@@ -252,7 +306,6 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   getPathImg(img: any) {
     return { 'path': img.path, 'type': img.type };
   }
-
 
   post(value: any) {
 
@@ -276,7 +329,7 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
           this.showPoll = false;
           this.onCancelPostImg();
           this.showEmojiPicker = false;
-          console.log(response);
+          // console.log(response);
         });
     }
   }
@@ -290,7 +343,7 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   deletePost() {
     this.postService.deletePost(this.postDeleteId).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         this.listPost = this.listPost.filter((post: any) => post.id != this.postDeleteId);
         this.postDeleteId = 0;
       }
@@ -307,12 +360,19 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
       if (this.selectedFilesUpdatePost.length > 0)
         this.selectedFilesUpdatePost.forEach(image => formData.append('medias[]', image, image.name));
 
-      if (urlImg.length > 0)
-        urlImg.forEach(imagePath => formData.append('urls[]', imagePath.path));
+      if (urlImg.length > 0) {
+        urlImg.forEach(imagePath => {
+          const data = {
+            path: imagePath.path,
+            type: imagePath.type
+          };
+          formData.append('urls[]', JSON.stringify(data));
+        });
+      }
 
       this.postService.updatePost(this.postUpdateId, formData).subscribe(
         (response) => {
-          console.log(response);
+          // console.log(response);
           this.showDiaLogUpdatePost(null);
         }
       );
@@ -353,8 +413,8 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
 
         // Lưu tệp vào danh sách đã chọn
         this.selectedFilesUpdatePost.push(file);
-        console.log(this.selectedFilesUpdatePost);
-        
+        // console.log(this.selectedFilesUpdatePost);
+
       });
     }
   }
@@ -463,7 +523,7 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
 
     this.postService.postComment(formData).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         this.contentCommentInput = '';
         this.removeCommentImage();
       }
@@ -478,7 +538,7 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
         else post.likes_count--;
         post.liked = response.liked;
 
-        console.log(response);
+        // console.log(response);
       }
     )
   }
@@ -487,7 +547,7 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   likeComment(comment_id: number, post_id: number) {
     this.postService.postLikeComment(comment_id).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
         const comment = this.commentByPostId[post_id].find((item: any) => item.id == comment_id);
         comment.liked = !comment.liked;
         (response.type == 'like') ? comment.like_count++ : comment.like_count--;
@@ -500,7 +560,7 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   bookmarkPost(post_id: number) {
     this.postService.bookmarkPost(post_id).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
 
         const bookmark = this.listPost.find(item => item.id === post_id);
         bookmark.bookmarked = !bookmark.bookmarked;
@@ -555,7 +615,7 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
 
     this.chatService.sendMessage(formData).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
         this.shareSuccess =
           `<p class="validation-message validation-sucess text-body text-primary py-10 px-15">
             <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
@@ -568,7 +628,7 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   sharePostToMyPage(post_id: number) {
     this.postService.sharePostToMyPage(post_id).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
 
         const shared = this.listPost.find(item => item.id === post_id);
         shared.shared = !shared.shared;
@@ -646,7 +706,7 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
 
     this.postService.postReport(postReport).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
 
         if (response.data.type == 'post') {
           this.listIdReport.push({ id: response.data.id, post_id: response.data.post_id });
@@ -667,7 +727,7 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
     this.postService.cancelReport(report.id).subscribe(
       (response: any) => {
         this.listIdReport = this.listIdReport.filter((id: any) => id.id !== report.id);
-        console.log(this.listIdReport);
+        // console.log(this.listIdReport);
       });
   }
 

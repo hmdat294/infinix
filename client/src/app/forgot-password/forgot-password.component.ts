@@ -17,11 +17,11 @@ export class ForgotPasswordComponent {
   constructor(private authService: AuthService, private router: Router) { }
 
   checkPasswords(form: NgForm): boolean {
-    return form.controls['password'].value === form.controls['confirm'].value;
+    return form.controls['password']?.value === form.controls['confirm']?.value;
   }
 
   changePassword(value: any) {
-    console.log(value.value);
+    // console.log(value.value);
 
     const bg_left = document.querySelector('.bg-page-login-left') as HTMLElement;
     const bg_right = document.querySelector('.bg-page-login-right') as HTMLElement;
@@ -30,7 +30,7 @@ export class ForgotPasswordComponent {
 
     this.authService.forgotPassword(value.value).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         this.router.navigate(['/login']);
         // if (response.token) {
         //   localStorage.setItem('auth_token', response.token);
@@ -47,7 +47,7 @@ export class ForgotPasswordComponent {
   getCode(email: string) {
     this.authService.getCodeForGot(email).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         if (response.verify) {
           this.stepNext();
           this.error =
@@ -70,7 +70,7 @@ export class ForgotPasswordComponent {
   postCode(email: string, code: number) {
     this.authService.postCode(email, code).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         if (response.verify) {
           this.stepNext();
           this.error =

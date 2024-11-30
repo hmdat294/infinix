@@ -1,12 +1,19 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ShopService {
+
+  private cart = new BehaviorSubject<any>('Default Value');
+  cart$ = this.cart.asObservable();
+
+  updateCart(newValue: any) {
+    this.cart.next(newValue);
+  }
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 

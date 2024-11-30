@@ -50,7 +50,7 @@ export class LeftHomeComponent implements OnInit, AfterViewInit {
         this.userRequest = response.data;
 
         this.eventService.bindEvent('App\\Events\\FriendRequestEvent', (data: any) => {
-          console.log('Friend request event:', data);
+          // console.log('Friend request event:', data);
 
           if (data.status == "pending" && data.receiver.id == this.user.id && data.sender.id != this.user.id) this.userRequest.push(data);
 
@@ -60,7 +60,7 @@ export class LeftHomeComponent implements OnInit, AfterViewInit {
         });
 
         this.eventService.bindEvent('App\\Events\\CancelFriendRequestEvent', (data: any) => {
-          console.log('Cancel friend request event:', data);
+          // console.log('Cancel friend request event:', data);
 
         });
       });
@@ -70,7 +70,7 @@ export class LeftHomeComponent implements OnInit, AfterViewInit {
         this.groupRequest = response.data;
 
         this.eventService.bindEvent('App\\Events\\ConversationInvitationEvent', (data: any) => {
-          console.log('Group request event:', data);
+          // console.log('Group request event:', data);
 
           if (data.status == "pending") this.groupRequest.push(data);
 
@@ -82,8 +82,8 @@ export class LeftHomeComponent implements OnInit, AfterViewInit {
 
     this.shopService.getListProduct().subscribe(
       (response) => {
-        this.listProduct = response.data;
-        console.log(this.listProduct);
+        this.listProduct = response.data.filter((product:any) => product.is_active == 1);
+        // console.log(this.listProduct);
       });
   }
 
@@ -125,17 +125,28 @@ export class LeftHomeComponent implements OnInit, AfterViewInit {
   }
 
 
+  addToCart(product_id: number) {
+    console.log({ 'product_id': product_id, 'quantity': this.quantity });
+    
+    this.shopService.addProductToCart({ 'product_id': product_id, 'quantity': this.quantity }).subscribe(
+      (response) => {
+        // console.log(response);
+        this.shopService.updateCart(response.data);
+      })
+  }
+
+
   acceptRequest(id: number, status: string) {
     this.authService.acceptFriend({ id, status }).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
       });
   }
 
   acceptGroupRequest(id: number, status: string) {
     this.authService.acceptGroup({ id, status }).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         if (status == 'accepted') this.router.navigate(['/chat']);
       });
   }

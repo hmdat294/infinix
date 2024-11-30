@@ -129,11 +129,11 @@
                             <i class="icon-size-24 icon icon-ic_fluent_video_24_filled"></i>
                         </a>
                     </div>
-                    <div class="w-hug">
+                    <!-- <div class="w-hug">
                         <a href="" class="accent-text-primary">
                             <i class="icon-size-24 icon icon-ic_fluent_more_circle_24_filled"></i>
                         </a>
-                    </div>
+                    </div> -->
                     <div class="w-hug" (click)="toggleBoxchat()">
                         <a class="accent-text-primary">
                             <i *ngIf="!isVisible"
@@ -332,14 +332,14 @@
                                                                         <div class="w-fill h-fill  border border-card-default rounded-4 overflow-hidden"
                                                                             *ngFor="let img of msg.medias">
                                                                             <ng-container
-                                                                                *ngIf="img.type === 'image/webp'||img.type === 'url'">
+                                                                                *ngIf="img.type === 'image/webp'">
                                                                                 <img [src]="img.path"
                                                                                     alt="Image preview"
                                                                                     class="w-fill h-fill object-fit-cover object-position-center">
                                                                             </ng-container>
 
                                                                             <ng-container
-                                                                                *ngIf="img.type === 'video/mp4'||img.type === 'url'">
+                                                                                *ngIf="img.type === 'video/mp4'">
                                                                                 <video [src]="img.path" controls
                                                                                     class="w-fill h-fill object-fit-cover object-position-center"></video>
                                                                             </ng-container>
@@ -349,8 +349,8 @@
 
                                                                 <a *ngIf="msg.link" [routerLink]="[ msg.link ]"
                                                                     style="white-space: pre-line;"
-                                                                    class="display-block text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
-                                                                    {{ msg.content }}
+                                                                    class="display-block text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}"
+                                                                    [innerHTML]="msg.content">
                                                                 </a>
                                                                 <p *ngIf="!msg.link" style="white-space: pre-line;"
                                                                     class="display-block text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
@@ -444,14 +444,14 @@
                                                                         <div class="w-fill h-fill  border border-card-default rounded-4 overflow-hidden"
                                                                             *ngFor="let img of msg.medias">
                                                                             <ng-container
-                                                                                *ngIf="img.type === 'image/webp'||img.type === 'url'">
+                                                                                *ngIf="img.type === 'image/webp'">
                                                                                 <img [src]="img.path"
                                                                                     alt="Image preview"
                                                                                     class="w-fill h-fill object-fit-cover object-position-center">
                                                                             </ng-container>
 
                                                                             <ng-container
-                                                                                *ngIf="img.type === 'video/mp4'||img.type === 'url'">
+                                                                                *ngIf="img.type === 'video/mp4'">
                                                                                 <video [src]="img.path" controls
                                                                                     class="w-fill h-fill object-fit-cover object-position-center"></video>
                                                                             </ng-container>
@@ -461,8 +461,8 @@
 
                                                                 <a *ngIf="msg.link" [routerLink]="[ msg.link ]"
                                                                     style="white-space: pre-line;"
-                                                                    class="display-block text-wrap card-background-default text-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
-                                                                    {{ msg.content }}
+                                                                    class="display-block text-wrap card-background-default text-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}"
+                                                                    [innerHTML]="msg.content">
                                                                 </a>
                                                                 <p *ngIf="!msg.link" style="white-space: pre-line;"
                                                                     class="display-block text-wrap card-background-default text-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
@@ -597,7 +597,8 @@
                                                                 </ng-container>
                                                             </div>
 
-                                                            <span class="text-secondary ms-5" style="white-space: pre-line;">
+                                                            <span class="text-secondary ms-5"
+                                                                style="white-space: pre-line;">
                                                                 {{getReply(msg.reply_to_message_id
                                                                 ).content}}
                                                             </span>
@@ -622,7 +623,7 @@
                                                             <div class="w-fill h-fill border border-card-default rounded-4 overflow-hidden"
                                                                 *ngFor="let img of msg.medias">
                                                                 <ng-container
-                                                                    *ngIf="getPathImg(img).type === 'image/webp'||getPathImg(img).type === 'url'">
+                                                                    *ngIf="getPathImg(img).type === 'image/webp'">
                                                                     <img [src]="getPathImg(img).path"
                                                                         alt="Image preview"
                                                                         class="w-fill h-fill object-fit-cover object-position-center"
@@ -630,7 +631,7 @@
                                                                 </ng-container>
 
                                                                 <ng-container
-                                                                    *ngIf="getPathImg(img).type === 'video/mp4'||getPathImg(img).type === 'url'">
+                                                                    *ngIf="getPathImg(img).type === 'video/mp4'">
                                                                     <video [src]="getPathImg(img).path" controls
                                                                         class="w-fill h-fill object-fit-cover object-position-center"
                                                                         [style]="(msg.link) ? 'max-height:100px' : ''"></video>
@@ -642,8 +643,8 @@
                                                     <div>
                                                         <a *ngIf="msg.link" [routerLink]="[ msg.link ]"
                                                             style="white-space: pre-line;"
-                                                            class="display-block text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10 rounded-6">
-                                                            {{ msg.content }}
+                                                            class="display-block text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10 rounded-6"
+                                                            [innerHTML]="msg.content">
                                                         </a>
                                                         <p *ngIf="!msg.link" style="white-space: pre-line;"
                                                             class="display-block text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10 rounded-6">
@@ -745,7 +746,8 @@
                                                                 </ng-container>
                                                             </div>
 
-                                                            <span class="text-secondary ms-5" style="white-space: pre-line;">
+                                                            <span class="text-secondary ms-5"
+                                                                style="white-space: pre-line;">
                                                                 {{getReply(msg.reply_to_message_id
                                                                 ).content}}
                                                             </span>
@@ -770,7 +772,7 @@
                                                             <div class="w-fill h-fill  border border-card-default rounded-4 overflow-hidden"
                                                                 *ngFor="let img of msg.medias">
                                                                 <ng-container
-                                                                    *ngIf="getPathImg(img).type === 'image/webp'||getPathImg(img).type === 'url'">
+                                                                    *ngIf="getPathImg(img).type === 'image/webp'">
                                                                     <img [src]="getPathImg(img).path"
                                                                         alt="Image preview"
                                                                         class="w-fill h-fill object-fit-cover object-position-center"
@@ -778,7 +780,7 @@
                                                                 </ng-container>
 
                                                                 <ng-container
-                                                                    *ngIf="getPathImg(img).type === 'video/mp4'||getPathImg(img).type === 'url'">
+                                                                    *ngIf="getPathImg(img).type === 'video/mp4'">
                                                                     <video [src]="getPathImg(img).path" controls
                                                                         class="w-fill h-fill object-fit-cover object-position-center"
                                                                         [style]="(msg.link) ? 'max-height:100px' : ''"></video>
@@ -790,8 +792,8 @@
                                                     <div>
                                                         <a *ngIf="msg.link" [routerLink]="[ msg.link ]"
                                                             style="white-space: pre-line;"
-                                                            class="display-block text-wrap card-background-default text-primary border border-card-default px-15 py-10 rounded-6">
-                                                            {{ msg.content }}
+                                                            class="display-block text-wrap card-background-default text-primary border border-card-default px-15 py-10 rounded-6"
+                                                            [innerHTML]="msg.content">
                                                         </a>
                                                         <p *ngIf="!msg.link" style="white-space: pre-line;"
                                                             class="display-block text-wrap card-background-default text-primary border border-card-default px-15 py-10 rounded-6">
@@ -994,9 +996,13 @@
                                 </button>
                             </div>
 
+                            <button type="submit" class="button-standard button-text-only"
+                                *ngIf="id_edit_message > 0" (click)="editMessage(0)">
+                                Hủy
+                            </button>
                             <button type="submit" class="button-accent button-text-with-icon"
                                 *ngIf="(!frm.invalid && !spaceCheck.test(frm.value.content)) || previewUrls.length > 0">
-                                Send
+                                {{id_edit_message > 0 ? 'Sửa' : 'Gửi'}}
                                 <i class="icon-size-16 icon icon-ic_fluent_send_16_filled"></i>
                             </button>
                         </div>
@@ -1141,18 +1147,20 @@
                             <div class="layout-vertical p-5 px-15">
 
                                 <div class="layout-horizontal gap-15 p-10 w-fill list-item border-top"
-                                    *ngFor="let user of conversation?.users">
+                                    *ngFor="let userGr of conversation?.users">
                                     <div class="layout-horizontal align-center-center gap-15 w-fill">
                                         <div style="width: 35px; height: 35px;">
-                                            <img [src]="user.profile.profile_photo"
+                                            <img [src]="userGr.profile.profile_photo"
                                                 class="rounded-circle border border-card-default object-fit-cover"
                                                 style="width: 35px; height: 35px;" alt="">
                                         </div>
                                         <div class="layout-vertical w-fill">
                                             <p class="text-secondary text-body-strong w-fill">
-                                                {{user.profile.display_name}}</p>
-                                            <p class="text-caption text-tertiary">{{user.email}}</p>
+                                                {{userGr.profile.display_name}}</p>
+                                            <p class="text-caption text-tertiary">{{userGr.email}}</p>
                                         </div>
+                                        <button *ngIf="user.id == conversation.user_id" type="button" class="button-standard button-icon-only"
+                                        (click)="removeMember(conversation.id, userGr.id)">-</button>
                                     </div>
                                 </div>
 
@@ -1233,9 +1241,19 @@
                 </div>
                 <div class="layout-vertical w-fill p-0">
                     <div class="w-fill layout-wrap gap-20 align-center-left" *ngIf="images?.length>0">
-                        <div class="w-fill-column-4" style="height: 80px;" *ngFor="let img of images">
-                            <img [src]="img.path" class="w-fill h-fill object-fit-cover rounded-4"
-                                (click)="setZoomIng(img.path)">
+                        <div class="w-fill-column-4" style="height: 80px;" *ngFor="let img of images"
+                            (click)="setZoomMedia(img)">
+                            <ng-container *ngIf="img.type === 'image/webp'">
+                                <img [src]="img.path" alt="Image preview"
+                                    class="w-fill h-fill object-fit-cover rounded-4">
+                            </ng-container>
+
+                            <ng-container *ngIf="img.type === 'video/mp4'">
+                                <div class="position-absolute top-50 start-50 translate-middle" style="z-index: 5;">
+                                    <i class="icon-size-20 icon icon-ic_fluent_video_clip_20_regular"></i>
+                                </div>
+                                <video [src]="img.path" class="w-fill h-fill object-fit-cover rounded-4"></video>
+                            </ng-container>
                         </div>
                     </div>
 
@@ -1246,15 +1264,25 @@
                 </div>
             </div>
 
-            <div class="position-fixed top-0 start-0" *ngIf="zoomImg != ''" style="width: 100%; height: 100vh;">
-                <div class="position-fixed top-0 start-0"
-                    style="width: 100%; height: 100vh; z-index: 20; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px);"
-                    (click)="setZoomIng('')">
+            <div class="position-fixed top-0 start-0" *ngIf="zoomMedia != null"
+                style="width: 100%; height: 100vh; z-index: 20;">
+                <div class="position-absolute top-0 start-0"
+                    style="width: 100%; height: 100vh; z-index: 1; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px);"
+                    (click)="setZoomMedia(null)">
                 </div>
-                <div class="dialog-panel position-absolute top-50 start-50 translate-middle" style="z-index: 21;">
+                <div class="dialog-panel position-absolute top-50 start-50 translate-middle" style="z-index: 2;">
                     <div class="layout-vertical p-10 rounded-8 acrylic-background-default blur-acrylic border border-card-default"
-                        style="max-width: 700px;">
-                        <img [src]="zoomImg" class="w-fill h-fill rounded-6" alt="">
+                        style="width: 700px; height: 600px;">
+                        <ng-container *ngIf="zoomMedia.type === 'image/webp'">
+                            <img [src]="zoomMedia.path" alt="Image preview"
+                                class="w-fill h-fill object-fit-contain rounded-6" alt=""
+                                style=" background-color: rgb(27, 27, 27);">
+                        </ng-container>
+
+                        <ng-container *ngIf="zoomMedia.type === 'video/mp4'">
+                            <video [src]="zoomMedia.path" controls class="w-fill h-fill object-fit-contain rounded-6"
+                                alt="" style=" background-color: rgb(27, 27, 27);"></video>
+                        </ng-container>
                     </div>
                 </div>
             </div>

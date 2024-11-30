@@ -1,0 +1,49 @@
+<section class="gradient-background layout-vertical" style="height: 100vh;">
+
+    <article class="layout-horizontal gap-20 px-20 w-fill h-fill overflow-hidden align-top-center">
+
+        <div
+            class="w-fill-column-2 h-fill layout-vertical gap-20 py-20 overflow-scroll-vertical in-tablet-w-fill in-mobile-w-fill">
+            <div class="layout-vertical card-background-default border border-card-default rounded-8"
+                style="height: calc(100vh - 85px);">
+
+                <div class="overflow-scroll-vertical">
+                    <div class="border-top">
+                        <button type="button" class="button-subtle w-fill gap-15 px-20 py-15" style="cursor: pointer;"
+                        (click)="tabShop('tab_product')">
+                            <p class="text-secondary text-body-strong w-fill layout">
+                                Cửa hàng
+                            </p>
+                        </button>
+                    </div>
+                    <div class="border-top">
+                        <button type="button" class="button-subtle w-fill gap-15 px-20 py-15" style="cursor: pointer;"
+                        (click)="tabShop('tab_order')">
+                            <p class="text-secondary text-body-strong w-fill layout">
+                                Đơn hàng
+                            </p>
+                        </button>
+                    </div>
+                    <div class="border-top">
+                        <button type="button" class="button-subtle w-fill gap-15 px-20 py-15" style="cursor: pointer;"
+                        (click)="tabShop('tab_infomation')">
+                            <p class="text-secondary text-body-strong w-fill layout">
+                                Thông tin
+                            </p>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <app-store-product *ngIf="tab_shop == 'tab_product'"
+            class="w-fill-column-7 h-fill layout-vertical gap-20 py-20 overflow-scroll-vertical hide-in-tablet hide-in-mobile">
+        </app-store-product>
+        <app-store-order *ngIf="tab_shop == 'tab_order'"
+            class="w-fill-column-7 h-fill layout-vertical gap-20 py-20 overflow-scroll-vertical hide-in-tablet hide-in-mobile">
+        </app-store-order>
+        <app-store-infomation *ngIf="tab_shop == 'tab_infomation'"
+            class="w-fill-column-7 h-fill layout-vertical gap-20 py-20 overflow-scroll-vertical hide-in-tablet hide-in-mobile">
+        </app-store-infomation>
+    </article>
+</section>

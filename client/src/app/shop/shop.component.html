@@ -1,77 +1,124 @@
 <section class="gradient-background layout-vertical" style="height: 100vh;">
 
     <article class="layout-horizontal gap-20 px-20 w-fill h-fill overflow-hidden align-top-center">
-
         <div
-            class="w-fill-column-3 h-fill layout-vertical gap-20 py-20 overflow-scroll-vertical in-tablet-w-fill in-mobile-w-fill">
-            <div class="layout-vertical card-background-default border border-card-default rounded-8"
-                style="height: calc(100vh - 85px);">
+            class="w-fill-column-9 h-fill layout-vertical gap-20 py-20 overflow-scroll-vertical hide-in-tablet hide-in-mobile">
 
-                <div class="overflow-scroll-vertical">
-                    <div class="border-top">
-                        <button type="button" class="button-subtle w-fill gap-15 px-20 py-15" style="cursor: pointer;">
-                            <p class="text-secondary text-body-strong w-fill layout">
-                                Tất cả
-                            </p>
-                        </button>
+            <div class="layout-vertical card-background-default border border-card-default rounded-8 p-20">
+
+                <div class="layout-horizontal gap-20 align-center-space-between mb-20">
+                    <div class="w-fill layout-vertical border rounded-8 gap-20 card-background-default p-20">
+                        <div class="layout-horizontal align-center-center gap-20">
+                            <img [src]="shop?.logo" style="width: 50px; height: 50px;" class="rounded-circle" alt="">
+                            <div>
+                                <p class="text-primary text-body-strong">{{shop?.name}}</p>
+                                <p class="text-primary text-body">{{shop?.description}}</p>
+                            </div>
+                        </div>
+                        <div class="layout-horizontal align-center-center gap-20">
+                            <a [routerLink]="['/friend-profile', shop?.user_id]"
+                                class="w-fill button-standard p-5 cursor-pointer">
+                                <i class="me-5 icon-size-16 icon icon-ic_fluent_person_16_regular"></i>
+                                Đến trang cá nhân
+                            </a>
+                            <button type="button" class="w-fill button-accent p-5 cursor-pointer"
+                                (click)="createChat(shop?.user_id)">
+                                <i class="me-5 icon-size-16 icon icon-ic_fluent_chat_16_regular"></i>
+                                Nhắn tin
+                            </button>
+                        </div>
                     </div>
-                    <div class="border-top">
-                        <button type="button" class="button-subtle w-fill gap-15 px-20 py-15" style="cursor: pointer;">
-                            <p class="text-secondary text-body-strong w-fill layout">
-                                Đơn hàng
+
+                    <div class="w-fill-column-7 layout-vertical gap-20">
+
+                        <div class="layout-horizontal gap-20">
+                            <p class="w-fill-column-6 text-primary text-body border-bottom pb-5">Danh mục: <span
+                                    class="text-body-strong">10</span></p>
+                            <p class="w-fill-column-6 text-primary text-body border-bottom pb-5">Đánh giá: <span
+                                    class="text-body-strong">4.5</span></p>
+                        </div>
+                        <div class="layout-horizontal gap-20">
+                            <p class="w-fill-column-6 text-primary text-body border-bottom pb-5">Sản phẩm: <span
+                                    class="text-body-strong">40</span></p>
+                            <p class="w-fill-column-6 text-primary text-body border-bottom pb-5">Tỷ lệ phản hồi đánh
+                                giá: <span class="text-body-strong">90%</span></p>
+                        </div>
+                        <div class="layout-horizontal gap-20">
+                            <p class="w-fill-column-6 text-primary text-body border-bottom pb-5">Sản phẩm đã bán: <span
+                                    class="text-body-strong">20</span></p>
+                            <p class="w-fill-column-6 text-primary text-body border-bottom pb-5">Bắt đầu hoạt động:
+                                <span class="text-body-strong">20/11/2024</span>
                             </p>
-                        </button>
-                    </div>
-                    <div class="border-top">
-                        <button type="button" class="button-subtle w-fill gap-15 px-20 py-15" style="cursor: pointer;">
-                            <p class="text-secondary text-body-strong w-fill layout">
-                                Thông tin
-                            </p>
-                        </button>
+                        </div>
                     </div>
                 </div>
 
-            </div>
-        </div>
+                <div class="layout-horizontal align-center-space-between w-fill">
+                    <div class="layout-horizontal align-center-left">
+                        <button type="button" class="list-item tab-shop text-primary w-hug"
+                            [class]="tab_shop == 'tab_all'?'tab-shop-active':''" [disabled]="tab_shop == 'tab_all'"
+                            (click)="tabShop('tab_all')">
+                            Tất cả
+                        </button>
+                        <button type="button" class="list-item tab-shop text-primary w-hug"
+                            [class]="tab_shop == 'tab_best_seller'?'tab-shop-active':''"
+                            [disabled]="tab_shop == 'tab_best_seller'" (click)="tabShop('tab_best_seller')">
+                            Bán chạy
+                        </button>
+                        <button type="button" class="list-item tab-shop text-primary w-hug"
+                            [class]="tab_shop == 'tab_discount'?'tab-shop-active':''"
+                            [disabled]="tab_shop == 'tab_discount'" (click)="tabShop('tab_discount')">
+                            Giảm giá
+                        </button>
+                        <button type="button" class="list-item tab-shop text-primary w-hug"
+                            [class]="tab_shop == 'tab_featured'?'tab-shop-active':''"
+                            [disabled]="tab_shop == 'tab_featured'" (click)="tabShop('tab_featured')">
+                            Nổi bật
+                        </button>
+                    </div>
 
-        <div
-            class="w-fill-column-6 h-fill layout-vertical gap-20 py-20 overflow-scroll-vertical hide-in-tablet hide-in-mobile">
-            <div class="layout-vertical card-background-default border border-card-default rounded-8"
-                style="height: calc(100vh - 85px);">
-
-                <div class="layout-horizontal align-center-space-between px-20 py-15">
-                    <p class="text-primary text-subtitle">Tất cả sản phẩm</p>
-
-                    <select name="" id="" class="control text-primary">
-                        <option value="">Tất cả</option>
-                        <option value="">Tất cả</option>
-                        <option value="">Tất cả</option>
+                    <select class="control text-primary" (change)="sortProduct()" name="sort_by_id"
+                        [(ngModel)]="sort_by_id">
+                        <option class="gradient-background" [value]="0">Tất cả danh mục</option>
+                        <option class="gradient-background" *ngFor="let cate of shop?.categories" [value]="cate.id">
+                            {{ cate.name }}
+                        </option>
                     </select>
                 </div>
 
-                <div class="layout-wrap gap-20 p-20 border-top border-card-default w-fill overflow-scroll-vertical">
+                <!-- *ngIf="tab_shop == 'tab_all'" -->
+                <div
+                    class="layout-wrap gap-20 border-card-default w-fill border border-card-default rounded-bottom-8 p-10">
 
-                    <div class="border rounded-4 layout-vertical w-fill-column-4 overflow-hidden"
+                    <div class="border rounded-4 layout-vertical w-fill-column-3 overflow-hidden card-background-default"
                         *ngFor="let product of listProduct">
                         <div class="position-absolute top-0 w-fill text-right" style="z-index: 5;">
-                            <span class="text-caption text-primary p-5"
-                                style="border-radius: 0 0 0 10px; background-color: #C42B1C;">
+                            <span *ngIf="product.discount>0" class="text-caption p-5"
+                                style="border-radius: 0 0 0 10px; background-color: #C42B1C; color: white;">
                                 -{{product.discount | number:'1.0-0'}}%
                             </span>
                         </div>
                         <img [src]="product.images[0].image" alt="" style="height: 150px;"
                             class="w-fill object-fit-cover">
-                        <div class="layout-vertical gap-10 w-fill p-10"
+                        <div class="layout-vertical gap-20 w-fill p-10"
                             style="justify-content: space-between; height: calc(100% - 150px);">
-                            <p class="text-primary text-body-strong cursor-pointer"
-                                (click)="viewProductDetail(product.id)">
-                                {{shortenTextByWords(product.name, 5)}}</p>
+                            <div class="layout-vertical cursor-pointer" (click)="viewProductDetail(product.id)">
+                                <p class="text-primary text-body-strong">
+                                    {{shortenTextByWords(product.name, 5)}}</p>
+                                <p class="text-primary text-caption">
+                                    {{shortenTextByWords(product.description, 5)}}</p>
+                            </div>
                             <div class="layout-horizontal align-bottom-space-between">
-                                <p class="text-primary text-body w-fill">{{
-                                    product.price-((product.price*product.discount)/100)
-                                    |
-                                    currencyVND }}</p>
-                                <button type="button" class="button-standard button-icon-only">
+                                <div class="layout-vertical">
+                                    <p *ngIf="product.discount > 0" class="text-primary text-caption w-fill">
+                                        <del>{{ product.price | currencyVND}}</del>
+                                    </p>
+                                    <p class="text-primary text-body w-fill">
+                                        {{ product.price-((product.price*product.discount)/100) | currencyVND }}
+                                    </p>
+                                </div>
+                                <button type="button" class="button-standard button-icon-only"
+                                    (click)="addToCart(product.id)">
                                     <i class="icon-size-16 icon icon-ic_fluent_cart_16_filled"></i>
                                 </button>
                             </div>
@@ -199,7 +246,8 @@
 
                                                 <div>
                                                     <button type="button"
-                                                        class="w-fill button-standard button-text-with-icon">
+                                                        class="w-fill button-standard button-text-with-icon"
+                                                        (click)="addToCart(product.id)">
                                                         <i class="icon-size-16 icon icon-ic_fluent_add_16_regular"></i>
                                                         Thêm vào giỏ hàng
                                                     </button>
@@ -209,6 +257,20 @@
                                                         class="w-fill button-accent button-text-with-icon">
                                                         <i class="icon-size-16 icon icon-ic_fluent_cart_16_regular"></i>
                                                         Mua ngay
+                                                    </button>
+                                                </div>
+
+                                                <div class="layout-horizontal align-center-space-between gap-20 my-10">
+                                                    <img [src]="product.shop_logo" style="width: 35px; height: 35px;"
+                                                        class="rounded-circle" alt="">
+                                                    <div class="w-fill">
+                                                        <p class="text-primary text-body-strong">{{product.shop_name}}
+                                                        </p>
+                                                        <p class="text-primary text-body">{{product.shop_description}}
+                                                        </p>
+                                                    </div>
+                                                    <button type="button" class="button-accent button-text-only">
+                                                        Đến cửa hàng
                                                     </button>
                                                 </div>
 
@@ -270,9 +332,6 @@
                                                                     </p>
                                                                     <div
                                                                         class="layout-vertical card-background-secondary border border-card-default rounded-8 p-10 gap-5 w-fill">
-                                                                        <!-- <div *ngIf="item.media">
-                                                                        <img [src]="item.media" class="rounded-4 w-fill" alt="">
-                                                                    </div> -->
                                                                         <p
                                                                             class="text-right text-body text-primary w-fill">
                                                                             hahaha
@@ -300,9 +359,6 @@
                                                                     </p>
                                                                     <div
                                                                         class="layout-vertical card-background-secondary border border-card-default rounded-8 p-10 gap-5 w-fill">
-                                                                        <!-- <div *ngIf="item.media">
-                                                                        <img [src]="item.media" class="rounded-4 w-fill" alt="">
-                                                                    </div> -->
                                                                         <p
                                                                             class="text-left text-body text-primary w-fill">
                                                                             huhuhu
@@ -322,11 +378,8 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
-
             </div>
-
         </div>
     </article>
 </section>

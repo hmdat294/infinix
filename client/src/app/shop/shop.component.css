@@ -1,3 +1,21 @@
 section>article{
     margin-top: 45px;
 }
+
+.tab-shop {
+    background-color: transparent;
+    padding: 10px 20px;
+    text-align: center;
+    border-radius: 6px 6px 0 0;
+    border: none;
+}
+
+.tab-shop-active {
+    background-color: var(--card-background-default);
+    border: 1px solid var(--card-stroke-default);
+    box-shadow: 5px 0px 10px #00000040;
+}
+
+.opacity-5{
+    opacity: 0.5;
+}

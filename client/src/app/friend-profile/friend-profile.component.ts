@@ -76,7 +76,7 @@ export class FriendProfileComponent implements OnInit {
         this.authService.getUser(user_id).subscribe(
           (response) => {
             this.user = response.data;
-            console.log(this.user);
+            // console.log(this.user);
 
             this.authService.getImageByUser(this.user.id).subscribe(
               (response) => {
@@ -101,12 +101,34 @@ export class FriendProfileComponent implements OnInit {
             // console.log(this.listPost);
 
             this.eventService.bindEvent('App\\Events\\UserPostEvent', (data: any) => {
-              console.log('Post event:', data);
+              // console.log('Post event:', data);
               this.listPost.unshift(data.data);
             });
 
             this.eventService.bindEvent('App\\Events\\FriendRequestEvent', (data: any) => {
-              console.log('Friend request event:', data);
+              // console.log('Friend request event:', data);
+
+              if (data.status == "accepted") {
+                if (this.user.id == data.receiver.id) {
+                  this.user.is_friend = true;
+                }
+                else {
+                  const friendfriend = this.friendOfFriend.find((item: any) => item.id === data.receiver.id);
+                  friendfriend.is_friend = true;
+                }
+              }
+
+              if (data.status == "rejected") {
+                if (this.user.id == data.receiver.id) {
+                  this.user.is_friend = false;
+                  this.user.is_sent_friend_request = false;
+                }
+                else {
+                  const friendfriend = this.friendOfFriend.find((item: any) => item.id === data.receiver.id);
+                  friendfriend.is_friend = false;
+                  friendfriend.is_sent_friend_request = false;
+                }
+              }
             });
           });
 
@@ -131,7 +153,7 @@ export class FriendProfileComponent implements OnInit {
   createChat(receiver_id: number) {
     this.chatService.getMessageUser(receiver_id).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
 
         if (this.conversation.includes(response.data.id)) {
           this.conversation = this.conversation.filter(id => id !== response.data.id);
@@ -152,6 +174,60 @@ export class FriendProfileComponent implements OnInit {
   @ViewChildren('nextButton') nextButtons!: QueryList<ElementRef<HTMLButtonElement>>;
   @ViewChildren('prevButton') prevButtons!: QueryList<ElementRef<HTMLButtonElement>>;
   @ViewChildren('indicatorsContainer') indicatorsContainers!: QueryList<ElementRef<HTMLDivElement>>;
+
+  isSlidingSlide: boolean = false;
+
+  nextuser(value: string) {
+    if (this.isSlidingSlide) return;
+
+    const slideShare = document.querySelector<HTMLDivElement>(`.${value}_inner`);
+    const shareItems = document.querySelectorAll<HTMLDivElement>(`.${value}_item`);
+
+    if (slideShare && shareItems.length > 4) {
+      this.isSlidingSlide = true;
+
+      const first = shareItems[0];
+
+      slideShare.style.transition = 'transform 0.3s ease-in-out';
+      slideShare.style.transform = `translateX(-${shareItems[0].offsetWidth + 20}px)`;
+
+      setTimeout(() => {
+        slideShare.style.transition = 'none';
+        slideShare.style.transform = 'translateX(0)';
+
+        slideShare.appendChild(first);
+
+        this.isSlidingSlide = false;
+      }, 300);
+    }
+  }
+
+  prevuser(value: string) {
+    if (this.isSlidingSlide) return;
+
+    const slideShare = document.querySelector<HTMLDivElement>(`.${value}_inner`);
+    const shareItems = document.querySelectorAll<HTMLDivElement>(`.${value}_item`);
+
+    if (slideShare && shareItems.length > 4) {
+      this.isSlidingSlide = true;
+
+      const last = shareItems[shareItems.length - 1];
+
+      slideShare.insertBefore(last, shareItems[0]);
+
+      slideShare.style.transition = 'none';
+      slideShare.style.transform = `translateX(-${shareItems[0].offsetWidth + 20}px)`;
+
+      setTimeout(() => {
+        slideShare.style.transition = 'transform 0.3s ease-in-out';
+        slideShare.style.transform = 'translateX(0)';
+      }, 0);
+
+      setTimeout(() => {
+        this.isSlidingSlide = false;
+      }, 300);
+    }
+  }
 
   ngAfterViewInit(): void {
     this.initCarousels();
@@ -189,19 +265,19 @@ export class FriendProfileComponent implements OnInit {
         (response) => {
 
           this.commentByPostId[post_id] = response.data;
-          console.log(this.commentByPostId[post_id]);
+          // console.log(this.commentByPostId[post_id]);
 
           this.goSlide(post_id, slideIndex)
 
           this.eventService.bindEventPost('App\\Events\\UserCommentPostEvent', (data: any) => {
             this.listPost.find(item => item.id === data.data.post.id).comments_count = data.comments_count;
             this.getCommentByPostId(data.data.post.id).unshift(data.data);
-            console.log('Comment event:', data);
+            // console.log('Comment event:', data);
           });
 
           this.eventService.bindEventPost('App\\Events\\UserLikePostEvent', (data: any) => {
             this.listPost.find(item => item.id === data.data.id).likes_count = data.likes_count;
-            console.log('Like event:', data);
+            // console.log('Like event:', data);
           });
 
         })
@@ -221,7 +297,7 @@ export class FriendProfileComponent implements OnInit {
   deletePost() {
     this.postService.deletePost(this.postDeleteId).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
       }
     );
   }
@@ -241,7 +317,7 @@ export class FriendProfileComponent implements OnInit {
 
       this.postService.updatePost(this.postUpdateId, formData).subscribe(
         (response) => {
-          console.log(response);
+          // console.log(response);
           this.showDiaLogUpdatePost(null);
         },
         (error) => {
@@ -347,7 +423,7 @@ export class FriendProfileComponent implements OnInit {
   addFriend(receiver_id: number): void {
     this.authService.addFriend(receiver_id).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
 
         if (this.user.id == receiver_id) {
           this.user.is_sent_friend_request = !this.user.is_sent_friend_request;
@@ -362,14 +438,25 @@ export class FriendProfileComponent implements OnInit {
   unFriend(user_id: number): void {
     this.authService.unFriend(user_id).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
+
+        if (this.user.id == user_id) {
+          this.user.is_friend = false;
+          this.user.is_sent_friend_request = false;
+        }
+        else {
+          const friendfriend = this.friendOfFriend.find((item: any) => item.id === user_id);
+          friendfriend.is_friend = false;
+          friendfriend.is_sent_friend_request = false;
+        }
+
       });
   }
 
   cancelRequest(receiver_id: number) {
     this.authService.acceptFriend({ id: receiver_id, status: 'rejected' }).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
       });
   }
 
@@ -383,7 +470,7 @@ export class FriendProfileComponent implements OnInit {
   }
 
   getPathImg(img: any) {
-    return img.path;
+    return { 'path': img.path, 'type': img.type };
   }
 
   getCommentByPostId(post_id: number) {
@@ -391,7 +478,7 @@ export class FriendProfileComponent implements OnInit {
   }
 
   postComment(value: any) {
-    console.log(value);
+    // console.log(value);
 
     const formData = new FormData();
     formData.append('content', value.content);
@@ -403,7 +490,7 @@ export class FriendProfileComponent implements OnInit {
 
     this.postService.postComment(formData).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         this.contentCommentInput = '';
         this.removeCommentImage();
       }
@@ -418,7 +505,7 @@ export class FriendProfileComponent implements OnInit {
         else post.likes_count--;
         post.liked = response.liked;
 
-        console.log(response);
+        // console.log(response);
       }
     )
   }
@@ -427,7 +514,7 @@ export class FriendProfileComponent implements OnInit {
   likeComment(comment_id: number, post_id: number) {
     this.postService.postLikeComment(comment_id).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
         const comment = this.commentByPostId[post_id].find((item: any) => item.id == comment_id);
         comment.liked = !comment.liked;
         (response.type == 'like') ? comment.like_count++ : comment.like_count--;
@@ -440,7 +527,7 @@ export class FriendProfileComponent implements OnInit {
   bookmarkPost(post_id: number) {
     this.postService.bookmarkPost(post_id).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
 
         const bookmark = this.listPost.find(item => item.id === post_id);
         bookmark.bookmarked = !bookmark.bookmarked;
@@ -495,7 +582,7 @@ export class FriendProfileComponent implements OnInit {
 
     this.chatService.sendMessage(formData).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
         this.shareSuccess =
           `<p class="validation-message validation-sucess text-body text-primary py-10 px-15">
             <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
@@ -508,7 +595,7 @@ export class FriendProfileComponent implements OnInit {
   sharePostToMyPage(post_id: number) {
     this.postService.sharePostToMyPage(post_id).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
 
         const shared = this.listPost.find(item => item.id === post_id);
         shared.shared = !shared.shared;
@@ -582,7 +669,7 @@ export class FriendProfileComponent implements OnInit {
 
     this.postService.postReport(postReport).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
 
         if (response.data.type == 'post') {
           this.listIdReport.push({ id: response.data.id, post_id: response.data.post_id });
@@ -602,7 +689,7 @@ export class FriendProfileComponent implements OnInit {
     this.postService.cancelReport(report.id).subscribe(
       (response: any) => {
         this.listIdReport = this.listIdReport.filter((id: any) => id.id !== report.id);
-        console.log(this.listIdReport);
+        // console.log(this.listIdReport);
       });
   }
 
@@ -616,7 +703,7 @@ export class FriendProfileComponent implements OnInit {
   blockUser(user_id: number) {
     this.authService.postUserBlock(user_id).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
 
         if (this.user.id == user_id) {
           this.user.blocked_user = !this.user.blocked_user;
@@ -648,7 +735,7 @@ export class FriendProfileComponent implements OnInit {
 
   onFileCommentSelected(event: any) {
     const files: File[] = Array.from(event.target.files);
-    console.log(files);
+    // console.log(files);
 
     const file = files[0];
     const reader = new FileReader();
