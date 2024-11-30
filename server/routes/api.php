@@ -58,6 +58,9 @@ Route::middleware(['guest'])->group(function () {
 
     // Route::post('/zalopay/create-order', [ZaloPayController::class, 'createOrder']);
     // Route::post('/zalopay/callback', [ZaloPayController::class, 'handleCallback']);
+
+    
+    Route::post('callback', [OrderController::class, 'callback']);
 });
 
 Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(function () {
@@ -96,7 +99,6 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
     // Route::delete('order/{id}', [OrderController::class, 'destroy']);
 
     
-    Route::post('callback', [OrderController::class, 'callback']);
 
 
 
