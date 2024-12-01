@@ -30,23 +30,23 @@
                 <p class="text-subtitle text-primary">Infinix</p>
             </div>
 
-            <p class="text-body-large text-primary">Đăng nhập</p>
+            <p class="text-body-large text-primary">{{ 'login.title' | translate }}</p>
 
             <div class="w-fill layout-vertical gap-5">
-                <label for="email" class="w-fill text-body text-primary">Email</label>
+                <label for="email" class="w-fill text-body text-primary">{{ 'login.email_label' | translate }}</label>
                 <div class="control text-control w-fill ">
                     <input spellcheck="false" id="email" type="email" name="email" #email="ngModel" ngModel required
                         email (input)="error = ''">
                 </div>
                 <p *ngIf="email.errors?.['email']" class="validation-message validation-caution text-body text-primary">
                     <i class="icon-size-16 icon icon-ic_fluent_warning_16_filled"></i>
-                    <span class="text-body-strong">Email</span>
-                    <span>Chưa nhập đúng định dạng</span>
+                    <span class="text-body-strong">{{ 'login.email_label' | translate }}</span>
+                    <span>{{ 'login.format_email' | translate }}</span>
                 </p>
             </div>
 
             <div class="w-fill layout-vertical gap-5">
-                <label for="password" class="w-fill text-body text-primary">Mật khẩu</label>
+                <label for="password" class="w-fill text-body text-primary">{{ 'login.password_label' | translate }}</label>
                 <div class="control password-control w-fill">
                     <input spellcheck="false" id="password" type="password" name="password" #password="ngModel" ngModel
                         required minlength="8" (input)="error = ''">
@@ -58,18 +58,23 @@
                     class="validation-message validation-caution text-body text-primary">
                     <i class="icon-size-16 icon icon-ic_fluent_warning_16_filled"></i>
                     <span class="text-body-strong">Password</span>
-                    <span>Phải trên 8 ký tự</span>
+                    <span>{{ 'login.format_password' | translate }}</span>
                 </p>
             </div>
 
-            <p class="text-body text-tertiary">Bạn chưa có tài khoản? <a [routerLink]="['/register']" class="link">Tạo
-                    mới!</a></p>
+            <p class="text-body text-tertiary">{{ 'login.dont_have_account' | translate }}
+                <a [routerLink]="['/register']" class="link">
+                    {{ 'login.create_new_account' | translate }}
+                </a>
+            </p>
 
 
-            <a [routerLink]="['/forgot-password']" class="link">Quên mật khẩu?</a>
+            <a [routerLink]="['/forgot-password']" class="link">{{ 'login.forgot_password' | translate }}</a>
 
             <div class="w-fill layout-horizontal align-center-right">
-                <button type="submit" class="button-accent button-text-only" [disabled]="frm.invalid">Đăng nhập</button>
+                <button type="submit" class="button-accent button-text-only" [disabled]="frm.invalid">
+                    {{ 'login.login_button' | translate }}
+                </button>
             </div>
         </form>
     </article>

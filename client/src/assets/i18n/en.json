@@ -7,11 +7,17 @@
             "share_to_friend": "Share to friend",
             "share_to_group": "Share to group",
             "copy_url": "Copy URL",
+            "cancel_share": "Cancel sharing",
             "share_to_profile": "Share to your profile"
-        }
+        },
+        "empty_bookmark": "No bookmarked posts"
     },
     "chat": {
         "find": "Search",
+        "empty": "Not found",
+        "blocker": "You have blocked this account!",
+        "blocked": "This account is not currently interested in receiving messages from you!",
+        "unblock": "Unblock",
         "create_group": {
             "title": "Create group chat",
             "description": "Create a group chat with multiple people at once",
@@ -30,13 +36,14 @@
             "user": "Member"
         },
         "message": {
-            "title_detail": "Message detail",
             "find_message": "Search message",
             "media": "Media",
             "empty": "Empty",
             "recalled": "This message has been recalled",
             "undo": "Undo",
-            "send_button": "Send"
+            "edit_button": "Edit",
+            "send_button": "Send",
+            "share_this": "shared this post"
         },
         "not_friend": {
             "title": "Not friend yet, send friend request",
@@ -64,6 +71,10 @@
     "forgot_password": {
         "title": "Forgot password",
         "email_label": "Email",
+        "password_label": "Password",
+        "format_email": "Incorrect format entered",
+        "format_password": "Must be more than 8 characters",
+        "no_match": "No match",
         "create_code_button": "Send code",
         "verify_code_label": "Verify code",
         "set_password_label": "Set password",
@@ -73,7 +84,6 @@
         "submit_button": "Finish"
     },
     "friend_profile": {
-        "friend": "Friend",
         "friend_count": "Friend",
         "add_friend": "Add friend",
         "cancel_request_friend": "Cancel request",
@@ -81,8 +91,23 @@
         "post_count": "Post",
         "media_count": "Media",
         "more": "See more",
+        "empty": "Not found",
+        "empty_post": "This user has no posts.",
+        "home_button": "Home",
+        "dont_view": "You cannot view this content",
         "chat": "Chat",
+        "add_friend_to_chat": "Make friends to chat!",
+        "send_comment": "Post",
+        "end_poll": "Voting - ends on",
+        "block": {
+            "title": "Block account",
+            "message": "After blocking, you will not be able to view posts and messages!",
+            "cancel_button": "Cancel",
+            "block_button": "Block"
+        },
         "report": {
+            "report_of": "Reported post of",
+            "reported": "This article will not be displayed again.",
             "title": "Report content",
             "other_content": "Other reasons",
             "sample_content_1": "Provocative language",
@@ -91,6 +116,7 @@
             "sample_content_4": "Violent, hateful content",
             "sample_content_5": "Scam, fraud, impersonation",
             "submit_button": "Submit report",
+            "cancel_button": "Cancel",
             "report_button": "Report"
         },
         "share": {
@@ -98,13 +124,23 @@
             "share_to_friend": "Share to friend",
             "share_to_group": "Share to group",
             "copy_url": "Copy URL",
-            "share_to_profile": "Share to your profile"
+            "share_to_profile": "Share to your profile",
+            "unshare": "Cancel sharing",
+            "share_this": "shared this post",
+            "share_and": "and",
+            "share_with": "with",
+            "share_other": "other people shared this post"
         }
     },
     "header": {
         "find": "Search",
         "cart_title": "Cart",
-        "notification_title": "notification"
+        "notification_title": "Notification",
+        "all_notification": "All",
+        "unread_notification": "Unread",
+        "more": "See more",
+        "total": "Total",
+        "pay": "Pay"
     },
     "header_default": {
         "home_title": "Home",
@@ -114,6 +150,13 @@
     "home": {
         "center_home": {
             "post_button": "Post",
+            "end_poll": "Voting - ends on",
+            "send_comment": "Post",
+            "delete_comment": "Delete",
+            "friend_suggestions": "Friend suggestions",
+            "add_friend": "Add friend",
+            "cancel_request_friend": "Cancel request",
+            "unfriend": "Unfriend",
             "update_post": {
                 "title": "Update post",
                 "update_button": "Update",
@@ -127,6 +170,8 @@
                 "delete_post_button": "Delete"
             },
             "report": {
+                "report_of": "Reported post of",
+                "reported": "This article will not be displayed again.",
                 "title": "Report content",
                 "other_content": "Other reasons",
                 "sample_content_1": "Provocative language",
@@ -135,6 +180,7 @@
                 "sample_content_4": "Violent, hateful content",
                 "sample_content_5": "Scam, fraud, impersonation",
                 "submit_button": "Submit report",
+                "cancel_button": "Cancel",
                 "report_button": "Report"
             },
             "share": {
@@ -142,7 +188,12 @@
                 "share_to_friend": "Share to friend",
                 "share_to_group": "Share to group",
                 "copy_url": "Copy URL",
-                "share_to_profile": "Share to your profile"
+                "share_to_profile": "Share to your profile",
+                "unshare": "Cancel sharing",
+                "share_this": "shared this post",
+                "share_and": "and",
+                "share_with": "with",
+                "share_other": "other people shared this post"
             }
         },
         "left_home": {
@@ -188,6 +239,8 @@
     "login": {
         "title": "Login",
         "email_label": "Email",
+        "format_email": "Incorrect format entered",
+        "format_password": "Must be more than 8 characters",
         "password_label": "Password",
         "dont_have_account": "Don't have an account?",
         "create_new_account": "Create new!",
@@ -195,10 +248,19 @@
         "login_button": "Login"
     },
     "mini_chat": {
+        "blocker": "You have blocked this account!",
+        "blocked": "This account is not currently interested in receiving messages from you!",
+        "unblock": "Unblock",
         "not_friend": {
             "title": "Not friends yet, send friend request",
             "add_friend": "Add friend",
             "cancel_request_friend": "Cancel request"
+        },
+        "message": {
+            "share_post": "shared",
+            "share_this": "shared this post",
+            "recalled": "This message has been recalled",
+            "undo": "Undo"
         },
         "popup": {
             "title_detail": "Message detail"
@@ -219,6 +281,9 @@
     "profile": {
         "center_profile": {
             "post_button": "Post",
+            "end_poll": "Voting - ends on",
+            "send_comment": "Post",
+            "delete_comment": "Delete",
             "update_post": {
                 "title": "Update post",
                 "update_button": "Update",
@@ -232,6 +297,8 @@
                 "delete_post_button": "Delete"
             },
             "report": {
+                "report_of": "Reported post of",
+                "reported": "This article will not be displayed again.",
                 "title": "Report content",
                 "other_content": "Other reasons",
                 "sample_content_1": "Provocative language",
@@ -240,6 +307,7 @@
                 "sample_content_4": "Violent, hateful content",
                 "sample_content_5": "Scam, fraud, impersonation",
                 "submit_button": "Submit report",
+                "cancel_button": "Cancel",
                 "report_button": "Report"
             },
             "share": {
@@ -247,24 +315,33 @@
                 "share_to_friend": "Share to friend",
                 "share_to_group": "Share to group",
                 "copy_url": "Copy URL",
-                "share_to_profile": "Share to your profile"
+                "share_to_profile": "Share to your profile",
+                "unshare": "Cancel sharing",
+                "share_this": "shared this post",
+                "share_and": "and",
+                "share_with": "with",
+                "share_other": "other people shared this post"
             }
         },
         "left_profile": {
-            "friend": "Friend",
             "friend_count": "Friend",
             "add_friend": "Add friend",
             "cancel_request_friend": "Cancel request",
             "unfriend": "Unfriend",
             "post_count": "Post",
             "media_count": "Media",
-            "more": "See more"
+            "more": "See more",
+            "empty": "Not found"
         }
     },
     "register": {
         "title": "Create an account",
         "name_label": "Full name",
         "email_label": "Email",
+        "password_label": "Password",
+        "format_email": "Incorrect format entered",
+        "format_password": "Must be more than 8 characters",
+        "no_match": "No match",
         "verify_code_label": "Verify code",
         "set_password_label": "Set password",
         "confirm_password_label": "Confirm password",
@@ -278,7 +355,7 @@
     },
     "search": {
         "sort": {
-            "title": "See more",
+            "title": "Filter",
             "all": "All",
             "user": "User",
             "post": "Post"
@@ -287,22 +364,13 @@
             "user_title": "User",
             "add_friend": "Add friend",
             "cancel_request_friend": "Cancel request",
-            "unfriend": "Unfriend"
+            "unfriend": "Unfriend",
+            "empty": "User not found!"
         },
         "post": {
-            "update_post": {
-                "title": "Update post",
-                "update_button": "Update",
-                "update_post_button": "Update"
-            },
-            "delete_post": {
-                "title": "Delete post",
-                "message": "Are you sure you want to delete?",
-                "cancel_button": "Cancel",
-                "delete_button": "Delete",
-                "delete_post_button": "Delete"
-            },
             "report": {
+                "report_of": "Reported post of",
+                "reported": "This article will not be displayed again.",
                 "title": "Report content",
                 "other_content": "Other reasons",
                 "sample_content_1": "Provocative language",
@@ -311,6 +379,7 @@
                 "sample_content_4": "Violent, hateful content",
                 "sample_content_5": "Scam, fraud, impersonation",
                 "submit_button": "Submit report",
+                "cancel_button": "Cancel",
                 "report_button": "Report"
             },
             "share": {
@@ -318,7 +387,12 @@
                 "share_to_friend": "Share to friend",
                 "share_to_group": "Share to group",
                 "copy_url": "Copy URL",
-                "share_to_profile": "Share to your profile"
+                "share_to_profile": "Share to your profile",
+                "unshare": "Cancel sharing",
+                "share_this": "shared this post",
+                "share_and": "and",
+                "share_with": "with",
+                "share_other": "other people shared this post"
             }
         },
         "more": "See more"
@@ -332,11 +406,13 @@
         "account_settings": {
             "title": "Account settings",
             "username": {
-                "username_title": "Username"
+                "title": "Username"
             },
             "password": {
-                "password_label": "Password",
-                "password_description": "Change your password",
+                "title": "Password",
+                "format_password": "Must be more than 8 characters",
+                "no_match": "No match",
+                "description": "Change your password",
                 "change_password_title": "Change password",
                 "change_password_button": "Change password",
                 "old_password": "Old password",
@@ -346,14 +422,17 @@
                 "submit_button": "Change"
             },
             "number_phone": {
-                "number_phone_label": "Phone number"
+                "title": "Phone number"
             },
             "block_strangers": {
-                "block_strangers_title": "Block strangers",
-                "block_strangers_description": "Block strangers from sending message"
+                "title": "Block strangers",
+                "description": "Block strangers from sending message",
+                "on": "ON",
+                "off": "OFF"
             },
             "save_button": "Save",
-            "empty": "Empty"
+            "empty": "Empty",
+            "logout": "Logout"
         },
         "appearance_settings": {
             "display_title": "Display",
@@ -381,14 +460,15 @@
                 "open_file": "Open file"
             },
             "language": {
-                "language_title": "Language"
+                "title": "Language",
+                "label": "Language switch"
             },
             "block_and_report": {
-                "block_and_report_title": "Block and report",
-                "block_title": "Block",
+                "title": "Block and report",
+                "block_title": "Blocked List",
                 "block_description": "List of blocked accounts",
                 "unblock_button": "Unblock",
-                "report_title": "Report",
+                "report_title": "List of reports",
                 "report_description": "List of reported content",
                 "post_report": "Post",
                 "user_report": "User",
@@ -422,43 +502,52 @@
                 "detail": "Detail",
                 "create_button": "Create shop",
                 "edit_button": "Edit shop",
-                "delete_button": "Delete shop"
+                "delete_button": "Delete shop",
+                "delete_title": "Delete shop",
+                "update_button": "Update",
+                "cancel_button": "Cancel",
+                "submit_delete": "Delete"
             },
             "category": {
                 "title": "Category",
-                "index": "Ordinal number",
+                "index": "No.",
                 "name": "Name",
                 "product_count": "Product",
                 "create": {
                     "create_button": "Create category",
                     "title": "Create category",
-                    "name": "Name",
+                    "name": "Name:",
                     "submit_button": "Create"
                 },
                 "edit": {
                     "title": "Edit category",
-                    "name": "Name",
+                    "name": "Name:",
                     "submit_button": "Edit"
                 },
                 "delete": {
                     "title": "Delete category",
-                    "cancel_button": "Delete",
+                    "cancel_button": "Cancel",
                     "submit_button": "Delete"
                 }
             },
             "product": {
+                "select": "All",
                 "title": "Product",
-                "index": "Ordinal number",
+                "index": "No.",
                 "image": "Image",
                 "name": "Name",
                 "stock": "Quantity in stock",
                 "price": "Price",
                 "create_button": "Create product",
+                "not_category": "No categories yet!",
                 "create_anh_update": {
                     "create_title": "Create product",
                     "update_title": "Update product",
                     "name": "Name",
                     "stock": "Quantity in stock",
+                    "format_stock": "Value must be greater than 1",
+                    "format_price": "Value must be greater than or equal to 0",
+                    "format_discount": "Value must be between 0 and 100",
                     "category": "Category",
                     "description": "Description",
                     "price": "Price",
@@ -475,8 +564,12 @@
                     "submit_button": "Delete"
                 }
             },
-            "order": {},
-            "feedback": {}
+            "order": {
+                "title": "Order"
+            },
+            "feedback": {
+                "title": "Feedback"
+            }
         }
     },
     "checkout": {},
@@ -485,5 +578,6 @@
         "store_infomation": {},
         "store_order": {},
         "store_product": {}
-    }
+    },
+    "product_detail": {}
 }

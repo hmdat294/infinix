@@ -3,7 +3,7 @@
     <div class="layout-vertical w-fill gap-20 mb-20">
 
         <div class="layout-vertical w-fill gap-5">
-            <p class="text-body-strong text-primary">Cửa hàng</p>
+            <p class="text-body-strong text-primary">{{ 'setting.shop_settings.shop.title' | translate }}</p>
 
 
             <div class="accordion active border border-card-default card-background-default rounded-6">
@@ -12,7 +12,8 @@
                         (click)="tabChild('create_shop')">
                         <i class="icon-size-20 icon text-primary icon-ic_fluent_person_lock_20_regular"></i>
                         <div class="layout-vertical w-fill">
-                            <p class="text-body text-primary">Cửa hàng của bạn</p>
+                            <p class="text-body text-primary">{{ 'setting.shop_settings.shop.my_title' | translate }}
+                            </p>
                         </div>
                         <button type="button" class="button-subtle button-icon-only">
                             <span [class]="tabAccordion == 'create_shop' ? 'rotate_icon_180' : 'rotate_icon_0'">
@@ -45,13 +46,15 @@
 
                                 <div class="w-fill layout-horizontal gap-20">
                                     <div class="w-fill-column-8 layout-vertical gap-5">
-                                        <p class="text-body text-primary">Tên cửa hàng</p>
+                                        <p class="text-body text-primary">{{ 'setting.shop_settings.shop.name' |
+                                            translate }}</p>
                                         <div class="w-fill control text-control">
                                             <input type="text" spellcheck="false" name="name" ngModel required>
                                         </div>
                                     </div>
                                     <div class="w-fill layout-vertical gap-5">
-                                        <p class="text-body text-primary">Số điện thoại</p>
+                                        <p class="text-body text-primary">{{ 'setting.shop_settings.shop.number_phone' |
+                                            translate }}</p>
                                         <div class="control text-control w-fill">
                                             <input type="text" spellcheck="false" name="phone_number" ngModel required>
                                         </div>
@@ -60,7 +63,8 @@
 
                             </div>
                             <div class="w-fill layout-vertical gap-5">
-                                <p class="text-body text-primary">Mô tả</p>
+                                <p class="text-body text-primary">{{ 'setting.shop_settings.shop.description' |
+                                    translate }}</p>
                                 <textarea style="min-height: 110px;" class="control text-area-control w-fill"
                                     spellcheck="false" name="description" ngModel required></textarea>
                             </div>
@@ -69,25 +73,29 @@
 
                             <div class="layout-horizontal gap-20 align-center-space-between">
                                 <div class="w-fill-column-3 layout-vertical gap-5">
-                                    <p class="text-body text-primary">Tỉnh/Thành phố</p>
+                                    <p class="text-body text-primary">{{ 'setting.shop_settings.shop.province' |
+                                        translate }}</p>
                                     <div class="control text-control w-fill">
                                         <input type="text" spellcheck="false" name="province" ngModel required>
                                     </div>
                                 </div>
                                 <div class="w-fill-column-3 layout-vertical gap-5">
-                                    <p class="text-body text-primary">Quận/Huyện</p>
+                                    <p class="text-body text-primary">{{ 'setting.shop_settings.shop.district' |
+                                        translate }}</p>
                                     <div class="control text-control w-fill">
                                         <input type="text" spellcheck="false" name="district" ngModel required>
                                     </div>
                                 </div>
                                 <div class="w-fill-column-3 layout-vertical gap-5">
-                                    <p class="text-body text-primary">Phường/Xã</p>
+                                    <p class="text-body text-primary">{{ 'setting.shop_settings.shop.ward' | translate
+                                        }}</p>
                                     <div class="control text-control w-fill">
                                         <input type="text" spellcheck="false" name="ward" ngModel required>
                                     </div>
                                 </div>
                                 <div class="w-fill-column-3 layout-vertical gap-5">
-                                    <p class="text-body text-primary">Số nhà/Chi tiết</p>
+                                    <p class="text-body text-primary">{{ 'setting.shop_settings.shop.detail' | translate
+                                        }}</p>
                                     <div class="control text-control w-fill">
                                         <input type="text" spellcheck="false" name="detail" ngModel required>
                                     </div>
@@ -96,7 +104,7 @@
 
                             <div class="layout-horizontal align-center-right">
                                 <button type="submit" class="button-accent button-text-only" [disabled]="shop.invalid">
-                                    Tạo cửa hàng
+                                    {{ 'setting.shop_settings.shop.create_button' | translate }}
                                 </button>
                             </div>
                         </form>
@@ -125,14 +133,16 @@
 
                                 <div class="w-fill layout-horizontal gap-20">
                                     <div class="w-fill-column-8 layout-vertical gap-5">
-                                        <p class="text-body text-primary">Tên cửa hàng</p>
+                                        <p class="text-body text-primary">{{ 'setting.shop_settings.shop.name' |
+                                            translate }}</p>
                                         <div class="w-fill control text-control">
                                             <input type="text" spellcheck="false" name="name" [ngModel]="shop?.name"
                                                 required [disabled]="is_update_shop">
                                         </div>
                                     </div>
                                     <div class="w-fill layout-vertical gap-5">
-                                        <p class="text-body text-primary">Số điện thoại</p>
+                                        <p class="text-body text-primary">{{ 'setting.shop_settings.shop.number_phone' |
+                                            translate }}</p>
                                         <div class="control text-control w-fill">
                                             <input type="text" spellcheck="false" name="phone_number"
                                                 [ngModel]="shop?.phone_number" required [disabled]="is_update_shop">
@@ -142,7 +152,8 @@
 
                             </div>
                             <div class="w-fill layout-vertical gap-5">
-                                <p class="text-body text-primary">Mô tả</p>
+                                <p class="text-body text-primary">{{ 'setting.shop_settings.shop.description' |
+                                    translate }}</p>
                                 <textarea style="min-height: 110px;" class="control text-area-control w-fill"
                                     spellcheck="false" name="description" [ngModel]="shop?.description" required
                                     [disabled]="is_update_shop"></textarea>
@@ -152,28 +163,32 @@
 
                             <div class="layout-horizontal gap-20 align-center-space-between">
                                 <div class="w-fill-column-3 layout-vertical gap-5">
-                                    <p class="text-body text-primary">Tỉnh/Thành phố</p>
+                                    <p class="text-body text-primary">{{ 'setting.shop_settings.shop.province' |
+                                        translate }}</p>
                                     <div class="control text-control w-fill">
                                         <input type="text" spellcheck="false" name="province" [ngModel]="province"
                                             required [disabled]="is_update_shop">
                                     </div>
                                 </div>
                                 <div class="w-fill-column-3 layout-vertical gap-5">
-                                    <p class="text-body text-primary">Quận/Huyện</p>
+                                    <p class="text-body text-primary">{{ 'setting.shop_settings.shop.district' |
+                                        translate }}</p>
                                     <div class="control text-control w-fill">
                                         <input type="text" spellcheck="false" name="district" [ngModel]="district"
                                             required [disabled]="is_update_shop">
                                     </div>
                                 </div>
                                 <div class="w-fill-column-3 layout-vertical gap-5">
-                                    <p class="text-body text-primary">Phường/Xã</p>
+                                    <p class="text-body text-primary">{{ 'setting.shop_settings.shop.ward' | translate
+                                        }}</p>
                                     <div class="control text-control w-fill">
                                         <input type="text" spellcheck="false" name="ward" [ngModel]="ward" required
                                             [disabled]="is_update_shop">
                                     </div>
                                 </div>
                                 <div class="w-fill-column-3 layout-vertical gap-5">
-                                    <p class="text-body text-primary">Số nhà/Chi tiết</p>
+                                    <p class="text-body text-primary">{{ 'setting.shop_settings.shop.detail' | translate
+                                        }}</p>
                                     <div class="control text-control w-fill">
                                         <input type="text" spellcheck="false" name="detail" [ngModel]="detail" required
                                             [disabled]="is_update_shop">
@@ -185,17 +200,18 @@
                                 <div class="w-fill">
                                     <button type="button" class="button-standard button-text-only"
                                         *ngIf="is_update_shop" (click)="is_delete_shop = !is_delete_shop">
-                                        Xóa cửa hàng
+                                        {{ 'setting.shop_settings.shop.delete_button' | translate }}
                                     </button>
                                 </div>
                                 <div class="w-hug layout-horizontal gap-20">
                                     <button type="button" class="button-standard button-text-only"
                                         (click)="is_update_shop = !is_update_shop">
-                                        {{is_update_shop?'Sửa thông tin':'Hủy'}}
+                                        {{is_update_shop?('setting.shop_settings.shop.edit_button' |
+                                        translate):('setting.shop_settings.shop.cancel_button' | translate)}}
                                     </button>
                                     <button type="submit" class="button-accent button-text-only"
                                         [disabled]="shopUpdate.invalid" *ngIf="!is_update_shop">
-                                        Cập nhật
+                                        {{ 'setting.shop_settings.shop.update_button' | translate }}
                                     </button>
                                 </div>
                             </div>
@@ -218,18 +234,21 @@
                                         </button>
 
                                         <div class="pb-20 pt-5 border-bottom">
-                                            <p class="text-subtitle text-primary text-center">Xóa cửa hàng</p>
+                                            <p class="text-subtitle text-primary text-center">{{
+                                                'setting.shop_settings.shop.delete_title' | translate }}</p>
                                         </div>
 
                                         <div class="layout-vertical overflow-hidden">
                                             <div class="layout-horizontal gap-20">
                                                 <button type="button" class="button-standard button-text-only w-fill"
                                                     (click)="is_delete_shop = !is_delete_shop">
-                                                    Hủy</button>
+                                                    {{ 'setting.shop_settings.shop.cancel_button' | translate }}
+                                                </button>
 
                                                 <button type="button" class="button-accent button-text-only w-fill"
                                                     (click)="deleteShop()">
-                                                    Xóa</button>
+                                                    {{ 'setting.shop_settings.shop.submit' | translate }}
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -246,22 +265,22 @@
                 <button type="button" class="list-item tab-shop text-primary w-hug"
                     [class]="tab_shop == 'tab_category'?'tab-shop-active':''" [disabled]="tab_shop == 'tab_category'"
                     (click)="tabShop('tab_category')">
-                    Danh mục
+                    {{ 'setting.shop_settings.category.title' | translate }} 
                 </button>
                 <button type="button" class="list-item tab-shop text-primary w-hug"
                     [class]="tab_shop == 'tab_product'?'tab-shop-active':''" [disabled]="tab_shop == 'tab_product'"
                     (click)="tabShop('tab_product')">
-                    Sản phẩm
+                    {{ 'setting.shop_settings.product.title' | translate }} 
                 </button>
                 <button type="button" class="list-item tab-shop text-primary w-hug"
                     [class]="tab_shop == 'tab_order'?'tab-shop-active':''" [disabled]="tab_shop == 'tab_order'"
                     (click)="tabShop('tab_order')">
-                    Đơn hàng
+                    {{ 'setting.shop_settings.order.title' | translate }} 
                 </button>
                 <button type="button" class="list-item tab-shop text-primary w-hug"
                     [class]="tab_shop == 'tab_feedback'?'tab-shop-active':''" [disabled]="tab_shop == 'tab_feedback'"
                     (click)="tabShop('tab_feedback')">
-                    Đánh giá
+                    {{ 'setting.shop_settings.feedback.title' | translate }} 
                 </button>
             </div>
 

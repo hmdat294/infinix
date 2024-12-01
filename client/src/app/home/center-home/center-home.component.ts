@@ -17,13 +17,14 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/scrollbar';
 import { Navigation, Scrollbar } from 'swiper/modules';
+import { TranslateModule } from '@ngx-translate/core';
 
 Swiper.use([Navigation, Scrollbar]);
 
 @Component({
   selector: 'app-center-home',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule, EmojiModule, PickerComponent, QuillModule],
+  imports: [FormsModule, CommonModule, RouterModule, EmojiModule, PickerComponent, QuillModule, TranslateModule],
   templateUrl: './center-home.component.html',
   styleUrl: './center-home.component.css'
 })
