@@ -3,17 +3,21 @@ import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { AuthService } from '../../service/auth.service';
 import { SettingService } from '../../service/setting.service';
+import { Router } from '@angular/router';
+import { ChatService } from '../../service/chat.service';
+import { EventService } from '../../service/event.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-account-settings',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslateModule],
   templateUrl: './account-settings.component.html',
   styleUrl: './account-settings.component.css'
 })
 export class AccountSettingsComponent implements OnInit {
 
-  user:any;
+  user: any;
   username: string = '';
   email: string = '';
   password: string = '';
@@ -26,7 +30,9 @@ export class AccountSettingsComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private settingService: SettingService,
-    private renderer: Renderer2,
+    private eventService: EventService,
+    private chatService: ChatService,
+    private router: Router,
     private el: ElementRef,
   ) { }
 
@@ -47,10 +53,16 @@ export class AccountSettingsComponent implements OnInit {
   error3: string = '';
 
   updateUser(value: any) {
+    // console.log(value);
+
     this.authService.updateUser(value).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         this.tabChild('');
+
+        if (value.accept_stranger_message || !value.accept_stranger_message) {
+          this.user.accept_stranger_message = value.accept_stranger_message;
+        }
 
         if (value.email) {
           this.error1 =
@@ -63,15 +75,15 @@ export class AccountSettingsComponent implements OnInit {
         }
       })
   }
-  
+
   updatePassword(value: any) {
-    console.log(value);
+    // console.log(value);
     this.authService.updatePassword({
       'old_password': value.old_password,
       'new_password': value.new_password
     }).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         if (response.status) {
           this.error3 =
             `<p class="validation-message validation-sucess text-body text-primary">
@@ -97,11 +109,11 @@ export class AccountSettingsComponent implements OnInit {
     return form.controls['new_password']?.value === form.controls['confirm']?.value;
   }
 
-  
+
   getCode(email: string) {
     this.authService.getCodeForGot(email).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         if (response.verify) {
           this.tabChild('email');
           this.error1 =
@@ -124,7 +136,7 @@ export class AccountSettingsComponent implements OnInit {
   postCode(email: string, code: number) {
     this.authService.postCode(email, code).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         if (response.verify) {
           this.tabChild('verify-code');
           this.error2 =
@@ -140,6 +152,25 @@ export class AccountSettingsComponent implements OnInit {
                 <span>${response.message}</span>
             </p>`;
         }
+      }
+    );
+  }
+
+  logout(): void {
+    this.eventService.updateOnlineStatus('offline').subscribe(
+      (response) => console.log(response)
+    )
+    this.authService.logout().subscribe(
+      (response) => {
+        // console.log('Logout Success:', response);
+
+        this.authService.removeAuthToken();
+        this.chatService.removeConversation();
+
+        this.router.navigate(['/landing-page']);
+      },
+      (error) => {
+        console.error('Logout Error:', error);
       }
     );
   }

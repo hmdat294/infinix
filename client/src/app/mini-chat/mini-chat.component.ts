@@ -9,11 +9,12 @@ import { CommonModule } from '@angular/common';
 import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { SettingService } from '../service/setting.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-mini-chat',
   standalone: true,
-  imports: [RouterModule, CommonModule, FormsModule, EmojiModule, PickerComponent],
+  imports: [RouterModule, CommonModule, FormsModule, EmojiModule, PickerComponent, TranslateModule],
   templateUrl: './mini-chat.component.html',
   styleUrl: './mini-chat.component.css'
 })
@@ -67,13 +68,24 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
     this.authService.getUser(0).subscribe(
       (response) => {
         this.user = response.data;
-        
+
         // this.conversation = JSON.parse(localStorage.getItem('conversation') || '[]');
-        
+
         this.chatService.conversation$.subscribe(conversation => {
           // console.log(this.chatService.tagOpenBoxChat);
-          // console.log('Updated conversation from localStorage:', conversation);
+          console.log('Updated conversation from localStorage:', conversation);
           this.conversation = conversation;
+
+          const uniqueIds = conversation.filter(item1 => 
+            !this.listChat.some((item2:any) => item2.id === item1)
+          );
+
+          console.log("Unique conversation IDs:", uniqueIds);
+
+          //đã lấy được đúng các conversation_id nhưng đối với những user 
+          //chưa có trong conversation thì listChat chưa cập nhật được data
+          //cần kiểm tra nếu có conversation_id mà listChat không có thì request listChat lại 
+          
           this.filterListChat();
 
           if (this.chatService.tagOpenBoxChat) {
@@ -104,7 +116,7 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
             // console.log(this.chat);
 
             this.eventService.bindEvent('App\\Events\\UserSendMessageEvent', (data: any) => {
-              console.log('Message received:', data);
+              // console.log('Message received:', data);
 
               if (this.conversation.includes(data.data.conversation_id))
                 this.conversation = this.conversation.filter(id => id !== data.data.conversation_id);
@@ -122,13 +134,13 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
             });
 
             this.eventService.bindEvent('App\\Events\\UserRecallMessageEvent', (data: any) => {
-              console.log('Recall Message event:', data);
+              // console.log('Recall Message event:', data);
               if (this.chat.id == data.data.conversation_id)
                 this.chat.messages.find((item: any) => item.id === data.data.id).is_recalled = data.data.is_recalled;
             });
 
             this.eventService.bindEvent('App\\Events\\UserEditMessageEvent', (data: any) => {
-              console.log('Edit Message event:', data);
+              // console.log('Edit Message event:', data);
               if (this.chat.id == data.data.conversation_id)
                 this.chat.messages.find((item: any) => item.id === data.data.id).content = data.data.content;
             });
@@ -157,13 +169,14 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
   }
 
   filterListChat() {
+
     this.filteredConversations = this.listChat.filter((convo: any) =>
       this.conversation.includes(convo.id)
     ).sort((a: any, b: any) =>
       this.conversation.indexOf(a.id) - this.conversation.indexOf(b.id)
     );
 
-    // console.log(this.filteredConversations);
+    console.log('Filter conversation from localStorage:', this.filteredConversations);
   }
 
 
@@ -175,14 +188,14 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
   addFriend(receiver_id: number): void {
     this.authService.addFriend(receiver_id).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
       });
   }
 
   cancelRequest(receiver_id: number) {
     this.authService.cancelFriend(receiver_id).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
       });
   }
 
@@ -234,7 +247,7 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
   }
 
   getPathImg(img: any) {
-    return img.path;
+    return { 'path': img.path, 'type': img.type };
   }
 
   copyMessage(message: string) {
@@ -267,7 +280,7 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
 
   editMessage(id: number) {
     const message = this.chat.messages.find((item: any) => item.id === id);
-    console.log(message);
+    // console.log(message);
     this.previewReply = message;
     this.content = message.content;
     this.is_edit_message = true;
@@ -284,7 +297,7 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
   pinMessage(message_id: number) {
     this.chatService.pinMessage(message_id).subscribe(
       (data: any) => {
-        console.log(data);
+        // console.log(data);
 
         if (data.message == "Pinned")
           this.chat.pinned_messages.push(data.data);
@@ -316,7 +329,7 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
   blockUser(user_id: number) {
     this.authService.postUserBlock(user_id).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
         this.chat.users[0].blocked_user = !this.chat.users[0].blocked_user;
       });
   }
@@ -368,7 +381,7 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
 
       this.chatService.sendMessage(formData).subscribe(
         (response: any) => {
-          console.log(response);
+          // console.log(response);
           (document.querySelector('.textarea-chat') as HTMLTextAreaElement).style.height = '32px';
           this.content = '';
           this.onCancelSendImg();
@@ -379,7 +392,7 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
     else {
       this.chatService.recallMessage(this.id_message, { 'content': mess.content }).subscribe(
         (response) => {
-          console.log(response);
+          // console.log(response);
           (document.querySelector('.textarea-chat') as HTMLTextAreaElement).style.height = '32px';
           this.content = '';
           this.onCancelSendImg();

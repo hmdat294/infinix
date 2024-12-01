@@ -5,14 +5,14 @@ import { CommonModule } from '@angular/common';
 import { HeaderDefaultComponent } from "./header-default/header-default.component";
 import { HeaderAdminComponent } from "./admin/header-admin/header-admin.component";
 import { AuthService } from './service/auth.service';
-import { NavComponent } from "./admin/nav/nav.component";
 import { filter } from 'rxjs';
 import { EventService } from './service/event.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, CommonModule, HeaderDefaultComponent, HeaderAdminComponent, NavComponent],
+  imports: [RouterOutlet, HeaderComponent, CommonModule, HeaderDefaultComponent, HeaderAdminComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -25,11 +25,13 @@ export class AppComponent implements OnInit {
     private router: Router,
     private renderer: Renderer2,
     private eventService: EventService,
-    private authService: AuthService
+    private authService: AuthService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit(): void {
     this.renderer.setAttribute(document.documentElement, 'data-theme', localStorage.getItem('theme') || '');
+    this.translate.setDefaultLang(localStorage.getItem('language') || 'vi');
 
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -69,7 +71,7 @@ export class AppComponent implements OnInit {
   unloadNotification($event: any) {
     if (this.isLoggedIn) {
       navigator.sendBeacon('http://localhost:8000/api/update-online-status',
-        JSON.stringify({ 'user_id': this.user?.id, online_status: 'offline' }));
+        JSON.stringify({ 'user_id': this.user?.id, 'online_status': 'offline' }));
     }
   }
 

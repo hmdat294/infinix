@@ -26,7 +26,7 @@ td {
 }
 
 .tab-shop-active {
-    background-color: var(--subtle-secondary);
+    background-color: var(--card-background-default);
     border: 1px solid var(--card-stroke-default);
 }
 

@@ -1,0 +1,120 @@
+<div class="layout-vertical card-background-default border border-card-default rounded-8"
+    style="height: calc(100vh - 85px);">
+
+    <div class="layout-horizontal align-center-space-between px-20 py-15">
+        <p class="text-primary text-subtitle">Đơn hàng</p>
+
+        <select name id class="control text-primary">
+            <option value>Tất cả</option>
+            <option value>Tất cả</option>
+            <option value>Tất cả</option>
+        </select>
+    </div>
+
+    <div class="layout-vertical gap-20 p-20 border-top border-card-default w-fill overflow-scroll-vertical">
+
+        <div class="text-body text-primary text-center w-fill">
+            <div class="w-fill gap-20 layout-horizontal text-body-strong p-10">
+                <div class="w-fill-column-1">Mã</div>
+                <div class="w-fill-column-2">Hình ảnh</div>
+                <div class="w-fill">Tên</div>
+                <div class="w-fill-column-2">Số lượng</div>
+                <div class="w-fill-column-2">Tổng tiền</div>
+
+                <!-- danh sách sản phẩm -->
+                <!-- hủy đơn, ghi chú, ngày đặt hàng, phương thức thanh toán, username, sđt, email, địa chỉ -->
+            </div>
+            <div class="w-fill layout-vertical border-top border-card-default"
+                *ngFor="let order of orders; let i = index;">
+                <div class="w-fill gap-20 layout-horizontal align-center-center rounded-8 cursor-pointer" style="padding: 7px 11px;"
+                    [class]="tabAccordion == 'order_detail_'+i?'card-background-default':'list-item'"
+                    (click)="tabChild('order_detail_'+i)">
+                    <div class="w-fill-column-1">I123</div>
+                    <div class="w-fill-column-2">
+                        <img class="object-fit-cover rounded-4" src="assets/image/hinh.jpg" height="70px" width="50px"
+                            alt>
+                    </div>
+                    <div class="w-fill">Gấu bông hình con gấu</div>
+                    <div class="w-fill-column-2">2</div>
+                    <div class="w-fill-column-2">{{1000000 | currencyVND}}</div>
+                </div>
+                <div class="accordion-panel order_detail_{{i}} w-fill layout-horizontal gap-10">
+
+                    <div class="layout-vertical w-fill-column-8 mt-10 h-hug">
+
+                        <div class="layout-vertical border rounded-8 p-10 mb-10 card-background-default"
+                            *ngFor="let product of product_order"><!-- for -->
+                            <div class="border rounded-6">
+                                <div class="layout-horizontal align-center-space-between p-10 border-bottom">
+                                    <p class="text-body-strong">Cửa hàng:</p>
+                                    <p class="text-body">Shop1</p>
+                                </div>
+                                <div class="layout-horizontal align-center-space-between p-10 border-bottom">
+                                    <p class="text-body-strong">Trạng thái:</p>
+                                    <p class="text-system-success text-body">Đã đặt hàng</p>
+                                </div>
+                                <div class="layout-horizontal align-center-space-between p-10">
+                                    <p class="text-body-strong">Ghi chú:</p>
+                                    <p class="text-body">Không</p>
+                                </div>
+                            </div>
+                            <table class="h-hug table-product">
+                                <tr class="h-hug text-body-strong">
+                                    <td>Hình ảnh</td>
+                                    <td>Tên</td>
+                                    <td>Giá</td>
+                                    <td class="w-hug">Số lượng</td>
+                                    <td>Tổng tiền</td>
+                                </tr>
+                                <tr class="h-hug border-top">
+                                    <td><img class="object-fit-cover rounded-4" src="assets/image/hinh.jpg"
+                                            height="50px" width="50px" alt></td>
+                                    <td>Gấu bông hình con gấu</td>
+                                    <td>{{100000 | currencyVND}}</td>
+                                    <td>2</td>
+                                    <td>{{200000 | currencyVND}}</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                    </div>
+                    <div class="w-fill h-hug layout-vertical border rounded-8 my-10 card-background-default">
+                        <table class="w-fill text-left table-info-bill">
+                            <tr class="border-bottom">
+                                <th class="h-hug text-body-strong">Họ và tên:</th>
+                                <td>Minh Đạt</td>
+                            </tr>
+                            <tr class="border-bottom">
+                                <th class="h-hug text-body-strong">Số điện thoại:</th>
+                                <td>0123456789</td>
+                            </tr>
+                            <tr class="border-bottom">
+                                <th class="h-hug text-body-strong">Email:</th>
+                                <td>user.gmail.com</td>
+                            </tr>
+                            <tr class="border-bottom">
+                                <th class="h-hug text-body-strong">Địa chỉ:</th>
+                                <td>Q12/HCM</td>
+                            </tr>
+                            <tr class="border-bottom">
+                                <th class="h-hug text-body-strong">Ngày đặt hàng:</th>
+                                <td>25/11/2024</td>
+                            </tr>
+                            <tr class="border-bottom">
+                                <th class="h-hug text-body-strong">Phương thức thanh toán:</th>
+                                <td>ZaloPay</td>
+                            </tr>
+                        </table>
+                        <div class="w-fill p-10">
+                            <button type="button" class="button-standard button-text-only w-fill">
+                                Hủy đơn
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

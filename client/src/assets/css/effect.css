@@ -1,0 +1,32 @@
+.shadow-card {
+    box-shadow: 0px 2px 4px 0px var(--shadow-card-rest);
+}
+
+.shadow-card:hover {
+    box-shadow: 0px 2px 4px 0px var(--shadow-card-hover);
+}
+
+.shadow-tooltip {
+    box-shadow: 0px 4px 8px 0px var(--shadow-tooltip);
+}
+
+.shadow-flyout {
+    box-shadow: 0px 8px 16px 0px var(--shadow-flyout);
+}
+
+.shadow-dialog {
+    box-shadow: 0px 2px 21px 0px var(--shadow-dialog);
+}
+
+.blur-acrylic {
+    backdrop-filter: blur(60px);
+}
+
+.blur-mica {
+    backdrop-filter: blur(240px);
+}
+
+.hover-subtle:hover {
+    background-color: var(--subtle-secondary);
+    box-shadow: inset 0px 0px 1px var(--subtle-secondary);
+}

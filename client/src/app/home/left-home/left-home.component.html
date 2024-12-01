@@ -1,7 +1,7 @@
 <div class="w-fill layout-vertical rounded-8 border border-card-default card-background-default">
 
     <div class="w-fill layout-horizontal align-center-space-between px-20 py-10">
-        <p class="text-secondary text-body-strong">Lời mời kết bạn</p>
+        <p class="text-secondary text-body-strong">{{ 'home.left_home.friend_request' | translate }}</p>
     </div>
     <div class="layout-horizontal gap-15 px-20 py-10 border-top border-card-default align-center-center"
         *ngFor="let request of userRequest">
@@ -25,7 +25,7 @@
 <div class="w-fill layout-vertical rounded-8 border border-card-default card-background-default">
 
     <div class="w-fill layout-horizontal align-center-space-between px-20 py-10">
-        <p class="text-secondary text-body-strong">Lời mời vào nhóm</p>
+        <p class="text-secondary text-body-strong">{{ 'home.left_home.group_request' | translate }}</p>
     </div>
     <div class="layout-horizontal gap-15 px-20 py-10 border-top border-card-default align-center-center"
         *ngFor="let request of groupRequest">
@@ -54,29 +54,38 @@
 
 <div class="w-fill layout-vertical p-20 gap-10 rounded-8 border border-card-default card-background-default">
     <div class="w-fill layout-horizontal align-center-space-between">
-        <p class="text-secondary text-body-strong">Cửa hàng</p>
-        <a [routerLink]="['/shop']" class="link">Xem thêm</a>
+        <p class="text-secondary text-body-strong">{{ 'home.left_home.store' | translate }}</p>
+        <a [routerLink]="['/store']" class="link">{{ 'home.left_home.more' | translate }}</a>
     </div>
     <div class="layout-wrap gap-20 pt-10 border-top border-card-default w-fill">
 
-        <div class="border rounded-4 layout-vertical w-fill-column-6 overflow-hidden"
+        <div class="border rounded-4 layout-vertical w-fill-column-6 overflow-hidden card-background-default"
             *ngFor="let product of listProduct">
             <div class="position-absolute top-0 w-fill text-right" style="z-index: 5;">
-                <span class="text-caption text-primary p-5"
-                    style="border-radius: 0 0 0 10px; background-color: #C42B1C;">
+                <span *ngIf="product.discount>0" class="text-caption p-5"
+                    style="border-radius: 0 0 0 10px; background-color: #C42B1C; color: white;">
                     -{{product.discount | number:'1.0-0'}}%
                 </span>
             </div>
             <img [src]="product.images[0].image" alt="" style="height: 150px;" class="w-fill object-fit-cover">
-            <div class="layout-vertical gap-10 w-fill p-10"
+            <div class="layout-vertical gap-20 w-fill p-10"
                 style="justify-content: space-between; height: calc(100% - 150px);">
-                <p class="text-primary text-body-strong cursor-pointer" (click)="viewProductDetail(product.id)">
-                    {{shortenTextByWords(product.name, 5)}}</p>
+                <div class="layout-vertical cursor-pointer" (click)="viewProductDetail(product.id)">
+                    <p class="text-primary text-body-strong">
+                        {{shortenTextByWords(product.name, 5)}}</p>
+                    <p class="text-primary text-caption">
+                        {{shortenTextByWords(product.description, 5)}}</p>
+                </div>
                 <div class="layout-horizontal align-bottom-space-between">
-                    <p class="text-primary text-body w-fill">{{ product.price-((product.price*product.discount)/100)
-                        |
-                        currencyVND }}</p>
-                    <button type="button" class="button-standard button-icon-only">
+                    <div class="layout-vertical">
+                        <p *ngIf="product.discount > 0" class="text-primary text-caption w-fill">
+                            <del>{{ product.price | currencyVND}}</del>
+                        </p>
+                        <p class="text-primary text-body w-fill">
+                            {{ product.price-((product.price*product.discount)/100) | currencyVND }}
+                        </p>
+                    </div>
+                    <button type="button" class="button-standard button-icon-only" (click)="addToCart(product.id)">
                         <i class="icon-size-16 icon icon-ic_fluent_cart_16_filled"></i>
                     </button>
                 </div>
@@ -190,7 +199,8 @@
                                     </div>
 
                                     <div>
-                                        <button type="button" class="w-fill button-standard button-text-with-icon">
+                                        <button type="button" class="w-fill button-standard button-text-with-icon"
+                                            (click)="addToCart(product.id)">
                                             <i class="icon-size-16 icon icon-ic_fluent_add_16_regular"></i>
                                             Thêm vào giỏ hàng
                                         </button>
@@ -200,6 +210,17 @@
                                             <i class="icon-size-16 icon icon-ic_fluent_cart_16_regular"></i>
                                             Mua ngay
                                         </button>
+                                    </div>
+
+                                    <div class="layout-horizontal align-center-space-between gap-20 my-10">
+                                        <img [src]="product.shop_logo" style="width: 35px; height: 35px;" class="rounded-circle" alt="">
+                                        <div class="w-fill">
+                                            <p class="text-primary text-body-strong">{{product.shop_name}}</p>
+                                            <p class="text-primary text-body">{{product.shop_description}}</p>
+                                        </div>
+                                        <a [routerLink]="['/shop', product.shop_id]" class="button-accent button-text-only">
+                                            Đến cửa hàng
+                                        </a>
                                     </div>
 
                                     <div>

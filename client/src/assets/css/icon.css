@@ -1,0 +1,16 @@
+.icon-size-16::before {
+    font-size: 16px;
+}
+
+.icon-size-20::before {
+    font-size: 20px;
+}
+
+.icon-size-24::before {
+    font-size: 24px;
+}
+
+.icon-size-28::before {
+    font-size: 28px;
+}
+

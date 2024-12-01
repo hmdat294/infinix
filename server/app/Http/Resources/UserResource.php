@@ -78,6 +78,7 @@ class UserResource extends JsonResource
             'blocked_user' => $blocked_user,
             'cart_id' => $this->cart ? $this->cart->id : null,
             'shop_id' => $this->shop ? $this->shop->id : null,
+            'accept_stranger_message' => $this->accept_stranger_message,
         ];
     }
 }

@@ -1,12 +1,19 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ShopService {
+
+  private cart = new BehaviorSubject<any>('Default Value');
+  cart$ = this.cart.asObservable();
+
+  updateCart(newValue: any) {
+    this.cart.next(newValue);
+  }
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
@@ -101,23 +108,26 @@ export class ShopService {
   }
 
   //cart
-  getCart(cart_id: number): Observable<any> {
+  getCart(): Observable<any> {
     const headers = this.authService.getToken();
-    return this.http.get(`${this.apiUrl}/cart/${cart_id}`, { headers });
+    return this.http.get(`${this.apiUrl}/cart`, { headers });
   }
 
-  addProductToCart(value: any, cart_id: number): Observable<any> {
+  //{ product_id , quantity }
+  addProductToCart(value: any): Observable<any> {
     const headers = this.authService.getToken();
-    return this.http.post(`${this.apiUrl}/cart/${cart_id}/add-product`, value, { headers });
+    return this.http.post(`${this.apiUrl}/cart/add-product`, value, { headers });
   }
 
-  updateProductToCart(value: any, cart_id: number): Observable<any> {
+  //{ product_id , quantity }
+  updateProductToCart(value: any): Observable<any> {
     const headers = this.authService.getToken();
-    return this.http.post(`${this.apiUrl}/cart/${cart_id}/update-product`, value, { headers });
+    return this.http.post(`${this.apiUrl}/cart/update-product`, value, { headers });
   }
 
-  removeProductToCart(value: any, cart_id: number): Observable<any> {
+  //{ product_id }
+  removeProductToCart(value: any): Observable<any> {
     const headers = this.authService.getToken();
-    return this.http.post(`${this.apiUrl}/cart/${cart_id}/remove-product`, value, { headers });
+    return this.http.post(`${this.apiUrl}/cart/remove-product`, value, { headers });
   }
 }

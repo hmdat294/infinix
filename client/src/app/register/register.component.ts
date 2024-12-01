@@ -4,11 +4,12 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { EventService } from '../service/event.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule],
+  imports: [FormsModule, CommonModule, RouterModule, TranslateModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
@@ -32,7 +33,7 @@ export class RegisterComponent {
 
     this.authService.register(value.value).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         if (response.token) {
           this.authService.updateAuthToken(response.token);
 
@@ -49,7 +50,7 @@ export class RegisterComponent {
   getCode(email: string) {
     this.authService.getCode(email).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         if (response.verify) {
           this.stepNext();
           this.error =
@@ -72,7 +73,7 @@ export class RegisterComponent {
   postCode(email: string, code: number) {
     this.authService.postCode(email, code).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         if (response.verify) {
           this.stepNext();
           this.error =

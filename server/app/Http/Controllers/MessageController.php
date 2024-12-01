@@ -14,6 +14,7 @@ use App\Models\Notification;
 use App\Models\User;
 use App\Events\NotificationEvent;
 use App\Models\DeletedMessage as DeletedMessageModel;
+use Illuminate\Support\Facades\Log;
 
 class MessageController extends Controller
 {
@@ -48,7 +49,8 @@ class MessageController extends Controller
                     'path' => asset('storage/' . $media->store('uploads', 'public'))
                 ]);
             }
-        } else if ($request->has("medias")) {
+        }
+         else if ($request->has("medias")) {
             $message->medias()->create([
                 'message_id' => $message->id,
                 'type' => $request->type,
@@ -90,6 +92,7 @@ class MessageController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        Log::info($request->all());
 
         $message = MessageModel::find($id);
 
@@ -107,6 +110,31 @@ class MessageController extends Controller
         if ($message->is_recalled) {
             $message->medias()->delete();
         }
+
+        
+        $message->medias()->delete();
+
+        if ($request->hasFile('medias')) {
+            $medias = $request->file('medias');
+            foreach ($medias as $media) {
+                $message->medias()->create([
+                    'message_id' => $message->id,
+                    'type' => $media->getMimeType(),
+                    'path' => asset('storage/' . $media->store('uploads', 'public'))
+                ]);
+            }
+        }
+        if ($request->has("urls")) {
+            foreach ($request->urls as $url) {
+                $data = json_decode($url, true);
+                $message->medias()->create([
+                    'message_id' => $message->id,
+                    'type' => $data['type'],
+                    'path' => $data['path']
+                ]);
+            }
+        }
+        
         if ($request->has('is_recalled')) {
             event(new UserRecallMessageEvent($request->user()->id, $message->id));
         } else {

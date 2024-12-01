@@ -4,9 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ConversationResource;
 use App\Http\Resources\MessageMediaResource;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use App\Models\Conversation as ConversationModel;
+use App\Models\User;
+use App\Events\UserRemoveConversationMemberEvent;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Log;
 
 class ConversationController extends Controller
 {
@@ -89,5 +93,20 @@ class ConversationController extends Controller
         })->flatten();
 
         return MessageMediaResource::collection($medias);
+    }
+
+    public function removeMember(Request $request)
+    {
+        Log::info($request->all());
+        $id = $request->input('conversation_id');
+        $member_id = $request->input('user_id');
+        $user_id = $request->user()->id;
+
+        $conversation = ConversationModel::find($id);
+        $conversation->users()->detach($member_id);
+
+        event(new UserRemoveConversationMemberEvent($id, $user_id, $member_id));
+
+        return new UserResource(User::find($member_id));
     }
 }

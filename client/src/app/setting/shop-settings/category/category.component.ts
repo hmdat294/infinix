@@ -4,11 +4,12 @@ import { SettingService } from '../../../service/setting.service';
 import { AuthService } from '../../../service/auth.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-category',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, TranslateModule],
   templateUrl: './category.component.html',
   styleUrl: './category.component.css'
 })
@@ -42,6 +43,8 @@ export class CategoryComponent implements OnInit {
           this.shopService.getShop(this.user.shop_id).subscribe(
             (res) => {
               this.shop = res.data;
+              // console.log(this.shop);
+              
 
               const arrAddress = this.shop.address.split("|");
 

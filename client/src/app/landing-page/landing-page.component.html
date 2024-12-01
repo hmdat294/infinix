@@ -1,4 +1,4 @@
-<section class="gradient-background layout-vertical h-hug">
+<section class="gradient-background layout-vertical h-hug overflow-hidden">
 
     <img style="right: 29px; top: 510px;" src="assets/image/3d-glassy-burst-of-cards-with-rounded-corners 1.png" alt=""
         class="position-absolute moving moving-delay-1">
@@ -21,24 +21,20 @@
     <!-- Article -->
     <article class="layout-vertical" style="gap: 150px; padding: 150px;">
         <div class="layout-vertical w-fill">
-            <div style="width: 600px;" class="layout-vertical gap-25">
-                <!-- <p class="accent-text-primary text-title-large">
-                    Connect - Share - Inspire
-                </p> -->
+            <div class="layout-vertical gap-25">
+
                 <div class="text-wrapper">
-                    <p class="gradient-text text-title-large">Connect - Share - Inspire</p>
-                    <p class="text-border text-title-large">Connect - Share - Inspire</p>
+                    <p class="gradient-text text-title-large">{{ 'landing_page.title' | translate }}</p>
+                    <p class="text-border text-title-large">{{ 'landing_page.title' | translate }}</p>
                 </div>
 
-                <p class="text-secondary text-body-large">
-                    Chào mừng bạn đến với Infinix, nền tảng mạng xã hội hiện đại giúp bạn kết nối với bạn bè, chia sẻ
-                    những khoảnh khắc đáng nhớ và truyền cảm hứng đến cộng đồng. Tại Infinix, bạn không chỉ là người
-                    theo dõi, mà còn là người tạo nên sự khác biệt. Hãy tham gia cùng chúng tôi để khám phá những câu
-                    chuyện thú vị, tạo dựng mối quan hệ bền chặt và khơi nguồn cảm hứng mỗi ngày. </p>
+                <p class="text-secondary text-body-large" style="width: 600px;">
+                    {{ 'landing_page.description' | translate }}
+                </p>
 
                 <button type="button" class="gradient-btn mt-10" [routerLink]="['/login']">
                     <img src="assets/image/landing-page-explore.png" alt="">
-                    <span>Get started now</span>
+                    <span>{{ 'landing_page.start_button' | translate }}</span>
                 </button>
             </div>
         </div>
@@ -49,8 +45,9 @@
                     <img class="h-fill rotate rotate-delay-1" src="assets/image/landing-page-connect.png" alt="">
                 </div>
                 <div class="layout-vertical gap-5 w-fill">
-                    <p class="text-primary text-body-large">Kết nối</p>
-                    <p class="text-secondary text-body">Kết nối với bạn bè, gia đình và những người có cùng sở thích.
+                    <p class="text-primary text-body-large">{{ 'landing_page.connect_title' | translate }}</p>
+                    <p class="text-secondary text-body">
+                        {{ 'landing_page.connect_description' | translate }}
                     </p>
                 </div>
             </div>
@@ -60,9 +57,10 @@
                     <img class="h-fill rotate rotate-delay-2" src="assets/image/landing-page-share.png" alt="">
                 </div>
                 <div class="layout-vertical gap-5 w-fill">
-                    <p class="text-primary text-body-large">Chia sẻ</p>
-                    <p class="text-secondary text-body">Chia sẻ những khoảnh khắc đáng nhớ, ý tưởng sáng tạo và cảm xúc
-                        của bạn.</p>
+                    <p class="text-primary text-body-large">{{ 'landing_page.share_title' | translate }}</p>
+                    <p class="text-secondary text-body">
+                        {{ 'landing_page.share_description' | translate }}
+                    </p>
                 </div>
             </div>
 
@@ -71,8 +69,10 @@
                     <img class="h-fill rotate rotate-delay-3" src="assets/image/landing-page-explore.png" alt="">
                 </div>
                 <div class="layout-vertical gap-5 w-fill">
-                    <p class="text-primary text-body-large">Khám phá</p>
-                    <p class="text-secondary text-body">Khám phá nội dung mới, thú vị và hữu ích.</p>
+                    <p class="text-primary text-body-large">{{ 'landing_page.explore_title' | translate }}</p>
+                    <p class="text-secondary text-body">
+                        {{ 'landing_page.explore_description' | translate }}
+                    </p>
                 </div>
             </div>
 
@@ -81,9 +81,10 @@
                     <img class="h-fill rotate rotate-delay-4" src="assets/image/landing-page-interact.png" alt="">
                 </div>
                 <div class="layout-vertical gap-5 w-fill">
-                    <p class="text-primary text-body-large">Tương tác</p>
-                    <p class="text-secondary text-body">Tương tác với cộng đồng, tham gia thảo luận và tạo dựng những
-                        mối quan hệ mới.</p>
+                    <p class="text-primary text-body-large">{{ 'landing_page.interact_title' | translate }}</p>
+                    <p class="text-secondary text-body">
+                        {{ 'landing_page.interact_description' | translate }}
+                    </p>
                 </div>
             </div>
         </div>
@@ -91,25 +92,27 @@
 
         <div class="layout-vertical w-fill acrylic-background-default blur-acrylic rounded-8 align-center-center"
             style="gap: 35px; padding: 35px;">
-            <p class="text-secondary text-title">Chức năng chính</p>
+            <p class="text-secondary text-title">{{ 'landing_page.main_function' | translate }}</p>
             <div class="layout-vertical gap-20 w-fill">
                 <div class="layout-horizontal w-fill gap-20">
                     <div
                         class="layout-horizontal gap-20 p-20 rounded-8 border border-card-default card-background-default w-fill">
                         <i class="icon-size-28 accent-text-primary icon icon-ic_fluent_chat_28_filled"></i>
                         <div class="layout-vertical gap-5 w-fill">
-                            <p class="text-primary text-body-large">Kết bạn và trò chuyện</p>
-                            <p class="text-secondary text-body">Xây dựng các mối quan hệ có ý nghĩa chỉ với vài thao
-                                tác.</p>
+                            <p class="text-primary text-body-large">{{ 'landing_page.friend_chat_title' | translate }}</p>
+                            <p class="text-secondary text-body">
+                                {{ 'landing_page.friend_chat_description' | translate }}
+                            </p>
                         </div>
                     </div>
                     <div
                         class="layout-horizontal gap-20 p-20 rounded-8 border border-card-default card-background-default w-fill">
                         <i class="icon-size-28 accent-text-primary icon icon-ic_fluent_people_team_28_filled"></i>
                         <div class="layout-vertical gap-5 w-fill">
-                            <p class="text-primary text-body-large">Tạo nhóm</p>
-                            <p class="text-secondary text-body">Chia sẻ thông tin, hình ảnh, video với bạn bè trong
-                                nhóm.</p>
+                            <p class="text-primary text-body-large">{{ 'landing_page.create_group_title' | translate }}</p>
+                            <p class="text-secondary text-body">
+                                {{ 'landing_page.create_group_description' | translate }}
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -118,17 +121,20 @@
                         class="layout-horizontal gap-20 p-20 rounded-8 border border-card-default card-background-default w-fill">
                         <i class="icon-size-28 accent-text-primary icon icon-ic_fluent_person_28_filled"></i>
                         <div class="layout-vertical gap-5 w-fill">
-                            <p class="text-primary text-body-large">Cá nhân hóa hồ sơ của bạn</p>
-                            <p class="text-secondary text-body">Tùy chỉnh trang hồ sơ theo phong cách riêng của bạn.</p>
+                            <p class="text-primary text-body-large">{{ 'landing_page.personalization_title' | translate }}</p>
+                            <p class="text-secondary text-body">
+                                {{ 'landing_page.personalization_description' | translate }}
+                            </p>
                         </div>
                     </div>
                     <div
                         class="layout-horizontal gap-20 p-20 rounded-8 border border-card-default card-background-default w-fill">
                         <i class="icon-size-28 accent-text-primary icon icon-ic_fluent_tv_28_filled"></i>
                         <div class="layout-vertical gap-5 w-fill">
-                            <p class="text-primary text-body-large">Tùy chỉnh giao diện</p>
-                            <p class="text-secondary text-body">Thiết kế giao diện theo sở thích của bạn, tạo ra trải
-                                nghiệm độc đáo.</p>
+                            <p class="text-primary text-body-large">{{ 'landing_page.customize_appearance_title' | translate }}</p>
+                            <p class="text-secondary text-body">
+                                {{ 'landing_page.customize_appearance_description' | translate }}
+                            </p>
                         </div>
                     </div>
                 </div>

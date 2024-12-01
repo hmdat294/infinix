@@ -1,0 +1,392 @@
+/* Text Color */
+.text-primary {
+    color: var(--text-primary) !important;
+}
+
+.text-secondary {
+    color: var(--text-secondary) !important;
+}
+
+.text-tertiary {
+    color: var(--text-tertiary) !important;
+}
+
+.text-disabled {
+    color: var(--text-disabled) !important;
+}
+
+.accent-text-primary {
+    color: var(--accent-text-primary);
+}
+
+.accent-text-secondary {
+    color: var(--accent-text-secondary);
+}
+
+.accent-text-tertiary {
+    color: var(--accent-text-tertiary);
+}
+
+.accent-text-disabled {
+    color: var(--accent-text-disabled);
+}
+
+.text-on-accent-primary {
+    color: var(--text-on-accent-primary);
+}
+
+.text-on-accent-secondary {
+    color: var(--text-on-accent-secondary);
+}
+
+.text-on-accent-disabled {
+    color: var(--text-on-accent-disabled);
+}
+
+.text-on-accent-selected {
+    color: var(--text-on-accent-selected);
+}
+
+/* Control Color */
+.control-default {
+    background-color: var(--control-default);
+}
+
+.control-secondary {
+    background-color: var(--control-secondary);
+}
+
+.control-tertiary {
+    background-color: var(--control-tertiary);
+}
+
+.control-quarternary {
+    background-color: var(--control-quarternary);
+}
+
+.control-disabled {
+    background-color: var(--control-disabled);
+}
+
+.control-transparent {
+    background-color: var(--control-transparent);
+}
+
+.control-input-active {
+    background-color: var(--control-input-active);
+}
+
+.control-alt-secondary {
+    background-color: var(--control-alt-secondary);
+}
+
+.control-alt-tertiary {
+    background-color: var(--control-alt-tertiary);
+}
+
+.control-alt-quarternary {
+    background-color: var(--control-alt-quarternary);
+}
+
+.control-alt-disabled {
+    background-color: var(--control-alt-disabled);
+}
+
+.control-alt-transparent {
+    background-color: var(--control-alt-transparent);
+}
+
+.control-solid-default {
+    background-color: var(--control-solid-default);
+}
+
+.control-strong-default {
+    background-color: var(--control-strong-default);
+}
+
+.control-strong-disabled {
+    background-color: var(--control-strong-disabled);
+}
+
+/* Subtle Color */
+
+.subtle-transparent {
+    background-color: var(--subtle-transparent);
+}
+
+.subtle-secondary {
+    background-color: var(--subtle-secondary);
+}
+
+.subtle-tertiary {
+    background-color: var(--subtle-tertiary);
+}
+
+.subtle-disabled {
+    background-color: var(--subtle-disabled);
+}
+
+/* Control Fill Color */
+
+.control-on-image-fill-default {
+    background-color: var(--control-on-image-fill-default);
+}
+
+.control-on-image-fill-secondary {
+    background-color: var(--control-on-image-fill-secondary);
+}
+
+.control-on-image-fill-tertiary {
+    background-color: var(--control-on-image-fill-tertiary);
+}
+
+.control-on-image-fill-disabled {
+    background-color: var(--control-on-image-fill-disabled);
+}
+
+/* Accent Color */
+
+.accent-default {
+    background-color: var(--accent-default);
+}
+
+.accent-secondary {
+    background-color: var(--accent-secondary);
+}
+
+.accent-tertiary {
+    background-color: var(--accent-tertiary);
+}
+
+.accent-disabled {
+    background-color: var(--accent-disabled);
+}
+
+.accent-selected-text-background {
+    background-color: var(--accent-selected-text-background);
+}
+
+/* Control Stroke Color */
+
+.control-stroke-default {
+     border: 1px solid var(--control-stroke-default);
+}
+
+.control-stroke-secondary {
+     border: 1px solid var(--control-stroke-secondary);
+}
+
+.control-stroke-on-accent-default {
+     border: 1px solid var(--control-stroke-on-accent-default);
+}
+
+.control-stroke-on-accent-secondary {
+     border: 1px solid var(--control-stroke-on-accent-secondary);
+}
+
+.control-stroke-on-accent-tertiary {
+     border: 1px solid var(--control-stroke-on-accent-tertiary);
+}
+
+.control-stroke-on-accent-disabled {
+     border: 1px solid var(--control-stroke-on-accent-disabled);
+}
+
+.control-stroke-for-strong-fill-when-on-image {
+     border: 1px solid var(--control-stroke-for-strong-fill-when-on-image);
+}
+
+/* Card Stroke Color */
+
+.card-stroke-default {
+     border: 1px solid var(--card-stroke-default);
+}
+
+.card-stroke-default-solid {
+     border: 1px solid var(--card-stroke-default-solid);
+}
+
+/* Control Strong Stroke Color */
+
+.control-strong-stroke-default {
+     border: 1px solid var(--control-strong-stroke-default);
+}
+
+.control-strong-stroke-disabled {
+     border: 1px solid var(--control-strong-stroke-disabled);
+}
+
+/* Surface Stroke Color */
+
+.surface-stroke-default {
+     border: 1px solid var(--surface-stroke-default);
+}
+
+.surface-stroke-flyout {
+     border: 1px solid var(--surface-stroke-flyout);
+}
+
+/* Divider Stroke Color */
+
+.divider-stroke-default {
+     border: 1px solid var(--divider-stroke-default);
+}
+
+/* Card Background Color */
+
+.card-background-default {
+    background-color: var(--card-background-default);
+}
+
+.card-background-secondary {
+    background-color: var(--card-background-secondary);
+}
+
+.card-background-tertiary {
+    background-color: var(--card-background-tertiary);
+}
+
+/* Smoke Color */
+
+.smoke-default {
+    background-color: var(--smoke-default);
+}
+
+/* Layer Color */
+
+.layer-default {
+    background-color: var(--layer-default);
+}
+
+.layer-alt {
+    background-color: var(--layer-alt);
+}
+
+/* Solid Background Color */
+
+.solid-background-base {
+    background-color: var(--solid-background-base);
+}
+
+.solid-background-secondary {
+    background-color: var(--solid-background-secondary);
+}
+
+.solid-background-tertiary {
+    background-color: var(--solid-background-tertiary);
+}
+
+.solid-background-quarternary {
+    background-color: var(--solid-background-quarternary);
+}
+
+.solid-background-quinary {
+    background-color: var(--solid-background-quinary);
+}
+
+.solid-background-senary {
+    background-color: var(--solid-background-senary);
+}
+
+.solid-background-base-alt {
+    background-color: var(--solid-background-base-alt);
+}
+
+/* System Color */
+.text-system-attention {
+    color: var(--system-attention);
+}
+
+.text-system-success {
+    color: var(--system-success);
+}
+
+.text-system-caution {
+    color: var(--system-caution);
+}
+
+.text-system-critical {
+    color: var(--system-critical);
+}
+
+.system-attention {
+    background-color: var(--system-attention);
+}
+
+.system-success {
+    background-color: var(--system-success);
+}
+
+.system-caution {
+    background-color: var(--system-caution);
+}
+
+.system-critical {
+    background-color: var(--system-critical);
+}
+
+.system-attention-background {
+    background-color: var(--system-attention-background);
+}
+
+.system-success-background {
+    background-color: var(--system-success-background);
+}
+
+.system-caution-background {
+    background-color: var(--system-caution-background);
+}
+
+.system-critical-background {
+    background-color: var(--system-critical-background);
+}
+
+.system-neutral {
+    background-color: var(--system-neutral);
+}
+
+.system-solid-neutral {
+    background-color: var(--system-solid-neutral);
+}
+
+.system-neutral-background {
+    background-color: var(--system-neutral-background);
+}
+
+.system-solid-neutral-background {
+    background-color: var(--system-solid-neutral-background);
+}
+
+.system-solid-attention-background {
+    background-color: var(--system-solid-attention-background);
+}
+
+.acrylic-background-base {
+    background-color: var(--acrylic-background-base);
+}
+
+.acrylic-background-default {
+    background-color: var(--acrylic-background-default);
+}
+
+/* Gradient Background */
+.gradient-background {
+    background: var(--solid-background-base);
+    background: radial-gradient(412.31% 141.42% at 0% 0%, rgba(0, 30, 255, 0.10) 0%, rgba(255, 255, 255, 0.05) 33%, rgba(255, 255, 255, 0.05) 66%, rgba(107, 0, 184, 0.10) 100%), var(--solid-background-base);
+}
+
+.icon-accent-default {
+    color: var(--accent-default);
+}
+
+.icon-accent-secondary {
+    color: var(--accent-secondary);
+}
+
+.icon-accent-tertiary {
+    color: var(--accent-tertiary);
+}
+
+.icon-accent-disabled {
+    color: var(--accent-disabled);
+}

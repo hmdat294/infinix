@@ -16,9 +16,14 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { BookmarkComponent } from './bookmark/bookmark.component';
 import { ShopComponent } from './shop/shop.component';
 import { ReportComponent } from './admin/report/report.component';
+<<<<<<< HEAD
 import { ReportpostComponent } from './admin/report-post/report-post.component';
 import { EventComponent } from './admin/event/event.component';
 import { ReportUserComponent } from './admin/report-user/report-user.component';
+=======
+import { StoreComponent } from './store/store.component';
+import { CheckoutComponent } from './checkout/checkout.component';
+>>>>>>> minhdat
 
 export const routes: Routes = [
     { path: '', component: MainHomeComponent, canActivate: [AuthGuard] },
@@ -32,7 +37,9 @@ export const routes: Routes = [
     { path: 'friend-profile/:user_id/:post_id', component: FriendProfileComponent, canActivate: [AuthGuard] },
     { path: 'bookmark', component: BookmarkComponent, canActivate: [AuthGuard] },
 
-    { path: 'shop', component: ShopComponent, canActivate: [AuthGuard] },
+    { path: 'shop/:shop_id', component: ShopComponent, canActivate: [AuthGuard] },
+    { path: 'store', component: StoreComponent, canActivate: [AuthGuard] },
+    { path: 'checkout/:data', component: CheckoutComponent, canActivate: [AuthGuard] },
 
     { path: 'login', component: LoginComponent, canActivate: [AuthGuard] },
     { path: 'register', component: RegisterComponent, canActivate: [AuthGuard] },

@@ -3,7 +3,7 @@
     <article class="layout-horizontal gap-20 px-20 w-fill h-fill overflow-hidden align-center-center">
 
         <div class="w-fill-column-8 h-fill layout-vertical overflow-scroll-vertical gap-20">
-            <p class="text-subtitle text-primary">Danh sách bài viết được lưu</p>
+            <p class="text-subtitle text-primary">{{ 'bookmark.title' | translate }}</p>
             <div class="w-fill h-hug layout-vertical gap-20">
 
                 <!-- for -->
@@ -23,12 +23,11 @@
                                 class="border border-card-default rounded-circle" style="width: 35px; height: 35px;">
                             <p class="text-body-strong text-primary">{{post.profile.display_name}}</p>
                         </a>
-                        <div class="text-body text-primary w-fill h-fill">
-                            {{post.content}}
-                        </div>
+                        <div class="text-body text-primary w-fill h-fill" [innerHTML]="post.content"></div>
                         <div class="layout-horizontal gap-10">
                             <a [routerLink]="['/friend-profile', post.profile.user_id, post.id]"
-                                class="button-accent button-text-only">Xem chi tiết</a>
+                                class="button-accent button-text-only">{{ 'bookmark.view_detail_button' | translate
+                                }}</a>
 
                             <button type="button" class="button-standard button-icon-only" (click)="showShare(post.id)">
                                 <i class="icon-size-16 icon icon-ic_fluent_share_android_16_filled"></i>
@@ -41,143 +40,135 @@
                         </div>
                     </div>
 
-                    <div class="position-fixed top-0 start-0 {{(dialogShare == post.id) ? 'display-block' : 'display-none'}}"
-                    style="width: 100%; height: 100vh; z-index: 30;">
-                    <div class="position-fixed top-0 start-0"
-                        style="width: 100%; height: 100vh; z-index: 20; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px);">
-                        <div class="dialog-panel position-absolute top-50 start-50 translate-middle">
-        
-                            <div class="layout-vertical solid-background-senary border border-card-default rounded-8 h-hug"
-                                style="width: 600px;">
-                                <button type="button" class="button-subtle button-icon-only w-hug position-absolute"
-                                    style="right: 20px; top: 20px; z-index: 1;" (click)="showShare(0)">
-                                    <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_filled"></i>
-                                </button>
-                                <div class="w-fill border-bottom border-card-default">
-                                    <p class="text-subtitle text-primary text-center p-20">Chia sẻ bài đăng</p>
-                                </div>
-        
-                                <div *ngIf="shareSuccess != ''" [innerHTML]="shareSuccess"></div>
-        
-                                <div *ngIf="listUser?.length > 0" class="layout-vertial w-fill border-bottom border-card-default pb-20">
-                                    <div class="w-fill layout-horizontal py-10 px-20 gap-10">
-                                        <p class="text-body-strong text-primary w-fill">Chia sẻ với bạn bè</p>
-                                        <!-- <div class="control search-control">
-                                            <input type="search" placeholder="placeholder" spellcheck="false">
-                                            <button type="button" class="input-button clear-content-button">
-                                                <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
-                                            </button>
-                                            <button type="button" class="input-button search-button">
-                                                <i class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
-                                            </button>
-                                        </div> -->
+                    <div class="position-fixed top-0 start-0" *ngIf="dialogShare == post.id"
+                        style="width: 100%; height: 100vh; z-index: 30;">
+                        <div class="position-fixed top-0 start-0"
+                            style="width: 100%; height: 100vh; z-index: 20; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px);">
+                            <div class="dialog-panel position-absolute top-50 start-50 translate-middle">
+
+                                <div class="layout-vertical solid-background-senary border border-card-default rounded-8 h-hug"
+                                    style="width: 600px;">
+                                    <button type="button" class="button-subtle button-icon-only w-hug position-absolute"
+                                        style="right: 20px; top: 20px; z-index: 1;" (click)="showShare(0)">
+                                        <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_filled"></i>
+                                    </button>
+                                    <div class="w-fill border-bottom border-card-default">
+                                        <p class="text-subtitle text-primary text-center p-20">{{ 'bookmark.share.title'
+                                            | translate }}</p>
                                     </div>
-                                    <div class="layout w-fill">
-                                        <button type="button"
-                                            class="button-subtle button-icon-only position-absolute top-50 translate-middle-y"
-                                            style="right: 25px; z-index: 1;">
-                                            <i class="icon-size-16 icon icon-ic_fluent_chevron_right_16_filled"></i>
-                                        </button>
-                                        <button type="button"
-                                            class="button-subtle button-icon-only position-absolute top-50 translate-middle-y"
-                                            style="left: 25px; z-index: 1;">
-                                            <i class="icon-size-16 icon icon-ic_fluent_chevron_left_16_filled"></i>
-                                        </button>
-                                        <div class="overflow-hidden" style="width: calc(100% - 135px); margin: auto;">
-                                            <div class="w-fill gap-20 overflow-scroll-horizontal layout-horizontal">
-        
-        
-                                                <!-- for -->
-                                                <div *ngFor="let user of listUser" class="list-item"
-                                                    style="width: 100px !important;">
-                                                    <div class="layout-vertical align-center-center gap-10 flex-shrink-0"
-                                                        (click)="sharePostToMessage(post.id, user?.id, (user?.users[0].id == currentUser?.id) ?
-                                                user?.users[1].profile.display_name :
-                                                user?.users[0].profile.display_name)">
-                                                        <img class="border border-card-default rounded-circle w-fill object-fit-cover"
-                                                            [src]="
-                                                    (user?.users[0].id == currentUser?.id) ? user?.users[1].profile.profile_photo :
-                                                    user?.users[0].profile.profile_photo
-                                                    " alt="" style="width: 70px !important; height: 70px !important;">
-                                                        <p class="text-body-strong text-primary text-center">
-                                                            {{(user?.users[0].id == currentUser?.id) ?
-                                                            user?.users[1].profile.display_name :
-                                                            user?.users[0].profile.display_name}}</p>
+
+                                    <div *ngIf="shareSuccess != ''" [innerHTML]="shareSuccess"></div>
+
+                                    <div *ngIf="listUser?.length > 0"
+                                        class="layout-vertial w-fill border-bottom border-card-default pb-10">
+                                        <div class="w-fill layout-horizontal py-10 px-20 gap-10">
+                                            <p class="text-body-strong text-primary w-fill">{{
+                                                'bookmark.share.share_to_friend'
+                                                | translate }}</p>
+                                        </div>
+                                        <div class="layout w-fill">
+                                            <button type="button" (click)="nextuser('user')"
+                                                class="button-subtle button-icon-only position-absolute top-50 translate-middle-y"
+                                                style="right: 25px; z-index: 1;">
+                                                <i class="icon-size-16 icon icon-ic_fluent_chevron_right_16_filled"></i>
+                                            </button>
+                                            <button type="button" (click)="prevuser('user')"
+                                                class="button-subtle button-icon-only position-absolute top-50 translate-middle-y"
+                                                style="left: 25px; z-index: 1;">
+                                                <i class="icon-size-16 icon icon-ic_fluent_chevron_left_16_filled"></i>
+                                            </button>
+                                            <div class="overflow-hidden"
+                                                style="width: calc(100% - 135px); margin: auto;">
+                                                <div class="user_inner layout-horizontal gap-20 overflow-hidden">
+
+
+                                                    <!-- for -->
+                                                    <div *ngFor="let user of listUser"
+                                                        class="user_item list-item w-fill-column-3">
+                                                        <div class="layout-vertical align-center-center gap-10 flex-shrink-0"
+                                                            (click)="sharePostToMessage(post.id, user?.id, (user?.users[0].id == currentUser?.id) ?
+                                                    user?.users[1].profile.display_name :
+                                                    user?.users[0].profile.display_name)">
+                                                            <img class="border border-card-default rounded-circle w-fill object-fit-cover"
+                                                                [src]="
+                                                        (user?.users[0].id == currentUser?.id) ? user?.users[1].profile.profile_photo :
+                                                        user?.users[0].profile.profile_photo
+                                                        " alt=""
+                                                                style="width: 70px !important; height: 70px !important;">
+                                                            <p class="text-body-strong text-primary text-center">
+                                                                {{(user?.users[0].id == currentUser?.id) ?
+                                                                user?.users[1].profile.display_name :
+                                                                user?.users[0].profile.display_name}}</p>
+                                                        </div>
                                                     </div>
+
+
                                                 </div>
-        
-        
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div *ngIf="listGroup?.length > 0" class="layout-vertial w-fill border-bottom border-card-default pb-10">
-                                    <div class="w-fill layout-horizontal py-10 px-20 gap-10">
-                                        <p class="text-body-strong text-primary w-fill">Chia sẻ với nhóm</p>
-                                        <!-- <div class="control search-control">
-                                            <input type="search" placeholder="placeholder" spellcheck="false">
-                                            <button type="button" class="input-button clear-content-button">
-                                                <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
+                                    <div *ngIf="listGroup?.length > 0"
+                                        class="layout-vertial w-fill border-bottom border-card-default pb-10">
+                                        <div class="w-fill layout-horizontal py-10 px-20 gap-10">
+                                            <p class="text-body-strong text-primary w-fill">{{
+                                                'bookmark.share.share_to_group'
+                                                | translate }}</p>
+                                        </div>
+                                        <div class="layout w-fill">
+                                            <button type="button" (click)="nextuser('group')"
+                                                class="button-subtle button-icon-only position-absolute top-50 translate-middle-y"
+                                                style="right: 25px; z-index: 1;">
+                                                <i class="icon-size-16 icon icon-ic_fluent_chevron_right_16_filled"></i>
                                             </button>
-                                            <button type="button" class="input-button search-button">
-                                                <i class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
+                                            <button type="button" (click)="prevuser('group')"
+                                                class="button-subtle button-icon-only position-absolute top-50 translate-middle-y"
+                                                style="left: 25px; z-index: 1;">
+                                                <i class="icon-size-16 icon icon-ic_fluent_chevron_left_16_filled"></i>
                                             </button>
-                                        </div> -->
-                                    </div>
-                                    <div class="layout w-fill">
-                                        <button type="button"
-                                            class="button-subtle button-icon-only position-absolute top-50 translate-middle-y"
-                                            style="right: 25px; z-index: 1;">
-                                            <i class="icon-size-16 icon icon-ic_fluent_chevron_right_16_filled"></i>
-                                        </button>
-                                        <button type="button"
-                                            class="button-subtle button-icon-only position-absolute top-50 translate-middle-y"
-                                            style="left: 25px; z-index: 1;">
-                                            <i class="icon-size-16 icon icon-ic_fluent_chevron_left_16_filled"></i>
-                                        </button>
-                                        <div class="overflow-hidden" style="width: calc(100% - 135px); margin: auto;">
-                                            <div class="w-fill gap-20 overflow-scroll-horizontal layout-horizontal">
-        
-        
-                                                <!-- for -->
-                                                <div *ngFor="let group of listGroup" class="list-item"
-                                                    style="width: 100px !important;">
-                                                    <div class="layout-vertical align-center-center gap-10 flex-shrink-0"
-                                                        (click)="sharePostToMessage(post.id, group?.id, group?.name)">
-                                                        <img class="border border-card-default rounded-circle w-fill object-fit-cover"
-                                                            [src]="group?.image" alt=""
-                                                            style="width: 70px !important; height: 70px !important;">
-                                                        <p class="text-body-strong text-primary text-center">{{group?.name}}</p>
+                                            <div class="overflow-hidden"
+                                                style="width: calc(100% - 135px); margin: auto;">
+                                                <div class="group_inner layout-horizontal gap-20 overflow-hidden">
+
+                                                    <!-- for -->
+                                                    <div *ngFor="let group of listGroup"
+                                                        class="group_item list-item w-fill-column-3">
+                                                        <div class="layout-vertical align-center-center gap-10 flex-shrink-0"
+                                                            (click)="sharePostToMessage(post.id, group?.id, group?.name)">
+                                                            <img class="border border-card-default rounded-circle w-fill object-fit-cover"
+                                                                [src]="group?.image" alt=""
+                                                                style="width: 70px !important; height: 70px !important;">
+                                                            <p class="text-body-strong text-primary text-center">
+                                                                {{group?.name}}</p>
+                                                        </div>
                                                     </div>
+
                                                 </div>
-        
-        
-        
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="w-fill">
-                                    <div class="layout-horizontal py-10 px-20 align-center-right w-fill gap-20">
-                                        <button type="button" (click)="copyUrl(post.id)"
-                                            class="button-standard button-text-only">Sao chép đường dẫn</button>
-                                        <button type="button" (click)="sharePostToMyPage(post.id)"
-                                            class="{{(post.shared) ? 'button-standard' : 'button-accent'}} button-text-only">
-                                            {{(post.shared) ? 'Hủy chia sẻ' : 'Chia sẻ về trang cá nhân'}}
-                                        </button>
+                                    <div class="w-fill">
+                                        <div class="layout-horizontal py-10 px-20 align-center-right w-fill gap-20">
+                                            <button type="button" (click)="copyUrl(post.id)"
+                                                class="button-standard button-text-only">{{ 'bookmark.share.copy_url' |
+                                                translate }}</button>
+                                            <button type="button" (click)="sharePostToMyPage(post.id)"
+                                                class="{{(post.shared) ? 'button-standard' : 'button-accent'}} button-text-only">
+                                                {{(post.shared) ? ('bookmark.share.cancel_share' | translate) :
+                                                ('bookmark.share.share_to_profile' | translate) }}
+                                            </button>
+                                        </div>
+
                                     </div>
-        
                                 </div>
+
                             </div>
-        
                         </div>
                     </div>
-                </div>
                 </div>
 
                 <div *ngIf="listPost.length == 0"
                     class="w-fill py-20 card-background-default border border-card-default rounded-8">
-                    <p class="text-body text-secondary text-center">Không có bài viết nào được lưu</p>
+                    <p class="text-body text-secondary text-center">{{ 'bookmark.empty_bookmark' | translate }}</p>
                 </div>
 
             </div>

@@ -12,11 +12,12 @@ import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { QuillModule } from 'ngx-quill';
 import { DomSanitizer } from '@angular/platform-browser';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-center-profile',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule, EmojiModule, PickerComponent, QuillModule],
+  imports: [FormsModule, CommonModule, RouterModule, EmojiModule, PickerComponent, QuillModule, TranslateModule],
   templateUrl: './center-profile.component.html',
   styleUrl: './center-profile.component.css'
 })
@@ -26,9 +27,9 @@ export class CenterProfileComponent implements OnInit, AfterViewInit {
   contentUpdate: string = '';
   selectedFilesPost: File[] = [];
   selectedFilesUpdatePost: File[] = [];
-  previewPostImages: string[] = [];
+  previewPostImages: any[] = [];
+  previewUpdatePostImages: any[] = [];
   selectedFilesComment: File[] = [];
-  previewUpdatePostImages: string[] = [];
   previewCommentImages: string[] = [];
   listPost: any[] = [];
   filePost: any;
@@ -69,10 +70,10 @@ export class CenterProfileComponent implements OnInit, AfterViewInit {
     this.postService.getPostByUser().subscribe(
       (data) => {
         this.listPost = data.data;
-        console.log(this.listPost);
+        // console.log(this.listPost);
 
         this.eventService.bindEvent('App\\Events\\UserPostEvent', (data: any) => {
-          console.log('Post event:', data);
+          // console.log('Post event:', data);
           if (data.action == "create") {
             this.listPost.unshift(data.data);
           } else {
@@ -88,6 +89,60 @@ export class CenterProfileComponent implements OnInit, AfterViewInit {
   @ViewChildren('nextButton') nextButtons!: QueryList<ElementRef<HTMLButtonElement>>;
   @ViewChildren('prevButton') prevButtons!: QueryList<ElementRef<HTMLButtonElement>>;
   @ViewChildren('indicatorsContainer') indicatorsContainers!: QueryList<ElementRef<HTMLDivElement>>;
+
+  isSlidingSlide: boolean = false;
+
+  nextuser(value: string) {
+    if (this.isSlidingSlide) return;
+
+    const slideShare = document.querySelector<HTMLDivElement>(`.${value}_inner`);
+    const shareItems = document.querySelectorAll<HTMLDivElement>(`.${value}_item`);
+
+    if (slideShare && shareItems.length > 4) {
+      this.isSlidingSlide = true;
+
+      const first = shareItems[0];
+
+      slideShare.style.transition = 'transform 0.3s ease-in-out';
+      slideShare.style.transform = `translateX(-${shareItems[0].offsetWidth + 20}px)`;
+
+      setTimeout(() => {
+        slideShare.style.transition = 'none';
+        slideShare.style.transform = 'translateX(0)';
+
+        slideShare.appendChild(first);
+
+        this.isSlidingSlide = false;
+      }, 300);
+    }
+  }
+
+  prevuser(value: string) {
+    if (this.isSlidingSlide) return;
+
+    const slideShare = document.querySelector<HTMLDivElement>(`.${value}_inner`);
+    const shareItems = document.querySelectorAll<HTMLDivElement>(`.${value}_item`);
+
+    if (slideShare && shareItems.length > 4) {
+      this.isSlidingSlide = true;
+
+      const last = shareItems[shareItems.length - 1];
+
+      slideShare.insertBefore(last, shareItems[0]);
+
+      slideShare.style.transition = 'none';
+      slideShare.style.transform = `translateX(-${shareItems[0].offsetWidth + 20}px)`;
+
+      setTimeout(() => {
+        slideShare.style.transition = 'transform 0.3s ease-in-out';
+        slideShare.style.transform = 'translateX(0)';
+      }, 0);
+
+      setTimeout(() => {
+        this.isSlidingSlide = false;
+      }, 300);
+    }
+  }
 
   ngAfterViewInit(): void {
     this.initCarousels();
@@ -126,12 +181,12 @@ export class CenterProfileComponent implements OnInit, AfterViewInit {
           this.eventService.bindEventPost('App\\Events\\UserCommentPostEvent', (data: any) => {
             this.listPost.find(item => item.id === data.data.post.id).comments_count = data.comments_count;
             this.getCommentByPostId(data.data.post.id).unshift(data.data);
-            console.log('Comment event:', data);
+            // console.log('Comment event:', data);
           });
 
           this.eventService.bindEventPost('App\\Events\\UserLikePostEvent', (data: any) => {
             this.listPost.find(item => item.id === data.data.id).likes_count = data.likes_count;
-            console.log('Like event:', data);
+            // console.log('Like event:', data);
           });
 
         })
@@ -147,7 +202,7 @@ export class CenterProfileComponent implements OnInit, AfterViewInit {
   }
 
   getPathImg(img: any) {
-    return img.path;
+    return { 'path': img.path, 'type': img.type };
   }
 
   post(value: any) {
@@ -171,12 +226,12 @@ export class CenterProfileComponent implements OnInit, AfterViewInit {
           this.poll_input = [];
           this.showPoll = false;
           this.onCancelPostImg();
-          console.log(response);
+          // console.log(response);
         });
     }
   }
 
-  
+
   postDeleteId: number = 0;
 
   setDeleteId(post_id: number) {
@@ -186,7 +241,7 @@ export class CenterProfileComponent implements OnInit, AfterViewInit {
   deletePost() {
     this.postService.deletePost(this.postDeleteId).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
       }
     );
   }
@@ -201,12 +256,19 @@ export class CenterProfileComponent implements OnInit, AfterViewInit {
       if (this.selectedFilesUpdatePost.length > 0)
         this.selectedFilesUpdatePost.forEach(image => formData.append('medias[]', image, image.name));
 
-      if (urlImg.length > 0)
-        urlImg.forEach(imagePath => formData.append('urls[]', imagePath));
+      if (urlImg.length > 0) {
+        urlImg.forEach(imagePath => {
+          const data = {
+            path: imagePath.path,
+            type: imagePath.type
+          };
+          formData.append('urls[]', JSON.stringify(data));
+        });
+      }
 
       this.postService.updatePost(this.postUpdateId, formData).subscribe(
         (response) => {
-          console.log(response);
+          // console.log(response);
           this.showDiaLogUpdatePost(null);
         },
         (error) => {
@@ -226,20 +288,28 @@ export class CenterProfileComponent implements OnInit, AfterViewInit {
     }
     else {
       this.postUpdateId = post.id;
-      this.previewUpdatePostImages = post.medias.map((media: any) => media.path);
+      this.previewUpdatePostImages = [...post.medias];
       this.contentUpdate = post.content;
     }
   }
 
   onFileUpdatePostSelected(event: any) {
-
     const files: File[] = Array.from(event.target.files);
-    // console.log(files);
     if (files && files.length > 0) {
       files.forEach(file => {
         const reader = new FileReader();
-        reader.onload = e => this.previewUpdatePostImages.push(reader.result as string);
-        reader.readAsDataURL(file);
+
+        if (file.type.startsWith('image/')) {
+          // Xử lý ảnh
+          reader.onload = () => this.previewUpdatePostImages.push({ type: 'image/webp', path: reader.result as string });
+          reader.readAsDataURL(file);
+        } else if (file.type.startsWith('video/')) {
+          // Xử lý video
+          const videoURL = URL.createObjectURL(file);
+          this.previewUpdatePostImages.push({ type: 'video/mp4', path: videoURL });
+        }
+
+        // Lưu tệp vào danh sách đã chọn
         this.selectedFilesUpdatePost.push(file);
       });
     }
@@ -312,7 +382,19 @@ export class CenterProfileComponent implements OnInit, AfterViewInit {
   addEmoji(event: any) {
     this.content += event.emoji.native;
   }
-  
+
+
+  showEmojiPickerComment: boolean = false;
+
+  toggleEmojiPickerComment() {
+    this.showEmojiPickerComment = !this.showEmojiPickerComment;
+  }
+
+  addEmojiComment(event: any) {
+    this.contentCommentInput += event.emoji.native;
+  }
+
+
   showEmojiPickerUpdate: boolean = false;
 
   toggleEmojiPickerUpdate() {
@@ -337,7 +419,7 @@ export class CenterProfileComponent implements OnInit, AfterViewInit {
 
     this.postService.postComment(formData).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         this.contentCommentInput = '';
         this.removeCommentImage();
       }
@@ -352,7 +434,7 @@ export class CenterProfileComponent implements OnInit, AfterViewInit {
         else post.likes_count--;
         post.liked = response.liked;
 
-        console.log(response);
+        // console.log(response);
       }
     )
   }
@@ -361,7 +443,7 @@ export class CenterProfileComponent implements OnInit, AfterViewInit {
   likeComment(comment_id: number, post_id: number) {
     this.postService.postLikeComment(comment_id).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
         const comment = this.commentByPostId[post_id].find((item: any) => item.id == comment_id);
         comment.liked = !comment.liked;
         (response.type == 'like') ? comment.like_count++ : comment.like_count--;
@@ -374,7 +456,7 @@ export class CenterProfileComponent implements OnInit, AfterViewInit {
   bookmarkPost(post_id: number) {
     this.postService.bookmarkPost(post_id).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
 
         const bookmark = this.listPost.find(item => item.id === post_id);
         bookmark.bookmarked = !bookmark.bookmarked;
@@ -429,7 +511,7 @@ export class CenterProfileComponent implements OnInit, AfterViewInit {
 
     this.chatService.sendMessage(formData).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
         this.shareSuccess =
           `<p class="validation-message validation-sucess text-body text-primary py-10 px-15">
             <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
@@ -442,7 +524,7 @@ export class CenterProfileComponent implements OnInit, AfterViewInit {
   sharePostToMyPage(post_id: number) {
     this.postService.sharePostToMyPage(post_id).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
 
         const shared = this.listPost.find(item => item.id === post_id);
         shared.shared = !shared.shared;
@@ -520,7 +602,7 @@ export class CenterProfileComponent implements OnInit, AfterViewInit {
 
     this.postService.postReport(postReport).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
 
         if (response.data.type == 'post') {
           this.listIdReport.push({ id: response.data.id, post_id: response.data.post_id });
@@ -541,7 +623,7 @@ export class CenterProfileComponent implements OnInit, AfterViewInit {
     this.postService.cancelReport(report.id).subscribe(
       (response: any) => {
         this.listIdReport = this.listIdReport.filter((id: any) => id.id !== report.id);
-        console.log(this.listIdReport);
+        // console.log(this.listIdReport);
       });
   }
 
@@ -573,8 +655,18 @@ export class CenterProfileComponent implements OnInit, AfterViewInit {
     if (files && files.length > 0) {
       files.forEach(file => {
         const reader = new FileReader();
-        reader.onload = e => this.previewPostImages.push(reader.result as string);
-        reader.readAsDataURL(file);
+
+        if (file.type.startsWith('image/')) {
+          // Xử lý ảnh
+          reader.onload = () => this.previewPostImages.push({ type: 'image/webp', path: reader.result as string });
+          reader.readAsDataURL(file);
+        } else if (file.type.startsWith('video/')) {
+          // Xử lý video
+          const videoURL = URL.createObjectURL(file);
+          this.previewPostImages.push({ type: 'video/mp4', path: videoURL });
+        }
+
+        // Lưu tệp vào danh sách đã chọn
         this.selectedFilesPost.push(file);
       });
     }

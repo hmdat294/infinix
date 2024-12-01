@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { EventService } from '../service/event.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule],
+  imports: [FormsModule, CommonModule, RouterModule, TranslateModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -28,7 +29,7 @@ export class LoginComponent {
 
     this.authService.login(value.value).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         if (response.token) {
           this.authService.updateAuthToken(response.token);
 
