@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@ctrl/ngx-emoji-mart": "^9.2.0",
+    "ngx-quill": "^26.0.10"
+  }
+}

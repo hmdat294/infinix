@@ -14,6 +14,8 @@ export class DashboardComponent implements OnInit {
   totalUsers: number = 0;
   totalPosts: number = 0;
   totalReports: number = 0;
+  totalConversations: number = 0;
+  
   listUser: any;
   Conversations_Growth: any;
   User_Growth: any[] = []; // Khởi tạo mảng rỗng cho User_Growth
@@ -66,6 +68,15 @@ export class DashboardComponent implements OnInit {
         console.error('Lỗi khi gọi API:', error);
       }
     );
+    this.adminService.getTotalConversations().subscribe(
+      (response) => {
+        this.totalConversations = response.data;
+        console.log(this.totalConversations);
+      },
+      (error) => {
+        console.error('Lỗi khi gọi API:', error);
+      }
+    );
     this.fetchDataAndRenderChart();
     this.fetchReportDataAndRenderDonutChart();
     this.loadDonutChartData();
@@ -88,13 +99,13 @@ export class DashboardComponent implements OnInit {
   }
 
   renderChart(): void {
-    const userTotals = this.User_Growth.map((item: any) => item.total);
+    const userTotals = this.User_Growth.map((item: any) => item.cumulative_total);
     const userDates = this.User_Growth.map((item: any) => item.date);
 
-    const postTotals = this.Post_Growth.map((item: any) => item.total);
+    const postTotals = this.Post_Growth.map((item: any) => item.cumulative_total);
     const postDates = this.Post_Growth.map((item: any) => item.date);
 
-    const conversationsTotals = this.Conversations_Growth.map((item: any) => item.total);
+    const conversationsTotals = this.Conversations_Growth.map((item: any) => item.cumulative_total);
     const conversationsDates = this.Conversations_Growth.map((item: any) => item.date);
     console.log('show growth:', userTotals, conversationsTotals, postTotals);
     
@@ -224,7 +235,7 @@ export class DashboardComponent implements OnInit {
         offsetY: 0,
         offsetX: 0
       },
-      labels: ['User report', 'Comment report', 'Post report', 'Group report'],
+      labels: ['User report', 'Post report', 'Comment report', 'Mesage report'],
       legend: {
         position: 'bottom',
         formatter: function (val: string, opts: any) {

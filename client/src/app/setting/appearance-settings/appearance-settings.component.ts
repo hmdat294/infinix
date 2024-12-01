@@ -3,11 +3,12 @@ import { AuthService } from '../../service/auth.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SettingService } from '../../service/setting.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-appearance-settings',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslateModule],
   templateUrl: './appearance-settings.component.html',
   styleUrl: './appearance-settings.component.css'
 })

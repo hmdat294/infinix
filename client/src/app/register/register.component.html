@@ -27,25 +27,26 @@
                 <p class="text-subtitle text-primary">Infinix</p>
             </div>
 
-            <p class="text-body-large text-primary">Tạo tài khoản</p>
+            <p class="text-body-large text-primary">{{ 'register.title' | translate }}</p>
 
             <div class="{{(step_index == 1)?'display-block':'display-none'}}">
                 <div id="" class="step step_1 layout-vertical gap-25">
 
                     <div class="w-fill layout-vertical gap-5">
-                        <label for="fullname" class="w-fill text-body text-primary">Họ và tên</label>
+                        <label for="fullname" class="w-fill text-body text-primary">{{ 'register.name_label' | translate
+                            }}</label>
                         <div class="control text-control w-fill ">
                             <input type="text" spellcheck="false" id="fullname" name="fullname" #fullname="ngModel"
                                 ngModel required (input)="error = ''">
                         </div>
                     </div>
 
-                    <p class="text-body text-tertiary">Bạn đã có tài khoản? <a [routerLink]="['/login']"
-                            class="link">Đăng nhập!</a></p>
+                    <p class="text-body text-tertiary">{{ 'register.have_account' | translate }} <a
+                            [routerLink]="['/login']" class="link">{{ 'register.login_account' | translate }}</a></p>
 
                     <div class="w-fill layout-horizontal align-center-right">
                         <button (click)="stepNext()" type="button" class="button-accent button-text-only"
-                            [disabled]="fullname.errors?.['required']">Tiếp theo</button>
+                            [disabled]="fullname.errors?.['required']">{{ 'register.next_button' | translate }}</button>
                     </div>
                 </div>
             </div>
@@ -54,26 +55,31 @@
                 <div id="" class="step step_2 layout-vertical gap-25">
 
                     <div class="w-fill layout-vertical gap-5">
-                        <label for="email" class="w-fill text-body text-primary">Email</label>
+                        <label for="email" class="w-fill text-body text-primary">{{ 'register.email_label' | translate
+                            }}</label>
                         <div class="control text-control w-fill ">
                             <input type="email" spellcheck="false" id="email" name="email" #email="ngModel" ngModel
                                 required email (input)="error = ''">
                         </div>
-                        <p *ngIf="email.errors?.['email']" class="validation-message validation-caution text-body text-primary">
+                        <p *ngIf="email.errors?.['email']"
+                            class="validation-message validation-caution text-body text-primary">
                             <i class="icon-size-16 icon icon-ic_fluent_warning_16_filled"></i>
-                            <span class="text-body-strong">Email</span>
-                            <span>Chưa nhập đúng định dạng</span>
+                            <span class="text-body-strong">{{ 'register.email_label' | translate }}</span>
+                            <span>{{ 'register.format_email' | translate }}</span>
                         </p>
                     </div>
 
-                    <p class="text-body text-tertiary">Bạn đã có tài khoản? <a [routerLink]="['/login']"
-                            class="link">Đăng nhập!</a></p>
+                    <p class="text-body text-tertiary">{{ 'register.have_account' | translate }} <a
+                            [routerLink]="['/login']" class="link">{{ 'register.login_account' | translate }}</a></p>
 
                     <div class="w-fill layout-horizontal align-center-space-between">
-                        <button (click)="stepPrev()" type="button" class="button-standard button-text-only">Quay
-                            lại</button>
+                        <button (click)="stepPrev()" type="button" class="button-standard button-text-only">
+                            {{ 'register.back_button' | translate }}
+                        </button>
                         <button type="button" class="button-accent button-text-only"
-                            [disabled]="email.errors?.['required']" (click)="getCode(email.value)">Gửi mã</button>
+                            [disabled]="email.errors?.['required']" (click)="getCode(email.value)">
+                            {{ 'register.create_code_button' | translate }}
+                        </button>
                     </div>
                 </div>
             </div>
@@ -82,22 +88,26 @@
                 <div id="" class="step step_3 layout-vertical gap-25">
 
                     <div class="w-fill layout-vertical gap-5">
-                        <label for="code" class="w-fill text-body text-primary">Mã xác nhận</label>
+                        <label for="code" class="w-fill text-body text-primary">
+                            {{ 'register.verify_code_label' | translate }}
+                        </label>
                         <div class="control text-control w-fill">
                             <input type="text" spellcheck="false" id="code" name="code" #code="ngModel" ngModel required
                                 (input)="error = ''">
                         </div>
                     </div>
 
-                    <p class="text-body text-tertiary">Bạn đã có tài khoản? <a [routerLink]="['/login']"
-                            class="link">Đăng nhập!</a></p>
+                    <p class="text-body text-tertiary">{{ 'register.have_account' | translate }} <a
+                            [routerLink]="['/login']" class="link">{{ 'register.login_account' | translate }}</a></p>
 
                     <div class="w-fill layout-horizontal align-center-space-between">
-                        <button (click)="stepPrev()" type="button" class="button-standard button-text-only">Quay
-                            lại</button>
+                        <button (click)="stepPrev()" type="button" class="button-standard button-text-only">
+                            {{ 'register.back_button' | translate }}
+                        </button>
                         <button type="button" class="button-accent button-text-only"
-                            [disabled]="email.errors?.['required']" (click)="postCode(email.value, code.value)">Xác
-                            nhận</button>
+                            [disabled]="email.errors?.['required']" (click)="postCode(email.value, code.value)">
+                            {{ 'register.verify_code_button' | translate }}
+                        </button>
                     </div>
                 </div>
             </div>
@@ -106,7 +116,9 @@
                 <div id="" class="step step_4 layout-vertical gap-25">
 
                     <div class="w-fill layout-vertical gap-5">
-                        <label for="password" class="w-fill text-body text-primary">Đặt mật khẩu</label>
+                        <label for="password" class="w-fill text-body text-primary">
+                            {{ 'register.set_password_label' | translate }}
+                        </label>
                         <div class="control password-control w-fill">
                             <input type="password" spellcheck="false" id="password" name="password" #password="ngModel"
                                 ngModel required minlength="8" (input)="error = ''">
@@ -118,13 +130,14 @@
                         <p *ngIf="password.errors?.['minlength']"
                             class="validation-message validation-caution text-body text-primary">
                             <i class="icon-size-16 icon icon-ic_fluent_warning_16_filled"></i>
-                            <span class="text-body-strong">Password</span>
-                            <span>Phải trên 8 ký tự</span>
+                            <span class="text-body-strong">{{ 'register.password_label' | translate }}</span>
+                            <span>{{ 'register.format_password' | translate }}</span>
                         </p>
                     </div>
 
                     <div class="w-fill layout-vertical gap-5">
-                        <label for="confirm" class="w-fill text-body text-primary">Xác nhận mật khẩu</label>
+                        <label for="confirm" class="w-fill text-body text-primary">{{ 'register.confirm_password_label'
+                            | translate }}</label>
                         <div class="control password-control w-fill">
                             <input type="password" spellcheck="false" id="confirm" name="confirm" #confirm="ngModel"
                                 ngModel required (input)="error = ''">
@@ -135,16 +148,19 @@
                         <p *ngIf="confirm.value !== password.value"
                             class="validation-message validation-caution text-body text-primary">
                             <i class="icon-size-16 icon icon-ic_fluent_warning_16_filled"></i>
-                            <span class="text-body-strong">Password</span>
-                            <span>Không khớp</span>
+                            <span class="text-body-strong">{{ 'register.password_label' | translate }}</span>
+                            <span>{{ 'register.no_match' | translate }}</span>
                         </p>
                     </div>
 
                     <div class="w-fill layout-horizontal align-center-space-between">
-                        <button (click)="stepPrev()" type="button" class="button-standard button-text-only">Quay
-                            lại</button>
+                        <button (click)="stepPrev()" type="button" class="button-standard button-text-only">
+                            {{ 'register.back_button' | translate }}
+                        </button>
                         <button type="submit" class="button-accent button-text-only"
-                            [disabled]="frm.invalid || !checkPasswords(frm)">Hoàn tất</button>
+                            [disabled]="frm.invalid || !checkPasswords(frm)">
+                            {{ 'register.submit_button' | translate }}
+                        </button>
                     </div>
                 </div>
             </div>

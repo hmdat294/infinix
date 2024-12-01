@@ -8,11 +8,12 @@ import { RouterModule } from '@angular/router';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { SettingService } from '../service/setting.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule, EmojiModule, PickerComponent],
+  imports: [FormsModule, CommonModule, RouterModule, EmojiModule, PickerComponent, TranslateModule],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css',
 })

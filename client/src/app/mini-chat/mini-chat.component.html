@@ -71,14 +71,16 @@
                 <div class="layout-horizontal align-center-left gap-15 text-left w-fill p-10 text-primary">
                     <i class="icon-size-20 text-accent-default icon icon-ic_fluent_person_add_20_regular"></i>
                     <p class="layout-vertical">
-                        <span class="text-body text-primary">Chưa phải là bạn, gửi yêu cầu kết bạn</span>
+                        <span class="text-body text-primary">{{ 'mini_chat.not_friend.title' | translate }}</span>
                     </p>
                 </div>
                 <button *ngIf="!chat.users[0].is_sent_friend_request" type="button"
-                    class="button-accent button-text-only me-10" (click)="addFriend(chat.users[0].id)">Thêm bạn bè
+                    class="button-accent button-text-only me-10" (click)="addFriend(chat.users[0].id)">
+                    {{ 'mini_chat.not_friend.add_friend' | translate }}
                 </button>
                 <button *ngIf="chat.users[0].is_sent_friend_request" type="button"
-                    class="button-standard button-text-only me-10" (click)="cancelRequest(chat.users[0].id)">Hủy yêu cầu
+                    class="button-standard button-text-only me-10" (click)="cancelRequest(chat.users[0].id)">
+                    {{ 'mini_chat.not_friend.cancel_request_friend' | translate }}
                 </button>
             </div>
         </div>
@@ -89,7 +91,7 @@
                 <button class="button-subtle text-left w-fill px-10 py-5" (click)="scrollToElement(msg_pin.id)">
                     <!-- <i class="icon-size-24 icon icon-ic_fluent_pin_24_filled"></i> -->
                     <p class="layout-vertical">
-                        <span class="text-body-strong text-primary">Tin nhắn</span>
+                        <span class="text-body-strong text-primary">{{ 'mini_chat.pin.title' | translate }}</span>
                         <span class="text-body text-secondary">{{shortenTextByWords(msg_pin.content, 15)}}</span>
                     </p>
                 </button>
@@ -98,8 +100,9 @@
                 </button>
             </div>
             <div class="px-20 py-10">
-                <button class="button-standard button-text-only w-fill" (click)="morePinMessage()">Thu
-                    gọn</button>
+                <button class="button-standard button-text-only w-fill" (click)="morePinMessage()">
+                    {{ 'mini_chat.pin.collapse' | translate }}
+                </button>
             </div>
         </div>
 
@@ -108,14 +111,14 @@
                 <div class="layout-horizontal align-center-left gap-15 text-left w-fill px-10 py-5 text-primary">
                     <i class="icon-size-20 icon icon-ic_fluent_pin_20_regular"></i>
                     <p class="layout-vertical">
-                        <span class="text-body-strong text-primary">Tin nhắn</span>
+                        <span class="text-body-strong text-primary">{{ 'mini_chat.pin.title' | translate }}</span>
                         <span class="text-body text-secondary">
                             {{shortenTextByWords(chat.pinned_messages[chat.pinned_messages.length-1].content, 5)}}
                         </span>
                     </p>
                 </div>
                 <button type="button" class="button-standard button-text-with-icon me-10" (click)="morePinMessage()">
-                    Xem thêm
+                    {{ 'mini_chat.pin.more' | translate }}
                     <i class="icon-size-20 icon icon-ic_fluent_chat_20_regular"></i>
                 </button>
             </div>
@@ -136,11 +139,13 @@
                         <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_filled"></i>
                     </button>
                     <div class="w-fill border-bottom border-card-default">
-                        <p class="text-subtitle text-primary text-center pb-20 pt-10">Cập nhật danh sách gim</p>
+                        <p class="text-subtitle text-primary text-center pb-20 pt-10">
+                            {{ 'mini_chat.pin.pin_update' | translate }}
+                        </p>
                     </div>
 
                     <p class="text-body text-secondary p-10">
-                        Đã đạt giới hạn 3 gim, gỡ gim cũ để thêm mới!
+                        {{ 'mini_chat.pin.pin_limit' | translate }}
                     </p>
 
                     <div class="layout-vertial border rounded-6 mx-10" style="width: calc(100% - 20px);">
@@ -150,7 +155,7 @@
                                 (click)="scrollToElement(msg_pin.id)">
                                 <!-- <i class="icon-size-24 icon icon-ic_fluent_pin_24_filled"></i> -->
                                 <p class="layout-vertical">
-                                    <span class="text-body-strong text-primary">Tin nhắn</span>
+                                    <span class="text-body-strong text-primary">{{ 'mini_chat.pin.title' | translate }}</span>
                                     <span class="text-body text-secondary">{{msg_pin.content}}</span>
                                 </p>
                             </button>
@@ -176,7 +181,7 @@
                         <div
                             class="solid-background-senary rounded-6 p-10 gap-10 layout-vertical border border-card-default">
                             <div class="border-bottom pb-10 layout-horizontal align-center-space-between">
-                                <p class="text-subtitle text-primary">Chi tiết tin nhắn</p>
+                                <p class="text-subtitle text-primary">{{ 'mini_chat.popup.title_detail' | translate }}</p>
                                 <button type="button" class="button-subtle button-icon-only"
                                     (click)="toggleDialogChat(0)">
                                     <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
@@ -202,8 +207,9 @@
                                                 <i class="icon-size-16 icon icon-ic_fluent_arrow_forward_16_filled"></i>
                                                 <p class="text-body-strong text-primary">
                                                     {{msg.user.profile.display_name}}
-                                                    <span class="text-body text-secondary">đã chia sẻ bài đăng
-                                                        này</span>
+                                                    <span class="text-body text-secondary">
+                                                        {{ 'mini_chat.message.share_this' | translate }}
+                                                    </span>
                                                 </p>
                                             </div>
                                             <div class="layout align-center-right" *ngIf="msg.is_recalled == 0">
@@ -231,7 +237,7 @@
                                                                 style="border-right: 3px solid #005FB8E6;">
 
                                                                 <p class="px-10 py-5 my-5 text-secondary">
-                                                                    <i>*Tin nhắn đã được thu hồi</i>
+                                                                    <i>*{{ 'mini_chat.message.recalled' | translate }}</i>
                                                                 </p>
 
                                                             </div>
@@ -300,8 +306,9 @@
                                                 <i class="icon-size-16 icon icon-ic_fluent_arrow_forward_16_filled"></i>
                                                 <p class="text-body-strong text-primary">
                                                     {{msg.user.profile.display_name}}
-                                                    <span class="text-body text-secondary">đã chia sẻ bài đăng
-                                                        này</span>
+                                                    <span class="text-body text-secondary">
+                                                        {{ 'chat.message.share_this' | translate }}
+                                                    </span>
                                                 </p>
                                             </div>
                                             <div class="layout align-center-left" *ngIf="msg.is_recalled == 0">
@@ -328,7 +335,7 @@
                                                                 style="border-left: 3px solid #0000001F;">
 
                                                                 <p class="px-10 py-5 my-5 text-secondary">
-                                                                    <i>*Tin nhắn đã được thu hồi</i>
+                                                                    <i>*{{ 'mini_chat.message.recalled' | translate }}</i>
                                                                 </p>
 
                                                             </div>
@@ -401,7 +408,7 @@
                                 <i class="icon-size-16 icon icon-ic_fluent_arrow_forward_16_filled"></i>
                                 <p class="text-body-strong text-primary">
                                     {{msg.user.profile.display_name}}
-                                    <span class="text-body text-secondary">đã chia sẻ</span>
+                                    <span class="text-body text-secondary">{{ 'mini_chat.message.share_post' | translate }}</span>
                                 </p>
                             </div>
                             <div class="layout align-top-right" *ngIf="msg.is_recalled == 0">
@@ -468,7 +475,7 @@
                                                 style="border-right: 3px solid var(--accent-default);">
 
                                                 <p class="px-10 py-5 my-5 text-secondary">
-                                                    <i>*Tin nhắn đã được thu hồi</i>
+                                                    <i>*{{ 'mini_chat.message.recalled' | translate }}</i>
                                                 </p>
 
                                             </div>
@@ -529,12 +536,12 @@
                             <div *ngIf="msg.is_recalled == 1" class="layout align-center-left">
                                 <div *ngIf="msg.showUndoBtn" class="layout mx-15">
                                     <button type="button" (click)="undoRecall(msg.id)" class="button-subtle">
-                                        Hoàn tác ({{msg.countdown}})
+                                        {{ 'mini_chat.message.undo' | translate }} ({{msg.countdown}})
                                     </button>
                                 </div>
                                 <p
                                     class="text-on-accent-disabled accent-disabled border border-card-default px-15 py-10 rounded-8">
-                                    <i>*Tin nhắn đã được thu hồi</i>
+                                    <i>*{{ 'mini_chat.message.recalled' | translate }}</i>
                                 </p>
                             </div>
                         </div>
@@ -560,7 +567,7 @@
                                 <i class="icon-size-16 icon icon-ic_fluent_arrow_forward_16_filled"></i>
                                 <p class="text-body-strong text-primary">
                                     {{msg.user.profile.display_name}}
-                                    <span class="text-body text-secondary">đã chia sẻ</span>
+                                    <span class="text-body text-secondary">{{ 'mini_chat.message.share_post' | translate }}</span>
                                 </p>
                             </div>
                             <div class="layout align-top-left" *ngIf="msg.is_recalled == 0">
@@ -586,7 +593,7 @@
                                                 style="border-left: 3px solid var(--control-strong-stroke-default);">
 
                                                 <p class="px-10 py-5 my-5 text-secondary">
-                                                    <i>*Tin nhắn đã được thu hồi</i>
+                                                    <i>*{{ 'mini_chat.message.recalled' | translate }}</i>
                                                 </p>
 
                                             </div>
@@ -676,11 +683,11 @@
                             <div *ngIf="msg.is_recalled == 1" class="layout align-center-left">
                                 <p
                                     class="border border-card-default card-background-default px-15 py-10 rounded-8 text-secondary">
-                                    <i>*Tin nhắn đã được thu hồi</i>
+                                    <i>*{{ 'mini_chat.message.recalled' | translate }}</i>
                                 </p>
                                 <div *ngIf="msg.showUndoBtn" class="layout mx-15">
                                     <button type="button" (click)="undoRecall(msg.id)" class="button-subtle">
-                                        Hoàn tác ({{msg.countdown}})
+                                        {{ 'mini_chat.message.undo' | translate }} ({{msg.countdown}})
                                     </button>
                                 </div>
                             </div>
@@ -699,9 +706,8 @@
 
     <div class="w-fill p-20" *ngIf="chat?.is_group == 0 && chat?.users[0].blocked_by_user">
         <div class="p-10 card-background-default border border-card-default rounded-8">
-            <p class="text-body text-secondary text-center">Tài khoản này hiện không muốn nhận tin
-                nhắn của
-                bạn!
+            <p class="text-body text-secondary text-center">
+                {{ 'mini_chat.blocked' | translate }}
             </p>
         </div>
     </div>
@@ -709,10 +715,11 @@
     <div class="w-fill p-20" *ngIf="chat?.is_group == 0 && chat?.users[0].blocked_user">
         <div
             class="p-10 card-background-default border border-card-default rounded-8 layout-horizontal gap-15 align-center-center">
-            <p class="text-body text-secondary text-center">Bạn đã chặn tài khoản này!
+            <p class="text-body text-secondary text-center">
+                {{ 'mini_chat.blocker' | translate }}
             </p>
             <button type="button" class="button-standard button-text-with-icon" (click)="blockUser(chat?.users[0].id)">
-                Bỏ chặn
+                {{ 'mini_chat.unblock' | translate }}
                 <i class="icon-size-16 icon icon-ic_fluent_person_key_20_regular"></i>
             </button>
         </div>
