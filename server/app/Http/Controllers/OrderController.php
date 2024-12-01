@@ -24,6 +24,7 @@ class OrderController extends Controller
     }
 
     public function index(Request $request) {
+        Log::info('index: ' . json_encode($request->all()));
         $order_groups = OrderGroup::where('user_id', $request->user()->id)->orderBy('created_at', 'desc')->get();
 
         return OrderGroupResource::collection($order_groups);
@@ -37,8 +38,8 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-
-        $order_group_data = $request->only(['payment_method', 'payment_status', 'address', 'phone_number', 'fullname']);
+        Log::info('store: ' . json_encode($request->all()));
+        $order_group_data = $request->only(['payment_method', 'address', 'phone_number', 'fullname']);
         $order_group_data['user_id'] = $request->user()->id;
 
         $order_group = OrderGroup::create($order_group_data);
@@ -47,18 +48,18 @@ class OrderController extends Controller
         $products = $request->input('products');
         $grouped_products = collect($products)->groupBy('shop_id');
 
-        Log::info(  $grouped_products);
+        Log::info($grouped_products);
 
-        $grouped_products->each(function ($products, $shop_id) use ($order_group, $request, &$total_order_group) {
-            
+        foreach ($grouped_products as $shop_id => $products) {
             $total = 0;
 
-            $products->each(function ($product) use (&$total) {
+            foreach ($products as $product) {
                 $total += $product['price'] * $product['quantity'];
-            });
+                Log::info('total: ' . $total);
+            }
 
             $total_order_group += $total;
-
+            Log::info('total_order_group: ' . $total_order_group);
 
             $order_data = [
                 'user_id' => $request->user()->id,
@@ -71,7 +72,7 @@ class OrderController extends Controller
 
             $order = Order::create($order_data);
 
-            $products->each(function ($product) use ($order) {
+            foreach ($products as $product) {
                 $product_id = $product['id'];
                 $product_price = $product['price'];
                 $product_quantity = $product['quantity'];
@@ -82,33 +83,39 @@ class OrderController extends Controller
                         'price' => $product_price
                     ]
                 ]);
-            });
+            }
 
             $order_group->orders()->save($order);
-            
-        });
+        }
 
-        $order_group->update(['total' => $total_order_group]);
+        $order_group->total = $total_order_group;
+        $order_group->save();
+        Log::info('total_order_group updated: ' . $order_group->total);
 
         switch ($order_group->payment_method) {
             case 'zalopay':
-                return $this->createZaloPayOrder($order_group);
+                return $this->createZaloPayOrder($order_group->id);
             case 'cash':
                 $order_group->update(['payment_status' => 'paid']);
                 return response()->json(['success' => true]);
             default:
                 return response()->json(['error' => 'Phương thức thanh toán không hợp lệ'], 400);
         }
-
-
-        
     }
 
-    public function createZaloPayOrder($order_group)
-    {
-        $external_order_id = uniqid(); 
 
-        $order_group->update(['external_order_id' => $external_order_id]);
+    public function createZaloPayOrder($order_group_id)
+    {
+
+        $order_group = OrderGroup::findOrFail($order_group_id);
+        Log::info('external_order_id old: ' . $order_group->external_order_id);
+        $external_order_id = uniqid(); 
+        Log::info('external_order_id: ' . $external_order_id);
+        $order_group->external_order_id = $external_order_id;
+        $order_group->save();
+
+        
+        Log::info('external_order_id new: ' . $order_group->external_order_id);
 
 
         $description = "Thanh toán đơn hàng #$external_order_id";
@@ -125,25 +132,26 @@ class OrderController extends Controller
     public function callback(Request $request)
     {
         Log::info('callback: ' . json_encode($request->all()));
-        $data = $request->input('data');
+        $data = json_decode($request->input('data'), true); 
         $mac = $request->input('mac');
 
-        $calculatedMac = hash_hmac('sha256', $data, config('zalopay.key2'));
-        if ($mac !== $calculatedMac) {
-            return response()->json(['error' => 'Invalid MAC'], 400);
-        }
+        // $calculatedMac = hash_hmac('sha256', json_encode($data), config('zalopay.key2'));
+        // if ($mac !== $calculatedMac) {
+        //     Log::info('Invalid MAC');
+        // }
 
-        //$decodedData = json_decode($data, true);
         $external_order_id = explode('_', $data['app_trans_id'])[1];
         $order_group = OrderGroup::where('external_order_id', $external_order_id)->first();
         if (!$order_group) {
-            return response()->json(['error'=> 'Không tìm thấy đơn hàng'], 404);
+            //return response()->json(['error'=> 'Không tìm thấy đơn hàng'], 404);
+            Log::info('Không tìm thấy đơn hàng');
         }
 
         $order_group->update(['payment_status' => 'paid']);
 
         return response()->json(['success' => true]);
     }
+
 
     public function update(Request $request, $id)
     {

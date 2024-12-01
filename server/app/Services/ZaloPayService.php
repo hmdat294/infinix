@@ -27,8 +27,8 @@ class ZaloPayService
             "app_user" => "Infinix",
             "item" => json_encode([]),
             "embed_data" => $embeddata,
-            "amount" => 50000,
-            "description" => "Thanh toán đơn hàng #$order_id",
+            "amount" => $amount,
+            "description" => $description,
             "callback_url" => $this->config['callback_url'],
             "bank_code" => "",
         ];
