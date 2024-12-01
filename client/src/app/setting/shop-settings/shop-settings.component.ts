@@ -71,7 +71,7 @@ export class ShopSettingsComponent implements OnInit {
 
   //shop
   createShop(form: any) {
-    const address = [form.detail, form.ward, form.district, form.province].join('|');
+    const address = [form.detail, form.ward, form.district, form.province].join(' | ');
 
     const formData = new FormData();
     formData.append('name', form.name);

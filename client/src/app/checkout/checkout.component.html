@@ -21,7 +21,7 @@
                                 <div class="layout-vertical w-fill-column-8 mt-10 h-hug">
 
                                     <div class="layout-vertical border rounded-8 p-10 mb-10 card-background-default"
-                                        *ngFor="let shop of cart.shop"><!-- for -->
+                                        *ngFor="let shop of cart.shops"><!-- for -->
                                         <div class="border rounded-6">
                                             <div
                                                 class="layout-horizontal align-center-space-between p-10 border-bottom">
@@ -37,7 +37,7 @@
                                                 <p class="text-body-strong w-fill-column-3 text-left">Ghi
                                                     chú:</p>
                                                 <textarea class="control text-area-control w-fill" spellcheck="false"
-                                                    name="note" ngModel required
+                                                    name="note" [(ngModel)]="shop.note" required
                                                     (input)="resizeTextarea($event)"></textarea>
                                             </div>
                                         </div>
@@ -55,7 +55,8 @@
                                                 <td>{{item.name}}</td>
                                                 <td>{{item.price-((item.price*item.discount)/100) | currencyVND}}</td>
                                                 <td>{{item.pivot.quantity}}</td>
-                                                <td>{{(item.price-((item.price*item.discount)/100))*item.pivot.quantity | currencyVND}}</td>
+                                                <td>{{(item.price-((item.price*item.discount)/100))*item.pivot.quantity
+                                                    | currencyVND}}</td>
                                             </tr>
                                         </table>
                                     </div>
@@ -72,19 +73,19 @@
                                         <table class="w-fill text-left table-info-bill">
                                             <tr class="border-bottom">
                                                 <th class="h-hug text-body-strong">Họ và tên:</th>
-                                                <td>Hồ Minh Đạt</td>
+                                                <td class="text-right">{{currentUser?.profile.display_name}}</td>
                                             </tr>
                                             <tr class="border-bottom">
                                                 <th class="h-hug text-body-strong">Số điện thoại:</th>
-                                                <td>0123456789</td>
+                                                <td class="text-right">{{currentUser?.phone_number}}</td>
                                             </tr>
                                             <tr class="border-bottom">
                                                 <th class="h-hug text-body-strong">Email:</th>
-                                                <td>user.gmail.com</td>
+                                                <td class="text-right">{{currentUser?.email}}</td>
                                             </tr>
                                             <tr class="border-bottom">
                                                 <th class="h-hug text-body-strong">Địa chỉ:</th>
-                                                <td>Tân Chánh Hiệp/Quận 12/HCM</td>
+                                                <td class="text-right">{{currentUser?.profile.address}}</td>
                                             </tr>
                                         </table>
                                         <div class="w-fill p-10" *ngIf="change_address == 0">
@@ -116,8 +117,8 @@
                                                 <th class="h-hug text-body-strong">Họ và tên:</th>
                                                 <th>
                                                     <div class="control text-control w-fill">
-                                                        <input type="text" spellcheck="false" name="name" ngModel
-                                                            required>
+                                                        <input type="text" spellcheck="false" name="name"
+                                                            [(ngModel)]="name" required>
                                                     </div>
                                                 </th>
                                             </tr>
@@ -125,8 +126,8 @@
                                                 <th class="h-hug text-body-strong">Số điện thoại:</th>
                                                 <th>
                                                     <div class="control text-control w-fill">
-                                                        <input type="text" spellcheck="false" name="number_phone"
-                                                            ngModel required>
+                                                        <input type="text" spellcheck="false" name="phone_number"
+                                                            [(ngModel)]="phone_number" required>
                                                     </div>
                                                 </th>
                                             </tr>
@@ -134,8 +135,8 @@
                                                 <th class="h-hug text-body-strong">Email:</th>
                                                 <th>
                                                     <div class="control text-control w-fill">
-                                                        <input type="text" spellcheck="false" name="email" ngModel
-                                                            required>
+                                                        <input type="text" spellcheck="false" name="email"
+                                                            [(ngModel)]="email" required>
                                                     </div>
                                                 </th>
                                             </tr>
@@ -143,36 +144,72 @@
                                                 <th class="h-hug text-body-strong">Địa chỉ:</th>
                                                 <th>
                                                     <div class="control text-control w-fill">
-                                                        <input type="text" spellcheck="false" name="address" ngModel
-                                                            required>
+                                                        <input type="text" spellcheck="false" name="address"
+                                                            [(ngModel)]="address" required>
                                                     </div>
                                                 </th>
+                                            </tr>
+                                        </table>
+                                        <div class="border-bottom p-10 layout-vertical gap-5">
+                                            <p class="text-body-strong text-primary text-left">Mã giảm giá:</p>
+                                            <div class="layout-horizontal gap-10">
+                                                <div class="control text-control w-fill">
+                                                    <input type="text" spellcheck="false" name="voucher" ngModel
+                                                        required>
+                                                </div>
+                                                <button type="button" class="button-accent w-hug px-10 cursor-pointer">
+                                                    Nhập
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <table class="w-fill text-left table-info-bill">
+                                            <tr class="border-bottom">
+                                                <th class="h-hug text-body-strong">Tổng tiền:</th>
+                                                <td class="text-right">{{cart.total | currencyVND }}</td>
+                                            </tr>
+                                            <tr class="border-bottom">
+                                                <th class="h-hug text-body-strong">Phí vận chuyển:</th>
+                                                <td class="text-right">{{0 | currencyVND }}</td>
+                                            </tr>
+                                            <tr class="border-bottom">
+                                                <th class="h-hug text-body-strong">Giảm giá:</th>
+                                                <td class="text-right">{{0 | currencyVND }}</td>
+                                            </tr>
+                                            <tr class="border-bottom">
+                                                <th class="h-hug text-body-strong">Tổng:</th>
+                                                <td class="text-right">{{cart.total | currencyVND }}</td>
                                             </tr>
                                         </table>
                                         <div
                                             class="border-bottom p-10 layout-horizontal gap-20 align-center-space-between">
                                             <div class="h-hug text-body-strong text-left">Phương thức thanh toán:</div>
-                                            <div>
-                                                <div class="w-fill layout-horizontal align-center-center gap-10">
-                                                    <div class="border rounded-8 p-5 cursor-pointer"
-                                                        [class]="payment_method == 'zalo_pay'?'system-success':'card-background-default'"
-                                                        style="width: 50px; height: 50px;"
-                                                        (click)="setPaymentMethod('zalo_pay')">
-                                                        <img src="assets/image/logo_zalopay.png" alt=""
-                                                            class="object-fit-cover w-fill h-fill rounded-6">
-                                                    </div>
-                                                    <div class="border rounded-8 p-5 cursor-pointer"
-                                                        [class]="payment_method == 'vn_pay'?'system-success':'card-background-default'"
-                                                        style="width: 50px; height: 50px;"
-                                                        (click)="setPaymentMethod('vn_pay')">
-                                                        <img src="assets/image/logo_vnpay.png" alt=""
-                                                            class="object-fit-cover w-fill h-fill rounded-6">
-                                                    </div>
+                                            <div class="w-fill layout-horizontal align-center-center gap-5">
+                                                <div class="border rounded-8 p-5 cursor-pointer"
+                                                    [class]="payment_method == 'cash'?'system-success':'card-background-default'"
+                                                    style="width: 50px; height: 50px;"
+                                                    (click)="setPaymentMethod('cash')">
+                                                    <img src="assets/image/logo_cash.png" alt=""
+                                                        class="object-fit-cover w-fill h-fill rounded-4">
+                                                </div>
+                                                <div class="border rounded-8 p-5 cursor-pointer"
+                                                    [class]="payment_method == 'zalopay'?'system-success':'card-background-default'"
+                                                    style="width: 50px; height: 50px;"
+                                                    (click)="setPaymentMethod('zalopay')">
+                                                    <img src="assets/image/logo_zalopay.png" alt=""
+                                                        class="object-fit-cover w-fill h-fill rounded-4">
+                                                </div>
+                                                <div class="border rounded-8 p-5 cursor-pointer"
+                                                    [class]="payment_method == 'vnpay'?'system-success':'card-background-default'"
+                                                    style="width: 50px; height: 50px;"
+                                                    (click)="setPaymentMethod('vnpay')">
+                                                    <img src="assets/image/logo_vnpay.png" alt=""
+                                                        class="object-fit-cover w-fill h-fill rounded-4">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="w-fill p-10">
-                                            <button type="button" class="button-accent button-text-only w-fill">
+                                            <button type="button" class="button-accent button-text-only w-fill"
+                                                (click)="payment()">
                                                 Thanh toán
                                             </button>
                                         </div>

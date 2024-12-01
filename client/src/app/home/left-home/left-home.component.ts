@@ -127,7 +127,7 @@ export class LeftHomeComponent implements OnInit, AfterViewInit {
 
 
   addToCart(product_id: number) {
-    console.log({ 'product_id': product_id, 'quantity': this.quantity });
+    // console.log({ 'product_id': product_id, 'quantity': this.quantity });
     
     this.shopService.addProductToCart({ 'product_id': product_id, 'quantity': this.quantity }).subscribe(
       (response) => {

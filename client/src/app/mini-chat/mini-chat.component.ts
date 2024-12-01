@@ -71,7 +71,7 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
 
         this.chatService.conversation$.subscribe(conversation => {
           // console.log(this.chatService.tagOpenBoxChat);
-          console.log('Updated conversation from localStorage:', conversation);
+          // console.log('Updated conversation from localStorage:', conversation);
           this.conversation = conversation;
 
           this.chatService.getListChat().subscribe(
@@ -173,7 +173,7 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
       this.conversation.indexOf(a.id) - this.conversation.indexOf(b.id)
     );
 
-    console.log('Filter conversation from localStorage:', this.filteredConversations);
+    // console.log('Filter conversation from localStorage:', this.filteredConversations);
   }
 
 

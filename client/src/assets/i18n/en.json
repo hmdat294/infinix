@@ -447,6 +447,7 @@
                 "name_title": "Display name",
                 "birth_title": "Date of birth",
                 "biography_title": "Biography",
+                "address_title": "Address",
                 "empty": "Empty",
                 "save_button": "Save"
             },

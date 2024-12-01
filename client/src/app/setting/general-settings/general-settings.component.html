@@ -118,6 +118,69 @@
                     </div>
                 </div>
             </div>
+
+            <div class="accordion active border border-card-default card-background-default rounded-6">
+                <div class="accordion-item">
+                    <div class="accordion-header layout-horizontal gap-15 p-15 align-center-center"
+                        (click)="tabChild('address')">
+                        <i class="icon-size-20 icon text-primary icon-ic_fluent_location_20_regular"></i>
+                        <div class="layout-vertical w-fill">
+                            <p class="text-body text-primary">{{
+                                'setting.general_settings.user_infomation.address_title' | translate }}</p>
+                            <p class="text-caption text-secondary">{{address ||
+                                user?.profile.address
+                                || ('setting.general_settings.user_infomation.empty' | translate)}}
+                            </p>
+                        </div>
+                        <button type="button" class="button-subtle button-icon-only">
+                            <span [class]="tabAccordion == 'address' ? 'rotate_icon_180' : 'rotate_icon_0'">
+                                <i class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
+                            </span>
+                        </button>
+                    </div>
+
+                    <div class="accordion-panel open layout-vertical address">
+                        <form (submit)="updateAddress(address_frm.value)" #address_frm="ngForm" class="w-fill p-15 layout-vertical gap-20">
+
+                            <div class="layout-horizontal gap-20 align-center-space-between">
+                                <div class="w-fill-column-3 layout-vertical gap-5">
+                                    <p class="text-body text-primary">{{ 'setting.shop_settings.shop.province' |
+                                        translate }}</p>
+                                    <div class="control text-control w-fill">
+                                        <input type="text" spellcheck="false" name="province" ngModel required>
+                                    </div>
+                                </div>
+                                <div class="w-fill-column-3 layout-vertical gap-5">
+                                    <p class="text-body text-primary">{{ 'setting.shop_settings.shop.district' |
+                                        translate }}</p>
+                                    <div class="control text-control w-fill">
+                                        <input type="text" spellcheck="false" name="district" ngModel required>
+                                    </div>
+                                </div>
+                                <div class="w-fill-column-3 layout-vertical gap-5">
+                                    <p class="text-body text-primary">{{ 'setting.shop_settings.shop.ward' | translate
+                                        }}</p>
+                                    <div class="control text-control w-fill">
+                                        <input type="text" spellcheck="false" name="ward" ngModel required>
+                                    </div>
+                                </div>
+                                <div class="w-fill-column-3 layout-vertical gap-5">
+                                    <p class="text-body text-primary">{{ 'setting.shop_settings.shop.detail' | translate
+                                        }}</p>
+                                    <div class="control text-control w-fill">
+                                        <input type="text" spellcheck="false" name="detail" ngModel required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="w-fill layout-horizontal align-center-right">
+                                <button type="submit" class="button-standard button-text-only">{{
+                                    'setting.general_settings.user_infomation.save_button' | translate }}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="layout-vertical w-fill gap-5">
@@ -368,19 +431,23 @@
                                         </button>
 
                                         <div class="pb-20 pt-5 border-bottom">
-                                            <p class="text-subtitle text-primary text-center">{{ 'setting.general_settings.block_and_report.report.title_post_report' | translate }}</p>
+                                            <p class="text-subtitle text-primary text-center">{{
+                                                'setting.general_settings.block_and_report.report.title_post_report' |
+                                                translate }}</p>
                                         </div>
 
                                         <div class="layout-horizontal gap-5">
                                             <p class="text-body-strong text-primary" style="min-width: 100px;">
-                                                {{ 'setting.general_settings.block_and_report.report.content' | translate }}
+                                                {{ 'setting.general_settings.block_and_report.report.content' |
+                                                translate }}
                                             </p>
                                             <p class="text-body text-primary">{{report.content}}</p>
                                         </div>
 
                                         <div class="layout-horizontal gap-5">
                                             <p class="text-body-strong text-primary" style="min-width: 100px;">
-                                                {{ 'setting.general_settings.block_and_report.report.date' | translate }}
+                                                {{ 'setting.general_settings.block_and_report.report.date' | translate
+                                                }}
                                             </p>
                                             <p class="text-body text-primary">{{report.created_at_time}} -
                                                 {{report.created_at_date}}</p>
@@ -388,14 +455,16 @@
 
                                         <div class="layout-horizontal gap-5">
                                             <p class="text-body-strong text-primary" style="min-width: 100px;">
-                                                {{ 'setting.general_settings.block_and_report.report.status' | translate }}
+                                                {{ 'setting.general_settings.block_and_report.report.status' | translate
+                                                }}
                                             </p>
                                             <p class="text-body text-primary">Đã gửi</p>
                                         </div>
 
                                         <div class="layout-vertical gap-5">
                                             <p class="text-body-strong text-primary" style="min-width: 100px;">
-                                                {{ 'setting.general_settings.block_and_report.report.post' | translate }}
+                                                {{ 'setting.general_settings.block_and_report.report.post' | translate
+                                                }}
                                             </p>
                                             <div class="border rounded-6 px-15 py-10 layout-horizontal gap-10 w-fill">
                                                 <div *ngIf="report.post.post_type == 'with_media'">
@@ -417,7 +486,9 @@
                                         <div class="layout-horizontal align-center-right">
                                             <button type="button" class="button-standard button-text-with-icon"
                                                 (click)="cancelReport(report.id, report.type)">
-                                                {{ 'setting.general_settings.block_and_report.report.cancel_report_button' | translate }}
+                                                {{
+                                                'setting.general_settings.block_and_report.report.cancel_report_button'
+                                                | translate }}
                                                 <i class="icon-size-16 icon icon-ic_fluent_arrow_reset_48_regular"></i>
                                             </button>
                                         </div>
@@ -436,7 +507,8 @@
 
                         <div class="px-15 py-10" *ngIf="listUserReport?.length==0">
                             <div class="w-fill py-10 card-background-default border border-card-default rounded-6">
-                                <p class="text-body text-secondary text-center">{{ 'setting.general_settings.block_and_report.empty' | translate }}</p>
+                                <p class="text-body text-secondary text-center">{{
+                                    'setting.general_settings.block_and_report.empty' | translate }}</p>
                             </div>
                         </div>
 
@@ -481,20 +553,23 @@
 
                                         <div class="pb-20 pt-5 border-bottom">
                                             <p class="text-subtitle text-primary text-center">
-                                                {{ 'setting.general_settings.block_and_report.report.title_user_report' | translate }}
+                                                {{ 'setting.general_settings.block_and_report.report.title_user_report'
+                                                | translate }}
                                             </p>
                                         </div>
 
                                         <div class="layout-horizontal gap-5">
                                             <p class="text-body-strong text-primary" style="min-width: 100px;">
-                                                {{ 'setting.general_settings.block_and_report.report.content' | translate }}
+                                                {{ 'setting.general_settings.block_and_report.report.content' |
+                                                translate }}
                                             </p>
                                             <p class="text-body text-primary">{{report.content}}</p>
                                         </div>
 
                                         <div class="layout-horizontal gap-5">
                                             <p class="text-body-strong text-primary" style="min-width: 100px;">
-                                                {{ 'setting.general_settings.block_and_report.report.date' | translate }}
+                                                {{ 'setting.general_settings.block_and_report.report.date' | translate
+                                                }}
                                             </p>
                                             <p class="text-body text-primary">{{report.created_at_time}} -
                                                 {{report.created_at_date}}</p>
@@ -502,14 +577,16 @@
 
                                         <div class="layout-horizontal gap-5">
                                             <p class="text-body-strong text-primary" style="min-width: 100px;">
-                                                {{ 'setting.general_settings.block_and_report.report.status' | translate }}
+                                                {{ 'setting.general_settings.block_and_report.report.status' | translate
+                                                }}
                                             </p>
                                             <p class="text-body text-primary">Đã gửi</p>
                                         </div>
 
                                         <div class="layout-vertical gap-5">
                                             <p class="text-body-strong text-primary" style="min-width: 100px;">
-                                                {{ 'setting.general_settings.block_and_report.report.user' | translate }}
+                                                {{ 'setting.general_settings.block_and_report.report.user' | translate
+                                                }}
                                             </p>
                                             <div
                                                 class="border rounded-6 p-15 layout-horizontal align-center-left gap-10 w-fill">
@@ -530,7 +607,9 @@
                                         <div class="layout-horizontal align-center-right">
                                             <button type="button" class="button-standard button-text-with-icon"
                                                 (click)="cancelReport(report.id, report.type)">
-                                                {{ 'setting.general_settings.block_and_report.report.cancel_report_button' | translate }}
+                                                {{
+                                                'setting.general_settings.block_and_report.report.cancel_report_button'
+                                                | translate }}
                                                 <i class="icon-size-16 icon icon-ic_fluent_arrow_reset_48_regular"></i>
                                             </button>
                                         </div>
@@ -548,7 +627,8 @@
 
                         <div class="px-15 py-10" *ngIf="listCommentReport?.length==0">
                             <div class="w-fill py-10 card-background-default border border-card-default rounded-6">
-                                <p class="text-body text-secondary text-center">{{ 'setting.general_settings.block_and_report.empty' | translate }}</p>
+                                <p class="text-body text-secondary text-center">{{
+                                    'setting.general_settings.block_and_report.empty' | translate }}</p>
                             </div>
                         </div>
 
@@ -589,19 +669,23 @@
                                         </button>
 
                                         <div class="pb-20 pt-5 border-bottom">
-                                            <p class="text-subtitle text-primary text-center">{{ 'setting.general_settings.block_and_report.report.title_comment_report' | translate }}</p>
+                                            <p class="text-subtitle text-primary text-center">{{
+                                                'setting.general_settings.block_and_report.report.title_comment_report'
+                                                | translate }}</p>
                                         </div>
 
                                         <div class="layout-horizontal gap-5">
                                             <p class="text-body-strong text-primary" style="min-width: 100px;">
-                                                {{ 'setting.general_settings.block_and_report.report.content' | translate }}
+                                                {{ 'setting.general_settings.block_and_report.report.content' |
+                                                translate }}
                                             </p>
                                             <p class="text-body text-primary">{{report.content}}</p>
                                         </div>
 
                                         <div class="layout-horizontal gap-5">
                                             <p class="text-body-strong text-primary" style="min-width: 100px;">
-                                                {{ 'setting.general_settings.block_and_report.report.date' | translate }}
+                                                {{ 'setting.general_settings.block_and_report.report.date' | translate
+                                                }}
                                             </p>
                                             <p class="text-body text-primary">{{report.created_at_time}} -
                                                 {{report.created_at_date}}</p>
@@ -609,7 +693,8 @@
 
                                         <div class="layout-horizontal gap-5">
                                             <p class="text-body-strong text-primary" style="min-width: 100px;">
-                                                {{ 'setting.general_settings.block_and_report.report.status' | translate }}
+                                                {{ 'setting.general_settings.block_and_report.report.status' | translate
+                                                }}
                                             </p>
                                             <p class="text-body text-primary">Đã gửi</p>
                                         </div>
@@ -631,7 +716,9 @@
                                         <div class="layout-horizontal align-center-right">
                                             <button type="button" class="button-standard button-text-with-icon"
                                                 (click)="cancelReport(report.id, report.type)">
-                                                {{ 'setting.general_settings.block_and_report.report.cancel_report_button' | translate }}
+                                                {{
+                                                'setting.general_settings.block_and_report.report.cancel_report_button'
+                                                | translate }}
                                                 <i class="icon-size-16 icon icon-ic_fluent_arrow_reset_48_regular"></i>
                                             </button>
                                         </div>

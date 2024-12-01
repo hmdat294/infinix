@@ -422,7 +422,7 @@
                 "submit_button": "Hoàn tất"
             },
             "number_phone": {
-                "title": "Mật khẩu"
+                "title": "Số điện thoại"
             },
             "block_strangers": {
                 "title": "Chặn người lạ",
@@ -447,6 +447,7 @@
                 "name_title": "Tên hiển thị",
                 "birth_title": "Ngày sinh",
                 "biography_title": "Tiểu sử",
+                "address_title": "Địa chỉ",
                 "empty": "Trống",
                 "save_button": "Lưu"
             },

@@ -21,6 +21,7 @@ export class GeneralSettingsComponent implements OnInit {
   display_name: string = '';
   biography: string = '';
   date_of_birth: string = '';
+  address: string = '';
 
   listUserReport: any;
   listPostReport: any;
@@ -43,6 +44,8 @@ export class GeneralSettingsComponent implements OnInit {
     this.authService.getUser(0).subscribe(
       (response) => {
         this.user = response.data;
+        console.log(this.user);
+
       });
 
     this.authService.getUserReport().subscribe(
@@ -116,8 +119,13 @@ export class GeneralSettingsComponent implements OnInit {
         if (value.display_name) {
           this.settingService.updateValue({ 'display_name': value.display_name });
         }
-
       })
+  }
+
+  updateAddress(form: any) {
+    this.address = [form.detail, form.ward, form.district, form.province].join(' | ');
+
+    this.updateUser({ 'address': this.address })
   }
 
   fileProfile: any;

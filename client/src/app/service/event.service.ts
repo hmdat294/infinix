@@ -118,7 +118,7 @@ export class EventService implements OnDestroy {
       this.idleState.next(false);
       this.updateOnlineStatus('online').subscribe(
         (response) => {
-          console.log('Người dùng đã hoạt động trở lại!');
+          // console.log('Người dùng đã hoạt động trở lại!');
           // console.log(response);
         }
       )
@@ -132,7 +132,7 @@ export class EventService implements OnDestroy {
   private onUserEnter() {
     this.updateOnlineStatus('online').subscribe(
       (response) => {
-        console.log("Người dùng đã truy cập vào trang lần đầu.");
+        // console.log("Người dùng đã truy cập vào trang lần đầu.");
         // console.log(response);
       }
     )
@@ -144,7 +144,7 @@ export class EventService implements OnDestroy {
     if (this.isLoggedIn) {
       this.updateOnlineStatus('idle').subscribe(
         (response) => {
-          console.log('Người dùng đã treo máy!');
+          // console.log('Người dùng đã treo máy!');
           // console.log(response);
         }
       )

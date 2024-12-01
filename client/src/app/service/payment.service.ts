@@ -21,5 +21,11 @@ export class PaymentService {
     return this.http.post(`${this.apiUrl}/zalopay-payment`, data, { headers });
   }
 
+  
+  order(data:any): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.post(`${this.apiUrl}/order`, data, { headers });
+  }
+
 }
 

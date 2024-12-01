@@ -33,6 +33,7 @@ export class HeaderComponent implements OnInit {
   addQuantitySubject = new Subject<{ product_id: number, quantity: number }>();
   productChecked: any = [];
   groupedShops: any = [];
+  total: number = 0;
 
   constructor(
     private router: Router,
@@ -116,30 +117,30 @@ export class HeaderComponent implements OnInit {
     this.productChecked = this.cart?.products?.filter((item: any) => item.checked) || [];
 
     this.productChecked = this.productChecked?.reduce((acc: any[], product: any) => {
-      let shop = acc.find((item) => item.shop_id === product.shop_id);
+      let shops = acc.find((item) => item.shop_id === product.shop_id);
 
-      if (!shop) {
-        shop = {
+      if (!shops) {
+        shops = {
           shop_id: product.shop_id,
           shop_name: product.shop_name,
           shop_logo: product.shop_logo,
           products: [],
         };
-        acc.push(shop);
+        acc.push(shops);
       }
 
-      shop.products.push(product);
+      shops.products.push(product);
 
       return acc;
     }, []);
 
-    // console.log(this.productChecked);
+    this.getTotal();
   }
 
   payment() {
     const data = {
-      'total': this.cart.total,
-      'shop': this.productChecked,
+      'total': this.total,
+      'shops': this.productChecked,
       'products_count': this.cart.products.length,
     }
     this.router.navigate(['/checkout', btoa(unescape(encodeURIComponent(JSON.stringify(data))))]);
@@ -178,10 +179,13 @@ export class HeaderComponent implements OnInit {
   }
 
   getTotal() {
-    this.cart.total = this.cart.products.reduce((sum: any, item: any) => {
-      const totalPrice = (item.price - (item.price * parseFloat(item.discount)) / 100) * item.pivot.quantity;
-      return sum + totalPrice;
-    }, 0);
+    this.total = 0;
+    this.productChecked.forEach((shop: any) =>
+      shop.products.forEach((product: any) =>
+        this.total +=
+        (product.price - (product.price * (product.discount / 100))) * product.pivot.quantity
+      )
+    );
   }
 
   groupShop() {
