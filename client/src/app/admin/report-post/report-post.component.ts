@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 import { NavComponent } from "../nav/nav.component";
 import { AdminService } from '../../service/admin.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { SettingService } from '../../service/setting.service';
 
 @Component({
   selector: 'app-report-post',
@@ -15,7 +16,11 @@ import Swal from 'sweetalert2';
 })
 export class ReportpostComponent {
   listReport: any;
-  constructor(private adminService: AdminService) { }
+  tabAccordion: string = '';
+  constructor(private adminService: AdminService,
+    private settingService: SettingService,
+    private el: ElementRef
+  ) { }
   
 
   confirmDelete(reportId: number, event: Event): void {
@@ -88,6 +93,9 @@ export class ReportpostComponent {
   toggleDetails(index: number, event: Event): void {
     event.preventDefault(); // Ngăn reload trang
     this.listReport[index].isExpanded = !this.listReport[index].isExpanded;
+  }
+  tabChild(tab: string) {
+    this.tabAccordion = this.settingService.tabChild(this.tabAccordion, tab, this.el);
   }
 
 }

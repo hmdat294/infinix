@@ -1,20 +1,19 @@
 import { Component, ElementRef } from '@angular/core';
-import { NavComponent } from "../nav/nav.component";
 import { AdminService } from '../../service/admin.service';
+import { SettingService } from '../../service/setting.service';
+import { NavComponent } from '../nav/nav.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { Observable } from 'rxjs';
 import { FormsModule } from '@angular/forms';
-import { SettingService } from '../../service/setting.service';
 
 @Component({
-  selector: 'app-report',
+  selector: 'app-report-user',
   standalone: true,
   imports: [NavComponent,CommonModule,RouterModule,FormsModule],
-  templateUrl: './report.component.html',
-  styleUrl: './report.component.css'
+  templateUrl: './report-user.component.html',
+  styleUrl: './report-user.component.css'
 })
-export class ReportComponent {
+export class ReportUserComponent {
   tabAccordion: string = '';
   reportService:any;
   listReport: any;
@@ -25,7 +24,7 @@ export class ReportComponent {
   ngOnInit(): void {
     this.adminService.getReports().subscribe(
       (response) => {
-        this.listReport = response.data;
+        this.listReport = response.data.filter((item: any) => item.type === 'user');
         console.log(this.listReport);
       },
       (error) => {
@@ -42,5 +41,4 @@ export class ReportComponent {
     return words.length > maxWords ? words.slice(0, maxWords).join(' ') + '...' : text;
   }
 
-  
 }

@@ -99,13 +99,13 @@ export class DashboardComponent implements OnInit {
   }
 
   renderChart(): void {
-    const userTotals = this.User_Growth.map((item: any) => item.total);
+    const userTotals = this.User_Growth.map((item: any) => item.cumulative_total);
     const userDates = this.User_Growth.map((item: any) => item.date);
 
-    const postTotals = this.Post_Growth.map((item: any) => item.total);
+    const postTotals = this.Post_Growth.map((item: any) => item.cumulative_total);
     const postDates = this.Post_Growth.map((item: any) => item.date);
 
-    const conversationsTotals = this.Conversations_Growth.map((item: any) => item.total);
+    const conversationsTotals = this.Conversations_Growth.map((item: any) => item.cumulative_total);
     const conversationsDates = this.Conversations_Growth.map((item: any) => item.date);
     console.log('show growth:', userTotals, conversationsTotals, postTotals);
     
@@ -235,7 +235,7 @@ export class DashboardComponent implements OnInit {
         offsetY: 0,
         offsetX: 0
       },
-      labels: ['User report', 'Comment report', 'Post report', 'Group report'],
+      labels: ['User report', 'Post report', 'Comment report', 'Mesage report'],
       legend: {
         position: 'bottom',
         formatter: function (val: string, opts: any) {
