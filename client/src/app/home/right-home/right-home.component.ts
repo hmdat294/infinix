@@ -6,11 +6,12 @@ import { EventService } from '../../service/event.service';
 import { FormsModule } from '@angular/forms';
 import { ChatService } from '../../service/chat.service';
 import { SettingService } from '../../service/setting.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-right-home',
   standalone: true,
-  imports: [RouterModule, CommonModule, FormsModule],
+  imports: [RouterModule, CommonModule, FormsModule, TranslateModule],
   templateUrl: './right-home.component.html',
   styleUrl: './right-home.component.css'
 })
@@ -23,6 +24,8 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
   friendsSearch: any = [];
   listUser: any;
   listGroup: any;
+  listUserLimit: any;
+  listGroupLimit: any;
   conversation: any[] = [];
 
   constructor(
@@ -51,7 +54,7 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
 
                 this.friends = this.friends.sort((a: any, b: any) => statusOrder[a.online_status] - statusOrder[b.online_status]);
 
-                this.friends_limit = this.friends.slice(0, 5);
+                this.friends_limit = this.friends.slice(0, 3);
 
                 this.eventService.bindEvent('App\\Events\\FriendRequestEvent', (data: any) => {
                   // console.log('Friend request event:', data);
@@ -89,6 +92,8 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
 
                 this.listUser = friends.filter((item: any) => item.is_group == 0);
                 this.listGroup = friends.filter((item: any) => item.is_group == 1);
+                this.listUserLimit = [...this.listUser.slice(0, 3)];
+                this.listGroupLimit = [...this.listGroup.slice(0, 3)];
                 // console.log(this.listUser);
                 // console.log(this.listGroup);
               });
@@ -100,6 +105,25 @@ export class RightHomeComponent implements OnInit, AfterViewInit {
       // console.log('Updated conversation from localStorage:', conversation);
       this.conversation = conversation;
     });
+  }
+
+  is_full_user: boolean = false;
+  is_full_group: boolean = false;
+
+  moreUser() {
+    this.is_full_user = !this.is_full_user;
+    if (this.is_full_user)
+      this.listUserLimit = [...this.listUser];
+    else
+      this.listUserLimit = [...this.listUser.slice(0, 3)];
+  }
+
+  moreGroup() {
+    this.is_full_group = !this.is_full_group;
+    if (this.is_full_user)
+      this.listGroupLimit = [...this.listGroup];
+    else
+      this.listGroupLimit = [...this.listGroup.slice(0, 3)];
   }
 
   createChat(conversation_id: number) {

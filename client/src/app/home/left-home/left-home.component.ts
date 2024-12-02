@@ -9,11 +9,12 @@ import { SettingService } from '../../service/setting.service';
 import { ShopService } from '../../service/shop.service';
 import { CarouselService } from '../../service/carousel.service';
 import { FormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-left-home',
   standalone: true,
-  imports: [CommonModule, RouterModule, CurrencyVNDPipe, FormsModule],
+  imports: [CommonModule, RouterModule, CurrencyVNDPipe, FormsModule, TranslateModule],
   templateUrl: './left-home.component.html',
   styleUrl: './left-home.component.css'
 })
@@ -126,7 +127,7 @@ export class LeftHomeComponent implements OnInit, AfterViewInit {
 
 
   addToCart(product_id: number) {
-    console.log({ 'product_id': product_id, 'quantity': this.quantity });
+    // console.log({ 'product_id': product_id, 'quantity': this.quantity });
     
     this.shopService.addProductToCart({ 'product_id': product_id, 'quantity': this.quantity }).subscribe(
       (response) => {

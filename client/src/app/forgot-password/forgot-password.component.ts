@@ -3,11 +3,12 @@ import { AuthService } from '../service/auth.service';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-forgot-password',
   standalone: true,
-  imports: [FormsModule, RouterModule, CommonModule],
+  imports: [FormsModule, RouterModule, CommonModule, TranslateModule],
   templateUrl: './forgot-password.component.html',
   styleUrl: './forgot-password.component.css'
 })
@@ -17,7 +18,7 @@ export class ForgotPasswordComponent {
   constructor(private authService: AuthService, private router: Router) { }
 
   checkPasswords(form: NgForm): boolean {
-    return form.controls['password'].value === form.controls['confirm'].value;
+    return form.controls['password']?.value === form.controls['confirm']?.value;
   }
 
   changePassword(value: any) {

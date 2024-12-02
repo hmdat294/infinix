@@ -12,12 +12,12 @@
         </div>
         <div class="layout-horizontal align-center-center gap-20 w-fill">
             <div class="w-hug layout-vertical align-center-center text-center px-10">
-                <p class="text-secondary text-body">Bạn bè</p>
+                <p class="text-secondary text-body">{{ 'profile.left_profile.friend_count' | translate }}</p>
                 <p class="text-primary text-body-strong">{{user?.friend_count}}</p>
             </div>
             <div class="w-hug layout-vertical align-center-center px-10">
-                <p class="text-secondary text-body text-center">Bài viết</p>
-                <p class="text-primary text-body-strong">{{listPost.length}}</p>
+                <p class="text-secondary text-body text-center">{{ 'profile.left_profile.post_count' | translate }}</p>
+                <p class="text-primary text-body-strong">{{listPost?.length}}</p>
             </div>
             <!-- <div class="w-hug layout-vertical align-center-center text-center px-10">
                 <p class="text-secondary text-body">Người theo dõi</p>
@@ -28,19 +28,21 @@
                 <p class="text-primary text-body-strong">{{user?.following_count}}</p>
             </div> -->
         </div>
-        <div class="layout w-fill px-20">
+        <!-- <div class="layout w-fill px-20">
             <button type="button" class="button-accent button-text-only w-fill">Chỉnh sửa trang cá nhân</button>
-        </div>
+        </div> -->
     </div>
 </div>
 
 <div class="layout-vertical w-fill gap-20 p-20 rounded-8 card-background-default border border-card-default">
     <div class="layout-horizontal pb-10 w-fill border-bottom border-card-default align-center-space-between">
-        <p class="text-body text-primary">{{friendOfFriendLimit?.length}} bạn bè</p>
-        <a (click)="viewMoreFriend()" class="link text-nowrap" style="cursor: pointer;">Xem thêm</a>
+        <p class="text-body text-primary">{{friendOfFriendLimit?.length}} {{ 'profile.left_profile.friend_count' |
+            translate }}</p>
+        <a (click)="viewMoreFriend()" class="link text-nowrap" style="cursor: pointer;">{{ 'profile.left_profile.more' |
+            translate }}</a>
     </div>
     <div class="layout-vertical w-fill p-0">
-        <div class="w-fill layout-wrap gap-20 align-center-left" *ngIf="friendOfFriendLimit?.length>0">
+        <div class="w-fill layout-wrap gap-20 align-top-left" *ngIf="friendOfFriendLimit?.length>0">
             <div class="w-fill-column-4" *ngFor="let user of friendOfFriendLimit">
                 <a [routerLink]="['/friend-profile', user?.id]" style="width: 80px;; height: 80px;">
                     <img [src]="user?.profile.profile_photo" class="w-fill h-fill object-fit-cover rounded-4">
@@ -51,15 +53,15 @@
 
         <div class="w-fill py-20 card-background-default border border-card-default rounded-8"
             *ngIf="friendOfFriendLimit?.length==0">
-            <p class="text-body text-secondary text-center">Trống</p>
+            <p class="text-body text-secondary text-center">{{ 'profile.left_profile.empty' | translate }}</p>
         </div>
     </div>
 </div>
 
 <div class="layout-vertical w-fill gap-20 p-20 rounded-8 card-background-default border border-card-default">
     <div class="layout-horizontal pb-10 w-fill border-bottom border-card-default align-center-space-between">
-        <p class="text-body text-primary">{{images?.length}} phương tiện</p>
-        <a href="" class="link text-nowrap">Xem thêm</a>
+        <p class="text-body text-primary">{{images?.length}} {{ 'profile.left_profile.media_count' | translate }}</p>
+        <!-- <a href="" class="link text-nowrap">Xem thêm</a> -->
     </div>
     <div class="layout-vertical w-fill p-0">
         <div class="w-fill layout-wrap gap-20 align-center-left" *ngIf="images?.length>0">
@@ -79,7 +81,7 @@
 
         <div class="w-fill py-20 card-background-default border border-card-default rounded-8"
             *ngIf="images?.length==0">
-            <p class="text-body text-secondary text-center">Trống</p>
+            <p class="text-body text-secondary text-center">{{ 'profile.left_profile.empty' | translate }}</p>
         </div>
     </div>
 
@@ -121,28 +123,41 @@
             </button>
 
             <div class="pb-20 pt-5 border-bottom">
-                <p class="text-subtitle text-primary text-center">Bạn bè</p>
+                <p class="text-subtitle text-primary text-center">{{ 'profile.left_profile.friend_count' | translate }}
+                </p>
             </div>
 
             <div class="overflow-scroll-vertical" style="max-height: 300px;">
-                <div class="p-10 layout-horizontal align-center-space-between" *ngFor="let user of friendOfFriend">
+                <div class="p-10 layout-horizontal align-center-space-between"
+                    *ngFor="let user_of_friend of friendOfFriend">
                     <div class="layout-horizontal align-center-center gap-15 w-fill">
                         <div class="list-item w-fill layout-horizontal align-center-center gap-15"
-                            (click)="goToFriend(user?.id)">
+                            (click)="goToFriend(user_of_friend?.id)">
                             <div style="width: 35px; height: 35px;">
                                 <img class="rounded-circle border border-card-default object-fit-cover"
-                                    [src]="user?.profile.profile_photo" alt="" style="width: 35px; height: 35px;">
+                                    [src]="user_of_friend?.profile.profile_photo" alt=""
+                                    style="width: 35px; height: 35px;">
                             </div>
                             <div class="w-fill">
                                 <p class="text-primary text-body-strong">
-                                    {{user?.profile.display_name}}</p>
+                                    {{user_of_friend?.profile.display_name}}</p>
                                 <p class="text-primary text-body">
-                                    {{user?.email}}</p>
+                                    {{user_of_friend?.email}}</p>
                             </div>
                         </div>
-                        <button type="button" class="button-accent button-text-with-icon" (click)="addFriend(user?.id)">
-                            Kết bạn
-                            <i class="icon-size-16 icon icon-ic_fluent_person_add_16_filled"></i>
+                        <button *ngIf="!user_of_friend?.is_friend && !user_of_friend?.is_sent_friend_request"
+                            type="button" class="button-accent button-text-only"
+                            (click)="addFriend(user_of_friend?.id)">
+                            {{ 'profile.left_profile.add_friend' | translate }}
+                        </button>
+                        <button *ngIf="!user_of_friend?.is_friend && user_of_friend?.is_sent_friend_request"
+                            type="button" class="button-standard button-text-only"
+                            (click)="cancelRequest(user_of_friend?.id)">
+                            {{ 'profile.left_profile.cancel_request_friend' | translate }}
+                        </button>
+                        <button *ngIf="user_of_friend?.is_friend" type="button" class="button-standard button-text-only"
+                            (click)="unFriend(user_of_friend?.id)">
+                            {{ 'profile.left_profile.unfriend' | translate }}
                         </button>
                     </div>
                 </div>

@@ -12,11 +12,12 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { QuillModule } from 'ngx-quill';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-search',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, EmojiModule, PickerComponent, QuillModule],
+  imports: [CommonModule, FormsModule, RouterModule, EmojiModule, QuillModule, TranslateModule],
   templateUrl: './search.component.html',
   styleUrl: './search.component.css'
 })
@@ -79,6 +80,60 @@ export class SearchComponent implements OnInit, AfterViewInit {
   @ViewChildren('prevButton') prevButtons!: QueryList<ElementRef<HTMLButtonElement>>;
   @ViewChildren('indicatorsContainer') indicatorsContainers!: QueryList<ElementRef<HTMLDivElement>>;
 
+  isSlidingSlide: boolean = false;
+
+  nextuser(value: string) {
+    if (this.isSlidingSlide) return;
+
+    const slideShare = document.querySelector<HTMLDivElement>(`.${value}_inner`);
+    const shareItems = document.querySelectorAll<HTMLDivElement>(`.${value}_item`);
+
+    if (slideShare && shareItems.length > 4) {
+      this.isSlidingSlide = true;
+
+      const first = shareItems[0];
+
+      slideShare.style.transition = 'transform 0.3s ease-in-out';
+      slideShare.style.transform = `translateX(-${shareItems[0].offsetWidth + 20}px)`;
+
+      setTimeout(() => {
+        slideShare.style.transition = 'none';
+        slideShare.style.transform = 'translateX(0)';
+
+        slideShare.appendChild(first);
+
+        this.isSlidingSlide = false;
+      }, 300);
+    }
+  }
+
+  prevuser(value: string) {
+    if (this.isSlidingSlide) return;
+
+    const slideShare = document.querySelector<HTMLDivElement>(`.${value}_inner`);
+    const shareItems = document.querySelectorAll<HTMLDivElement>(`.${value}_item`);
+
+    if (slideShare && shareItems.length > 4) {
+      this.isSlidingSlide = true;
+
+      const last = shareItems[shareItems.length - 1];
+
+      slideShare.insertBefore(last, shareItems[0]);
+
+      slideShare.style.transition = 'none';
+      slideShare.style.transform = `translateX(-${shareItems[0].offsetWidth + 20}px)`;
+
+      setTimeout(() => {
+        slideShare.style.transition = 'transform 0.3s ease-in-out';
+        slideShare.style.transform = 'translateX(0)';
+      }, 0);
+
+      setTimeout(() => {
+        this.isSlidingSlide = false;
+      }, 300);
+    }
+  }
+
   ngAfterViewInit(): void {
     this.initCarousels();
   }
@@ -133,98 +188,6 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
     this.cdr.detectChanges();
     this.initCarousels();
-  }
-
-  
-  postDeleteId: number = 0;
-
-  setDeleteId(post_id: number) {
-    this.postDeleteId = post_id;
-  }
-
-  deletePost() {
-    this.postService.deletePost(this.postDeleteId).subscribe(
-      (response) => {
-        // console.log(response);
-      }
-    );
-  }
-
-  updatePost(value: any) {
-    const urlImg = this.previewUpdatePostImages.filter(url => url.startsWith("http"));
-
-    if (value.contentUpdate && !this.spaceCheck.test(value.contentUpdate)) {
-      const formData = new FormData();
-      formData.append('content', value.contentUpdate);
-
-      if (this.selectedFilesUpdatePost.length > 0)
-        this.selectedFilesUpdatePost.forEach(image => formData.append('medias[]', image, image.name));
-
-      if (urlImg.length > 0)
-        urlImg.forEach(imagePath => formData.append('urls[]', imagePath));
-
-      this.postService.updatePost(this.postUpdateId, formData).subscribe(
-        (response) => {
-          // console.log(response);
-          this.showDiaLogUpdatePost(null);
-        },
-        (error) => {
-          console.error("Error updating post:", error);
-        }
-      );
-    }
-  }
-
-
-  postUpdateId: number = 0;
-
-  showDiaLogUpdatePost(post: any) {
-    if (post == null) {
-      this.postUpdateId = 0;
-      this.onCancelUpdatePostImg();
-    }
-    else {
-      this.postUpdateId = post.id;
-      this.previewUpdatePostImages = post.medias.map((media: any) => media.path);
-      this.contentUpdate = post.content;
-    }
-  }
-
-  onFileUpdatePostSelected(event: any) {
-
-    const files: File[] = Array.from(event.target.files);
-    // console.log(files);
-    if (files && files.length > 0) {
-      files.forEach(file => {
-        const reader = new FileReader();
-        reader.onload = e => this.previewUpdatePostImages.push(reader.result as string);
-        reader.readAsDataURL(file);
-        this.selectedFilesUpdatePost.push(file);
-      });
-    }
-  }
-
-  removeUpdatePostImage(index: number): void {
-    this.previewUpdatePostImages.splice(index, 1);
-    this.selectedFilesUpdatePost.splice(index, 1);
-  }
-
-  onCancelUpdatePostImg() {
-    this.contentUpdate = '';
-    this.selectedFilesUpdatePost = [];
-    this.previewUpdatePostImages = [];
-    if (this.fileUpdatePost) this.fileUpdatePost.nativeElement.value = '';
-  }
-
-
-  showEmojiPickerUpdate: boolean = false;
-
-  toggleEmojiPickerUpdate() {
-    this.showEmojiPickerUpdate = !this.showEmojiPickerUpdate;
-  }
-
-  addEmojiUpdate(event: any) {
-    this.contentUpdate += event.emoji.native;
   }
 
   editorModules = {

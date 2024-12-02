@@ -12,11 +12,12 @@ import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { QuillModule } from 'ngx-quill';
 import { DomSanitizer } from '@angular/platform-browser';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-center-profile',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule, EmojiModule, PickerComponent, QuillModule],
+  imports: [FormsModule, CommonModule, RouterModule, EmojiModule, PickerComponent, QuillModule, TranslateModule],
   templateUrl: './center-profile.component.html',
   styleUrl: './center-profile.component.css'
 })
@@ -88,6 +89,60 @@ export class CenterProfileComponent implements OnInit, AfterViewInit {
   @ViewChildren('nextButton') nextButtons!: QueryList<ElementRef<HTMLButtonElement>>;
   @ViewChildren('prevButton') prevButtons!: QueryList<ElementRef<HTMLButtonElement>>;
   @ViewChildren('indicatorsContainer') indicatorsContainers!: QueryList<ElementRef<HTMLDivElement>>;
+
+  isSlidingSlide: boolean = false;
+
+  nextuser(value: string) {
+    if (this.isSlidingSlide) return;
+
+    const slideShare = document.querySelector<HTMLDivElement>(`.${value}_inner`);
+    const shareItems = document.querySelectorAll<HTMLDivElement>(`.${value}_item`);
+
+    if (slideShare && shareItems.length > 4) {
+      this.isSlidingSlide = true;
+
+      const first = shareItems[0];
+
+      slideShare.style.transition = 'transform 0.3s ease-in-out';
+      slideShare.style.transform = `translateX(-${shareItems[0].offsetWidth + 20}px)`;
+
+      setTimeout(() => {
+        slideShare.style.transition = 'none';
+        slideShare.style.transform = 'translateX(0)';
+
+        slideShare.appendChild(first);
+
+        this.isSlidingSlide = false;
+      }, 300);
+    }
+  }
+
+  prevuser(value: string) {
+    if (this.isSlidingSlide) return;
+
+    const slideShare = document.querySelector<HTMLDivElement>(`.${value}_inner`);
+    const shareItems = document.querySelectorAll<HTMLDivElement>(`.${value}_item`);
+
+    if (slideShare && shareItems.length > 4) {
+      this.isSlidingSlide = true;
+
+      const last = shareItems[shareItems.length - 1];
+
+      slideShare.insertBefore(last, shareItems[0]);
+
+      slideShare.style.transition = 'none';
+      slideShare.style.transform = `translateX(-${shareItems[0].offsetWidth + 20}px)`;
+
+      setTimeout(() => {
+        slideShare.style.transition = 'transform 0.3s ease-in-out';
+        slideShare.style.transform = 'translateX(0)';
+      }, 0);
+
+      setTimeout(() => {
+        this.isSlidingSlide = false;
+      }, 300);
+    }
+  }
 
   ngAfterViewInit(): void {
     this.initCarousels();

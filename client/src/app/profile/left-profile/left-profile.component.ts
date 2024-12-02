@@ -4,11 +4,12 @@ import { CommonModule } from '@angular/common';
 import { ChatService } from '../../service/chat.service';
 import { Router, RouterModule } from '@angular/router';
 import { PostService } from '../../service/post.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-left-profile',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, TranslateModule],
   templateUrl: './left-profile.component.html',
   styleUrl: './left-profile.component.css'
 })
@@ -69,6 +70,31 @@ export class LeftProfileComponent implements OnInit {
       (response) => {
         // console.log(response);
         this.user.is_sent_friend_request = true;
+      });
+  }
+
+  unFriend(user_id: number): void {
+    this.authService.unFriend(user_id).subscribe(
+      (response) => {
+        // console.log(response);
+
+        if (this.user.id == user_id) {
+          this.user.is_friend = false;
+          this.user.is_sent_friend_request = false;
+        }
+        else {
+          const friendfriend = this.friendOfFriend.find((item: any) => item.id === user_id);
+          friendfriend.is_friend = false;
+          friendfriend.is_sent_friend_request = false;
+        }
+
+      });
+  }
+
+  cancelRequest(receiver_id: number) {
+    this.authService.acceptFriend({ id: receiver_id, status: 'rejected' }).subscribe(
+      (response) => {
+        // console.log(response);
       });
   }
 

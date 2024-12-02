@@ -15,17 +15,18 @@
             </div>
             <div class="accordion-panel">
                 <div class="layout-vertical p-5 gap-5">
-                    <a *ngIf="user.data?.permissions[4]" [routerLink]="['/admin']" class="list-item layout-horizontal align-center-left gap-10">
+                    <a *ngIf="user.data?.permissions[4]" [routerLink]="['/admin']"
+                        class="list-item layout-horizontal align-center-left gap-10">
                         <i class="icon-size-20 icon icon-ic_fluent_person_settings_20_regular"></i>
-                        <div class="text-body">Quản trị</div>
+                        <div class="text-body">{{ 'home.right_home.manage_title' | translate }}</div>
                     </a>
                     <a [routerLink]="['/profile']" class="list-item layout-horizontal align-center-left gap-10">
                         <i class="icon-size-20 icon icon-ic_fluent_person_20_regular"></i>
-                        <div class="text-body">Trang cá nhân</div>
+                        <div class="text-body">{{ 'home.right_home.profile_title' | translate }}</div>
                     </a>
                     <a [routerLink]="['/store']" class="list-item layout-horizontal align-center-left gap-10">
                         <i class="icon-size-20 icon icon-ic_fluent_cart_20_regular"></i>
-                        <div class="text-body">Cửa hàng</div>
+                        <div class="text-body">{{ 'home.right_home.store_title' | translate }}</div>
                     </a>
                 </div>
             </div>
@@ -36,7 +37,7 @@
 <div *ngIf="!showFriendMore"
     class="w-fill layout-vertical rounded-8 border border-card-default card-background-default">
     <div class="w-fill layout-horizontal align-center-space-between px-20 py-10">
-        <p class="text-secondary text-body-strong">Bạn bè</p>
+        <p class="text-secondary text-body-strong">{{ 'home.right_home.friend_title' | translate }}</p>
     </div>
     <div class="p-10 border-top border-card-default" *ngFor="let friend of friends_limit">
 
@@ -52,31 +53,9 @@
 
     </div>
     <div class="w-fill layout-horizontal align-center-space-between px-20 py-10 border-top border-card-default">
-        <a (click)="friendMore()" class="link" style="cursor: pointer;">Xem thêm</a>
+        <a (click)="friendMore()" class="link" style="cursor: pointer;">{{ 'home.right_home.more' | translate }}</a>
     </div>
 </div>
-
-<!-- <div *ngIf="!showFriendMore"
-    class="w-fill layout-vertical rounded-8 border border-card-default card-background-default">
-    <div class="w-fill layout-horizontal align-center-space-between px-20 py-10">
-        <p class="text-secondary text-body-strong">Đang theo dõi</p>
-    </div>
-    <div class="layout-horizontal gap-15 px-20 py-10 border-top border-card-default align-center-center">
-        <img src="assets/image/avatar.png" alt="" style="width: 35px; height: 35px;">
-        <p class="text-secondary text-body-strong w-fill">Châu Thành Cường</p>
-    </div>
-    <div class="layout-horizontal gap-15 px-20 py-10 border-top border-card-default align-center-center">
-        <img src="assets/image/avatar.png" alt="" style="width: 35px; height: 35px;">
-        <p class="text-secondary text-body-strong w-fill">Châu Thành Cường</p>
-    </div>
-    <div class="layout-horizontal gap-15 px-20 py-10 border-top border-card-default align-center-center">
-        <img src="assets/image/avatar.png" alt="" style="width: 35px; height: 35px;">
-        <p class="text-secondary text-body-strong w-fill">Châu Thành Cường</p>
-    </div>
-    <div class="w-fill layout-horizontal align-center-space-between px-20 py-10 border-top border-card-default">
-        <a href="" class="link">Xem thêm</a>
-    </div>
-</div> -->
 
 <div *ngIf="showFriendMore" class="w-fill h-hug layout-vertical card-background-default rounded-8">
     <div class="layout-vertical gap-10 w-fill border-bottom border-card-default  p-10 gap-10">
@@ -86,7 +65,7 @@
                 <button type="button" class="button-subtle button-icon-only" (click)="friendMore()">
                     <i class="icon-size-16 icon icon-ic_fluent_chevron_left_16_regular"></i>
                 </button>
-                <p class="text-body-strong text-primary">Danh sách</p>
+                <p class="text-body-strong text-primary">{{ 'home.right_home.list_title' | translate }}</p>
             </div>
         </div>
         <div class="search-dropdown-control w-fill">
@@ -104,7 +83,7 @@
     <div class="w-fill h-hug layout-vertical gap-5 p-5">
         <div class="w-fill py-20 card-background-default border border-card-default rounded-8"
             *ngIf="friendsSearch.length == 0 && keyword != ''">
-            <p class="text-body text-secondary text-center">Không tìm thấy</p>
+            <p class="text-body text-secondary text-center">{{ 'home.right_home.not_found' | translate }}</p>
         </div>
         <div class="layout-horizontal list-item gap-15 px-20 py-10 align-center-center"
             *ngFor="let friend of setFriendSearch()">
@@ -129,32 +108,38 @@
 
 
 <div class="w-fill layout-vertical rounded-8 border border-card-default card-background-default">
-    <div class="w-fill layout-horizontal align-center-space-between px-20 py-10">
-        <p class="text-secondary text-body-strong">Người liên hệ</p>
+    <div class="w-fill layout-horizontal align-center-left px-10 py-10">
+        <button type="button" class="button-subtle button-icon-only" *ngIf="is_full_user" (click)="moreUser()">
+            <i class="icon-size-16 icon icon-ic_fluent_chevron_left_16_regular"></i>
+        </button>
+        <p class="text-secondary text-body-strong px-10">{{ 'home.right_home.contact_person' | translate }}</p>
     </div>
-    <div class="p-10 border-top border-card-default" *ngFor="let user of listUser">
+    <div class="p-10 border-top border-card-default" *ngFor="let user of listUserLimit">
 
         <div class="list-item layout-horizontal align-center-center gap-15 w-fill" (click)="createChat(user?.id)">
             <div style="width: 35px; height: 35px;">
-                <img class="rounded-circle border border-card-default object-fit-cover" 
-                [src]="user?.users[0].profile.profile_photo" 
-                alt="" style="width: 35px; height: 35px;">
+                <img class="rounded-circle border border-card-default object-fit-cover"
+                    [src]="user?.users[0].profile.profile_photo" alt="" style="width: 35px; height: 35px;">
             </div>
             <p class="text-secondary text-body-strong w-fill">
                 {{user?.users[0].profile.display_name}}</p>
         </div>
 
     </div>
-    <div class="w-fill layout-horizontal align-center-space-between px-20 py-10 border-top border-card-default">
-        <a [routerLink]="['/chat']" class="link" style="cursor: pointer;">Xem thêm</a>
+    <div *ngIf="!is_full_user"
+        class="w-fill layout-horizontal align-center-left px-20 py-10 border-top border-card-default">
+        <a (click)="moreUser()" class="link" style="cursor: pointer;">{{ 'home.right_home.more' | translate }}</a>
     </div>
 </div>
 
 <div class="w-fill layout-vertical rounded-8 border border-card-default card-background-default">
-    <div class="w-fill layout-horizontal align-center-space-between px-20 py-10">
-        <p class="text-secondary text-body-strong">Nhóm</p>
+    <div class="w-fill layout-horizontal align-center-left px-10 py-10">
+        <button type="button" class="button-subtle button-icon-only" *ngIf="is_full_group" (click)="moreGroup()">
+            <i class="icon-size-16 icon icon-ic_fluent_chevron_left_16_regular"></i>
+        </button>
+        <p class="text-secondary text-body-strong px-10">{{ 'home.right_home.group_title' | translate }}</p>
     </div>
-    <div class="p-10 border-top border-card-default" *ngFor="let group of listGroup">
+    <div class="p-10 border-top border-card-default" *ngFor="let group of listGroupLimit">
 
         <div class="list-item layout-horizontal align-center-center gap-15 w-fill" (click)="createChat(group?.id)">
             <div style="width: 35px; height: 35px;">
@@ -165,7 +150,8 @@
         </div>
 
     </div>
-    <div class="w-fill layout-horizontal align-center-space-between px-20 py-10 border-top border-card-default">
-        <a [routerLink]="['/chat']" class="link" style="cursor: pointer;">Xem thêm</a>
+    <div *ngIf="!is_full_group"
+        class="w-fill layout-horizontal align-center-left px-20 py-10 border-top border-card-default">
+        <a (click)="moreGroup()" class="link" style="cursor: pointer;">{{ 'home.right_home.more' | translate }}</a>
     </div>
 </div>

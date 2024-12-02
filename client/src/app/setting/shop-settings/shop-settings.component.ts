@@ -8,11 +8,12 @@ import { CategoryComponent } from "./category/category.component";
 import { ProductComponent } from "./product/product.component";
 import { OrderComponent } from "./order/order.component";
 import { FeedbackComponent } from "./feedback/feedback.component";
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-shop-settings',
   standalone: true,
-  imports: [FormsModule, CommonModule, CategoryComponent, ProductComponent, OrderComponent, FeedbackComponent],
+  imports: [FormsModule, CommonModule, CategoryComponent, ProductComponent, OrderComponent, FeedbackComponent, TranslateModule],
   templateUrl: './shop-settings.component.html',
   styleUrl: './shop-settings.component.css'
 })
@@ -70,7 +71,7 @@ export class ShopSettingsComponent implements OnInit {
 
   //shop
   createShop(form: any) {
-    const address = [form.detail, form.ward, form.district, form.province].join('|');
+    const address = [form.detail, form.ward, form.district, form.province].join(' | ');
 
     const formData = new FormData();
     formData.append('name', form.name);

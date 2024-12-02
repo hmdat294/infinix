@@ -1,14 +1,13 @@
 <div class="border border-card-default card-background-default rounded-bottom-6 pt-10 pb-20 px-20">
     <table class="text-primary text-center w-fill">
-        <tr class="">
-            <th style="width: 50px;">STT</th>
-            <th>Tên</th>
-            <th style="width: 100px;">Sản phẩm</th>
+        <tr class="text-body-strong">
+            <th style="width: 50px;">{{ 'setting.shop_settings.category.index' | translate }}</th>
+            <th>{{ 'setting.shop_settings.category.name' | translate }}</th>
+            <th style="width: 100px;">{{ 'setting.shop_settings.category.product_count' | translate }}</th>
             <th style="width: 90px;">#</th>
         </tr>
         <!-- for -->
-        <tr class="border-top border-card-default"
-            *ngFor="let cate of shop?.categories; let i = index;">
+        <tr class="border-top border-card-default" *ngFor="let cate of shop?.categories; let i = index;">
             <td>{{i+1}}</td>
             <td class="text-body-strong">{{cate.name}}</td>
             <td class="text-body-strong">{{cate.product_count || 0}}</td>
@@ -25,10 +24,10 @@
         </tr>
     </table>
     <div>
-        <button type="button" class="button-standard button-text-only w-fill"
-            (click)="showDiaLogCreateCategory()">
+        <button type="button" class="button-standard button-text-only w-fill" (click)="showDiaLogCreateCategory()">
             <i class="me-5 icon-size-16 icon icon-ic_fluent_add_16_regular"></i>
-            Thêm danh mục</button>
+            {{ 'setting.shop_settings.category.create.create_button' | translate }}    
+        </button>
     </div>
 
 
@@ -37,8 +36,7 @@
         <div class="position-absolute top-0 start-0" (click)="showDiaLogCreateCategory()"
             style="width: 100%; height: 100vh; z-index: 1; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px);">
         </div>
-        <div class="dialog-panel position-absolute top-50 start-50 translate-middle"
-            style="z-index: 2;">
+        <div class="dialog-panel position-absolute top-50 start-50 translate-middle" style="z-index: 2;">
             <div class="layout-vertical p-20 gap-20 rounded-8 solid-background-base border border-card-default"
                 style="width: 500px;">
 
@@ -48,19 +46,22 @@
                 </button>
 
                 <div class="pb-20 pt-5 border-bottom">
-                    <p class="text-subtitle text-primary text-center">Thêm danh mục</p>
+                    <p class="text-subtitle text-primary text-center">{{ 'setting.shop_settings.category.create.title' | translate }}</p>
                 </div>
 
                 <div class="layout-vertical overflow-hidden">
-                    <div class="layout-horizontal gap-20">
-                        <div class="w-fill control text-control">
-                            <input type="text" spellcheck="false" name="name_category"
-                                [(ngModel)]="name_category" required>
+                    <div class="layout-horizontal align-bottom-center gap-20">
+                        <div class="w-fill layout-vertical gap-5">
+                            <p class="text-body text-primary">{{ 'setting.shop_settings.category.create.name' | translate }}</p>
+                            <div class="w-fill control text-control">
+                                <input type="text" spellcheck="false" name="name_category" [(ngModel)]="name_category"
+                                    required>
+                            </div>
                         </div>
 
-                        <button type="button" class="button-accent button-text-only w-hug"
-                            (click)="createCategory()">
-                            Thêm</button>
+                        <button type="button" class="button-accent button-text-only w-hug" (click)="createCategory()">
+                            {{ 'setting.shop_settings.category.create.submit_button' | translate }}    
+                        </button>
                     </div>
                 </div>
             </div>
@@ -73,8 +74,7 @@
         <div class="position-absolute top-0 start-0" (click)="showDiaLogUpdateCategory(0)"
             style="width: 100%; height: 100vh; z-index: 1; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px);">
         </div>
-        <div class="dialog-panel position-absolute top-50 start-50 translate-middle"
-            style="z-index: 2;">
+        <div class="dialog-panel position-absolute top-50 start-50 translate-middle" style="z-index: 2;">
             <div class="layout-vertical p-20 gap-20 rounded-8 solid-background-base border border-card-default"
                 style="width: 500px;">
 
@@ -84,19 +84,22 @@
                 </button>
 
                 <div class="pb-20 pt-5 border-bottom">
-                    <p class="text-subtitle text-primary text-center">Sửa danh mục</p>
+                    <p class="text-subtitle text-primary text-center">{{ 'setting.shop_settings.category.edit.title' | translate }}</p>
                 </div>
 
                 <div class="layout-vertical overflow-hidden">
-                    <div class="layout-horizontal gap-20">
-                        <div class="w-fill control text-control">
-                            <input type="text" spellcheck="false" name="name_cate_update"
-                                [(ngModel)]="name_cate_update" required>
+                    <div class="layout-horizontal align-bottom-center gap-20">
+                        <div class="w-fill layout-vertical gap-5">
+                            <p class="text-body text-primary">{{ 'setting.shop_settings.category.edit.name' | translate }}</p>
+                            <div class="w-fill control text-control">
+                                <input type="text" spellcheck="false" name="name_cate_update"
+                                    [(ngModel)]="name_cate_update" required>
+                            </div>
                         </div>
 
-                        <button type="button" class="button-accent button-text-only w-hug"
-                            (click)="updateCategory()">
-                            Sửa</button>
+                        <button type="button" class="button-accent button-text-only w-hug" (click)="updateCategory()">
+                            {{ 'setting.shop_settings.category.edit.submit_button' | translate }}    
+                        </button>
                     </div>
                 </div>
             </div>
@@ -109,10 +112,9 @@
         <div class="position-absolute top-0 start-0" (click)="showDiaLogDeleteCategory(0)"
             style="width: 100%; height: 100vh; z-index: 1; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px);">
         </div>
-        <div class="dialog-panel position-absolute top-50 start-50 translate-middle"
-            style="z-index: 2;">
+        <div class="dialog-panel position-absolute top-50 start-50 translate-middle" style="z-index: 2;">
             <div class="layout-vertical p-20 gap-20 rounded-8 solid-background-base border border-card-default"
-                style="width: 500px;">
+                style="width: 400px;">
 
                 <button type="button" class="button-subtle button-icon-only w-hug position-absolute"
                     (click)="showDiaLogDeleteCategory(0)" style="right: 20px; top: 20px; z-index: 1;">
@@ -120,18 +122,19 @@
                 </button>
 
                 <div class="pb-20 pt-5 border-bottom">
-                    <p class="text-subtitle text-primary text-center">Xóa danh mục</p>
+                    <p class="text-subtitle text-primary text-center">{{ 'setting.shop_settings.category.delete.title' | translate }}</p>
                 </div>
 
                 <div class="layout-vertical overflow-hidden">
                     <div class="layout-horizontal gap-20">
                         <button type="button" class="button-standard button-text-only w-fill"
                             (click)="showDiaLogDeleteCategory(0)">
-                            Hủy</button>
+                            {{ 'setting.shop_settings.category.delete.cancel_button' | translate }}    
+                        </button>
 
-                        <button type="button" class="button-accent button-text-only w-fill"
-                            (click)="deleteCategory()">
-                            Xóa</button>
+                        <button type="button" class="button-accent button-text-only w-fill" (click)="deleteCategory()">
+                            {{ 'setting.shop_settings.category.delete.submit_button' | translate }}    
+                        </button>
                     </div>
                 </div>
             </div>

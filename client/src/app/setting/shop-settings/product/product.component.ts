@@ -5,11 +5,12 @@ import { CurrencyVNDPipe } from '../../../currency-vnd.pipe';
 import { ShopService } from '../../../service/shop.service';
 import { SettingService } from '../../../service/setting.service';
 import { AuthService } from '../../../service/auth.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [CurrencyVNDPipe, FormsModule, CommonModule],
+  imports: [CurrencyVNDPipe, FormsModule, CommonModule, TranslateModule],
   templateUrl: './product.component.html',
   styleUrl: './product.component.css'
 })

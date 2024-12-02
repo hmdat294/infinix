@@ -17,13 +17,14 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/scrollbar';
 import { Navigation, Scrollbar } from 'swiper/modules';
+import { TranslateModule } from '@ngx-translate/core';
 
 Swiper.use([Navigation, Scrollbar]);
 
 @Component({
   selector: 'app-center-home',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule, EmojiModule, PickerComponent, QuillModule],
+  imports: [FormsModule, CommonModule, RouterModule, EmojiModule, PickerComponent, QuillModule, TranslateModule],
   templateUrl: './center-home.component.html',
   styleUrl: './center-home.component.css'
 })
@@ -104,7 +105,61 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   @ViewChildren('prevButton') prevButtons!: QueryList<ElementRef<HTMLButtonElement>>;
   @ViewChildren('indicatorsContainer') indicatorsContainers!: QueryList<ElementRef<HTMLDivElement>>;
 
-  isSliding: boolean = false; // Biến để kiểm tra trạng thái hiệu ứng
+  isSlidingSlide: boolean = false;
+
+  nextuser(value: string) {
+    if (this.isSlidingSlide) return;
+
+    const slideShare = document.querySelector<HTMLDivElement>(`.${value}_inner`);
+    const shareItems = document.querySelectorAll<HTMLDivElement>(`.${value}_item`);
+
+    if (slideShare && shareItems.length > 4) {
+      this.isSlidingSlide = true;
+
+      const first = shareItems[0];
+
+      slideShare.style.transition = 'transform 0.3s ease-in-out';
+      slideShare.style.transform = `translateX(-${shareItems[0].offsetWidth + 20}px)`;
+
+      setTimeout(() => {
+        slideShare.style.transition = 'none';
+        slideShare.style.transform = 'translateX(0)';
+
+        slideShare.appendChild(first);
+
+        this.isSlidingSlide = false;
+      }, 300);
+    }
+  }
+
+  prevuser(value: string) {
+    if (this.isSlidingSlide) return;
+
+    const slideShare = document.querySelector<HTMLDivElement>(`.${value}_inner`);
+    const shareItems = document.querySelectorAll<HTMLDivElement>(`.${value}_item`);
+
+    if (slideShare && shareItems.length > 4) {
+      this.isSlidingSlide = true;
+
+      const last = shareItems[shareItems.length - 1];
+
+      slideShare.insertBefore(last, shareItems[0]);
+
+      slideShare.style.transition = 'none';
+      slideShare.style.transform = `translateX(-${shareItems[0].offsetWidth + 20}px)`;
+
+      setTimeout(() => {
+        slideShare.style.transition = 'transform 0.3s ease-in-out';
+        slideShare.style.transform = 'translateX(0)';
+      }, 0);
+
+      setTimeout(() => {
+        this.isSlidingSlide = false;
+      }, 300);
+    }
+  }
+
+  isSliding: boolean = false;
 
   nextslide() {
     if (this.isSliding) return;
@@ -112,13 +167,13 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
     const slideInner = document.querySelector<HTMLDivElement>('.slide_inner');
     const slideItems = document.querySelectorAll<HTMLDivElement>('.slide_item');
 
-    if (slideInner && slideItems.length > 0) {
+    if (slideInner && slideItems.length > 4) {
       this.isSliding = true;
 
       const firstItem = slideItems[0];
 
       slideInner.style.transition = 'transform 0.3s ease-in-out';
-      slideInner.style.transform = `translateX(-165px)`;
+      slideInner.style.transform = `translateX(-${slideItems[0].offsetWidth + 20}px)`;
 
       setTimeout(() => {
         slideInner.style.transition = 'none';
@@ -138,7 +193,7 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
     const slideInner = document.querySelector<HTMLDivElement>('.slide_inner');
     const slideItems = document.querySelectorAll<HTMLDivElement>('.slide_item');
 
-    if (slideInner && slideItems.length > 0) {
+    if (slideInner && slideItems.length > 4) {
       this.isSliding = true;
 
       const lastItem = slideItems[slideItems.length - 1];
@@ -146,7 +201,7 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
       slideInner.insertBefore(lastItem, slideItems[0]);
 
       slideInner.style.transition = 'none';
-      slideInner.style.transform = `translateX(-165px)`;
+      slideInner.style.transform = `translateX(-${slideItems[0].offsetWidth + 20}px)`;
 
       setTimeout(() => {
         slideInner.style.transition = 'transform 0.3s ease-in-out';
@@ -252,7 +307,6 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   getPathImg(img: any) {
     return { 'path': img.path, 'type': img.type };
   }
-
 
   post(value: any) {
 
@@ -361,7 +415,7 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
         // Lưu tệp vào danh sách đã chọn
         this.selectedFilesUpdatePost.push(file);
         // console.log(this.selectedFilesUpdatePost);
-        
+
       });
     }
   }

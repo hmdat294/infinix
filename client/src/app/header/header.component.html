@@ -6,7 +6,7 @@
                 <img src="assets/image/Logo.png" alt="">
             </a>
         </div>
-        <div class="w-fill layout gap-20 in-mobile-gap-10">
+        <div class="w-fill layout-horizontal align-center-center gap-20 in-mobile-gap-10">
             <div class="w-hug show-in-mobile show-in-tablet">
                 <img src="assets/image/Logo.png" alt="">
             </div>
@@ -14,7 +14,7 @@
 
                 <div class="control search-control">
                     <input class="rounded-2" (keydown)="gotoSearch($event, keyword)" type="search" name="search"
-                        [(ngModel)]="keyword" placeholder="Tìm kiếm" spellcheck="false" required>
+                        [(ngModel)]="keyword" [placeholder]="'header.find' | translate" spellcheck="false" required>
                     <button type="button" class="input-button clear-content-button" (click)="clearSearch()">
                         <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
                     </button>
@@ -105,10 +105,11 @@
                     <div class="layout-horizontal gap-10">
                         <button type="button"
                             class="button-{{is_read_notification == 'all'?'accent':'standard'}} button-text-only"
-                            (click)="filterNotification('all')">Tất cả</button>
+                            (click)="filterNotification('all')">{{ 'header.all_notification' | translate }}</button>
                         <button type="button"
                             class="button-{{is_read_notification == 'unread'?'accent':'standard'}} button-text-only"
-                            (click)="filterNotification('unread')">Chưa đọc</button>
+                            (click)="filterNotification('unread')">{{ 'header.unread_notification' | translate
+                            }}</button>
                     </div>
                 </div>
             </div>
@@ -148,7 +149,9 @@
             </div>
 
             <div class="p-10">
-                <a [routerLink]="['/notification']" class="button-subtle button-text-only w-fill">Xem thêm</a>
+                <a [routerLink]="['/notification']" class="button-subtle button-text-only w-fill">
+                    {{ 'header.more' | translate }}
+                </a>
             </div>
         </div>
     </div>
@@ -179,7 +182,7 @@
                                 <input class="checkbox-control" type="checkbox" name="option" [(ngModel)]="item.checked"
                                     (change)="getCheckedProducts()">
                             </div>
-                            <img [src]="item.images[0].image" alt="" style="height: 100px; width: 100px;"
+                            <img [src]="item.images[0]?.image" alt="" style="height: 100px; width: 100px;"
                                 class="object-fit-cover rounded-4">
                             <div class="layout-vertical gap-20 w-fill">
                                 <div class="layout-horizontal gap-10">
@@ -218,14 +221,10 @@
             </div>
 
             <div class="p-10 layout-horizontal align-center-space-between gap-10 border-top">
-                <p class="text-primary text-body-strong">Tổng tiền: <span class="text-body">{{cart?.total |
-                        currencyVND}}</span></p>
-                <!-- <button type="button" class="button-accent button-text-only" (click)="paymentVnpay()">Thanh toán
-                    VnPay</button>
-                <button type="button" class="button-accent button-text-only" (click)="paymentZalopay()">Thanh toán
-                    ZaloPay</button> -->
+                <p class="text-primary text-body-strong">{{ 'header.total' | translate }}: <span
+                        class="text-body">{{total | currencyVND}}</span></p>
                 <button type="button" class="button-accent button-text-only" (click)="payment()"
-                    [disabled]="productChecked?.length == 0">Thanh toán</button>
+                    [disabled]="productChecked?.length == 0">{{ 'header.pay' | translate }}</button>
             </div>
         </div>
     </div>
