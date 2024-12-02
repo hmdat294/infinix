@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Log;
 
 use App\Services\ZaloPayService;
 
+use function Pest\Laravel\json;
 
 class OrderController extends Controller
 {
@@ -99,16 +100,14 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
-        $request_json = $request->input('order');
-        $request_data = json_decode($request_json, true);
-
+        $request_data = json_decode($request->input('order'));
         $order_group_data = [
             'user_id' => $request->user()->id,
             'external_order_id' => uniqid(),
             'payment_method' => $request_data->payment_method,
             'address' => $request_data->user->address,
             'phone_number' => $request_data->user->phone_number,
-            'fullname' => $request_data->user->fullname,
+            'fullname' => $request_data->user->name,
             'total' => $request_data->total
         ];
 
@@ -118,10 +117,10 @@ class OrderController extends Controller
         foreach ($shops as $shop) {
             $order_data = [
                 'user_id' => $request->user()->id,
-                'shop_id'=> $shop->id,
+                'shop_id'=> $shop->shop_id,
                 'order_group_id' => $order_group->id,
                 'total' => 0,
-                'note' => $shop->note
+                'note' => $shop->note ?? ''
             ];
 
             $order_total = 0;
@@ -132,18 +131,18 @@ class OrderController extends Controller
             foreach ($products as $product) {
                 $order->products()->attach([
                     $product->id => [
-                        'quantity' => $product->quantity,
-                        'price' => $product->price
+                        'quantity' => $product->pivot->quantity,
+                        'price' => $product->pivot->price
                     ]
                 ]);
 
-                $order_total += $product->quantity * $product->price;
+                $order_total += $product->pivot->quantity * $product->pivot->price;
             }
 
             $order->update(['total'=> $order_total]);
         }
 
-        switch ($order_group->shipping_method) {
+        switch ($request_data->payment_method) {
             case 'zalopay':
                 return $this->create_zalopay_order($order_group->external_order_id, $order_group->total);
             default:
@@ -153,10 +152,9 @@ class OrderController extends Controller
 
     public function create_zalopay_order($external_order_id, $total)
     {
-
+        Log::info('create_zalopay_order: ' . $external_order_id . ' - ' . $total);
         $description = "Thanh toán đơn hàng #$external_order_id";
         $response = $this->zalopayService->createOrder($external_order_id, $total, $description);
-
         if ($response['return_code'] == 1) {
             return response()->json(['order_url' => $response['order_url'], 'success' => true]);
         }
