@@ -13,6 +13,8 @@ class OrderGroup extends Model
 
     protected $fillable = [
         'user_id',
+        'external_order_id',
+        'total',
         'payment_method',
         'payment_status',
         'fullname',
