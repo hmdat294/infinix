@@ -67,7 +67,7 @@
                     -{{product.discount | number:'1.0-0'}}%
                 </span>
             </div>
-            <img [src]="product.images[0].image" alt="" style="height: 150px;" class="w-fill object-fit-cover">
+            <img [src]="product.images[0]?.image" alt="" style="height: 150px;" class="w-fill object-fit-cover">
             <div class="layout-vertical gap-20 w-fill p-10"
                 style="justify-content: space-between; height: calc(100% - 150px);">
                 <div class="layout-vertical cursor-pointer" (click)="viewProductDetail(product.id)">

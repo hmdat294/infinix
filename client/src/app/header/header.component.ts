@@ -257,28 +257,28 @@ export class HeaderComponent implements OnInit {
     this.diaLogHeader = (this.diaLogHeader == action) ? '' : action;
   }
 
-  paymentVnpay() {
-    const data = {
-      'price': 15000,
-    }
-    this.paymentService.paymentVnpay(data).subscribe(
-      (response) => {
-        if (response.url)
-          window.location.href = response.url;
-      }
-    );
-  }
+  // paymentVnpay() {
+  //   const data = {
+  //     'price': 15000,
+  //   }
+  //   this.paymentService.paymentVnpay(data).subscribe(
+  //     (response) => {
+  //       if (response.url)
+  //         window.location.href = response.url;
+  //     }
+  //   );
+  // }
 
-  paymentZalopay() {
-    const data = {
-      'price': 19000,
-    }
-    this.paymentService.paymentZalopay(data).subscribe(
-      (response) => {
-        if (response.url)
-          window.location.href = response.url;
-      }
-    );
-  }
+  // paymentZalopay() {
+  //   const data = {
+  //     'price': 19000,
+  //   }
+  //   this.paymentService.paymentZalopay(data).subscribe(
+  //     (response) => {
+  //       if (response.url)
+  //         window.location.href = response.url;
+  //     }
+  //   );
+  // }
 
 }

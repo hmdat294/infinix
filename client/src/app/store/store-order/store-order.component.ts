@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { CurrencyVNDPipe } from '../../currency-vnd.pipe';
 import { SettingService } from '../../service/setting.service';
+import { PaymentService } from '../../service/payment.service';
 
 @Component({
   selector: 'app-store-order',
@@ -13,17 +14,22 @@ import { SettingService } from '../../service/setting.service';
 export class StoreOrderComponent implements OnInit {
   tabAccordion: string = '';
 
-  orders:any = [1, 2, 3, 4, 5];
-  product_order:any = [1, 2];
+  orders: any = [];
 
   constructor(
     private settingService: SettingService,
+    private paymentService: PaymentService,
     private el: ElementRef,
-  ) {
-  }
-  
+  ) { }
+
   ngOnInit(): void {
-      
+
+    this.paymentService.getOrder().subscribe(
+      (data: any) => {
+        this.orders = data.data;
+        console.log(data);
+      }
+    )
   }
 
   tabChild(tab: string) {

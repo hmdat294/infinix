@@ -45,6 +45,8 @@ export class CheckoutComponent implements OnInit {
           });
 
         this.cart = JSON.parse(decodeURIComponent(escape(atob(params['data']))));
+        console.log(this.cart);
+
 
       } catch (error) {
         this.router.navigate(['/']);
@@ -88,9 +90,11 @@ export class CheckoutComponent implements OnInit {
       this.empty_user = false;
       console.log(JSON.stringify(this.cart));
 
-      this.paymentSrevice.order({ 'order': JSON.stringify(this.cart) }).subscribe(
+      this.paymentSrevice.postOrder({ 'order': JSON.stringify(this.cart) }).subscribe(
         (data) => {
           console.log(data);
+          if (data.order_url)
+            window.location.href = data.order_url;
         });
 
     }
