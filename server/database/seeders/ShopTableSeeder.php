@@ -13,15 +13,15 @@ class ShopTableSeeder extends Seeder
      */
     public function run(): void
     {
-        $users = User::all();
-        foreach ($users as $user) {
-            $shop = $user->shop()->create([
-                'name' => 'Shop ' . $user->id,
-            ]);
+        // $users = User::all();
+        // foreach ($users as $user) {
+        //     $shop = $user->shop()->create([
+        //         'name' => 'Shop ' . $user->id,
+        //     ]);
 
-            $shop->categories()->create([
-                'name' => 'Category 1',
-            ]);
-        };
+        //     $shop->categories()->create([
+        //         'name' => 'Category 1',
+        //     ]);
+        // };
     }
 }

@@ -18,6 +18,7 @@ class OrderGroup extends Model
         'payment_method',
         'payment_status',
         'fullname',
+        'email',
         'address',
         'phone_number',
     ];

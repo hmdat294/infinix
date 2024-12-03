@@ -29,11 +29,13 @@
                     </div>
                     <div class="layout-horizontal align-center-center gap-20 w-fill">
                         <div class="w-hug layout-vertical align-center-center px-10">
-                            <p class="text-secondary text-body text-center">{{'friend_profile.followers' | translate}}</p>
+                            <p class="text-secondary text-body text-center">{{'friend_profile.followers' | translate}}
+                            </p>
                             <p class="text-primary text-body-strong">{{user?.follower_count}}</p>
                         </div>
                         <div class="w-hug layout-vertical align-center-center px-10">
-                            <p class="text-secondary text-body text-center">{{'friend_profile.following' | translate}}</p>
+                            <p class="text-secondary text-body text-center">{{'friend_profile.following' | translate}}
+                            </p>
                             <p class="text-primary text-body-strong">{{user?.following_count}}</p>
                         </div>
                     </div>
@@ -55,8 +57,9 @@
                                     {{'friend_profile.unfriend' | translate}}
                                 </button>
                                 <button type="button"
-                                    class="cursor-pointer button-accent p-5 w-fill" (click)="followUser(user?.id)">
-                                    {{'friend_profile.follow' | translate}}
+                                    class="cursor-pointer button-{{user?.is_followed?'standard':'accent'}} p-5 w-fill"
+                                    (click)="followUser(user?.id)">
+                                    {{user?.is_followed ? ('friend_profile.unfollow' | translate) : ('friend_profile.follow' | translate)}}
                                 </button>
 
                             </div>

@@ -345,7 +345,11 @@ export class FriendProfileComponent implements OnInit {
     this.authService.followUser(user_id).subscribe(
       (response) => {
         console.log(response);
-        // this.user.follower_count++;
+        this.user.is_followed = response.data.is_followed;
+
+        if (response.data.is_followed) this.user.follower_count++;
+        else this.user.follower_count--;
+
       });
   }
 
