@@ -31,72 +31,6 @@ class OrderController extends Controller
         return OrderGroupResource::collection($order_groups);
     }
 
-    // public function store(Request $request)
-    // {
-    //     Log::info('store: ' . json_encode($request->all()));
-    //     $order_group_data = $request->only(['payment_method', 'address', 'phone_number', 'fullname']);
-    //     $order_group_data['user_id'] = $request->user()->id;
-
-    //     $order_group = OrderGroup::create($order_group_data);
-    //     $total_order_group = 0;
-
-    //     $products = $request->input('products');
-    //     $grouped_products = collect($products)->groupBy('shop_id');
-
-    //     Log::info($grouped_products);
-
-    //     foreach ($grouped_products as $shop_id => $products) {
-    //         $total = 0;
-
-    //         foreach ($products as $product) {
-    //             $total += $product['price'] * $product['quantity'];
-    //             Log::info('total: ' . $total);
-    //         }
-
-    //         $total_order_group += $total;
-    //         Log::info('total_order_group: ' . $total_order_group);
-
-    //         $order_data = [
-    //             'user_id' => $request->user()->id,
-    //             'total' => $total,
-    //             'status' => 'pending',
-    //             'note' => $request->input('notes.' . $shop_id),
-    //             'shop_id' => $shop_id,
-    //             'order_group_id' => $order_group->id
-    //         ];
-
-    //         $order = Order::create($order_data);
-
-    //         foreach ($products as $product) {
-    //             $product_id = $product['id'];
-    //             $product_price = $product['price'];
-    //             $product_quantity = $product['quantity'];
-
-    //             $order->products()->syncWithoutDetaching([
-    //                 $product_id => [
-    //                     'quantity' => $product_quantity,
-    //                     'price' => $product_price
-    //                 ]
-    //             ]);
-    //         }
-
-    //         $order_group->orders()->save($order);
-    //     }
-
-    //     $order_group->total = $total_order_group;
-    //     $order_group->save();
-    //     Log::info('total_order_group updated: ' . $order_group->total);
-
-    //     switch ($order_group->payment_method) {
-    //         case 'zalopay':
-    //             return $this->createZaloPayOrder($order_group->id);
-    //         case 'cash':
-    //             $order_group->update(['payment_status' => 'paid']);
-    //             return response()->json(['success' => true]);
-    //         default:
-    //             return response()->json(['error' => 'Phương thức thanh toán không hợp lệ'], 400);
-    //     }
-    // }
 
     public function store(Request $request)
     {
@@ -136,6 +70,8 @@ class OrderController extends Controller
                     ]
                 ]);
 
+                //$request->user()->cart()->products()->detach($product->id);
+
                 $order_total += $product->pivot->quantity * $product->pivot->price;
             }
 
@@ -152,7 +88,6 @@ class OrderController extends Controller
 
     public function create_zalopay_order($external_order_id, $total)
     {
-        Log::info('create_zalopay_order: ' . $external_order_id . ' - ' . $total);
         $description = "Thanh toán đơn hàng #$external_order_id";
         $response = $this->zalopayService->createOrder($external_order_id, $total, $description);
         if ($response['return_code'] == 1) {
@@ -161,31 +96,6 @@ class OrderController extends Controller
 
         return response()->json(['error' => $response['return_message']], 400);
     }
-
-    // public function createZaloPayOrder($order_group_id)
-    // {
-
-    //     $order_group = OrderGroup::findOrFail($order_group_id);
-    //     Log::info('external_order_id old: ' . $order_group->external_order_id);
-    //     $external_order_id = uniqid(); 
-    //     Log::info('external_order_id: ' . $external_order_id);
-    //     $order_group->external_order_id = $external_order_id;
-    //     $order_group->save();
-
-        
-    //     Log::info('external_order_id new: ' . $order_group->external_order_id);
-
-
-    //     $description = "Thanh toán đơn hàng #$external_order_id";
-
-    //     $response = $this->zalopayService->createOrder($external_order_id, $order_group->total, $description);
-
-    //     if ($response['return_code'] == 1) {
-    //         return response()->json(['order_url' => $response['order_url'], 'success' => true]);
-    //     }
-
-    //     return response()->json(['error' => $response['return_message']], 400);
-    // }
 
     public function callback(Request $request)
     {
@@ -201,11 +111,17 @@ class OrderController extends Controller
         $external_order_id = explode('_', $data['app_trans_id'])[1];
         $order_group = OrderGroup::where('external_order_id', $external_order_id)->first();
         if (!$order_group) {
-            //return response()->json(['error'=> 'Không tìm thấy đơn hàng'], 404);
-            Log::info('Không tìm thấy đơn hàng');
+            return response()->json(['error'=> 'Không tìm thấy đơn hàng'], 404);
         }
 
         $order_group->update(['payment_status' => 'paid']);
+
+        $user = User::find($order_group->user_id);
+
+        $products = $order_group->products();
+        $products->each(function ($product) use ($user) {
+            $user->cart()->products()->detach($product->id);
+        });
 
         return response()->json(['success' => true]);
     }

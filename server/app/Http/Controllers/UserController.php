@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserFollowUserEvent;
 use App\Http\Resources\PostMediaResource;
 use App\Http\Resources\UserResource;
 use App\Models\Profile as ProfileModel;
@@ -118,12 +119,14 @@ class UserController extends Controller
         $user = UserModel::find($user_id);
 
         if ($request->user()->followings->contains($user)) {
-            return response()->json([
-                'message' => 'User is already followed',
-            ]);
+            $request->user()->followings->detach($user);
+            event(new UserFollowUserEvent($request->user()->id, $user_id, "unfollow"));
+        } else {
+            $request->user()->followings()->attach($user);
+            event(new UserFollowUserEvent($request->user()->id, $user_id, "follow"));
         }
 
-        $request->user()->followings()->attach($user);
+        
         return new UserResource($user);
     }
 
