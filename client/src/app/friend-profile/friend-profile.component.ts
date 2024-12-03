@@ -345,15 +345,7 @@ export class FriendProfileComponent implements OnInit {
     this.authService.followUser(user_id).subscribe(
       (response) => {
         console.log(response);
-        this.user.follower_count++;
-      });
-  }
-
-  unFollowUser(user_id: number) {
-    this.authService.unFollowUser(user_id).subscribe(
-      (response) => {
-        console.log(response);
-        this.user.follower_count--;
+        // this.user.follower_count++;
       });
   }
 

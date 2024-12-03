@@ -24,6 +24,14 @@ export class StoreOrderComponent implements OnInit {
     'canceled': 'Đã hủy'
   }
 
+  order_color: any = {
+    'pending': 'text-system-caution',
+    'received': 'text-system-attention',
+    'delivered': 'text-system-success',
+    'delivering': 'text-system-attention',
+    'canceled': 'text-system-critical'
+  }
+
   constructor(
     private settingService: SettingService,
     private paymentService: PaymentService,

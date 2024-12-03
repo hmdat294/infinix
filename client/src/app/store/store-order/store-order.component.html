@@ -29,8 +29,8 @@
                     (click)="tabChild('order_detail_'+i)">
                     <div class="w-fill-column-3" style="text-transform: uppercase;">{{order.external_order_id}}</div>
                     <div class="w-fill-column-2">
-                        <img class="object-fit-cover rounded-4" [src]="order.orders[0].products[0]?.product_image" height="70px"
-                            width="50px" alt>
+                        <img class="object-fit-cover rounded-4" [src]="order.orders[0].products[0]?.product_image"
+                            height="70px" width="50px" alt>
                     </div>
                     <div class="w-fill">{{order.orders[0].products[0].name}}</div>
                     <div class="w-fill-column-2">{{order.created_at | date:'dd/MM/yyyy'}}</div>
@@ -46,15 +46,15 @@
                                 <div class="layout-horizontal align-center-space-between p-10 border-bottom">
                                     <p class="text-body-strong">Cửa hàng:</p>
                                     <div class="layout-horizontal align-center-center gap-10 w-hug">
-                                        <p class="text-body">{{shop?.name}}</p>
-                                        <img [src]="shop?.shop_logo" alt=""
-                                            class="object-fit-cover rounded-circle"
+                                        <p class="text-body">{{shop?.shop_name}}</p>
+                                        <img [src]="shop?.shop_logo" alt="" class="object-fit-cover rounded-circle"
                                             style="width: 30px; height: 30px;">
                                     </div>
                                 </div>
                                 <div class="layout-horizontal align-center-space-between p-10 border-bottom">
                                     <p class="text-body-strong">Trạng thái:</p>
-                                    <p class="text-system-success text-body">{{shop?.status}}</p>
+                                    <p class="text-body" [class]="order_color[shop?.status]">
+                                        {{order_status[shop?.status]}}</p>
                                 </div>
                                 <div class="layout-horizontal align-center-space-between p-10">
                                     <p class="text-body-strong">Ghi chú:</p>
@@ -70,8 +70,8 @@
                                     <td>Tổng tiền</td>
                                 </tr>
                                 <tr class="h-hug border-top" *ngFor="let product of shop.products">
-                                    <td><img class="object-fit-cover rounded-4" [src]="product?.product_image" height="50px"
-                                            width="50px" alt></td>
+                                    <td><img class="object-fit-cover rounded-4" [src]="product?.product_image"
+                                            height="50px" width="50px" alt></td>
                                     <td>{{product.name}}</td>
                                     <td>{{product.price | currencyVND}}</td>
                                     <td>{{product.quantity}}</td>
