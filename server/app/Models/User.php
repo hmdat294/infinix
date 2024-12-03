@@ -54,12 +54,12 @@ class User extends Authenticatable
 
     public function followings()
     {
-        return $this->belongsToMany(User::class, 'relationships', 'related_user_id', 'user_id')->wherePivot('type', 'follow');
+        return $this->belongsToMany(User::class, 'relationships', 'user_id', 'related_user_id')->wherePivot('type', 'follow');
     }
 
     public function followers()
     {
-        return $this->belongsToMany(User::class, 'relationships', 'user_id', 'related_user_id')->wherePivot('type', 'follow');
+        return $this->belongsToMany(User::class, 'relationships', 'related_user_id', 'user_id')->wherePivot('type', 'follow');
     }
 
     public function posts()
