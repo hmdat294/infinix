@@ -70,7 +70,7 @@ class OrderController extends Controller
                     ]
                 ]);
 
-                //$request->user()->cart()->products()->detach($product->id);
+                $request->user()->cart()->products()->detach($product->id);
 
                 $order_total += $product->pivot->quantity * $product->pivot->price;
             }
@@ -116,12 +116,12 @@ class OrderController extends Controller
 
         $order_group->update(['payment_status' => 'paid']);
 
-        $user = User::find($order_group->user_id);
+        // $user = User::find($order_group->user_id);
 
-        $products = $order_group->products();
-        $products->each(function ($product) use ($user) {
-            $user->cart()->products()->detach($product->id);
-        });
+        // $products = $order_group->products();
+        // $products->each(function ($product) use ($user) {
+        //     $user->cart()->products()->detach($product->id);
+        // });
 
         return response()->json(['success' => true]);
     }
