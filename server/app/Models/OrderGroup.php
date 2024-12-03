@@ -20,6 +20,7 @@ class OrderGroup extends Model
         'fullname',
         'address',
         'phone_number',
+        'email'
     ];
 
     public function user()
