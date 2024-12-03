@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Log;
 use App\Http\Resources\ReportResource;
 use App\Events\UserBlockUserEvent;
 use App\Models\BlockedUser;
+use App\Models\Notification;
 
 class UserController extends Controller
 {
@@ -124,6 +125,11 @@ class UserController extends Controller
         } else {
             $request->user()->followings()->attach($user);
             event(new UserFollowUserEvent($request->user()->id, $user_id, "follow"));
+            Notification::create([
+                'user_id' => $user->id,
+                'target_user_id' => $request->user()->id,
+                'action_type' => 'user_follow',
+            ]);
         }
 
         

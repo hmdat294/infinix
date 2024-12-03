@@ -17,12 +17,14 @@ class OrderResource extends JsonResource
         $data = parent::toArray($request);
 
         $data['products'] = $this->products->map(function ($product) {
-            return [
-                'id' => $product->id,
-                'name' => $product->name,
-                'price' => $product->pivot->price,
-                'quantity' => $product->pivot->quantity,
-            ];
+            // return [
+            //     'id' => $product->id,
+            //     'name' => $product->name,
+            //     'price' => $product->pivot->price,
+            //     'quantity' => $product->pivot->quantity,
+            // ];
+            $product = new ProductResource($product);
+            $product['quantity'] = $product->pivot->quantity;
         });
 
         return $data;
