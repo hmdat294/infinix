@@ -119,7 +119,7 @@ class UserController extends Controller
     {
         $user = UserModel::find($user_id);
 
-        if ($request->user()->followings()->contains($user)) {
+        if ($request->user()->followings()->where('related_user_id', $user->id)->exists()) {
             $request->user()->followings()->detach($user);
         } else {
             $request->user()->followings()->attach($user);
