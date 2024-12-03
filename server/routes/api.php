@@ -71,6 +71,7 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
 
     Route::get('shop', [ShopController::class, 'index']);
     Route::post('shop', [ShopController::class, 'store']);
+    Route::get('shop/{id}/orders', [OrderController::class, 'byShop']);
     Route::get('shop/{id}', [ShopController::class, 'show']);
     Route::post('shop/{id}', [ShopController::class, 'update']);
     Route::delete('shop/{id}', [ShopController::class, 'destroy']);

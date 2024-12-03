@@ -135,4 +135,11 @@ class OrderController extends Controller
 
         return new OrderResource($order);
     }
+
+    public function byShop(Request $request, $shop_id)
+    {
+        $orders = Order::where('shop_id', $shop_id)->get();
+
+        return OrderResource::collection($orders);
+    }
 }
