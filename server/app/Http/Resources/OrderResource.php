@@ -17,15 +17,15 @@ class OrderResource extends JsonResource
         $data = parent::toArray($request);
 
         $data['products'] = $this->products->map(function ($product) {
-            // return [
-            //     'id' => $product->id,
-            //     'name' => $product->name,
-            //     'price' => $product->pivot->price,
-            //     'quantity' => $product->pivot->quantity,
-            // ];
             $product = new ProductResource($product);
             $product['quantity'] = $product->pivot->quantity;
+            return $product;
         });
+        $data['payment_method'] = $this->group->payment_method;
+        $data['payment_status'] = $this->group->payment_status;
+        $data['fullname'] = $this->group->fullname;
+        $data['address'] = $this->group->address;
+        $data['phone_number'] = $this->group->phone_number;
 
         return $data;
     }
