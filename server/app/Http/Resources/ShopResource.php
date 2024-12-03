@@ -15,6 +15,7 @@ class ShopResource extends JsonResource
     public function toArray(Request $request): array
     {
         $data = parent::toArray($request);
+        $data["total_products_sold"] = $this->total_products_sold;
         $data['categories'] = CategoryResource::collection($this->categories);
         $data['product_count'] = $this->products->count() ?? 0;
         $data['category_count'] = $this->categories->count() ?? 0;
