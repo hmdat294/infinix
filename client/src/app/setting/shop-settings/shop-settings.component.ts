@@ -52,7 +52,7 @@ export class ShopSettingsComponent implements OnInit {
             (res) => {
               this.shop = res.data;
 
-              const arrAddress = this.shop.address.split("|");
+              const arrAddress = this.shop.address?.split(" | ");
 
               this.detail = arrAddress[0];
               this.ward = arrAddress[1];

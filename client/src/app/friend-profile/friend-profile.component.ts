@@ -76,7 +76,7 @@ export class FriendProfileComponent implements OnInit {
         this.authService.getUser(user_id).subscribe(
           (response) => {
             this.user = response.data;
-            // console.log(this.user);
+            console.log(this.user);
 
             this.authService.getImageByUser(this.user.id).subscribe(
               (response) => {
@@ -340,6 +340,22 @@ export class FriendProfileComponent implements OnInit {
     },
   };
 
+
+  followUser(user_id: number) {
+    this.authService.followUser(user_id).subscribe(
+      (response) => {
+        console.log(response);
+        this.user.follower_count++;
+      });
+  }
+
+  unFollowUser(user_id: number) {
+    this.authService.unFollowUser(user_id).subscribe(
+      (response) => {
+        console.log(response);
+        this.user.follower_count--;
+      });
+  }
 
   addFriend(receiver_id: number): void {
     this.authService.addFriend(receiver_id).subscribe(

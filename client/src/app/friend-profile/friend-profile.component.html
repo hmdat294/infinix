@@ -9,13 +9,11 @@
                 <div class="layout-vertical py-20 pb-20 gap-20 align-center-center" style="margin-top: -60px;">
                     <img [src]="user?.profile.profile_photo" alt="" class="rounded-circle border border-card-default"
                         style="width: 120px; height: 120px;">
-
                     <div
                         class="layout-vertical gap-5 w-fill align-center-center pb-20 border-bottom border-card-default">
                         <p class="text-primary text-subtitle">{{user?.profile.display_name}}</p>
                         <p class="text-primary text-body">{{user?.email}}</p>
-                        <p class="text-primary text-caption">{{user?.biography}}
-                        </p>
+                        <p class="text-primary text-caption">{{user?.biography}}</p>
                     </div>
                     <div class="layout-horizontal align-center-center gap-20 w-fill">
                         <div class="w-hug layout-vertical align-center-center px-10">
@@ -28,34 +26,49 @@
                             </p>
                             <p class="text-primary text-body-strong">{{listPost.length}}</p>
                         </div>
-                        <!-- <div class="w-hug layout-vertical align-center-center px-10">
-                            <p class="text-secondary text-body text-center">Người theo dõi</p>
+                    </div>
+                    <div class="layout-horizontal align-center-center gap-20 w-fill">
+                        <div class="w-hug layout-vertical align-center-center px-10">
+                            <p class="text-secondary text-body text-center">{{'friend_profile.followers' | translate}}</p>
                             <p class="text-primary text-body-strong">{{user?.follower_count}}</p>
                         </div>
                         <div class="w-hug layout-vertical align-center-center px-10">
-                            <p class="text-secondary text-body text-center">Đang theo dõi</p>
+                            <p class="text-secondary text-body text-center">{{'friend_profile.following' | translate}}</p>
                             <p class="text-primary text-body-strong">{{user?.following_count}}</p>
-                        </div> -->
+                        </div>
                     </div>
                     <div class="layout-horizontal px-20 align-center-space-between w-fill gap-10">
-                        <button *ngIf="!user?.is_friend && !user?.is_sent_friend_request" type="button"
-                            class="cursor-pointer button-accent p-5 w-fill" (click)="addFriend(user?.id)">
-                            {{'friend_profile.add_friend' | translate}}
-                        </button>
-                        <button *ngIf="!user?.is_friend && user?.is_sent_friend_request" type="button"
-                            class="cursor-pointer button-standard p-5 w-fill" (click)="cancelRequest(user?.id)">
-                            {{'friend_profile.cancel_request_friend' | translate}}
-                        </button>
-                        <button *ngIf="user?.is_friend" type="button" class="cursor-pointer button-standard p-5 w-fill"
-                            (click)="unFriend(user?.id)">
-                            {{'friend_profile.unfriend' | translate}}
-                        </button>
-                        <button *ngIf="user?.is_friend || (!user?.is_friend && !user?.accept_stranger_message)"
-                            type="button" class="cursor-pointer button-accent p-5 w-fill"
-                            (click)="createChat(user?.id)">
-                            {{'friend_profile.chat' | translate}}
-                        </button>
-                        <button type="button" class="user-hover button-standard p-5 w-hug">
+
+                        <div class="layout-vertical gap-10 w-fill">
+                            <div class="layout-horizontal gap-10">
+
+                                <button *ngIf="!user?.is_friend && !user?.is_sent_friend_request" type="button"
+                                    class="cursor-pointer button-accent p-5 w-fill" (click)="addFriend(user?.id)">
+                                    {{'friend_profile.add_friend' | translate}}
+                                </button>
+                                <button *ngIf="!user?.is_friend && user?.is_sent_friend_request" type="button"
+                                    class="cursor-pointer button-standard p-5 w-fill" (click)="cancelRequest(user?.id)">
+                                    {{'friend_profile.cancel_request_friend' | translate}}
+                                </button>
+                                <button *ngIf="user?.is_friend" type="button"
+                                    class="cursor-pointer button-standard p-5 w-fill" (click)="unFriend(user?.id)">
+                                    {{'friend_profile.unfriend' | translate}}
+                                </button>
+                                <button type="button"
+                                    class="cursor-pointer button-accent p-5 w-fill" (click)="followUser(user?.id)">
+                                    {{'friend_profile.follow' | translate}}
+                                </button>
+
+                            </div>
+                            <button *ngIf="user?.is_friend || (!user?.is_friend && !user?.accept_stranger_message)"
+                                type="button" class="cursor-pointer button-accent p-5 w-fill"
+                                (click)="createChat(user?.id)">
+                                {{'friend_profile.chat' | translate}}
+                            </button>
+                        </div>
+
+
+                        <button type="button" class="user-hover button-subtle p-5 w-hug">
                             <i class="icon-size-20 icon icon-ic_fluent_more_horizontal_20_filled"></i>
 
                             <div style="height: 45px; width: 150px; overflow: visible; z-index: 1;"

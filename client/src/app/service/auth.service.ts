@@ -166,4 +166,14 @@ export class AuthService {
     const headers = this.getToken();
     return this.http.get(`${this.apiUrl}/friend-suggestions`, { headers });
   }
+
+  followUser(user_id: number): Observable<any> {
+    const headers = this.getToken();
+    return this.http.post(`${this.apiUrl}/follow/${user_id}`, {}, { headers });
+  }
+
+  unFollowUser(user_id: number): Observable<any> {
+    const headers = this.getToken();
+    return this.http.post(`${this.apiUrl}/unfollow/${user_id}`, {}, { headers });
+  }
 }
