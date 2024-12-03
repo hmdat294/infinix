@@ -21,6 +21,7 @@ class OrderGroup extends Model
         'email',
         'address',
         'phone_number',
+        'email'
     ];
 
     public function user()

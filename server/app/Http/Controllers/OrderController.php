@@ -7,6 +7,7 @@ use App\Http\Resources\OrderGroupResource;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderGroup;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
 
@@ -71,8 +72,13 @@ class OrderController extends Controller
                     ]
                 ]);
 
-                $request->user()->cart()->products()->detach($product->id);
+                $detail_product = Product::find($product->id);
+                $detail_product->stock -= $product->pivot->quantity;
+                $detail_product->save();
 
+                if ($request->user()->cart()->exists()) {
+                    $request->user()->cart->products()->detach($product->id);
+                }
                 $order_total += $product->pivot->quantity * $product->pivot->price;
             }
 
