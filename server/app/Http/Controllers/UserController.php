@@ -119,12 +119,10 @@ class UserController extends Controller
     {
         $user = UserModel::find($user_id);
 
-        if ($request->user()->followings->contains($user)) {
-            $request->user()->followings->detach($user);
-            event(new UserFollowUserEvent($request->user()->id, $user_id, "unfollow"));
+        if ($request->user()->followings()->contains($user)) {
+            $request->user()->followings()->detach($user);
         } else {
             $request->user()->followings()->attach($user);
-            event(new UserFollowUserEvent($request->user()->id, $user_id, "follow"));
             Notification::create([
                 'user_id' => $user->id,
                 'target_user_id' => $request->user()->id,
