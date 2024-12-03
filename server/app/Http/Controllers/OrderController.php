@@ -42,6 +42,7 @@ class OrderController extends Controller
             'address' => $request_data->user->address,
             'phone_number' => $request_data->user->phone_number,
             'fullname' => $request_data->user->name,
+            'email' => $request_data->user->email,
             'total' => $request_data->total
         ];
 
