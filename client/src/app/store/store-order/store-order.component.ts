@@ -16,6 +16,14 @@ export class StoreOrderComponent implements OnInit {
 
   orders: any = [];
 
+  order_status: any = {
+    'pending': 'Chờ xử lý',
+    'received': 'Đã nhận đơn',
+    'delivered': 'Đã giao hàng',
+    'delivering': 'Đang giao',
+    'canceled': 'Đã hủy'
+  }
+
   constructor(
     private settingService: SettingService,
     private paymentService: PaymentService,
