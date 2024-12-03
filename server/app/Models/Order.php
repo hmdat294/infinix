@@ -30,4 +30,9 @@ class Order extends Model
         return $this->belongsToMany(Product::class, 'order_details', 'order_id', 'product_id')
             ->withPivot('quantity', 'price');
     }
+
+    public function group()
+    {
+        return $this->belongsTo(OrderGroup::class, 'order_group_id');
+    }
 }
