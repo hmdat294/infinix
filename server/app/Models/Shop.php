@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Shop extends Model
 {
@@ -38,5 +39,13 @@ class Shop extends Model
     public function orders()
     {
         return $this->hasMany(Order::class);
+    }
+
+    public function getTotalProductsSoldAttribute()
+    {
+        return DB::table('order_details')
+            ->join('products', 'order_details.product_id', '=', 'products.id')
+            ->where('products.shop_id', $this->id)
+            ->sum('order_details.quantity');
     }
 }
