@@ -97,6 +97,8 @@ export class StoreProductComponent implements OnInit {
     if (this.keyword && !/^\s*$/.test(this.keyword)) {
       this.listProduct = this.listProduct.filter((product: any) => {
         const keyword = this.settingService.removeVietnameseTones(this.keyword.toLowerCase().trim());
+        console.log(keyword);
+        
         const name = this.settingService.removeVietnameseTones(product.name.toLowerCase() || "");
 
         return name.includes(keyword);

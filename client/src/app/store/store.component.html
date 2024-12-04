@@ -24,14 +24,6 @@
                             </p>
                         </button>
                     </div>
-                    <div class="border-top">
-                        <button type="button" class="button-subtle w-fill gap-15 px-20 py-15" style="cursor: pointer;"
-                        (click)="tabShop('tab_infomation')">
-                            <p class="text-secondary text-body-strong w-fill layout">
-                                Thông tin
-                            </p>
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>
@@ -42,8 +34,5 @@
         <app-store-order *ngIf="tab_shop == 'tab_order'"
             class="w-fill-column-7 h-fill layout-vertical gap-20 py-20 overflow-scroll-vertical hide-in-tablet hide-in-mobile">
         </app-store-order>
-        <app-store-infomation *ngIf="tab_shop == 'tab_infomation'"
-            class="w-fill-column-7 h-fill layout-vertical gap-20 py-20 overflow-scroll-vertical hide-in-tablet hide-in-mobile">
-        </app-store-infomation>
     </article>
 </section>

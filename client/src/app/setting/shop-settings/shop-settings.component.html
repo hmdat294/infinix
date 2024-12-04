@@ -282,12 +282,18 @@
                     (click)="tabShop('tab_feedback')">
                     {{ 'setting.shop_settings.feedback.title' | translate }} 
                 </button>
+                <button type="button" class="list-item tab-shop text-primary w-hug"
+                    [class]="tab_shop == 'tab_voucher'?'tab-shop-active':''" [disabled]="tab_shop == 'tab_voucher'"
+                    (click)="tabShop('tab_voucher')">
+                    {{ 'setting.shop_settings.voucher.title' | translate }} 
+                </button>
             </div>
 
             <app-category *ngIf="tab_shop == 'tab_category'" class="ayout-vertical w-fill"></app-category>
             <app-product *ngIf="tab_shop == 'tab_product'" class="layout-vertical w-fill"></app-product>
             <app-order *ngIf="tab_shop == 'tab_order'" class="layout-vertical w-fill"></app-order>
             <app-feedback *ngIf="tab_shop == 'tab_feedback'" class="layout-vertical w-fill"></app-feedback>
+            <app-voucher *ngIf="tab_shop == 'tab_voucher'" class="layout-vertical w-fill"></app-voucher>
         </div>
 
     </div>

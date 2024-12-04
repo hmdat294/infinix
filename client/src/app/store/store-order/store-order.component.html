@@ -13,7 +13,7 @@
 
     <div class="layout-vertical gap-20 p-20 border-top border-card-default w-fill overflow-scroll-vertical">
 
-        <div class="text-body text-primary text-center w-fill">
+        <div class="text-body text-primary text-center w-fill" *ngIf="orders.length > 0">
             <div class="w-fill gap-20 layout-horizontal text-body-strong p-10">
                 <div class="w-fill-column-3">Mã</div>
                 <div class="w-fill-column-2">Hình ảnh</div>
@@ -29,8 +29,8 @@
                     (click)="tabChild('order_detail_'+i)">
                     <div class="w-fill-column-3" style="text-transform: uppercase;">{{order.external_order_id}}</div>
                     <div class="w-fill-column-2">
-                        <img class="object-fit-cover rounded-4" [src]="order.orders[0].products[0]?.product_image"
-                            height="70px" width="50px" alt>
+                        <img class="object-fit-cover rounded-4" [src]="order.orders[0].products[0]?.images[0].image"
+                            height="70px" alt>
                     </div>
                     <div class="w-fill">{{order.orders[0].products[0].name}}</div>
                     <div class="w-fill-column-2">{{order.created_at | date:'dd/MM/yyyy'}}</div>
@@ -70,7 +70,7 @@
                                     <td>Tổng tiền</td>
                                 </tr>
                                 <tr class="h-hug border-top" *ngFor="let product of shop.products">
-                                    <td><img class="object-fit-cover rounded-4" [src]="product?.product_image"
+                                    <td><img class="object-fit-cover rounded-4" [src]="product?.images[0].image"
                                             height="50px" width="50px" alt></td>
                                     <td>{{product.name}}</td>
                                     <td>{{product.price | currencyVND}}</td>
@@ -114,6 +114,10 @@
             </div>
         </div>
 
+        <div *ngIf="orders.length == 0"
+            class="w-fill py-20 card-background-default border border-card-default rounded-8">
+            <p class="text-body text-secondary text-center">Bạn chưa có đơn hàng nào!</p>
+        </div>
     </div>
 
 </div>

@@ -70,11 +70,6 @@
                             [disabled]="tab_shop == 'tab_discount'" (click)="tabShop('tab_discount')">
                             Giảm giá
                         </button>
-                        <button type="button" class="list-item tab-shop text-primary w-hug"
-                            [class]="tab_shop == 'tab_featured'?'tab-shop-active':''"
-                            [disabled]="tab_shop == 'tab_featured'" (click)="tabShop('tab_featured')">
-                            Nổi bật
-                        </button>
                     </div>
 
                     <select class="control text-primary" (change)="sortProduct()" name="sort_by_id"

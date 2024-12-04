@@ -576,6 +576,9 @@
             },
             "feedback": {
                 "title": "Feedback"
+            },
+            "voucher": {
+                "title": "Voucher"
             }
         }
     },

@@ -27,9 +27,9 @@
                     -{{product.discount | number:'1.0-0'}}%
                 </span>
             </div>
-            <img [src]="product.images[0]?.image" alt="" style="height: 150px;" class="w-fill object-fit-cover">
+            <img [src]="product.images[0]?.image" alt="" style="height: 200px;" class="w-fill object-fit-cover">
             <div class="layout-vertical gap-20 w-fill p-10"
-                style="justify-content: space-between; height: calc(100% - 150px);">
+                style="justify-content: space-between; height: calc(100% - 200px);">
                 <div class="layout-vertical cursor-pointer" (click)="viewProductDetail(product.id)">
                     <p class="text-primary text-body-strong">
                         {{shortenTextByWords(product.name, 5)}}</p>

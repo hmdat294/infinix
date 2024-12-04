@@ -576,6 +576,9 @@
             },
             "feedback": {
                 "title": "Đánh giá"
+            },
+            "voucher": {
+                "title": "Mã giảm giá"
             }
         }
     },
