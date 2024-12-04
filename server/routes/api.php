@@ -37,7 +37,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
-
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ZaloPayController;
 
 
@@ -58,16 +58,22 @@ Route::middleware(['guest'])->group(function () {
 
     // Route::post('/zalopay/create-order', [ZaloPayController::class, 'createOrder']);
     // Route::post('/zalopay/callback', [ZaloPayController::class, 'handleCallback']);
+
+    
+    Route::post('callback', [OrderController::class, 'callback']);
 });
 
 Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(function () {
 
+    Route::get('product/{id}/review', [ReviewController::class,'index']);
+    Route::post('product/{id}/review', [ReviewController::class, 'store']);
 
     Route::get('shop/{shop_id}/products', [ProductController::class, 'byShop']);
     Route::get('category/{category_id}/products', [ProductController::class, 'byCategory']);
 
     Route::get('shop', [ShopController::class, 'index']);
     Route::post('shop', [ShopController::class, 'store']);
+    Route::get('shop/{id}/orders', [OrderController::class, 'byShop']);
     Route::get('shop/{id}', [ShopController::class, 'show']);
     Route::post('shop/{id}', [ShopController::class, 'update']);
     Route::delete('shop/{id}', [ShopController::class, 'destroy']);
@@ -96,7 +102,6 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
     // Route::delete('order/{id}', [OrderController::class, 'destroy']);
 
     
-    Route::post('callback', [OrderController::class, 'callback']);
 
 
 

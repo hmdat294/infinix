@@ -27,6 +27,7 @@ class UserResource extends JsonResource
         $followings = collect();
 
         $is_sent_friend_request = false;
+        $is_followed = false;
 
         if ($request->user()) {
 
@@ -50,6 +51,10 @@ class UserResource extends JsonResource
             if ($friend_request) {
                 $is_sent_friend_request = true;
             }
+
+            if ($request->user()->followings->contains($this->id)) {
+                $is_followed = true;
+            }
         }
 
 
@@ -69,6 +74,7 @@ class UserResource extends JsonResource
             'profile' => new ProfileResource($this->profile),
             'permissions' => $this->permissions,
             'is_friend' => $friends->contains($this->id),
+            'is_followed' => $is_followed,
             'is_sent_friend_request' => $is_sent_friend_request,
             'friend_count' => $friends->count(),
             'follower_count' => $followers->count(),

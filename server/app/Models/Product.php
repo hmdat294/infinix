@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Product extends Model
 {
@@ -43,4 +44,17 @@ class Product extends Model
         return $this->hasMany(ProductImage::class);
     }
 
+    public function getTotalSoldAttribute()
+    {
+        return DB::table('order_details')
+            ->join('orders', 'order_details.order_id', '=', 'orders.id')
+            ->where('order_details.product_id', $this->id)
+            ->where('orders.status', 'delivered')
+            ->sum('order_details.quantity');
+    }
+
+    public function getAverageRatingAttribute()
+    {
+        return $this->reviews()->avg('rating');
+    }
 }
