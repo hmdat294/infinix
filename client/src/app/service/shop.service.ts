@@ -113,21 +113,29 @@ export class ShopService {
     return this.http.get(`${this.apiUrl}/cart`, { headers });
   }
 
-  //{ product_id , quantity }
   addProductToCart(value: any): Observable<any> {
     const headers = this.authService.getToken();
     return this.http.post(`${this.apiUrl}/cart/add-product`, value, { headers });
   }
 
-  //{ product_id , quantity }
   updateProductToCart(value: any): Observable<any> {
     const headers = this.authService.getToken();
     return this.http.post(`${this.apiUrl}/cart/update-product`, value, { headers });
   }
 
-  //{ product_id }
   removeProductToCart(value: any): Observable<any> {
     const headers = this.authService.getToken();
     return this.http.post(`${this.apiUrl}/cart/remove-product`, value, { headers });
+  }
+
+  //feedback
+  getFeedback(product_id: number): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.get(`${this.apiUrl}/product/${product_id}/review`, { headers });
+  }
+
+  postFeedback(data: any, product_id: number): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.post(`${this.apiUrl}/product/${product_id}/review`, data, { headers });
   }
 }

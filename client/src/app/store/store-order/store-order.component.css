@@ -7,3 +7,13 @@
 .table-info-bill td {
     padding: 15px 10px;
 }
+
+.rating .icon {
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.rating .icon.active {
+    color: rgb(255, 255, 0);
+}

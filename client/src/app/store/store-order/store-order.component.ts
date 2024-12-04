@@ -3,11 +3,13 @@ import { Component, ElementRef, OnInit } from '@angular/core';
 import { CurrencyVNDPipe } from '../../currency-vnd.pipe';
 import { SettingService } from '../../service/setting.service';
 import { PaymentService } from '../../service/payment.service';
+import { ShopService } from '../../service/shop.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-store-order',
   standalone: true,
-  imports: [CurrencyVNDPipe, CommonModule],
+  imports: [CurrencyVNDPipe, CommonModule, FormsModule],
   templateUrl: './store-order.component.html',
   styleUrl: './store-order.component.css'
 })
@@ -40,6 +42,7 @@ export class StoreOrderComponent implements OnInit {
   constructor(
     private settingService: SettingService,
     private paymentService: PaymentService,
+    private shopService: ShopService,
     private el: ElementRef,
   ) { }
 
@@ -52,6 +55,54 @@ export class StoreOrderComponent implements OnInit {
       }
     )
   }
+
+  product_feedback: any;
+  content_feedback: string = '';
+  stars: number[] = [1, 2, 3, 4, 5];
+  currentRating: number = 0;
+
+  viewDialogFeedback(product: any) {
+    this.product_feedback = product;
+    if (product == null) {
+      this.currentRating = 0;
+      this.content_feedback = '';
+    }
+  }
+
+  rate(rating: number): void {
+    this.currentRating = rating;
+  }
+
+  feedbackProduct() {
+
+    const data = {
+      'rating': this.currentRating,
+      'content': this.content_feedback
+    }
+
+    console.log(data);
+    console.log(this.product_feedback.id);
+
+
+    this.shopService.postFeedback(data, this.product_feedback.id).subscribe(
+      (data: any) => {
+        console.log(data);
+      });
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   tabChild(tab: string) {
     this.tabAccordion = this.settingService.tabChild(this.tabAccordion, tab, this.el);
