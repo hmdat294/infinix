@@ -47,7 +47,14 @@ class Product extends Model
     public function getTotalSoldAttribute()
     {
         return DB::table('order_details')
-            ->where('product_id', $this->id)
-            ->sum('quantity');
+            ->join('orders', 'order_details.order_id', '=', 'orders.id')
+            ->where('order_details.product_id', $this->id)
+            ->where('orders.status', 'delivered')
+            ->sum('order_details.quantity');
+    }
+
+    public function getAverageRatingAttribute()
+    {
+        return $this->reviews()->avg('rating');
     }
 }
