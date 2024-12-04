@@ -12,11 +12,15 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { QuillModule } from 'ngx-quill';
 import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { TranslateModule } from '@ngx-translate/core';
+import { ShopService } from '../service/shop.service';
+import { CurrencyVNDPipe } from '../currency-vnd.pipe';
+import { CheckoutService } from '../service/checkout.service';
+import { SettingService } from '../service/setting.service';
 
 @Component({
   selector: 'app-friend-profile',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule, EmojiModule, QuillModule, TranslateModule],
+  imports: [FormsModule, CommonModule, RouterModule, EmojiModule, QuillModule, TranslateModule, CurrencyVNDPipe],
   templateUrl: './friend-profile.component.html',
   styleUrl: './friend-profile.component.css'
 })
@@ -47,6 +51,11 @@ export class FriendProfileComponent implements OnInit {
   showMoreFriend: boolean = false;
   is_block_user: boolean = false;
   contentCommentInput: string = '';
+  listProduct: any = [];
+  productDetail_id: number = 0;
+  quantity: number = 1;
+  content_feedback: string = '';
+
 
   constructor(
     private route: ActivatedRoute,
@@ -56,6 +65,9 @@ export class FriendProfileComponent implements OnInit {
     private eventService: EventService,
     private authService: AuthService,
     private chatService: ChatService,
+    private shopService: ShopService,
+    private checkoutService: CheckoutService,
+    private settingService: SettingService,
     private router: Router,
     private sanitizer: DomSanitizer
   ) { }
@@ -77,6 +89,12 @@ export class FriendProfileComponent implements OnInit {
           (response) => {
             this.user = response.data;
             console.log(this.user);
+
+            this.shopService.getListProductByShop(this.user.shop_id).subscribe(
+              (response) => {
+                this.listProduct = response.data.filter((product: any) => product.is_active == 1).slice(0, 4);
+                console.log(this.listProduct);
+              });
 
             this.authService.getImageByUser(this.user.id).subscribe(
               (response) => {
@@ -153,15 +171,11 @@ export class FriendProfileComponent implements OnInit {
   createChat(receiver_id: number) {
     this.chatService.getMessageUser(receiver_id).subscribe(
       (response: any) => {
-        // console.log(response);
 
-        if (this.conversation.includes(response.data.id)) {
+        if (this.conversation.includes(response.data.id))
           this.conversation = this.conversation.filter(id => id !== response.data.id);
-        }
 
-        if (this.conversation.length >= 5) {
-          this.conversation.shift();
-        }
+        if (this.conversation.length >= 5) this.conversation.shift();
 
         this.conversation.push(response.data.id);
 
@@ -170,6 +184,50 @@ export class FriendProfileComponent implements OnInit {
       });
   }
 
+  viewProductDetail(product_id: any) {
+    if (product_id == 0) this.quantity = 1;
+    this.productDetail_id = product_id;
+    this.cdr.detectChanges();
+    this.initCarousels();
+  }
+
+  addQuantity() {
+    this.quantity++;
+  }
+
+  reduceQuantity() {
+    if (this.quantity > 1) this.quantity--;
+  }
+
+
+  addToCart(product_id: number) {
+    // console.log({ 'product_id': product_id, 'quantity': this.quantity });
+
+    this.shopService.addProductToCart({ 'product_id': product_id, 'quantity': this.quantity }).subscribe(
+      (response) => {
+        // console.log(response);
+        this.shopService.updateCart(response.data);
+      })
+  }
+
+  buyNow(product_id: number) {
+    const product = this.listProduct.find((product: any) => product.id == product_id);
+    this.checkoutService.buyNow(product, this.quantity);
+  }
+
+  shortenTextByWords(text: string, maxWords: number): string {
+    return this.settingService.shortenTextByWords(text, maxWords);
+  }
+
+  resizeTextarea(event: any): void {
+    const textarea = event.target;
+    if (!textarea.value) {
+      textarea.style.height = '32px'; // Chiều cao mặc định khi không có nội dung
+    } else if (textarea.scrollHeight < 110) {
+      textarea.style.height = 'fit-content';
+      textarea.style.height = textarea.scrollHeight + 'px';
+    }
+  }
 
   @ViewChildren('carouselInner') carouselInners!: QueryList<ElementRef<HTMLDivElement>>;
   @ViewChildren('nextButton') nextButtons!: QueryList<ElementRef<HTMLButtonElement>>;

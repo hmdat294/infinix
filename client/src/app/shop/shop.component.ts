@@ -7,6 +7,8 @@ import { CarouselService } from '../service/carousel.service';
 import { ShopService } from '../service/shop.service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ChatService } from '../service/chat.service';
+import { CheckoutService } from '../service/checkout.service';
+import { AuthService } from '../service/auth.service';
 
 @Component({
   selector: 'app-shop',
@@ -24,31 +26,39 @@ export class ShopComponent implements OnInit {
   content_feedback: string = '';
   tab_shop: string = 'tab_all';
   shop: any;
-  sort_by_id: number = 0;
+  currentUser: any;
+  category_id: number = 0;
   conversation: any[] = [];
 
   constructor(
     private cdr: ChangeDetectorRef,
+    private authService: AuthService,
     private settingService: SettingService,
     private carouselService: CarouselService,
     private shopService: ShopService,
     private chatService: ChatService,
     private route: ActivatedRoute,
+    private checkoutService: CheckoutService,
   ) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
 
+      this.authService.getUser(0).subscribe(
+        (data) => {
+          this.currentUser = data.data;
+          console.log(this.currentUser);
+        });
+
       this.shopService.getShop(params['shop_id']).subscribe(
         (res: any) => {
           this.shop = res.data;
           console.log(this.shop);
-
         })
 
       this.shopService.getListProductByShop(params['shop_id']).subscribe(
         (response) => {
-          this.listProduct = response.data.filter((product:any) => product.is_active == 1);
+          this.listProduct = response.data.filter((product: any) => product.is_active == 1);
           console.log(this.listProduct);
 
           this.originalProducts = [...this.listProduct];
@@ -63,27 +73,22 @@ export class ShopComponent implements OnInit {
 
   }
 
-  sortProduct() {
-    if (this.sort_by_id > 0) {
+  sortProductByCategory() {
+    if (this.category_id > 0) {
       this.listProduct = this.originalProducts.filter(
-        (product: any) => product.category_id == this.sort_by_id
+        (product: any) => product.category_id == this.category_id
       );
     } else this.listProduct = [...this.originalProducts];
   }
 
-
   createChat(receiver_id: number) {
     this.chatService.getMessageUser(receiver_id).subscribe(
       (response: any) => {
-        // console.log(response);
 
-        if (this.conversation.includes(response.data.id)) {
+        if (this.conversation.includes(response.data.id))
           this.conversation = this.conversation.filter(id => id !== response.data.id);
-        }
 
-        if (this.conversation.length >= 5) {
-          this.conversation.shift();
-        }
+        if (this.conversation.length >= 5) this.conversation.shift();
 
         this.conversation.push(response.data.id);
 
@@ -91,12 +96,6 @@ export class ShopComponent implements OnInit {
         this.chatService.tagOpenBoxChat = true;
       });
   }
-
-
-
-
-
-
 
 
   @ViewChildren('carouselInner') carouselInners!: QueryList<ElementRef<HTMLDivElement>>;
@@ -147,6 +146,11 @@ export class ShopComponent implements OnInit {
       })
   }
 
+  buyNow(product_id: number) {
+    const product = this.listProduct.find((product: any) => product.id == product_id);
+    this.checkoutService.buyNow(product, this.quantity);
+  }
+
   shortenTextByWords(text: string, maxWords: number): string {
     return this.settingService.shortenTextByWords(text, maxWords);
   }
@@ -163,5 +167,16 @@ export class ShopComponent implements OnInit {
 
   tabShop(tab: string) {
     this.tab_shop = this.tab_shop === tab ? '' : tab;
+
+    if (tab == 'tab_best_seller')
+      this.listProduct.sort((a: any, b: any) => Number(b.total_sold) - Number(a.total_sold));
+    else if (tab == 'tab_discount')
+      this.listProduct.sort((a: any, b: any) => Number(b.discount) - Number(a.discount));
+    else if (tab == 'tab_reduction')
+      this.listProduct.sort((a: any, b: any) => Number(b.price - ((b.price * b.discount) / 100)) - Number(a.price - ((a.price * a.discount) / 100)));
+    else if (tab == 'tab_increase')
+      this.listProduct.sort((a: any, b: any) => Number(a.price - ((a.price * a.discount) / 100)) - Number(b.price - ((b.price * b.discount) / 100)));
+    else
+      this.listProduct = [...this.originalProducts];
   }
 }

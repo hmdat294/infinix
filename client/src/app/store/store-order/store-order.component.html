@@ -32,7 +32,7 @@
                         <img class="object-fit-cover rounded-4" [src]="order.orders[0].products[0]?.images[0].image"
                             height="70px" alt>
                     </div>
-                    <div class="w-fill">{{order.orders[0].products[0].name}}</div>
+                    <div class="w-fill">{{order.orders[0].products[0]?.name}}</div>
                     <div class="w-fill-column-2">{{order.created_at | date:'dd/MM/yyyy'}}</div>
                     <div class="w-fill-column-2">{{order.total | currencyVND}}</div>
                 </div>
@@ -101,7 +101,7 @@
                             </tr>
                             <tr class="border-bottom">
                                 <th class="h-hug text-body-strong">Phương thức thanh toán:</th>
-                                <td>{{order.payment_method}}</td>
+                                <td>{{payment_methood[order.payment_method]}}</td>
                             </tr>
                         </table>
                         <div class="w-fill p-10">

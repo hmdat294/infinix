@@ -509,6 +509,7 @@
                 "detail": "Số nhà/Chi tiết",
                 "create_button": "Tạo cửa hàng",
                 "edit_button": "Sửa thông tin",
+                "go_to_store": "Đến cửa hàng",
                 "delete_button": "Xóa cửa hàng",
                 "delete_title": "Xóa cửa hàng",
                 "update_button": "Cập nhật",

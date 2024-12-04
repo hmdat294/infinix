@@ -12,6 +12,7 @@ import { CurrencyVNDPipe } from '../currency-vnd.pipe';
 import { PaymentService } from '../service/payment.service';
 import { ShopService } from '../service/shop.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { CheckoutService } from '../service/checkout.service';
 
 @Component({
   selector: 'app-header',
@@ -41,7 +42,6 @@ export class HeaderComponent implements OnInit {
     private eventService: EventService,
     private chatService: ChatService,
     private notificationService: NotificationService,
-    private paymentService: PaymentService,
     private shopService: ShopService,
   ) { }
 
@@ -143,6 +143,8 @@ export class HeaderComponent implements OnInit {
       'shops': this.productChecked,
       'products_count': this.cart.products.length,
     }
+    console.log(data);
+    
     this.router.navigate(['/checkout', btoa(unescape(encodeURIComponent(JSON.stringify(data))))]);
     this.diaLogHeader = '';
   }

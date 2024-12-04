@@ -6,7 +6,8 @@
 
         <div class="search-dropdown-control">
             <div class="control search-control">
-                <input type="search" name="search" [(ngModel)]="keyword" (input)="searchProduct()" spellcheck="false" placeholder="Tìm kiếm sản phẩm">
+                <input type="search" name="search" [(ngModel)]="keyword" (input)="searchProduct()" spellcheck="false"
+                    placeholder="Tìm kiếm sản phẩm">
                 <button type="button" class="input-button clear-content-button" (click)="keyword = ''">
                     <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
                 </button>
@@ -128,7 +129,7 @@
                                             </div>
                                         </div>|
                                         <p class="text-primary text-caption">Đánh giá 0</p>|
-                                        <p class="text-primary text-caption">Đã bán 0</p>
+                                        <p class="text-primary text-caption">Đã bán {{product.total_sold}}</p>
                                     </div>
                                     <p class="text-primary text-caption">{{product.stock}} sản phẩm có sẵn
                                     </p>
@@ -143,7 +144,7 @@
                                     </div>
 
                                     <p class="text-subtitle" style="color: #C42B1C;">{{
-                                        product.price-((product.price*product.discount)/100) | currencyVND
+                                        (product.price-((product.price*product.discount)/100)) * quantity | currencyVND
                                         }}</p>
 
                                     <div class="layout-horizontal align-center-space-between">
@@ -163,14 +164,17 @@
                                     </div>
 
                                     <div>
-                                        <button type="button" class="w-fill button-standard button-text-with-icon"
+                                        <button [disabled]="product?.shop_id == currentUser?.shop_id" type="button"
+                                            class="w-fill button-standard button-text-with-icon"
                                             (click)="addToCart(product.id)">
                                             <i class="icon-size-16 icon icon-ic_fluent_add_16_regular"></i>
                                             Thêm vào giỏ hàng
                                         </button>
                                     </div>
                                     <div>
-                                        <button type="button" class="w-fill button-accent button-text-with-icon">
+                                        <button [disabled]="product?.shop_id == currentUser?.shop_id" type="button"
+                                            class="w-fill button-accent button-text-with-icon"
+                                            (click)="buyNow(product.id)">
                                             <i class="icon-size-16 icon icon-ic_fluent_cart_16_regular"></i>
                                             Mua ngay
                                         </button>

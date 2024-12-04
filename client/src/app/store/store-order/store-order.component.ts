@@ -32,6 +32,11 @@ export class StoreOrderComponent implements OnInit {
     'canceled': 'text-system-critical'
   }
 
+  payment_methood: any = {
+    'cash': 'Trả tiền mặt khi nhận hàng',
+    'zalopay': 'Thanh toán qua ZaloPay',
+  }
+
   constructor(
     private settingService: SettingService,
     private paymentService: PaymentService,

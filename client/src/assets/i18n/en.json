@@ -509,6 +509,7 @@
                 "detail": "Detail",
                 "create_button": "Create shop",
                 "edit_button": "Edit shop",
+                "go_to_store": "Go to store",
                 "delete_button": "Delete shop",
                 "delete_title": "Delete shop",
                 "update_button": "Update",

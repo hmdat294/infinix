@@ -182,7 +182,7 @@
                                         <div
                                             class="border-bottom p-10 layout-horizontal gap-20 align-center-space-between">
                                             <div class="h-hug text-body-strong text-left">Phương thức thanh toán:</div>
-                                            <div class="w-fill layout-horizontal align-center-center gap-5">
+                                            <div class="w-fill layout-horizontal align-center-right gap-5">
                                                 <div class="border rounded-6 cursor-pointer"
                                                     [class]="payment_method == 'cash'?'system-success':'card-background-default'"
                                                     style="width: 50px; height: 50px; padding: 2px;"
@@ -197,13 +197,13 @@
                                                     <img src="assets/image/logo_zalopay.png" alt=""
                                                         class="object-fit-cover w-fill h-fill rounded-4">
                                                 </div>
-                                                <div class="border rounded-6 cursor-pointer"
+                                                <!-- <div class="border rounded-6 cursor-pointer"
                                                     [class]="payment_method == 'vnpay'?'system-success':'card-background-default'"
                                                     style="width: 50px; height: 50px; padding: 2px;"
                                                     (click)="setPaymentMethod('vnpay')">
                                                     <img src="assets/image/logo_vnpay.png" alt=""
                                                         class="object-fit-cover w-fill h-fill rounded-4">
-                                                </div>
+                                                </div> -->
                                             </div>
                                         </div>
                                         <i *ngIf="empty_user" class="text-left text-body text-system-critical p-10">

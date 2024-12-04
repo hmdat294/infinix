@@ -7,15 +7,16 @@
             <div class="layout-vertical card-background-default border border-card-default rounded-8 p-20">
 
                 <div class="layout-horizontal gap-20 align-center-space-between mb-20">
-                    <div class="w-fill layout-vertical border rounded-8 gap-20 card-background-default p-20">
-                        <div class="layout-horizontal align-center-center gap-20">
+                    <div class="w-fill layout-horizontal border rounded-8 gap-20 card-background-default p-20">
+                        <div class="layout-horizontal align-center-left gap-10 w-fill-column-6">
                             <img [src]="shop?.logo" style="width: 50px; height: 50px;" class="rounded-circle" alt="">
                             <div>
                                 <p class="text-primary text-body-strong">{{shop?.name}}</p>
-                                <p class="text-primary text-body">{{shop?.description}}</p>
+                                <p class="text-primary text-caption">{{shop?.description}}</p>
                             </div>
                         </div>
-                        <div class="layout-horizontal align-center-center gap-20">
+                        <div class="layout-vertical align-center-center gap-10 w-fill-column-6"
+                            *ngIf="shop?.user_id != currentUser?.id">
                             <a [routerLink]="['/friend-profile', shop?.user_id]"
                                 class="w-fill button-standard p-5 cursor-pointer">
                                 <i class="me-5 icon-size-16 icon icon-ic_fluent_person_16_regular"></i>
@@ -33,21 +34,38 @@
 
                         <div class="layout-horizontal gap-20">
                             <p class="w-fill-column-6 text-primary text-body border-bottom pb-5">Danh mục: <span
-                                    class="text-body-strong">10</span></p>
-                            <p class="w-fill-column-6 text-primary text-body border-bottom pb-5">Đánh giá: <span
-                                    class="text-body-strong">4.5</span></p>
+                                    class="text-body-strong">{{shop?.category_count}}</span></p>
+                            <div
+                                class="w-fill-column-6 text-primary text-body border-bottom pb-5 layout-horizontal gap-10 align-center-left">
+                                Đánh giá:
+                                <div class="layout-horizontal gap-5 align-center-left">
+                                    <p class="text-primary text-caption">3/5</p>
+                                    <div class="layout-horizontal align-center-center" style="font-size: 0.8em;">
+                                        <i style="color: rgb(255, 255, 0);"
+                                            class="icon-size-12 icon icon-ic_fluent_star_12_filled"></i>
+                                        <i style="color: rgb(255, 255, 0);"
+                                            class="icon-size-12 icon icon-ic_fluent_star_12_filled"></i>
+                                        <i style="color: rgb(255, 255, 0);"
+                                            class="icon-size-12 icon icon-ic_fluent_star_12_filled"></i>
+                                        <i style="color: rgb(255, 255, 0);"
+                                            class="icon-size-12 icon icon-ic_fluent_star_half_12_regular"></i>
+                                        <i style="color: rgb(255, 255, 0);"
+                                            class="icon-size-12 icon icon-ic_fluent_star_12_regular"></i>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="layout-horizontal gap-20">
                             <p class="w-fill-column-6 text-primary text-body border-bottom pb-5">Sản phẩm: <span
-                                    class="text-body-strong">40</span></p>
+                                    class="text-body-strong">{{shop?.product_count}}</span></p>
                             <p class="w-fill-column-6 text-primary text-body border-bottom pb-5">Tỷ lệ phản hồi đánh
                                 giá: <span class="text-body-strong">90%</span></p>
                         </div>
                         <div class="layout-horizontal gap-20">
                             <p class="w-fill-column-6 text-primary text-body border-bottom pb-5">Sản phẩm đã bán: <span
-                                    class="text-body-strong">20</span></p>
+                                    class="text-body-strong">{{shop?.total_products_sold}}</span></p>
                             <p class="w-fill-column-6 text-primary text-body border-bottom pb-5">Bắt đầu hoạt động:
-                                <span class="text-body-strong">20/11/2024</span>
+                                <span class="text-body-strong">{{shop?.created_at | date:'dd/MM/yyyy'}}</span>
                             </p>
                         </div>
                     </div>
@@ -68,12 +86,22 @@
                         <button type="button" class="list-item tab-shop text-primary w-hug"
                             [class]="tab_shop == 'tab_discount'?'tab-shop-active':''"
                             [disabled]="tab_shop == 'tab_discount'" (click)="tabShop('tab_discount')">
-                            Giảm giá
+                            Giảm sâu
+                        </button>
+                        <button type="button" class="list-item tab-shop text-primary w-hug"
+                            [class]="tab_shop == 'tab_reduction'?'tab-shop-active':''"
+                            [disabled]="tab_shop == 'tab_reduction'" (click)="tabShop('tab_reduction')">
+                            Giá giảm
+                        </button>
+                        <button type="button" class="list-item tab-shop text-primary w-hug"
+                            [class]="tab_shop == 'tab_increase'?'tab-shop-active':''"
+                            [disabled]="tab_shop == 'tab_increase'" (click)="tabShop('tab_increase')">
+                            Giá tăng
                         </button>
                     </div>
 
-                    <select class="control text-primary" (change)="sortProduct()" name="sort_by_id"
-                        [(ngModel)]="sort_by_id">
+                    <select class="control text-primary" (change)="sortProductByCategory()" name="category_id"
+                        [(ngModel)]="category_id">
                         <option class="gradient-background" [value]="0">Tất cả danh mục</option>
                         <option class="gradient-background" *ngFor="let cate of shop?.categories" [value]="cate.id">
                             {{ cate.name }}
@@ -83,7 +111,7 @@
 
                 <!-- *ngIf="tab_shop == 'tab_all'" -->
                 <div
-                    class="layout-wrap gap-20 border-card-default w-fill border border-card-default rounded-bottom-8 p-10">
+                    class="layout-wrap gap-20 border-card-default w-fill border border-card-default card-background-default rounded-bottom-8 p-10">
 
                     <div class="border rounded-4 layout-vertical w-fill-column-3 overflow-hidden card-background-default"
                         *ngFor="let product of listProduct">
@@ -200,7 +228,8 @@
                                                         </div>
                                                     </div>|
                                                     <p class="text-primary text-caption">Đánh giá 0</p>|
-                                                    <p class="text-primary text-caption">Đã bán 0</p>
+                                                    <p class="text-primary text-caption">Đã bán {{product.total_sold}}
+                                                    </p>
                                                 </div>
                                                 <p class="text-primary text-caption">{{product.stock}} sản phẩm có sẵn
                                                 </p>
@@ -215,7 +244,8 @@
                                                 </div>
 
                                                 <p class="text-subtitle" style="color: #C42B1C;">{{
-                                                    product.price-((product.price*product.discount)/100) | currencyVND
+                                                    (product.price-((product.price*product.discount)/100)) * quantity |
+                                                    currencyVND
                                                     }}</p>
 
                                                 <div class="layout-horizontal align-center-space-between">
@@ -240,7 +270,7 @@
                                                 </div>
 
                                                 <div>
-                                                    <button type="button"
+                                                    <button [disabled]="product?.shop_id == currentUser?.shop_id" type="button"
                                                         class="w-fill button-standard button-text-with-icon"
                                                         (click)="addToCart(product.id)">
                                                         <i class="icon-size-16 icon icon-ic_fluent_add_16_regular"></i>
@@ -248,8 +278,9 @@
                                                     </button>
                                                 </div>
                                                 <div>
-                                                    <button type="button"
-                                                        class="w-fill button-accent button-text-with-icon">
+                                                    <button [disabled]="product?.shop_id == currentUser?.shop_id" type="button"
+                                                        class="w-fill button-accent button-text-with-icon"
+                                                        (click)="buyNow(product.id)">
                                                         <i class="icon-size-16 icon icon-ic_fluent_cart_16_regular"></i>
                                                         Mua ngay
                                                     </button>
@@ -264,9 +295,6 @@
                                                         <p class="text-primary text-body">{{product.shop_description}}
                                                         </p>
                                                     </div>
-                                                    <button type="button" class="button-accent button-text-only">
-                                                        Đến cửa hàng
-                                                    </button>
                                                 </div>
 
                                                 <div>

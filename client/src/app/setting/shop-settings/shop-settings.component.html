@@ -213,6 +213,10 @@
                                         [disabled]="shopUpdate.invalid" *ngIf="!is_update_shop">
                                         {{ 'setting.shop_settings.shop.update_button' | translate }}
                                     </button>
+                                    <a [routerLink]="['/shop', shop?.id]" *ngIf="is_update_shop"
+                                        class="button-accent button-text-only">
+                                        {{ 'setting.shop_settings.shop.go_to_store' | translate }}
+                                    </a>
                                 </div>
                             </div>
 
@@ -265,27 +269,27 @@
                 <button type="button" class="list-item tab-shop text-primary w-hug"
                     [class]="tab_shop == 'tab_category'?'tab-shop-active':''" [disabled]="tab_shop == 'tab_category'"
                     (click)="tabShop('tab_category')">
-                    {{ 'setting.shop_settings.category.title' | translate }} 
+                    {{ 'setting.shop_settings.category.title' | translate }}
                 </button>
                 <button type="button" class="list-item tab-shop text-primary w-hug"
                     [class]="tab_shop == 'tab_product'?'tab-shop-active':''" [disabled]="tab_shop == 'tab_product'"
                     (click)="tabShop('tab_product')">
-                    {{ 'setting.shop_settings.product.title' | translate }} 
+                    {{ 'setting.shop_settings.product.title' | translate }}
                 </button>
                 <button type="button" class="list-item tab-shop text-primary w-hug"
                     [class]="tab_shop == 'tab_order'?'tab-shop-active':''" [disabled]="tab_shop == 'tab_order'"
                     (click)="tabShop('tab_order')">
-                    {{ 'setting.shop_settings.order.title' | translate }} 
+                    {{ 'setting.shop_settings.order.title' | translate }}
                 </button>
                 <button type="button" class="list-item tab-shop text-primary w-hug"
                     [class]="tab_shop == 'tab_feedback'?'tab-shop-active':''" [disabled]="tab_shop == 'tab_feedback'"
                     (click)="tabShop('tab_feedback')">
-                    {{ 'setting.shop_settings.feedback.title' | translate }} 
+                    {{ 'setting.shop_settings.feedback.title' | translate }}
                 </button>
                 <button type="button" class="list-item tab-shop text-primary w-hug"
                     [class]="tab_shop == 'tab_voucher'?'tab-shop-active':''" [disabled]="tab_shop == 'tab_voucher'"
                     (click)="tabShop('tab_voucher')">
-                    {{ 'setting.shop_settings.voucher.title' | translate }} 
+                    {{ 'setting.shop_settings.voucher.title' | translate }}
                 </button>
             </div>
 
