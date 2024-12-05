@@ -38,7 +38,7 @@ class ProductResource extends JsonResource
                 ->where('user_id', $user_id)
                 ->orderBy('created_at', 'desc')
                 ->first();
-            Log::info('lastest review' . $latestReview);
+            Log::info('lastest review: ' . $latestReview);
 
             if ($latestOrder)
             {
