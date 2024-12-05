@@ -82,7 +82,8 @@ class OrderController extends Controller
                 $order_total += $product->pivot->quantity * $product->pivot->price;
             }
 
-            $order->update(['total'=> $order_total]);
+            $order->total = $order_total;
+            $order->save();
         }
 
         switch ($request_data->payment_method) {
