@@ -24,7 +24,7 @@ class ProductResource extends JsonResource
         {
             $user_id = $request->user()->id;
 
-            $latestOrder = Order::whereHas('orderDetails', function($query) {
+            $latestOrder = Order::whereHas('order_details', function($query) {
                 $query->where('product_id', $this->id);
             })
             ->where('user_id', $user_id)
