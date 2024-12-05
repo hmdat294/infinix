@@ -71,12 +71,12 @@
                                         <div class="w-fill-column-8 layout-vertical gap-10">
                                             <p class="text-body-strong text-right">{{product.name}}</p>
                                             <p class="layout-horizontal align-center-space-between">Giá: <span
-                                                    class="text-body-strong">{{product.price | currencyVND}}</span></p>
+                                                    class="text-body-strong">{{product.pivot.price | currencyVND}}</span></p>
                                             <p class="layout-horizontal align-center-space-between">Số lượng: <span
-                                                    class="text-body-strong">{{product.quantity}}</span> </p>
+                                                    class="text-body-strong">{{product.pivot.quantity}}</span> </p>
                                             <p class="layout-horizontal align-center-space-between">Tổng tiền: <span
-                                                    class="text-body-strong">{{product.price *
-                                                    product.quantity | currencyVND}}</span></p>
+                                                    class="text-body-strong">{{product.pivot.price *
+                                                    product.pivot.quantity | currencyVND}}</span></p>
                                         </div>
                                     </div>
                                     <div class="layout-horizontal gap-10" *ngIf="product.can_review">

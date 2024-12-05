@@ -1,8 +1,8 @@
-<div class="layout-vertical gap-20 p-20 border-top border-card-default w-fill overflow-scroll-vertical">
+<div class="layout-vertical gap-20 border-top border-card-default w-fill overflow-scroll-vertical">
 
     <div class="text-body text-primary text-center w-fill" *ngIf="orders.length > 0">
         <div class="w-fill gap-20 layout-horizontal text-body-strong p-10">
-            <div class="w-fill-column-2">Mã</div>
+            <div class="w-fill-column-3">Mã</div>
             <div class="w-fill-column-2">Hình ảnh</div>
             <div class="w-fill">Tên</div>
             <div class="w-fill-column-2">Trạng thái</div>
@@ -14,7 +14,7 @@
                 style="padding: 7px 11px;"
                 [class]="tabAccordion == 'order_detail_'+i?'card-background-default':'list-item'"
                 (click)="tabChild('order_detail_'+i)">
-                <div class="w-fill-column-2" style="text-transform: uppercase;">{{order.external_order_id || 'NULL'}}</div>
+                <div class="w-fill-column-3" style="text-transform: uppercase;">{{order.external_order_id}}</div>
                 <div class="w-fill-column-2">
                     <img class="object-fit-cover rounded-4" [src]="order.products[0]?.images[0].image"
                         height="70px" alt>
@@ -73,7 +73,7 @@
                         </tr>
                         <tr class="border-bottom">
                             <th class="h-hug text-body-strong">Email:</th>
-                            <td>{{order.email || 'NULL'}}</td>
+                            <td>{{order.email}}</td>
                         </tr>
                         <tr class="border-bottom">
                             <th class="h-hug text-body-strong">Địa chỉ:</th>
