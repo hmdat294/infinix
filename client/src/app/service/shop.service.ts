@@ -127,15 +127,4 @@ export class ShopService {
     const headers = this.authService.getToken();
     return this.http.post(`${this.apiUrl}/cart/remove-product`, value, { headers });
   }
-
-  //feedback
-  getFeedback(product_id: number): Observable<any> {
-    const headers = this.authService.getToken();
-    return this.http.get(`${this.apiUrl}/product/${product_id}/review`, { headers });
-  }
-
-  postFeedback(data: any, product_id: number): Observable<any> {
-    const headers = this.authService.getToken();
-    return this.http.post(`${this.apiUrl}/product/${product_id}/review`, data, { headers });
-  }
 }

@@ -25,7 +25,8 @@ class OrderController extends Controller
         $this->zalopayService = $zalopayService;
     }
 
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
         Log::info('index: ' . json_encode($request->all()));
         $order_groups = OrderGroup::where('user_id', $request->user()->id)->orderBy('created_at', 'desc')->get();
 
@@ -53,7 +54,7 @@ class OrderController extends Controller
         foreach ($shops as $shop) {
             $order_data = [
                 'user_id' => $request->user()->id,
-                'shop_id'=> $shop->shop_id,
+                'shop_id' => $shop->shop_id,
                 'order_group_id' => $order_group->id,
                 'total' => 0,
                 'note' => $shop->note ?? ''
@@ -82,14 +83,14 @@ class OrderController extends Controller
                 $order_total += $product->pivot->quantity * $product->pivot->price;
             }
 
-            $order->update(['total'=> $order_total]);
+            $order->update(['total' => $order_total]);
         }
 
         switch ($request_data->payment_method) {
             case 'zalopay':
                 return $this->create_zalopay_order($order_group->external_order_id, $order_group->total);
             default:
-                return;
+                return response()->json(['order_url' => 'http://localhost:4200/store/?tab=tab_order', 'success' => true]);
         }
     }
 
@@ -107,7 +108,7 @@ class OrderController extends Controller
     public function callback(Request $request)
     {
         Log::info('callback: ' . json_encode($request->all()));
-        $data = json_decode($request->input('data'), true); 
+        $data = json_decode($request->input('data'), true);
         $mac = $request->input('mac');
 
         // $calculatedMac = hash_hmac('sha256', json_encode($data), config('zalopay.key2'));
@@ -118,7 +119,7 @@ class OrderController extends Controller
         $external_order_id = explode('_', $data['app_trans_id'])[1];
         $order_group = OrderGroup::where('external_order_id', $external_order_id)->first();
         if (!$order_group) {
-            return response()->json(['error'=> 'Không tìm thấy đơn hàng'], 404);
+            return response()->json(['error' => 'Không tìm thấy đơn hàng'], 404);
         }
 
         $order_group->update(['payment_status' => 'paid']);

@@ -22,6 +22,7 @@ export class PaymentService {
     return this.http.post(`${this.apiUrl}/zalopay-payment`, data, { headers });
   }
 
+  //orders
   getOrder(): Observable<any> {
     const headers = this.authService.getToken();
     return this.http.get(`${this.apiUrl}/order`, { headers });
@@ -30,6 +31,22 @@ export class PaymentService {
   postOrder(data: any): Observable<any> {
     const headers = this.authService.getToken();
     return this.http.post(`${this.apiUrl}/order`, data, { headers });
+  }
+
+  getOrderByShop(shop_id: number): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.get(`${this.apiUrl}/shop/${shop_id}/orders`, { headers });
+  }
+
+  //feedback
+  getFeedback(product_id: number): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.get(`${this.apiUrl}/product/${product_id}/review`, { headers });
+  }
+
+  postFeedback(data: any, product_id: number): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.post(`${this.apiUrl}/product/${product_id}/review`, data, { headers });
   }
 }
 

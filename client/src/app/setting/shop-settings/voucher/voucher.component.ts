@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-voucher',
@@ -7,6 +7,13 @@ import { Component } from '@angular/core';
   templateUrl: './voucher.component.html',
   styleUrl: './voucher.component.css'
 })
-export class VoucherComponent {
+export class VoucherComponent implements OnInit {
+
+  constructor() {}
+
+  ngOnInit(): void {
+
+
+  }
 
 }

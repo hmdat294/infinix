@@ -79,12 +79,12 @@
                                                     product.quantity | currencyVND}}</span></p>
                                         </div>
                                     </div>
-                                    <div class="layout-horizontal gap-10">
+                                    <div class="layout-horizontal gap-10" *ngIf="product.can_review">
                                         <button type="button" class="button-standard button-text-only w-fill">
                                             Mua lại
                                         </button>
                                         <button type="button" class="button-accent button-text-only w-fill"
-                                            (click)="viewDialogFeedback(product)">
+                                            (click)="viewDialogFeedback(product, order.id)">
                                             Đánh giá
                                         </button>
                                     </div>
@@ -144,14 +144,14 @@
 
     <div class="position-fixed top-0 start-0" *ngIf="product_feedback != null"
         style="width: 100%; height: 100vh; z-index: 20;">
-        <div class="position-absolute top-0 start-0" (click)="viewDialogFeedback(null)"
+        <div class="position-absolute top-0 start-0" (click)="viewDialogFeedback(null, 0)"
             style="width: 100%; height: 100vh; z-index: 1; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px);">
         </div>
         <div class="dialog-panel position-absolute top-50 start-50 translate-middle" style="z-index: 2;">
             <div class="layout-vertical p-20 gap-20 rounded-8 solid-background-base border border-card-default">
 
                 <button type="button" class="button-subtle button-icon-only w-hug position-absolute"
-                    (click)="viewDialogFeedback(null)" style="right: 20px; top: 20px; z-index: 1;">
+                    (click)="viewDialogFeedback(null, 0)" style="right: 20px; top: 20px; z-index: 1;">
                     <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_filled"></i>
                 </button>
 

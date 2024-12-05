@@ -42,7 +42,6 @@ export class StoreOrderComponent implements OnInit {
   constructor(
     private settingService: SettingService,
     private paymentService: PaymentService,
-    private shopService: ShopService,
     private el: ElementRef,
   ) { }
 
@@ -57,12 +56,14 @@ export class StoreOrderComponent implements OnInit {
   }
 
   product_feedback: any;
+  id_order_feedback: number = 0;
   content_feedback: string = '';
   stars: number[] = [1, 2, 3, 4, 5];
   currentRating: number = 0;
 
-  viewDialogFeedback(product: any) {
+  viewDialogFeedback(product: any, order_id: number) {
     this.product_feedback = product;
+    this.id_order_feedback = order_id;
     if (product == null) {
       this.currentRating = 0;
       this.content_feedback = '';
@@ -84,22 +85,17 @@ export class StoreOrderComponent implements OnInit {
     console.log(this.product_feedback.id);
 
 
-    this.shopService.postFeedback(data, this.product_feedback.id).subscribe(
+    this.paymentService.postFeedback(data, this.product_feedback.id).subscribe(
       (data: any) => {
         console.log(data);
+        this.viewDialogFeedback(null, 0);
+
+        const product = this.orders.find((order: any) => order.id == this.id_order_feedback)
+          .orders.find((shop: any) => shop.shop_id == this.product_feedback.shop_id)
+          .products.find((product: any) => product.id == this.product_feedback.id);
+        product.can_review == false;
       });
   }
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -49,8 +49,9 @@
                                                 <td>Tổng tiền</td>
                                             </tr>
                                             <tr class="h-hug border-top" *ngFor="let item of shop.products">
-                                                <td><img class="object-fit-cover rounded-4" [src]="item.images[0]?.image"
-                                                        height="50px" width="50px" alt></td>
+                                                <td><img class="object-fit-cover rounded-4"
+                                                        [src]="item.images[0]?.image" height="50px" width="50px" alt>
+                                                </td>
                                                 <td>{{item.name}}</td>
                                                 <td>{{item.price-((item.price*item.discount)/100) | currencyVND}}</td>
                                                 <td>{{item.pivot.quantity}}</td>
@@ -212,7 +213,7 @@
                                         <div class="w-fill p-10">
                                             <button type="button" class="button-accent button-text-only w-fill"
                                                 (click)="payment()">
-                                                Thanh toán
+                                                {{payment_method == 'cash'?'Mua ngay':'Thanh toán'}}
                                             </button>
                                         </div>
                                     </div>

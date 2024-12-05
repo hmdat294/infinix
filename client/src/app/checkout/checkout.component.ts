@@ -93,8 +93,7 @@ export class CheckoutComponent implements OnInit {
       this.paymentSrevice.postOrder({ 'order': JSON.stringify(this.cart) }).subscribe(
         (data) => {
           console.log(data);
-          if (data.order_url)
-            window.location.href = data.order_url;
+          window.location.href = data.order_url;
         });
 
     }
