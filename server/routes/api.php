@@ -39,6 +39,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ZaloPayController;
+use App\Http\Controllers\VoucherController;
 
 
 Route::middleware(['guest'])->group(function () {
@@ -64,6 +65,12 @@ Route::middleware(['guest'])->group(function () {
 });
 
 Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(function () {
+
+    Route::post('voucher', [VoucherController::class, 'store']);
+    Route::post('voucher/{id}', [VoucherController::class, 'update']);
+    Route::get('voucher/{id}', [VoucherController::class, 'show']);
+    Route::get('shop/{shop_id}/vouchers', [VoucherController::class, 'byShop']);
+    Route::delete('voucher/{id}', [VoucherController::class, 'destroy']);
 
     Route::get('product/{id}/review', [ReviewController::class,'index']);
     Route::post('product/{id}/review', [ReviewController::class, 'store']);
