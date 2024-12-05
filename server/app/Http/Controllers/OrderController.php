@@ -56,11 +56,9 @@ class OrderController extends Controller
                 'user_id' => $request->user()->id,
                 'shop_id' => $shop->shop_id,
                 'order_group_id' => $order_group->id,
-                'total' => 0,
+                'total' => $shop->shop_total,
                 'note' => $shop->note ?? ''
             ];
-
-            $order_total = 0;
 
             $order = Order::create($order_data);
 
@@ -80,10 +78,8 @@ class OrderController extends Controller
                 if ($request->user()->cart()->exists()) {
                     $request->user()->cart->products()->detach($product->id);
                 }
-                $order_total += $product->pivot->quantity * $product->pivot->price;
             }
-
-            $order->update(['total' => $order_total]);
+            $order->save();
         }
 
         switch ($request_data->payment_method) {
