@@ -14,8 +14,8 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './store-order.component.css'
 })
 export class StoreOrderComponent implements OnInit {
-  tabAccordion: string = '';
 
+  tabAccordion: string = '';
   orders: any = [];
 
   order_status: any = {
@@ -88,12 +88,13 @@ export class StoreOrderComponent implements OnInit {
     this.paymentService.postFeedback(data, this.product_feedback.id).subscribe(
       (data: any) => {
         console.log(data);
-        this.viewDialogFeedback(null, 0);
 
         const product = this.orders.find((order: any) => order.id == this.id_order_feedback)
           .orders.find((shop: any) => shop.shop_id == this.product_feedback.shop_id)
           .products.find((product: any) => product.id == this.product_feedback.id);
-        product.can_review == false;
+        product.can_review = false;
+        
+        this.viewDialogFeedback(null, 0);
       });
   }
 
