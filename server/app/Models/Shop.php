@@ -48,4 +48,9 @@ class Shop extends Model
             ->where('products.shop_id', $this->id)
             ->sum('order_details.quantity');
     }
+
+    public function reviews()
+    {
+        return $this->hasManyThrough(Review::class, Product::class);
+    }
 }
