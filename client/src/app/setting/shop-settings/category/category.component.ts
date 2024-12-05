@@ -44,14 +44,6 @@ export class CategoryComponent implements OnInit {
             (res) => {
               this.shop = res.data;
               // console.log(this.shop);
-              
-
-              const arrAddress = this.shop.address.split("|");
-
-              this.detail = arrAddress[0];
-              this.ward = arrAddress[1];
-              this.district = arrAddress[2];
-              this.province = arrAddress[3];
             });
           }
         });

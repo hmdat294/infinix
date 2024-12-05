@@ -10,6 +10,7 @@ import { ShopService } from '../../service/shop.service';
 import { CarouselService } from '../../service/carousel.service';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
+import { CheckoutService } from '../../service/checkout.service';
 
 @Component({
   selector: 'app-left-home',
@@ -37,6 +38,7 @@ export class LeftHomeComponent implements OnInit, AfterViewInit {
     private shopService: ShopService,
     private carouselService: CarouselService,
     private router: Router,
+    private checkoutService: CheckoutService,
   ) { }
 
   ngOnInit(): void {
@@ -83,7 +85,7 @@ export class LeftHomeComponent implements OnInit, AfterViewInit {
 
     this.shopService.getListProduct().subscribe(
       (response) => {
-        this.listProduct = response.data.filter((product:any) => product.is_active == 1);
+        this.listProduct = response.data.filter((product:any) => product.is_active == 1).slice(0, 4);
         // console.log(this.listProduct);
       });
   }
@@ -136,6 +138,10 @@ export class LeftHomeComponent implements OnInit, AfterViewInit {
       })
   }
 
+  buyNow(product_id: number) {
+    const product = this.listProduct.find((product: any) => product.id == product_id);
+    this.checkoutService.buyNow(product, this.quantity);
+  }
 
   acceptRequest(id: number, status: string) {
     this.authService.acceptFriend({ id, status }).subscribe(

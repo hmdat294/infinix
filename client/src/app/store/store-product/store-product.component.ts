@@ -5,7 +5,9 @@ import { CommonModule } from '@angular/common';
 import { SettingService } from '../../service/setting.service';
 import { CarouselService } from '../../service/carousel.service';
 import { ShopService } from '../../service/shop.service';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { CheckoutService } from '../../service/checkout.service';
+import { AuthService } from '../../service/auth.service';
 
 @Component({
   selector: 'app-store-product',
@@ -18,6 +20,7 @@ export class StoreProductComponent implements OnInit {
 
   listProduct: any = [];
   products: any = [];
+  currentUser: any;
   productDetail_id: number = 0;
   quantity: number = 1;
   content_feedback: string = '';
@@ -25,12 +28,20 @@ export class StoreProductComponent implements OnInit {
 
   constructor(
     private cdr: ChangeDetectorRef,
+    private authService: AuthService,
     private settingService: SettingService,
     private carouselService: CarouselService,
     private shopService: ShopService,
+    private checkoutService: CheckoutService,
   ) { }
 
   ngOnInit(): void {
+    this.authService.getUser(0).subscribe(
+      (data) => {
+        this.currentUser = data.data;
+        console.log(this.currentUser);
+      });
+
     this.shopService.getListProduct().subscribe(
       (response) => {
         this.products = response.data.filter((product: any) => product.is_active == 1);
@@ -89,6 +100,12 @@ export class StoreProductComponent implements OnInit {
       })
   }
 
+
+  buyNow(product_id: number) {
+    const product = this.listProduct.find((product: any) => product.id == product_id);
+    this.checkoutService.buyNow(product, this.quantity);
+  }
+
   shortenTextByWords(text: string, maxWords: number): string {
     return this.settingService.shortenTextByWords(text, maxWords);
   }
@@ -97,6 +114,8 @@ export class StoreProductComponent implements OnInit {
     if (this.keyword && !/^\s*$/.test(this.keyword)) {
       this.listProduct = this.listProduct.filter((product: any) => {
         const keyword = this.settingService.removeVietnameseTones(this.keyword.toLowerCase().trim());
+        console.log(keyword);
+
         const name = this.settingService.removeVietnameseTones(product.name.toLowerCase() || "");
 
         return name.includes(keyword);

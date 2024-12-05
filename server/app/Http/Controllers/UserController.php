@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserFollowUserEvent;
 use App\Http\Resources\PostMediaResource;
 use App\Http\Resources\UserResource;
 use App\Models\Profile as ProfileModel;
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\Log;
 use App\Http\Resources\ReportResource;
 use App\Events\UserBlockUserEvent;
 use App\Models\BlockedUser;
+use App\Models\Notification;
 
 class UserController extends Controller
 {
@@ -117,13 +119,18 @@ class UserController extends Controller
     {
         $user = UserModel::find($user_id);
 
-        if ($request->user()->followings->contains($user)) {
-            return response()->json([
-                'message' => 'User is already followed',
+        if ($request->user()->followings()->where('related_user_id', $user->id)->exists()) {
+            $request->user()->followings()->detach($user);
+        } else {
+            $request->user()->followings()->attach($user);
+            Notification::create([
+                'user_id' => $user->id,
+                'target_user_id' => $request->user()->id,
+                'action_type' => 'user_follow',
             ]);
         }
 
-        $request->user()->followings()->attach($user);
+        
         return new UserResource($user);
     }
 

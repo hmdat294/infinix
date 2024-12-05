@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ShopResource extends JsonResource
+class ReviewResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,10 +15,8 @@ class ShopResource extends JsonResource
     public function toArray(Request $request): array
     {
         $data = parent::toArray($request);
-        $data["total_products_sold"] = $this->total_products_sold;
-        $data['categories'] = CategoryResource::collection($this->categories);
-        $data['product_count'] = $this->products->count() ?? 0;
-        $data['category_count'] = $this->categories->count() ?? 0;
+        $data['user']['display_name'] = $this->user->profile->display_name;
+        $data['user']['profile_photo'] = $this->user->profile->profile_photo;
 
         return $data;
     }

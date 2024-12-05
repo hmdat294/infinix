@@ -48,13 +48,6 @@ export class ProductComponent implements OnInit {
           this.shopService.getShop(this.user.shop_id).subscribe(
             (res) => {
               this.shop = res.data;
-
-              const arrAddress = this.shop.address.split("|");
-
-              this.detail = arrAddress[0];
-              this.ward = arrAddress[1];
-              this.district = arrAddress[2];
-              this.province = arrAddress[3];
             });
 
           this.shopService.getListProductByShop(this.user.shop_id).subscribe(

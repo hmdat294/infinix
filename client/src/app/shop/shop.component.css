@@ -13,7 +13,7 @@ section>article{
 .tab-shop-active {
     background-color: var(--card-background-default);
     border: 1px solid var(--card-stroke-default);
-    box-shadow: 5px 0px 10px #00000040;
+    box-shadow: 5px 0px 10px #00000030;
 }
 
 .opacity-5{

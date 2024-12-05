@@ -9,11 +9,23 @@ import { ProductComponent } from "./product/product.component";
 import { OrderComponent } from "./order/order.component";
 import { FeedbackComponent } from "./feedback/feedback.component";
 import { TranslateModule } from '@ngx-translate/core';
+import { VoucherComponent } from "./voucher/voucher.component";
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-shop-settings',
   standalone: true,
-  imports: [FormsModule, CommonModule, CategoryComponent, ProductComponent, OrderComponent, FeedbackComponent, TranslateModule],
+  imports: [
+    FormsModule,
+    CommonModule,
+    CategoryComponent,
+    ProductComponent,
+    OrderComponent,
+    FeedbackComponent,
+    TranslateModule,
+    VoucherComponent,
+    RouterModule
+  ],
   templateUrl: './shop-settings.component.html',
   styleUrl: './shop-settings.component.css'
 })
@@ -21,7 +33,7 @@ export class ShopSettingsComponent implements OnInit {
 
   spaceCheck: any = /^\s*$/;
   tabAccordion: string = '';
-  tab_shop: string = 'tab_category';
+  tab_shop: string = 'tab_order';
   user: any;
   shop: any;
   products: any;
@@ -51,8 +63,9 @@ export class ShopSettingsComponent implements OnInit {
           this.shopService.getShop(this.user.shop_id).subscribe(
             (res) => {
               this.shop = res.data;
-
-              const arrAddress = this.shop.address.split("|");
+              // console.log(this.shop);
+              
+              const arrAddress = this.shop.address?.split(" | ");
 
               this.detail = arrAddress[0];
               this.ward = arrAddress[1];

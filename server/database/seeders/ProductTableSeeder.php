@@ -13,14 +13,14 @@ class ProductTableSeeder extends Seeder
      */
     public function run(): void
     {
-        $shops = Shop::all();
-        foreach ($shops as $shop) {
-            $shop->products()->create([
-                'shop_id' => $shop->id,
-                'name' => 'Product 1',
-                'price'=> 1000,
-                'category_id' => $shop->categories->first()->id,
-            ]);
-        }
+        // $shops = Shop::all();
+        // foreach ($shops as $shop) {
+        //     $shop->products()->create([
+        //         'shop_id' => $shop->id,
+        //         'name' => 'Product 1',
+        //         'price'=> 1000,
+        //         'category_id' => $shop->categories->first()->id,
+        //     ]);
+        // }
     }
 }

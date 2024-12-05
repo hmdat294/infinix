@@ -19,7 +19,7 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export class SettingComponent implements OnInit {
 
-  tabSetting: string = 'general-settings';
+  tabSetting: string = 'shop-settings';
   profile_photo: string = '';
   display_name: string = '';
 

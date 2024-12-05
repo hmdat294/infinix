@@ -37,7 +37,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
-
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ZaloPayController;
 
 
@@ -65,12 +65,15 @@ Route::middleware(['guest'])->group(function () {
 
 Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(function () {
 
+    Route::get('product/{id}/review', [ReviewController::class,'index']);
+    Route::post('product/{id}/review', [ReviewController::class, 'store']);
 
     Route::get('shop/{shop_id}/products', [ProductController::class, 'byShop']);
     Route::get('category/{category_id}/products', [ProductController::class, 'byCategory']);
 
     Route::get('shop', [ShopController::class, 'index']);
     Route::post('shop', [ShopController::class, 'store']);
+    Route::get('shop/{id}/orders', [OrderController::class, 'byShop']);
     Route::get('shop/{id}', [ShopController::class, 'show']);
     Route::post('shop/{id}', [ShopController::class, 'update']);
     Route::delete('shop/{id}', [ShopController::class, 'destroy']);

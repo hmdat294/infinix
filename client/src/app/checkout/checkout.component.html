@@ -49,8 +49,9 @@
                                                 <td>Tổng tiền</td>
                                             </tr>
                                             <tr class="h-hug border-top" *ngFor="let item of shop.products">
-                                                <td><img class="object-fit-cover rounded-4" [src]="item.images[0]?.image"
-                                                        height="50px" width="50px" alt></td>
+                                                <td><img class="object-fit-cover rounded-4"
+                                                        [src]="item.images[0]?.image" height="50px" width="50px" alt>
+                                                </td>
                                                 <td>{{item.name}}</td>
                                                 <td>{{item.price-((item.price*item.discount)/100) | currencyVND}}</td>
                                                 <td>{{item.pivot.quantity}}</td>
@@ -182,28 +183,28 @@
                                         <div
                                             class="border-bottom p-10 layout-horizontal gap-20 align-center-space-between">
                                             <div class="h-hug text-body-strong text-left">Phương thức thanh toán:</div>
-                                            <div class="w-fill layout-horizontal align-center-center gap-5">
-                                                <div class="border rounded-8 p-5 cursor-pointer"
+                                            <div class="w-fill layout-horizontal align-center-right gap-5">
+                                                <div class="border rounded-6 cursor-pointer"
                                                     [class]="payment_method == 'cash'?'system-success':'card-background-default'"
-                                                    style="width: 50px; height: 50px;"
+                                                    style="width: 50px; height: 50px; padding: 2px;"
                                                     (click)="setPaymentMethod('cash')">
                                                     <img src="assets/image/logo_cash.png" alt=""
                                                         class="object-fit-cover w-fill h-fill rounded-4">
                                                 </div>
-                                                <div class="border rounded-8 p-5 cursor-pointer"
+                                                <div class="border rounded-6 cursor-pointer"
                                                     [class]="payment_method == 'zalopay'?'system-success':'card-background-default'"
-                                                    style="width: 50px; height: 50px;"
+                                                    style="width: 50px; height: 50px; padding: 2px;"
                                                     (click)="setPaymentMethod('zalopay')">
                                                     <img src="assets/image/logo_zalopay.png" alt=""
                                                         class="object-fit-cover w-fill h-fill rounded-4">
                                                 </div>
-                                                <div class="border rounded-8 p-5 cursor-pointer"
+                                                <!-- <div class="border rounded-6 cursor-pointer"
                                                     [class]="payment_method == 'vnpay'?'system-success':'card-background-default'"
-                                                    style="width: 50px; height: 50px;"
+                                                    style="width: 50px; height: 50px; padding: 2px;"
                                                     (click)="setPaymentMethod('vnpay')">
                                                     <img src="assets/image/logo_vnpay.png" alt=""
                                                         class="object-fit-cover w-fill h-fill rounded-4">
-                                                </div>
+                                                </div> -->
                                             </div>
                                         </div>
                                         <i *ngIf="empty_user" class="text-left text-body text-system-critical p-10">
@@ -212,7 +213,7 @@
                                         <div class="w-fill p-10">
                                             <button type="button" class="button-accent button-text-only w-fill"
                                                 (click)="payment()">
-                                                Thanh toán
+                                                {{payment_method == 'cash'?'Mua ngay':'Thanh toán'}}
                                             </button>
                                         </div>
                                     </div>
