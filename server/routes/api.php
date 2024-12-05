@@ -67,6 +67,7 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
 
     Route::get('product/{id}/review', [ReviewController::class,'index']);
     Route::post('product/{id}/review', [ReviewController::class, 'store']);
+    Route::get('shop/{shop_id}/review', [ReviewController::class, 'byShop']);
 
     Route::get('shop/{shop_id}/products', [ProductController::class, 'byShop']);
     Route::get('category/{category_id}/products', [ProductController::class, 'byCategory']);
