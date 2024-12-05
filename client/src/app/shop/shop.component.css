@@ -19,3 +19,7 @@ section>article{
 .opacity-5{
     opacity: 0.5;
 }
+
+.rating .icon.active {
+    color: rgb(255, 255, 0);
+}

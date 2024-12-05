@@ -33,13 +33,18 @@ export class PaymentService {
     return this.http.post(`${this.apiUrl}/order`, data, { headers });
   }
 
+  updateOrder(status: string, order_id: number): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.post(`${this.apiUrl}/order/${order_id}`, { 'status': status }, { headers });
+  }
+
   getOrderByShop(shop_id: number): Observable<any> {
     const headers = this.authService.getToken();
     return this.http.get(`${this.apiUrl}/shop/${shop_id}/orders`, { headers });
   }
 
   //feedback
-  getFeedback(product_id: number): Observable<any> {
+  getFeedbackByProduct(product_id: number): Observable<any> {
     const headers = this.authService.getToken();
     return this.http.get(`${this.apiUrl}/product/${product_id}/review`, { headers });
   }
@@ -47,6 +52,11 @@ export class PaymentService {
   postFeedback(data: any, product_id: number): Observable<any> {
     const headers = this.authService.getToken();
     return this.http.post(`${this.apiUrl}/product/${product_id}/review`, data, { headers });
+  }
+
+  getFeedbackByShop(shop_id: number): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.get(`${this.apiUrl}/shop/${shop_id}/review`, { headers });
   }
 }
 

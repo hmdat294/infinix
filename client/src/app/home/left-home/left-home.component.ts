@@ -11,6 +11,7 @@ import { CarouselService } from '../../service/carousel.service';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { CheckoutService } from '../../service/checkout.service';
+import { PaymentService } from '../../service/payment.service';
 
 @Component({
   selector: 'app-left-home',
@@ -28,6 +29,8 @@ export class LeftHomeComponent implements OnInit, AfterViewInit {
   productDetail_id: number = 0;
   quantity: number = 1;
   content_feedback: string = '';
+  feedbacks: any = [];
+  cart: any = [];
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -39,14 +42,12 @@ export class LeftHomeComponent implements OnInit, AfterViewInit {
     private carouselService: CarouselService,
     private router: Router,
     private checkoutService: CheckoutService,
+    private paymentService: PaymentService,
   ) { }
 
   ngOnInit(): void {
 
-    this.authService.getUser(0).subscribe(
-      (response) => {
-        this.user = response.data;
-      });
+    this.authService.getUser(0).subscribe(response => this.user = response.data);
 
     this.authService.getRequestFriend().subscribe(
       (response) => {
@@ -85,9 +86,19 @@ export class LeftHomeComponent implements OnInit, AfterViewInit {
 
     this.shopService.getListProduct().subscribe(
       (response) => {
-        this.listProduct = response.data.filter((product:any) => product.is_active == 1).slice(0, 4);
+        this.listProduct = response.data.filter((product: any) => product.is_active == 1).slice(0, 4);
         // console.log(this.listProduct);
       });
+
+    this.shopService.getCart().subscribe(data => this.cart = data.data);
+
+    this.shopService.cart$.subscribe(cart => {
+      this.cart = cart;
+
+      if (this.productDetail_id > 0)
+        this.product_cart_quantity = this.cart.products.find((product: any) => product.id == this.productDetail_id)?.pivot.quantity || 0;
+
+    });
   }
 
   @ViewChildren('carouselInner') carouselInners!: QueryList<ElementRef<HTMLDivElement>>;
@@ -111,34 +122,55 @@ export class LeftHomeComponent implements OnInit, AfterViewInit {
     });
   }
 
+  stars: number[] = [1, 2, 3, 4, 5];
+  product_cart_quantity: number = 0;
+  max_quantity: number = 0;
 
-  viewProductDetail(product_id: any) {
+  viewProductDetail(product_id: any, max: number = 1) {
     if (product_id == 0) this.quantity = 1;
     this.productDetail_id = product_id;
+    this.max_quantity = max;
     this.cdr.detectChanges();
     this.initCarousels();
+
+    if (product_id > 0) {
+      this.product_cart_quantity = this.cart.products.find((product: any) => product.id == product_id)?.pivot.quantity || 0;
+
+      this.paymentService.getFeedbackByProduct(product_id).subscribe(
+        (response) => {
+          this.feedbacks = response.data;
+          console.log(this.feedbacks);
+        });
+    }
+  }
+
+  roundToNearest(value: number): number {
+    return Math.round(value * Math.pow(10, 2)) / Math.pow(10, 2);
   }
 
   addQuantity() {
-    this.quantity++;
+    if (this.quantity < this.max_quantity - this.product_cart_quantity) this.quantity++;
   }
 
   reduceQuantity() {
     if (this.quantity > 1) this.quantity--;
   }
 
+  addToCart(product_id: number, max: number) {
+    this.product_cart_quantity = this.cart.products.find((product: any) => product.id == product_id)?.pivot.quantity || 0;
+    if (max - this.product_cart_quantity == 0) return;
 
-  addToCart(product_id: number) {
-    // console.log({ 'product_id': product_id, 'quantity': this.quantity });
-    
     this.shopService.addProductToCart({ 'product_id': product_id, 'quantity': this.quantity }).subscribe(
       (response) => {
-        // console.log(response);
         this.shopService.updateCart(response.data);
       })
   }
 
+
   buyNow(product_id: number) {
+    this.product_cart_quantity = this.cart.products.find((product: any) => product.id == product_id)?.pivot.quantity || 0;
+    if (this.max_quantity - this.product_cart_quantity == 0) return;
+
     const product = this.listProduct.find((product: any) => product.id == product_id);
     this.checkoutService.buyNow(product, this.quantity);
   }

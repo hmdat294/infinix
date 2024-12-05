@@ -9,6 +9,7 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ChatService } from '../service/chat.service';
 import { CheckoutService } from '../service/checkout.service';
 import { AuthService } from '../service/auth.service';
+import { PaymentService } from '../service/payment.service';
 
 @Component({
   selector: 'app-shop',
@@ -29,6 +30,8 @@ export class ShopComponent implements OnInit {
   currentUser: any;
   category_id: number = 0;
   conversation: any[] = [];
+  feedbacks: any = [];
+  cart: any = [];
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -39,16 +42,13 @@ export class ShopComponent implements OnInit {
     private chatService: ChatService,
     private route: ActivatedRoute,
     private checkoutService: CheckoutService,
+    private paymentService: PaymentService,
   ) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
 
-      this.authService.getUser(0).subscribe(
-        (data) => {
-          this.currentUser = data.data;
-          console.log(this.currentUser);
-        });
+      this.authService.getUser(0).subscribe(data => this.currentUser = data.data);
 
       this.shopService.getShop(params['shop_id']).subscribe(
         (res: any) => {
@@ -69,6 +69,17 @@ export class ShopComponent implements OnInit {
     this.chatService.conversation$.subscribe(conversation => {
       // console.log('Updated conversation from localStorage:', conversation);
       this.conversation = conversation;
+    });
+
+    this.shopService.getCart().subscribe(
+      (data) => this.cart = data.data);
+
+    this.shopService.cart$.subscribe(cart => {
+      this.cart = cart;
+
+      if (this.productDetail_id > 0)
+        this.product_cart_quantity = this.cart.products.find((product: any) => product.id == this.productDetail_id)?.pivot.quantity || 0;
+
     });
 
   }
@@ -120,33 +131,55 @@ export class ShopComponent implements OnInit {
   }
 
 
-  viewProductDetail(product_id: any) {
+  stars: number[] = [1, 2, 3, 4, 5];
+  product_cart_quantity: number = 0;
+  max_quantity: number = 0;
+
+  viewProductDetail(product_id: any, max: number = 1) {
     if (product_id == 0) this.quantity = 1;
     this.productDetail_id = product_id;
+    this.max_quantity = max;
     this.cdr.detectChanges();
     this.initCarousels();
+
+    if (product_id > 0) {
+      this.product_cart_quantity = this.cart.products.find((product: any) => product.id == product_id)?.pivot.quantity || 0;
+
+      this.paymentService.getFeedbackByProduct(product_id).subscribe(
+        (response) => {
+          this.feedbacks = response.data;
+          console.log(this.feedbacks);
+        });
+    }
+  }
+
+  roundToNearest(value: number): number {
+    return Math.round(value * Math.pow(10, 2)) / Math.pow(10, 2);
   }
 
   addQuantity() {
-    this.quantity++;
+    if (this.quantity < this.max_quantity - this.product_cart_quantity) this.quantity++;
   }
 
   reduceQuantity() {
     if (this.quantity > 1) this.quantity--;
   }
 
-
-  addToCart(product_id: number) {
-    console.log({ 'product_id': product_id, 'quantity': this.quantity });
+  addToCart(product_id: number, max: number) {
+    this.product_cart_quantity = this.cart.products.find((product: any) => product.id == product_id)?.pivot.quantity || 0;
+    if (max - this.product_cart_quantity == 0) return;
 
     this.shopService.addProductToCart({ 'product_id': product_id, 'quantity': this.quantity }).subscribe(
       (response) => {
-        console.log(response);
         this.shopService.updateCart(response.data);
       })
   }
 
+
   buyNow(product_id: number) {
+    this.product_cart_quantity = this.cart.products.find((product: any) => product.id == product_id)?.pivot.quantity || 0;
+    if (this.max_quantity - this.product_cart_quantity == 0) return;
+
     const product = this.listProduct.find((product: any) => product.id == product_id);
     this.checkoutService.buyNow(product, this.quantity);
   }

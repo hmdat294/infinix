@@ -109,6 +109,7 @@ export class HeaderComponent implements OnInit {
       this.shopService.updateProductToCart({ product_id, quantity }).subscribe(
         (response) => {
           console.log(response);
+          this.shopService.updateCart(response.data);
         });
     });
   }
@@ -153,8 +154,10 @@ export class HeaderComponent implements OnInit {
     this.shopService.removeProductToCart({ 'product_id': product_id }).subscribe(
       (data) => {
         console.log(data);
+        
         const shop = this.groupedShops.find((shop: any) => shop.shop_id == shop_id);
         shop.products = shop.products.filter((product: any) => product.id != product_id);
+        this.shopService.updateCart(data.data);
 
         if (shop.products.length == 0) this.groupedShops.splice(this.groupedShops.indexOf(shop), 1);
       });

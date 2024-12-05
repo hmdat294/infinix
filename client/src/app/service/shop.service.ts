@@ -127,4 +127,25 @@ export class ShopService {
     const headers = this.authService.getToken();
     return this.http.post(`${this.apiUrl}/cart/remove-product`, value, { headers });
   }
+
+  //voucher
+  // getVoucher(): Observable<any> {
+  //   const headers = this.authService.getToken();
+  //   return this.http.get(`${this.apiUrl}/cart`, { headers });
+  // }
+
+  // addProductToCart(value: any): Observable<any> {
+  //   const headers = this.authService.getToken();
+  //   return this.http.post(`${this.apiUrl}/cart/add-product`, value, { headers });
+  // }
+
+  // updateProductToCart(value: any): Observable<any> {
+  //   const headers = this.authService.getToken();
+  //   return this.http.post(`${this.apiUrl}/cart/update-product`, value, { headers });
+  // }
+
+  // removeProductToCart(value: any): Observable<any> {
+  //   const headers = this.authService.getToken();
+  //   return this.http.post(`${this.apiUrl}/cart/remove-product`, value, { headers });
+  // }
 }

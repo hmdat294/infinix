@@ -1,1 +1,33 @@
-<p>feedback works!</p>
+<div class="border border-card-default card-background-default rounded-bottom-6 pt-10 pb-20 px-20">
+    <table class="text-primary text-center w-fill">
+        <tr class="text-body-strong">
+            <th style="width: 50px;">STT</th>
+            <th>Người đánh giá</th>
+            <th>Nội dung</th>
+            <th>Số sao</th>
+            <th>Thời gian</th>
+        </tr>
+        <!-- for -->
+        <tr class="border-top border-card-default" *ngFor="let feedback of feedbacks; let i = index;">
+            <td>{{i+1}}</td>
+            <td>
+                <a [routerLink]="['/friend-profile', feedback.user_id]"
+                    class="layout-horizontal align-center-center gap-5 link">
+                    <img [src]="feedback.user.profile_photo" alt=""
+                        class="object-fit-cover rounded-circle border-card-default" width="30px" height="30px">
+                    <p class="text-body-strong">{{feedback.user.display_name}}</p>
+                </a>
+            </td>
+            <td class="text-body">{{feedback.content}}</td>
+            <td class="text-body">
+                <div class="layout-horizontal align-center-center rating" style="font-size: 1em;">
+                    <i *ngFor="let star of stars; let i = index" [class.active]="i < feedback.rating" [ngClass]="{
+                        'icon-ic_fluent_star_12_filled': i < feedback.rating,
+                        'icon-ic_fluent_star_12_regular': i >= feedback.rating
+                    }" class="icon-size-12 icon"></i>
+                </div>
+            </td>
+            <td class="text-body">{{feedback.created_at | date:'dd/MM/yyyy'}}</td>
+        </tr>
+    </table>
+</div>

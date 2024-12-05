@@ -1,106 +1,142 @@
-<div class="layout-vertical gap-20 border-top border-card-default w-fill overflow-scroll-vertical">
+<div
+    class="card-background-default rounded-bottom-6 layout-vertical border-top border-card-default w-fill overflow-scroll-vertical">
+
+    <div class="layout-horizontal align-bottom-space-between my-10 gap-20 px-10">
+        <div class="w-fill-column-6">
+            <div class="control search-control">
+                <input type="search" name="keyword" [(ngModel)]="keyword" (input)="searchOrder()" spellcheck="false" placeholder="Tìm đơn hàng">
+                <button type="button" class="input-button clear-content-button" (click)="keyword = ''">
+                    <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
+                </button>
+                <button type="button" class="input-button search-button" (click)="searchOrder()">
+                    <i class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="layout-horizontal gap-20 w-fill-column-6">
+            <div class="w-fill-column-6 layout-vertical gap-5">
+                <p class="text-caption text-primary">Từ ngày</p>
+                <div class="control date-control w-fill">
+                    <input type="date" name="startDate" [(ngModel)]="startDate" (change)="filterOrders()">
+                </div>
+            </div>
+            <div class="w-fill-column-6 layout-vertical gap-5">
+                <p class="text-caption text-primary">Đến ngày</p>
+                <div class="control date-control w-fill">
+                    <input type="date" name="endDate" [(ngModel)]="endDate" (change)="filterOrders()">
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="text-body text-primary text-center w-fill" *ngIf="orders.length > 0">
         <div class="w-fill gap-20 layout-horizontal text-body-strong p-10">
             <div class="w-fill-column-3">Mã</div>
             <div class="w-fill-column-2">Hình ảnh</div>
             <div class="w-fill">Tên</div>
-            <div class="w-fill-column-2">Trạng thái</div>
-            <div class="w-fill-column-2">Ngày đặt hàng</div>
+            <div class="w-fill-column-2">Ngày đặt</div>
+            <div class="w-fill-column-3">Trạng thái</div>
         </div>
-        <div class="w-fill layout-vertical border-top border-card-default"
+        <div class="w-fill layout-vertical border-top border-card-default px-10"
             *ngFor="let order of orders; let i = index;">
             <div class="w-fill gap-20 layout-horizontal align-center-center rounded-8 cursor-pointer"
                 style="padding: 7px 11px;"
                 [class]="tabAccordion == 'order_detail_'+i?'card-background-default':'list-item'"
                 (click)="tabChild('order_detail_'+i)">
                 <div class="w-fill-column-3" style="text-transform: uppercase;">{{order.external_order_id}}</div>
-                <div class="w-fill-column-2">
-                    <img class="object-fit-cover rounded-4" [src]="order.products[0]?.images[0].image"
-                        height="70px" alt>
+                <div class="w-fill-column-2" style="height: 70px;">
+                    <img class="object-fit-cover rounded-4 h-fill" [src]="order.products[0]?.images[0].image" alt>
                 </div>
                 <div class="w-fill">{{order.products[0]?.name}}</div>
-                <div class="w-fill-column-2" [class]="order_color[order.status]">{{order_status[order.status]}}</div>
                 <div class="w-fill-column-2">{{order.created_at | date:'dd/MM/yyyy'}}</div>
+                <div class="w-fill-column-3">
+                    <select class="control w-fill text-body" [class]="order_color[order.status]"
+                        [(ngModel)]="order.status" (click)="$event.stopPropagation()"
+                        (change)="updateStatusOrder(order.status, order.id)" name="status">
+                        <option *ngFor="let status of filterOrderStatus(order.status)" class="gradient-background"
+                            [class]="order_color[status[0]]" [value]="status[0]">
+                            {{ status[1] }}
+                        </option>
+                    </select>
+                </div>
             </div>
             <div class="accordion-panel order_detail_{{i}} w-fill layout-vertical gap-10">
 
-                <div class="layout-vertical w-fill h-hug mt-10">
-
-                    <div class="layout-vertical border rounded-8 p-10 card-background-default"><!-- for -->
-                        <div class="border rounded-6">
-                            <div class="layout-horizontal align-center-space-between p-10">
-                                <p class="text-body-strong">Tổng tiền:</p>
-                                <p class="text-body text-right">{{order.total | currencyVND}}</p>
-                            </div>
-                            <div class="layout-horizontal align-center-space-between p-10">
-                                <p class="text-body-strong">Ghi chú:</p>
-                                <p class="text-body text-right">{{order.note}}</p>
-                            </div>
-                        </div>
-                        <div class="layout-vertical">
-                            <div *ngFor="let product of order.products">
-                                <div class="layout-horizontal gap-20 my-10">
-                                    <div class="w-fill-column-4">
-                                        <img class="object-fit-cover rounded-4 w-fill" height="110px"
-                                            [src]="product?.images[0].image" alt>
-                                    </div>
-                                    <div class="w-fill-column-8 layout-vertical gap-10">
-                                        <p class="text-body-strong text-right">{{product.name}}</p>
-                                        <p class="layout-horizontal align-center-space-between">Giá: <span
-                                                class="text-body-strong">{{product.pivot.price | currencyVND}}</span></p>
-                                        <p class="layout-horizontal align-center-space-between">Số lượng: <span
-                                                class="text-body-strong">{{product.pivot.quantity}}</span> </p>
-                                        <p class="layout-horizontal align-center-space-between">Tổng tiền: <span
-                                                class="text-body-strong">{{product.pivot.price *
-                                                product.pivot.quantity | currencyVND}}</span></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                <div class="layout-vertical w-fill h-hug border rounded-8 card-background-default mt-10">
+                    <div class="w-fill layout-horizontal align-center-center gap-10 p-10">
+                        <i class="icon-size-24 icon icon-ic_fluent_line_horizontal_1_24_regular"></i>
+                        <p class="text-body-large">Thông tin đơn hàng</p>
+                        <i class="icon-size-24 icon icon-ic_fluent_line_horizontal_1_24_regular"></i>
                     </div>
-
-                </div>
-                <div class="w-fill h-hug layout-vertical border rounded-8 card-background-default mb-10">
                     <table class="w-fill text-left table-info-bill">
-                        <tr class="border-bottom">
+                        <tr class="border-top">
                             <th class="h-hug text-body-strong">Họ và tên:</th>
                             <td>{{order.fullname}}</td>
                         </tr>
-                        <tr class="border-bottom">
+                        <tr class="border-top">
                             <th class="h-hug text-body-strong">Số điện thoại:</th>
                             <td>{{order.phone_number}}</td>
                         </tr>
-                        <tr class="border-bottom">
+                        <tr class="border-top">
                             <th class="h-hug text-body-strong">Email:</th>
                             <td>{{order.email}}</td>
                         </tr>
-                        <tr class="border-bottom">
+                        <tr class="border-top">
                             <th class="h-hug text-body-strong">Địa chỉ:</th>
                             <td>{{order.address}}</td>
                         </tr>
-                        <tr class="border-bottom">
+                        <tr class="border-top">
                             <th class="h-hug text-body-strong">Phương thức thanh toán:</th>
                             <td>{{payment_methood[order.payment_method]}}</td>
                         </tr>
-                        <tr class="border-bottom">
+                        <tr class="border-top">
                             <th class="h-hug text-body-strong">Mã giảm giá đã dùng:</th>
                             <td>KHONGCO</td>
                         </tr>
                     </table>
-                    <div class="w-fill p-10">
-                        <button type="button"
-                            class="button-accent button-text-only w-fill">
-                            Cập nhật trạng thái
-                        </button>
+                </div>
+                <div class="layout-vertical w-fill h-hug border rounded-8 card-background-default mb-10 p-10">
+
+                    <div class="border rounded-6 card-background-default">
+                        <div class="layout-horizontal align-center-space-between p-10">
+                            <p class="text-body-strong">Tổng tiền:</p>
+                            <p class="text-body-strong text-right">{{order.total | currencyVND}}</p>
+                        </div>
+                        <div class="layout-horizontal align-center-space-between p-10">
+                            <p class="text-body-strong">Ghi chú:</p>
+                            <p class="text-body text-right">{{order.note}}</p>
+                        </div>
+                    </div>
+                    <div class="layout-vertical gap-10 mt-10">
+                        <div *ngFor="let product of order.products">
+                            <div class="layout-horizontal gap-10 border border-card-default card-background-default rounded-4"
+                                style="height: 130px;">
+                                <div class="w-fill-column-4 h-fill">
+                                    <img class="object-fit-cover rounded-4 w-fill h-fill"
+                                        [src]="product?.images[0].image" alt>
+                                </div>
+                                <div class="w-fill-column-8 layout-vertical gap-10 py-10 px-10">
+                                    <p class="text-body-strong text-right">{{product.name}}</p>
+                                    <p class="layout-horizontal align-center-space-between">Giá: <span
+                                            class="text-body-strong">{{product.pivot.price | currencyVND}}</span></p>
+                                    <p class="layout-horizontal align-center-space-between">Số lượng: <span
+                                            class="text-body-strong">{{product.pivot.quantity}}</span> </p>
+                                    <p class="layout-horizontal align-center-space-between">Tổng tiền: <span
+                                            class="text-body-strong">{{product.pivot.price *
+                                            product.pivot.quantity | currencyVND}}</span></p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div *ngIf="orders.length == 0"
-        class="w-fill py-20 card-background-default border border-card-default rounded-8">
-        <p class="text-body text-secondary text-center">Bạn chưa có đơn hàng nào!</p>
+    <div *ngIf="orders.length == 0" class="w-fill p-10">
+        <p
+            class="text-body text-secondary text-center p-20 card-background-default border border-card-default rounded-8">
+            Không có đơn hàng nào!</p>
     </div>
 </div>
