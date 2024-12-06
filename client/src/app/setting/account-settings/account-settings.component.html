@@ -77,8 +77,8 @@
                                 </div>
                             </div>
                             <p *ngIf="new_password.errors?.['minlength']"
-                                class="validation-message validation-caution text-body text-primary">
-                                <i class="icon-size-16 icon icon-ic_fluent_warning_16_filled"></i>
+                                class="validation-message validation-critical text-caption text-system-critical">
+                                <i class="icon-size-16 icon icon-ic_fluent_dismiss_circle_16_filled"></i>
                                 <span class="text-body-strong">{{ 'setting.account_settings.password.title' | translate
                                     }}</span>
                                 <span>{{ 'setting.account_settings.password.format_password' | translate }}</span>
@@ -95,8 +95,8 @@
                                 </div>
                             </div>
                             <p *ngIf="new_password.value !== confirm.value"
-                                class="validation-message validation-caution text-body text-primary">
-                                <i class="icon-size-16 icon icon-ic_fluent_warning_16_filled"></i>
+                                class="validation-message validation-critical text-caption text-system-critical">
+                                <i class="icon-size-16 icon icon-ic_fluent_dismiss_circle_16_filled"></i>
                                 <span class="text-body-strong">{{ 'setting.account_settings.password.title' | translate
                                     }}</span>
                                 <span>{{ 'setting.account_settings.password.no_match' | translate }}</span>

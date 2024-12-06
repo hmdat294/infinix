@@ -62,8 +62,8 @@
                                 required email (input)="error = ''">
                         </div>
                         <p *ngIf="email.errors?.['email']"
-                            class="validation-message validation-caution text-body text-primary">
-                            <i class="icon-size-16 icon icon-ic_fluent_warning_16_filled"></i>
+                            class="validation-message validation-critical text-caption text-system-critical">
+                            <i class="icon-size-16 icon icon-ic_fluent_dismiss_circle_16_filled"></i>
                             <span class="text-body-strong">{{ 'register.email_label' | translate }}</span>
                             <span>{{ 'register.format_email' | translate }}</span>
                         </p>
@@ -128,8 +128,8 @@
                         </div>
 
                         <p *ngIf="password.errors?.['minlength']"
-                            class="validation-message validation-caution text-body text-primary">
-                            <i class="icon-size-16 icon icon-ic_fluent_warning_16_filled"></i>
+                            class="validation-message validation-critical text-caption text-system-critical">
+                            <i class="icon-size-16 icon icon-ic_fluent_dismiss_circle_16_filled"></i>
                             <span class="text-body-strong">{{ 'register.password_label' | translate }}</span>
                             <span>{{ 'register.format_password' | translate }}</span>
                         </p>
@@ -146,8 +146,8 @@
                             </button>
                         </div>
                         <p *ngIf="confirm.value !== password.value"
-                            class="validation-message validation-caution text-body text-primary">
-                            <i class="icon-size-16 icon icon-ic_fluent_warning_16_filled"></i>
+                            class="validation-message validation-critical text-caption text-system-critical">
+                            <i class="icon-size-16 icon icon-ic_fluent_dismiss_circle_16_filled"></i>
                             <span class="text-body-strong">{{ 'register.password_label' | translate }}</span>
                             <span>{{ 'register.no_match' | translate }}</span>
                         </p>

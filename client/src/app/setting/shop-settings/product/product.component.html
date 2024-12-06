@@ -1,5 +1,16 @@
 <div class="border border-card-default card-background-default rounded-bottom-6 pt-10 pb-20 px-20">
-    <div class="layout-horizontal align-center-right my-10">
+    <div class="layout-horizontal align-center-space-between my-10 gap-20 my-10">
+        <div class="control search-control">
+            <input type="search" name="keyword" [(ngModel)]="keyword" (input)="searchProduct()" spellcheck="false"
+                placeholder="Tìm sản phẩm">
+            <button type="button" class="input-button clear-content-button" (click)="keyword = ''">
+                <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
+            </button>
+            <button type="button" class="input-button search-button" (click)="searchProduct()">
+                <i class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
+            </button>
+        </div>
+
         <select class="control text-primary" (change)="sortProduct(sort_by_id.value)" name="sort_by_id" ngModel
             #sort_by_id="ngModel">
             <option class="gradient-background" [value]="0">{{ 'setting.shop_settings.product.select' | translate }}

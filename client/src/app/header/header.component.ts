@@ -145,7 +145,7 @@ export class HeaderComponent implements OnInit {
       'products_count': this.cart.products.length,
     }
     console.log(data);
-    
+
     this.router.navigate(['/checkout', btoa(unescape(encodeURIComponent(JSON.stringify(data))))]);
     this.diaLogHeader = '';
   }
@@ -154,7 +154,7 @@ export class HeaderComponent implements OnInit {
     this.shopService.removeProductToCart({ 'product_id': product_id }).subscribe(
       (data) => {
         console.log(data);
-        
+
         const shop = this.groupedShops.find((shop: any) => shop.shop_id == shop_id);
         shop.products = shop.products.filter((product: any) => product.id != product_id);
         this.shopService.updateCart(data.data);

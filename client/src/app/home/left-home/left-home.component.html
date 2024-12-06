@@ -59,7 +59,7 @@
     </div>
     <div class="layout-wrap gap-20 pt-10 border-top border-card-default w-fill">
 
-        <div class="border rounded-4 layout-vertical w-fill-column-6 overflow-hidden card-background-default"
+        <div class="border rounded-6 layout-vertical w-fill-column-6 overflow-hidden card-background-default"
             *ngFor="let product of listProduct">
             <div class="position-absolute top-0 w-fill text-right" style="z-index: 5;">
                 <span *ngIf="product.discount>0" class="text-caption p-5"
@@ -69,7 +69,7 @@
             </div>
             <img [src]="product.images[0]?.image" alt="" style="height: 150px;" class="w-fill object-fit-cover">
             <div class="layout-vertical gap-20 w-fill p-10"
-                style="justify-content: space-between; height: calc(100% - 200px);">
+                style="justify-content: space-between; height: calc(100% - 150px);">
                 <div class="layout-vertical cursor-pointer" (click)="viewProductDetail(product.id, product.stock)">
                     <p class="text-primary text-body-strong">
                         {{shortenTextByWords(product.name, 5)}}</p>

@@ -149,7 +149,7 @@ export class ShopService {
     return this.http.post(`${this.apiUrl}/voucher/${voucher_id}`, value, { headers });
   }
 
-  daleteVoucher(voucher_id: number): Observable<any> {
+  deleteVoucher(voucher_id: number): Observable<any> {
     const headers = this.authService.getToken();
     return this.http.delete(`${this.apiUrl}/voucher/${voucher_id}`, { headers });
   }

@@ -101,7 +101,6 @@ export class OrderComponent implements OnInit {
       });
     }
     else this.orders = [...this.filteredData];
-
   }
 
   filterOrderStatus(currentStatus: string) {

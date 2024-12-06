@@ -179,7 +179,7 @@
                         <div class="border-bottom layout-horizontal align-center-center w-fill p-10 gap-20"
                             *ngFor="let item of shop?.products">
                             <div class="">
-                                <input class="checkbox-control" type="checkbox" name="option" [(ngModel)]="item.checked"
+                                <input class="checkbox-control cursor-pointer" type="checkbox" name="option" [(ngModel)]="item.checked"
                                     (change)="getCheckedProducts()">
                             </div>
                             <img [src]="item.images[0]?.image" alt="" style="height: 100px; width: 100px;"
