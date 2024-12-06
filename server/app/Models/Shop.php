@@ -53,4 +53,9 @@ class Shop extends Model
     {
         return $this->hasManyThrough(Review::class, Product::class);
     }
+
+    public function vouchers()
+    {
+        return $this->hasMany(Voucher::class);
+    }
 }

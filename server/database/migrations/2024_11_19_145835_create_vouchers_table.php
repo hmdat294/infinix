@@ -23,7 +23,6 @@ return new class extends Migration
             $table->dateTime('valid_until');
             $table->integer('stock');
             $table->boolean('is_active')->default(true);
-            $table->boolean('is_unlimited')->default(false);
             $table->timestamps();
         });
     }
