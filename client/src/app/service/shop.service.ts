@@ -134,7 +134,7 @@ export class ShopService {
     return this.http.get(`${this.apiUrl}/voucher/${voucher_id}`, { headers });
   }
 
-  getVoucherByCode(code: number): Observable<any> {
+  getVoucherByCode(code: string): Observable<any> {
     const headers = this.authService.getToken();
     return this.http.get(`${this.apiUrl}/voucher/bycode/${code}`, { headers });
   }

@@ -150,20 +150,31 @@
                                                 </th>
                                             </tr>
                                         </table>
-                                        <div class="border-bottom p-10 layout-vertical gap-5">
+                                        <i *ngIf="message_voucher != ''"
+                                            class="text-left text-body text-system-critical p-10 pb-0">
+                                            {{message_voucher}}
+                                        </i>
+                                        <div class="p-10 layout-vertical gap-5">
                                             <p class="text-body-strong text-primary text-left">Mã giảm giá:</p>
                                             <div class="layout-horizontal gap-10">
                                                 <div class="control text-control w-fill">
-                                                    <input type="text" spellcheck="false" name="voucher" ngModel
-                                                        required>
+                                                    <input type="text" spellcheck="false" name="applied_voucher"
+                                                        [(ngModel)]="applied_voucher" required>
                                                 </div>
-                                                <button type="button" class="button-accent w-hug px-10 cursor-pointer">
+                                                <button type="button" class="button-accent w-hug px-10 cursor-pointer"
+                                                    (click)="addVoucher()">
                                                     Nhập
                                                 </button>
                                             </div>
                                         </div>
+                                        <div class="px-10 pb-10" *ngIf="add_voucher_success != ''">
+                                            <div class="system-success-background border border-card-default p-10 rounded-6 w-fill">
+                                                <p class="text-caption text-system-success text-left"
+                                                    [innerHTML]="add_voucher_success"></p>
+                                            </div>
+                                        </div>
                                         <table class="w-fill text-left table-info-bill">
-                                            <tr class="border-bottom">
+                                            <tr class="border-bottom border-top">
                                                 <th class="h-hug text-body-strong">Tổng tiền:</th>
                                                 <td class="text-right">{{cart.total | currencyVND }}</td>
                                             </tr>
@@ -173,11 +184,12 @@
                                             </tr>
                                             <tr class="border-bottom">
                                                 <th class="h-hug text-body-strong">Giảm giá:</th>
-                                                <td class="text-right">{{0 | currencyVND }}</td>
+                                                <td class="text-right">{{discount_voucher | currencyVND }}</td>
                                             </tr>
                                             <tr class="border-bottom">
                                                 <th class="h-hug text-body-strong">Tổng:</th>
-                                                <td class="text-right">{{cart.total | currencyVND }}</td>
+                                                <td class="text-right">{{cart.total - discount_voucher | currencyVND }}
+                                                </td>
                                             </tr>
                                         </table>
                                         <div

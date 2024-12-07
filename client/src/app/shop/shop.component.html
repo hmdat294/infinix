@@ -46,23 +46,21 @@
 
                         <div class="w-fill-column-8 layout-vertical gap-20">
                             <div
-                                class="w-fill text-primary text-body border-bottom pb-5 layout-horizontal gap-10 align-center-left">
+                                class="w-fill text-primary text-body border-bottom pb-5 layout-horizontal gap-5 align-center-left">
                                 Đánh giá:
-                                <div class="layout-horizontal gap-5 align-center-left">
-                                    <p class="text-primary text-caption">3/5</p>
-                                    <div class="layout-horizontal align-center-center" style="font-size: 0.8em;">
-                                        <i style="color: rgb(255, 255, 0);"
-                                            class="icon-size-12 icon icon-ic_fluent_star_12_filled"></i>
-                                        <i style="color: rgb(255, 255, 0);"
-                                            class="icon-size-12 icon icon-ic_fluent_star_12_filled"></i>
-                                        <i style="color: rgb(255, 255, 0);"
-                                            class="icon-size-12 icon icon-ic_fluent_star_12_filled"></i>
-                                        <i style="color: rgb(255, 255, 0);"
-                                            class="icon-size-12 icon icon-ic_fluent_star_half_12_regular"></i>
-                                        <i style="color: rgb(255, 255, 0);"
-                                            class="icon-size-12 icon icon-ic_fluent_star_12_regular"></i>
+                                <div class="layout-horizontal gap-10" *ngIf="shop?.length > 0">
+                                    <p class="text-primary text-caption">
+                                        {{roundToNearest(shop?.average_rating) || 0}} / 5</p>
+                                    <div class="layout-horizontal align-center-center rating" style="font-size: 1em;">
+                                        <i *ngFor="let star of stars; let i = index"
+                                            [class.active]="i < roundToNearest(shop?.average_rating)" [ngClass]="{
+                                            'icon-ic_fluent_star_12_filled': i + 1 <= roundToNearest(shop?.average_rating),
+                                            'icon-ic_fluent_star_half_12_regular': i + 1 > roundToNearest(shop?.average_rating) && i < roundToNearest(shop?.average_rating),
+                                            'icon-ic_fluent_star_12_regular': i + 1 > roundToNearest(shop?.average_rating)
+                                          }" class="icon-size-12 icon"></i>
                                     </div>
                                 </div>
+                                <p *ngIf="!shop?.length" class="text-body-strong text-primary">Chưa có đánh giá</p>
                             </div>
                             <p class="w-fill text-primary text-body border-bottom pb-5">Bắt đầu hoạt động:
                                 <span class="text-body-strong">{{shop?.created_at | date:'dd/MM/yyyy'}}</span>
@@ -225,7 +223,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="layout-horizontal align-center-left gap-20 text-primary">
-                                                    <div class="layout-horizontal gap-10">
+                                                    <div class="layout-horizontal gap-10" *ngIf="feedbacks.length > 0">
                                                         <p class="text-primary text-caption">
                                                             {{roundToNearest(product.average_rating) || 0}} / 5</p>
                                                         <div class="layout-horizontal align-center-center rating"
@@ -238,7 +236,7 @@
                                                                 'icon-ic_fluent_star_12_regular': i + 1 > roundToNearest(product.average_rating)
                                                               }" class="icon-size-12 icon"></i>
                                                         </div>
-                                                    </div>|
+                                                    </div>{{feedbacks.length>0?'|':''}}
                                                     <p class="text-primary text-caption">Đánh giá {{feedbacks.length}}
                                                     </p>|
                                                     <p class="text-primary text-caption">Đã bán {{product.total_sold}}
