@@ -26,6 +26,8 @@ class OrderResource extends JsonResource
         $data['fullname'] = $this->group->fullname;
         $data['address'] = $this->group->address;
         $data['phone_number'] = $this->group->phone_number;
+        $data['email'] = $this->group->email;
+        $data['external_order_id'] = $this->group->external_order_id;
         $data['shop_name'] = $this->shop->name;
         $data['shop_logo'] = $this->shop->logo;
 

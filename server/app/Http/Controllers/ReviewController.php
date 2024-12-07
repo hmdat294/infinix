@@ -7,6 +7,7 @@ use App\Models\Review;
 use App\Models\User;
 use App\Http\Resources\ReviewResource;
 use App\Models\Product;
+use App\Models\Shop;
 
 class ReviewController extends Controller
 {
@@ -26,4 +27,10 @@ class ReviewController extends Controller
         return new ReviewResource($review);
     }
 
+    public function byShop(Request $request, $id)
+    {
+        $shop = Shop::find($id);
+        $reviews = $shop->reviews;
+        return ReviewResource::collection($reviews);
+    }
 }

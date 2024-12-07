@@ -22,7 +22,6 @@ class Voucher extends Model
         'valid_until',
         'stock',
         'is_active',
-        'is_unlimited',
     ];
 
     public function shop()
