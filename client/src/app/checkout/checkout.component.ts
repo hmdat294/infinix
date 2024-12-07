@@ -147,6 +147,7 @@ export class CheckoutComponent implements OnInit {
       }
 
     this.cart.payment_method = this.payment_method;
+    this.cart.voucher_discount_price = this.discount_voucher;
     this.cart.total = this.cart.total - this.discount_voucher;
 
     this.cart.shops.forEach((shop: any) => {
