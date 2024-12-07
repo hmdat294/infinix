@@ -1,5 +1,5 @@
 <div class="border border-card-default card-background-default rounded-bottom-6 pt-10 pb-20 px-20">
-    <table class="text-primary text-center w-fill">
+    <table class="text-primary text-center w-fill" *ngIf="feedbacks.length > 0">
         <tr class="text-body-strong">
             <th style="width: 50px;">STT</th>
             <th>Người đánh giá</th>
@@ -30,4 +30,10 @@
             <td class="text-body">{{feedback.created_at | date:'dd/MM/yyyy'}}</td>
         </tr>
     </table>
+
+    <div *ngIf="feedbacks.length == 0" class="w-fill pt-10">
+        <p
+            class="text-body text-secondary text-center p-20 card-background-default border border-card-default rounded-8">
+            Chưa có đánh giá nào!</p>
+    </div>
 </div>

@@ -34,7 +34,6 @@ export class CheckoutService {
       }],
       'products_count': 1,
     }
-    console.log(data);
 
     this.router.navigate(['/checkout', btoa(unescape(encodeURIComponent(JSON.stringify(data))))]);
   }

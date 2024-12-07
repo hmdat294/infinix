@@ -161,7 +161,7 @@
                                         </div>
                                     </div>
                                     <div class="layout-horizontal align-center-left gap-20 text-primary">
-                                        <div class="layout-horizontal gap-10">
+                                        <div class="layout-horizontal gap-10" *ngIf="feedbacks.length > 0">
                                             <p class="text-primary text-caption">
                                                 {{roundToNearest(product.average_rating) || 0}} / 5</p>
                                             <div class="layout-horizontal align-center-center rating"
@@ -174,7 +174,7 @@
                                                     'icon-ic_fluent_star_12_regular': i + 1 > roundToNearest(product.average_rating)
                                                   }" class="icon-size-12 icon"></i>
                                             </div>
-                                        </div>|
+                                        </div>{{feedbacks.length>0?'|':''}}
                                         <p class="text-primary text-caption">Đánh giá {{feedbacks.length}}</p>|
                                         <p class="text-primary text-caption">Đã bán {{product.total_sold}}</p>
                                     </div>
