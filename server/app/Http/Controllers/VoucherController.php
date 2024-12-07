@@ -61,4 +61,10 @@ class VoucherController extends Controller
 
         return VoucherResource::collection($vouchers);
     }
+
+    public function byCode(Request $request, $code)
+    {
+        $voucher = Voucher::where('code', $code)->first();
+        return new VoucherResource($voucher);
+    }
 }

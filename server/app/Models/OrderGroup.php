@@ -20,7 +20,8 @@ class OrderGroup extends Model
         'fullname',
         'address',
         'phone_number',
-        'email'
+        'email',
+        'applied_voucher_id',
     ];
 
     public function user()
@@ -36,5 +37,10 @@ class OrderGroup extends Model
     public function products()
     {
         return $this->hasManyThrough(Product::class, Order::class);
+    }
+
+    public function voicher()
+    {
+        return $this->hasMany(Voucher::class, 'applied_voucher_id');
     }
 }
