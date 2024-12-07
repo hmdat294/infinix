@@ -22,7 +22,7 @@ class OrderGroup extends Model
         'address',
         'phone_number',
         'email',
-        'applied_voucher_id',
+        'voucher_discount_price',
     ];
 
     public function user()
