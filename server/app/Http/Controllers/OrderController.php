@@ -48,7 +48,7 @@ class OrderController extends Controller
             'email' => $request_data->user->email,
             'total' => $request_data->total
         ];
-        if ($request->applied_voucher) {
+        if ($request_data->applied_voucher) {
             $voucher = Voucher::where('code', $request->applied_voucher)->first();
             $order_group_data['applied_voucher_id'] = $voucher->id;
         }
