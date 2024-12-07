@@ -40,8 +40,4 @@ class OrderGroup extends Model
         return $this->hasManyThrough(Product::class, Order::class);
     }
 
-    public function voicher()
-    {
-        return $this->hasMany(Voucher::class, 'applied_voucher_id');
-    }
 }
