@@ -9,6 +9,7 @@ use App\Models\Order;
 use App\Models\OrderGroup;
 use App\Models\Product;
 use App\Models\User;
+use App\Models\Voucher;
 use Illuminate\Support\Facades\Log;
 
 use App\Services\ZaloPayService;
@@ -47,7 +48,10 @@ class OrderController extends Controller
             'email' => $request_data->user->email,
             'total' => $request_data->total
         ];
-
+        if ($request->applied_voucher) {
+            $voucher = Voucher::where('code', $request->applied_voucher)->first();
+            $order_group_data['applied_voucher_id'] = $voucher->id;
+        }
         $order_group = OrderGroup::create($order_group_data);
 
         $shops = $request_data->shops;

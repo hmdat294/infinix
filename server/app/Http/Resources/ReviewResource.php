@@ -18,6 +18,10 @@ class ReviewResource extends JsonResource
         $data['user']['display_name'] = $this->user->profile->display_name;
         $data['user']['profile_photo'] = $this->user->profile->profile_photo;
 
+        $data['product']['name'] = $this->product->name;
+        $data['product']['images'] = $this->product->images;
+        $data['product']['price'] = $this->product->price;
+
         return $data;
     }
 }
