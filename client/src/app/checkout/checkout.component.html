@@ -55,8 +55,16 @@
                                                 <td>{{item.name}}</td>
                                                 <td>{{item.price-((item.price*item.discount)/100) | currencyVND}}</td>
                                                 <td>{{item.pivot.quantity}}</td>
-                                                <td>{{(item.price-((item.price*item.discount)/100))*item.pivot.quantity
-                                                    | currencyVND}}</td>
+                                                <td>
+                                                    <p class="text-caption" *ngIf="item.discount_product">
+                                                        - {{item.discount_product | currencyVND}}
+                                                    </p>
+                                                    <p class="text-body-strong">
+                                                        {{((item.price-((item.price*item.discount)/100))*item.pivot.quantity)
+                                                        - (item.discount_product||0)
+                                                        | currencyVND}}
+                                                    </p>
+                                                </td>
                                             </tr>
                                         </table>
                                     </div>
@@ -151,7 +159,7 @@
                                             </tr>
                                         </table>
                                         <i *ngIf="message_voucher != ''"
-                                            class="text-left text-body text-system-critical p-10 pb-0">
+                                            class="text-left text-body text-system-critical px-10 pt-10 pb-0">
                                             {{message_voucher}}
                                         </i>
                                         <div class="p-10 layout-vertical gap-5">
@@ -168,7 +176,8 @@
                                             </div>
                                         </div>
                                         <div class="px-10 pb-10" *ngIf="add_voucher_success != ''">
-                                            <div class="system-success-background border border-card-default p-10 rounded-6 w-fill">
+                                            <div
+                                                class="system-success-background border border-card-default p-10 rounded-6 w-fill">
                                                 <p class="text-caption text-system-success text-left"
                                                     [innerHTML]="add_voucher_success"></p>
                                             </div>

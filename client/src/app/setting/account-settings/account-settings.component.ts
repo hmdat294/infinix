@@ -38,10 +38,7 @@ export class AccountSettingsComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.getUser(0).subscribe(
-      (response) => {
-        this.user = response.data;
-        // console.log(this.user);
-      });
+      (response) => this.user = response.data);
   }
 
   tabChild(tab: string) {

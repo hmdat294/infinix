@@ -7,7 +7,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class CurrencyVNDPipe implements PipeTransform {
 
   transform(value: number): string {
-    return value.toLocaleString('vi-VN', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + ' đ';
+    return value.toLocaleString('vi-VN', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + 'đ';
   }
 
 }
