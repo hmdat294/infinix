@@ -51,6 +51,10 @@ class OrderController extends Controller
         ];
         $order_group = OrderGroup::create($order_group_data);
 
+        $voucher = Voucher::where('code', $request_data->applied_voucher)->first();
+        $voucher->stock -= 1;
+        $voucher->save();
+
         $shops = $request_data->shops;
         foreach ($shops as $shop) {
             $order_data = [
