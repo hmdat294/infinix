@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('address');
             $table->string('phone_number');
             $table->string('email');
-            $table->string('applied_voucher_id')->nullable()->default('null');
+            $table->integer('voucher_discount_price');
             $table->integer('total')->default(0);
             $table->timestamps();
         });

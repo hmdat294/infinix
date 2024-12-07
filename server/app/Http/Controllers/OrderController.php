@@ -46,12 +46,9 @@ class OrderController extends Controller
             'phone_number' => $request_data->user->phone_number,
             'fullname' => $request_data->user->name,
             'email' => $request_data->user->email,
-            'total' => $request_data->total
+            'total' => $request_data->total,
+            'voucher_discount_price' => $request_data->voucher_discount_price ?? 0,
         ];
-        if ($request_data->applied_voucher) {
-            $voucher = Voucher::where('code', $request->applied_voucher)->first();
-            $order_group_data['applied_voucher_id'] = $voucher->id;
-        }
         $order_group = OrderGroup::create($order_group_data);
 
         $shops = $request_data->shops;
