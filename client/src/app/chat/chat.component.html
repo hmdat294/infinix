@@ -6,7 +6,7 @@
                 style="height: calc(100vh - 85px);">
                 <div class="w-fill layout-horizontal align-center-space-between px-20 py-15">
                     <div class="control search-control w-fill me-10">
-                        <input type="search" placeholder="Tìm kiếm" name="search" [(ngModel)]="keyword"
+                        <input type="search" [placeholder]="'chat.find' | translate" name="search" [(ngModel)]="keyword"
                             (input)="searchFriend()" spellcheck="false">
                         <button type="button" class="input-button clear-content-button">
                             <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
@@ -20,15 +20,15 @@
                             (click)="toggleDialogCreateGroup()">
                             <i class="icon-size-24 icon icon-ic_fluent_chat_add_24_regular"></i></button>
                     </div>
-                    <div class="w-hug">
+                    <!-- <div class="w-hug">
                         <button type="button" class="button-subtle button-icon-only text-secondary"><i
                                 class="icon-size-24 icon icon-ic_fluent_more_horizontal_24_regular"></i></button>
-                    </div>
+                    </div> -->
                 </div>
 
                 <div class="px-20 py-10" *ngIf="friendsSearch.length == 0 && keyword != ''">
                     <div class="w-fill py-15 card-background-default border border-card-default rounded-4">
-                        <p class="text-body text-secondary text-center">Không tìm thấy</p>
+                        <p class="text-body text-secondary text-center">{{'chat.empty' | translate}}</p>
                     </div>
                 </div>
 
@@ -59,9 +59,9 @@
                         style="width: 400px;" (submit)="createGroup(frm.value)" #frm="ngForm"
                         enctype="multipart/form-data">
                         <div class="w-fill layout-vertical gap-5">
-                            <p class="text-body-large text-primary">Tạo nhóm trò chuyện</p>
+                            <p class="text-body-large text-primary">{{'chat.create_group.title' | translate}}</p>
                             <p class="text-body text-secondary">
-                                Tạo nhóm trò chuyện để bắt đầu trò chuyện với nhiều người cùng một lúc
+                                {{'chat.create_group.description' | translate}}
                             </p>
                         </div>
                         <div class="layout py-20 w-fill align-center-center">
@@ -80,16 +80,17 @@
                             </div>
                         </div>
                         <div class="w-fill layout-vertical gap-5">
-                            <p class="text-body text-primary">Tên nhóm</p>
+                            <p class="text-body text-primary">{{'chat.create_group.name_label' | translate}}</p>
                             <div class="w-fill control text-control">
                                 <input type="text" name="name_group" ngModel spellcheck="false" #nameGroup>
                             </div>
                         </div>
                         <div class="w-fill layout-horizontal gap-20 align-center-right">
                             <button type="button" class="button-standard button-text-only"
-                                (click)="closeCreateGroup()">Hủy</button>
+                                (click)="closeCreateGroup()">{{'chat.create_group.cancel_button' | translate}}</button>
                             <button type="submit" class="button-accent button-text-only"
-                                [disabled]="spaceCheck.test(frm.value.name_group)">Tạo nhóm</button>
+                                [disabled]="spaceCheck.test(frm.value.name_group)">{{'chat.create_group.submit_button' |
+                                translate}}</button>
                         </div>
                     </form>
                 </div>
@@ -98,7 +99,7 @@
 
         <div *ngIf="!conversation"
             class="w-fill my-20 p-20 card-background-default border border-card-default rounded-8 layout align-center-center">
-            <p class="text-body text-secondary text-center">Trống</p>
+            <p class="text-body text-secondary text-center">{{'chat.empty' | translate}}</p>
         </div>
 
         <div *ngIf="conversation"
@@ -149,16 +150,17 @@
                         <div class="layout-horizontal align-center-left gap-15 text-left w-fill p-10 text-primary">
                             <i class="icon-size-20 text-accent-default icon icon-ic_fluent_person_add_20_regular"></i>
                             <p class="layout-vertical">
-                                <span class="text-body text-primary">Chưa phải là bạn, gửi yêu cầu kết bạn</span>
+                                <span class="text-body text-primary">{{'chat.not_friend.title' | translate}}</span>
                             </p>
                         </div>
                         <button *ngIf="!conversation.users[0].is_sent_friend_request" type="button"
                             class="button-accent button-text-only me-10"
-                            (click)="addFriend(conversation.users[0].id)">Thêm bạn bè
+                            (click)="addFriend(conversation.users[0].id)">{{'chat.not_friend.add_friend' | translate}}
                         </button>
                         <button *ngIf="conversation.users[0].is_sent_friend_request" type="button"
                             class="button-standard button-text-only me-10"
-                            (click)="cancelRequest(conversation.users[0].id)">Hủy yêu cầu
+                            (click)="cancelRequest(conversation.users[0].id)">{{'chat.not_friend.cancel_request_friend'
+                            | translate}}
                         </button>
                     </div>
                 </div>
@@ -169,7 +171,7 @@
                         <button class="button-subtle text-left w-fill px-10 py-5" (click)="scrollToElement(msg_pin.id)">
                             <!-- <i class="icon-size-24 icon icon-ic_fluent_pin_24_filled"></i> -->
                             <p class="layout-vertical">
-                                <span class="text-body-strong text-primary">Tin nhắn</span>
+                                <span class="text-body-strong text-primary">{{'chat.pin.title' | translate}}</span>
                                 <span class="text-body text-secondary">{{shortenTextByWords(msg_pin.content,
                                     20)}}</span>
                             </p>
@@ -180,8 +182,9 @@
                         </button>
                     </div>
                     <div class="px-20 py-10">
-                        <button class="button-standard button-text-only w-fill" (click)="morePinMessage()">Thu
-                            gọn</button>
+                        <button class="button-standard button-text-only w-fill" (click)="morePinMessage()">
+                            {{'chat.pin.collapse' | translate}}
+                        </button>
                     </div>
                 </div>
 
@@ -191,7 +194,7 @@
                             class="layout-horizontal align-center-left gap-15 text-left w-fill px-10 py-5 text-primary">
                             <i class="icon-size-20 text-accent-default icon icon-ic_fluent_pin_20_regular"></i>
                             <p class="layout-vertical">
-                                <span class="text-body-strong text-primary">Tin nhắn</span>
+                                <span class="text-body-strong text-primary">{{'chat.pin.title' | translate}}</span>
                                 <span class="text-body text-secondary">
                                     {{shortenTextByWords(conversation.pinned_messages[conversation.pinned_messages.length-1].content,
                                     10)}}
@@ -200,7 +203,7 @@
                         </div>
                         <button type="button" class="button-standard button-text-with-icon me-10"
                             (click)="morePinMessage()">
-                            Xem thêm
+                            {{'chat.pin.more' | translate}}
                             <i class="icon-size-20 text-accent-default icon icon-ic_fluent_chat_20_regular"></i>
                         </button>
                     </div>
@@ -222,11 +225,11 @@
                                 <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_filled"></i>
                             </button>
                             <div class="w-fill border-bottom border-card-default">
-                                <p class="text-subtitle text-primary text-center pb-20 pt-10">Cập nhật danh sách gim</p>
+                                <p class="text-subtitle text-primary text-center pb-20 pt-10">{{'chat.pin.pin_update' | translate}}Cập nhật danh sách gim</p>
                             </div>
 
                             <p class="text-body text-secondary p-10">
-                                Đã đạt giới hạn 3 gim, gỡ gim cũ để thêm mới!
+                                {{'chat.pin.pin_limit' | translate}}
                             </p>
 
                             <div class="layout-vertial border rounded-6 mx-10" style="width: calc(100% - 20px);">
@@ -236,7 +239,7 @@
                                         (click)="scrollToElement(msg_pin.id)">
                                         <!-- <i class="icon-size-24 icon icon-ic_fluent_pin_24_filled"></i> -->
                                         <p class="layout-vertical">
-                                            <span class="text-body-strong text-primary">Tin nhắn</span>
+                                            <span class="text-body-strong text-primary">{{'chat.pin.title' | translate}}</span>
                                             <span class="text-body text-secondary">{{msg_pin.content}}</span>
                                         </p>
                                     </button>
@@ -261,7 +264,8 @@
                                 <div
                                     class="solid-background-senary rounded-6 p-10 gap-10 layout-vertical border border-card-default">
                                     <div class="border-bottom pb-10 layout-horizontal align-center-space-between">
-                                        <p class="text-subtitle text-primary">Chi tiết tin nhắn</p>
+                                        <p class="text-subtitle text-primary">{{'chat.popup.title_detail' | translate}}
+                                        </p>
                                         <button type="button" class="button-subtle button-icon-only"
                                             (click)="toggleDialogChat(0)">
                                             <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
@@ -288,8 +292,9 @@
                                                             class="icon-size-16 icon icon-ic_fluent_arrow_forward_16_filled"></i>
                                                         <p class="text-body-strong text-primary">
                                                             {{msg.user.profile.display_name}}
-                                                            <span class="text-body text-secondary">đã chia sẻ bài đăng
-                                                                này</span>
+                                                            <span class="text-body text-secondary">
+                                                                {{ 'chat.message.share_this' | translate }}
+                                                            </span>
                                                         </p>
                                                     </div>
                                                     <div class="layout align-center-right pb-10"
@@ -319,7 +324,8 @@
                                                                         style="border-right: 3px solid #005FB8E6;">
 
                                                                         <p class="px-10 py-5 my-5 text-secondary">
-                                                                            <i>*Tin nhắn đã được thu hồi</i>
+                                                                            <i>*{{'chat.message.recalled' |
+                                                                                translate}}</i>
                                                                         </p>
 
                                                                     </div>
@@ -401,8 +407,9 @@
                                                             class="icon-size-16 icon icon-ic_fluent_arrow_forward_16_filled"></i>
                                                         <p class="text-body-strong text-primary">
                                                             {{msg.user.profile.display_name}}
-                                                            <span class="text-body text-secondary">đã chia sẻ bài đăng
-                                                                này</span>
+                                                            <span class="text-body text-secondary">
+                                                                {{ 'chat.message.share_this' | translate }}
+                                                            </span>
                                                         </p>
                                                     </div>
                                                     <div class="layout align-center-left pb-10"
@@ -431,7 +438,8 @@
                                                                         style="border-left: 3px solid #0000001F;">
 
                                                                         <p class="px-10 py-5 my-5 text-secondary">
-                                                                            <i>*Tin nhắn đã được thu hồi</i>
+                                                                            <i>*{{'chat.message.recalled' |
+                                                                                translate}}</i>
                                                                         </p>
 
                                                                     </div>
@@ -518,7 +526,9 @@
                                         <i class="icon-size-16 icon icon-ic_fluent_arrow_forward_16_filled"></i>
                                         <p class="text-body-strong text-primary">
                                             {{msg.user.profile.display_name}}
-                                            <span class="text-body text-secondary">đã chia sẻ bài đăng này</span>
+                                            <span class="text-body text-secondary">
+                                                {{ 'chat.message.share_this' | translate }}
+                                            </span>
                                         </p>
                                     </div>
                                     <div class="layout align-top-right" *ngIf="msg.is_recalled == 0">
@@ -528,45 +538,45 @@
                                                 (click)="toggleDialogChat(msg.id)">
                                                 <i
                                                     class="icon-size-20 accent-text-primary icon icon-ic_fluent_more_horizontal_20_regular"></i>
-                                                <p class="text-body text-primary">Xem chi tiết</p>
+                                                <p class="text-body text-primary">{{'chat.popup.view_detail' | translate}}</p>
                                             </div>
                                             <div *ngIf="!checkPined(msg.id)"
                                                 class="list-item layout-horizontal gap-10 align-center-left"
                                                 (click)="checkPinLength(msg.id)">
                                                 <i
                                                     class="icon-size-20 accent-text-primary icon icon-ic_fluent_pin_20_regular"></i>
-                                                <p class="text-body text-primary">Gim</p>
+                                                <p class="text-body text-primary">{{'chat.popup.pin' | translate}}</p>
                                             </div>
                                             <div *ngIf="checkPined(msg.id)"
                                                 class="list-item layout-horizontal gap-10 align-center-left"
                                                 (click)="pinMessage(msg.id)">
                                                 <i
                                                     class="icon-size-20 accent-text-primary icon icon-ic_fluent_pin_off_20_regular"></i>
-                                                <p class="text-body text-primary">Hủy gim</p>
+                                                <p class="text-body text-primary">{{'chat.popup.unpin' | translate}}</p>
                                             </div>
                                             <div class="list-item layout-horizontal gap-10 align-center-left"
                                                 (click)="copyMessage(msg.content)">
                                                 <i
                                                     class="icon-size-20 accent-text-primary icon icon-ic_fluent_copy_20_regular"></i>
-                                                <p class="text-body text-primary">Sao chép</p>
+                                                <p class="text-body text-primary">{{'chat.popup.copy' | translate}}</p>
                                             </div>
                                             <div class="list-item layout-horizontal gap-10 align-center-left"
                                                 (click)="onReply(msg.id)">
                                                 <i
                                                     class="icon-size-20 accent-text-primary icon icon-ic_fluent_arrow_reply_20_regular"></i>
-                                                <p class="text-body text-primary">Phản hổi</p>
+                                                <p class="text-body text-primary">{{'chat.popup.reply' | translate}}</p>
                                             </div>
                                             <div class="list-item layout-horizontal gap-10 align-center-left"
                                                 (click)="editMessage(msg.id)">
                                                 <i
                                                     class="icon-size-20 accent-text-primary icon icon-ic_fluent_edit_20_regular"></i>
-                                                <p class="text-body text-primary">Chỉnh sửa</p>
+                                                <p class="text-body text-primary">{{'chat.popup.edit' | translate}}</p>
                                             </div>
                                             <div class="list-item layout-horizontal gap-10 align-center-left"
                                                 (click)="recallMessage(msg.id)">
                                                 <i
                                                     class="icon-size-20 accent-text-primary icon icon-ic_fluent_arrow_counterclockwise_20_regular"></i>
-                                                <p class="text-body text-primary">Thu hồi</p>
+                                                <p class="text-body text-primary">{{'chat.popup.recall' | translate}}</p>
                                             </div>
 
                                         </div>
@@ -608,7 +618,7 @@
                                                         style="border-right: 3px solid var(--accent-default);">
 
                                                         <p class="px-10 py-5 my-5 text-secondary">
-                                                            <i>*Tin nhắn đã được thu hồi</i>
+                                                            <i>*{{'chat.message.recalled' | translate}}</i>
                                                         </p>
 
                                                     </div>
@@ -683,12 +693,12 @@
                                     <div *ngIf="msg.is_recalled == 1" class="layout align-center-left">
                                         <div *ngIf="msg.showUndoBtn" class="layout mx-15">
                                             <button type="button" (click)="undoRecall(msg.id)" class="button-subtle">
-                                                Hoàn tác ({{msg.countdown}})
+                                                {{'chat.message.undo' | translate}} ({{msg.countdown}})
                                             </button>
                                         </div>
                                         <p
                                             class="text-on-accent-disabled accent-disabled border border-card-default px-15 py-10 rounded-8">
-                                            <i>*Tin nhắn đã được thu hồi</i>
+                                            <i>*{{'chat.message.recalled' | translate}}</i>
                                         </p>
                                     </div>
                                 </div>
@@ -715,7 +725,9 @@
                                         <i class="icon-size-16 icon icon-ic_fluent_arrow_forward_16_filled"></i>
                                         <p class="text-body-strong text-primary">
                                             {{msg.user.profile.display_name}}
-                                            <span class="text-body text-secondary">đã chia sẻ bài đăng này</span>
+                                            <span class="text-body text-secondary">
+                                                {{ 'chat.message.share_this' | translate }}
+                                            </span>
                                         </p>
                                     </div>
                                     <div class="layout align-top-left" *ngIf="msg.is_recalled == 0">
@@ -757,7 +769,7 @@
                                                         style="border-left: 3px solid var(--control-strong-stroke-default);">
 
                                                         <p class="px-10 py-5 my-5 text-secondary">
-                                                            <i>*Tin nhắn đã được thu hồi</i>
+                                                            <i>*{{'chat.message.recalled' | translate}}</i>
                                                         </p>
 
                                                     </div>
@@ -832,33 +844,33 @@
                                                 (click)="toggleDialogChat(msg.id)">
                                                 <i
                                                     class="icon-size-20 accent-text-primary icon icon-ic_fluent_more_horizontal_20_regular"></i>
-                                                <p class="text-body text-primary">Xem chi tiết</p>
+                                                <p class="text-body text-primary">{{'chat.popup.view_detail' | translate}}</p>
                                             </div>
                                             <div *ngIf="!checkPined(msg.id)"
                                                 class="list-item layout-horizontal gap-10 align-center-left"
                                                 (click)="checkPinLength(msg.id)">
                                                 <i
                                                     class="icon-size-20 accent-text-primary icon icon-ic_fluent_pin_20_regular"></i>
-                                                <p class="text-body text-primary">Gim</p>
+                                                <p class="text-body text-primary">{{'chat.popup.pin' | translate}}</p>
                                             </div>
                                             <div *ngIf="checkPined(msg.id)"
                                                 class="list-item layout-horizontal gap-10 align-center-left"
                                                 (click)="pinMessage(msg.id)">
                                                 <i
                                                     class="icon-size-20 accent-text-primary icon icon-ic_fluent_pin_off_20_regular"></i>
-                                                <p class="text-body text-primary">Hủy gim</p>
+                                                <p class="text-body text-primary">{{'chat.popup.unpin' | translate}}</p>
                                             </div>
                                             <div class="list-item layout-horizontal gap-10 align-center-left"
                                                 (click)="copyMessage(msg.content)">
                                                 <i
                                                     class="icon-size-20 accent-text-primary icon icon-ic_fluent_copy_20_regular"></i>
-                                                <p class="text-body text-primary">Sao chép</p>
+                                                <p class="text-body text-primary">{{'chat.popup.copy' | translate}}</p>
                                             </div>
                                             <div class="list-item layout-horizontal gap-10 align-center-left"
                                                 (click)="onReply(msg.id)">
                                                 <i
                                                     class="icon-size-20 accent-text-primary icon icon-ic_fluent_arrow_reply_20_regular"></i>
-                                                <p class="text-body text-primary">Phản hổi</p>
+                                                <p class="text-body text-primary">{{'chat.popup.reply' | translate}}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -867,11 +879,11 @@
                                     <div *ngIf="msg.is_recalled == 1" class="layout align-center-left">
                                         <p
                                             class="border border-card-default card-background-default px-15 py-10 rounded-8 text-secondary">
-                                            <i>*Tin nhắn đã được thu hồi</i>
+                                            <i>*{{'chat.message.recalled' | translate}}</i>
                                         </p>
                                         <div *ngIf="msg.showUndoBtn" class="layout mx-15">
                                             <button type="button" (click)="undoRecall(msg.id)" class="button-subtle">
-                                                Hoàn tác ({{msg.countdown}})
+                                                {{'chat.message.undo' | translate}} ({{msg.countdown}})
                                             </button>
                                         </div>
                                     </div>
@@ -887,9 +899,8 @@
 
                 <div class="w-fill p-20" *ngIf="conversation?.is_group == 0 && conversation?.users[0].blocked_by_user">
                     <div class="p-10 card-background-default border border-card-default rounded-8">
-                        <p class="text-body text-secondary text-center">Tài khoản này hiện không muốn nhận tin
-                            nhắn của
-                            bạn!
+                        <p class="text-body text-secondary text-center">
+                            {{ 'chat.blocked' | translate }}
                         </p>
                     </div>
                 </div>
@@ -897,11 +908,12 @@
                 <div class="w-fill p-20" *ngIf="conversation?.is_group == 0 && conversation?.users[0].blocked_user">
                     <div
                         class="p-10 card-background-default border border-card-default rounded-8 layout-horizontal gap-15 align-center-center">
-                        <p class="text-body text-secondary text-center">Bạn đã chặn tài khoản này!
+                        <p class="text-body text-secondary text-center">
+                            {{ 'chat.blocker' | translate }}
                         </p>
                         <button type="button" class="button-standard button-text-with-icon"
                             (click)="blockUser(conversation?.users[0].id)">
-                            Bỏ chặn
+                            {{ 'chat.unblock' | translate }}
                             <i class="icon-size-16 icon icon-ic_fluent_person_key_20_regular"></i>
                         </button>
                     </div>
@@ -996,13 +1008,14 @@
                                 </button>
                             </div>
 
-                            <button type="submit" class="button-standard button-text-only"
-                                *ngIf="id_edit_message > 0" (click)="editMessage(0)">
+                            <button type="submit" class="button-standard button-text-only" *ngIf="id_edit_message > 0"
+                                (click)="editMessage(0)">
                                 Hủy
                             </button>
                             <button type="submit" class="button-accent button-text-with-icon"
                                 *ngIf="(!frm.invalid && !spaceCheck.test(frm.value.content)) || previewUrls.length > 0">
-                                {{id_edit_message > 0 ? 'Sửa' : 'Gửi'}}
+                                {{id_edit_message > 0 ? ('chat.message.edit_button' | translate) :
+                                ('chat.message.send_button' | translate)}}
                                 <i class="icon-size-16 icon icon-ic_fluent_send_16_filled"></i>
                             </button>
                         </div>
@@ -1023,7 +1036,7 @@
                         style="width: 400px;" (submit)="editGroup(frm.value)" #frm="ngForm"
                         enctype="multipart/form-data">
                         <div class="w-fill layout-vertical gap-5">
-                            <p class="text-body-large text-primary">Sửa thông tin nhóm</p>
+                            <p class="text-body-large text-primary">{{'chat.update_group.title' | translate}}</p>
                         </div>
                         <div class="layout py-20 w-fill align-center-center">
                             <div class="background-card-default" style="width: 100px; height: 100px;">
@@ -1042,17 +1055,17 @@
                             </div>
                         </div>
                         <div class="w-fill layout-vertical gap-5">
-                            <p class="text-body text-primary">Tên nhóm</p>
+                            <p class="text-body text-primary">{{'chat.update_group.name_label' | translate}}</p>
                             <div class="w-fill control text-control">
                                 <input type="text" name="name_edit_group" ngModel spellcheck="false" #nameEditGroup>
                             </div>
                         </div>
                         <div class="w-fill layout-horizontal gap-20 align-center-right">
                             <button type="button" class="button-standard button-text-only"
-                                (click)="closeEditGroup()">Hủy</button>
+                                (click)="closeEditGroup()">{{'chat.update_group.cancel_button' | translate}}</button>
                             <button type="submit" class="button-accent button-text-only"
-                                [disabled]="spaceCheck.test(frm.value.name_edit_group) && selectedFilesEditGroup.length == 0">Cập
-                                nhật</button>
+                                [disabled]="spaceCheck.test(frm.value.name_edit_group) && selectedFilesEditGroup.length == 0">
+                                {{'chat.update_group.submit_button' | translate}}</button>
                         </div>
                     </form>
                 </div>
@@ -1090,7 +1103,7 @@
                             style="cursor: pointer;">
                             <i *ngIf="!showBoxSearchUser"
                                 class="icon-size-20 icon icon-ic_fluent_person_add_20_regular"></i>
-                            <p class="text-primary text-body w-fill">Thêm thành viên</p>
+                            <p class="text-primary text-body w-fill">{{'chat.group.add_user' | translate}}</p>
                             <i *ngIf="showBoxSearchUser"
                                 class="icon-size-20 icon icon-ic_fluent_dismiss_20_regular"></i>
                         </div>
@@ -1140,7 +1153,7 @@
                         <div class="group-accordion-header layout-horizontal gap-15 px-20 py-15 align-center-center text-accent-default"
                             style="cursor: pointer;">
                             <i *ngIf="!showUserGroup" class="icon-size-20 icon icon-ic_fluent_person_20_regular"></i>
-                            <p class="text-primary text-body w-fill">Thành viên</p>
+                            <p class="text-primary text-body w-fill">{{'chat.group.user' | translate}}</p>
                             <i *ngIf="showUserGroup" class="icon-size-20 icon icon-ic_fluent_dismiss_20_regular"></i>
                         </div>
                         <div class="accordion-panel accordion-panel-group-user">
@@ -1159,8 +1172,9 @@
                                                 {{userGr.profile.display_name}}</p>
                                             <p class="text-caption text-tertiary">{{userGr.email}}</p>
                                         </div>
-                                        <button *ngIf="user.id == conversation.user_id" type="button" class="button-standard button-icon-only"
-                                        (click)="removeMember(conversation.id, userGr.id)">-</button>
+                                        <button *ngIf="user.id == conversation.user_id" type="button"
+                                            class="button-standard button-icon-only"
+                                            (click)="removeMember(conversation.id, userGr.id)">-</button>
                                     </div>
                                 </div>
 
@@ -1175,7 +1189,7 @@
                         <div class="a-accordion-header layout-horizontal gap-15 px-20 py-15 align-center-center text-accent-default"
                             style="cursor: pointer;">
                             <i *ngIf="!showBoxSearch" class="icon-size-20 icon icon-ic_fluent_search_20_regular"></i>
-                            <p class="text-primary text-body w-fill">Tìm kiếm tin nhắn</p>
+                            <p class="text-primary text-body w-fill">{{'chat.message.find_message' | translate}}</p>
                             <i *ngIf="showBoxSearch" class="icon-size-20 icon icon-ic_fluent_dismiss_20_regular"></i>
                         </div>
                         <div class="accordion-panel accordion-panel-search-chat">
@@ -1236,7 +1250,7 @@
                 class="layout-vertical w-fill gap-20 p-20 rounded-8 card-background-default border border-card-default">
                 <div
                     class="layout-horizontal pb-10 w-fill border-bottom border-card-default align-center-space-between">
-                    <p class="text-body text-primary">{{images?.length}} phương tiện</p>
+                    <p class="text-body text-primary">{{images?.length}} {{'chat.message.media' | translate}}</p>
                     <!-- <a href="" class="link text-nowrap">Xem thêm</a> -->
                 </div>
                 <div class="layout-vertical w-fill p-0">
@@ -1259,7 +1273,7 @@
 
                     <div class="w-fill py-20 card-background-default border border-card-default rounded-8"
                         *ngIf="images?.length==0">
-                        <p class="text-body text-secondary text-center">Trống</p>
+                        <p class="text-body text-secondary text-center">{{'chat.message.empty' | translate}}</p>
                     </div>
                 </div>
             </div>

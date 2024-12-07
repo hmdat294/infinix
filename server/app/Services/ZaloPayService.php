@@ -19,7 +19,7 @@ class ZaloPayService
     public function createOrder($order_id, $amount, $description)
     {
 
-        $embeddata = '{"redirecturl": "http://localhost:4200"}';
+        $embeddata = '{"redirecturl": "http://localhost:4200/store/?tab=tab_order"}';
         $order = [
             "app_id" => $this->config["app_id"],
             "app_time" => round(microtime(true) * 1000),

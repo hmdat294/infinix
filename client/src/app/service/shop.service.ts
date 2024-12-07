@@ -113,21 +113,44 @@ export class ShopService {
     return this.http.get(`${this.apiUrl}/cart`, { headers });
   }
 
-  //{ product_id , quantity }
   addProductToCart(value: any): Observable<any> {
     const headers = this.authService.getToken();
     return this.http.post(`${this.apiUrl}/cart/add-product`, value, { headers });
   }
 
-  //{ product_id , quantity }
   updateProductToCart(value: any): Observable<any> {
     const headers = this.authService.getToken();
     return this.http.post(`${this.apiUrl}/cart/update-product`, value, { headers });
   }
 
-  //{ product_id }
   removeProductToCart(value: any): Observable<any> {
     const headers = this.authService.getToken();
     return this.http.post(`${this.apiUrl}/cart/remove-product`, value, { headers });
+  }
+
+  //voucher
+  getVoucher(voucher_id: number): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.get(`${this.apiUrl}/voucher/${voucher_id}`, { headers });
+  }
+
+  getVoucherByShop(shop_id: number): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.get(`${this.apiUrl}/shop/${shop_id}/vouchers`, { headers });
+  }
+
+  postVoucher(value: any): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.post(`${this.apiUrl}/voucher`, value, { headers });
+  }
+
+  updateVoucher(voucher_id: number, value: any): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.post(`${this.apiUrl}/voucher/${voucher_id}`, value, { headers });
+  }
+
+  deleteVoucher(voucher_id: number): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.delete(`${this.apiUrl}/voucher/${voucher_id}`, { headers });
   }
 }

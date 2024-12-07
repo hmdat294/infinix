@@ -5,11 +5,12 @@ import { CurrencyVNDPipe } from '../../../currency-vnd.pipe';
 import { ShopService } from '../../../service/shop.service';
 import { SettingService } from '../../../service/setting.service';
 import { AuthService } from '../../../service/auth.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [CurrencyVNDPipe, FormsModule, CommonModule],
+  imports: [CurrencyVNDPipe, FormsModule, CommonModule, TranslateModule],
   templateUrl: './product.component.html',
   styleUrl: './product.component.css'
 })
@@ -45,21 +46,12 @@ export class ProductComponent implements OnInit {
         if (this.user.shop_id > 0) {
 
           this.shopService.getShop(this.user.shop_id).subscribe(
-            (res) => {
-              this.shop = res.data;
-
-              const arrAddress = this.shop.address.split("|");
-
-              this.detail = arrAddress[0];
-              this.ward = arrAddress[1];
-              this.district = arrAddress[2];
-              this.province = arrAddress[3];
-            });
+            (res) => this.shop = res.data);
 
           this.shopService.getListProductByShop(this.user.shop_id).subscribe(
             (res) => {
               this.products = res.data;
-              // console.log(this.products);
+              console.log(this.products);
 
               this.originalProducts = [...this.products];
             });
@@ -250,11 +242,11 @@ export class ProductComponent implements OnInit {
   }
 
   discount_create(method: string) {
-    if (method == 'add'  && this.discount_product < 100) this.discount_product++;
+    if (method == 'add' && this.discount_product < 100) this.discount_product++;
     else if (method == 'reduce' && this.discount_product > 0) this.discount_product--;
   }
   discount_update(method: string) {
-    if (method == 'add'  && this.discount_product_update < 100) this.discount_product_update++;
+    if (method == 'add' && this.discount_product_update < 100) this.discount_product_update++;
     else if (method == 'reduce' && this.discount_product_update > 1) this.discount_product_update--;
   }
 
@@ -281,6 +273,17 @@ export class ProductComponent implements OnInit {
     } else this.products = [...this.originalProducts];
   }
 
+  keyword: string = '';
+  searchProduct() {
+    if (this.keyword && !/^\s*$/.test(this.keyword)) {
+      this.products = this.originalProducts.filter((order: any) => {
+        const keyword = this.settingService.removeVietnameseTones(this.keyword.toLowerCase().trim());
+        const name = this.settingService.removeVietnameseTones(order.name.toLowerCase() || "");
+
+        return name.includes(keyword);
+      });
+    } else this.products = [...this.originalProducts];
+  }
 
   shortenTextByWords(text: string, maxWords: number): string {
     return this.settingService.shortenTextByWords(text, maxWords);

@@ -6,11 +6,12 @@ import { SettingService } from '../../service/setting.service';
 import { Router } from '@angular/router';
 import { ChatService } from '../../service/chat.service';
 import { EventService } from '../../service/event.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-account-settings',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslateModule],
   templateUrl: './account-settings.component.html',
   styleUrl: './account-settings.component.css'
 })
@@ -65,7 +66,7 @@ export class AccountSettingsComponent implements OnInit {
 
         if (value.email) {
           this.error1 =
-            `<p class="validation-message validation-sucess text-body text-primary">
+            `<p class="validation-message validation-sucess text-caption text-primary">
                 <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
                 <span>Đổi email thành công!</span>
             </p>`;
@@ -85,7 +86,7 @@ export class AccountSettingsComponent implements OnInit {
         // console.log(response);
         if (response.status) {
           this.error3 =
-            `<p class="validation-message validation-sucess text-body text-primary">
+            `<p class="validation-message validation-sucess text-caption text-primary">
                 <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
                 <span>${response.message}</span>
             </p>`;
@@ -93,12 +94,16 @@ export class AccountSettingsComponent implements OnInit {
             this.error3 = '';
             this.tabChild('');
           }, 2000);
-        } else {
+        }
+        else {
           this.error3 =
-            `<p class="validation-message validation-critical text-body text-primary">
+            `<p class="validation-message validation-critical text-caption text-system-critical">
                 <i class="icon-size-16 icon icon-ic_fluent_dismiss_circle_16_filled"></i>
                 <span>${response.message}</span>
             </p>`;
+          setTimeout(() => {
+            this.error3 = '';
+          }, 2000);
         }
       }
     );
@@ -116,14 +121,14 @@ export class AccountSettingsComponent implements OnInit {
         if (response.verify) {
           this.tabChild('email');
           this.error1 =
-            `<p class="validation-message validation-sucess text-body text-primary">
+            `<p class="validation-message validation-sucess text-caption text-primary">
                 <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
                 <span>${response.message}</span>
             </p>`;
         }
         else {
           this.error1 =
-            `<p class="validation-message validation-critical text-body text-primary">
+            `<p class="validation-message validation-critical text-caption text-system-critical">
                 <i class="icon-size-16 icon icon-ic_fluent_dismiss_circle_16_filled"></i>
                 <span>${response.message}</span>
             </p>`;
@@ -139,14 +144,14 @@ export class AccountSettingsComponent implements OnInit {
         if (response.verify) {
           this.tabChild('verify-code');
           this.error2 =
-            `<p class="validation-message validation-sucess text-body text-primary">
+            `<p class="validation-message validation-sucess text-caption text-primary">
                 <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
                 <span>${response.message}</span>
             </p>`;
         }
         else {
           this.error2 =
-            `<p class="validation-message validation-critical text-body text-primary">
+            `<p class="validation-message validation-critical text-caption text-system-critical">
                 <i class="icon-size-16 icon icon-ic_fluent_dismiss_circle_16_filled"></i>
                 <span>${response.message}</span>
             </p>`;

@@ -4,11 +4,12 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { EventService } from '../service/event.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule],
+  imports: [FormsModule, CommonModule, RouterModule, TranslateModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
@@ -53,14 +54,14 @@ export class RegisterComponent {
         if (response.verify) {
           this.stepNext();
           this.error =
-            `<p class="validation-message validation-sucess text-body text-primary">
+            `<p class="validation-message validation-sucess text-caption text-primary">
                 <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
                 <span>${response.message}</span>
             </p>`;
         }
         else {
           this.error =
-            `<p class="validation-message validation-critical text-body text-primary">
+            `<p class="validation-message validation-critical text-caption text-system-critical">
                 <i class="icon-size-16 icon icon-ic_fluent_dismiss_circle_16_filled"></i>
                 <span>${response.message}</span>
             </p>`;
@@ -76,14 +77,14 @@ export class RegisterComponent {
         if (response.verify) {
           this.stepNext();
           this.error =
-            `<p class="validation-message validation-sucess text-body text-primary">
+            `<p class="validation-message validation-sucess text-caption text-primary">
                 <i class="icon-size-16 icon icon-ic_fluent_checkmark_circle_16_filled"></i>
                 <span>${response.message}</span>
             </p>`;
         }
         else {
           this.error =
-            `<p class="validation-message validation-critical text-body text-primary">
+            `<p class="validation-message validation-critical text-caption text-system-critical">
                 <i class="icon-size-16 icon icon-ic_fluent_dismiss_circle_16_filled"></i>
                 <span>${response.message}</span>
             </p>`;

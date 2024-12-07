@@ -6,15 +6,15 @@
             <div class="layout-vertical h-fill rounded-8 border border-card-default card-background-default">
 
                 <div class="layout-vertical gap-10 p-10 border-bottom border-card-default">
-                    <p class="text-subtitle text-primary">Thông báo</p>
+                    <p class="text-subtitle text-primary">{{ 'notification.title' | translate }}</p>
                     <div class="layout-horizontal align-center-space-between">
                         <div class="layout-horizontal gap-10">
                             <button type="button"
                                 class="button-{{is_read_notification == 'all'?'accent':'standard'}} button-text-only"
-                                (click)="filterNotification('all')">Tất cả</button>
+                                (click)="filterNotification('all')">{{ 'notification.all_notification' | translate }}</button>
                             <button type="button"
                                 class="button-{{is_read_notification == 'unread'?'accent':'standard'}} button-text-only"
-                                (click)="filterNotification('unread')">Chưa đọc</button>
+                                (click)="filterNotification('unread')">{{ 'notification.unread_notification' | translate }}</button>
                         </div>
                     </div>
                 </div>

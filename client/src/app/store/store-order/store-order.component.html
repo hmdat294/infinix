@@ -13,68 +13,83 @@
 
     <div class="layout-vertical gap-20 p-20 border-top border-card-default w-fill overflow-scroll-vertical">
 
-        <div class="text-body text-primary text-center w-fill">
+        <div class="text-body text-primary text-center w-fill" *ngIf="orders.length > 0">
             <div class="w-fill gap-20 layout-horizontal text-body-strong p-10">
-                <div class="w-fill-column-1">Mã</div>
+                <div class="w-fill-column-3">Mã</div>
                 <div class="w-fill-column-2">Hình ảnh</div>
                 <div class="w-fill">Tên</div>
-                <div class="w-fill-column-2">Số lượng</div>
+                <div class="w-fill-column-2">Ngày đặt hàng</div>
                 <div class="w-fill-column-2">Tổng tiền</div>
-
-                <!-- danh sách sản phẩm -->
-                <!-- hủy đơn, ghi chú, ngày đặt hàng, phương thức thanh toán, username, sđt, email, địa chỉ -->
             </div>
             <div class="w-fill layout-vertical border-top border-card-default"
                 *ngFor="let order of orders; let i = index;">
-                <div class="w-fill gap-20 layout-horizontal align-center-center rounded-8 cursor-pointer" style="padding: 7px 11px;"
+                <div class="w-fill gap-20 layout-horizontal align-center-center rounded-8 cursor-pointer"
+                    style="padding: 7px 11px;"
                     [class]="tabAccordion == 'order_detail_'+i?'card-background-default':'list-item'"
                     (click)="tabChild('order_detail_'+i)">
-                    <div class="w-fill-column-1">I123</div>
+                    <div class="w-fill-column-3" style="text-transform: uppercase;">{{order.external_order_id}}</div>
                     <div class="w-fill-column-2">
-                        <img class="object-fit-cover rounded-4" src="assets/image/hinh.jpg" height="70px" width="50px"
-                            alt>
+                        <img class="object-fit-cover rounded-4" [src]="order.orders[0].products[0]?.images[0].image"
+                            height="70px" alt>
                     </div>
-                    <div class="w-fill">Gấu bông hình con gấu</div>
-                    <div class="w-fill-column-2">2</div>
-                    <div class="w-fill-column-2">{{1000000 | currencyVND}}</div>
+                    <div class="w-fill">{{order.orders[0].products[0]?.name}}</div>
+                    <div class="w-fill-column-2">{{order.created_at | date:'dd/MM/yyyy'}}</div>
+                    <div class="w-fill-column-2">{{order.total | currencyVND}}</div>
                 </div>
                 <div class="accordion-panel order_detail_{{i}} w-fill layout-horizontal gap-10">
 
-                    <div class="layout-vertical w-fill-column-8 mt-10 h-hug">
+                    <div class="layout-vertical w-fill mt-10 h-hug">
 
                         <div class="layout-vertical border rounded-8 p-10 mb-10 card-background-default"
-                            *ngFor="let product of product_order"><!-- for -->
+                            *ngFor="let shop of order.orders"><!-- for -->
                             <div class="border rounded-6">
                                 <div class="layout-horizontal align-center-space-between p-10 border-bottom">
                                     <p class="text-body-strong">Cửa hàng:</p>
-                                    <p class="text-body">Shop1</p>
+                                    <div class="layout-horizontal align-center-center gap-10 w-hug">
+                                        <p class="text-body">{{shop?.shop_name}}</p>
+                                        <img [src]="shop?.shop_logo" alt="" class="object-fit-cover rounded-circle"
+                                            style="width: 30px; height: 30px;">
+                                    </div>
                                 </div>
                                 <div class="layout-horizontal align-center-space-between p-10 border-bottom">
                                     <p class="text-body-strong">Trạng thái:</p>
-                                    <p class="text-system-success text-body">Đã đặt hàng</p>
+                                    <p class="text-body" [class]="order_color[shop?.status]">
+                                        {{order_status[shop?.status]}}</p>
                                 </div>
                                 <div class="layout-horizontal align-center-space-between p-10">
                                     <p class="text-body-strong">Ghi chú:</p>
-                                    <p class="text-body">Không</p>
+                                    <p class="text-body">{{shop.note}}</p>
                                 </div>
                             </div>
-                            <table class="h-hug table-product">
-                                <tr class="h-hug text-body-strong">
-                                    <td>Hình ảnh</td>
-                                    <td>Tên</td>
-                                    <td>Giá</td>
-                                    <td class="w-hug">Số lượng</td>
-                                    <td>Tổng tiền</td>
-                                </tr>
-                                <tr class="h-hug border-top">
-                                    <td><img class="object-fit-cover rounded-4" src="assets/image/hinh.jpg"
-                                            height="50px" width="50px" alt></td>
-                                    <td>Gấu bông hình con gấu</td>
-                                    <td>{{100000 | currencyVND}}</td>
-                                    <td>2</td>
-                                    <td>{{200000 | currencyVND}}</td>
-                                </tr>
-                            </table>
+                            <div class="layout-vertical">
+                                <div *ngFor="let product of shop.products">
+                                    <div class="layout-horizontal gap-20 my-10">
+                                        <div class="w-fill-column-4">
+                                            <img class="object-fit-cover rounded-4 w-fill" height="110px"
+                                                [src]="product?.images[0].image" alt>
+                                        </div>
+                                        <div class="w-fill-column-8 layout-vertical gap-10">
+                                            <p class="text-body-strong text-right">{{product.name}}</p>
+                                            <p class="layout-horizontal align-center-space-between">Giá: <span
+                                                    class="text-body-strong">{{product.pivot.price | currencyVND}}</span></p>
+                                            <p class="layout-horizontal align-center-space-between">Số lượng: <span
+                                                    class="text-body-strong">{{product.pivot.quantity}}</span> </p>
+                                            <p class="layout-horizontal align-center-space-between">Tổng tiền: <span
+                                                    class="text-body-strong">{{product.pivot.price *
+                                                    product.pivot.quantity | currencyVND}}</span></p>
+                                        </div>
+                                    </div>
+                                    <div class="layout-horizontal gap-10" *ngIf="product.can_review">
+                                        <button type="button" class="button-standard button-text-only w-fill">
+                                            Mua lại
+                                        </button>
+                                        <button type="button" class="button-accent button-text-only w-fill"
+                                            (click)="viewDialogFeedback(product, order.id)">
+                                            Đánh giá
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                     </div>
@@ -82,32 +97,37 @@
                         <table class="w-fill text-left table-info-bill">
                             <tr class="border-bottom">
                                 <th class="h-hug text-body-strong">Họ và tên:</th>
-                                <td>Minh Đạt</td>
+                                <td>{{order.fullname}}</td>
                             </tr>
                             <tr class="border-bottom">
                                 <th class="h-hug text-body-strong">Số điện thoại:</th>
-                                <td>0123456789</td>
+                                <td>{{order.phone_number}}</td>
                             </tr>
                             <tr class="border-bottom">
                                 <th class="h-hug text-body-strong">Email:</th>
-                                <td>user.gmail.com</td>
+                                <td>{{order.email}}</td>
                             </tr>
                             <tr class="border-bottom">
                                 <th class="h-hug text-body-strong">Địa chỉ:</th>
-                                <td>Q12/HCM</td>
-                            </tr>
-                            <tr class="border-bottom">
-                                <th class="h-hug text-body-strong">Ngày đặt hàng:</th>
-                                <td>25/11/2024</td>
+                                <td>{{order.address}}</td>
                             </tr>
                             <tr class="border-bottom">
                                 <th class="h-hug text-body-strong">Phương thức thanh toán:</th>
-                                <td>ZaloPay</td>
+                                <td>{{payment_methood[order.payment_method]}}</td>
+                            </tr>
+                            <tr class="border-bottom">
+                                <th class="h-hug text-body-strong">Mã giảm giá đã dùng:</th>
+                                <td>KHONGCO</td>
                             </tr>
                         </table>
                         <div class="w-fill p-10">
-                            <button type="button" class="button-standard button-text-only w-fill">
+                            <button *ngIf="order.payment_method == 'cash'" type="button"
+                                class="button-standard button-text-only w-fill">
                                 Hủy đơn
+                            </button>
+                            <button *ngIf="order.payment_method == 'zalopay'" type="button"
+                                class="button-standard button-text-only w-fill">
+                                Yêu cầu hoàn tiền
                             </button>
                         </div>
                     </div>
@@ -115,6 +135,73 @@
             </div>
         </div>
 
+        <div *ngIf="orders.length == 0"
+            class="w-fill py-20 card-background-default border border-card-default rounded-8">
+            <p class="text-body text-secondary text-center">Bạn chưa có đơn hàng nào!</p>
+        </div>
     </div>
 
+
+    <div class="position-fixed top-0 start-0" *ngIf="product_feedback != null"
+        style="width: 100%; height: 100vh; z-index: 20;">
+        <div class="position-absolute top-0 start-0" (click)="viewDialogFeedback(null, 0)"
+            style="width: 100%; height: 100vh; z-index: 1; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px);">
+        </div>
+        <div class="dialog-panel position-absolute top-50 start-50 translate-middle" style="z-index: 2;">
+            <div class="layout-vertical p-20 gap-20 rounded-8 solid-background-base border border-card-default">
+
+                <button type="button" class="button-subtle button-icon-only w-hug position-absolute"
+                    (click)="viewDialogFeedback(null, 0)" style="right: 20px; top: 20px; z-index: 1;">
+                    <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_filled"></i>
+                </button>
+
+                <div class="pb-20 pt-5 border-bottom">
+                    <p class="text-subtitle text-primary text-center">Đánh giá sản phẩm</p>
+                </div>
+
+                <div class="layout-vertical gap-20 overflow-hidden" style="width: 500px;">
+
+                    <div class="layout-horizontal gap-20 my-10 text-primary text-body">
+                        <div class="w-fill-column-4">
+                            <img class="object-fit-cover rounded-4 w-fill" height="110px"
+                                [src]="product_feedback?.images[0].image" alt>
+                        </div>
+                        <div class="w-fill-column-8 layout-vertical gap-10">
+                            <p class="text-body-strong text-right">{{product_feedback.name}}</p>
+                            <p class="layout-horizontal align-center-space-between">Giá: <span
+                                    class="text-body-strong">{{product_feedback.price | currencyVND}}</span></p>
+                            <p class="layout-horizontal align-center-space-between">Số lượng: <span
+                                    class="text-body-strong">{{product_feedback.quantity}}</span> </p>
+                            <p class="layout-horizontal align-center-space-between">Tổng tiền: <span
+                                    class="text-body-strong">{{product_feedback.price *
+                                    product_feedback.quantity | currencyVND}}</span></p>
+                        </div>
+                    </div>
+
+                    <div class="w-fill layout-horizontal align-center-space-between">
+
+                        <p class="text-subtitle text-primary">Đánh giá</p>
+
+                        <div class="layout-horizontal align-center-center rating" style="font-size: 2em;">
+                            <i *ngFor="let star of stars; let i = index" [class.active]="i < currentRating" [ngClass]="{
+                                'icon-ic_fluent_star_12_filled': i < currentRating,
+                                'icon-ic_fluent_star_12_regular': i >= currentRating
+                            }" class="icon-size-12 icon" (click)="rate(i + 1)"></i>
+                        </div>
+
+                    </div>
+
+                    <textarea style="min-height: 110px;" class="control text-area-control w-fill" spellcheck="false"
+                        placeholder="Nội dung" name="content_feedback" ngModel [(ngModel)]="content_feedback"
+                        required></textarea>
+
+                    <div class="w-fill layout-horizontal align-center-right">
+                        <button type="button" class="button-accent button-text-only" (click)="feedbackProduct()">
+                            Gửi đánh giá
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

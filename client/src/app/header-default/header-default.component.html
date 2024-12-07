@@ -4,8 +4,8 @@
         <p class="text-subtitle text-primary">Infinix</p>
     </div>
     <div class="layout-horizontal gap-10">
-        <a [routerLink]="['/landing-page']"  class="button-subtle px-20 py-10 link text-body-large">Home</a>
-        <a href="" class="button-subtle px-20 py-10 link text-body-large">About us</a>
-        <a href="" class="button-subtle px-20 py-10 link text-body-large">Contact</a>
+        <a [routerLink]="['/landing-page']"  class="button-subtle px-20 py-10 link text-body-large">{{ 'header_default.home_title' | translate }}</a>
+        <a href="" class="button-subtle px-20 py-10 link text-body-large">{{ 'header_default.about_title' | translate }}</a>
+        <a href="" class="button-subtle px-20 py-10 link text-body-large">{{ 'header_default.contact_title' | translate }}</a>
     </div>
 </header>

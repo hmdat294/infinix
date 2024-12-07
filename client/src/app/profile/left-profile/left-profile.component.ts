@@ -4,11 +4,12 @@ import { CommonModule } from '@angular/common';
 import { ChatService } from '../../service/chat.service';
 import { Router, RouterModule } from '@angular/router';
 import { PostService } from '../../service/post.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-left-profile',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, TranslateModule],
   templateUrl: './left-profile.component.html',
   styleUrl: './left-profile.component.css'
 })

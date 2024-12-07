@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, inject, Inject, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { PostService } from '../service/post.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -8,16 +8,19 @@ import { CarouselService } from '../service/carousel.service';
 import { EventService } from '../service/event.service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ChatService } from '../service/chat.service';
-import { MiniChatComponent } from '../mini-chat/mini-chat.component';
 import { DomSanitizer } from '@angular/platform-browser';
 import { QuillModule } from 'ngx-quill';
-import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
+import { TranslateModule } from '@ngx-translate/core';
+import { ShopService } from '../service/shop.service';
+import { CurrencyVNDPipe } from '../currency-vnd.pipe';
+import { CheckoutService } from '../service/checkout.service';
+import { SettingService } from '../service/setting.service';
 
 @Component({
   selector: 'app-friend-profile',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule, EmojiModule, PickerComponent, QuillModule],
+  imports: [FormsModule, CommonModule, RouterModule, EmojiModule, QuillModule, TranslateModule, CurrencyVNDPipe],
   templateUrl: './friend-profile.component.html',
   styleUrl: './friend-profile.component.css'
 })
@@ -46,7 +49,13 @@ export class FriendProfileComponent implements OnInit {
   friendOfFriend: any;
   friendOfFriendLimit: any;
   showMoreFriend: boolean = false;
+  is_block_user: boolean = false;
   contentCommentInput: string = '';
+  listProduct: any = [];
+  productDetail_id: number = 0;
+  quantity: number = 1;
+  content_feedback: string = '';
+
 
   constructor(
     private route: ActivatedRoute,
@@ -56,6 +65,9 @@ export class FriendProfileComponent implements OnInit {
     private eventService: EventService,
     private authService: AuthService,
     private chatService: ChatService,
+    private shopService: ShopService,
+    private checkoutService: CheckoutService,
+    private settingService: SettingService,
     private router: Router,
     private sanitizer: DomSanitizer
   ) { }
@@ -76,7 +88,13 @@ export class FriendProfileComponent implements OnInit {
         this.authService.getUser(user_id).subscribe(
           (response) => {
             this.user = response.data;
-            // console.log(this.user);
+            console.log(this.user);
+
+            this.shopService.getListProductByShop(this.user.shop_id).subscribe(
+              (response) => {
+                this.listProduct = response.data.filter((product: any) => product.is_active == 1).slice(0, 4);
+                console.log(this.listProduct);
+              });
 
             this.authService.getImageByUser(this.user.id).subscribe(
               (response) => {
@@ -153,21 +171,62 @@ export class FriendProfileComponent implements OnInit {
   createChat(receiver_id: number) {
     this.chatService.getMessageUser(receiver_id).subscribe(
       (response: any) => {
-        // console.log(response);
 
-        if (this.conversation.includes(response.data.id)) {
+        if (this.conversation.includes(response.data.id))
           this.conversation = this.conversation.filter(id => id !== response.data.id);
-        }
 
-        if (this.conversation.length >= 5) {
-          this.conversation.shift();
-        }
+        if (this.conversation.length >= 5) this.conversation.shift();
 
         this.conversation.push(response.data.id);
 
         this.chatService.updateConversation(this.conversation);
         this.chatService.tagOpenBoxChat = true;
       });
+  }
+
+  viewProductDetail(product_id: any) {
+    if (product_id == 0) this.quantity = 1;
+    this.productDetail_id = product_id;
+    this.cdr.detectChanges();
+    this.initCarousels();
+  }
+
+  addQuantity() {
+    this.quantity++;
+  }
+
+  reduceQuantity() {
+    if (this.quantity > 1) this.quantity--;
+  }
+
+
+  addToCart(product_id: number) {
+    // console.log({ 'product_id': product_id, 'quantity': this.quantity });
+
+    this.shopService.addProductToCart({ 'product_id': product_id, 'quantity': this.quantity }).subscribe(
+      (response) => {
+        // console.log(response);
+        this.shopService.updateCart(response.data);
+      })
+  }
+
+  buyNow(product_id: number) {
+    const product = this.listProduct.find((product: any) => product.id == product_id);
+    this.checkoutService.buyNow(product, this.quantity);
+  }
+
+  shortenTextByWords(text: string, maxWords: number): string {
+    return this.settingService.shortenTextByWords(text, maxWords);
+  }
+
+  resizeTextarea(event: any): void {
+    const textarea = event.target;
+    if (!textarea.value) {
+      textarea.style.height = '32px'; // Chiều cao mặc định khi không có nội dung
+    } else if (textarea.scrollHeight < 110) {
+      textarea.style.height = 'fit-content';
+      textarea.style.height = textarea.scrollHeight + 'px';
+    }
   }
 
   @ViewChildren('carouselInner') carouselInners!: QueryList<ElementRef<HTMLDivElement>>;
@@ -288,86 +347,6 @@ export class FriendProfileComponent implements OnInit {
   }
 
 
-  postDeleteId: number = 0;
-
-  setDeleteId(post_id: number) {
-    this.postDeleteId = post_id;
-  }
-
-  deletePost() {
-    this.postService.deletePost(this.postDeleteId).subscribe(
-      (response) => {
-        // console.log(response);
-      }
-    );
-  }
-
-  updatePost(value: any) {
-    const urlImg = this.previewUpdatePostImages.filter(url => url.startsWith("http"));
-
-    if (value.contentUpdate && !this.spaceCheck.test(value.contentUpdate)) {
-      const formData = new FormData();
-      formData.append('content', value.contentUpdate);
-
-      if (this.selectedFilesUpdatePost.length > 0)
-        this.selectedFilesUpdatePost.forEach(image => formData.append('medias[]', image, image.name));
-
-      if (urlImg.length > 0)
-        urlImg.forEach(imagePath => formData.append('urls[]', imagePath));
-
-      this.postService.updatePost(this.postUpdateId, formData).subscribe(
-        (response) => {
-          // console.log(response);
-          this.showDiaLogUpdatePost(null);
-        },
-        (error) => {
-          console.error("Error updating post:", error);
-        }
-      );
-    }
-  }
-
-
-  postUpdateId: number = 0;
-
-  showDiaLogUpdatePost(post: any) {
-    if (post == null) {
-      this.postUpdateId = 0;
-      this.onCancelUpdatePostImg();
-    }
-    else {
-      this.postUpdateId = post.id;
-      this.previewUpdatePostImages = post.medias.map((media: any) => media.path);
-      this.contentUpdate = post.content;
-    }
-  }
-
-  onFileUpdatePostSelected(event: any) {
-
-    const files: File[] = Array.from(event.target.files);
-    // console.log(files);
-    if (files && files.length > 0) {
-      files.forEach(file => {
-        const reader = new FileReader();
-        reader.onload = e => this.previewUpdatePostImages.push(reader.result as string);
-        reader.readAsDataURL(file);
-        this.selectedFilesUpdatePost.push(file);
-      });
-    }
-  }
-
-  removeUpdatePostImage(index: number): void {
-    this.previewUpdatePostImages.splice(index, 1);
-    this.selectedFilesUpdatePost.splice(index, 1);
-  }
-
-  onCancelUpdatePostImg() {
-    this.contentUpdate = '';
-    this.selectedFilesUpdatePost = [];
-    this.previewUpdatePostImages = [];
-    if (this.fileUpdatePost) this.fileUpdatePost.nativeElement.value = '';
-  }
-
 
   showEmojiPickerUpdate: boolean = false;
 
@@ -419,6 +398,18 @@ export class FriendProfileComponent implements OnInit {
     },
   };
 
+
+  followUser(user_id: number) {
+    this.authService.followUser(user_id).subscribe(
+      (response) => {
+        console.log(response);
+        this.user.is_followed = response.data.is_followed;
+
+        if (response.data.is_followed) this.user.follower_count++;
+        else this.user.follower_count--;
+
+      });
+  }
 
   addFriend(receiver_id: number): void {
     this.authService.addFriend(receiver_id).subscribe(
