@@ -139,7 +139,6 @@ export class LeftHomeComponent implements OnInit, AfterViewInit {
       this.paymentService.getFeedbackByProduct(product_id).subscribe(
         (response) => {
           this.feedbacks = response.data;
-          console.log(this.feedbacks);
         });
     }
   }

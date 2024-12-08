@@ -163,7 +163,7 @@ export class VoucherComponent implements OnInit {
 
 
   createVoucher() {
-    if (!this.code || !this.valid_from || !this.valid_until || this.apply_to_products.length == 0)
+    if (!this.code || !this.valid_from || !this.valid_until)
       return;
 
     const data = {

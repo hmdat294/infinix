@@ -19,6 +19,7 @@ export class CheckoutComponent implements OnInit {
   payment_method: string = 'cash';
   change_address: number = 0;
   cart: any = [];
+  currentCart: any = [];
   currentUser: any;
 
   name: string = '';
@@ -52,6 +53,13 @@ export class CheckoutComponent implements OnInit {
           });
 
         this.cart = JSON.parse(decodeURIComponent(escape(atob(params['data']))));
+        console.log(this.cart);
+
+        this.currentCart = { ...this.cart };
+        this.applied_voucher = '';
+        this.discount_voucher = 0;
+        this.add_voucher_success = '';
+        this.message_voucher = '';
 
       } catch (error) {
         this.router.navigate(['/']);
@@ -70,42 +78,78 @@ export class CheckoutComponent implements OnInit {
         console.log(data);
         const voucher = data.data;
 
+        this.cart = { ...this.currentCart };
+        this.discount_voucher = 0;
+        this.add_voucher_success = '';
+
         this.calculateDays(voucher.valid_from, voucher.valid_until);
+
         if (voucher.stock == 0 || voucher.is_active == 0) {
           this.message_voucher = 'Mã giảm giá không tồn tại.';
           return;
         }
 
-        if (this.cart.total < voucher.min_price) {
+        const hasShopId = this.cart.shops.some((shop: any) => shop.shop_id === voucher.shop_id);
+        const hasProductId = this.cart.shops.some((shop: any) =>
+          shop.products.some((product: any) => voucher.apply_to_products.includes(product.id))
+        );
+
+        if ((voucher.apply_to_products.length > 0 && !hasProductId) || !hasShopId || this.cart.total < voucher.min_price) {
           this.message_voucher = 'Chưa đủ điều kiện dùng mã này.';
           return;
         }
 
-        this.message_voucher = '';
-        this.discount_voucher = (this.cart.total * voucher.discount) / 100;
-        this.discount_voucher = (this.discount_voucher > voucher.max_discount) ? voucher.max_discount : this.discount_voucher;
-        this.cart.applied_voucher = this.applied_voucher;
+        if (voucher.apply_to_products.length > 0) {
+          this.cart.shops = this.cart.shops.map((shop: any) => {
+            return {
+              ...shop,
+              products: shop.products.map((product: any) => {
+                if (voucher.apply_to_products.includes(product.id)) {
+                  const product_total = (product.price - ((product.price * product.discount) / 100)) * product.pivot.quantity;
+                  let discount_product = (product_total * voucher.discount) / 100;
+                  discount_product = (discount_product > voucher.max_discount) ? voucher.max_discount : discount_product;
+                  return {
+                    ...product,
+                    discount_product: discount_product
+                  };
+                }
+                return product;
+              })
+            };
+          });
 
+          this.cart.shops.forEach((shop: any) => {
+            shop.products.forEach((product: any) => {
+              if (product.discount_product) this.discount_voucher += product.discount_product;
+            });
+          });
+        }
+        else {
+          this.discount_voucher = (this.cart.total * voucher.discount) / 100;
+          this.discount_voucher = (this.discount_voucher > voucher.max_discount) ? voucher.max_discount : this.discount_voucher;
+        }
+
+        this.message_voucher = '';
+        this.cart.applied_voucher = this.applied_voucher;
         this.add_voucher_success =
-          `
-        Sử dụng <b>${voucher.code}</b> thành công.
-        <p>
-          <b>Điều kiện: </b>
-          Áp dụng cho đơn hàng trên ${this.transformVND(voucher.min_price)} 
-          và giảm tối đa ${this.transformVND(voucher.max_discount)}
-        </p>
-        `;
+          `Sử dụng <b>${voucher.code}</b> thành công.
+          <p>
+              Giảm ${voucher.discount}% áp dụng cho ${voucher.apply_to_products.length > 0 ? 'sản phẩm' : 'đơn hàng'} 
+              trên ${this.transformVND(voucher.min_price)} và giảm tối đa ${this.transformVND(voucher.max_discount)}
+          </p>`;
 
       },
       (error) => {
-        if (error.status === 500)
-          this.message_voucher = 'Mã giảm giá không tồn tại.';
+        if (error.status === 500) this.message_voucher = 'Mã giảm giá không tồn tại.';
+        this.cart = { ...this.currentCart };
+        this.discount_voucher = 0;
+        this.add_voucher_success = '';
       }
     );
   }
 
   transformVND(value: number): string {
-    return value.toLocaleString('vi-VN', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + ' đ';
+    return value.toLocaleString('vi-VN', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + 'đ';
   }
 
   calculateDays(start_date: Date, end_date: Date) {
@@ -147,6 +191,7 @@ export class CheckoutComponent implements OnInit {
       }
 
     this.cart.payment_method = this.payment_method;
+    this.cart.voucher_discount_price = this.discount_voucher;
     this.cart.total = this.cart.total - this.discount_voucher;
 
     this.cart.shops.forEach((shop: any) => {
@@ -160,20 +205,18 @@ export class CheckoutComponent implements OnInit {
 
     console.log(this.cart);
 
-    if (Object.values(this.cart.user).some(value => value === null || value === undefined || value === '')) {
-      this.empty_user = true;
-      return;
-    }
-    else {
-      this.empty_user = false;
-      console.log(JSON.stringify(this.cart));
-
-      this.paymentSrevice.postOrder({ 'order': JSON.stringify(this.cart) }).subscribe(
-        (data) => {
-          console.log(data);
-          window.location.href = data.order_url;
-        });
-    }
+    // if (Object.values(this.cart.user).some(value => value === null || value === undefined || value === '')) {
+    //   this.empty_user = true;
+    //   return;
+    // }
+    // else {
+    //   this.empty_user = false;
+    //   this.paymentSrevice.postOrder({ 'order': JSON.stringify(this.cart) }).subscribe(
+    //     (data) => {
+    //       console.log(data);
+    //       window.location.href = data.order_url;
+    //     });
+    // }
   }
 
   setChangeAddress(value: number) {

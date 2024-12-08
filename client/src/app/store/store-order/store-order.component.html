@@ -34,7 +34,7 @@
                     </div>
                     <div class="w-fill">{{order.orders[0].products[0]?.name}}</div>
                     <div class="w-fill-column-2">{{order.created_at | date:'dd/MM/yyyy'}}</div>
-                    <div class="w-fill-column-2">{{order.total | currencyVND}}</div>
+                    <div class="w-fill-column-2 text-body-strong">{{order.total | currencyVND}}</div>
                 </div>
                 <div class="accordion-panel order_detail_{{i}} w-fill layout-horizontal gap-10">
 
@@ -71,12 +71,13 @@
                                         <div class="w-fill-column-8 layout-vertical gap-10">
                                             <p class="text-body-strong text-right">{{product.name}}</p>
                                             <p class="layout-horizontal align-center-space-between">Giá: <span
-                                                    class="text-body-strong">{{product.pivot.price | currencyVND}}</span></p>
+                                                    class="text-body-strong">{{product.pivot.price
+                                                    | currencyVND}}</span></p>
                                             <p class="layout-horizontal align-center-space-between">Số lượng: <span
                                                     class="text-body-strong">{{product.pivot.quantity}}</span> </p>
                                             <p class="layout-horizontal align-center-space-between">Tổng tiền: <span
-                                                    class="text-body-strong">{{product.pivot.price *
-                                                    product.pivot.quantity | currencyVND}}</span></p>
+                                                    class="text-body-strong">{{product.pivot.price
+                                                    * product.pivot.quantity | currencyVND}}</span></p>
                                         </div>
                                     </div>
                                     <div class="layout-horizontal gap-10" *ngIf="product.can_review">
@@ -116,8 +117,8 @@
                                 <td>{{payment_methood[order.payment_method]}}</td>
                             </tr>
                             <tr class="border-bottom">
-                                <th class="h-hug text-body-strong">Mã giảm giá đã dùng:</th>
-                                <td>KHONGCO</td>
+                                <th class="h-hug text-body-strong">Giảm giá:</th>
+                                <td>{{order.voucher_discount_price | currencyVND}}</td>
                             </tr>
                         </table>
                         <div class="w-fill p-10">

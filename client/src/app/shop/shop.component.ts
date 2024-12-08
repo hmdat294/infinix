@@ -148,7 +148,6 @@ export class ShopComponent implements OnInit {
       this.paymentService.getFeedbackByProduct(product_id).subscribe(
         (response) => {
           this.feedbacks = response.data;
-          console.log(this.feedbacks);
         });
     }
   }
