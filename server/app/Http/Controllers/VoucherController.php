@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Models\Voucher;
 use App\Models\Shop;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class VoucherController extends Controller
 {
@@ -66,5 +68,36 @@ class VoucherController extends Controller
     {
         $voucher = Voucher::where('code', $code)->first();
         return new VoucherResource($voucher);
+    }
+
+    public function saveCode(Request $request)
+    {
+        $code = $request->code;
+        $voucher = Voucher::where('code', $code)->first();
+        $voucher->users()->attach($request->user_id, ['is_saved' => true]);
+    }
+
+    public function validVouchers(Request $request)
+    {
+        $vouchers = DB::table('vouchers')
+        ->leftJoin('voucher_users', 'vouchers.id', '=', 'voucher_users.voucher_id')
+        ->select('vouchers.*', DB::raw('SUM(voucher_users.use_count) as total_usage'))
+        ->where('vouchers.valid_from', '<', Carbon::now())
+        ->where('vouchers.valid_until', '>', Carbon::now())
+        ->where('vouchers.stock', '>', 0)
+        ->where('vouchers.is_active', true)
+        ->groupBy('vouchers.id')
+        ->havingRaw('(vouchers.usage_limit < 0 OR vouchers.usage_limit > total_usage)')
+        ->get();
+
+        return VoucherResource::collection($vouchers);
+    }
+
+    public function savedVouchers(Request $request)
+    {
+        $user = $request->user();
+        
+        $vouchers = $user->vouchers()->wherePivot('is_saved', true)->get();
+        return VoucherResource::collection($vouchers);
     }
 }

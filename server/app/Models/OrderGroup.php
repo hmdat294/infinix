@@ -22,6 +22,7 @@ class OrderGroup extends Model
         'address',
         'phone_number',
         'email',
+        'applied_voucher_id',
         'voucher_discount_price',
     ];
 
@@ -38,6 +39,11 @@ class OrderGroup extends Model
     public function products()
     {
         return $this->hasManyThrough(Product::class, Order::class);
+    }
+
+    public function voucher()
+    {
+        return $this->belongsTo(Voucher::class, 'applied_voucher_id');
     }
 
 }

@@ -15,6 +15,7 @@ class OrderGroupResource extends JsonResource
     public function toArray(Request $request): array
     {
         $data = parent::toArray($request);
+        $data['applied_voucher'] = new VoucherResource($this->voucher);
         $data['orders'] = OrderResource::collection($this->orders);
 
         return $data;

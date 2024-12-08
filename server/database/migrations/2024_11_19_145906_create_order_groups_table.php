@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('phone_number');
             $table->string('email');
             $table->integer('voucher_discount_price');
+            $table->foreignId('applied_voucher_id')->nullable()->constrained('vouchers')->nullOnDelete();
             $table->integer('total')->default(0);
             $table->timestamps();
         });
