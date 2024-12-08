@@ -121,4 +121,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Shop::class, 'user_id');
     }
+
+    public function vouchers()
+    {
+        return $this->belongsToMany(Voucher::class, 'voucher_users', 'user_id', 'voucher_id');
+    }
 }

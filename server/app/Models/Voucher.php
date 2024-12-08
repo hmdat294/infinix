@@ -33,4 +33,9 @@ class Voucher extends Model
     {
         return $this->belongsToMany(Product::class, 'voucher_products', 'voucher_id', 'product_id');
     }
+
+    public function user()
+    {
+        return $this->belongsToMany(User::class, 'voucher_users', 'voucher_id', 'user_id');
+    }
 }

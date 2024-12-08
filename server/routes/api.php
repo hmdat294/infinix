@@ -67,6 +67,9 @@ Route::middleware(['guest'])->group(function () {
 Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(function () {
 
     Route::get('voucher/bycode/{code}', [VoucherController::class, 'byCode']);
+    Route::post('voucher/save', [VoucherController::class,'saveCode']);
+    Route::get('user/saved-vouchers', [VoucherController::class, 'savedVouchers']);
+    Route::get('voucher/valid-vouchers', [VoucherController::class, 'validVouchers']);
 
     Route::post('voucher', [VoucherController::class, 'store']);
     Route::post('voucher/{id}', [VoucherController::class, 'update']);

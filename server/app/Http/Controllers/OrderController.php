@@ -10,6 +10,7 @@ use App\Models\OrderGroup;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\Voucher;
+use App\Models\VoucherUser;
 use Illuminate\Support\Facades\Log;
 
 use App\Services\ZaloPayService;
@@ -54,6 +55,23 @@ class OrderController extends Controller
         $voucher = Voucher::where('code', $request_data->applied_voucher)->first();
         $voucher->stock -= 1;
         $voucher->save();
+
+        // thêm voucher vào voucher_users với is_used = true, nếu đã tồn tại thì tăng use_count lên 1
+        $voucher_user = VoucherUser::where('user_id', $request->user()->id)->where('voucher_id', $voucher->id)->first();
+        if ($voucher_user) {
+            $voucher_user->is_used = true;
+            $voucher_user->use_count += 1;
+
+            $voucher_user->save();
+        } else {
+            $voucher_user = VoucherUser::create([
+                'user_id' => $request->user()->id,
+                'voucher_id' => $voucher->id,
+                'is_used' => true,
+                'use_count' => 1,
+                'is_saved' => false
+            ]);
+        }
 
         $shops = $request_data->shops;
         foreach ($shops as $shop) {
