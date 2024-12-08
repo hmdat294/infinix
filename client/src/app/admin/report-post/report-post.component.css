@@ -157,8 +157,11 @@ td:last-child {
 }
 
 /* Hiệu ứng focus */
-.status-select:focus {
+/* .status-select:focus {
     border-color: #007bff;
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
+} */
+
+
+
 

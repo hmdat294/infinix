@@ -18,6 +18,8 @@ import { ShopComponent } from './shop/shop.component';
 import { ReportComponent } from './admin/report/report.component';
 import { ReportpostComponent } from './admin/report-post/report-post.component';
 import { EventComponent } from './admin/event/event.component';
+import { ReportCommentComponent } from './admin/report-comment/report-comment.component';
+import { StoreComponent } from './store/store.component';
 
 export const routes: Routes = [
     { path: '', component: MainHomeComponent, canActivate: [AuthGuard] },
@@ -32,7 +34,7 @@ export const routes: Routes = [
     { path: 'bookmark', component: BookmarkComponent, canActivate: [AuthGuard] },
 
     { path: 'shop/:shop_id', component: ShopComponent, canActivate: [AuthGuard] },
-    // { path: 'store', component: StoreComponent, canActivate: [AuthGuard] },
+    { path: 'store', component: StoreComponent, canActivate: [AuthGuard] },
     // { path: 'checkout/:data', component: CheckoutComponent, canActivate: [AuthGuard] },
 
     { path: 'login', component: LoginComponent, canActivate: [AuthGuard] },
@@ -43,6 +45,7 @@ export const routes: Routes = [
     { path: 'admin/user', component: UserComponent, canActivate: [AuthGuard] },
     { path: 'admin/report', component: ReportComponent, canActivate: [AuthGuard] },
     { path: 'admin/report/post', component: ReportpostComponent, canActivate: [AuthGuard] },
+    { path: 'admin/report/comment', component: ReportCommentComponent, canActivate: [AuthGuard] },
     { path: 'admin/event', component: EventComponent, canActivate: [AuthGuard] },
 
     { path: '**', redirectTo: '', pathMatch: 'full' }
