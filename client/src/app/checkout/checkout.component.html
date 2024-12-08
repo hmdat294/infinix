@@ -202,30 +202,32 @@
                                             </tr>
                                         </table>
                                         <div
-                                            class="border-bottom p-10 layout-horizontal gap-20 align-center-space-between">
-                                            <div class="h-hug text-body-strong text-left">Phương thức thanh toán:</div>
-                                            <div class="w-fill layout-horizontal align-center-right gap-5">
-                                                <div class="border rounded-6 cursor-pointer"
-                                                    [class]="payment_method == 'cash'?'system-success':'card-background-default'"
-                                                    style="width: 50px; height: 50px; padding: 2px;"
-                                                    (click)="setPaymentMethod('cash')">
+                                            class="border-bottom p-10 w-fill layout-vertical align-center-right gap-10">
+                                            <div (click)="setPaymentMethod('cash')"
+                                                [class]="payment_method == 'cash'?'active':''"
+                                                class="layout-horizontal align-center-left gap-10 w-fill list-item">
+                                                <div class="border rounded-4 overflow-hidden"
+                                                    [class]="payment_method == 'cash'?'border-system-attention':''"
+                                                    style="width: 35px; height: 35px;">
                                                     <img src="assets/image/logo_cash.png" alt=""
-                                                        class="object-fit-cover w-fill h-fill rounded-4">
+                                                        class="object-fit-cover w-fill h-fill">
                                                 </div>
-                                                <div class="border rounded-6 cursor-pointer"
-                                                    [class]="payment_method == 'zalopay'?'system-success':'card-background-default'"
-                                                    style="width: 50px; height: 50px; padding: 2px;"
-                                                    (click)="setPaymentMethod('zalopay')">
+                                                <p class="text-primary"
+                                                    [class]="payment_method == 'cash'?'text-body-strong':'text-body'">
+                                                    Thanh toán bằng tiền mặt</p>
+                                            </div>
+                                            <div (click)="setPaymentMethod('zalopay')"
+                                                [class]="payment_method == 'zalopay'?'active':''"
+                                                class="layout-horizontal align-center-left gap-10 w-fill list-item">
+                                                <div class="border rounded-4 overflow-hidden"
+                                                    [class]="payment_method == 'zalopay'?'border-system-attention':''"
+                                                    style="width: 35px; height: 35px;">
                                                     <img src="assets/image/logo_zalopay.png" alt=""
-                                                        class="object-fit-cover w-fill h-fill rounded-4">
+                                                        class="object-fit-cover w-fill h-fill">
                                                 </div>
-                                                <!-- <div class="border rounded-6 cursor-pointer"
-                                                    [class]="payment_method == 'vnpay'?'system-success':'card-background-default'"
-                                                    style="width: 50px; height: 50px; padding: 2px;"
-                                                    (click)="setPaymentMethod('vnpay')">
-                                                    <img src="assets/image/logo_vnpay.png" alt=""
-                                                        class="object-fit-cover w-fill h-fill rounded-4">
-                                                </div> -->
+                                                <p class="text-primary"
+                                                    [class]="payment_method == 'zalopay'?'text-body-strong':'text-body'">
+                                                    Thanh toán bằng ZaloPay</p>
                                             </div>
                                         </div>
                                         <i *ngIf="empty_user" class="text-left text-body text-system-critical p-10">
