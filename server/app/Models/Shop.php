@@ -19,6 +19,9 @@ class Shop extends Model
         'description',
         'address',
         'phone_number',
+        'bank_name',
+        'bank_account_number',
+        'is_active',
     ];
 
     public function user()

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('vouchers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('shop_id')->constrained()->onDelete('cascade');
-            $table->string('code');
+            $table->string('code')->unique();
             $table->integer('discount');
             $table->integer('min_price');
             $table->integer('max_discount');

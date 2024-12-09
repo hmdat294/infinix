@@ -16,6 +16,7 @@ class OrderDetail extends Model
         'product_id',
         'quantity',
         'price',
+        'voucher_discount_price',
     ];
 
     
