@@ -19,6 +19,9 @@ class Shop extends Model
         'description',
         'address',
         'phone_number',
+        'bank_name',
+        'bank_account_number',
+        'is_active',
     ];
 
     public function user()
@@ -46,8 +49,11 @@ class Shop extends Model
         return DB::table('order_details')
             ->join('products', 'order_details.product_id', '=', 'products.id')
             ->where('products.shop_id', $this->id)
+            ->join('orders', 'order_details.order_id', '=', 'orders.id')
+            ->where('order.status', 'delivered')
             ->sum('order_details.quantity');
     }
+
 
     public function reviews()
     {

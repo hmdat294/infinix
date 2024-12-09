@@ -19,6 +19,7 @@ class OrderResource extends JsonResource
         $data['products'] = $this->products->map(function ($product) {
             $product = new ProductResource($product);
             $product['quantity'] = $product->pivot->quantity;
+            $product['voucher_discount_price'] = $product->pivot->voucher_discount_price;
             return $product;
         });
         $data['payment_method'] = $this->group->payment_method;

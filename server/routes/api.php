@@ -38,6 +38,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\ShopRequestController;
 use App\Http\Controllers\ZaloPayController;
 use App\Http\Controllers\VoucherController;
 
@@ -65,6 +66,11 @@ Route::middleware(['guest'])->group(function () {
 });
 
 Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(function () {
+
+    Route::get('shop-request', [ShopRequestController::class, 'index']);
+    Route::post('shop-request', [ShopRequestController::class,'store']);
+    Route::get('shop-request/{id}', [ShopRequestController::class, 'show']);
+    Route::delete('shop-request/{id}', [ShopRequestController::class, 'destroy']);
 
     Route::get('voucher/bycode/{code}', [VoucherController::class, 'byCode']);
     Route::post('voucher/save', [VoucherController::class,'saveCode']);
@@ -289,6 +295,9 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
         Route::get('total-post-comments', [TotalController::class, 'totalPostComments']);
 
         Route::get('total-interactions', [TotalController::class, 'totalInteractions']);
+
+        Route::get('total-sold-products', [TotalController::class, 'totalSoldProducts']);
+
         // thống kê theo biểu đồ tăng trưởng (thống kê tăng trưởng)
         Route::get('users-growth', [GrowthStatisticsController::class, 'usersGrowthStatistics']);
         Route::get('posts-growth', [GrowthStatisticsController::class, 'postsGrowthStatistics']);
