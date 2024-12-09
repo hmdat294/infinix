@@ -295,6 +295,9 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
         Route::get('total-post-comments', [TotalController::class, 'totalPostComments']);
 
         Route::get('total-interactions', [TotalController::class, 'totalInteractions']);
+
+        Route::get('total-sold-products', [TotalController::class, 'totalSoldProducts']);
+
         // thống kê theo biểu đồ tăng trưởng (thống kê tăng trưởng)
         Route::get('users-growth', [GrowthStatisticsController::class, 'usersGrowthStatistics']);
         Route::get('posts-growth', [GrowthStatisticsController::class, 'postsGrowthStatistics']);
