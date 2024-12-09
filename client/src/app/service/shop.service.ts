@@ -158,4 +158,14 @@ export class ShopService {
     const headers = this.authService.getToken();
     return this.http.delete(`${this.apiUrl}/voucher/${voucher_id}`, { headers });
   }
+
+  saveVoucher(code: string): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.post(`${this.apiUrl}/voucher/save`, { 'code': code }, { headers });
+  }
+
+  getVoucherSaved(): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.get(`${this.apiUrl}/user/saved-vouchers`, { headers });
+  }
 }

@@ -32,6 +32,7 @@ export class ShopComponent implements OnInit {
   conversation: any[] = [];
   feedbacks: any = [];
   cart: any = [];
+  vouchers: any = [];
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -59,11 +60,24 @@ export class ShopComponent implements OnInit {
       this.shopService.getListProductByShop(params['shop_id']).subscribe(
         (response) => {
           this.listProduct = response.data.filter((product: any) => product.is_active == 1);
-          console.log(this.listProduct);
 
           this.originalProducts = [...this.listProduct];
         });
 
+      this.shopService.getVoucherByShop(params['shop_id']).subscribe((res) => {
+        const currentDate = new Date();
+        this.vouchers = res.data.filter((voucher: any) => {
+          const validFrom = new Date(voucher.valid_from);
+          const validUntil = new Date(voucher.valid_until);
+
+          return (
+            voucher.is_active === 1 &&
+            voucher.stock > 0 &&
+            currentDate >= validFrom &&
+            currentDate <= validUntil
+          );
+        }).slice(0, 3);
+      });
     });
 
     this.chatService.conversation$.subscribe(conversation => {
@@ -82,6 +96,19 @@ export class ShopComponent implements OnInit {
 
     });
 
+  }
+
+  calculateDays(end_date: Date) {
+    const today = new Date();
+    const targetDate = new Date(end_date);
+    return Math.ceil((targetDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+  }
+
+  saveVoucher(code: string) {
+    this.shopService.saveVoucher(code).subscribe(
+      (res) => {
+        console.log(res);
+      });
   }
 
   sortProductByCategory() {

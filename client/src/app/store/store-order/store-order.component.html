@@ -1,5 +1,5 @@
 <div class="layout-vertical card-background-default border border-card-default rounded-8"
-    style="height: calc(100vh - 85px);">
+    style="height: calc(100vh - 90px);">
 
     <div class="layout-horizontal align-center-space-between px-20 py-15">
         <p class="text-primary text-subtitle">Đơn hàng</p>
@@ -11,14 +11,14 @@
         </select>
     </div>
 
-    <div class="layout-vertical gap-20 p-20 border-top border-card-default w-fill overflow-scroll-vertical">
+    <div class="layout-vertical gap-20 px-20 pb-10 border-top border-card-default w-fill overflow-scroll-vertical">
 
         <div class="text-body text-primary text-center w-fill" *ngIf="orders.length > 0">
             <div class="w-fill gap-20 layout-horizontal text-body-strong p-10">
                 <div class="w-fill-column-3">Mã</div>
                 <div class="w-fill-column-2">Hình ảnh</div>
                 <div class="w-fill">Tên</div>
-                <div class="w-fill-column-2">Ngày đặt hàng</div>
+                <div class="w-fill-column-2">Ngày đặt</div>
                 <div class="w-fill-column-2">Tổng tiền</div>
             </div>
             <div class="w-fill layout-vertical border-top border-card-default"
@@ -46,7 +46,7 @@
                                 <div class="layout-horizontal align-center-space-between p-10 border-bottom">
                                     <p class="text-body-strong">Cửa hàng:</p>
                                     <div class="layout-horizontal align-center-center gap-10 w-hug">
-                                        <p class="text-body">{{shop?.shop_name}}</p>
+                                        <a [routerLink]="['/shop', shop?.shop_id]" class="text-body link">{{shop?.shop_name}}</a>
                                         <img [src]="shop?.shop_logo" alt="" class="object-fit-cover rounded-circle"
                                             style="width: 30px; height: 30px;">
                                     </div>
@@ -61,7 +61,7 @@
                                     <p class="text-body">{{shop.note}}</p>
                                 </div>
                             </div>
-                            <div class="layout-vertical">
+                            <div class="layout-vertical gap-10">
                                 <div *ngFor="let product of shop.products">
                                     <div class="layout-horizontal gap-20 my-10">
                                         <div class="w-fill-column-4">
@@ -81,9 +81,6 @@
                                         </div>
                                     </div>
                                     <div class="layout-horizontal gap-10" *ngIf="product.can_review">
-                                        <button type="button" class="button-standard button-text-only w-fill">
-                                            Mua lại
-                                        </button>
                                         <button type="button" class="button-accent button-text-only w-fill"
                                             (click)="viewDialogFeedback(product, order.id)">
                                             Đánh giá

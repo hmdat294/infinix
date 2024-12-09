@@ -158,6 +158,15 @@
                                                 </th>
                                             </tr>
                                         </table>
+
+                                        <div class="p-10 layout-horizontal align-center-space-between gap-10">
+                                            <p>Mã giảm giá đã lưu: {{voucherSaved.length}}</p>
+                                            <button type="button" class="button-accent w-hug px-10 py-5 cursor-pointer"
+                                                (click)="viewVoucherSaved()">
+                                                Xem
+                                            </button>
+                                        </div>
+
                                         <i *ngIf="message_voucher != ''"
                                             class="text-left text-body text-system-critical px-10 pt-10 pb-0">
                                             {{message_voucher}}
@@ -244,11 +253,65 @@
                             </div>
                         </div>
                     </div>
+                </div>
 
+                <div class="position-fixed top-0 start-0" *ngIf="viewVoucher"
+                    style="width: 100%; height: 100vh; z-index: 20;">
+                    <div class="position-absolute top-0 start-0" (click)="viewVoucherSaved()"
+                        style="width: 100%; height: 100vh; z-index: 1; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px);">
+                    </div>
+                    <div class="dialog-panel position-absolute top-50 start-50 translate-middle" style="z-index: 2;">
+                        <div class="layout-vertical p-20 gap-20 rounded-8 solid-background-base border border-card-default"
+                            style="width: 400px;">
+
+                            <button type="button" class="button-subtle button-icon-only w-hug position-absolute"
+                                (click)="viewVoucherSaved()" style="right: 20px; top: 20px; z-index: 1;">
+                                <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_filled"></i>
+                            </button>
+
+                            <div class="pb-20 pt-5 border-bottom">
+                                <p class="text-subtitle text-primary text-center">Mã giảm giá đã lưu</p>
+                            </div>
+
+                            <div *ngIf="voucherSaved.length > 0"
+                                class="layout-vertical gap-20 border-card-default w-fill border card-background-default rounded-8 p-10">
+
+                                <div *ngFor="let voucher of voucherSaved; let i = index"
+                                    class="w-fill layout-horizontal rounded-6 system-success-background border border-card-default overflow-hidden">
+                                    <div class="position-absolute top-0 right-0 w-fill text-right">
+                                        <span class="text-caption p-5"
+                                            style="border-radius: 0 0 0 10px; background-color: #C42B1C; color: white;">
+                                            Còn {{calculateEndDays(voucher.valid_until)}} ngày
+                                        </span>
+                                    </div>
+                                    <div class="w-fill layout-vertical text-body text-system-success gap-5 p-10">
+                                        <p class="text-caption">Mã giảm giá: <span class="text-body-strong"
+                                                style="text-transform: uppercase;">{{voucher.code}}</span>
+                                        </p>
+                                        <p class="text-caption">
+                                            Giảm {{voucher.discount}}% áp dụng cho
+                                            {{voucher.apply_to_products.length > 0 ? 'sản phẩm' : 'đơn hàng'}}
+                                            trên {{voucher.min_price | currencyVND}}
+                                            và giảm tối đa {{voucher.max_discount | currencyVND}}
+                                        </p>
+                                    </div>
+                                    <div class="w-hug layout-vertical gap-5 align-bottom-right p-10">
+                                        <button type="button" class="button-accent py-5 px-10 cursor-pointer"
+                                            (click)="useVoucher(voucher.code)">Sử dụng</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div *ngIf="voucherSaved.length == 0" class="w-fill">
+                                <p
+                                    class="text-body text-secondary text-center p-20 card-background-default border border-card-default rounded-8">
+                                    Chưa có mã giảm giá nào!</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
             </div>
         </div>
-
     </article>
 </section>

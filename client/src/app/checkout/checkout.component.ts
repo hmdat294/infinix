@@ -21,6 +21,7 @@ export class CheckoutComponent implements OnInit {
   cart: any = [];
   currentCart: any = [];
   currentUser: any;
+  voucherSaved: any = [];
 
   name: string = '';
   phone_number: string = '';
@@ -33,6 +34,7 @@ export class CheckoutComponent implements OnInit {
   add_voucher_success: string = '';
 
   empty_user: boolean = false;
+  viewVoucher: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -65,6 +67,27 @@ export class CheckoutComponent implements OnInit {
         this.router.navigate(['/']);
       }
     })
+
+    this.shopService.getVoucherSaved().subscribe(
+      (data) => {
+        this.voucherSaved = data.data;
+        console.log(this.voucherSaved);
+      });
+  }
+
+  viewVoucherSaved() {
+    this.viewVoucher = !this.viewVoucher;
+  }
+
+  useVoucher(code: string) {
+    this.applied_voucher = code;
+    this.addVoucher();
+  }
+
+  calculateEndDays(end_date: Date) {
+    const today = new Date();
+    const targetDate = new Date(end_date);
+    return Math.ceil((targetDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
   }
 
   addVoucher() {
@@ -144,8 +167,7 @@ export class CheckoutComponent implements OnInit {
         this.cart = { ...this.currentCart };
         this.discount_voucher = 0;
         this.add_voucher_success = '';
-      }
-    );
+      });
   }
 
   transformVND(value: number): string {
@@ -205,18 +227,18 @@ export class CheckoutComponent implements OnInit {
 
     console.log(this.cart);
 
-    // if (Object.values(this.cart.user).some(value => value === null || value === undefined || value === '')) {
-    //   this.empty_user = true;
-    //   return;
-    // }
-    // else {
-    //   this.empty_user = false;
-    //   this.paymentSrevice.postOrder({ 'order': JSON.stringify(this.cart) }).subscribe(
-    //     (data) => {
-    //       console.log(data);
-    //       window.location.href = data.order_url;
-    //     });
-    // }
+    if (Object.values(this.cart.user).some(value => value === null || value === undefined || value === '')) {
+      this.empty_user = true;
+      return;
+    }
+    else {
+      this.empty_user = false;
+      this.paymentSrevice.postOrder({ 'order': JSON.stringify(this.cart) }).subscribe(
+        (data) => {
+          console.log(data);
+          window.location.href = data.order_url;
+        });
+    }
   }
 
   setChangeAddress(value: number) {

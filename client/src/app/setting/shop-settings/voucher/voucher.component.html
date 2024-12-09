@@ -52,7 +52,7 @@
                 <div class="layout-vertical overflow-hidden">
                     <div class="layout-horizontal gap-20">
                         <div class="w-fill-column-6 border border-card-default rounded-6 overflow-scroll-vertical card-background-default"
-                            style="height: 420px;">
+                            style="height: 445px;">
                             <div class="w-fill layout-horizontal my-10 gap-20 px-10">
                                 <div class="control search-control w-fill">
                                     <input type="search" name="keyword" [(ngModel)]="keyword" (input)="searchProduct()"
@@ -113,7 +113,7 @@
                             </table>
                         </div>
 
-                        <div class="w-fill-column-6 layout-vertical gap-20">
+                        <div class="w-fill-column-6 layout-vertical gap-25">
 
                             <div class="w-fill layout-vertical gap-5">
                                 <p class="text-body text-primary">Mã giảm giá:</p>
@@ -137,6 +137,10 @@
                                             <i class="icon-size-16 icon icon-ic_fluent_chevron_down_16_regular"></i>
                                         </button>
                                     </div>
+                                    <div *ngIf="discount < 0 || discount > 100"
+                                        class="text-caption position-absolute top-100 mt-5 text-system-critical">
+                                        Giá trị tối thiểu là 0 và tối đa 100.
+                                    </div>
                                 </div>
 
                                 <div class="w-fill-column-6 layout-vertical gap-5">
@@ -152,6 +156,10 @@
                                             (click)="_max_discount('reduce')">
                                             <i class="icon-size-16 icon icon-ic_fluent_chevron_down_16_regular"></i>
                                         </button>
+                                    </div>
+                                    <div *ngIf="max_discount < 0"
+                                        class="text-caption position-absolute top-100 mt-5 text-system-critical">
+                                        Giá trị tối thiểu là 0.
                                     </div>
                                 </div>
                             </div>
@@ -171,6 +179,10 @@
                                             <i class="icon-size-16 icon icon-ic_fluent_chevron_down_16_regular"></i>
                                         </button>
                                     </div>
+                                    <div *ngIf="min_price < 0"
+                                        class="text-caption position-absolute top-100 mt-5 text-system-critical">
+                                        Giá trị tối thiểu là 0.
+                                    </div>
                                 </div>
 
                                 <div class="w-fill-column-6 layout-vertical gap-5">
@@ -186,6 +198,14 @@
                                             (click)="_usage_limit('reduce')">
                                             <i class="icon-size-16 icon icon-ic_fluent_chevron_down_16_regular"></i>
                                         </button>
+                                    </div>
+                                    <div *ngIf="usage_limit < -1"
+                                        class="text-caption position-absolute top-100 mt-5 text-system-critical">
+                                        Giá trị tối thiểu là -1.
+                                    </div>
+                                    <div *ngIf="usage_limit == -1"
+                                        class="text-caption position-absolute top-100 mt-5 text-system-success">
+                                        Lượt sử dụng không giới hạn.
                                     </div>
                                 </div>
                             </div>
@@ -212,6 +232,14 @@
                                             (click)="_stock('reduce')">
                                             <i class="icon-size-16 icon icon-ic_fluent_chevron_down_16_regular"></i>
                                         </button>
+                                    </div>
+                                    <div *ngIf="stock < -1"
+                                        class="text-caption position-absolute top-100 mt-5 text-system-critical">
+                                        Giá trị tối thiểu là -1.
+                                    </div>
+                                    <div *ngIf="stock == -1"
+                                        class="text-caption position-absolute top-100 mt-5 text-system-success">
+                                        Số lượng không giới hạn.
                                     </div>
                                 </div>
                             </div>
@@ -278,7 +306,8 @@
                     <p class="text-subtitle text-primary text-center">Xóa mã giảm giá</p>
                 </div>
 
-                <p class="text-body text-primary text-center mb-10">Chắc chắn xóa "<span class="text-body-strong">{{code_delete_voucher}}</span>"?</p>
+                <p class="text-body text-primary text-center mb-10">Chắc chắn xóa "<span
+                        class="text-body-strong">{{code_delete_voucher}}</span>"?</p>
 
                 <div class="layout-vertical overflow-hidden">
                     <div class="layout-horizontal gap-20">

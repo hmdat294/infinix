@@ -7,8 +7,8 @@
             <div class="layout-vertical card-background-default border border-card-default rounded-8 p-20">
 
                 <div class="layout-horizontal gap-20 align-center-space-between mb-20">
-                    <div class="w-fill layout-horizontal border rounded-8 gap-20 card-background-default p-20">
-                        <div class="layout-horizontal align-center-left gap-10 w-fill-column-6">
+                    <div class="w-fill-column-6 layout-horizontal border rounded-8 gap-20 card-background-default p-20">
+                        <div class="layout-horizontal align-center-left gap-10 w-fill">
                             <img [src]="shop?.logo" style="width: 50px; height: 50px;" class="rounded-circle" alt="">
                             <div>
                                 <p class="text-primary text-body-strong">{{shop?.name}}</p>
@@ -30,9 +30,9 @@
                         </div>
                     </div>
 
-                    <div class="w-fill-column-7 layout-horizontal gap-20">
+                    <div class="w-fill-column-6 layout-horizontal gap-20">
 
-                        <div class="w-fill-column-4 layout-vertical gap-20">
+                        <div class="w-fill layout-vertical gap-20">
                             <p class="w-fill text-primary text-body border-bottom pb-5">Danh mục:
                                 <span class="text-body-strong">{{shop?.category_count}}</span>
                             </p>
@@ -44,11 +44,11 @@
                             </p>
                         </div>
 
-                        <div class="w-fill-column-8 layout-vertical gap-20">
+                        <div class="w-fill-column-7 layout-vertical gap-20">
                             <div
                                 class="w-fill text-primary text-body border-bottom pb-5 layout-horizontal gap-5 align-center-left">
                                 Đánh giá:
-                                <div class="layout-horizontal gap-10" *ngIf="shop?.length > 0">
+                                <div class="layout-horizontal gap-10" *ngIf="shop?.average_rating > 0">
                                     <p class="text-primary text-caption">
                                         {{roundToNearest(shop?.average_rating) || 0}} / 5</p>
                                     <div class="layout-horizontal align-center-center rating" style="font-size: 1em;">
@@ -57,10 +57,10 @@
                                             'icon-ic_fluent_star_12_filled': i + 1 <= roundToNearest(shop?.average_rating),
                                             'icon-ic_fluent_star_half_12_regular': i + 1 > roundToNearest(shop?.average_rating) && i < roundToNearest(shop?.average_rating),
                                             'icon-ic_fluent_star_12_regular': i + 1 > roundToNearest(shop?.average_rating)
-                                          }" class="icon-size-12 icon"></i>
+                                        }" class="icon-size-12 icon"></i>
                                     </div>
                                 </div>
-                                <p *ngIf="!shop?.length" class="text-body-strong text-primary">Chưa có đánh giá</p>
+                                <p *ngIf="shop?.average_rating == 0 || shop?.average_rating == null" class="text-body-strong text-primary">Chưa có đánh giá</p>
                             </div>
                             <p class="w-fill text-primary text-body border-bottom pb-5">Bắt đầu hoạt động:
                                 <span class="text-body-strong">{{shop?.created_at | date:'dd/MM/yyyy'}}</span>
@@ -70,6 +70,36 @@
                             </p>
                         </div>
                     </div>
+                </div>
+
+                <div
+                    class="layout-horizontal gap-20 border-card-default w-fill border card-background-default rounded-8 p-10 mb-20">
+
+                    <div *ngFor="let voucher of vouchers; let i = index"
+                        class="w-fill-column-4 layout-horizontal rounded-6 system-success-background border border-card-default overflow-hidden">
+                        <div class="position-absolute top-0 right-0 w-fill text-right">
+                            <span class="text-caption p-5"
+                                style="border-radius: 0 0 0 10px; background-color: #C42B1C; color: white;">
+                                Còn {{calculateDays(voucher.valid_until)}} ngày
+                            </span>
+                        </div>
+                        <div class="w-fill layout-vertical text-body text-system-success gap-5 p-10">
+                            <p class="text-caption">Mã giảm giá: <span class="text-body-strong"
+                                    style="text-transform: uppercase;">{{voucher.code}}</span>
+                            </p>
+                            <p class="text-caption">
+                                Giảm {{voucher.discount}}% áp dụng cho
+                                {{voucher.apply_to_products.length > 0 ? 'sản phẩm' : 'đơn hàng'}}
+                                trên {{voucher.min_price | currencyVND}}
+                                và giảm tối đa {{voucher.max_discount | currencyVND}}
+                            </p>
+                        </div>
+                        <div class="w-hug layout-vertical gap-5 align-bottom-right p-10">
+                            <button type="button" class="button-accent py-5 px-10 cursor-pointer"
+                                (click)="saveVoucher(voucher.code)">Lưu</button>
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="layout-horizontal align-center-space-between w-fill">
@@ -112,7 +142,7 @@
 
                 <!-- *ngIf="tab_shop == 'tab_all'" -->
                 <div
-                    class="layout-wrap gap-20 border-card-default w-fill border border-card-default card-background-default rounded-bottom-8 p-10">
+                    class="layout-wrap gap-20 border-card-default w-fill border card-background-default rounded-bottom-8 p-10">
 
                     <div class="border rounded-6 layout-vertical w-fill-column-3 overflow-hidden card-background-default"
                         *ngFor="let product of listProduct">
