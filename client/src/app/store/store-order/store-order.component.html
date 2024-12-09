@@ -4,11 +4,20 @@
     <div class="layout-horizontal align-center-space-between px-20 py-15">
         <p class="text-primary text-subtitle">Đơn hàng</p>
 
-        <select name id class="control text-primary">
-            <option value>Tất cả</option>
-            <option value>Tất cả</option>
-            <option value>Tất cả</option>
-        </select>
+        <div class="layout-horizontal gap-20 w-fill-column-6">
+            <div class="w-fill-column-6 layout-vertical gap-5">
+                <p class="text-caption text-primary">Từ ngày</p>
+                <div class="control date-control w-fill">
+                    <input type="date" name="startDate" [(ngModel)]="startDate" (change)="filterOrders()">
+                </div>
+            </div>
+            <div class="w-fill-column-6 layout-vertical gap-5">
+                <p class="text-caption text-primary">Đến ngày</p>
+                <div class="control date-control w-fill">
+                    <input type="date" name="endDate" [(ngModel)]="endDate" (change)="filterOrders()">
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="layout-vertical gap-20 px-20 pb-10 border-top border-card-default w-fill overflow-scroll-vertical">
@@ -134,7 +143,7 @@
         </div>
 
         <div *ngIf="orders.length == 0"
-            class="w-fill py-20 card-background-default border border-card-default rounded-8">
+            class="w-fill py-20 card-background-default border border-card-default rounded-8 mt-20">
             <p class="text-body text-secondary text-center">Bạn chưa có đơn hàng nào!</p>
         </div>
     </div>

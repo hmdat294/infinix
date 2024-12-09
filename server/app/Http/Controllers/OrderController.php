@@ -52,7 +52,7 @@ class OrderController extends Controller
         ];
         $order_group = OrderGroup::create($order_group_data);
 
-        if ($request_data->applied_voucher)
+        if (isset($request_data->applied_voucher))
         {
             $voucher = Voucher::where('code', $request_data->applied_voucher)->first();
             $voucher->stock -= 1;

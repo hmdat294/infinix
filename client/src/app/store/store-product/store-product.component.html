@@ -231,7 +231,7 @@
                                                             </div>
                                                             {{feedback.user.display_name}}
                                                         </div>
-                                                        <div
+                                                        <div *ngIf="feedback.content"
                                                             class="layout-vertical card-background-secondary border border-card-default rounded-4 p-10 gap-5 w-fill">
                                                             <p class="text-right text-body text-primary w-fill">
                                                                 {{feedback.content}}
@@ -262,7 +262,7 @@
                                                                 }" class="icon-size-12 icon"></i>
                                                             </div>
                                                         </div>
-                                                        <div
+                                                        <div *ngIf="feedback.content"
                                                             class="layout-vertical card-background-secondary border border-card-default rounded-4 p-10 gap-5 w-fill">
                                                             <p class="text-left text-body text-primary w-fill">
                                                                 {{feedback.content}}

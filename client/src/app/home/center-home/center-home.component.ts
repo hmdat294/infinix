@@ -380,7 +380,6 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
     }
   }
 
-
   postUpdateId: number = 0;
 
   showDiaLogUpdatePost(post: any) {

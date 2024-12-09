@@ -50,7 +50,7 @@ class Shop extends Model
             ->join('products', 'order_details.product_id', '=', 'products.id')
             ->where('products.shop_id', $this->id)
             ->join('orders', 'order_details.order_id', '=', 'orders.id')
-            ->where('order.status', 'delivered')
+            ->where('orders.status', 'delivered')
             ->sum('order_details.quantity');
     }
 

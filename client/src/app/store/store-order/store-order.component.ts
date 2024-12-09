@@ -18,6 +18,9 @@ export class StoreOrderComponent implements OnInit {
 
   tabAccordion: string = '';
   orders: any = [];
+  startDate: string = '';
+  endDate: string = '';
+  filteredData: any = [];
 
   order_status: any = {
     'pending': 'Chờ xử lý',
@@ -51,6 +54,8 @@ export class StoreOrderComponent implements OnInit {
     this.paymentService.getOrder().subscribe(
       (data: any) => {
         this.orders = data.data;
+        this.filteredData = [...this.orders];
+
         console.log(data);
       }
     )
@@ -94,12 +99,28 @@ export class StoreOrderComponent implements OnInit {
           .orders.find((shop: any) => shop.shop_id == this.product_feedback.shop_id)
           .products.find((product: any) => product.id == this.product_feedback.id);
         product.can_review = false;
-        
+
         this.viewDialogFeedback(null, 0);
       });
   }
 
+  filterOrders(): void {
 
+    if (this.startDate && this.endDate) {
+      const start = new Date(this.startDate);
+      const end = new Date(this.endDate);
+
+      start.setHours(0, 0, 0, 0);
+      end.setHours(23, 59, 59, 999);
+
+      this.orders = this.filteredData.filter((order: any) => {
+        const createdAt = new Date(order.created_at);
+        createdAt.setHours(0, 0, 0, 0);
+        return createdAt >= start && createdAt <= end;
+      });
+    } else this.orders = [...this.filteredData];
+
+  }
 
 
   tabChild(tab: string) {

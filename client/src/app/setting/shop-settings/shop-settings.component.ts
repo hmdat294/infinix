@@ -63,7 +63,7 @@ export class ShopSettingsComponent implements OnInit {
           this.shopService.getShop(this.user.shop_id).subscribe(
             (res) => {
               this.shop = res.data;
-              // console.log(this.shop);
+              console.log(this.shop);
               
               const arrAddress = this.shop.address?.split(" | ");
 

@@ -56,12 +56,12 @@
                                                 <td>{{item.price-((item.price*item.discount)/100) | currencyVND}}</td>
                                                 <td>{{item.pivot.quantity}}</td>
                                                 <td>
-                                                    <p class="text-caption" *ngIf="item.discount_product">
-                                                        - {{item.discount_product | currencyVND}}
+                                                    <p class="text-caption" *ngIf="item.voucher_discount_price">
+                                                        - {{item.voucher_discount_price | currencyVND}}
                                                     </p>
                                                     <p class="text-body-strong">
                                                         {{((item.price-((item.price*item.discount)/100))*item.pivot.quantity)
-                                                        - (item.discount_product||0)
+                                                        - (item.voucher_discount_price || 0)
                                                         | currencyVND}}
                                                     </p>
                                                 </td>
@@ -194,7 +194,7 @@
                                         <table class="w-fill text-left table-info-bill">
                                             <tr class="border-bottom border-top">
                                                 <th class="h-hug text-body-strong">Tổng tiền:</th>
-                                                <td class="text-right">{{cart.total | currencyVND }}</td>
+                                                <td class="text-right">{{currentTotal | currencyVND }}</td>
                                             </tr>
                                             <tr class="border-bottom">
                                                 <th class="h-hug text-body-strong">Phí vận chuyển:</th>
@@ -206,7 +206,7 @@
                                             </tr>
                                             <tr class="border-bottom">
                                                 <th class="h-hug text-body-strong">Tổng:</th>
-                                                <td class="text-right">{{cart.total - discount_voucher | currencyVND }}
+                                                <td class="text-right">{{cart.total | currencyVND }}
                                                 </td>
                                             </tr>
                                         </table>
@@ -281,7 +281,7 @@
                                     <div class="position-absolute top-0 right-0 w-fill text-right">
                                         <span class="text-caption p-5"
                                             style="border-radius: 0 0 0 10px; background-color: #C42B1C; color: white;">
-                                            Còn {{calculateEndDays(voucher.valid_until)}} ngày
+                                            {{calculateEndDays(voucher.valid_until)}} ngày
                                         </span>
                                     </div>
                                     <div class="w-fill layout-vertical text-body text-system-success gap-5 p-10">
@@ -289,15 +289,19 @@
                                                 style="text-transform: uppercase;">{{voucher.code}}</span>
                                         </p>
                                         <p class="text-caption">
-                                            Giảm {{voucher.discount}}% áp dụng cho
-                                            {{voucher.apply_to_products.length > 0 ? 'sản phẩm' : 'đơn hàng'}}
-                                            trên {{voucher.min_price | currencyVND}}
-                                            và giảm tối đa {{voucher.max_discount | currencyVND}}
+                                            {{ getVoucherDescription(
+                                                voucher.discount,
+                                                voucher.apply_to_products.length > 0 ? 'sản phẩm' : 'đơn hàng',
+                                                voucher.min_price | currencyVND,
+                                                voucher.max_discount | currencyVND
+                                            ) }}
                                         </p>
                                     </div>
                                     <div class="w-hug layout-vertical gap-5 align-bottom-right p-10">
-                                        <button type="button" class="button-accent py-5 px-10 cursor-pointer"
-                                            (click)="useVoucher(voucher.code)">Sử dụng</button>
+                                        <button type="button" class="button-text-only"
+                                            [class]="voucher.code == applied_voucher?'button-standard':'button-accent'"
+                                            (click)="useVoucher(voucher.code)">
+                                            {{voucher.code == applied_voucher?'Đã dùng':'Sử dụng'}}</button>
                                     </div>
                                 </div>
                             </div>

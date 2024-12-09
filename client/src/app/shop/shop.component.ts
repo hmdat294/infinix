@@ -10,11 +10,12 @@ import { ChatService } from '../service/chat.service';
 import { CheckoutService } from '../service/checkout.service';
 import { AuthService } from '../service/auth.service';
 import { PaymentService } from '../service/payment.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-shop',
   standalone: true,
-  imports: [CommonModule, FormsModule, CurrencyVNDPipe, RouterModule],
+  imports: [CommonModule, FormsModule, CurrencyVNDPipe, RouterModule, TranslateModule],
   templateUrl: './shop.component.html',
   styleUrl: './shop.component.css'
 })
@@ -44,6 +45,7 @@ export class ShopComponent implements OnInit {
     private route: ActivatedRoute,
     private checkoutService: CheckoutService,
     private paymentService: PaymentService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit(): void {
@@ -102,6 +104,20 @@ export class ShopComponent implements OnInit {
     const today = new Date();
     const targetDate = new Date(end_date);
     return Math.ceil((targetDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+  }
+
+  getVoucherDescription(
+    discount: string,
+    apply_to_products: string,
+    min_price: string,
+    max_discount: string) {
+
+    return this.translate.instant('shop.voucher_description', {
+      discount: discount,
+      apply_to_products: apply_to_products,
+      min_price: min_price,
+      max_discount: max_discount,
+    });
   }
 
   saveVoucher(code: string) {

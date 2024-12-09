@@ -6,6 +6,7 @@ import { AuthService } from '../service/auth.service';
 import { FormsModule } from '@angular/forms';
 import { PaymentService } from '../service/payment.service';
 import { ShopService } from '../service/shop.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-checkout',
@@ -22,6 +23,7 @@ export class CheckoutComponent implements OnInit {
   currentCart: any = [];
   currentUser: any;
   voucherSaved: any = [];
+  currentTotal: number = 0;
 
   name: string = '';
   phone_number: string = '';
@@ -42,6 +44,7 @@ export class CheckoutComponent implements OnInit {
     private shopService: ShopService,
     private paymentSrevice: PaymentService,
     private router: Router,
+    private translate: TranslateService
   ) { }
 
   ngOnInit(): void {
@@ -56,6 +59,8 @@ export class CheckoutComponent implements OnInit {
 
         this.cart = JSON.parse(decodeURIComponent(escape(atob(params['data']))));
         console.log(this.cart);
+
+        this.currentTotal = this.cart.total;
 
         this.currentCart = { ...this.cart };
         this.applied_voucher = '';
@@ -88,6 +93,20 @@ export class CheckoutComponent implements OnInit {
     const today = new Date();
     const targetDate = new Date(end_date);
     return Math.ceil((targetDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+  }
+
+  getVoucherDescription(
+    discount: string,
+    apply_to_products: string,
+    min_price: string,
+    max_discount: string) {
+
+    return this.translate.instant('shop.voucher_description', {
+      discount: discount,
+      apply_to_products: apply_to_products,
+      min_price: min_price,
+      max_discount: max_discount,
+    });
   }
 
   addVoucher() {
@@ -129,11 +148,11 @@ export class CheckoutComponent implements OnInit {
               products: shop.products.map((product: any) => {
                 if (voucher.apply_to_products.includes(product.id)) {
                   const product_total = (product.price - ((product.price * product.discount) / 100)) * product.pivot.quantity;
-                  let discount_product = (product_total * voucher.discount) / 100;
-                  discount_product = (discount_product > voucher.max_discount) ? voucher.max_discount : discount_product;
+                  let voucher_discount_price = (product_total * voucher.discount) / 100;
+                  voucher_discount_price = (voucher_discount_price > voucher.max_discount) ? voucher.max_discount : voucher_discount_price;
                   return {
                     ...product,
-                    discount_product: discount_product
+                    voucher_discount_price: voucher_discount_price
                   };
                 }
                 return product;
@@ -143,7 +162,7 @@ export class CheckoutComponent implements OnInit {
 
           this.cart.shops.forEach((shop: any) => {
             shop.products.forEach((product: any) => {
-              if (product.discount_product) this.discount_voucher += product.discount_product;
+              if (product.voucher_discount_price) this.discount_voucher += product.voucher_discount_price;
             });
           });
         }
@@ -154,6 +173,8 @@ export class CheckoutComponent implements OnInit {
 
         this.message_voucher = '';
         this.cart.applied_voucher = this.applied_voucher;
+        this.cart.total = this.cart.total - this.discount_voucher;
+
         this.add_voucher_success =
           `Sử dụng <b>${voucher.code}</b> thành công.
           <p>
@@ -214,7 +235,6 @@ export class CheckoutComponent implements OnInit {
 
     this.cart.payment_method = this.payment_method;
     this.cart.voucher_discount_price = this.discount_voucher;
-    this.cart.total = this.cart.total - this.discount_voucher;
 
     this.cart.shops.forEach((shop: any) => {
       shop.shop_total = 0;
