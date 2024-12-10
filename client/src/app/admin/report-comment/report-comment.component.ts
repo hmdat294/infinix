@@ -42,9 +42,9 @@ export class ReportCommentComponent {
   ngOnInit(): void {
     this.adminService.getReports().subscribe(
       (response) => {
-        // Gán mảng `data` từ response vào `listReport` và thêm thuộc tính `isExpanded`
+       
         this.listReport = response.data
-          .filter((item: any) => item.type === 'post')
+          .filter((item: any) => item.type === 'comment')
           .map((item: any) => ({ ...item, isExpanded: false }));
         
         console.log(this.listReport);

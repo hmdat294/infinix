@@ -171,4 +171,10 @@ export class AuthService {
     const headers = this.getToken();
     return this.http.post(`${this.apiUrl}/follow/${user_id}`, {}, { headers });
   }
+
+
+ 
+  
 }
+
+

@@ -104,7 +104,10 @@ deleteReport(id: number): Observable<any> {
   return this.http.delete(`${this.apiUrl}/report/${id}`, { headers });
 }
 
-
+getShop(): Observable<any> {
+  const headers = this.authService.getToken();
+  return this.http.get(`${this.apiUrl}/shop`, { headers });
+}
   
   
   
