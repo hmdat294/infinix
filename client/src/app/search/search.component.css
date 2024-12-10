@@ -1,5 +1,19 @@
-section>article{
+
+section>article {
     margin-top: 30px;
+}
+
+@media (max-width: 480px) {
+    section>article {
+        margin-top: 100px;
+    }
+    .nav_search {
+        height: auto !important;
+        margin-top: 180px;
+    }
+}
+
+@media (max-width: 850px) {
 }
 
 .layout-1 {

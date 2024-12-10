@@ -16,24 +16,24 @@ class SearchController extends Controller
 
         $users = UserModel::whereHas('profile', function ($query) use ($keyword) {
             $query->where('display_name', 'like', '%' . $keyword . '%')
-                  ->orWhere('email', 'like', '%' . $keyword . '%');
+                ->orWhere('email', 'like', '%' . $keyword . '%');
         });
-        Log::info('user_ids: '. $users->pluck('id'));
+        Log::info('user_ids: ' . $users->pluck('id'));
 
         // loại trừ bản thân
         $users = $users->where('id', '!=', $request->user()->id);
-        Log::info('user_ids: '. $users->pluck('id'));
+        Log::info('user_ids: ' . $users->pluck('id'));
 
         $blocked_by_ids = $request->user()->blockedBy->pluck('id');
-        Log::info('blocked_by_ids: '. $blocked_by_ids);
+        Log::info('blocked_by_ids: ' . $blocked_by_ids);
         $blocked_ids = $request->user()->blockings->pluck('id');
-        Log::info('blocked_ids: '. $blocked_ids);
+        Log::info('blocked_ids: ' . $blocked_ids);
 
         $users = $users->whereNotIn('id', $blocked_by_ids)
-                       ->whereNotIn('id', $blocked_ids);
+            ->whereNotIn('id', $blocked_ids);
 
-                       
-        Log::info('user_ids: '. $users->pluck('id'));
+
+        Log::info('user_ids: ' . $users->pluck('id'));
 
         if ($limit) {
             $users = $users->limit($limit);
@@ -47,16 +47,17 @@ class SearchController extends Controller
     public function post(Request $request, string $keyword, $limit = null)
     {
 
-        $posts = PostModel::where('content', 'like', "%$keyword%");
+        $posts = PostModel::where('content', 'like', '%' . $keyword . '%');
+        // Log::info($posts->get());
 
         $blocked_by_ids = $request->user()->blockedBy->pluck('blocker_id');
         $blocked_ids = $request->user()->blockings->pluck('blocked_id');
         $reported_user_ids = $request->user()->reportings->pluck('user_id');
 
         $user_ids = UserModel::whereNotIn('id', $blocked_by_ids)
-                       ->whereNotIn('id', $blocked_ids)
-                       ->whereNotIn('id', $reported_user_ids)
-                       ->pluck('id');
+            ->whereNotIn('id', $blocked_ids)
+            ->whereNotIn('id', $reported_user_ids)
+            ->pluck('id');
 
         $posts = $posts->whereNotIn('user_id', $user_ids);
 
@@ -65,7 +66,7 @@ class SearchController extends Controller
         }
 
         $posts = $posts->get();
-        
+
         return PostResource::collection($posts);
     }
 
@@ -73,7 +74,7 @@ class SearchController extends Controller
     {
         $users_collection = $this->user($request, $keyword, 5);
         $posts_collection = $this->post($request, $keyword, 5);
-        
+
         return [
             'users' => $users_collection,
             'posts' => $posts_collection,

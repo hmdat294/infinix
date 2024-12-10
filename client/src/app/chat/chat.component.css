@@ -62,8 +62,6 @@ article {
     outline-offset: 3px;
 }
 
-
-
 .layout-1 {
     display: grid;
     gap: 10px;
@@ -156,4 +154,54 @@ article {
 
 .user-idle::after {
     background-color: rgb(255, 255, 0);
+}
+
+.mess-menu-left {
+    left: -180px;
+}
+
+.mess-menu-right {
+    right: -180px;
+}
+
+.dialog_detail_chat {
+    width: 500px;
+}
+
+.main_chat {
+    height: calc(100vh - 85px);
+}
+
+@media (max-width: 850px) {
+    .mess-hover .mess-menu {
+        width: 55px;
+    }
+
+    .mess-menu-left {
+        left: -90px;
+    }
+
+    .mess-menu-right {
+        right: -90px;
+    }
+
+    .mess-hover {
+        width: calc(100% - 75px) !important;
+    }
+}
+
+@media (max-width: 580px) {
+    .dialog_detail_chat {
+        width: calc(100vw - 40px) !important;
+    }
+}
+
+@media (max-width: 480px) {
+    section>article {
+        margin-top: 90px;
+    }
+
+    .main_chat {
+        height: calc(100vh - 130px);
+    }
 }

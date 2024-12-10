@@ -9,11 +9,12 @@ import { Router, RouterModule } from '@angular/router';
 import { CheckoutService } from '../../service/checkout.service';
 import { AuthService } from '../../service/auth.service';
 import { PaymentService } from '../../service/payment.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-store-product',
   standalone: true,
-  imports: [CommonModule, FormsModule, CurrencyVNDPipe, RouterModule],
+  imports: [CommonModule, FormsModule, CurrencyVNDPipe, RouterModule, TranslateModule],
   templateUrl: './store-product.component.html',
   styleUrl: './store-product.component.css'
 })

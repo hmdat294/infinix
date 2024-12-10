@@ -200,8 +200,8 @@
                                         <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_filled"></i>
                                     </button>
                                 </div>
-                                <div class="layout-horizontal align-center-space-between">
-                                    <div class="layout-vertical">
+                                <div class="layout-horizontal in-mobile-layout-vertical w-fill gap-5">
+                                    <div class="layout-vertical w-fill in-mobile-text-right">
                                         <p class="text-primary text-caption w-fill">{{
                                             item.price-((item.price*item.discount)/100) | currencyVND }}</p>
                                         <p class="text-primary text-body-strong w-fill">{{
@@ -210,7 +210,7 @@
                                             }}
                                         </p>
                                     </div>
-                                    <div class="control number-control" style="width: 150px;">
+                                    <div class="control number-control w-hug">
                                         <input type="number" [(ngModel)]="item.pivot.quantity" min="1" step="1">
                                         <button type="button" class="input-button increase-number-button"
                                             (click)="addQuantity(shop?.shop_id, item.id)">

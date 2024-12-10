@@ -1,4 +1,4 @@
-import { AfterViewChecked, AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ChatService } from '../service/chat.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -39,7 +39,6 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   id_edit_message: number = 0;
 
   isScrollingToElement: boolean = false;
-  isVisible = true;
   showBoxSearch = false;
   showBoxSearchUser = false;
   showUserGroup = false;
@@ -163,7 +162,53 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
             });
           });
       });
+
+    this.updateClassTab(window.innerWidth);
+
   }
+
+  tab_1: boolean = true;
+  tab_2: boolean = false;
+  tab_3: boolean = true;
+  widthChat: number = 0;
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.updateClassTab(event.target.innerWidth);
+  }
+
+  updateClassTab(width: number) {
+    this.tab_1 = width <= 850 ? false : true;
+    this.widthChat = width;
+  }
+
+
+
+
+  toggleBoxchat() {
+
+    this.tab_2 = !this.tab_2;
+    if (this.widthChat <= 480)
+      this.tab_3 = !this.tab_2;
+
+    else if (this.tab_2 && this.widthChat <= 850)
+      this.tab_1 = !this.tab_2;
+
+  }
+
+  showConversation() {
+    if (this.widthChat <= 850) {
+
+      this.tab_1 = !this.tab_1;
+      if (this.tab_1)
+        this.tab_2 = !this.tab_1;
+
+    }
+  }
+
+
+
+
 
   shortenTextByWords(text: string, maxWords: number): string {
     return this.settingService.shortenTextByWords(text, maxWords);
@@ -265,10 +310,6 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     }
   }
 
-  toggleBoxchat() {
-    this.isVisible = !this.isVisible;
-  }
-
   toggleDialogChat(id: number) {
     this.idDialogChat = id;
   }
@@ -311,6 +352,11 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
 
   MessageUser(conversation: any) {
+
+    if (this.widthChat <= 480) {
+      this.tab_1 = false;
+      this.tab_2 = false;
+    }
 
     this.chatService.getImageByConversation(conversation.id).subscribe(
       (response) => {

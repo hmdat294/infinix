@@ -19,5 +19,6 @@ section>article {
 
     .nav_store>div {
         width: calc(100% - 40px) !important;
+        height: auto !important;
     }
 }

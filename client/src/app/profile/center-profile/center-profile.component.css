@@ -10,7 +10,7 @@
 .layout-6 {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    min-height: 500px;
+    /* min-height: 500px; */
     gap: 10px;
 }
 
@@ -163,4 +163,26 @@
 ::ng-deep .ql-toolbar .ql-active {
     background-color: var(--subtle-secondary);
     color: var(--accent-text-primary);
+}
+
+@media (max-width: 850px) {
+    .dialog_update_post {
+        width: 600px;
+    }
+}
+
+@media (max-width: 700px) {
+    .dialog_update_post {
+        width: 500px;
+    }
+}
+
+@media (max-width: 550px) {
+    .dialog_update_post {
+        width: 350px;
+    }
+
+    .dialog_update_post>form {
+        height: 550px;
+    }
 }

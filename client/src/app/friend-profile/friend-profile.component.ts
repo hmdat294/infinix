@@ -17,6 +17,7 @@ import { CurrencyVNDPipe } from '../currency-vnd.pipe';
 import { CheckoutService } from '../service/checkout.service';
 import { SettingService } from '../service/setting.service';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
+import { PaymentService } from '../service/payment.service';
 
 @Component({
   selector: 'app-friend-profile',
@@ -56,7 +57,8 @@ export class FriendProfileComponent implements OnInit {
   productDetail_id: number = 0;
   quantity: number = 1;
   content_feedback: string = '';
-
+  feedbacks: any = [];
+  cart: any = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -70,7 +72,8 @@ export class FriendProfileComponent implements OnInit {
     private checkoutService: CheckoutService,
     private settingService: SettingService,
     private router: Router,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private paymentService: PaymentService,
   ) { }
 
   ngOnInit(): void {
@@ -167,6 +170,16 @@ export class FriendProfileComponent implements OnInit {
       // console.log('Updated conversation from localStorage:', conversation);
       this.conversation = conversation;
     });
+
+    this.shopService.getCart().subscribe(data => this.cart = data.data);
+
+    this.shopService.cart$.subscribe(cart => {
+      this.cart = cart;
+
+      if (this.productDetail_id > 0)
+        this.product_cart_quantity = this.cart.products.find((product: any) => product.id == this.productDetail_id)?.pivot.quantity || 0;
+
+    });
   }
 
   createChat(receiver_id: number) {
@@ -185,13 +198,31 @@ export class FriendProfileComponent implements OnInit {
       });
   }
 
-  viewProductDetail(product_id: any) {
+  stars: number[] = [1, 2, 3, 4, 5];
+  product_cart_quantity: number = 0;
+  max_quantity: number = 0;
+
+  viewProductDetail(product_id: any, max: number = 1) {
     if (product_id == 0) this.quantity = 1;
     this.productDetail_id = product_id;
+    this.max_quantity = max;
     this.cdr.detectChanges();
     this.initCarousels();
+
+    if (product_id > 0) {
+      this.product_cart_quantity = this.cart.products.find((product: any) => product.id == product_id)?.pivot.quantity || 0;
+
+      this.paymentService.getFeedbackByProduct(product_id).subscribe(
+        (response) => {
+          this.feedbacks = response.data;
+        });
+    }
   }
 
+  roundToNearest(value: number): number {
+    return Math.round(value * Math.pow(10, 2)) / Math.pow(10, 2);
+  }
+  
   addQuantity() {
     this.quantity++;
   }
@@ -201,12 +232,12 @@ export class FriendProfileComponent implements OnInit {
   }
 
 
-  addToCart(product_id: number) {
-    // console.log({ 'product_id': product_id, 'quantity': this.quantity });
+  addToCart(product_id: number, max: number) {
+    this.product_cart_quantity = this.cart.products.find((product: any) => product.id == product_id)?.pivot.quantity || 0;
+    if (max - this.product_cart_quantity == 0) return;
 
     this.shopService.addProductToCart({ 'product_id': product_id, 'quantity': this.quantity }).subscribe(
       (response) => {
-        // console.log(response);
         this.shopService.updateCart(response.data);
       })
   }

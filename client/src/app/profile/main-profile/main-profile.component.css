@@ -2,8 +2,8 @@ section>article {
     margin-top: 50px;
 }
 
-@media (max-width: 479px) {
+@media (max-width: 480px) {
     section>article {
-        margin-top: 92px;
+        margin-top: 90px;
     }
 }

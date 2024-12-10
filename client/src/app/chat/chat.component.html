@@ -1,7 +1,8 @@
 <section class="gradient-background layout-vertical" style="height: 100vh;">
 
     <article class="layout-horizontal gap-20 px-20 w-fill h-fill overflow-hidden">
-        <div class="w-fill-column-3 layout-vertical gap-20 py-20 overflow-scroll-vertical">
+        <div
+            class="{{(tab_1)?'display-flex':'display-none'}} w-fill-column-3 in-tablet-w-fill-column-4 in-mobile-w-fill layout-vertical gap-20 py-20 overflow-scroll-vertical">
             <div class="layout-vertical card-background-default border border-card-default rounded-8"
                 style="height: calc(100vh - 85px);">
                 <div class="w-fill layout-horizontal align-center-space-between px-20 py-15">
@@ -103,12 +104,19 @@
         </div>
 
         <div *ngIf="conversation"
-            class="{{(isVisible)?'w-fill-column-6':'w-fill-column-9'}} layout-vertical gap-20 py-20">
-            <div class="layout-vertical card-background-default border border-card-default rounded-8 position-relative"
-                style="height: calc(100vh - 85px);">
+            [class]="!tab_3 ? 'display-none' : (!tab_1 && !tab_2) ? 'w-fill' : (tab_1 && tab_2) ? 'w-fill-column-6' : 'w-fill-column-9 in-tablet-w-fill-column-8 in-mobile-w-fill'"
+            class="layout-vertical gap-20 py-20">
+            <div
+                class="layout-vertical card-background-default border border-card-default rounded-8 position-relative main_chat">
                 <div
                     class="h-hug w-fill layout-horizontal align-center-space-between px-20 py-15 gap-15 border-bottom border-card-default">
-                    <div class="w-fill layout-horizontal gap-15 align-center-center">
+                    <div class="w-fill layout-horizontal gap-15 align-center-left">
+                        <button type="button"
+                            class="button-subtle button-icon-only hide-in-desktop show-in-tablet show-in-mobile"
+                            (click)="showConversation()">
+                            <i
+                                class="accent-text-primary icon-size-20 icon icon-ic_fluent_arrow_export_rtl_20_filled"></i>
+                        </button>
                         <img src="{{
                             (conversation?.is_group == 1) ? conversation.image : conversation?.users[0].profile.profile_photo
                             }}" class="rounded-circle border border-card-default object-fit-cover" alt=""
@@ -130,17 +138,9 @@
                             <i class="icon-size-24 icon icon-ic_fluent_video_24_filled"></i>
                         </a>
                     </div>
-                    <!-- <div class="w-hug">
-                        <a href="" class="accent-text-primary">
-                            <i class="icon-size-24 icon icon-ic_fluent_more_circle_24_filled"></i>
-                        </a>
-                    </div> -->
                     <div class="w-hug" (click)="toggleBoxchat()">
-                        <a class="accent-text-primary">
-                            <i *ngIf="!isVisible"
-                                class="icon-size-24 icon icon-ic_fluent_panel_left_contract_24_filled"></i>
-                            <i *ngIf="isVisible"
-                                class="icon-size-24 icon icon-ic_fluent_panel_right_contract_24_filled"></i>
+                        <a class="accent-text-primary cursor-pointer">
+                            <i class="icon-size-24 icon icon-ic_fluent_panel_right_contract_24_filled"></i>
                         </a>
                     </div>
                 </div>
@@ -225,7 +225,8 @@
                                 <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_filled"></i>
                             </button>
                             <div class="w-fill border-bottom border-card-default">
-                                <p class="text-subtitle text-primary text-center pb-20 pt-10">{{'chat.pin.pin_update' | translate}}Cập nhật danh sách gim</p>
+                                <p class="text-subtitle text-primary text-center pb-20 pt-10">{{'chat.pin.pin_update' |
+                                    translate}}Cập nhật danh sách gim</p>
                             </div>
 
                             <p class="text-body text-secondary p-10">
@@ -239,7 +240,8 @@
                                         (click)="scrollToElement(msg_pin.id)">
                                         <!-- <i class="icon-size-24 icon icon-ic_fluent_pin_24_filled"></i> -->
                                         <p class="layout-vertical">
-                                            <span class="text-body-strong text-primary">{{'chat.pin.title' | translate}}</span>
+                                            <span class="text-body-strong text-primary">{{'chat.pin.title' |
+                                                translate}}</span>
                                             <span class="text-body text-secondary">{{msg_pin.content}}</span>
                                         </p>
                                     </button>
@@ -259,8 +261,8 @@
 
                         <div class="position-fixed top-0 start-0" *ngIf="idDialogChat == msg.id"
                             style="width: 100%; height: 100vh; z-index: 10; background-color: rgba(0, 0, 0, 0.2);">
-                            <div class="dialog-panel position-absolute top-50 start-50 translate-middle"
-                                style="min-width: 500px;">
+                            <div
+                                class="dialog-panel position-absolute top-50 start-50 translate-middle dialog_detail_chat">
                                 <div
                                     class="solid-background-senary rounded-6 p-10 gap-10 layout-vertical border border-card-default">
                                     <div class="border-bottom pb-10 layout-horizontal align-center-space-between">
@@ -333,8 +335,7 @@
 
                                                                 <div class="layout w-fill gradient-background p-10 rounded-top-8"
                                                                     *ngIf="msg.medias.length>0">
-                                                                    <div
-                                                                        class="w-fill h-fill {{(msg.medias.length<6)?'layout-3-'+msg.medias.length:(msg.medias.length%2==0)?'layout-3-6':'layout-3-5'}}">
+                                                                    <div class="w-fill h-fill">
                                                                         <div class="w-fill h-fill  border border-card-default rounded-4 overflow-hidden"
                                                                             *ngFor="let img of msg.medias">
                                                                             <ng-container
@@ -386,8 +387,9 @@
                                             </div>
                                         </div>
 
-                                        <div class="w-fill layout align-top-left" *ngIf="(user.id != msg.user_id)">
-                                            <div class="layout-horizontal gap-15 p-5">
+                                        <div class="w-fill layout align-top-left" *ngIf="(user.id != msg.user_id)"
+                                            style="max-height: 65vh;" class="overflow-scroll-vertical">
+                                            <div class="layout-horizontal gap-15 p-5 align-top-left">
                                                 <img [src]="msg.user.profile.profile_photo"
                                                     class="rounded-circle border border-card-default object-fit-cover"
                                                     alt="" style="width: 35px; height: 35px;">
@@ -447,8 +449,7 @@
 
                                                                 <div class="layout w-fill h-fill"
                                                                     *ngIf="msg.medias.length>0">
-                                                                    <div style="max-height: 60vh;"
-                                                                        class="w-fill h-fill {{(msg.medias.length<6)?'layout-3-'+msg.medias.length:(msg.medias.length%2==0)?'layout-3-6':'layout-3-5'}}">
+                                                                    <div class="w-fill h-fill">
                                                                         <div class="w-fill h-fill  border border-card-default rounded-4 overflow-hidden"
                                                                             *ngFor="let img of msg.medias">
                                                                             <ng-container
@@ -532,51 +533,58 @@
                                         </p>
                                     </div>
                                     <div class="layout align-top-right" *ngIf="msg.is_recalled == 0">
-                                        <div [style]="(i == conversation.messages.length - 1 && i != 0) ? 'bottom: 20px; left: -180px;':'left: -180px;'"
-                                            class="mess-menu layout-vertical mx-15 gap-5 p-5 acrylic-background-default blur-acrylic border border-card-default rounded-8">
+                                        <div [style]="(i == conversation.messages.length - 1 && i != 0) ? 'bottom: 20px;':''"
+                                            class="mess-menu mess-menu-left layout-vertical mx-15 gap-5 p-5 acrylic-background-default blur-acrylic border border-card-default rounded-8">
                                             <div class="list-item layout-horizontal gap-10 align-center-left"
                                                 (click)="toggleDialogChat(msg.id)">
                                                 <i
                                                     class="icon-size-20 accent-text-primary icon icon-ic_fluent_more_horizontal_20_regular"></i>
-                                                <p class="text-body text-primary">{{'chat.popup.view_detail' | translate}}</p>
+                                                <p class="text-body text-primary hide-in-tablet hide-in-mobile">
+                                                    {{'chat.popup.view_detail' | translate}}</p>
                                             </div>
                                             <div *ngIf="!checkPined(msg.id)"
                                                 class="list-item layout-horizontal gap-10 align-center-left"
                                                 (click)="checkPinLength(msg.id)">
                                                 <i
                                                     class="icon-size-20 accent-text-primary icon icon-ic_fluent_pin_20_regular"></i>
-                                                <p class="text-body text-primary">{{'chat.popup.pin' | translate}}</p>
+                                                <p class="text-body text-primary hide-in-tablet hide-in-mobile">
+                                                    {{'chat.popup.pin' | translate}}</p>
                                             </div>
                                             <div *ngIf="checkPined(msg.id)"
                                                 class="list-item layout-horizontal gap-10 align-center-left"
                                                 (click)="pinMessage(msg.id)">
                                                 <i
                                                     class="icon-size-20 accent-text-primary icon icon-ic_fluent_pin_off_20_regular"></i>
-                                                <p class="text-body text-primary">{{'chat.popup.unpin' | translate}}</p>
+                                                <p class="text-body text-primary hide-in-tablet hide-in-mobile">
+                                                    {{'chat.popup.unpin' | translate}}</p>
                                             </div>
                                             <div class="list-item layout-horizontal gap-10 align-center-left"
                                                 (click)="copyMessage(msg.content)">
                                                 <i
                                                     class="icon-size-20 accent-text-primary icon icon-ic_fluent_copy_20_regular"></i>
-                                                <p class="text-body text-primary">{{'chat.popup.copy' | translate}}</p>
+                                                <p class="text-body text-primary hide-in-tablet hide-in-mobile">
+                                                    {{'chat.popup.copy' | translate}}</p>
                                             </div>
                                             <div class="list-item layout-horizontal gap-10 align-center-left"
                                                 (click)="onReply(msg.id)">
                                                 <i
                                                     class="icon-size-20 accent-text-primary icon icon-ic_fluent_arrow_reply_20_regular"></i>
-                                                <p class="text-body text-primary">{{'chat.popup.reply' | translate}}</p>
+                                                <p class="text-body text-primary hide-in-tablet hide-in-mobile">
+                                                    {{'chat.popup.reply' | translate}}</p>
                                             </div>
                                             <div class="list-item layout-horizontal gap-10 align-center-left"
                                                 (click)="editMessage(msg.id)">
                                                 <i
                                                     class="icon-size-20 accent-text-primary icon icon-ic_fluent_edit_20_regular"></i>
-                                                <p class="text-body text-primary">{{'chat.popup.edit' | translate}}</p>
+                                                <p class="text-body text-primary hide-in-tablet hide-in-mobile">
+                                                    {{'chat.popup.edit' | translate}}</p>
                                             </div>
                                             <div class="list-item layout-horizontal gap-10 align-center-left"
                                                 (click)="recallMessage(msg.id)">
                                                 <i
                                                     class="icon-size-20 accent-text-primary icon icon-ic_fluent_arrow_counterclockwise_20_regular"></i>
-                                                <p class="text-body text-primary">{{'chat.popup.recall' | translate}}</p>
+                                                <p class="text-body text-primary hide-in-tablet hide-in-mobile">
+                                                    {{'chat.popup.recall' | translate}}</p>
                                             </div>
 
                                         </div>
@@ -838,39 +846,44 @@
                                             </div>
                                         </div>
 
-                                        <div [style]="(i == conversation.messages.length - 1 && i != 0) ? 'bottom: 20px; right: -180px;':'right: -180px;'"
-                                            class="mess-menu mx-15 layout-vertical mx-15 gap-5 p-5 acrylic-background-default blur-acrylic border border-card-default rounded-8">
+                                        <div [style]="(i == conversation.messages.length - 1 && i != 0) ? 'bottom: 20px;':''"
+                                            class="mess-menu mess-menu-right mx-15 layout-vertical mx-15 gap-5 p-5 acrylic-background-default blur-acrylic border border-card-default rounded-8">
                                             <div class="list-item layout-horizontal gap-10 align-center-left"
                                                 (click)="toggleDialogChat(msg.id)">
                                                 <i
                                                     class="icon-size-20 accent-text-primary icon icon-ic_fluent_more_horizontal_20_regular"></i>
-                                                <p class="text-body text-primary">{{'chat.popup.view_detail' | translate}}</p>
+                                                <p class="text-body text-primary hide-in-tablet hide-in-mobile">
+                                                    {{'chat.popup.view_detail' | translate}}</p>
                                             </div>
                                             <div *ngIf="!checkPined(msg.id)"
                                                 class="list-item layout-horizontal gap-10 align-center-left"
                                                 (click)="checkPinLength(msg.id)">
                                                 <i
                                                     class="icon-size-20 accent-text-primary icon icon-ic_fluent_pin_20_regular"></i>
-                                                <p class="text-body text-primary">{{'chat.popup.pin' | translate}}</p>
+                                                <p class="text-body text-primary hide-in-tablet hide-in-mobile">
+                                                    {{'chat.popup.pin' | translate}}</p>
                                             </div>
                                             <div *ngIf="checkPined(msg.id)"
                                                 class="list-item layout-horizontal gap-10 align-center-left"
                                                 (click)="pinMessage(msg.id)">
                                                 <i
                                                     class="icon-size-20 accent-text-primary icon icon-ic_fluent_pin_off_20_regular"></i>
-                                                <p class="text-body text-primary">{{'chat.popup.unpin' | translate}}</p>
+                                                <p class="text-body text-primary hide-in-tablet hide-in-mobile">
+                                                    {{'chat.popup.unpin' | translate}}</p>
                                             </div>
                                             <div class="list-item layout-horizontal gap-10 align-center-left"
                                                 (click)="copyMessage(msg.content)">
                                                 <i
                                                     class="icon-size-20 accent-text-primary icon icon-ic_fluent_copy_20_regular"></i>
-                                                <p class="text-body text-primary">{{'chat.popup.copy' | translate}}</p>
+                                                <p class="text-body text-primary hide-in-tablet hide-in-mobile">
+                                                    {{'chat.popup.copy' | translate}}</p>
                                             </div>
                                             <div class="list-item layout-horizontal gap-10 align-center-left"
                                                 (click)="onReply(msg.id)">
                                                 <i
                                                     class="icon-size-20 accent-text-primary icon icon-ic_fluent_arrow_reply_20_regular"></i>
-                                                <p class="text-body text-primary">{{'chat.popup.reply' | translate}}</p>
+                                                <p class="text-body text-primary hide-in-tablet hide-in-mobile">
+                                                    {{'chat.popup.reply' | translate}}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -1026,7 +1039,7 @@
         </div>
 
         <div
-            class="{{(isVisible)?'display-flex':'display-none'}} w-fill-column-3 layout-vertical gap-20 py-20 overflow-scroll-vertical">
+            class="{{(tab_2)?'display-flex':'display-none'}} w-fill-column-3 in-tablet-w-fill-column-4 in-mobile-w-fill layout-vertical gap-20 py-20 overflow-scroll-vertical">
 
             <div class="position-fixed top-0 start-0" *ngIf="idDialogEditGroup && conversation?.is_group == 1"
                 style="width: 100%; height: 100vh; z-index: 10; background-color: rgba(0, 0, 0, 0.2);">
@@ -1071,7 +1084,15 @@
                 </div>
             </div>
 
-            <div class="layout-vertical card-background-default border rounded-8 align-center-center py-20">
+            <div
+                class="layout-vertical card-background-default border rounded-8 align-center-center py-20 position-relative">
+
+                <div class="w-hug hide-in-desktop hide-in-tablet show-in-mobile position-absolute"
+                    style="left: 10px; top:10px;" (click)="toggleBoxchat()">
+                    <a class="accent-text-primary cursor-pointer">
+                        <i class="icon-size-24 icon icon-ic_fluent_panel_left_contract_24_filled"></i>
+                    </a>
+                </div>
 
                 <div style="width: 100px; height: 100px;" class="mb-10">
                     <img [src]="

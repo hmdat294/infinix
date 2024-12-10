@@ -2,6 +2,12 @@ section>article {
     margin-top: 45px;
 }
 
+@media (max-width: 480px) {
+    section>article {
+        margin-top: 90px;
+    }
+}
+
 .table-product th,
 .table-product td {
     padding: 10px;

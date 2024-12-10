@@ -1,4 +1,4 @@
-<div class="layout-vertical card-background-default border border-card-default rounded-8">
+<div class="layout-vertical card-background-default border border-card-default rounded-8 mb-10">
 
     <div class="layout-horizontal align-center-space-between px-20 py-15">
         <p class="text-primary text-subtitle">Cửa hàng</p>
@@ -27,9 +27,9 @@
                     -{{product.discount | number:'1.0-0'}}%
                 </span>
             </div>
-            <img [src]="product.images[0]?.image" alt="" style="height: 200px;" class="w-fill object-fit-cover">
+            <img [src]="product.images[0]?.image" alt="" style="height: 150px;" class="w-fill object-fit-cover">
             <div class="layout-vertical gap-20 w-fill p-10"
-                style="justify-content: space-between; height: calc(100% - 200px);">
+                style="justify-content: space-between; height: calc(100% - 150px);">
                 <div class="layout-vertical cursor-pointer" (click)="viewProductDetail(product.id, product.stock)">
                     <p class="text-primary text-body-strong">
                         {{shortenTextByWords(product.name, 5)}}</p>
@@ -67,12 +67,15 @@
                         </button>
 
                         <div class="pb-20 pt-5 border-bottom">
-                            <p class="text-subtitle text-primary text-center">Chi tiết sản phẩm</p>
+                            <p class="text-subtitle text-primary text-center">{{ 'product_detail.title' | translate }}
+                            </p>
                         </div>
 
-                        <div class="layout-horizontal gap-20 overflow-hidden" style="width: 800px;">
+                        <div
+                            class="layout-horizontal in-tablet-layout-vertical in-mobile-layout-vertical gap-20 overflow-hidden dialog_detail">
 
-                            <div class="w-fill-column-6 in-mobile-w-fill" *ngIf="product.images.length>0">
+                            <div class="w-fill-column-6 in-tablet-w-fill in-mobile-w-fill box_image_detail"
+                                *ngIf="product.images.length>0">
 
                                 <div
                                     class="layout w-fill h-fill {{(product.images.length>0) ? 'display-flex' : 'display-none'}}">
@@ -83,7 +86,7 @@
                                                 *ngFor="let img of product.images; let i = index">
                                             </button>
                                         </div>
-                                        <div class="carousel-inner" style="height: 500px;" #carouselInner>
+                                        <div class="carousel-inner image_detail" #carouselInner>
                                             <div class="carousel-item" *ngFor="let img of product.images">
                                                 <img id="aa" [src]="img.image" alt="Image 1" class="h-fill"
                                                     style="object-fit: contain !important; background-color: rgb(27, 27, 27);">
@@ -106,8 +109,8 @@
 
                             </div>
 
-                            <div class="w-fill-column-6 in-mobile-w-fill layout-vertical overflow-scroll-vertical gap-20"
-                                style="height: 500px;">
+                            <div
+                                class="w-fill-column-6 in-tablet-w-fill in-mobile-w-fill layout-vertical overflow-scroll-vertical gap-20 box_text_detail">
 
                                 <div class="layout-vertical gap-20">
                                     <div class="layout-horizontal align-center-space-between py-5">
@@ -116,7 +119,8 @@
                                             <span *ngIf="product.discount>0"
                                                 class="text-caption py-5 px-10 rounded-pill"
                                                 style="background-color: #C42B1C; color: white;">
-                                                Giảm {{product.discount | number:'1.0-0'}}%
+                                                {{ 'product_detail.discount' | translate }} {{product.discount |
+                                                number:'1.0-0'}}%
                                             </span>
                                         </div>
                                     </div>
@@ -135,10 +139,13 @@
                                                   }" class="icon-size-12 icon"></i>
                                             </div>
                                         </div>{{feedbacks.length>0?'|':''}}
-                                        <p class="text-primary text-caption">Đánh giá {{feedbacks.length}}</p>|
-                                        <p class="text-primary text-caption">Đã bán {{product.total_sold}}</p>
+                                        <p class="text-primary text-caption">{{ 'product_detail.feedback' | translate }}
+                                            {{feedbacks.length}}</p>|
+                                        <p class="text-primary text-caption">{{ 'product_detail.sold' | translate }}
+                                            {{product.total_sold}}</p>
                                     </div>
-                                    <p class="text-primary text-caption">{{product.stock}} sản phẩm có sẵn
+                                    <p class="text-primary text-caption">{{product.stock}} {{
+                                        'product_detail.products_available' | translate }}
                                     </p>
 
                                     <div class="layout-horizontal gap-20">
@@ -154,9 +161,9 @@
                                     <div class="layout-horizontal align-center-space-between">
                                         <i *ngIf="quantity == product.stock - product_cart_quantity"
                                             class="text-caption text-system-critical position-absolute bottom-100 w-fill text-right">
-                                            Đạt số lượng tối đa</i>
-                                        <label for="quantity" class="text-primary text-body">Số
-                                            lượng</label>
+                                            {{ 'product_detail.reach_maximum_quantity' | translate }}</i>
+                                        <label for="quantity" class="text-primary text-body">
+                                            {{ 'product_detail.quantity' | translate }}</label>
                                         <div class="control number-control">
                                             <input id="quantity" type="number" [(ngModel)]="quantity" min="1" step="1">
                                             <button type="button" class="input-button increase-number-button"
@@ -176,8 +183,9 @@
                                             type="button" class="w-fill button-standard button-text-with-icon"
                                             (click)="addToCart(product.id, product.stock)">
                                             <i class="icon-size-16 icon icon-ic_fluent_add_16_regular"></i>
-                                            {{product.stock <= 0 || product.stock==product_cart_quantity? 'Hết hàng'
-                                                : 'Thêm vào giỏ hàng' }} </button>
+                                            {{product.stock <= 0 || product.stock==product_cart_quantity?
+                                                ('product_detail.out_of_stock' | translate) :
+                                                ('product_detail.add_to_cart' | translate) }} </button>
                                     </div>
                                     <div>
                                         <button
@@ -185,8 +193,9 @@
                                             type="button" class="w-fill button-accent button-text-with-icon"
                                             (click)="buyNow(product.id)">
                                             <i class="icon-size-16 icon icon-ic_fluent_cart_16_regular"></i>
-                                            {{product.stock <= 0 || product.stock==product_cart_quantity? 'Hết hàng'
-                                                : 'Mua ngay' }} </button>
+                                            {{product.stock <= 0 || product.stock==product_cart_quantity?
+                                                ('product_detail.out_of_stock' | translate) : ('product_detail.buy_now'
+                                                | translate) }} </button>
                                     </div>
 
                                     <div class="layout-horizontal align-center-space-between gap-20 my-10">
@@ -198,18 +207,20 @@
                                         </div>
                                         <a [routerLink]="['/shop', product.shop_id]"
                                             class="button-standard button-text-only">
-                                            Đến cửa hàng
+                                            {{'product_detail.go_to_shop' | translate}}
                                         </a>
                                     </div>
 
                                     <div>
-                                        <p class="text-primary text-body-strong">Mô tả</p>
+                                        <p class="text-primary text-body-strong">{{'product_detail.detail' | translate}}
+                                        </p>
                                         <p class="text-primary text-body">{{product.description}}</p>
                                     </div>
                                 </div>
 
                                 <div class="layout-vertical gap-10 border-top pt-15">
-                                    <p class="text-primary text-body-strong">Đánh giá sản phẩm</p>
+                                    <p class="text-primary text-body-strong">{{'product_detail.feedback_product' |
+                                        translate}}</p>
                                     <div class="card-background-default border border-card-default rounded-6 mb-5"
                                         *ngIf="feedbacks.length > 0">
 
@@ -276,7 +287,8 @@
                                     </div>
                                     <div *ngIf="feedbacks.length == 0"
                                         class="w-fill py-20 card-background-default border border-card-default rounded-6">
-                                        <p class="text-body text-secondary text-center">Chưa có đánh giá nào!</p>
+                                        <p class="text-body text-secondary text-center">
+                                            {{'product_detail.no_reviews_yet' | translate}}!</p>
                                     </div>
                                 </div>
                             </div>

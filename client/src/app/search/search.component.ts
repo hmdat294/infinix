@@ -235,6 +235,10 @@ export class SearchComponent implements OnInit, AfterViewInit {
         // console.log(response);
         this.valueSearchPosts = response.posts;
         this.valueSearchUsers = response.users;
+
+        console.log(this.valueSearchUsers);
+        console.log(this.valueSearchPosts);
+        
         this.tabActive = 'all';
 
         this.eventService.bindEvent('App\\Events\\FriendRequestEvent', (data: any) => {

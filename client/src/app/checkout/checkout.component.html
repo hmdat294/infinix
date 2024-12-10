@@ -2,7 +2,8 @@
 
     <article class="layout-horizontal gap-20 px-20 w-fill h-fill overflow-hidden align-top-center">
 
-        <div class="w-fill-column-9 h-fill layout-vertical gap-20 py-20 overflow-scroll-vertical">
+        <div
+            class="w-fill-column-9 in-tablet-w-fill in-mobile-w-fill h-fill layout-vertical gap-20 py-20 overflow-scroll-vertical">
 
             <div class="layout-vertical card-background-default border border-card-default rounded-8">
 
@@ -15,11 +16,13 @@
                     <div class="text-body text-primary text-center w-fill">
                         <div class="w-fill layout-vertical">
 
-                            <div class="w-fill layout-horizontal gap-10">
+                            <div
+                                class="w-fill layout-horizontal in-tablet-layout-vertical in-mobile-layout-vertical gap-10 in-tablet-gap-0 in-mobile-gap-0">
 
-                                <div class="layout-vertical w-fill-column-8 mt-10 h-hug">
+                                <div
+                                    class="layout-vertical w-fill-column-7 in-tablet-w-fill in-mobile-w-fill mt-10 h-hug">
 
-                                    <div class="layout-vertical border rounded-8 p-10 mb-10 card-background-default"
+                                    <div class="layout-vertical border rounded-8 p-10 mb-10 in-tablet-mb-5 in-mobile-mb-5 card-background-default"
                                         *ngFor="let shop of cart.shops"><!-- for -->
                                         <div class="border rounded-6">
                                             <div
@@ -44,7 +47,9 @@
                                             <tr class="h-hug text-body-strong">
                                                 <td>Hình ảnh</td>
                                                 <td>Tên</td>
-                                                <td>Giá</td>
+                                                <td class="layout align-center-center">
+                                                    <p class="hide-in-mobile">Giá</p>
+                                                </td>
                                                 <td class="w-hug">Số lượng</td>
                                                 <td>Tổng tiền</td>
                                             </tr>
@@ -53,13 +58,25 @@
                                                         [src]="item.images[0]?.image" height="50px" width="50px" alt>
                                                 </td>
                                                 <td>{{item.name}}</td>
-                                                <td>{{item.price-((item.price*item.discount)/100) | currencyVND}}</td>
+                                                <td class="layout align-center-center h-fill">
+                                                    <p class="hide-in-mobile">
+                                                        {{item.price-((item.price*item.discount)/100) | currencyVND}}
+                                                    </p>
+                                                </td>
                                                 <td>{{item.pivot.quantity}}</td>
                                                 <td>
-                                                    <p class="text-caption" *ngIf="item.voucher_discount_price">
+                                                    <div class="text-right">
+                                                        <p
+                                                            class="text-caption show-in-mobile hide-in-tablet hide-in-desktop">
+                                                            {{item.price-((item.price*item.discount)/100) |
+                                                            currencyVND}}
+                                                        </p>
+                                                    </div>
+                                                    <p class="text-caption text-right"
+                                                        *ngIf="item.voucher_discount_price">
                                                         - {{item.voucher_discount_price | currencyVND}}
                                                     </p>
-                                                    <p class="text-body-strong">
+                                                    <p class="text-body-strong text-right">
                                                         {{((item.price-((item.price*item.discount)/100))*item.pivot.quantity)
                                                         - (item.voucher_discount_price || 0)
                                                         | currencyVND}}
@@ -70,7 +87,8 @@
                                     </div>
 
                                 </div>
-                                <div class="w-fill h-hug my-10">
+                                <div
+                                    class="w-fill in-tablet-w-fill in-mobile-w-fill h-hug my-10 in-tablet-mt-5 in-mobile-mt-5">
                                     <div class="layout-vertical border rounded-8 card-background-default mb-10"
                                         *ngIf="change_address == 0 || change_address == 1">
                                         <div class="cursor-pointer p-10 layout-horizontal align-center-left gap-5 border-bottom list-item"
@@ -290,10 +308,10 @@
                                         </p>
                                         <p class="text-caption">
                                             {{ getVoucherDescription(
-                                                voucher.discount,
-                                                voucher.apply_to_products.length > 0 ? 'sản phẩm' : 'đơn hàng',
-                                                voucher.min_price | currencyVND,
-                                                voucher.max_discount | currencyVND
+                                            voucher.discount,
+                                            voucher.apply_to_products.length > 0 ? 'sản phẩm' : 'đơn hàng',
+                                            voucher.min_price | currencyVND,
+                                            voucher.max_discount | currencyVND
                                             ) }}
                                         </p>
                                     </div>
