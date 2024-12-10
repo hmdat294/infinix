@@ -165,3 +165,23 @@ td:last-child {
 
 
 
+*{
+  margin: 0;
+  padding: 0;
+}
+nav{
+  padding-top: 60px;
+}
+
+article{
+  margin-top: 60px;
+}
+
+
+.head,.report-show{
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+.table-container{
+  padding: 20px;
+}

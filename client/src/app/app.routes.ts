@@ -16,10 +16,11 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { BookmarkComponent } from './bookmark/bookmark.component';
 import { ShopComponent } from './shop/shop.component';
 import { ReportComponent } from './admin/report/report.component';
-import { ReportpostComponent } from './admin/report-post/report-post.component';
-import { EventComponent } from './admin/event/event.component';
 import { ReportCommentComponent } from './admin/report-comment/report-comment.component';
 import { StoreComponent } from './store/store.component';
+import { ReportpostComponent } from './admin/report-post/report-post.component';
+import { EventComponent } from './admin/event/event.component';
+
 
 export const routes: Routes = [
     { path: '', component: MainHomeComponent, canActivate: [AuthGuard] },
