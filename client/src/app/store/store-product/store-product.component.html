@@ -1,5 +1,4 @@
-<div class="layout-vertical card-background-default border border-card-default rounded-8"
-    style="height: calc(100vh - 85px);">
+<div class="layout-vertical card-background-default border border-card-default rounded-8">
 
     <div class="layout-horizontal align-center-space-between px-20 py-15">
         <p class="text-primary text-subtitle">Cửa hàng</p>
@@ -18,9 +17,9 @@
         </div>
     </div>
 
-    <div class="layout-wrap gap-20 p-20 border-top border-card-default w-fill overflow-scroll-vertical">
+    <div class="layout-wrap gap-20 p-20 border-top border-card-default w-fill">
 
-        <div class="border rounded-6 layout-vertical w-fill-column-4 overflow-hidden card-background-default"
+        <div class="border rounded-6 layout-vertical w-fill-column-4 in-tablet-w-fill-column-6 in-mobile-w-fill-column-6 overflow-hidden card-background-default"
             *ngFor="let product of listProduct">
             <div class="position-absolute top-0 w-fill text-right" style="z-index: 5;">
                 <span *ngIf="product.discount>0" class="text-caption p-5"

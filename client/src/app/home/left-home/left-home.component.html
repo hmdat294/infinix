@@ -59,7 +59,7 @@
     </div>
     <div class="layout-wrap gap-20 pt-10 border-top border-card-default w-fill">
 
-        <div class="border rounded-6 layout-vertical w-fill-column-6 overflow-hidden card-background-default"
+        <div class="border rounded-6 layout-vertical in-tablet-w-fill w-fill-column-6 overflow-hidden card-background-default"
             *ngFor="let product of listProduct">
             <div class="position-absolute top-0 w-fill text-right" style="z-index: 5;">
                 <span *ngIf="product.discount>0" class="text-caption p-5"
@@ -110,9 +110,9 @@
                             <p class="text-subtitle text-primary text-center">Chi tiết sản phẩm</p>
                         </div>
 
-                        <div class="layout-horizontal gap-20 overflow-hidden" style="width: 800px;">
+                        <div class="layout-horizontal in-tablet-layout-vertical in-mobile-layout-vertical gap-20 overflow-hidden dialog_detail">
 
-                            <div class="w-fill-column-6 in-mobile-w-fill" *ngIf="product.images.length>0">
+                            <div class="w-fill-column-6 in-tablet-w-fill in-mobile-w-fill box_image_detail" *ngIf="product.images.length>0">
 
                                 <div
                                     class="layout w-fill h-fill {{(product.images.length>0) ? 'display-flex' : 'display-none'}}">
@@ -123,7 +123,7 @@
                                                 *ngFor="let img of product.images; let i = index">
                                             </button>
                                         </div>
-                                        <div class="carousel-inner" style="height: 500px;" #carouselInner>
+                                        <div class="carousel-inner image_detail" #carouselInner>
                                             <div class="carousel-item" *ngFor="let img of product.images">
                                                 <img id="aa" [src]="img.image" alt="Image 1" class="h-fill"
                                                     style="object-fit: contain !important; background-color: rgb(27, 27, 27);">
@@ -146,8 +146,7 @@
 
                             </div>
 
-                            <div class="w-fill-column-6 in-mobile-w-fill layout-vertical overflow-scroll-vertical gap-20"
-                                style="height: 500px;">
+                            <div class="w-fill-column-6 in-tablet-w-fill in-mobile-w-fill layout-vertical overflow-scroll-vertical gap-20 box_text_detail">
 
                                 <div class="layout-vertical gap-20">
                                     <div class="layout-horizontal align-center-space-between py-5">

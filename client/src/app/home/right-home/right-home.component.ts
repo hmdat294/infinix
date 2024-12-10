@@ -7,11 +7,12 @@ import { FormsModule } from '@angular/forms';
 import { ChatService } from '../../service/chat.service';
 import { SettingService } from '../../service/setting.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { LeftHomeComponent } from "../left-home/left-home.component";
 
 @Component({
   selector: 'app-right-home',
   standalone: true,
-  imports: [RouterModule, CommonModule, FormsModule, TranslateModule],
+  imports: [RouterModule, CommonModule, FormsModule, TranslateModule, LeftHomeComponent],
   templateUrl: './right-home.component.html',
   styleUrl: './right-home.component.css'
 })

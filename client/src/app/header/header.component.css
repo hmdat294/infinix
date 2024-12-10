@@ -1,4 +1,4 @@
-header{
+header {
     position: fixed;
     top: 0;
     left: 0;
@@ -6,11 +6,46 @@ header{
 }
 
 
-.noti-hover>button{
+.noti-hover>button {
     transform: translateX(75px);
     transition: 0.2s;
 }
 
-.noti-hover:hover>button{
+.noti-hover:hover>button {
     transform: translateX(0);
+}
+
+.dialog_header {
+    position: absolute;
+    top: 50px;
+    right: 20px;
+    z-index: 40;
+    width: 500px;
+    height: 75vh;
+}
+
+@media (max-width: 480px) {
+    .dialog_header {
+        top: 100px;
+    }
+}
+
+@media (max-width: 540px) {
+    .dialog_header {
+        width: calc(100vw - 40px);
+    }
+}
+
+@media (max-width: 720px) {
+    .responsive-input-search {
+        /* display: none; */
+    }
+}
+
+
+@media (max-width: 850px) {
+    .responsive-input-search>div {
+        width: 25vw;
+        max-width: 280px !important;
+    }
 }

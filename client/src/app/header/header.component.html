@@ -6,13 +6,13 @@
                 <img src="assets/image/Logo.png" alt="">
             </a>
         </div>
-        <div class="w-fill layout-horizontal align-center-center gap-20 in-mobile-gap-10">
+        <div class="w-fill layout-horizontal align-center-space-between gap-20 in-mobile-gap-10">
             <div class="w-hug show-in-mobile show-in-tablet">
                 <img src="assets/image/Logo.png" alt="">
             </div>
-            <div class="search-dropdown-control w-fill">
+            <div class="search-dropdown-control w-fill responsive-input-search hide-in-mobile">
 
-                <div class="control search-control">
+                <div class="control search-control m-auto">
                     <input class="rounded-2" (keydown)="gotoSearch($event, keyword)" type="search" name="search"
                         [(ngModel)]="keyword" [placeholder]="'header.find' | translate" spellcheck="false" required>
                     <button type="button" class="input-button clear-content-button" (click)="clearSearch()">
@@ -22,20 +22,24 @@
                         <i class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
                     </a>
                 </div>
-
-                <!-- <div class="dropdown-menu" *ngIf="friends.length > 0 && currentRoute != 'search'">
-                    <div class="list-item layout-horizontal align-center-center" *ngFor="let friend of friends">
-                        <div class="text-body w-fill">{{friend.profile.display_name}}</div>
-                        <button *ngIf="!friend.is_friend" type="button"
-                            class="button-accent button-text-only w-hug py-5 px-10"
-                            (click)="addFriend(friend.id)">Thêm</button>
-                    </div>
-                </div> -->
             </div>
+
+            <a (click)="viewDiaLogHeader('search')"
+                class="show-in-mobile hide-in-tablet hide-in-desktop button-subtle button-icon-only dialog-search {{(diaLogHeader == 'search')?'text-accent-default':'text-secondary'}}">
+                <i *ngIf="(diaLogHeader == 'search')" class="icon-size-24 icon icon-ic_fluent_search_24_filled"></i>
+                <i *ngIf="(diaLogHeader != 'search')" class="icon-size-24 icon icon-ic_fluent_search_24_regular"></i>
+            </a>
+
         </div>
     </div>
     <div class="w-fill-column-4 in-mobile-w-fill">
         <div class="layout-horizontal gap-20 align-center-right in-mobile-align-center-space-evenly">
+            <!-- <a (click)="viewDiaLogHeader('search')"
+                class="hide-in-mobile button-subtle button-icon-only dialog-search {{(diaLogHeader == 'search')?'text-accent-default':'text-secondary'}}">
+                <i *ngIf="(diaLogHeader == 'search')" class="icon-size-24 icon icon-ic_fluent_search_24_filled"></i>
+                <i *ngIf="(diaLogHeader != 'search')" class="icon-size-24 icon icon-ic_fluent_search_24_regular"></i>
+            </a> -->
+
             <a [routerLink]="['/']"
                 class="button-subtle button-icon-only {{(currentRoute == '')?'text-accent-default':'text-secondary'}}">
                 <i *ngIf="(currentRoute == '')" class="icon-size-24 icon icon-ic_fluent_home_24_filled"></i>
@@ -89,19 +93,23 @@
                 <i *ngIf="(currentRoute != 'setting')" class="icon-size-24 icon icon-ic_fluent_settings_24_regular"></i>
             </a>
 
-            <a href="#" class="hide-in-desktop show-in-mobile button-subtle button-icon-only text-secondary">
-                <i class="icon-size-24 icon icon-ic_fluent_navigation_24_regular"></i>
+            <a (click)="tabChild('header_dropdown')" *ngIf="currentRoute == ''"
+                class="hide-in-desktop show-in-mobile button-subtle button-icon-only {{(tabAccordion == 'header_dropdown')?'text-accent-default':'text-secondary'}}">
+                <i *ngIf="(tabAccordion == 'header_dropdown')"
+                    class="icon-size-24 icon icon-ic_fluent_navigation_24_filled"></i>
+                <i *ngIf="(tabAccordion != 'header_dropdown')"
+                    class="icon-size-24 icon icon-ic_fluent_navigation_24_regular"></i>
             </a>
         </div>
     </div>
 
-    <div style="position: absolute; top: 50px; right: 100px; z-index: 40; width: 500px; height: 75vh;"
+    <div class="dialog_header"
         *ngIf="diaLogHeader == 'noti' && currentRoute != 'notification'">
         <div class="layout-vertical h-fill rounded-8 border border-card-default solid-background-senary">
 
             <div class="layout-vertical gap-10 p-10 border-bottom border-card-default">
                 <p class="text-subtitle text-primary">{{ 'header.notification_title' | translate }}</p>
-                <div class="layout-horizontal align-center-space-between">
+            <div class="layout-horizontal align-center-space-between">
                     <div class="layout-horizontal gap-10">
                         <button type="button"
                             class="button-{{is_read_notification == 'all'?'accent':'standard'}} button-text-only"
@@ -155,7 +163,7 @@
             </div>
         </div>
     </div>
-    <div style="position: absolute; top: 50px; right: 20px; z-index: 40; width: 500px; height: 75vh;"
+    <div class="dialog_header"
         *ngIf="diaLogHeader == 'cart'">
         <div class="layout-vertical h-fill rounded-8 border border-card-default solid-background-senary">
 
@@ -179,8 +187,8 @@
                         <div class="border-bottom layout-horizontal align-center-center w-fill p-10 gap-20"
                             *ngFor="let item of shop?.products">
                             <div class="">
-                                <input class="checkbox-control cursor-pointer" type="checkbox" name="option" [(ngModel)]="item.checked"
-                                    (change)="getCheckedProducts()">
+                                <input class="checkbox-control cursor-pointer" type="checkbox" name="option"
+                                    [(ngModel)]="item.checked" (change)="getCheckedProducts()">
                             </div>
                             <img [src]="item.images[0]?.image" alt="" style="height: 100px; width: 100px;"
                                 class="object-fit-cover rounded-4">
@@ -235,6 +243,45 @@
             </div>
         </div>
     </div>
+
+    <div class="position-fixed top-0 start-0 {{(diaLogHeader == 'search') ? 'display-block' : 'display-none'}}"
+        style="width: 100%; height: 100vh; z-index: 20;">
+        <div class="position-absolute top-0 start-0" (click)="viewDiaLogHeader('search')"
+            style="width: 100%; height: 100vh; z-index: 1; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px);">
+        </div>
+        <div class="dialog-panel position-absolute top-50 start-50 translate-middle" style="z-index: 2;">
+            <div class="layout-vertical p-20 gap-20 rounded-8 solid-background-base border border-card-default"
+                style="width: 400px;">
+
+                <button type="button" class="button-subtle button-icon-only w-hug position-absolute"
+                    (click)="viewDiaLogHeader('search')" style="right: 20px; top: 20px; z-index: 1;">
+                    <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_filled"></i>
+                </button>
+
+                <div class="pb-20 pt-5 border-bottom">
+                    <p class="text-subtitle text-primary text-center">{{ 'header.find' |
+                        translate }}</p>
+                </div>
+
+                <div class="search-dropdown-control w-fill">
+
+                    <div class="control search-control m-auto">
+                        <input class="rounded-2" (keydown)="gotoSearch($event, keyword)" type="search" name="search"
+                            [(ngModel)]="keyword" [placeholder]="'header.find' | translate" spellcheck="false" required>
+                        <button type="button" class="input-button clear-content-button" (click)="clearSearch()">
+                            <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
+                        </button>
+                        <a [routerLink]="['/search', keyword]" class="input-button search-button">
+                            <i class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
 </header>
 
 

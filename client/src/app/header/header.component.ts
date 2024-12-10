@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { NavigationEnd, Router, RouterModule, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -9,10 +9,9 @@ import { ChatService } from '../service/chat.service';
 import { MiniChatComponent } from '../mini-chat/mini-chat.component';
 import { NotificationService } from '../service/notification.service';
 import { CurrencyVNDPipe } from '../currency-vnd.pipe';
-import { PaymentService } from '../service/payment.service';
 import { ShopService } from '../service/shop.service';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { CheckoutService } from '../service/checkout.service';
+import { TranslateModule } from '@ngx-translate/core';
+import { SettingService } from '../service/setting.service';
 
 @Component({
   selector: 'app-header',
@@ -35,6 +34,7 @@ export class HeaderComponent implements OnInit {
   productChecked: any = [];
   groupedShops: any = [];
   total: number = 0;
+  tabAccordion: string = '';
 
   constructor(
     private router: Router,
@@ -43,6 +43,7 @@ export class HeaderComponent implements OnInit {
     private chatService: ChatService,
     private notificationService: NotificationService,
     private shopService: ShopService,
+    private settingService: SettingService,
   ) { }
 
   ngOnInit(): void {
@@ -96,7 +97,7 @@ export class HeaderComponent implements OnInit {
     this.shopService.getCart().subscribe(
       (data) => {
         this.cart = data.data;
-        // console.log(data.data);
+        console.log(data.data);
         this.groupShop();
       });
 
@@ -259,31 +260,12 @@ export class HeaderComponent implements OnInit {
   diaLogHeader: string = '';
 
   viewDiaLogHeader(action: string) {
-    this.diaLogHeader = (this.diaLogHeader == action) ? '' : action;
+    this.diaLogHeader = this.diaLogHeader == action ? '' : action;
   }
 
-  // paymentVnpay() {
-  //   const data = {
-  //     'price': 15000,
-  //   }
-  //   this.paymentService.paymentVnpay(data).subscribe(
-  //     (response) => {
-  //       if (response.url)
-  //         window.location.href = response.url;
-  //     }
-  //   );
-  // }
-
-  // paymentZalopay() {
-  //   const data = {
-  //     'price': 19000,
-  //   }
-  //   this.paymentService.paymentZalopay(data).subscribe(
-  //     (response) => {
-  //       if (response.url)
-  //         window.location.href = response.url;
-  //     }
-  //   );
-  // }
+  tabChild(tab: string) {
+    this.tabAccordion = this.tabAccordion == tab ? '' : tab;
+    this.settingService.updateValue(tab);
+  }
 
 }

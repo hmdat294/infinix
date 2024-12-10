@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { AuthService } from '../../service/auth.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -33,7 +33,6 @@ export class GeneralSettingsComponent implements OnInit {
     private authService: AuthService,
     private postService: PostService,
     private settingService: SettingService,
-    private renderer: Renderer2,
     private el: ElementRef,
     private translate: TranslateService
   ) { }

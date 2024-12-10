@@ -13,9 +13,6 @@ export class SettingService {
     this.sharedValue.next(newValue);
   }
 
-  profile_photo: string = '';
-  display_name: string = '';
-
   constructor() { }
 
   tabChild(tabAccordion: string, tab: string, el: ElementRef): string {

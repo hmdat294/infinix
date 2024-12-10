@@ -1,17 +1,32 @@
-section>article{
-    margin-top: 25px;
+section>article {
+    margin-top: 50px;
 }
 
-.rotate_icon_0{
+@media (max-width: 480px) {
+    section>article {
+        margin-top: 210px;
+    }
+
+    .nav_setting {
+        position: fixed;
+        top: 90px;
+    }
+
+    .nav_setting>div{
+        width: calc(100% - 40px) !important;
+    }
+}
+
+.rotate_icon_0 {
     transition: 0.3s;
     transform: rotate(0deg);
 }
 
-.rotate_icon_180{
+.rotate_icon_180 {
     transition: 0.3s;
     transform: rotate(180deg);
 }
 
-.accordion-panel{
-    transition : 0.3s;
+.accordion-panel {
+    transition: 0.3s;
 }

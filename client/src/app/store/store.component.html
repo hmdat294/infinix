@@ -1,38 +1,34 @@
 <section class="gradient-background layout-vertical" style="height: 100vh;">
 
-    <article class="layout-horizontal gap-20 px-20 w-fill h-fill overflow-hidden align-top-center">
+    <article
+        class="layout-horizontal in-mobile-layout-vertical gap-20 px-20 w-fill h-fill in-mobile-h-hug overflow-hidden align-top-center">
 
         <div
-            class="w-fill-column-2 h-fill layout-vertical gap-20 py-20 overflow-scroll-vertical in-tablet-w-fill in-mobile-w-fill">
-            <div class="layout-vertical card-background-default border border-card-default rounded-8"
-                style="height: calc(100vh - 85px);">
+            class="w-fill-column-2 in-tablet-w-fill-column-3 in-mobile-w-fill h-fill layout-vertical gap-20 py-20 overflow-scroll-vertical nav_store">
+            <div class="layout-vertical card-background-default border border-card-default rounded-8">
 
-                <div class="overflow-scroll-vertical">
-                    <div class="border-top">
-                        <button type="button" class="button-subtle w-fill gap-15 px-20 py-15" style="cursor: pointer;"
+                <div class="layout-vertical in-mobile-layout-horizontal gap-20 p-10">
+                    <div class="list-item w-fill" [class]="tab_shop == 'tab_product'?'active':''"
                         (click)="tabShop('tab_product')">
-                            <p class="text-secondary text-body-strong w-fill layout">
-                                Cửa hàng
-                            </p>
-                        </button>
+                        <p class="text-secondary text-body-strong w-fill p-10 in-mobile-py-5">
+                            Cửa hàng
+                        </p>
                     </div>
-                    <div class="border-top">
-                        <button type="button" class="button-subtle w-fill gap-15 px-20 py-15" style="cursor: pointer;"
+                    <div class="list-item w-fill" [class]="tab_shop == 'tab_order'?'active':''"
                         (click)="tabShop('tab_order')">
-                            <p class="text-secondary text-body-strong w-fill layout">
-                                Đơn hàng
-                            </p>
-                        </button>
+                        <p class="text-secondary text-body-strong w-fill p-10 in-mobile-py-5">
+                            Đơn hàng
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
 
         <app-store-product *ngIf="tab_shop == 'tab_product'"
-            class="w-fill-column-7 h-fill layout-vertical gap-20 py-20 overflow-scroll-vertical hide-in-tablet hide-in-mobile">
+            class="w-fill-column-7 in-tablet-w-fill-column-9 in-mobile-w-fill h-fill layout-vertical gap-20 overflow-scroll-vertical my-tab">
         </app-store-product>
         <app-store-order *ngIf="tab_shop == 'tab_order'"
-            class="w-fill-column-7 h-fill layout-vertical gap-20 py-20 overflow-scroll-vertical hide-in-tablet hide-in-mobile">
+            class="w-fill-column-7 in-tablet-w-fill-column-9 in-mobile-w-fill h-fill layout-vertical gap-20 overflow-scroll-vertical my-tab">
         </app-store-order>
     </article>
 </section>

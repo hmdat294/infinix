@@ -55,7 +55,8 @@
                                 <div class="layout-horizontal align-center-space-between p-10 border-bottom">
                                     <p class="text-body-strong">Cửa hàng:</p>
                                     <div class="layout-horizontal align-center-center gap-10 w-hug">
-                                        <a [routerLink]="['/shop', shop?.shop_id]" class="text-body link">{{shop?.shop_name}}</a>
+                                        <a [routerLink]="['/shop', shop?.shop_id]"
+                                            class="text-body link">{{shop?.shop_name}}</a>
                                         <img [src]="shop?.shop_logo" alt="" class="object-fit-cover rounded-circle"
                                             style="width: 30px; height: 30px;">
                                     </div>
@@ -80,13 +81,13 @@
                                         <div class="w-fill-column-8 layout-vertical gap-10">
                                             <p class="text-body-strong text-right">{{product.name}}</p>
                                             <p class="layout-horizontal align-center-space-between">Giá: <span
-                                                    class="text-body-strong">{{product.pivot.price
+                                                    class="text-body-strong">{{product.price-((product.price*product.discount)/100)
                                                     | currencyVND}}</span></p>
                                             <p class="layout-horizontal align-center-space-between">Số lượng: <span
-                                                    class="text-body-strong">{{product.pivot.quantity}}</span> </p>
+                                                    class="text-body-strong">{{product.quantity}}</span> </p>
                                             <p class="layout-horizontal align-center-space-between">Tổng tiền: <span
-                                                    class="text-body-strong">{{product.pivot.price
-                                                    * product.pivot.quantity | currencyVND}}</span></p>
+                                                    class="text-body-strong">{{(product.price-((product.price*product.discount)/100))
+                                                    * product.quantity | currencyVND}}</span></p>
                                         </div>
                                     </div>
                                     <div class="layout-horizontal gap-10" *ngIf="product.can_review">
