@@ -16,11 +16,12 @@ import { ShopService } from '../service/shop.service';
 import { CurrencyVNDPipe } from '../currency-vnd.pipe';
 import { CheckoutService } from '../service/checkout.service';
 import { SettingService } from '../service/setting.service';
+import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 
 @Component({
   selector: 'app-friend-profile',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule, EmojiModule, QuillModule, TranslateModule, CurrencyVNDPipe],
+  imports: [FormsModule, CommonModule, RouterModule, EmojiModule, QuillModule, TranslateModule, CurrencyVNDPipe, PickerComponent],
   templateUrl: './friend-profile.component.html',
   styleUrl: './friend-profile.component.css'
 })
@@ -304,7 +305,7 @@ export class FriendProfileComponent implements OnInit {
       const prevButton = this.prevButtons.toArray()[index];
       const indicators = this.indicatorsContainers.toArray()[index].nativeElement.querySelectorAll('button') as NodeListOf<HTMLButtonElement>;
 
-      this.carouselService.initCarousel(posts[index].id, carouselInner, nextButton, prevButton, indicators);
+      this.carouselService.initCarousel(posts[index]?.id, carouselInner, nextButton, prevButton, indicators);
     });
   }
 
@@ -347,15 +348,14 @@ export class FriendProfileComponent implements OnInit {
   }
 
 
+  showEmojiPickerComment: boolean = false;
 
-  showEmojiPickerUpdate: boolean = false;
-
-  toggleEmojiPickerUpdate() {
-    this.showEmojiPickerUpdate = !this.showEmojiPickerUpdate;
+  toggleEmojiPickerComment() {
+    this.showEmojiPickerComment = !this.showEmojiPickerComment;
   }
 
-  addEmojiUpdate(event: any) {
-    this.contentUpdate += event.emoji.native;
+  addEmojiComment(event: any) {
+    this.contentCommentInput += event.emoji.native;
   }
 
 

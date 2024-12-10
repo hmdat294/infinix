@@ -2,6 +2,18 @@ section>article {
     margin-top: 50px;
 }
 
+@media (max-width: 480px) {
+    section>article {
+        margin-top: 90px;
+    }
+}
+
+@media (max-width: 850px) {
+    section {
+        height: auto !important;
+    }
+}
+
 .layout-1 {
     display: grid;
     gap: 10px;
@@ -14,7 +26,7 @@ section>article {
 .layout-6 {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    min-height: 500px;
+    /* min-height: 500px; */
     gap: 10px;
 }
 
