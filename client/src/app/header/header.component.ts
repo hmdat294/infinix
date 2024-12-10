@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { NavigationEnd, Router, RouterModule, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -9,9 +9,9 @@ import { ChatService } from '../service/chat.service';
 import { MiniChatComponent } from '../mini-chat/mini-chat.component';
 import { NotificationService } from '../service/notification.service';
 import { CurrencyVNDPipe } from '../currency-vnd.pipe';
-import { PaymentService } from '../service/payment.service';
 import { ShopService } from '../service/shop.service';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
+import { SettingService } from '../service/setting.service';
 
 @Component({
   selector: 'app-header',
@@ -33,6 +33,8 @@ export class HeaderComponent implements OnInit {
   addQuantitySubject = new Subject<{ product_id: number, quantity: number }>();
   productChecked: any = [];
   groupedShops: any = [];
+  total: number = 0;
+  tabAccordion: string = '';
 
   constructor(
     private router: Router,
@@ -40,8 +42,8 @@ export class HeaderComponent implements OnInit {
     private eventService: EventService,
     private chatService: ChatService,
     private notificationService: NotificationService,
-    private paymentService: PaymentService,
     private shopService: ShopService,
+    private settingService: SettingService,
   ) { }
 
   ngOnInit(): void {
@@ -95,7 +97,7 @@ export class HeaderComponent implements OnInit {
     this.shopService.getCart().subscribe(
       (data) => {
         this.cart = data.data;
-        // console.log(data.data);
+        console.log(data.data);
         this.groupShop();
       });
 
@@ -108,6 +110,7 @@ export class HeaderComponent implements OnInit {
       this.shopService.updateProductToCart({ product_id, quantity }).subscribe(
         (response) => {
           console.log(response);
+          this.shopService.updateCart(response.data);
         });
     });
   }
@@ -116,32 +119,34 @@ export class HeaderComponent implements OnInit {
     this.productChecked = this.cart?.products?.filter((item: any) => item.checked) || [];
 
     this.productChecked = this.productChecked?.reduce((acc: any[], product: any) => {
-      let shop = acc.find((item) => item.shop_id === product.shop_id);
+      let shops = acc.find((item) => item.shop_id === product.shop_id);
 
-      if (!shop) {
-        shop = {
+      if (!shops) {
+        shops = {
           shop_id: product.shop_id,
           shop_name: product.shop_name,
           shop_logo: product.shop_logo,
           products: [],
         };
-        acc.push(shop);
+        acc.push(shops);
       }
 
-      shop.products.push(product);
+      shops.products.push(product);
 
       return acc;
     }, []);
 
-    // console.log(this.productChecked);
+    this.getTotal();
   }
 
   payment() {
     const data = {
-      'total': this.cart.total,
-      'shop': this.productChecked,
+      'total': this.total,
+      'shops': this.productChecked,
       'products_count': this.cart.products.length,
     }
+    console.log(data);
+
     this.router.navigate(['/checkout', btoa(unescape(encodeURIComponent(JSON.stringify(data))))]);
     this.diaLogHeader = '';
   }
@@ -150,8 +155,10 @@ export class HeaderComponent implements OnInit {
     this.shopService.removeProductToCart({ 'product_id': product_id }).subscribe(
       (data) => {
         console.log(data);
+
         const shop = this.groupedShops.find((shop: any) => shop.shop_id == shop_id);
         shop.products = shop.products.filter((product: any) => product.id != product_id);
+        this.shopService.updateCart(data.data);
 
         if (shop.products.length == 0) this.groupedShops.splice(this.groupedShops.indexOf(shop), 1);
       });
@@ -178,10 +185,13 @@ export class HeaderComponent implements OnInit {
   }
 
   getTotal() {
-    this.cart.total = this.cart.products.reduce((sum: any, item: any) => {
-      const totalPrice = (item.price - (item.price * parseFloat(item.discount)) / 100) * item.pivot.quantity;
-      return sum + totalPrice;
-    }, 0);
+    this.total = 0;
+    this.productChecked.forEach((shop: any) =>
+      shop.products.forEach((product: any) =>
+        this.total +=
+        (product.price - (product.price * (product.discount / 100))) * product.pivot.quantity
+      )
+    );
   }
 
   groupShop() {
@@ -250,31 +260,12 @@ export class HeaderComponent implements OnInit {
   diaLogHeader: string = '';
 
   viewDiaLogHeader(action: string) {
-    this.diaLogHeader = (this.diaLogHeader == action) ? '' : action;
+    this.diaLogHeader = this.diaLogHeader == action ? '' : action;
   }
 
-  paymentVnpay() {
-    const data = {
-      'price': 15000,
-    }
-    this.paymentService.paymentVnpay(data).subscribe(
-      (response) => {
-        if (response.url)
-          window.location.href = response.url;
-      }
-    );
-  }
-
-  paymentZalopay() {
-    const data = {
-      'price': 19000,
-    }
-    this.paymentService.paymentZalopay(data).subscribe(
-      (response) => {
-        if (response.url)
-          window.location.href = response.url;
-      }
-    );
+  tabChild(tab: string) {
+    this.tabAccordion = this.tabAccordion == tab ? '' : tab;
+    this.settingService.updateValue(tab);
   }
 
 }

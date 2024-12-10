@@ -10,7 +10,7 @@
                 <div class="accordion-item">
                     <div class="accordion-header layout-horizontal gap-15 p-15 align-center-center"
                         (click)="tabChild('create_shop')">
-                        <i class="icon-size-20 icon text-primary icon-ic_fluent_person_lock_20_regular"></i>
+                        <i class="icon-size-20 icon text-primary icon-ic_fluent_store_microsoft_20_regular"></i>
                         <div class="layout-vertical w-fill">
                             <p class="text-body text-primary">{{ 'setting.shop_settings.shop.my_title' | translate }}
                             </p>
@@ -45,14 +45,14 @@
                                 </div>
 
                                 <div class="w-fill layout-horizontal gap-20">
-                                    <div class="w-fill-column-8 layout-vertical gap-5">
+                                    <div class="w-fill-column-6 layout-vertical gap-5">
                                         <p class="text-body text-primary">{{ 'setting.shop_settings.shop.name' |
                                             translate }}</p>
                                         <div class="w-fill control text-control">
                                             <input type="text" spellcheck="false" name="name" ngModel required>
                                         </div>
                                     </div>
-                                    <div class="w-fill layout-vertical gap-5">
+                                    <div class="w-fill-column-6 layout-vertical gap-5">
                                         <p class="text-body text-primary">{{ 'setting.shop_settings.shop.number_phone' |
                                             translate }}</p>
                                         <div class="control text-control w-fill">
@@ -71,29 +71,29 @@
 
 
 
-                            <div class="layout-horizontal gap-20 align-center-space-between">
-                                <div class="w-fill-column-3 layout-vertical gap-5">
+                            <div class="layout-wrap gap-20 align-center-space-between">
+                                <div class="w-fill-column-3 in-tablet-w-fill-column-6 in-mobile-w-fill-column-6 layout-vertical gap-5">
                                     <p class="text-body text-primary">{{ 'setting.shop_settings.shop.province' |
                                         translate }}</p>
                                     <div class="control text-control w-fill">
                                         <input type="text" spellcheck="false" name="province" ngModel required>
                                     </div>
                                 </div>
-                                <div class="w-fill-column-3 layout-vertical gap-5">
+                                <div class="w-fill-column-3 in-tablet-w-fill-column-6 in-mobile-w-fill-column-6 layout-vertical gap-5">
                                     <p class="text-body text-primary">{{ 'setting.shop_settings.shop.district' |
                                         translate }}</p>
                                     <div class="control text-control w-fill">
                                         <input type="text" spellcheck="false" name="district" ngModel required>
                                     </div>
                                 </div>
-                                <div class="w-fill-column-3 layout-vertical gap-5">
+                                <div class="w-fill-column-3 in-tablet-w-fill-column-6 in-mobile-w-fill-column-6 layout-vertical gap-5">
                                     <p class="text-body text-primary">{{ 'setting.shop_settings.shop.ward' | translate
                                         }}</p>
                                     <div class="control text-control w-fill">
                                         <input type="text" spellcheck="false" name="ward" ngModel required>
                                     </div>
                                 </div>
-                                <div class="w-fill-column-3 layout-vertical gap-5">
+                                <div class="w-fill-column-3 in-tablet-w-fill-column-6 in-mobile-w-fill-column-6 layout-vertical gap-5">
                                     <p class="text-body text-primary">{{ 'setting.shop_settings.shop.detail' | translate
                                         }}</p>
                                     <div class="control text-control w-fill">
@@ -131,8 +131,8 @@
                                     </div>
                                 </div>
 
-                                <div class="w-fill layout-horizontal gap-20">
-                                    <div class="w-fill-column-8 layout-vertical gap-5">
+                                <div class="w-fill layout-horizontal in-tablet-layout-vertical in-mobile-layin-tablet-layout-vertical gap-20">
+                                    <div class="w-fill-column-6 in-tablet-w-fill in-mobile-w-fill layout-vertical gap-5">
                                         <p class="text-body text-primary">{{ 'setting.shop_settings.shop.name' |
                                             translate }}</p>
                                         <div class="w-fill control text-control">
@@ -140,7 +140,7 @@
                                                 required [disabled]="is_update_shop">
                                         </div>
                                     </div>
-                                    <div class="w-fill layout-vertical gap-5">
+                                    <div class="w-fill-column-6 in-tablet-w-fill in-mobile-w-fill layout-vertical gap-5">
                                         <p class="text-body text-primary">{{ 'setting.shop_settings.shop.number_phone' |
                                             translate }}</p>
                                         <div class="control text-control w-fill">
@@ -161,8 +161,8 @@
 
 
 
-                            <div class="layout-horizontal gap-20 align-center-space-between">
-                                <div class="w-fill-column-3 layout-vertical gap-5">
+                            <div class="layout-wrap gap-20 align-center-space-between">
+                                <div class="w-fill-column-3 in-tablet-w-fill-column-6 in-mobile-w-fill-column-6 layout-vertical gap-5">
                                     <p class="text-body text-primary">{{ 'setting.shop_settings.shop.province' |
                                         translate }}</p>
                                     <div class="control text-control w-fill">
@@ -170,7 +170,7 @@
                                             required [disabled]="is_update_shop">
                                     </div>
                                 </div>
-                                <div class="w-fill-column-3 layout-vertical gap-5">
+                                <div class="w-fill-column-3 in-tablet-w-fill-column-6 in-mobile-w-fill-column-6 layout-vertical gap-5">
                                     <p class="text-body text-primary">{{ 'setting.shop_settings.shop.district' |
                                         translate }}</p>
                                     <div class="control text-control w-fill">
@@ -178,7 +178,7 @@
                                             required [disabled]="is_update_shop">
                                     </div>
                                 </div>
-                                <div class="w-fill-column-3 layout-vertical gap-5">
+                                <div class="w-fill-column-3 in-tablet-w-fill-column-6 in-mobile-w-fill-column-6 layout-vertical gap-5">
                                     <p class="text-body text-primary">{{ 'setting.shop_settings.shop.ward' | translate
                                         }}</p>
                                     <div class="control text-control w-fill">
@@ -186,7 +186,7 @@
                                             [disabled]="is_update_shop">
                                     </div>
                                 </div>
-                                <div class="w-fill-column-3 layout-vertical gap-5">
+                                <div class="w-fill-column-3 in-tablet-w-fill-column-6 in-mobile-w-fill-column-6 layout-vertical gap-5">
                                     <p class="text-body text-primary">{{ 'setting.shop_settings.shop.detail' | translate
                                         }}</p>
                                     <div class="control text-control w-fill">
@@ -196,7 +196,7 @@
                                 </div>
                             </div>
 
-                            <div class="layout-horizontal">
+                            <div class="layout-horizontal" *ngIf="shop?.is_active == 1">
                                 <div class="w-fill">
                                     <button type="button" class="button-standard button-text-only"
                                         *ngIf="is_update_shop" (click)="is_delete_shop = !is_delete_shop">
@@ -213,6 +213,10 @@
                                         [disabled]="shopUpdate.invalid" *ngIf="!is_update_shop">
                                         {{ 'setting.shop_settings.shop.update_button' | translate }}
                                     </button>
+                                    <a [routerLink]="['/shop', shop?.id]" *ngIf="is_update_shop"
+                                        class="button-accent button-text-only">
+                                        {{ 'setting.shop_settings.shop.go_to_store' | translate }}
+                                    </a>
                                 </div>
                             </div>
 
@@ -260,27 +264,32 @@
             </div>
         </div>
 
-        <div *ngIf="user?.shop_id > 0" class="layout-vertical">
+        <div *ngIf="user?.shop_id > 0 && shop?.is_active == 1" class="layout-vertical">
             <div class="layout-horizontal align-center-left">
                 <button type="button" class="list-item tab-shop text-primary w-hug"
                     [class]="tab_shop == 'tab_category'?'tab-shop-active':''" [disabled]="tab_shop == 'tab_category'"
                     (click)="tabShop('tab_category')">
-                    {{ 'setting.shop_settings.category.title' | translate }} 
+                    {{ 'setting.shop_settings.category.title' | translate }}
                 </button>
                 <button type="button" class="list-item tab-shop text-primary w-hug"
                     [class]="tab_shop == 'tab_product'?'tab-shop-active':''" [disabled]="tab_shop == 'tab_product'"
                     (click)="tabShop('tab_product')">
-                    {{ 'setting.shop_settings.product.title' | translate }} 
+                    {{ 'setting.shop_settings.product.title' | translate }}
                 </button>
                 <button type="button" class="list-item tab-shop text-primary w-hug"
                     [class]="tab_shop == 'tab_order'?'tab-shop-active':''" [disabled]="tab_shop == 'tab_order'"
                     (click)="tabShop('tab_order')">
-                    {{ 'setting.shop_settings.order.title' | translate }} 
+                    {{ 'setting.shop_settings.order.title' | translate }}
                 </button>
                 <button type="button" class="list-item tab-shop text-primary w-hug"
                     [class]="tab_shop == 'tab_feedback'?'tab-shop-active':''" [disabled]="tab_shop == 'tab_feedback'"
                     (click)="tabShop('tab_feedback')">
-                    {{ 'setting.shop_settings.feedback.title' | translate }} 
+                    {{ 'setting.shop_settings.feedback.title' | translate }}
+                </button>
+                <button type="button" class="list-item tab-shop text-primary w-hug"
+                    [class]="tab_shop == 'tab_voucher'?'tab-shop-active':''" [disabled]="tab_shop == 'tab_voucher'"
+                    (click)="tabShop('tab_voucher')">
+                    {{ 'setting.shop_settings.voucher.title' | translate }}
                 </button>
             </div>
 
@@ -288,7 +297,13 @@
             <app-product *ngIf="tab_shop == 'tab_product'" class="layout-vertical w-fill"></app-product>
             <app-order *ngIf="tab_shop == 'tab_order'" class="layout-vertical w-fill"></app-order>
             <app-feedback *ngIf="tab_shop == 'tab_feedback'" class="layout-vertical w-fill"></app-feedback>
+            <app-voucher *ngIf="tab_shop == 'tab_voucher'" class="layout-vertical w-fill"></app-voucher>
         </div>
 
+        <div *ngIf="shop?.is_active == 0 || shop?.is_active == null" class="w-fill">
+            <p
+                class="text-body text-secondary text-center p-20 card-background-default border border-card-default rounded-8">
+                Cửa hàng chưa được kích hoạt!</p>
+        </div>
     </div>
 </div>

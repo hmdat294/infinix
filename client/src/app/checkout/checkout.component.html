@@ -2,8 +2,7 @@
 
     <article class="layout-horizontal gap-20 px-20 w-fill h-fill overflow-hidden align-top-center">
 
-        <div
-            class="w-fill-column-9 h-fill layout-vertical gap-20 py-20 overflow-scroll-vertical hide-in-tablet hide-in-mobile">
+        <div class="w-fill-column-9 h-fill layout-vertical gap-20 py-20 overflow-scroll-vertical">
 
             <div class="layout-vertical card-background-default border border-card-default rounded-8">
 
@@ -21,7 +20,7 @@
                                 <div class="layout-vertical w-fill-column-8 mt-10 h-hug">
 
                                     <div class="layout-vertical border rounded-8 p-10 mb-10 card-background-default"
-                                        *ngFor="let shop of cart.shop"><!-- for -->
+                                        *ngFor="let shop of cart.shops"><!-- for -->
                                         <div class="border rounded-6">
                                             <div
                                                 class="layout-horizontal align-center-space-between p-10 border-bottom">
@@ -37,7 +36,7 @@
                                                 <p class="text-body-strong w-fill-column-3 text-left">Ghi
                                                     chú:</p>
                                                 <textarea class="control text-area-control w-fill" spellcheck="false"
-                                                    name="note" ngModel required
+                                                    name="note" [(ngModel)]="shop.note" required
                                                     (input)="resizeTextarea($event)"></textarea>
                                             </div>
                                         </div>
@@ -50,12 +49,22 @@
                                                 <td>Tổng tiền</td>
                                             </tr>
                                             <tr class="h-hug border-top" *ngFor="let item of shop.products">
-                                                <td><img class="object-fit-cover rounded-4" [src]="item.images[0].image"
-                                                        height="50px" width="50px" alt></td>
+                                                <td><img class="object-fit-cover rounded-4"
+                                                        [src]="item.images[0]?.image" height="50px" width="50px" alt>
+                                                </td>
                                                 <td>{{item.name}}</td>
                                                 <td>{{item.price-((item.price*item.discount)/100) | currencyVND}}</td>
                                                 <td>{{item.pivot.quantity}}</td>
-                                                <td>{{(item.price-((item.price*item.discount)/100))*item.pivot.quantity | currencyVND}}</td>
+                                                <td>
+                                                    <p class="text-caption" *ngIf="item.voucher_discount_price">
+                                                        - {{item.voucher_discount_price | currencyVND}}
+                                                    </p>
+                                                    <p class="text-body-strong">
+                                                        {{((item.price-((item.price*item.discount)/100))*item.pivot.quantity)
+                                                        - (item.voucher_discount_price || 0)
+                                                        | currencyVND}}
+                                                    </p>
+                                                </td>
                                             </tr>
                                         </table>
                                     </div>
@@ -72,19 +81,19 @@
                                         <table class="w-fill text-left table-info-bill">
                                             <tr class="border-bottom">
                                                 <th class="h-hug text-body-strong">Họ và tên:</th>
-                                                <td>Hồ Minh Đạt</td>
+                                                <td class="text-right">{{currentUser?.profile.display_name}}</td>
                                             </tr>
                                             <tr class="border-bottom">
                                                 <th class="h-hug text-body-strong">Số điện thoại:</th>
-                                                <td>0123456789</td>
+                                                <td class="text-right">{{currentUser?.phone_number}}</td>
                                             </tr>
                                             <tr class="border-bottom">
                                                 <th class="h-hug text-body-strong">Email:</th>
-                                                <td>user.gmail.com</td>
+                                                <td class="text-right">{{currentUser?.email}}</td>
                                             </tr>
                                             <tr class="border-bottom">
                                                 <th class="h-hug text-body-strong">Địa chỉ:</th>
-                                                <td>Tân Chánh Hiệp/Quận 12/HCM</td>
+                                                <td class="text-right">{{currentUser?.profile.address}}</td>
                                             </tr>
                                         </table>
                                         <div class="w-fill p-10" *ngIf="change_address == 0">
@@ -116,8 +125,8 @@
                                                 <th class="h-hug text-body-strong">Họ và tên:</th>
                                                 <th>
                                                     <div class="control text-control w-fill">
-                                                        <input type="text" spellcheck="false" name="name" ngModel
-                                                            required>
+                                                        <input type="text" spellcheck="false" name="name"
+                                                            [(ngModel)]="name" required>
                                                     </div>
                                                 </th>
                                             </tr>
@@ -125,8 +134,8 @@
                                                 <th class="h-hug text-body-strong">Số điện thoại:</th>
                                                 <th>
                                                     <div class="control text-control w-fill">
-                                                        <input type="text" spellcheck="false" name="number_phone"
-                                                            ngModel required>
+                                                        <input type="text" spellcheck="false" name="phone_number"
+                                                            [(ngModel)]="phone_number" required>
                                                     </div>
                                                 </th>
                                             </tr>
@@ -134,8 +143,8 @@
                                                 <th class="h-hug text-body-strong">Email:</th>
                                                 <th>
                                                     <div class="control text-control w-fill">
-                                                        <input type="text" spellcheck="false" name="email" ngModel
-                                                            required>
+                                                        <input type="text" spellcheck="false" name="email"
+                                                            [(ngModel)]="email" required>
                                                     </div>
                                                 </th>
                                             </tr>
@@ -143,37 +152,100 @@
                                                 <th class="h-hug text-body-strong">Địa chỉ:</th>
                                                 <th>
                                                     <div class="control text-control w-fill">
-                                                        <input type="text" spellcheck="false" name="address" ngModel
-                                                            required>
+                                                        <input type="text" spellcheck="false" name="address"
+                                                            [(ngModel)]="address" required>
                                                     </div>
                                                 </th>
                                             </tr>
                                         </table>
-                                        <div
-                                            class="border-bottom p-10 layout-horizontal gap-20 align-center-space-between">
-                                            <div class="h-hug text-body-strong text-left">Phương thức thanh toán:</div>
-                                            <div>
-                                                <div class="w-fill layout-horizontal align-center-center gap-10">
-                                                    <div class="border rounded-8 p-5 cursor-pointer"
-                                                        [class]="payment_method == 'zalo_pay'?'system-success':'card-background-default'"
-                                                        style="width: 50px; height: 50px;"
-                                                        (click)="setPaymentMethod('zalo_pay')">
-                                                        <img src="assets/image/logo_zalopay.png" alt=""
-                                                            class="object-fit-cover w-fill h-fill rounded-6">
-                                                    </div>
-                                                    <div class="border rounded-8 p-5 cursor-pointer"
-                                                        [class]="payment_method == 'vn_pay'?'system-success':'card-background-default'"
-                                                        style="width: 50px; height: 50px;"
-                                                        (click)="setPaymentMethod('vn_pay')">
-                                                        <img src="assets/image/logo_vnpay.png" alt=""
-                                                            class="object-fit-cover w-fill h-fill rounded-6">
-                                                    </div>
+
+                                        <div class="p-10 layout-horizontal align-center-space-between gap-10">
+                                            <p>Mã giảm giá đã lưu: {{voucherSaved.length}}</p>
+                                            <button type="button" class="button-accent w-hug px-10 py-5 cursor-pointer"
+                                                (click)="viewVoucherSaved()">
+                                                Xem
+                                            </button>
+                                        </div>
+
+                                        <i *ngIf="message_voucher != ''"
+                                            class="text-left text-body text-system-critical px-10 pt-10 pb-0">
+                                            {{message_voucher}}
+                                        </i>
+                                        <div class="p-10 layout-vertical gap-5">
+                                            <p class="text-body-strong text-primary text-left">Mã giảm giá:</p>
+                                            <div class="layout-horizontal gap-10">
+                                                <div class="control text-control w-fill">
+                                                    <input type="text" spellcheck="false" name="applied_voucher"
+                                                        [(ngModel)]="applied_voucher" required>
                                                 </div>
+                                                <button type="button" class="button-accent w-hug px-10 cursor-pointer"
+                                                    (click)="addVoucher()">
+                                                    Nhập
+                                                </button>
                                             </div>
                                         </div>
+                                        <div class="px-10 pb-10" *ngIf="add_voucher_success != ''">
+                                            <div
+                                                class="system-success-background border border-card-default p-10 rounded-6 w-fill">
+                                                <p class="text-caption text-system-success text-left"
+                                                    [innerHTML]="add_voucher_success"></p>
+                                            </div>
+                                        </div>
+                                        <table class="w-fill text-left table-info-bill">
+                                            <tr class="border-bottom border-top">
+                                                <th class="h-hug text-body-strong">Tổng tiền:</th>
+                                                <td class="text-right">{{currentTotal | currencyVND }}</td>
+                                            </tr>
+                                            <tr class="border-bottom">
+                                                <th class="h-hug text-body-strong">Phí vận chuyển:</th>
+                                                <td class="text-right">{{0 | currencyVND }}</td>
+                                            </tr>
+                                            <tr class="border-bottom">
+                                                <th class="h-hug text-body-strong">Giảm giá:</th>
+                                                <td class="text-right">{{discount_voucher | currencyVND }}</td>
+                                            </tr>
+                                            <tr class="border-bottom">
+                                                <th class="h-hug text-body-strong">Tổng:</th>
+                                                <td class="text-right">{{cart.total | currencyVND }}
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <div
+                                            class="border-bottom p-10 w-fill layout-vertical align-center-right gap-10">
+                                            <div (click)="setPaymentMethod('cash')"
+                                                [class]="payment_method == 'cash'?'active':''"
+                                                class="layout-horizontal align-center-left gap-10 w-fill list-item">
+                                                <div class="border rounded-4 overflow-hidden"
+                                                    [class]="payment_method == 'cash'?'border-system-attention':''"
+                                                    style="width: 35px; height: 35px;">
+                                                    <img src="assets/image/logo_cash.png" alt=""
+                                                        class="object-fit-cover w-fill h-fill">
+                                                </div>
+                                                <p class="text-primary"
+                                                    [class]="payment_method == 'cash'?'text-body-strong':'text-body'">
+                                                    Thanh toán bằng tiền mặt</p>
+                                            </div>
+                                            <div (click)="setPaymentMethod('zalopay')"
+                                                [class]="payment_method == 'zalopay'?'active':''"
+                                                class="layout-horizontal align-center-left gap-10 w-fill list-item">
+                                                <div class="border rounded-4 overflow-hidden"
+                                                    [class]="payment_method == 'zalopay'?'border-system-attention':''"
+                                                    style="width: 35px; height: 35px;">
+                                                    <img src="assets/image/logo_zalopay.png" alt=""
+                                                        class="object-fit-cover w-fill h-fill">
+                                                </div>
+                                                <p class="text-primary"
+                                                    [class]="payment_method == 'zalopay'?'text-body-strong':'text-body'">
+                                                    Thanh toán bằng ZaloPay</p>
+                                            </div>
+                                        </div>
+                                        <i *ngIf="empty_user" class="text-left text-body text-system-critical p-10">
+                                            Bạn chưa nhập đủ thông tin!
+                                        </i>
                                         <div class="w-fill p-10">
-                                            <button type="button" class="button-accent button-text-only w-fill">
-                                                Thanh toán
+                                            <button type="button" class="button-accent button-text-only w-fill"
+                                                (click)="payment()">
+                                                {{payment_method == 'cash'?'Mua ngay':'Thanh toán'}}
                                             </button>
                                         </div>
                                     </div>
@@ -181,11 +253,69 @@
                             </div>
                         </div>
                     </div>
+                </div>
 
+                <div class="position-fixed top-0 start-0" *ngIf="viewVoucher"
+                    style="width: 100%; height: 100vh; z-index: 20;">
+                    <div class="position-absolute top-0 start-0" (click)="viewVoucherSaved()"
+                        style="width: 100%; height: 100vh; z-index: 1; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px);">
+                    </div>
+                    <div class="dialog-panel position-absolute top-50 start-50 translate-middle" style="z-index: 2;">
+                        <div class="layout-vertical p-20 gap-20 rounded-8 solid-background-base border border-card-default"
+                            style="width: 400px;">
+
+                            <button type="button" class="button-subtle button-icon-only w-hug position-absolute"
+                                (click)="viewVoucherSaved()" style="right: 20px; top: 20px; z-index: 1;">
+                                <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_filled"></i>
+                            </button>
+
+                            <div class="pb-20 pt-5 border-bottom">
+                                <p class="text-subtitle text-primary text-center">Mã giảm giá đã lưu</p>
+                            </div>
+
+                            <div *ngIf="voucherSaved.length > 0"
+                                class="layout-vertical gap-20 border-card-default w-fill border card-background-default rounded-8 p-10">
+
+                                <div *ngFor="let voucher of voucherSaved; let i = index"
+                                    class="w-fill layout-horizontal rounded-6 system-success-background border border-card-default overflow-hidden">
+                                    <div class="position-absolute top-0 right-0 w-fill text-right">
+                                        <span class="text-caption p-5"
+                                            style="border-radius: 0 0 0 10px; background-color: #C42B1C; color: white;">
+                                            {{calculateEndDays(voucher.valid_until)}} ngày
+                                        </span>
+                                    </div>
+                                    <div class="w-fill layout-vertical text-body text-system-success gap-5 p-10">
+                                        <p class="text-caption">Mã giảm giá: <span class="text-body-strong"
+                                                style="text-transform: uppercase;">{{voucher.code}}</span>
+                                        </p>
+                                        <p class="text-caption">
+                                            {{ getVoucherDescription(
+                                                voucher.discount,
+                                                voucher.apply_to_products.length > 0 ? 'sản phẩm' : 'đơn hàng',
+                                                voucher.min_price | currencyVND,
+                                                voucher.max_discount | currencyVND
+                                            ) }}
+                                        </p>
+                                    </div>
+                                    <div class="w-hug layout-vertical gap-5 align-bottom-right p-10">
+                                        <button type="button" class="button-text-only"
+                                            [class]="voucher.code == applied_voucher?'button-standard':'button-accent'"
+                                            (click)="useVoucher(voucher.code)">
+                                            {{voucher.code == applied_voucher?'Đã dùng':'Sử dụng'}}</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div *ngIf="voucherSaved.length == 0" class="w-fill">
+                                <p
+                                    class="text-body text-secondary text-center p-20 card-background-default border border-card-default rounded-8">
+                                    Chưa có mã giảm giá nào!</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
             </div>
         </div>
-
     </article>
 </section>

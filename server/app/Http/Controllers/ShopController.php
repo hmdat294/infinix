@@ -25,7 +25,7 @@ class ShopController extends Controller
             return response()->json(['message' => 'User already has a shop']);
         }
 
-        $shop_data = $request->only(['name', 'description', 'address', 'phone_number']);
+        $shop_data = $request->only(['name', 'description', 'address', 'phone_number', 'bank_name', 'bank_account_number', 'is_active']);
         $shop_data['user_id'] = $request->user()->id;
 
         if ($request->hasFile('logo')) {
@@ -50,7 +50,7 @@ class ShopController extends Controller
     {
         $shop = ShopModel::findOrFail($id);
 
-        $shop_data = $request->only(['name', 'description', 'address', 'phone_number']);
+        $shop_data = $request->only(['name', 'description', 'address', 'phone_number', 'bank_name', 'bank_account_number', 'is_active']);
 
         if ($request->hasFile('logo')) {
             $shop_data['logo'] = asset('storage/' . $request->file('logo')->store('uploads', 'public'));

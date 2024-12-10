@@ -1,5 +1,16 @@
 <div class="border border-card-default card-background-default rounded-bottom-6 pt-10 pb-20 px-20">
-    <div class="layout-horizontal align-center-right my-10">
+    <div class="layout-horizontal align-center-space-between my-10 gap-20 my-10">
+        <div class="control search-control">
+            <input type="search" name="keyword" [(ngModel)]="keyword" (input)="searchProduct()" spellcheck="false"
+                placeholder="Tìm sản phẩm">
+            <button type="button" class="input-button clear-content-button" (click)="keyword = ''">
+                <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
+            </button>
+            <button type="button" class="input-button search-button" (click)="searchProduct()">
+                <i class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
+            </button>
+        </div>
+
         <select class="control text-primary" (change)="sortProduct(sort_by_id.value)" name="sort_by_id" ngModel
             #sort_by_id="ngModel">
             <option class="gradient-background" [value]="0">{{ 'setting.shop_settings.product.select' | translate }}
@@ -85,7 +96,7 @@
 
                 <div class="layout-vertical overflow-scroll-vertical" style="max-height: 70vh;">
 
-                    <form class="layout-vertical gap-25 w-fill" enctype="multipart/form-data" #frm_product="ngForm"
+                    <form class="layout-vertical gap-15 w-fill" enctype="multipart/form-data" #frm_product="ngForm"
                         (submit)="createProduct(frm_product.value)">
 
                         <div class="layout-horizontal gap-20 align-center-space-between">
@@ -139,82 +150,91 @@
                             <div class="w-fill-column-6 layout-vertical gap-5">
                                 <p class="text-body text-primary">{{
                                     'setting.shop_settings.product.create_anh_update.description' | translate }}</p>
-                                <textarea style="min-height: 110px;" class="control text-area-control w-fill"
+                                <textarea style="min-height: 90px;" class="control text-area-control w-fill"
                                     spellcheck="false" name="description_product" ngModel
                                     [(ngModel)]="description_product" required></textarea>
                             </div>
 
-                            <div class="w-fill-column-6 layout-wrap gap-20 align-bottom-space-between">
+                            <div class="w-fill-column-6 layout-vertical" style="justify-content: space-between;">
+                                <div class="w-fill layout-horizontal gap-20">
 
-                                <div class="w-fill-column-6 layout-vertical gap-5">
-                                    <p class="text-body text-primary">{{
-                                        'setting.shop_settings.product.create_anh_update.price' | translate }}</p>
-                                    <div class="control number-control w-fill">
-                                        <input type="number" min="0" spellcheck="false" name="price_product" ngModel
-                                            [(ngModel)]="price_product" required>
-                                        <button type="button" class="input-button increase-number-button"
-                                            (click)="price_create('add')">
-                                            <i class="icon-size-16 icon icon-ic_fluent_chevron_up_16_regular"></i>
-                                        </button>
-                                        <button type="button" class="input-button decrease-number-button"
-                                            (click)="price_create('reduce')">
-                                            <i class="icon-size-16 icon icon-ic_fluent_chevron_down_16_regular"></i>
-                                        </button>
+                                    <div class="w-fill-column-6 layout-vertical gap-5">
+                                        <p class="text-body text-primary">{{
+                                            'setting.shop_settings.product.create_anh_update.price' | translate }}</p>
+                                        <div class="control number-control w-fill">
+                                            <input type="number" min="0" spellcheck="false" name="price_product" ngModel
+                                                [(ngModel)]="price_product" required>
+                                            <button type="button" class="input-button increase-number-button"
+                                                (click)="price_create('add')">
+                                                <i class="icon-size-16 icon icon-ic_fluent_chevron_up_16_regular"></i>
+                                            </button>
+                                            <button type="button" class="input-button decrease-number-button"
+                                                (click)="price_create('reduce')">
+                                                <i class="icon-size-16 icon icon-ic_fluent_chevron_down_16_regular"></i>
+                                            </button>
+                                        </div>
+                                        <div *ngIf="price_product < 0"
+                                            class="text-caption position-absolute top-100 mt-5 text-system-critical">
+                                            {{ 'setting.shop_settings.product.create_anh_update.format_price' |
+                                            translate }}
+                                        </div>
                                     </div>
-                                    <div *ngIf="price_product < 0"
-                                        class="text-caption position-absolute top-100 mt-5 text-system-critical">
-                                        {{ 'setting.shop_settings.product.create_anh_update.format_price' | translate }}
+
+                                    <div class="w-fill-column-6 layout-vertical gap-5">
+                                        <p class="text-body text-primary">{{
+                                            'setting.shop_settings.product.create_anh_update.discount' | translate }}
+                                        </p>
+                                        <div class="control number-control w-fill">
+                                            <input type="number" min="0" max="100" spellcheck="false"
+                                                name="discount_product" ngModel [(ngModel)]="discount_product" required>
+                                            <button type="button" class="input-button increase-number-button"
+                                                (click)="discount_create('add')">
+                                                <i class="icon-size-16 icon icon-ic_fluent_chevron_up_16_regular"></i>
+                                            </button>
+                                            <button type="button" class="input-button decrease-number-button"
+                                                (click)="discount_create('reduce')">
+                                                <i class="icon-size-16 icon icon-ic_fluent_chevron_down_16_regular"></i>
+                                            </button>
+                                        </div>
+                                        <div *ngIf="discount_product < 0 || discount_product > 100"
+                                            class="text-caption position-absolute top-100 mt-5 text-system-critical">
+                                            {{ 'setting.shop_settings.product.create_anh_update.format_discount' |
+                                            translate
+                                            }}
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="w-fill layout-horizontal gap-20">
 
-                                <div class="w-fill-column-6 layout-vertical gap-5">
-                                    <p class="text-body text-primary">{{
-                                        'setting.shop_settings.product.create_anh_update.discount' | translate }}</p>
-                                    <div class="control number-control w-fill">
-                                        <input type="number" min="0" max="100" spellcheck="false"
-                                            name="discount_product" ngModel [(ngModel)]="discount_product" required>
-                                        <button type="button" class="input-button increase-number-button"
-                                            (click)="discount_create('add')">
-                                            <i class="icon-size-16 icon icon-ic_fluent_chevron_up_16_regular"></i>
-                                        </button>
-                                        <button type="button" class="input-button decrease-number-button"
-                                            (click)="discount_create('reduce')">
-                                            <i class="icon-size-16 icon icon-ic_fluent_chevron_down_16_regular"></i>
-                                        </button>
+                                    <div class="w-fill-column-6">
+                                        <input class="display-none" type="file" [ngModel]="fileProduct"
+                                            name="fileProduct" (change)="onFileProductSelected($event)" accept="image/*"
+                                            id="product_media_input" multiple>
+                                        <label for="product_media_input"
+                                            class="button-standard button-text-with-icon w-fill">
+                                            <i class="icon-size-20 icon icon-ic_fluent_image_20_regular"></i>
+                                            {{ 'setting.shop_settings.product.create_anh_update.select_image' |
+                                            translate }}
+                                        </label>
                                     </div>
-                                    <div *ngIf="discount_product < 0 || discount_product > 100"
-                                        class="text-caption position-absolute top-100 mt-5 text-system-critical">
-                                        {{ 'setting.shop_settings.product.create_anh_update.format_discount' | translate
-                                        }}
+
+                                    <div
+                                        class="w-fill-column-6 layout-horizontal gap-20 align-center-center py-5 px-10">
+                                        <label class="label-radio-control">
+                                            <input class="radio-control" type="radio" name="is_active_product" value="0"
+                                                [(ngModel)]="is_active_product">
+                                            <span class="text-body text-primary">
+                                                {{ 'setting.shop_settings.product.create_anh_update.hide' | translate }}
+                                            </span>
+                                        </label>
+                                        <label class="label-radio-control">
+                                            <input class="radio-control" type="radio" name="is_active_product" value="1"
+                                                [(ngModel)]="is_active_product">
+                                            <span class="text-body text-primary">
+                                                {{ 'setting.shop_settings.product.create_anh_update.show' | translate }}
+                                            </span>
+                                        </label>
                                     </div>
-                                </div>
-
-                                <div class="w-fill-column-6">
-                                    <input class="display-none" type="file" [ngModel]="fileProduct" name="fileProduct"
-                                        (change)="onFileProductSelected($event)" accept="image/*"
-                                        id="product_media_input" multiple>
-                                    <label for="product_media_input"
-                                        class="button-standard button-text-with-icon w-fill">
-                                        <i class="icon-size-20 icon icon-ic_fluent_image_20_regular"></i>
-                                        {{ 'setting.shop_settings.product.create_anh_update.select_image' | translate }}
-                                    </label>
-                                </div>
-
-                                <div class="w-fill-column-6 layout-horizontal gap-20 align-center-center py-5 px-10">
-                                    <label class="label-radio-control">
-                                        <input class="radio-control" type="radio" name="is_active_product" value="0"
-                                            [(ngModel)]="is_active_product">
-                                        <span class="text-body text-primary">
-                                            {{ 'setting.shop_settings.product.create_anh_update.hide' | translate }}
-                                        </span>
-                                    </label>
-                                    <label class="label-radio-control">
-                                        <input class="radio-control" type="radio" name="is_active_product" value="1"
-                                            [(ngModel)]="is_active_product">
-                                        <span class="text-body text-primary">
-                                            {{ 'setting.shop_settings.product.create_anh_update.show' | translate }}
-                                        </span>
-                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -269,7 +289,7 @@
 
                 <div class="layout-vertical overflow-scroll-vertical" style="max-height: 70vh;">
 
-                    <form class="layout-vertical gap-25 w-fill" enctype="multipart/form-data"
+                    <form class="layout-vertical gap-15 w-fill" enctype="multipart/form-data"
                         #frm_product_update="ngForm" (submit)="updateProduct(frm_product_update.value)">
 
                         <div class="layout-horizontal gap-20 align-center-space-between">
@@ -326,83 +346,92 @@
                             <div class="w-fill-column-6 layout-vertical gap-5">
                                 <p class="text-body text-primary">{{
                                     'setting.shop_settings.product.create_anh_update.description' | translate }}</p>
-                                <textarea style="min-height: 110px;" class="control text-area-control w-fill"
+                                <textarea style="min-height: 90px;" class="control text-area-control w-fill"
                                     spellcheck="false" name="description_product_update" ngModel
                                     [(ngModel)]="description_product_update" required></textarea>
                             </div>
 
-                            <div class="w-fill-column-6 layout-wrap gap-20 align-bottom-space-between">
+                            <div class="w-fill-column-6 layout-vertical" style="justify-content: space-between;">
+                                <div class="w-fill layout-horizontal gap-20">
 
-                                <div class="w-fill-column-6 layout-vertical gap-5">
-                                    <p class="text-body text-primary">{{
-                                        'setting.shop_settings.product.create_anh_update.price' | translate }}</p>
-                                    <div class="control number-control w-fill">
-                                        <input type="number" min="0" spellcheck="false" name="price_product_update"
-                                            ngModel [(ngModel)]="price_product_update" required>
-                                        <button type="button" class="input-button increase-number-button"
-                                            (click)="price_update('add')">
-                                            <i class="icon-size-16 icon icon-ic_fluent_chevron_up_16_regular"></i>
-                                        </button>
-                                        <button type="button" class="input-button decrease-number-button"
-                                            (click)="price_update('reduce')">
-                                            <i class="icon-size-16 icon icon-ic_fluent_chevron_down_16_regular"></i>
-                                        </button>
+                                    <div class="w-fill-column-6 layout-vertical gap-5">
+                                        <p class="text-body text-primary">{{
+                                            'setting.shop_settings.product.create_anh_update.price' | translate }}</p>
+                                        <div class="control number-control w-fill">
+                                            <input type="number" min="0" spellcheck="false" name="price_product_update"
+                                                ngModel [(ngModel)]="price_product_update" required>
+                                            <button type="button" class="input-button increase-number-button"
+                                                (click)="price_update('add')">
+                                                <i class="icon-size-16 icon icon-ic_fluent_chevron_up_16_regular"></i>
+                                            </button>
+                                            <button type="button" class="input-button decrease-number-button"
+                                                (click)="price_update('reduce')">
+                                                <i class="icon-size-16 icon icon-ic_fluent_chevron_down_16_regular"></i>
+                                            </button>
+                                        </div>
+                                        <div *ngIf="price_product_update < 0"
+                                            class="text-caption position-absolute top-100 mt-5 text-system-critical">
+                                            {{ 'setting.shop_settings.product.create_anh_update.format_price' |
+                                            translate }}
+                                        </div>
                                     </div>
-                                    <div *ngIf="price_product_update < 0"
-                                        class="text-caption position-absolute top-100 mt-5 text-system-critical">
-                                        {{ 'setting.shop_settings.product.create_anh_update.format_price' | translate }}
+
+                                    <div class="w-fill-column-6 layout-vertical gap-5">
+                                        <p class="text-body text-primary">{{
+                                            'setting.shop_settings.product.create_anh_update.discount' | translate }}
+                                        </p>
+                                        <div class="control number-control w-fill">
+                                            <input type="number" min="0" max="100" spellcheck="false"
+                                                name="discount_product_update" ngModel
+                                                [(ngModel)]="discount_product_update" required>
+                                            <button type="button" class="input-button increase-number-button"
+                                                (click)="discount_update('add')">
+                                                <i class="icon-size-16 icon icon-ic_fluent_chevron_up_16_regular"></i>
+                                            </button>
+                                            <button type="button" class="input-button decrease-number-button"
+                                                (click)="discount_update('reduce')">
+                                                <i class="icon-size-16 icon icon-ic_fluent_chevron_down_16_regular"></i>
+                                            </button>
+                                        </div>
+                                        <div *ngIf="discount_product_update < 0 || discount_product_update > 100"
+                                            class="text-caption position-absolute top-100 mt-5 text-system-critical">
+                                            {{ 'setting.shop_settings.product.create_anh_update.format_discount' |
+                                            translate
+                                            }}
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="w-fill layout-horizontal gap-20">
 
-                                <div class="w-fill-column-6 layout-vertical gap-5">
-                                    <p class="text-body text-primary">{{
-                                        'setting.shop_settings.product.create_anh_update.discount' | translate }}</p>
-                                    <div class="control number-control w-fill">
-                                        <input type="number" min="0" max="100" spellcheck="false"
-                                            name="discount_product_update" ngModel [(ngModel)]="discount_product_update"
-                                            required>
-                                        <button type="button" class="input-button increase-number-button"
-                                            (click)="discount_update('add')">
-                                            <i class="icon-size-16 icon icon-ic_fluent_chevron_up_16_regular"></i>
-                                        </button>
-                                        <button type="button" class="input-button decrease-number-button"
-                                            (click)="discount_update('reduce')">
-                                            <i class="icon-size-16 icon icon-ic_fluent_chevron_down_16_regular"></i>
-                                        </button>
+                                    <div class="w-fill-column-6">
+                                        <input class="display-none" type="file" [ngModel]="fileUpdateProduct"
+                                            name="fileUpdateProduct" (change)="onFileUpdateProductSelected($event)"
+                                            accept="image/*" id="product_media_input_update" multiple>
+                                        <label for="product_media_input_update"
+                                            class="button-standard button-text-with-icon w-fill">
+                                            <i class="me-5 icon-size-20 icon icon-ic_fluent_image_20_regular"></i>
+                                            {{ 'setting.shop_settings.product.create_anh_update.select_image' |
+                                            translate }}
+                                        </label>
                                     </div>
-                                    <div *ngIf="discount_product_update < 0 || discount_product_update > 100"
-                                        class="text-caption position-absolute top-100 mt-5 text-system-critical">
-                                        {{ 'setting.shop_settings.product.create_anh_update.format_discount' | translate
-                                        }}
+
+                                    <div
+                                        class="w-fill-column-6 layout-horizontal gap-20 align-center-center py-5 px-10">
+                                        <label class="label-radio-control">
+                                            <input class="radio-control" type="radio" name="is_active_product_update"
+                                                value="0" [(ngModel)]="is_active_product_update">
+                                            <span class="text-body text-primary">
+                                                {{ 'setting.shop_settings.product.create_anh_update.hide' | translate }}
+                                            </span>
+                                        </label>
+                                        <label class="label-radio-control">
+                                            <input class="radio-control" type="radio" name="is_active_product_update"
+                                                value="1" [(ngModel)]="is_active_product_update">
+                                            <span class="text-body text-primary">
+                                                {{ 'setting.shop_settings.product.create_anh_update.show' | translate }}
+                                            </span>
+                                        </label>
                                     </div>
-                                </div>
-
-                                <div class="w-fill-column-6">
-                                    <input class="display-none" type="file" [ngModel]="fileUpdateProduct"
-                                        name="fileUpdateProduct" (change)="onFileUpdateProductSelected($event)"
-                                        accept="image/*" id="product_media_input_update" multiple>
-                                    <label for="product_media_input_update"
-                                        class="button-standard button-text-with-icon w-fill">
-                                        <i class="me-5 icon-size-20 icon icon-ic_fluent_image_20_regular"></i>
-                                        {{ 'setting.shop_settings.product.create_anh_update.select_image' | translate }}
-                                    </label>
-                                </div>
-
-                                <div class="w-fill-column-6 layout-horizontal gap-20 align-center-center py-5 px-10">
-                                    <label class="label-radio-control">
-                                        <input class="radio-control" type="radio" name="is_active_product_update"
-                                            value="0" [(ngModel)]="is_active_product_update">
-                                        <span class="text-body text-primary">
-                                            {{ 'setting.shop_settings.product.create_anh_update.hide' | translate }}
-                                        </span>
-                                    </label>
-                                    <label class="label-radio-control">
-                                        <input class="radio-control" type="radio" name="is_active_product_update"
-                                            value="1" [(ngModel)]="is_active_product_update">
-                                        <span class="text-body text-primary">
-                                            {{ 'setting.shop_settings.product.create_anh_update.show' | translate }}
-                                        </span>
-                                    </label>
                                 </div>
                             </div>
                         </div>

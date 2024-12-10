@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { AuthService } from '../../service/auth.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -21,6 +21,7 @@ export class GeneralSettingsComponent implements OnInit {
   display_name: string = '';
   biography: string = '';
   date_of_birth: string = '';
+  address: string = '';
 
   listUserReport: any;
   listPostReport: any;
@@ -32,7 +33,6 @@ export class GeneralSettingsComponent implements OnInit {
     private authService: AuthService,
     private postService: PostService,
     private settingService: SettingService,
-    private renderer: Renderer2,
     private el: ElementRef,
     private translate: TranslateService
   ) { }
@@ -41,9 +41,7 @@ export class GeneralSettingsComponent implements OnInit {
     this.lang = localStorage.getItem('language') || 'vi';
 
     this.authService.getUser(0).subscribe(
-      (response) => {
-        this.user = response.data;
-      });
+      (response) => this.user = response.data);
 
     this.authService.getUserReport().subscribe(
       (response) => {
@@ -116,8 +114,13 @@ export class GeneralSettingsComponent implements OnInit {
         if (value.display_name) {
           this.settingService.updateValue({ 'display_name': value.display_name });
         }
-
       })
+  }
+
+  updateAddress(form: any) {
+    this.address = [form.detail, form.ward, form.district, form.province].join(' | ');
+
+    this.updateUser({ 'address': this.address })
   }
 
   fileProfile: any;

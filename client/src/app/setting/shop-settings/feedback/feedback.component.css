@@ -1,0 +1,8 @@
+th,
+td {
+    padding: 10px;
+}
+
+.rating .icon.active {
+    color: rgb(255, 255, 0);
+}

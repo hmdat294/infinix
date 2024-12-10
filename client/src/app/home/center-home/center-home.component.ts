@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PostService } from '../../service/post.service';
 import { CommonModule } from '@angular/common';
@@ -18,13 +18,15 @@ import 'swiper/css/navigation';
 import 'swiper/css/scrollbar';
 import { Navigation, Scrollbar } from 'swiper/modules';
 import { TranslateModule } from '@ngx-translate/core';
+import { RightHomeComponent } from "../right-home/right-home.component";
+import { SettingService } from '../../service/setting.service';
 
 Swiper.use([Navigation, Scrollbar]);
 
 @Component({
   selector: 'app-center-home',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule, EmojiModule, PickerComponent, QuillModule, TranslateModule],
+  imports: [FormsModule, CommonModule, RouterModule, EmojiModule, PickerComponent, QuillModule, TranslateModule, RightHomeComponent],
   templateUrl: './center-home.component.html',
   styleUrl: './center-home.component.css'
 })
@@ -52,6 +54,7 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   listGroup: any;
   friendSuggestions: any;
   contentCommentInput: string = '';
+  tabAccordion: string = '';
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -60,7 +63,9 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
     private eventService: EventService,
     private authService: AuthService,
     private chatService: ChatService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private settingService: SettingService,
+    private el: ElementRef,
   ) { }
 
   ngOnInit(): void {
@@ -98,6 +103,22 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
 
         });
       });
+
+    this.updateClassSlide(window.innerWidth);
+
+    this.settingService.sharedValue$.subscribe((tab) => {
+      this.tabAccordion = this.tabAccordion === tab ? '' : tab;
+    });
+  }
+  currentClassSlide = 'w-fill-column-3';
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.updateClassSlide(event.target.innerWidth);
+  }
+
+  updateClassSlide(width: number) {
+    this.currentClassSlide = width > 1250 ? 'w-fill-column-3' : width > 700 ? 'w-fill-column-4' : 'w-fill-column-6';
   }
 
   @ViewChildren('carouselInner') carouselInners!: QueryList<ElementRef<HTMLDivElement>>;
@@ -379,7 +400,6 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
       );
     }
   }
-
 
   postUpdateId: number = 0;
 

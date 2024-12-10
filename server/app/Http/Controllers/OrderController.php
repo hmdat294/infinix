@@ -9,6 +9,8 @@ use App\Models\Order;
 use App\Models\OrderGroup;
 use App\Models\Product;
 use App\Models\User;
+use App\Models\Voucher;
+use App\Models\VoucherUser;
 use Illuminate\Support\Facades\Log;
 
 use App\Services\ZaloPayService;
@@ -25,7 +27,8 @@ class OrderController extends Controller
         $this->zalopayService = $zalopayService;
     }
 
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
         Log::info('index: ' . json_encode($request->all()));
         $order_groups = OrderGroup::where('user_id', $request->user()->id)->orderBy('created_at', 'desc')->get();
 
@@ -44,16 +47,40 @@ class OrderController extends Controller
             'phone_number' => $request_data->user->phone_number,
             'fullname' => $request_data->user->name,
             'email' => $request_data->user->email,
-            'total' => $request_data->total
+            'total' => $request_data->total,
+            'voucher_discount_price' => $request_data->voucher_discount_price ?? 0,
         ];
-
         $order_group = OrderGroup::create($order_group_data);
+
+        if (isset($request_data->applied_voucher))
+        {
+            $voucher = Voucher::where('code', $request_data->applied_voucher)->first();
+            $voucher->stock -= 1;
+            $voucher->save();
+    
+            $voucher_user = VoucherUser::where('user_id', $request->user()->id)->where('voucher_id', $voucher->id)->first();
+            if ($voucher_user) {
+                $voucher_user->is_used = true;
+                $voucher_user->use_count += 1;
+    
+                $voucher_user->save();
+            } else {
+                $voucher_user = VoucherUser::create([
+                    'user_id' => $request->user()->id,
+                    'voucher_id' => $voucher->id,
+                    'is_used' => true,
+                    'use_count' => 1,
+                    'is_saved' => false
+                ]);
+            }
+        }
+
 
         $shops = $request_data->shops;
         foreach ($shops as $shop) {
             $order_data = [
                 'user_id' => $request->user()->id,
-                'shop_id'=> $shop->shop_id,
+                'shop_id' => $shop->shop_id,
                 'order_group_id' => $order_group->id,
                 'total' => $shop->shop_total,
                 'note' => $shop->note ?? ''
@@ -66,7 +93,8 @@ class OrderController extends Controller
                 $order->products()->attach([
                     $product->id => [
                         'quantity' => $product->pivot->quantity,
-                        'price' => $product->pivot->price
+                        'price' => $product->pivot->price,
+                        'voucher_discount_price' => $product->voucher_discount_price ?? 0
                     ]
                 ]);
 
@@ -85,7 +113,7 @@ class OrderController extends Controller
             case 'zalopay':
                 return $this->create_zalopay_order($order_group->external_order_id, $order_group->total);
             default:
-                return;
+                return response()->json(['order_url' => 'http://localhost:4200/store/?tab=tab_order', 'success' => true]);
         }
     }
 
@@ -103,7 +131,7 @@ class OrderController extends Controller
     public function callback(Request $request)
     {
         Log::info('callback: ' . json_encode($request->all()));
-        $data = json_decode($request->input('data'), true); 
+        $data = json_decode($request->input('data'), true);
         $mac = $request->input('mac');
 
         // $calculatedMac = hash_hmac('sha256', json_encode($data), config('zalopay.key2'));
@@ -114,7 +142,7 @@ class OrderController extends Controller
         $external_order_id = explode('_', $data['app_trans_id'])[1];
         $order_group = OrderGroup::where('external_order_id', $external_order_id)->first();
         if (!$order_group) {
-            return response()->json(['error'=> 'Không tìm thấy đơn hàng'], 404);
+            return response()->json(['error' => 'Không tìm thấy đơn hàng'], 404);
         }
 
         $order_group->update(['payment_status' => 'paid']);

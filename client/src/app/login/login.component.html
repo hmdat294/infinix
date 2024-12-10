@@ -38,15 +38,17 @@
                     <input spellcheck="false" id="email" type="email" name="email" #email="ngModel" ngModel required
                         email (input)="error = ''">
                 </div>
-                <p *ngIf="email.errors?.['email']" class="validation-message validation-caution text-body text-primary">
-                    <i class="icon-size-16 icon icon-ic_fluent_warning_16_filled"></i>
+                <p *ngIf="email.errors?.['email']"
+                    class="validation-message validation-critical text-caption text-system-critical">
+                    <i class="icon-size-16 icon icon-ic_fluent_dismiss_circle_16_filled"></i>
                     <span class="text-body-strong">{{ 'login.email_label' | translate }}</span>
                     <span>{{ 'login.format_email' | translate }}</span>
                 </p>
             </div>
 
             <div class="w-fill layout-vertical gap-5">
-                <label for="password" class="w-fill text-body text-primary">{{ 'login.password_label' | translate }}</label>
+                <label for="password" class="w-fill text-body text-primary">{{ 'login.password_label' | translate
+                    }}</label>
                 <div class="control password-control w-fill">
                     <input spellcheck="false" id="password" type="password" name="password" #password="ngModel" ngModel
                         required minlength="8" (input)="error = ''">
@@ -55,8 +57,8 @@
                     </button>
                 </div>
                 <p *ngIf="password.errors?.['minlength']"
-                    class="validation-message validation-caution text-body text-primary">
-                    <i class="icon-size-16 icon icon-ic_fluent_warning_16_filled"></i>
+                    class="validation-message validation-critical text-caption text-system-critical">
+                    <i class="icon-size-16 icon icon-ic_fluent_dismiss_circle_16_filled"></i>
                     <span class="text-body-strong">Password</span>
                     <span>{{ 'login.format_password' | translate }}</span>
                 </p>

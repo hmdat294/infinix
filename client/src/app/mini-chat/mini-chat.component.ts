@@ -69,36 +69,33 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
       (response) => {
         this.user = response.data;
 
-        // this.conversation = JSON.parse(localStorage.getItem('conversation') || '[]');
-
         this.chatService.conversation$.subscribe(conversation => {
           // console.log(this.chatService.tagOpenBoxChat);
-          console.log('Updated conversation from localStorage:', conversation);
+          // console.log('Updated conversation from localStorage:', conversation);
           this.conversation = conversation;
 
-          const uniqueIds = conversation.filter(item1 => 
-            !this.listChat.some((item2:any) => item2.id === item1)
-          );
+          this.chatService.getListChat().subscribe(
+            (data: any) => {
+              const listChat = data.data;
 
-          console.log("Unique conversation IDs:", uniqueIds);
+              this.listChat = listChat.map((item: any) => ({
+                ...item,
+                users: item.users.filter((user: any) => user.id !== this.user?.id)
+              }))
 
-          //đã lấy được đúng các conversation_id nhưng đối với những user 
-          //chưa có trong conversation thì listChat chưa cập nhật được data
-          //cần kiểm tra nếu có conversation_id mà listChat không có thì request listChat lại 
-          
-          this.filterListChat();
+              this.filterListChat();
 
-          if (this.chatService.tagOpenBoxChat) {
-            // this.chatService.tagOpenBoxChat = false;
-            this.showChat = true;
-            this.getMiniChat(conversation[conversation.length - 1]);
-          }
-          else {
-            this.showChat = false;
-          }
-
-
+              if (this.chatService.tagOpenBoxChat) {
+                // this.chatService.tagOpenBoxChat = false;
+                this.showChat = true;
+                this.getMiniChat(conversation[conversation.length - 1]);
+              }
+              else {
+                this.showChat = false;
+              }
+            });
         });
+
 
         this.chatService.getListChat().subscribe(
           (data: any) => {
@@ -109,11 +106,11 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
               users: item.users.filter((user: any) => user.id !== this.user?.id)
             }))
 
-            this.filterListChat();
-
             if (!this.chat)
               this.chat = this.filteredConversations[0];
             // console.log(this.chat);
+
+            this.filterListChat();
 
             this.eventService.bindEvent('App\\Events\\UserSendMessageEvent', (data: any) => {
               // console.log('Message received:', data);
@@ -176,7 +173,7 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
       this.conversation.indexOf(a.id) - this.conversation.indexOf(b.id)
     );
 
-    console.log('Filter conversation from localStorage:', this.filteredConversations);
+    // console.log('Filter conversation from localStorage:', this.filteredConversations);
   }
 
 

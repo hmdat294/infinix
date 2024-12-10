@@ -12,6 +12,7 @@ use App\Models\PostComment as PostCommentModel;
 use App\Models\PostShare as PostShareModel;
 use App\Models\PostBookmark as PostBookmarkModel;
 use App\Models\Report as ReportModel;
+use Illuminate\Support\Facades\DB;
 
 class TotalController extends Controller
 {
@@ -77,5 +78,15 @@ class TotalController extends Controller
         return response()->json(['data' => $totalReports]);
     }
 
+    public function totalSoldProducts()
+    {
+        $total = DB::table('order_details')
+            ->join('products', 'order_details.product_id', '=', 'products.id')
+            ->join('orders', 'order_details.order_id', '=', 'orders.id')
+            ->where('order.status', 'delivered')
+            ->sum('order_details.quantity');
+        
+        return response()->json(['data' => $total]);
+    }
     
 }

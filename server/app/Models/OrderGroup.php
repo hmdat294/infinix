@@ -18,9 +18,12 @@ class OrderGroup extends Model
         'payment_method',
         'payment_status',
         'fullname',
+        'email',
         'address',
         'phone_number',
-        'email'
+        'email',
+        'applied_voucher_id',
+        'voucher_discount_price',
     ];
 
     public function user()
@@ -37,4 +40,10 @@ class OrderGroup extends Model
     {
         return $this->hasManyThrough(Product::class, Order::class);
     }
+
+    public function voucher()
+    {
+        return $this->belongsTo(Voucher::class, 'applied_voucher_id');
+    }
+
 }

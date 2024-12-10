@@ -13,9 +13,6 @@ export class SettingService {
     this.sharedValue.next(newValue);
   }
 
-  profile_photo: string = '';
-  display_name: string = '';
-
   constructor() { }
 
   tabChild(tabAccordion: string, tab: string, el: ElementRef): string {
@@ -39,8 +36,8 @@ export class SettingService {
   }
 
   shortenTextByWords(text: string, maxWords: number): string {
-    const words = text.split(' ');
-    return words.length > maxWords ? words.slice(0, maxWords).join(' ') + '...' : text;
+    const words = text?.split(' ');
+    return words?.length > maxWords ? words.slice(0, maxWords).join(' ') + '...' : text;
   }
 
   removeVietnameseTones(str: string): string {

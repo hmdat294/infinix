@@ -1,3 +1,23 @@
 section>article {
-    margin-top: 45px;
+    margin-top: 50px;
+}
+
+.my-tab{
+    margin-top: 20px;
+    padding-bottom: 30px;
+}
+
+@media (max-width: 480px) {
+    section>article {
+        margin-top: 185px;
+    }
+
+    .nav_store {
+        position: fixed;
+        top: 90px;
+    }
+
+    .nav_store>div {
+        width: calc(100% - 40px) !important;
+    }
 }
