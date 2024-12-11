@@ -1,0 +1,150 @@
+<section class="gradient-background layout-horizontal" style="height: 100vh;">
+    <app-nav class="h-fill"></app-nav>
+
+    <article class="py-20 m-20 w-fill overflow-scroll-vertical ">
+        <div class="layout-horizontal  align-center-space-between mt-20 p-20" >
+            <div class="layout-horizontal gap-10 " style="padding: 10px;">
+                <!-- search -->
+                <div class="search-dropdown-control">
+                    <div class="control search-control">
+                        <input type="search"
+                            placeholder="placeholder"
+                            spellcheck="false">
+                        <button type="button"
+                            class="input-button clear-content-button">
+                            <i
+                                class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
+                        </button>
+                        <button type="button"
+                            class="input-button search-button">
+                            <i
+                                class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
+                        </button>
+                    </div>
+                    <div class="dropdown-menu">
+                        <div class="list-item">
+                            <div class="text-body">Item 1</div>
+                        </div>
+                        <div class="list-item">
+                            <div class="text-body">Item 2</div>
+                        </div>
+                        <div class="list-item">
+                            <div class="text-body">Item 3</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- fillter -->
+                <div class="layout-horizontal gap-10">
+                    <a [routerLink]="['/admin/report/post']"
+                        class="button-standard button-text-with-icon gap-10">
+                        <i
+                            class="icon-size-16 icon icon-ic_fluent_document_one_page_multiple_16_regular"></i>
+                        Post
+                    </a>
+                    <a [routerLink]="['/admin/report/comment']"
+                        class="button-standard button-text-with-icon gap-10">
+                        <i
+                            class="icon-size-20 icon icon-ic_fluent_check_20_regular"></i>
+                        Comment
+                    </a>
+                    <a [routerLink]="['/admin/report']"
+                        class="button-standard button-text-with-icon gap-10">
+                        <i
+                            class="icon-size-16 icon icon-ic_fluent_person_16_regular"></i>
+                        User
+                    </a>
+                    <a href="#"
+                        class="button-standard button-text-only gap-10">
+                        <!-- <i
+                                class="icon-size-16 icon icon-ic_fluent_person_24_regular"></i> -->
+                        See All
+                    </a>
+                </div>
+
+            </div>
+            <div class="me-25">
+                <div class="pagination layout-horizontal">
+                    <button
+                        class="pagination-item button-subtle button-icon-only text-accent-default"><i
+                            class="icon-size-24 icon icon-ic_fluent_caret_left_24_filled"></i></button>
+                    <button
+                        class="pagination-item button-subtle button-icon-only text-accent-default">1</button>
+                    <button
+                        class="pagination-item button-subtle button-icon-only text-accent-default">2</button>
+                    <button
+                        class="pagination-item button-subtle button-icon-only text-accent-default">3</button>
+                    <button
+                        class="pagination-item button-subtle button-icon-only text-accent-default">4</button>
+                    <button
+                        class="pagination-item button-subtle button-icon-only text-accent-default">5</button>
+                    <button
+                        class="pagination-item button-subtle button-icon-only text-accent-default"><i
+                            class="icon-size-24 icon icon-ic_fluent_caret_right_24_filled"></i></button>
+                </div>
+            </div>
+        </div>
+        <div style="padding: 20px;">
+            <div class="table-container solid-background-senary p-10 rounded-8 text-primary ">
+                <table class="table w-fill text-center">
+                    <thead>
+                        <tr class>
+                            <th><input type="checkbox"></th>
+                            <th>User Report</th>
+                            <th>User Name</th>
+                            <th>Report Content</th>
+                            <th>Status</th>
+                            <th>Report date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of listReport; let i = index">
+                          <td><input type="checkbox"></td>
+                          <td>{{item.user.profile.display_name}}</td>
+                          <td>{{item.sender.profile.display_name}}</td>
+                          <td>
+                            <span [ngClass]="{ 'expanded': item.isExpanded }">
+                              {{ item.isExpanded ? item.content : shortenTextByWords(item.content, 8) }}
+                            </span>
+                          </td>
+                          <td>
+                            <div class="status-select-container">
+                                <select 
+                                    [(ngModel)]="item.status" 
+                                    (change)="updateStatus(item)" 
+                                    class="status-select"
+                                    [class.text-red]="item.status === 'pending'"
+                                    [class.text-green]="item.status === 'resolved'">
+                                    <option value="pending">Pending</option>
+                                    <option value="resolved">Resolved</option>
+                                </select>
+                            </div>
+                        </td>
+                        
+                        
+                          <td>{{item.created_at_date}}</td>
+                          <td class="layout-horizontal gap-20 w-fill">
+                            <a href="#" 
+                               class="button-subtle button-icon-only text-accent-default"
+                               (click)="toggleDetails(i, $event)">
+                              <!-- Biểu tượng thay đổi dựa trên trạng thái -->
+                              <i 
+                                class="icon-size-24 icon"
+                                [class.icon-ic_fluent_settings_24_filled]="!item.isExpanded"
+                                [class.icon-ic_fluent_dismiss_16_regular]="item.isExpanded"></i>
+                            </a>
+                            <a href="#" 
+     class="button-subtle button-icon-only text-accent-default"
+     (click)="confirmDelete(item.id, $event)">
+    <i class="icon-size-24 icon icon-ic_fluent_info_24_filled"></i>
+  </a>
+                          </td>
+                        </tr>
+                      </tbody>
+                      
+                </table>
+            </div>
+        </div>
+    
+    </article>
+</section>

@@ -1,0 +1,187 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+nav{
+    padding-top: 60px;
+}
+
+article{
+    margin-top: 60px;
+}
+
+
+th, td {
+    text-align: left;
+    padding: 8px;
+   
+}
+
+
+/* Điều chỉnh kích thước checkbox */
+th:first-child input, td:first-child input {
+    width: 15px;
+    height: 15px;
+    align-items: center;
+}
+
+/* Điều chỉnh kích thước của các biểu tượng hành động */
+td .button-subtle i {
+    font-size: 16px; /* Kích thước nhỏ hơn */
+}
+
+/* Căn giữa nội dung trong cột Actions */
+th:last-child, td:last-child {
+    text-align: center;
+    vertical-align: middle;
+}
+
+td:last-child {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px; /* Khoảng cách giữa các biểu tượng */
+}
+
+
+
+
+
+
+/* Thêm hiệu ứng chuyển đổi mượt */
+/* .table-container td span {
+    display: block;
+    transition: max-height 0.3s ease-in-out;
+    overflow: hidden;
+  }
+  
+  .status-select {
+    padding: 5px;
+    border-radius: 5px;
+  } */
+  
+
+
+
+  /* Đặt chiều cao cố định cho các hàng */
+.table-container tr {
+    height: 60px; /* Đặt chiều cao cố định cho hàng */
+    overflow: hidden; /* Ngăn nội dung làm thay đổi kích thước */
+  }
+  
+  .table-container td span {
+    display: block;
+    max-height: 100%; /* Giới hạn chiều cao nội dung */
+    
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+  }
+  
+  /* Khi mở rộng */
+  .table-container td span.expanded {
+    max-height: 200px; /* Tăng chiều cao tối đa cho nội dung mở rộng */
+    overflow: auto; /* Cho phép cuộn khi nội dung quá dài */
+  }
+
+  .table-container {
+    table-layout: fixed; /* Giữ cố định layout của bảng */
+    width: 100%; /* Đảm bảo bảng chiếm toàn bộ chiều rộng container */
+  }
+  
+  .table-container td {
+    vertical-align: top; /* Căn nội dung lên trên để tránh nhảy */
+  }
+  .table-container td span {
+    display: block;
+    max-height: 50px; /* Giới hạn chiều cao khi thu gọn */
+    overflow: hidden;
+  }
+  
+  .table-container td span.expanded {
+    max-height: 200px; /* Tăng chiều cao tối đa khi mở rộng */
+    overflow: auto; /* Thêm cuộn nếu cần */
+  }
+    
+  
+
+
+
+
+
+
+
+/* Container cho dropdown */
+.status-select-container {
+    position: relative;
+    display: inline-block;
+    width: 150px;
+}
+
+/* Dropdown cơ bản */
+.status-select {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    font-size: 14px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/* Biểu tượng mũi tên */
+.status-select-container::after {
+    content: "▼";
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    color: #aaa;
+    pointer-events: none;
+    font-size: 12px;
+}
+
+/* Thêm màu chữ chỉ khi đã chọn */
+.text-red {
+    color: red !important;
+}
+
+.text-green {
+    color: green !important;
+}
+
+/* Hiệu ứng focus */
+/* .status-select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+} */
+
+
+
+
+*{
+  margin: 0;
+  padding: 0;
+}
+nav{
+  padding-top: 60px;
+}
+
+article{
+  margin-top: 60px;
+}
+
+
+.head,.report-show{
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+.table-container{
+  padding: 20px;
+}

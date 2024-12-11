@@ -14,6 +14,8 @@ export class DashboardComponent implements OnInit {
   totalUsers: number = 0;
   totalPosts: number = 0;
   totalReports: number = 0;
+  totalConversations: number = 0;
+  
   listUser: any;
   Conversations_Growth: any;
   User_Growth: any[] = []; // Khởi tạo mảng rỗng cho User_Growth
@@ -66,11 +68,22 @@ export class DashboardComponent implements OnInit {
         console.error('Lỗi khi gọi API:', error);
       }
     );
+    this.adminService.getTotalConversations().subscribe(
+      (response) => {
+        this.totalConversations = response.data;
+        console.log(this.totalConversations);
+      },
+      (error) => {
+        console.error('Lỗi khi gọi API:', error);
+      }
+    );
     this.fetchDataAndRenderChart();
     this.fetchReportDataAndRenderDonutChart();
     this.loadDonutChartData();
 
   }
+
+  
 
   fetchDataAndRenderChart(): void {
     this.adminService.getUserGrowthData().subscribe(userGrowthData => {
@@ -88,13 +101,13 @@ export class DashboardComponent implements OnInit {
   }
 
   renderChart(): void {
-    const userTotals = this.User_Growth.map((item: any) => item.total);
+    const userTotals = this.User_Growth.map((item: any) => item.cumulative_total);
     const userDates = this.User_Growth.map((item: any) => item.date);
 
-    const postTotals = this.Post_Growth.map((item: any) => item.total);
+    const postTotals = this.Post_Growth.map((item: any) => item.cumulative_total);
     const postDates = this.Post_Growth.map((item: any) => item.date);
 
-    const conversationsTotals = this.Conversations_Growth.map((item: any) => item.total);
+    const conversationsTotals = this.Conversations_Growth.map((item: any) => item.cumulative_total);
     const conversationsDates = this.Conversations_Growth.map((item: any) => item.date);
     console.log('show growth:', userTotals, conversationsTotals, postTotals);
     
@@ -158,40 +171,44 @@ export class DashboardComponent implements OnInit {
       this.adminService.getTotalPostShares().toPromise()
     ]).then((responses) => {
       const series = (responses as Array<{ data: number } | undefined>).map((response) => response ? response.data : 0);
-      console.log('Series data for Donut Chart:', series);
-      this.renderDonutChart(series);
+      console.log('dữ liệu được xử lí:', series);
+      // this.renderDonutChart(series);
+      this.renderDonutChart([50, 20, 10, 5]);
     }).catch(error => {
       console.error('Lỗi khi gọi API:', error);
     });
   }
-  renderDonutChart(seriesData: number[]): void {
-    // Kiểm tra dữ liệu trước khi render biểu đồ
-    console.log('Data passed to renderDonutChart:', seriesData);
 
-    const donutChartOptions: ApexOptions = {
-      series: seriesData,
-      chart: {
-        foreColor: '#9ba7b2',
-        height: 240,
-        type: 'donut',
-        dropShadow: { enabled: true, top: 3, left: 2, blur: 4, opacity: 0.1 }
-      },
-      colors: ["#ffc107", "#17a00e", "#0d6efd", "#f41127"],
-      title: {
-        text: 'Total Post',
-        offsetY: 0,
-        offsetX: 0
-      },
-      labels: ['Post Bookmarks', 'Post Comments', 'Post Likes', 'Post Shares'],
-      legend: {
-        position: 'bottom',
-        formatter: (val: string) => val,
-      },
-    };
 
-    const donutChart = new ApexCharts(document.querySelector('#chart9'), donutChartOptions);
-    donutChart.render();
-  }
+ renderDonutChart(seriesData: number[]): void {
+  // Kiểm tra dữ liệu trước khi render biểu đồ
+  console.log('Dữ liệu được xử lí', seriesData);
+
+  const donutChartOptions: ApexOptions = {
+    series: seriesData,
+    chart: {
+      foreColor: '#9ba7b2',
+      height: 240,
+      type: 'donut',
+      dropShadow: { enabled: true, top: 3, left: 2, blur: 4, opacity: 0.1 }
+    },
+    colors: ["#28a745", "#ffc107", "#dc3545", "#007bff"], // Tùy chỉnh màu sắc
+    title: {
+      text: 'Trạng Thái Shop',
+      offsetY: 0,
+      offsetX: 0
+    },
+    labels: ['Shop Đã Duyệt', 'Shop Chờ Duyệt', 'Shop Bị Từ Chối', 'Shop Đang Xem Xét'], // Thay đổi nhãn
+    legend: {
+      position: 'bottom',
+      formatter: (val: string) => val,
+    },
+  };
+
+  const donutChart = new ApexCharts(document.querySelector('#chart9'), donutChartOptions);
+  donutChart.render();
+}
+
 
 
   fetchReportDataAndRenderDonutChart(): void {
@@ -220,11 +237,11 @@ export class DashboardComponent implements OnInit {
       },
       colors: ["#ffc107", "#0d6efd", "#17a00e", "#f41127"],
       title: {
-        text: 'Growth Report',
+        text: 'Trạng thái báo cáo',
         offsetY: 0,
         offsetX: 0
       },
-      labels: ['User report', 'Comment report', 'Post report', 'Group report'],
+      labels: ['Báo cáo Người dùng', 'Báo cáo bình luận', 'Báo cáo bài viết', 'Báo cáo nhóm'],
       legend: {
         position: 'bottom',
         formatter: function (val: string, opts: any) {

@@ -1,4 +1,4 @@
-import { Component, ElementRef } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { NavComponent } from '../nav/nav.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -9,31 +9,27 @@ import { SettingService } from '../../service/setting.service';
 @Component({
   selector: 'app-event',
   standalone: true,
-  imports: [NavComponent,CommonModule,RouterModule,FormsModule],
+  imports: [NavComponent, CommonModule],
   templateUrl: './event.component.html',
   styleUrl: './event.component.css'
 })
-export class EventComponent {
+
+export class EventComponent implements OnInit {
+  listUser: any;
   tabAccordion: string = '';
-  reportService:any;
-  listReport: any;
-  constructor(
-    private adminService: AdminService,
-    private settingService: SettingService,
-    private el: ElementRef,) { }
+  constructor(private adminService: AdminService, private settingService: SettingService) { }
   ngOnInit(): void {
-    this.adminService.getReports().subscribe(
+    this.adminService.getUser().subscribe(
       (response) => {
         // Gán mảng `data` từ response vào `listUser`
-        this.listReport = response.data.filter((item: any) => item.type === 'user');
-        
-        console.log(this.listReport);
+        this.listUser = response.data;
+        console.log(this.listUser);
       },
       (error) => {
         console.error('Lỗi khi gọi API:', error);
       }
     );
-    
+
   }
   tabChild(tab: string) {
     this.tabAccordion = this.settingService.tabChild(this.tabAccordion, tab, this.el);
