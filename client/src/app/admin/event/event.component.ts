@@ -17,7 +17,12 @@ import { SettingService } from '../../service/setting.service';
 export class EventComponent implements OnInit {
   listUser: any;
   tabAccordion: string = '';
-  constructor(private adminService: AdminService, private settingService: SettingService) { }
+  constructor(
+    private adminService: AdminService,
+    private settingService: SettingService,
+    private el: ElementRef,
+  ) { }
+  
   ngOnInit(): void {
     this.adminService.getUser().subscribe(
       (response) => {

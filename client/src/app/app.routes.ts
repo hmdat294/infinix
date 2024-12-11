@@ -37,7 +37,7 @@ export const routes: Routes = [
 
     { path: 'shop/:shop_id', component: ShopComponent, canActivate: [AuthGuard] },
     { path: 'store', component: StoreComponent, canActivate: [AuthGuard] },
-    // { path: 'checkout/:data', component: CheckoutComponent, canActivate: [AuthGuard] },
+    { path: 'checkout/:data', component: CheckoutComponent, canActivate: [AuthGuard] },
 
     { path: 'login', component: LoginComponent, canActivate: [AuthGuard] },
     { path: 'register', component: RegisterComponent, canActivate: [AuthGuard] },

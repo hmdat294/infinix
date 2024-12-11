@@ -4,7 +4,7 @@ import { NavComponent } from '../nav/nav.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import Swal from 'sweetalert2';
+// import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-report-comment',
@@ -22,18 +22,18 @@ export class ReportCommentComponent {
   confirmDelete(reportId: number, event: Event): void {
     event.preventDefault(); // Ngăn chặn reload trang khi nhấn vào link
 
-    Swal.fire({
-      title: 'Xác nhận xóa?',
-      text: 'Bạn có chắc chắn muốn xóa báo cáo này không?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Có',
-      cancelButtonText: 'Không'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.deleteReport(reportId);
-      }
-    });
+    // Swal.fire({
+    //   title: 'Xác nhận xóa?',
+    //   text: 'Bạn có chắc chắn muốn xóa báo cáo này không?',
+    //   icon: 'warning',
+    //   showCancelButton: true,
+    //   confirmButtonText: 'Có',
+    //   cancelButtonText: 'Không'
+    // }).then((result) => {
+    //   if (result.isConfirmed) {
+    //     this.deleteReport(reportId);
+    //   }
+    // });
   }
   
 
