@@ -1,0 +1,287 @@
+<section class="gradient-background layout-horizontal"
+    style="height: 100vh;">
+    <app-nav class="h-fill"></app-nav>
+
+    <article class="py-20 m-20 w-fill overflow-scroll-vertical ">
+        <div
+            class="layout-horizontal  align-center-space-between mt-20  "
+            style="padding:0 20px;">
+            <div class="layout-horizontal gap-10  "
+                style="padding: 10px;">
+                <!-- search -->
+                <div class="search-dropdown-control">
+                    <div class="control search-control">
+                        <input type="search"
+                            placeholder="placeholder"
+                            spellcheck="false">
+                        <button type="button"
+                            class="input-button clear-content-button">
+                            <i
+                                class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
+                        </button>
+                        <button type="button"
+                            class="input-button search-button">
+                            <i
+                                class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
+                        </button>
+                    </div>
+                    <div class="dropdown-menu">
+                        <div class="list-item">
+                            <div class="text-body">Item 1</div>
+                        </div>
+                        <div class="list-item">
+                            <div class="text-body">Item 2</div>
+                        </div>
+                        <div class="list-item">
+                            <div class="text-body">Item 3</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- fillter -->
+                <div class="layout-horizontal gap-10">
+                    <a href="#"
+                        class="button-standard button-text-with-icon gap-10">
+                        <i
+                            class="icon-size-16 icon icon-ic_fluent_document_one_page_multiple_16_regular"></i>
+                        Post
+                    </a>
+                    <a href="#"
+                        class="button-standard button-text-with-icon gap-10">
+                        <i
+                            class="icon-size-20 icon icon-ic_fluent_check_20_regular"></i>
+                        Comment
+                    </a>
+                    <a href="#"
+                        class="button-standard button-text-with-icon gap-10">
+                        <i
+                            class="icon-size-16 icon icon-ic_fluent_person_16_regular"></i>
+                        User
+                    </a>
+                    <a href="#"
+                        class="button-standard button-text-only gap-10">
+                        <!-- <i
+                                class="icon-size-16 icon icon-ic_fluent_person_24_regular"></i> -->
+                        See All
+                    </a>
+                </div>
+
+            </div>
+            <div class="me-25">
+                <div class="pagination layout-horizontal">
+                    <button
+                        class="pagination-item button-subtle button-icon-only text-accent-default"><i
+                            class="icon-size-24 icon icon-ic_fluent_caret_left_24_filled"></i></button>
+                    <button
+                        class="pagination-item button-subtle button-icon-only text-accent-default">1</button>
+                    <button
+                        class="pagination-item button-subtle button-icon-only text-accent-default">2</button>
+                    <button
+                        class="pagination-item button-subtle button-icon-only text-accent-default">3</button>
+                    <button
+                        class="pagination-item button-subtle button-icon-only text-accent-default">4</button>
+                    <button
+                        class="pagination-item button-subtle button-icon-only text-accent-default">5</button>
+                    <button
+                        class="pagination-item button-subtle button-icon-only text-accent-default"><i
+                            class="icon-size-24 icon icon-ic_fluent_caret_right_24_filled"></i></button>
+                </div>
+            </div>
+        </div>
+        <div style="padding: 20px;">
+            <div
+                class="table-container solid-background-senary p-10 rounded-8 ">
+
+                <div class="w-fill layout-vertical gap-20">
+                    <div
+                        class="head gap-20  w-fill align-center-space-between text-center  text-subtitle p-20">
+                        <div><input type="checkbox"></div>
+                        <div>Logo</div>
+                        <div>User Name</div>
+                        <div>Shop Name</div>
+                        <div>Product Description</div>
+                        <div>Actions</div>
+                    </div>
+                    <div class>
+
+                        <div
+                            class="report-show gap-20  w-fill align-center-space-between text-center p-20">
+                            <div><input type="checkbox"></div>
+                            <div class><img class="rounded-circle" width="50px"
+                                    src="assets/image/hinh.jpg" alt></div>
+                            <div>Shop PHP</div>
+                            <div>User 1</div>
+                            <div>Mỹ phẩm chất lượng nhập khẩu ....</div>
+                            <div
+                                class="layout-horizontal align-center-center gap-20  ">
+                                <a
+                                    class="button-subtle button-icon-only text-accent-default"
+                                    (click)="tabChild('show_chitiet')">
+                                    <i
+                                        class="icon-size-24 icon icon-ic_fluent_settings_24_filled"></i>
+                                </a>
+
+                                <a href="#"
+                                    class="button-subtle button-icon-only text-accent-default">
+                                    <i
+                                        class="icon-size-24 icon icon-ic_fluent_info_24_filled"></i>
+                                </a>
+                                <div
+                                    class="position-fixed top-0 start-0 {{(shopid != 0) ? 'display-block' : 'display-none'}}"
+                                    style="width: 100%; height: 100vh; z-index: 30;">
+                                    <div class="position-fixed top-0 start-0"
+                                        style="width: 100%; height: 100vh; z-index: 20; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px);">
+                                        <div
+                                            class="dialog-panel position-absolute top-50 start-50 translate-middle">
+
+                                            <form>
+                                                <div class="layout-vertical accept-sell rounded-8" style="width: 350px; height: auto; padding: 10px; background-color: #ffffff;">
+                                                    <div class="text-subtitle accent-text-tertiary border-bottom">Xác nhận đăng ký</div>
+                                                    <div class="checkbox layout-vertical align-top-left">
+                                                        <div class="layout-vertical align-top-left gap-20">
+                                                            <label class="label-checkbox-control"> 
+                                                                <input class="checkbox-control" type="checkbox">
+                                                                <span>Shop bạn còn thiếu vài thứ</span>
+                                                            </label>
+                                                            <label class="label-checkbox-control"> 
+                                                                <input class="checkbox-control" type="checkbox">
+                                                                <span>Shop bạn chưa đủ tiêu chuẩn</span>
+                                                            </label>
+                                                            <label class="label-checkbox-control"> 
+                                                                <input class="checkbox-control" type="checkbox">
+                                                                <span>Shop bạn không được duyệt</span>
+                                                            </label>
+                                                        
+                                                        </div>
+                                                        <div class="layout-vertical align-top-left gap-10">
+                                                            <div class="">Note:</div>
+                                                            <textarea rows="5" cols="40" name="" id=""></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="button-acp layout-horizontal align-center-space-between">
+                                                        <button type="button" class="button-accent button-text-only">Duyệt</button>
+                                                        <button type="button" class="button-accent button-text-only">Không Duyệt</button>
+                                                    </div>
+                                                </div>
+                                                
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="accordion-panel open layout-horizontal show_chitiet w-fill ">
+                            <div class="layout-horizontal w-fill h-hug">
+
+                                <div
+                                    class="p-15 layout-horizontal align-center-space-between w-fill">
+                                    <div
+                                        class="sender layout-vertical gap-10 w-fill-column-4">
+                                        <div
+                                            class="checkout layout-vertical m-25">
+                                            <div
+                                                class="layout-horizontal align-center-space-between gap-10 border  rounded-top-8">
+                                                <div
+                                                    class="text-body-strong">Name:
+                                                </div>
+                                                <div>User1 </div>
+                                            </div>
+                                            <div
+                                                class="layout-horizontal align-center-space-between gap-10 border ">
+                                                <div
+                                                    class="text-body-strong">Email:</div>
+                                                <div> gmail.com</div>
+                                            </div>
+                                            <div
+                                                class="layout-horizontal align-center-space-between gap-10 border ">
+                                                <div
+                                                    class="text-body-strong">Phone
+                                                    number: </div>
+                                                <div> 0000000000</div>
+                                            </div>
+
+                                            <div
+                                                class="layout-horizontal align-center-space-between gap-10 border ">
+                                                <div
+                                                    class="text-body-strong">STK:
+                                                </div>
+                                                <div>22599</div>
+                                            </div>
+                                            <div
+                                                class="layout-horizontal align-center-space-between gap-10 border ">
+                                                <div
+                                                    class="text-body-strong">Ngân
+                                                    hàng:</div>
+                                                <div> ACB</div>
+                                            </div>
+                                            <div
+                                                class="layout-horizontal align-center-space-between gap-10 border  rounded-bottom-8">
+                                                <div
+                                                    class="text-body-strong">địa
+                                                    chỉ: </div>
+                                                <div>61 An DUong</div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                    <div
+                                        class="sender layout-vertical gap-10 w-fill-column-4">
+                                        <div
+                                            class="checkout layout-vertical m-25">
+                                            <div
+                                                class="layout-horizontal align-center-space-between gap-10 border rounded-top-8">
+                                                <div class="text-body-strong">Mô
+                                                    tả cửa hàng: </div>
+                                                <textarea rows="6" cols="50"
+                                                    name="storeDescription"
+                                                    id="storeDescription">Cửa hàng chuyên cung cấp mỹ phẩm cao cấp, đảm bảo chất lượng và uy tín. Địa điểm lý tưởng để bạn tìm thấy những sản phẩm làm đẹp phù hợp nhất với nhu cầu của mình.</textarea>
+                                            </div>
+
+                                            <div
+                                                class="layout-horizontal align-center-space-between gap-10 border rounded-top-8">
+                                                <div class="text-body-strong">Mô
+                                                    tả sản phẩm: </div>
+                                                <textarea rows="6" cols="50"
+                                                    name="productDescription"
+                                                    id="productDescription">Kem dưỡng da cao cấp với chiết xuất từ thiên nhiên, giúp cung cấp độ ẩm sâu, làm mềm da và cải thiện độ đàn hồi. Phù hợp cho mọi loại da, đặc biệt là da khô và nhạy cảm. Không chứa hóa chất độc hại, an toàn cho da.</textarea>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div
+                                        class=" layout-vertical  w-fill-column-4">
+                                        <div class="layout-horizontal">
+                                            <div class="w-fill-column-6 "><img
+                                                    width="150px"
+                                                    src="assets/image/hinh.jpg"
+                                                    alt></div>
+                                            <div class="w-fill-column-6"><img
+                                                    width="150px"
+                                                    src="assets/image/hinh.jpg"
+                                                    alt></div>
+                                        </div>
+                                        <div class="layout-horizontal">
+                                            <div class="w-fill-column-6"><img
+                                                    width="150px"
+                                                    src="assets/image/hinh.jpg"
+                                                    alt></div>
+                                            <div class="w-fill-column-6"><img
+                                                    width="150px"
+                                                    src="assets/image/hinh.jpg"
+                                                    alt></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </article>
+</section>
