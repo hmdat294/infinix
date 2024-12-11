@@ -43,25 +43,19 @@
                         class="button-standard button-text-with-icon gap-10">
                         <i
                             class="icon-size-16 icon icon-ic_fluent_document_one_page_multiple_16_regular"></i>
-                        Post
+                        Bài viết
                     </a>
-                    <a href="#"
+                    <a [routerLink]="['/admin/report/comment']"
                         class="button-standard button-text-with-icon gap-10">
                         <i
                             class="icon-size-20 icon icon-ic_fluent_check_20_regular"></i>
-                        Comment
+                        Bình luận
                     </a>
                     <a [routerLink]="['/admin/report/user']"
                         class="button-standard button-text-with-icon gap-10">
                         <i
                             class="icon-size-16 icon icon-ic_fluent_person_16_regular"></i>
-                        User
-                    </a>
-                    <a href="#"
-                        class="button-standard button-text-only gap-10">
-                        <!-- <i
-                                class="icon-size-16 icon icon-ic_fluent_person_24_regular"></i> -->
-                        See All
+                        Người dùng
                     </a>
                 </div>
 
@@ -95,12 +89,12 @@
                     <div
                         class="head   w-fill align-center-space-between  text-body-strong p-20 text-center">
                         <div><input type="checkbox"></div>
-                        <div class="text-primary">User Report</div>
-                        <div class="text-primary">User Name</div>
-                        <div class="text-primary">Report Content</div>
-                        <div class="text-primary">Status</div>
-                        <div class="text-primary">Report date</div>
-                        <div class="text-primary">Actions</div>
+                        <th class="text-primary">Báo cáo người dùng</th>
+                        <th class="text-primary">Tên người dùng</th>
+                        <th class="text-primary">Nội dung báo cáo</th>
+                        <th class="text-primary">Trạng thái</th>
+                        <th class="text-primary">Ngày báo cáo</th>
+                        <th class="text-primary">Hành động</th>
                     </div>
                     <div class=" text-primary text-body"
                         *ngFor="let item of listReport; let i = index;">

@@ -126,15 +126,15 @@ export class DashboardComponent implements OnInit {
       stroke: { width: 5, curve: 'smooth' },
       colors: ["#5283FF", '#F1C40F', '#FF4C92', "#17a00e"],
       series: [{
-        name: "User",
+        name: "Người dùng",
         data: userTotals  // Sử dụng userData từ API
       },
       {
-        name: "Post",
+        name: "Bài viết",
         data: postTotals  // Sử dụng userData từ API
       },
       {
-        name: "Conversations",
+        name: "Cuộc trò chuyện",
         data: conversationsTotals // Sử dụng userData từ API
       }
       ],

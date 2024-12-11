@@ -42,5 +42,18 @@ export class ReportComponent {
     return words.length > maxWords ? words.slice(0, maxWords).join(' ') + '...' : text;
   }
 
-  
+  toggleDetails(index: number, event: Event): void {
+    event.preventDefault(); // Ngăn reload trang
+    this.listReport[index].isExpanded = !this.listReport[index].isExpanded;
+  }
+  updateStatus(item: any): void {
+    this.adminService.updateReportStatus(item.id, item.status).subscribe(
+      (response) => {
+        console.log('Trạng thái đã được cập nhật:', response);
+      },
+      (error) => {
+        console.error('Lỗi khi cập nhật trạng thái:', error);
+      }
+    );
+  }
 }
