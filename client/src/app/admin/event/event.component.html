@@ -96,10 +96,10 @@
                         class="layout-horizontal gap-20   align-center-space-between text-center  text-subtitle p-20">
                         <div><input type="checkbox"></div>
                         <div class="w-fill layout-horizontal align-center-space-between">
-                            <div class="w-fill-column-3">Logo</div>
+                            <div class="w-fill-column-3">Tên cửa hàng</div>
                             <div class="w-fill-column-2">Tên người dùng</div>
-                            <div class="w-fill-column-2">Tên cửa hàng</div>
-                            <div class="w-fill-column-2">Mô tả sản phẩm</div>
+                            <div class="w-fill-column-2">Mô tả sản phẩm  </div>
+                            <div class="w-fill-column-2">Trạng thái</div>
                             <div class="w-fill-column-3">Hành động</div>
                             
                         </div>
@@ -109,12 +109,22 @@
                         <div
                             class="layout-horizontal gap-20  w-fill align-center-space-between text-center p-20">
                             <div><input type="checkbox"></div>
-                            <div class="layout-horizontal w-fill align-center-space-between">
-                                <div class="w-fill-column-3"><img class="rounded-circle" width="50px"
-                                        src="assets/image/hinh.jpg" alt></div>
+                            <div class="layout-horizontal w-fill align-center-space-between" *ngFor="let item of filteredReports | paginate: { itemsPerPage: 1, currentPage: currentPage }; let i = index ">
+                                <div class="w-fill-column-3 align-center-center layout-horizontal gap-10"><img class="rounded-circle" width="50px"
+                                        src="assets/image/hinh.jpg" alt> <div>Shop PHP</div></div>
                                 <div class="w-fill-column-2">Shop PHP</div>
-                                <div class="w-fill-column-2">User 1</div>
                                 <div class="w-fill-column-2">Mỹ phẩm chất lượng nhập khẩu ....</div>
+                                <div class="status-select-container">
+                                    <select 
+                                        [(ngModel)]="item.status" 
+                                        (change)="updateStatus(item)" 
+                                        class="status-select"
+                                        [class.text-red]="item.status === 'pending'"
+                                        [class.text-green]="item.status === 'resolved'">
+                                        <option value="pending">Chưa giải quyết</option>
+                                        <option value="resolved">Đã giải quyết</option>
+                                    </select>
+                                </div>
                                 <div
                                     class="layout-horizontal align-center-center gap-20  w-fill-column-3">
                                     <a
@@ -181,9 +191,10 @@
 
                                 <div
                                     class="p-15 layout-horizontal align-center-space-between w-fill">
-                                    <p></p>
+                                    
                                     <div
                                         class="sender layout-vertical gap-10 w-fill-column-4">
+                                        <p class="text-title">Text title</p>
                                         <div
                                             class="checkout layout-vertical m-25">
                                             <div
@@ -253,6 +264,7 @@
                                     </div>
                                     <div
                                         class="sender layout-vertical gap-10 w-fill-column-4">
+                                        <p class="text-title">Text title</p>
                                         <div
                                             class="checkout layout-vertical m-25">
                                             <div

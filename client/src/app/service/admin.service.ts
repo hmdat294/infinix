@@ -108,6 +108,11 @@ getShop(): Observable<any> {
   const headers = this.authService.getToken();
   return this.http.get(`${this.apiUrl}/shop`, { headers });
 }
+
+postshop(id: number, is_active: string): Observable<any> {
+  const headers = this.authService.getToken();
+  return this.http.post(`${this.apiUrl}/shop/${id}`,{is_active}, { headers });
+}
   
   
   
