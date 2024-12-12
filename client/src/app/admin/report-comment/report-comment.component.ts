@@ -1,52 +1,44 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 import { AdminService } from '../../service/admin.service';
 import { NavComponent } from '../nav/nav.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { SettingService } from '../../service/setting.service';
+import { NgxPaginationModule } from 'ngx-pagination';
 // import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-report-comment',
   standalone: true,
-  imports: [NavComponent,CommonModule, RouterModule, FormsModule],
+  imports: [NavComponent,CommonModule, RouterModule, FormsModule,NgxPaginationModule],
   templateUrl: './report-comment.component.html',
   styleUrl: './report-comment.component.css'
 })
 
 export class ReportCommentComponent {
-  listReport: any;
-  constructor(private adminService: AdminService) { }
+  tabAccordion: string = '';
+  reportService: any;
+  listReport: any[] = [];
+  filteredReports: any[] = []; // Mảng lọc
+  filterStatus: string = 'all';
+  constructor(private adminService: AdminService,
+    private settingService: SettingService,
+    private el: ElementRef) { }
   
 
-  confirmDelete(reportId: number, event: Event): void {
-    event.preventDefault(); // Ngăn chặn reload trang khi nhấn vào link
-
-    // Swal.fire({
-    //   title: 'Xác nhận xóa?',
-    //   text: 'Bạn có chắc chắn muốn xóa báo cáo này không?',
-    //   icon: 'warning',
-    //   showCancelButton: true,
-    //   confirmButtonText: 'Có',
-    //   cancelButtonText: 'Không'
-    // }).then((result) => {
-    //   if (result.isConfirmed) {
-    //     this.deleteReport(reportId);
-    //   }
-    // });
-  }
-  
+ 
 
 
   
   ngOnInit(): void {
     this.adminService.getReports().subscribe(
       (response) => {
-       
+        
         this.listReport = response.data
           .filter((item: any) => item.type === 'comment')
           .map((item: any) => ({ ...item, isExpanded: false }));
-        
+        this.filteredReports = [...this.listReport];
         console.log(this.listReport);
       },
       (error) => {
@@ -54,8 +46,18 @@ export class ReportCommentComponent {
       }
     );
   }
-
-
+  currentPage =1;
+  filterReports(): void {
+    if (this.filterStatus === 'all') {
+      this.filteredReports = [...this.listReport];
+    } else {
+      this.filteredReports = this.listReport.filter(
+        (item) => item.status === this.filterStatus
+      );
+    }
+  }  tabChild(tab: string) {
+    this.tabAccordion = this.settingService.tabChild(this.tabAccordion, tab, this.el);
+  }
 
   deleteReport(reportId: number): void {
     this.adminService.deleteReport(reportId).subscribe(

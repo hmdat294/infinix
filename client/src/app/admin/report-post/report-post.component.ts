@@ -6,39 +6,28 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 // import Swal from 'sweetalert2';
 import { SettingService } from '../../service/setting.service';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-report-post',
   standalone: true,
-  imports: [NavComponent,CommonModule, RouterModule, FormsModule],
+  imports: [NavComponent,CommonModule, RouterModule, FormsModule, NgxPaginationModule],
   templateUrl: './report-post.component.html',
   styleUrl: './report-post.component.css'
 })
 export class ReportpostComponent {
-  listReport: any;
   tabAccordion: string = '';
+  reportService: any;
+  listReport: any[] = [];
+  filteredReports: any[] = []; // Mảng lọc
+  filterStatus: string = 'all';
   constructor(private adminService: AdminService,
     private settingService: SettingService,
     private el: ElementRef
   ) { }
   
 
-  confirmDelete(reportId: number, event: Event): void {
-    event.preventDefault(); // Ngăn chặn reload trang khi nhấn vào link
 
-    // Swal.fire({
-    //   title: 'Xác nhận xóa?',
-    //   text: 'Bạn có chắc chắn muốn xóa báo cáo này không?',
-    //   icon: 'warning',
-    //   showCancelButton: true,
-    //   confirmButtonText: 'Có',
-    //   cancelButtonText: 'Không'
-    // }).then((result:any) => {
-    //   if (result.isConfirmed) {
-    //     this.deleteReport(reportId);
-    //   }
-    // });
-  }
   
 
 
@@ -50,7 +39,7 @@ export class ReportpostComponent {
         this.listReport = response.data
           .filter((item: any) => item.type === 'post')
           .map((item: any) => ({ ...item, isExpanded: false }));
-        
+        this.filteredReports = [...this.listReport];
         console.log(this.listReport);
       },
       (error) => {
@@ -58,8 +47,17 @@ export class ReportpostComponent {
       }
     );
   }
-
-
+  currentPage =1;
+ 
+  filterReports(): void {
+    if (this.filterStatus === 'all') {
+      this.filteredReports = [...this.listReport];
+    } else {
+      this.filteredReports = this.listReport.filter(
+        (item) => item.status === this.filterStatus
+      );
+    }
+  }
 
   deleteReport(reportId: number): void {
     this.adminService.deleteReport(reportId).subscribe(

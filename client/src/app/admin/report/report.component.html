@@ -5,34 +5,15 @@
         <div class="layout-horizontal  align-center-space-between mt-20 p-20" >
             <div class="layout-horizontal gap-10 " style="padding: 10px;">
                 <!-- search -->
-                <div class="search-dropdown-control">
-                    <div class="control search-control">
-                        <input type="search"
-                            placeholder="placeholder"
-                            spellcheck="false">
-                        <button type="button"
-                            class="input-button clear-content-button">
-                            <i
-                                class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
-                        </button>
-                        <button type="button"
-                            class="input-button search-button">
-                            <i
-                                class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
-                        </button>
-                    </div>
-                    <div class="dropdown-menu">
-                        <div class="list-item">
-                            <div class="text-body">Item 1</div>
-                        </div>
-                        <div class="list-item">
-                            <div class="text-body">Item 2</div>
-                        </div>
-                        <div class="list-item">
-                            <div class="text-body">Item 3</div>
-                        </div>
-                    </div>
-                </div>
+                <div class="layout-horizontal gap-10  ">
+                    <label for="filterStatus">Lọc trạng thái:</label>
+                    <select  class= "dropdown-menu"  [(ngModel)]="filterStatus" (change)="filterReports()">
+                      <option value="all" class="list-item"><div class="text-body">Tất cả</div></option>
+                      <option value="pending" class="list-item"> <div class="text-body">Chưa giải quyết</div></option>
+                      <option value="resolved" class="list-item"><div class="text-body">Đã giải quyết</div></option>
+                    </select>
+                    
+                  </div>
                 <!-- fillter -->
                 <div class="layout-horizontal gap-10">
                     <a [routerLink]="['/admin/report/post']"
@@ -53,28 +34,19 @@
                             class="icon-size-16 icon icon-ic_fluent_person_16_regular"></i>
                         Người dùng
                     </a>
+                    <a [routerLink]="['/admin/report']"
+                    class="button-standard button-text-with-icon gap-10">
+                    <i
+                        class="icon-size-16 icon icon-ic_fluent_person_16_regular"></i>
+                    Tất cả
+                </a>
+                
                 </div>
 
             </div>
             <div class="me-25">
-                <div class="pagination layout-horizontal">
-                    <button
-                        class="pagination-item button-subtle button-icon-only text-accent-default"><i
-                            class="icon-size-24 icon icon-ic_fluent_caret_left_24_filled"></i></button>
-                    <button
-                        class="pagination-item button-subtle button-icon-only text-accent-default">1</button>
-                    <button
-                        class="pagination-item button-subtle button-icon-only text-accent-default">2</button>
-                    <button
-                        class="pagination-item button-subtle button-icon-only text-accent-default">3</button>
-                    <button
-                        class="pagination-item button-subtle button-icon-only text-accent-default">4</button>
-                    <button
-                        class="pagination-item button-subtle button-icon-only text-accent-default">5</button>
-                    <button
-                        class="pagination-item button-subtle button-icon-only text-accent-default"><i
-                            class="icon-size-24 icon icon-ic_fluent_caret_right_24_filled"></i></button>
-                </div>
+                <pagination-controls (pageChange)="currentPage = $event" previousLabel=""
+                nextLabel=""></pagination-controls>
             </div>
         </div>
         <div style="padding: 20px;">
@@ -83,7 +55,6 @@
                     <thead>
                         <tr class>
                             <th><input type="checkbox"></th>
-                            
                             <th class="text-primary">Báo cáo người dùng</th>
                             <th class="text-primary">Tên người dùng</th>
                             <th class="text-primary">Nội dung báo cáo</th>
@@ -93,7 +64,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let item of listReport; let i = index">
+                        <tr *ngFor="let item of filteredReports | paginate: { itemsPerPage: 2, currentPage: currentPage }; let i = index ">
                           <td><input type="checkbox"></td>
                           <td>{{item.user.profile.display_name}}</td>
                           <td>{{item.sender.profile.display_name}}</td>
@@ -114,28 +85,25 @@
                                     <option value="resolved">Đã giải quyết</option>
                                 </select>
                             </div>
-                        </td>
-                        
-                        
+                          </td>
                           <td>{{item.created_at_date}}</td>
                           <td class="layout-horizontal gap-20 w-fill">
                             <a href="#" 
                                class="button-subtle button-icon-only text-accent-default"
                                (click)="toggleDetails(i, $event)">
-                              <!-- Biểu tượng thay đổi dựa trên trạng thái -->
                               <i 
                                 class="icon-size-24 icon"
                                 [class.icon-ic_fluent_settings_24_filled]="!item.isExpanded"
                                 [class.icon-ic_fluent_dismiss_16_regular]="item.isExpanded"></i>
                             </a>
                             <a href="#" 
-     class="button-subtle button-icon-only text-accent-default"
-     >
-    <i class="icon-size-24 icon icon-ic_fluent_info_24_filled"></i>
-  </a>
+                               class="button-subtle button-icon-only text-accent-default">
+                              <i class="icon-size-24 icon icon-ic_fluent_info_24_filled"></i>
+                            </a>
                           </td>
                         </tr>
-                      </tbody>
+                    </tbody>
+                    
                       
                 </table>
             </div>
