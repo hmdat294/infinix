@@ -1,7 +1,8 @@
 <div class="w-fill h-fill layout-vertical gap-20 overflow-scroll-vertical">
 
 
-    <div class="layout-horizontal align-center-space-between gap-20 w-fill">
+    <div
+        class="layout-horizontal align-center-left in-tablet-align-center-space-between in-mobile-align-center-space-between gap-20 w-fill">
         <div class="layout-vertical">
             <div style="width: 200px; height: 80px;">
                 <img class="w-fill h-fill object-fit-cover rounded-8"
@@ -79,9 +80,10 @@
                             <div class="control text-control w-hug">
                                 <input type="date" spellcheck="false" name="date_of_birth" [(ngModel)]="date_of_birth">
                             </div>
-                            <button class="button-standard button-text-only"
-                                (click)="updateUser({'date_of_birth':date_of_birth})">{{
-                                'setting.general_settings.user_infomation.save_button' | translate }}</button>
+                            <button class="button-standard button-text-only" [disabled]="!isAgeValid()"
+                                (click)="updateUser({'date_of_birth': date_of_birth})">
+                                {{ 'setting.general_settings.user_infomation.save_button' | translate }}
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -140,7 +142,8 @@
                     </div>
 
                     <div class="accordion-panel open layout-vertical address">
-                        <form (submit)="updateAddress(address_frm.value)" #address_frm="ngForm" class="w-fill p-15 layout-vertical gap-20">
+                        <form (submit)="updateAddress(address_frm.value)" #address_frm="ngForm"
+                            class="w-fill p-15 layout-vertical gap-20">
 
                             <div class="layout-horizontal gap-20 align-center-space-between">
                                 <div class="w-fill-column-3 layout-vertical gap-5">

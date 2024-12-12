@@ -101,7 +101,7 @@
                                                     * product.quantity | currencyVND}}</span></p>
                                         </div>
                                     </div>
-                                    <div class="layout-horizontal gap-10" *ngIf="product.can_review">
+                                    <div class="layout-horizontal gap-10" *ngIf="product.can_review && shop?.status == 'delivered'">
                                         <button type="button" class="button-accent button-text-only w-fill"
                                             (click)="viewDialogFeedback(product, order.id)">
                                             Đánh giá

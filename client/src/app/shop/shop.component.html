@@ -75,7 +75,7 @@
                     </div>
                 </div>
 
-                <div
+                <div *ngIf="vouchers.length > 0"
                     class="layout-horizontal in-mobile-layout-vertical gap-20 border-card-default w-fill border card-background-default rounded-8 p-10 mb-20">
 
                     <div *ngFor="let voucher of vouchers; let i = index"
@@ -152,272 +152,300 @@
                     class="layout-wrap gap-20 border-card-default w-fill border card-background-default rounded-bottom-8 p-10">
 
                     <div class="border rounded-6 layout-vertical w-fill-column-3 in-tablet-w-fill-column-4 in-mobile-w-fill-column-6 overflow-hidden card-background-default"
-                    *ngFor="let product of listProduct">
-                    <div class="position-absolute top-0 w-fill text-right" style="z-index: 5;">
-                        <span *ngIf="product.discount>0" class="text-caption p-5"
-                            style="border-radius: 0 0 0 10px; background-color: #C42B1C; color: white;">
-                            -{{product.discount | number:'1.0-0'}}%
-                        </span>
-                    </div>
-                    <img [src]="product.images[0]?.image" alt="" style="height: 150px;" class="w-fill object-fit-cover">
-                    <div class="layout-vertical gap-20 w-fill p-10"
-                        style="justify-content: space-between; height: calc(100% - 150px);">
-                        <div class="layout-vertical cursor-pointer" (click)="viewProductDetail(product.id, product.stock)">
-                            <p class="text-primary text-body-strong">
-                                {{shortenTextByWords(product.name, 5)}}</p>
-                            <p class="text-primary text-caption">
-                                {{shortenTextByWords(product.description, 5)}}</p>
+                        *ngFor="let product of listProduct | paginate: { itemsPerPage: 8, currentPage: currentPage }">
+                        <div class="position-absolute top-0 w-fill text-right" style="z-index: 5;">
+                            <span *ngIf="product.discount>0" class="text-caption p-5"
+                                style="border-radius: 0 0 0 10px; background-color: #C42B1C; color: white;">
+                                -{{product.discount | number:'1.0-0'}}%
+                            </span>
                         </div>
-                        <div class="layout-horizontal align-bottom-space-between">
-                            <div class="layout-vertical">
-                                <p *ngIf="product.discount > 0" class="text-primary text-caption w-fill">
-                                    <del>{{ product.price | currencyVND}}</del>
-                                </p>
-                                <p class="text-system-critical text-body-strong w-fill">
-                                    {{ product.price-((product.price*product.discount)/100) | currencyVND }}
-                                </p>
+                        <img [src]="product.images[0]?.image" alt="" style="height: 200px;"
+                            class="w-fill object-fit-cover">
+                        <div class="layout-vertical gap-20 w-fill p-10"
+                            style="justify-content: space-between; height: calc(100% - 200px);">
+                            <div class="layout-vertical cursor-pointer"
+                                (click)="viewProductDetail(product.id, product.stock)">
+                                <p class="text-primary text-body-strong">
+                                    {{shortenTextByWords(product.name, 5)}}</p>
+                                <p class="text-primary text-caption">
+                                    {{shortenTextByWords(product.description, 5)}}</p>
                             </div>
-                            <button [disabled]="product?.shop_id == currentUser?.shop_id || product.stock <= 0" type="button"
-                                class="button-standard button-icon-only" (click)="addToCart(product.id, product.stock)">
-                                <i class="icon-size-16 icon icon-ic_fluent_cart_16_filled"></i>
-                            </button>
-                        </div>
-                    </div>
-        
-        
-                    <div class="position-fixed top-0 start-0 {{(productDetail_id == product.id) ? 'display-block' : 'display-none'}}"
-                        style="width: 100%; height: 100vh; z-index: 20;">
-                        <div class="position-absolute top-0 start-0" (click)="viewProductDetail(0)"
-                            style="width: 100%; height: 100vh; z-index: 1; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px);">
-                        </div>
-                        <div class="dialog-panel position-absolute top-50 start-50 translate-middle" style="z-index: 2;">
-                            <div class="layout-vertical p-20 gap-20 rounded-8 solid-background-base border border-card-default">
-        
-                                <button type="button" class="button-subtle button-icon-only w-hug position-absolute"
-                                    (click)="viewProductDetail(0)" style="right: 20px; top: 20px; z-index: 1;">
-                                    <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_filled"></i>
-                                </button>
-        
-                                <div class="pb-20 pt-5 border-bottom">
-                                    <p class="text-subtitle text-primary text-center">{{ 'product_detail.title' | translate }}
+                            <div class="layout-horizontal align-bottom-space-between">
+                                <div class="layout-vertical">
+                                    <p *ngIf="product.discount > 0" class="text-primary text-caption w-fill">
+                                        <del>{{ product.price | currencyVND}}</del>
+                                    </p>
+                                    <p class="text-system-critical text-body-strong w-fill">
+                                        {{ product.price-((product.price*product.discount)/100) | currencyVND }}
                                     </p>
                                 </div>
-        
+                                <button [disabled]="product?.shop_id == currentUser?.shop_id || product.stock <= 0"
+                                    type="button" class="button-standard button-icon-only"
+                                    (click)="addToCart(product.id, product.stock)">
+                                    <i class="icon-size-16 icon icon-ic_fluent_cart_16_filled"></i>
+                                </button>
+                            </div>
+                        </div>
+
+
+                        <div class="position-fixed top-0 start-0 {{(productDetail_id == product.id) ? 'display-block' : 'display-none'}}"
+                            style="width: 100%; height: 100vh; z-index: 20;">
+                            <div class="position-absolute top-0 start-0" (click)="viewProductDetail(0)"
+                                style="width: 100%; height: 100vh; z-index: 1; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px);">
+                            </div>
+                            <div class="dialog-panel position-absolute top-50 start-50 translate-middle"
+                                style="z-index: 2;">
                                 <div
-                                    class="layout-horizontal in-tablet-layout-vertical in-mobile-layout-vertical gap-20 overflow-hidden dialog_detail">
-        
-                                    <div class="w-fill-column-6 in-tablet-w-fill in-mobile-w-fill box_image_detail"
-                                        *ngIf="product.images.length>0">
-        
-                                        <div
-                                            class="layout w-fill h-fill {{(product.images.length>0) ? 'display-flex' : 'display-none'}}">
-                                            <div class="carousel w-fill h-fill rounded-4">
-                                                <div class="carousel-indicators {{(product.images.length>1) ? 'display-block' : 'display-none'}}"
-                                                    #indicatorsContainer>
-                                                    <button type="button" class="border-none rounded-circle"
-                                                        *ngFor="let img of product.images; let i = index">
+                                    class="layout-vertical p-20 gap-20 rounded-8 solid-background-base border border-card-default">
+
+                                    <button type="button" class="button-subtle button-icon-only w-hug position-absolute"
+                                        (click)="viewProductDetail(0)" style="right: 20px; top: 20px; z-index: 1;">
+                                        <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_filled"></i>
+                                    </button>
+
+                                    <div class="pb-20 pt-5 border-bottom">
+                                        <p class="text-subtitle text-primary text-center">{{ 'product_detail.title' |
+                                            translate }}
+                                        </p>
+                                    </div>
+
+                                    <div
+                                        class="layout-horizontal in-tablet-layout-vertical in-mobile-layout-vertical gap-20 overflow-hidden dialog_detail">
+
+                                        <div class="w-fill-column-6 in-tablet-w-fill in-mobile-w-fill box_image_detail"
+                                            *ngIf="product.images.length>0">
+
+                                            <div
+                                                class="layout w-fill h-fill {{(product.images.length>0) ? 'display-flex' : 'display-none'}}">
+                                                <div class="carousel w-fill h-fill rounded-4">
+                                                    <div class="carousel-indicators {{(product.images.length>1) ? 'display-block' : 'display-none'}}"
+                                                        #indicatorsContainer>
+                                                        <button type="button" class="border-none rounded-circle"
+                                                            *ngFor="let img of product.images; let i = index">
+                                                        </button>
+                                                    </div>
+                                                    <div class="carousel-inner image_detail" #carouselInner>
+                                                        <div class="carousel-item" *ngFor="let img of product.images">
+                                                            <img id="aa" [src]="img.image" alt="Image 1" class="h-fill"
+                                                                style="object-fit: contain !important; background-color: rgb(27, 27, 27);">
+                                                        </div>
+                                                    </div>
+
+                                                    <button type="button"
+                                                        class="{{(product.images.length>0) ? 'display-block' : 'display-none'}} carousel-button-previous p-5 rounded-circle"
+                                                        #prevButton>
+                                                        <i
+                                                            class="icon-size-20 icon icon-ic_fluent_chevron_left_20_filled"></i>
+                                                    </button>
+
+                                                    <button type="button"
+                                                        class="{{(product.images.length>0) ? 'display-block' : 'display-none'}} carousel-button-next p-5 rounded-circle"
+                                                        #nextButton>
+                                                        <i
+                                                            class="icon-size-20 icon icon-ic_fluent_chevron_right_20_filled"></i>
                                                     </button>
                                                 </div>
-                                                <div class="carousel-inner image_detail" #carouselInner>
-                                                    <div class="carousel-item" *ngFor="let img of product.images">
-                                                        <img id="aa" [src]="img.image" alt="Image 1" class="h-fill"
-                                                            style="object-fit: contain !important; background-color: rgb(27, 27, 27);">
+                                            </div>
+
+                                        </div>
+
+                                        <div
+                                            class="w-fill-column-6 in-tablet-w-fill in-mobile-w-fill layout-vertical overflow-scroll-vertical gap-20 box_text_detail">
+
+                                            <div class="layout-vertical gap-20">
+                                                <div class="layout-horizontal align-center-space-between py-5">
+                                                    <p class="text-primary text-subtitle">{{product.name}}</p>
+                                                    <div style="z-index: 5;">
+                                                        <span *ngIf="product.discount>0"
+                                                            class="text-caption py-5 px-10 rounded-pill"
+                                                            style="background-color: #C42B1C; color: white;">
+                                                            {{ 'product_detail.discount' | translate }}
+                                                            {{product.discount |
+                                                            number:'1.0-0'}}%
+                                                        </span>
                                                     </div>
                                                 </div>
-        
-                                                <button type="button"
-                                                    class="{{(product.images.length>0) ? 'display-block' : 'display-none'}} carousel-button-previous p-5 rounded-circle"
-                                                    #prevButton>
-                                                    <i class="icon-size-20 icon icon-ic_fluent_chevron_left_20_filled"></i>
-                                                </button>
-        
-                                                <button type="button"
-                                                    class="{{(product.images.length>0) ? 'display-block' : 'display-none'}} carousel-button-next p-5 rounded-circle"
-                                                    #nextButton>
-                                                    <i class="icon-size-20 icon icon-ic_fluent_chevron_right_20_filled"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-        
-                                    </div>
-        
-                                    <div
-                                        class="w-fill-column-6 in-tablet-w-fill in-mobile-w-fill layout-vertical overflow-scroll-vertical gap-20 box_text_detail">
-        
-                                        <div class="layout-vertical gap-20">
-                                            <div class="layout-horizontal align-center-space-between py-5">
-                                                <p class="text-primary text-subtitle">{{product.name}}</p>
-                                                <div style="z-index: 5;">
-                                                    <span *ngIf="product.discount>0"
-                                                        class="text-caption py-5 px-10 rounded-pill"
-                                                        style="background-color: #C42B1C; color: white;">
-                                                        {{ 'product_detail.discount' | translate }} {{product.discount |
-                                                        number:'1.0-0'}}%
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div class="layout-horizontal align-center-left gap-20 text-primary">
-                                                <div class="layout-horizontal gap-10" *ngIf="feedbacks.length > 0">
-                                                    <p class="text-primary text-caption">
-                                                        {{roundToNearest(product.average_rating) || 0}} / 5</p>
-                                                    <div class="layout-horizontal align-center-center rating"
-                                                        style="font-size: 1em;">
-                                                        <i *ngFor="let star of stars; let i = index"
-                                                            [class.active]="i < roundToNearest(product.average_rating)"
-                                                            [ngClass]="{
+                                                <div class="layout-horizontal align-center-left gap-20 text-primary">
+                                                    <div class="layout-horizontal gap-10" *ngIf="feedbacks.length > 0">
+                                                        <p class="text-primary text-caption">
+                                                            {{roundToNearest(product.average_rating) || 0}} / 5</p>
+                                                        <div class="layout-horizontal align-center-center rating"
+                                                            style="font-size: 1em;">
+                                                            <i *ngFor="let star of stars; let i = index"
+                                                                [class.active]="i < roundToNearest(product.average_rating)"
+                                                                [ngClass]="{
                                                             'icon-ic_fluent_star_12_filled': i + 1 <= roundToNearest(product.average_rating),
                                                             'icon-ic_fluent_star_half_12_regular': i + 1 > roundToNearest(product.average_rating) && i < roundToNearest(product.average_rating),
                                                             'icon-ic_fluent_star_12_regular': i + 1 > roundToNearest(product.average_rating)
                                                           }" class="icon-size-12 icon"></i>
-                                                    </div>
-                                                </div>{{feedbacks.length>0?'|':''}}
-                                                <p class="text-primary text-caption">{{ 'product_detail.feedback' | translate }}
-                                                    {{feedbacks.length}}</p>|
-                                                <p class="text-primary text-caption">{{ 'product_detail.sold' | translate }}
-                                                    {{product.total_sold}}</p>
-                                            </div>
-                                            <p class="text-primary text-caption">{{product.stock}} {{
-                                                'product_detail.products_available' | translate }}
-                                            </p>
-        
-                                            <div class="layout-horizontal gap-20">
-                                                <p class="text-primary text-caption"><del>{{product.price |
-                                                        currencyVND}}</del>
+                                                        </div>
+                                                    </div>{{feedbacks.length>0?'|':''}}
+                                                    <p class="text-primary text-caption">{{ 'product_detail.feedback' |
+                                                        translate }}
+                                                        {{feedbacks.length}}</p>|
+                                                    <p class="text-primary text-caption">{{ 'product_detail.sold' |
+                                                        translate }}
+                                                        {{product.total_sold}}</p>
+                                                </div>
+                                                <p class="text-primary text-caption">{{product.stock}} {{
+                                                    'product_detail.products_available' | translate }}
                                                 </p>
-                                            </div>
-        
-                                            <p class="text-subtitle" style="color: #C42B1C;">{{
-                                                (product.price-((product.price*product.discount)/100)) * quantity | currencyVND
-                                                }}</p>
-        
-                                            <div class="layout-horizontal align-center-space-between">
-                                                <i *ngIf="quantity == product.stock - product_cart_quantity"
-                                                    class="text-caption text-system-critical position-absolute bottom-100 w-fill text-right">
-                                                    {{ 'product_detail.reach_maximum_quantity' | translate }}</i>
-                                                <label for="quantity" class="text-primary text-body">
-                                                    {{ 'product_detail.quantity' | translate }}</label>
-                                                <div class="control number-control">
-                                                    <input id="quantity" type="number" [(ngModel)]="quantity" min="1" step="1">
-                                                    <button type="button" class="input-button increase-number-button"
-                                                        (click)="addQuantity()">
-                                                        <i class="icon-size-16 icon icon-ic_fluent_chevron_up_16_regular"></i>
-                                                    </button>
-                                                    <button type="button" class="input-button decrease-number-button"
-                                                        (click)="reduceQuantity()">
-                                                        <i class="icon-size-16 icon icon-ic_fluent_chevron_down_16_regular"></i>
-                                                    </button>
+
+                                                <div class="layout-horizontal gap-20">
+                                                    <p class="text-primary text-caption"><del>{{product.price |
+                                                            currencyVND}}</del>
+                                                    </p>
+                                                </div>
+
+                                                <p class="text-subtitle" style="color: #C42B1C;">{{
+                                                    (product.price-((product.price*product.discount)/100)) * quantity |
+                                                    currencyVND
+                                                    }}</p>
+
+                                                <div class="layout-horizontal align-center-space-between">
+                                                    <i *ngIf="quantity == product.stock - product_cart_quantity"
+                                                        class="text-caption text-system-critical position-absolute bottom-100 w-fill text-right">
+                                                        {{ 'product_detail.reach_maximum_quantity' | translate }}</i>
+                                                    <label for="quantity" class="text-primary text-body">
+                                                        {{ 'product_detail.quantity' | translate }}</label>
+                                                    <div class="control number-control">
+                                                        <input id="quantity" type="number" [(ngModel)]="quantity"
+                                                            min="1" step="1">
+                                                        <button type="button"
+                                                            class="input-button increase-number-button"
+                                                            (click)="addQuantity()">
+                                                            <i
+                                                                class="icon-size-16 icon icon-ic_fluent_chevron_up_16_regular"></i>
+                                                        </button>
+                                                        <button type="button"
+                                                            class="input-button decrease-number-button"
+                                                            (click)="reduceQuantity()">
+                                                            <i
+                                                                class="icon-size-16 icon icon-ic_fluent_chevron_down_16_regular"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <div>
+                                                    <button
+                                                        [disabled]="product?.shop_id == currentUser?.shop_id || product.stock == 0 || product.stock == product_cart_quantity"
+                                                        type="button"
+                                                        class="w-fill button-standard button-text-with-icon"
+                                                        (click)="addToCart(product.id, product.stock)">
+                                                        <i class="icon-size-16 icon icon-ic_fluent_add_16_regular"></i>
+                                                        {{product.stock <= 0 || product.stock==product_cart_quantity?
+                                                            ('product_detail.out_of_stock' | translate) :
+                                                            ('product_detail.add_to_cart' | translate) }} </button>
+                                                </div>
+                                                <div>
+                                                    <button
+                                                        [disabled]="product?.shop_id == currentUser?.shop_id || product.stock == 0 || product.stock == product_cart_quantity"
+                                                        type="button" class="w-fill button-accent button-text-with-icon"
+                                                        (click)="buyNow(product.id)">
+                                                        <i class="icon-size-16 icon icon-ic_fluent_cart_16_regular"></i>
+                                                        {{product.stock <= 0 || product.stock==product_cart_quantity?
+                                                            ('product_detail.out_of_stock' | translate) :
+                                                            ('product_detail.buy_now' | translate) }} </button>
+                                                </div>
+
+                                                <div class="layout-horizontal align-center-space-between gap-20 my-10">
+                                                    <img [src]="product.shop_logo" style="width: 35px; height: 35px;"
+                                                        class="rounded-circle object-fit-cover" alt="">
+                                                    <div class="w-fill">
+                                                        <p class="text-primary text-body-strong">{{product.shop_name}}
+                                                        </p>
+                                                        <p class="text-primary text-caption">
+                                                            {{product.shop_description}}</p>
+                                                    </div>
+                                                    <a [routerLink]="['/shop', product.shop_id]"
+                                                        class="button-standard button-text-only">
+                                                        {{'product_detail.go_to_shop' | translate}}
+                                                    </a>
+                                                </div>
+
+                                                <div>
+                                                    <p class="text-primary text-body-strong">{{'product_detail.detail' |
+                                                        translate}}</p>
+                                                    <p class="text-primary text-body">{{product.description}}</p>
                                                 </div>
                                             </div>
-        
-                                            <div>
-                                                <button
-                                                    [disabled]="product?.shop_id == currentUser?.shop_id || product.stock == 0 || product.stock == product_cart_quantity"
-                                                    type="button" class="w-fill button-standard button-text-with-icon"
-                                                    (click)="addToCart(product.id, product.stock)">
-                                                    <i class="icon-size-16 icon icon-ic_fluent_add_16_regular"></i>
-                                                    {{product.stock <= 0 || product.stock==product_cart_quantity?
-                                                        ('product_detail.out_of_stock' | translate) :
-                                                        ('product_detail.add_to_cart' | translate) }} </button>
-                                            </div>
-                                            <div>
-                                                <button
-                                                    [disabled]="product?.shop_id == currentUser?.shop_id || product.stock == 0 || product.stock == product_cart_quantity"
-                                                    type="button" class="w-fill button-accent button-text-with-icon"
-                                                    (click)="buyNow(product.id)">
-                                                    <i class="icon-size-16 icon icon-ic_fluent_cart_16_regular"></i>
-                                                    {{product.stock <= 0 || product.stock==product_cart_quantity?
-                                                        ('product_detail.out_of_stock' | translate) : ('product_detail.buy_now'
-                                                        | translate) }} </button>
-                                            </div>
-        
-                                            <div class="layout-horizontal align-center-space-between gap-20 my-10">
-                                                <img [src]="product.shop_logo" style="width: 35px; height: 35px;"
-                                                    class="rounded-circle" alt="">
-                                                <div class="w-fill">
-                                                    <p class="text-primary text-body-strong">{{product.shop_name}}</p>
-                                                    <p class="text-primary text-caption">{{product.shop_description}}</p>
-                                                </div>
-                                                <a [routerLink]="['/shop', product.shop_id]"
-                                                    class="button-standard button-text-only">
-                                                    {{'product_detail.go_to_shop' | translate}}
-                                                </a>
-                                            </div>
-        
-                                            <div>
-                                                <p class="text-primary text-body-strong">{{'product_detail.detail' | translate}}</p>
-                                                <p class="text-primary text-body">{{product.description}}</p>
-                                            </div>
-                                        </div>
-        
-                                        <div class="layout-vertical gap-10 border-top pt-15">
-                                            <p class="text-primary text-body-strong">{{'product_detail.feedback_product' | translate}}</p>
-                                            <div class="card-background-default border border-card-default rounded-6 mb-5"
-                                                *ngIf="feedbacks.length > 0">
-        
-                                                <div class="layout-vertical w-fill h-fill">
-                                                    <div *ngFor="let feedback of feedbacks">
-                                                        <div *ngIf="currentUser.id == feedback.user_id"
-                                                            class="layout-horizontal align-center-center w-fill h-hug p-10 gap-15">
-                                                            <div class="layout-vertical w-fill gap-5">
-                                                                <div
-                                                                    class="text-body-strong text-primary layout-horizontal align-center-right gap-5">
-                                                                    <div class="layout-horizontal align-center-center rating"
-                                                                        style="font-size: 1em;">
-                                                                        <i *ngFor="let star of stars; let i = index"
-                                                                            [class.active]="i < feedback.rating" [ngClass]="{
+
+                                            <div class="layout-vertical gap-10 border-top pt-15">
+                                                <p class="text-primary text-body-strong">
+                                                    {{'product_detail.feedback_product' | translate}}</p>
+                                                <div class="card-background-default border border-card-default rounded-6 mb-5"
+                                                    *ngIf="feedbacks.length > 0">
+
+                                                    <div class="layout-vertical w-fill h-fill">
+                                                        <div *ngFor="let feedback of feedbacks">
+                                                            <div *ngIf="currentUser.id == feedback.user_id"
+                                                                class="layout-horizontal align-center-center w-fill h-hug p-10 gap-15">
+                                                                <div class="layout-vertical w-fill gap-5">
+                                                                    <div
+                                                                        class="text-body-strong text-primary layout-horizontal align-center-right gap-5">
+                                                                        <div class="layout-horizontal align-center-center rating"
+                                                                            style="font-size: 1em;">
+                                                                            <i *ngFor="let star of stars; let i = index"
+                                                                                [class.active]="i < feedback.rating"
+                                                                                [ngClass]="{
                                                                             'icon-ic_fluent_star_12_filled': i < feedback.rating,
                                                                             'icon-ic_fluent_star_12_regular': i >= feedback.rating
                                                                         }" class="icon-size-12 icon"></i>
+                                                                        </div>
+                                                                        {{feedback.user.display_name}}
                                                                     </div>
-                                                                    {{feedback.user.display_name}}
+                                                                    <div *ngIf="feedback.content"
+                                                                        class="layout-vertical card-background-secondary border border-card-default rounded-4 p-10 gap-5 w-fill">
+                                                                        <p
+                                                                            class="text-right text-body text-primary w-fill">
+                                                                            {{feedback.content}}
+                                                                        </p>
+                                                                    </div>
+                                                                    <p class="text-caption text-secondary text-right">
+                                                                        {{feedback.created_at | date:'dd/MM/yyyy'}}</p>
                                                                 </div>
-                                                                <div *ngIf="feedback.content"
-                                                                    class="layout-vertical card-background-secondary border border-card-default rounded-4 p-10 gap-5 w-fill">
-                                                                    <p class="text-right text-body text-primary w-fill">
-                                                                        {{feedback.content}}
-                                                                    </p>
-                                                                </div>
-                                                                <p class="text-caption text-secondary text-right">
-                                                                    {{feedback.created_at | date:'dd/MM/yyyy'}}</p>
+                                                                <img [src]="feedback.user.profile_photo" alt=""
+                                                                    class="object-fit-cover rounded-circle border-card-default"
+                                                                    width="30px" height="30px">
                                                             </div>
-                                                            <img [src]="feedback.user.profile_photo" alt=""
-                                                                class="object-fit-cover rounded-circle border-card-default"
-                                                                width="30px" height="30px">
-                                                        </div>
-                                                        <div *ngIf="currentUser.id != feedback.user_id"
-                                                            class="layout-horizontal align-center-center w-fill h-hug p-10 gap-15">
-                                                            <img [src]="feedback.user.profile_photo" alt=""
-                                                                class="object-fit-cover rounded-circle border-card-default"
-                                                                width="30px" height="30px">
-                                                            <div class="layout-vertical w-fill gap-5">
-                                                                <div
-                                                                    class="text-body-strong text-primary layout-horizontal align-center-left gap-5">
-                                                                    {{feedback.user.display_name}}
-                                                                    <div class="layout-horizontal align-center-center rating"
-                                                                        style="font-size: 1em;">
-                                                                        <i *ngFor="let star of stars; let i = index"
-                                                                            [class.active]="i < feedback.rating" [ngClass]="{
+                                                            <div *ngIf="currentUser.id != feedback.user_id"
+                                                                class="layout-horizontal align-center-center w-fill h-hug p-10 gap-15">
+                                                                <img [src]="feedback.user.profile_photo" alt=""
+                                                                    class="object-fit-cover rounded-circle border-card-default"
+                                                                    width="30px" height="30px">
+                                                                <div class="layout-vertical w-fill gap-5">
+                                                                    <div
+                                                                        class="text-body-strong text-primary layout-horizontal align-center-left gap-5">
+                                                                        {{feedback.user.display_name}}
+                                                                        <div class="layout-horizontal align-center-center rating"
+                                                                            style="font-size: 1em;">
+                                                                            <i *ngFor="let star of stars; let i = index"
+                                                                                [class.active]="i < feedback.rating"
+                                                                                [ngClass]="{
                                                                             'icon-ic_fluent_star_12_filled': i < feedback.rating,
                                                                             'icon-ic_fluent_star_12_regular': i >= feedback.rating
                                                                         }" class="icon-size-12 icon"></i>
+                                                                        </div>
                                                                     </div>
+                                                                    <div *ngIf="feedback.content"
+                                                                        class="layout-vertical card-background-secondary border border-card-default rounded-4 p-10 gap-5 w-fill">
+                                                                        <p
+                                                                            class="text-left text-body text-primary w-fill">
+                                                                            {{feedback.content}}
+                                                                        </p>
+                                                                    </div>
+                                                                    <p class="text-caption text-secondary text-left">
+                                                                        {{feedback.created_at | date:'dd/MM/yyyy'}}</p>
                                                                 </div>
-                                                                <div *ngIf="feedback.content"
-                                                                    class="layout-vertical card-background-secondary border border-card-default rounded-4 p-10 gap-5 w-fill">
-                                                                    <p class="text-left text-body text-primary w-fill">
-                                                                        {{feedback.content}}
-                                                                    </p>
-                                                                </div>
-                                                                <p class="text-caption text-secondary text-left">
-                                                                    {{feedback.created_at | date:'dd/MM/yyyy'}}</p>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div *ngIf="feedbacks.length == 0"
-                                                class="w-fill py-20 card-background-default border border-card-default rounded-6">
-                                                <p class="text-body text-secondary text-center">{{'product_detail.no_reviews_yet' | translate}}!</p>
+                                                <div *ngIf="feedbacks.length == 0"
+                                                    class="w-fill py-20 card-background-default border border-card-default rounded-6">
+                                                    <p class="text-body text-secondary text-center">
+                                                        {{'product_detail.no_reviews_yet' | translate}}!</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -426,6 +454,10 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="layout-horizontal align-center-center p-10">
+                    <pagination-controls (pageChange)="currentPage = $event" previousLabel=""
+                        nextLabel=""></pagination-controls>
                 </div>
             </div>
         </div>

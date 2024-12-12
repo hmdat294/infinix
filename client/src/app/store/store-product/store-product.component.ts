@@ -10,11 +10,12 @@ import { CheckoutService } from '../../service/checkout.service';
 import { AuthService } from '../../service/auth.service';
 import { PaymentService } from '../../service/payment.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-store-product',
   standalone: true,
-  imports: [CommonModule, FormsModule, CurrencyVNDPipe, RouterModule, TranslateModule],
+  imports: [CommonModule, FormsModule, CurrencyVNDPipe, RouterModule, TranslateModule, NgxPaginationModule],
   templateUrl: './store-product.component.html',
   styleUrl: './store-product.component.css'
 })
@@ -29,7 +30,8 @@ export class StoreProductComponent implements OnInit {
   keyword: string = '';
   feedbacks: any = [];
   cart: any = [];
-
+  currentPage = 1;
+  
   constructor(
     private cdr: ChangeDetectorRef,
     private authService: AuthService,
