@@ -23,6 +23,8 @@ export class EventComponent implements OnInit {
   filterStatus: string = 'all'; 
   currentPage = 1;
   shopid: number = 0;
+  isDialogVisible = false; // Điều khiển hiển thị bảng
+  currentItem: any = null;
 
   constructor(
     private adminService: AdminService,
@@ -34,7 +36,62 @@ export class EventComponent implements OnInit {
     this.fetchUsers();
     this.fetchReports();
   }
-
+  openDialog(item: any): void {
+    this.currentItem = item;
+    this.isDialogVisible = true;
+  }
+  approve(): void {
+    if (this.currentItem) {
+      const shopId = this.currentItem.id;
+      const isActive = '1'; // Duyệt => is_active = '1'
+  
+      // Gọi API để cập nhật trạng thái
+      this.adminService.postshop(shopId, isActive).subscribe(
+        (response) => {
+          console.log('Cập nhật trạng thái thành công:', response);
+  
+          // Cập nhật trạng thái của item tại frontend
+          this.currentItem.is_active = 'resolved';
+  
+          this.fetchReports(); // Làm mới danh sách báo cáo (nếu cần)
+        },
+        (error) => {
+          console.error('Cập nhật trạng thái thất bại:', error);
+        }
+      );
+    }
+    this.closeDialog(); // Đóng hộp thoại
+  }
+  
+  reject(): void {
+    if (this.currentItem) {
+      const shopId = this.currentItem.id;
+      const isActive = '0'; // Từ chối => is_active = '0'
+  
+      // Gọi API để cập nhật trạng thái
+      this.adminService.postshop(shopId, isActive).subscribe(
+        (response) => {
+          console.log('Từ chối trạng thái thành công:', response);
+  
+          // Cập nhật trạng thái của item tại frontend
+          this.currentItem.is_active = 'pending';
+  
+          this.fetchReports(); // Làm mới danh sách báo cáo (nếu cần)
+        },
+        (error) => {
+          console.error('Từ chối trạng thái thất bại:', error);
+        }
+      );
+    }
+    this.closeDialog(); // Đóng hộp thoại
+  }
+  
+  
+  
+  closeDialog(): void {
+    this.isDialogVisible = false;
+    this.currentItem = null;
+  }
   fetchUsers(): void {
     this.adminService.getUser().subscribe(
       (response) => {
@@ -81,15 +138,15 @@ export class EventComponent implements OnInit {
   }
 
   updateStatus(item: any): void {
-    this.adminService.updateReportStatus(item.id, item.status).subscribe(
+    this.adminService.postshop(item.id, item.is_active).subscribe(
       (response) => {
-        if (response?.updatedStatus) {
-          item.status = response.updatedStatus;
+        if (response?.postshop) {
+          item.is_active = response.postshop;
           this.filterReports();
         }
       },
       (error) => {
-        console.error('Error updating status:', error);
+        console.error('Lỗi trạng thái:', error);
       }
     );
   }
@@ -107,6 +164,19 @@ export class EventComponent implements OnInit {
   setshowdebiet(id: number): void {
     this.shopid = id;
   }
-
+  approveShop(shopId: number, isActive: boolean): void {
+    const is_active = isActive ? '1' : '0';
+    this.adminService.postshop(shopId, is_active).subscribe(
+      (response) => {
+        console.log(`Shop ${isActive ? 'Đã giải quyết' : 'Không giải quyết'}:`, response);
+        // Cập nhật danh sách shop sau khi duyệt
+        this.fetchReports(); 
+      },
+      (error) => {
+        console.error('Lỗi không cập nhật:', error);
+      }
+    );
+  }
+  
   
 }
