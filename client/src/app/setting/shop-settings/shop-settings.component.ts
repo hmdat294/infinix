@@ -57,7 +57,8 @@ export class ShopSettingsComponent implements OnInit {
     this.authService.getUser(0).subscribe(
       (res) => {
         this.user = res.data;
-
+        console.log(this.user);
+        
         if (this.user.shop_id > 0) {
 
           this.shopService.getShop(this.user.shop_id).subscribe(
