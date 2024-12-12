@@ -23,8 +23,8 @@ export class NotificationComponent implements OnInit {
 
     this.notificationService.getNotification().subscribe(
       (data) => {
-        // console.log(data);
         this.notification = data.data;
+        console.log(this.notification);
         this.notificationFilter = [...this.notification];
       });
 
