@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import ApexCharts, { ApexOptions } from 'apexcharts';
 import { AdminService } from '../../service/admin.service';
 import { NavComponent } from '../nav/nav.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [NavComponent],
+  imports: [NavComponent, TranslateModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })

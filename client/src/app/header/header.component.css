@@ -36,13 +36,6 @@ header {
     }
 }
 
-@media (max-width: 720px) {
-    .responsive-input-search {
-        /* display: none; */
-    }
-}
-
-
 @media (max-width: 850px) {
     .responsive-input-search>div {
         width: 25vw;

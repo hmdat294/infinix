@@ -11,11 +11,12 @@ import { CheckoutService } from '../service/checkout.service';
 import { AuthService } from '../service/auth.service';
 import { PaymentService } from '../service/payment.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-shop',
   standalone: true,
-  imports: [CommonModule, FormsModule, CurrencyVNDPipe, RouterModule, TranslateModule],
+  imports: [CommonModule, FormsModule, CurrencyVNDPipe, RouterModule, TranslateModule, NgxPaginationModule],
   templateUrl: './shop.component.html',
   styleUrl: './shop.component.css'
 })
@@ -34,6 +35,7 @@ export class ShopComponent implements OnInit {
   feedbacks: any = [];
   cart: any = [];
   vouchers: any = [];
+  currentPage = 1;
 
   constructor(
     private cdr: ChangeDetectorRef,

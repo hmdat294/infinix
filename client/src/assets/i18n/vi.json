@@ -1,4 +1,18 @@
 {
+    "admin": {
+        "dashboard_title":"Thống kê",
+        "user_title":"Thống kê",
+        "content_title":"Thống kê",
+        "report_title":"Thống kê",
+        "dashboard":{
+            "total_user":"Tổng số người dùng",
+            "total_post":"Tổng số bài viết",
+            "total_report":"Tổng số tố cáo"
+        },
+        "user":{
+            "avata":"Ảnh đại diện"
+        }
+    },
     "bookmark": {
         "title": "Danh sách bài viết được lưu",
         "view_detail_button": "Xem chi tiết",

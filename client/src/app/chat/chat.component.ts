@@ -119,7 +119,8 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
             this.eventService.bindEvent('App\\Events\\UserSendMessageEvent', (data: any) => {
               this.isScrollingToElement = false;
-              // console.log('Message event:', data);
+              console.log('Message event:', data);
+              
               if (this.conversation?.id == data.data?.conversation_id)
                 this.conversation.messages.push(data.data);
 

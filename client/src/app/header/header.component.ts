@@ -97,7 +97,7 @@ export class HeaderComponent implements OnInit {
     this.shopService.getCart().subscribe(
       (data) => {
         this.cart = data.data;
-        console.log(data.data);
+        // console.log(cart);
         this.groupShop();
       });
 
