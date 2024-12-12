@@ -93,78 +93,83 @@
 
                 <div class="w-fill layout-vertical gap-20">
                     <div
-                        class="head gap-20  w-fill align-center-space-between text-center  text-subtitle p-20">
+                        class="layout-horizontal gap-20   align-center-space-between text-center  text-subtitle p-20">
                         <div><input type="checkbox"></div>
-                        <div>Logo</div>
-                        <div>User Name</div>
-                        <div>Shop Name</div>
-                        <div>Product Description</div>
-                        <div>Actions</div>
+                        <div class="w-fill layout-horizontal align-center-space-between">
+                            <div class="w-fill-column-3">Logo</div>
+                            <div class="w-fill-column-2">User Name</div>
+                            <div class="w-fill-column-2">Shop Name</div>
+                            <div class="w-fill-column-2">Product Description</div>
+                            <div class="w-fill-column-3">Actions</div>
+                            
+                        </div>
                     </div>
                     <div class>
 
                         <div
-                            class="report-show gap-20  w-fill align-center-space-between text-center p-20">
+                            class="layout-horizontal gap-20  w-fill align-center-space-between text-center p-20">
                             <div><input type="checkbox"></div>
-                            <div class><img class="rounded-circle" width="50px"
-                                    src="assets/image/hinh.jpg" alt></div>
-                            <div>Shop PHP</div>
-                            <div>User 1</div>
-                            <div>Mỹ phẩm chất lượng nhập khẩu ....</div>
-                            <div
-                                class="layout-horizontal align-center-center gap-20  ">
-                                <a
-                                    class="button-subtle button-icon-only text-accent-default"
-                                    (click)="tabChild('show_chitiet')">
-                                    <i
-                                        class="icon-size-24 icon icon-ic_fluent_settings_24_filled"></i>
-                                </a>
-
-                                <a href="#"
-                                    class="button-subtle button-icon-only text-accent-default">
-                                    <i
-                                        class="icon-size-24 icon icon-ic_fluent_info_24_filled"></i>
-                                </a>
+                            <div class="layout-horizontal w-fill align-center-space-between">
+                                <div class="w-fill-column-3"><img class="rounded-circle" width="50px"
+                                        src="assets/image/hinh.jpg" alt></div>
+                                <div class="w-fill-column-2">Shop PHP</div>
+                                <div class="w-fill-column-2">User 1</div>
+                                <div class="w-fill-column-2">Mỹ phẩm chất lượng nhập khẩu ....</div>
                                 <div
-                                    class="position-fixed top-0 start-0 {{(shopid != 0) ? 'display-block' : 'display-none'}}"
-                                    style="width: 100%; height: 100vh; z-index: 30;">
-                                    <div class="position-fixed top-0 start-0"
-                                        style="width: 100%; height: 100vh; z-index: 20; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px);">
-                                        <div
-                                            class="dialog-panel position-absolute top-50 start-50 translate-middle">
+                                    class="layout-horizontal align-center-center gap-20  w-fill-column-3">
+                                    <a
+                                        class="button-subtle button-icon-only text-accent-default"
+                                        (click)="tabChild('show_chitiet')">
+                                        <i
+                                            class="icon-size-24 icon icon-ic_fluent_settings_24_filled"></i>
+                                    </a>
 
-                                            <form>
-                                                <div class="layout-vertical accept-sell rounded-8" style="width: 350px; height: auto; padding: 10px; background-color: #ffffff;">
-                                                    <div class="text-subtitle accent-text-tertiary border-bottom">Xác nhận đăng ký</div>
-                                                    <div class="checkbox layout-vertical align-top-left">
-                                                        <div class="layout-vertical align-top-left gap-20">
-                                                            <label class="label-checkbox-control"> 
-                                                                <input class="checkbox-control" type="checkbox">
-                                                                <span>Shop bạn còn thiếu vài thứ</span>
-                                                            </label>
-                                                            <label class="label-checkbox-control"> 
-                                                                <input class="checkbox-control" type="checkbox">
-                                                                <span>Shop bạn chưa đủ tiêu chuẩn</span>
-                                                            </label>
-                                                            <label class="label-checkbox-control"> 
-                                                                <input class="checkbox-control" type="checkbox">
-                                                                <span>Shop bạn không được duyệt</span>
-                                                            </label>
-                                                        
+                                    <a href="#"
+                                        class="button-subtle button-icon-only text-accent-default">
+                                        <i
+                                            class="icon-size-24 icon icon-ic_fluent_info_24_filled"></i>
+                                    </a>
+                                    <div
+                                        class="position-fixed top-0 start-0 {{(shopid != 0) ? 'display-block' : 'display-none'}}"
+                                        style="width: 100%; height: 100vh; z-index: 30;">
+                                        <div class="position-fixed top-0 start-0"
+                                            style="width: 100%; height: 100vh; z-index: 20; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px);">
+                                            <div
+                                                class="dialog-panel position-absolute top-50 start-50 translate-middle">
+
+                                                <form>
+                                                    <div class="layout-vertical accept-sell rounded-8" style="width: 350px; height: auto; padding: 10px; background-color: #ffffff;">
+                                                        <div class="text-subtitle accent-text-tertiary border-bottom">Xác nhận đăng ký</div>
+                                                        <div class="checkbox layout-vertical align-top-left">
+                                                            <div class="layout-vertical align-top-left gap-20">
+                                                                <label class="label-checkbox-control"> 
+                                                                    <input class="checkbox-control" type="checkbox">
+                                                                    <span>Shop bạn còn thiếu vài thứ</span>
+                                                                </label>
+                                                                <label class="label-checkbox-control"> 
+                                                                    <input class="checkbox-control" type="checkbox">
+                                                                    <span>Shop bạn chưa đủ tiêu chuẩn</span>
+                                                                </label>
+                                                                <label class="label-checkbox-control"> 
+                                                                    <input class="checkbox-control" type="checkbox">
+                                                                    <span>Shop bạn không được duyệt</span>
+                                                                </label>
+                                                            
+                                                            </div>
+                                                            <div class="layout-vertical align-top-left gap-10">
+                                                                <div class="">Note:</div>
+                                                                <textarea rows="5" cols="40" name="" id=""></textarea>
+                                                            </div>
                                                         </div>
-                                                        <div class="layout-vertical align-top-left gap-10">
-                                                            <div class="">Note:</div>
-                                                            <textarea rows="5" cols="40" name="" id=""></textarea>
+                                                        <div class="button-acp layout-horizontal align-center-space-between">
+                                                            <button type="button" class="button-accent button-text-only">Duyệt</button>
+                                                            <button type="button" class="button-accent button-text-only">Không Duyệt</button>
                                                         </div>
                                                     </div>
-                                                    <div class="button-acp layout-horizontal align-center-space-between">
-                                                        <button type="button" class="button-accent button-text-only">Duyệt</button>
-                                                        <button type="button" class="button-accent button-text-only">Không Duyệt</button>
-                                                    </div>
-                                                </div>
-                                                
-                                            </form>
+                                                    
+                                                </form>
 
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

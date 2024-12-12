@@ -13,7 +13,7 @@ article{
 
 .head,.report-show{
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(5, 1fr);
 }
 .table-container{
     padding: 20px;
