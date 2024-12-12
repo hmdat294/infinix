@@ -37,3 +37,11 @@ article{
     margin-bottom: 30px;
     margin: 0 30px; 
 }
+
+.display-block {
+    display: block;
+  }
+  .display-none {
+    display: none;
+  }
+  
