@@ -30,6 +30,7 @@ class ProductResource extends JsonResource
             })
             ->where('user_id', $user_id)
             ->orderBy('created_at', 'desc')
+            ->where('status', 'delivered')
             ->first();
 
             Log::info('lastest order: ' . $latestOrder);
