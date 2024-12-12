@@ -169,7 +169,7 @@ class OrderController extends Controller
 
     public function byShop(Request $request, $shop_id)
     {
-        $orders = Order::where('shop_id', $shop_id)->get();
+        $orders = Order::where('shop_id', $shop_id)->orderBy('created_at', 'desc')->get();
 
         return OrderResource::collection($orders);
     }
