@@ -16,6 +16,10 @@ export class AdminService {
     return this.http.get(`${this.apiUrl}/user`, { headers });
   }
 
+  getUserId(id: number = 0): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.get(`${this.apiUrl}/user/${id > 0 ? id : ''}`, { headers });
+  }
   getPost(id: number = 0): Observable<any> {
     const headers = this.authService.getToken();
     return this.http.get(`${this.apiUrl}/post/${id > 0 ? id : ''}`, { headers });
@@ -108,10 +112,9 @@ getShop(): Observable<any> {
   const headers = this.authService.getToken();
   return this.http.get(`${this.apiUrl}/shop`, { headers });
 }
-
-postshop(id: number, is_active: string): Observable<any> {
+getRevenus(): Observable<any> {
   const headers = this.authService.getToken();
-  return this.http.post(`${this.apiUrl}/shop/${id}`,{is_active}, { headers });
+  return this.http.get(`${this.apiUrl}/statistics/revenue`, { headers });
 }
   
   

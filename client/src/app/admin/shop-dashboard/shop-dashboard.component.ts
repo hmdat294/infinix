@@ -8,15 +8,20 @@ import { CurrencyVNDPipe } from '../../currency-vnd.pipe';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-shop-dashboard',
   standalone: true,
-  imports: [NavComponent,CommonModule, FormsModule, RouterModule],
+  imports: [NavComponent,CommonModule, FormsModule, RouterModule,NgxPaginationModule],
   templateUrl: './shop-dashboard.component.html',
   styleUrl: './shop-dashboard.component.css'
 })
 export class ShopDashboardComponent implements OnInit{
+  totalShop: number = 0;
+  listShop: any[] = [];
+  listUser: any[] = [];
+  Cumulative_Revenue:any[]=[];
   tabAccordion: string = '';
   constructor(private adminService: AdminService, 
     private settingService: SettingService,
@@ -25,24 +30,66 @@ export class ShopDashboardComponent implements OnInit{
   
   ngOnInit(): void {
     this.renderChart();
+    this.adminService.getShop().subscribe(
+      (response) => {
+        console.log(response);
+        
+        this.totalShop = response.data.length; // Tính tổng số lượng shop
+        console.log('Total shops:', this.totalShop);
+      },
+      (error) => {
+        console.error('Error fetching shops:', error);
+      }
+    );
+    this.adminService.getShop().subscribe(
+      (response) => {
+        this.listShop = response.data; // Lưu danh sách cửa hàng
+        console.log('List shops:', this.listShop);
+    
+        // Duyệt qua mỗi cửa hàng và gọi API lấy thông tin user theo userId
+        this.listShop.forEach(shop => {
+          const userId = shop.user_id; // Giả sử userId là trường trong mỗi cửa hàng
+    
+          // Gọi API để lấy thông tin user theo userId
+          this.adminService.getUserId(userId).subscribe(
+            (userResponse) => {
+              shop.user = userResponse.data; // Lưu thông tin user vào mỗi shop
+              console.log('User for shop:', shop.user_id);
+            },
+            (error) => {
+              console.error('Error fetching user for shop:', error);
+            }
+          );
+        });
+      },
+      (error) => {
+        console.error('Error fetching shops:', error);
+      }
+    );
+    
+    
 
     
 
   }
+  currentPage =1;
+  fetchDataAndRenderChart(): void {
+    this.adminService.getRevenus().subscribe(CumulativeRevenue => {
+      this.Cumulative_Revenue = CumulativeRevenue;
+
+      
+          // Sau khi có dữ liệu từ cả hai API, gọi hàm để vẽ biểu đồ
+          this.renderChart();
+        });
+     
+  }
+
   renderChart(): void {
-    // const userTotals = this.User_Growth.map((item: any) => item.cumulative_total);
-    // const userDates = this.User_Growth.map((item: any) => item.date);
-
-    // const postTotals = this.Post_Growth.map((item: any) => item.cumulative_total);
-    // const postDates = this.Post_Growth.map((item: any) => item.date);
-
-    // const conversationsTotals = this.Conversations_Growth.map((item: any) => item.cumulative_total);
-    // const conversationsDates = this.Conversations_Growth.map((item: any) => item.date);
-    // console.log('show growth:', userTotals, conversationsTotals, postTotals);
     
-    // const longestDates = userDates.length >= postDates.length 
-    // ? (userDates.length >= conversationsDates.length ? userDates : conversationsDates) 
-    // : (postDates.length >= conversationsDates.length ? postDates : conversationsDates);
+    const Cumulative_Revenue = this.Cumulative_Revenue.map((item: any) => item.cumulative_revenue);
+    const dates = this.Cumulative_Revenue.map((item: any) => item.date);
+   
+
     
     const chartOptions: ApexOptions = {
       chart: {
@@ -53,23 +100,23 @@ export class ShopDashboardComponent implements OnInit{
         dropShadow: { enabled: true, top: 3, left: 2, blur: 4, opacity: 0.1 }
       },
       stroke: { width: 5, curve: 'smooth' },
-      colors: ["#5283FF", '#F1C40F', '#FF4C92', "#17a00e"],
+      colors: [ '#F1C40F',"#5283FF", '#00FF0A'],
       series: [{
-        name: "Người dùng",
-        data: [14, 100, 35, 25]  // Sử dụng userData từ API
+        name: "Cửa hàng",
+        data:[14, 2, 5, 4] // Sử dụng userData từ API
       },
       {
-        name: "Bài viết",
-        data: [14, 22, 35, 40]  // Sử dụng userData từ API
+        name: "Tổng doanh thu",
+        data: Cumulative_Revenue   // Sử dụng userData từ API
       },
       {
-        name: "Cuộc trò chuyện",
+        name: "Tổng lợi nhuận",
         data: [14, 22, 35, 40] // Sử dụng userData từ API
       }
       ],
       xaxis: {
         type: 'datetime',
-        categories: ['1/11/2000', '2/11/2000', '3/11/2000', '4/11/2000', '5/11/2000', '6/11/2000'],
+        categories: dates,
       },
       title: {
         text: 'Growth statistics',
