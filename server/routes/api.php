@@ -27,6 +27,7 @@ use App\Http\Controllers\MessageLikeController;
 use App\Http\Controllers\PinMessageController;
 use App\Http\Middleware\UpdateUserLastActivity;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\Statistics\ShopRevenueController;
 
 use App\Models\User as UserModel;
 
@@ -302,6 +303,8 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
         Route::get('users-growth', [GrowthStatisticsController::class, 'usersGrowthStatistics']);
         Route::get('posts-growth', [GrowthStatisticsController::class, 'postsGrowthStatistics']);
         Route::get('conversations-growth', [GrowthStatisticsController::class, 'conversationsGrowthStatistics']);
+        Route::get('revenue', [ShopRevenueController::class, 'revenueStatistic']);
+        Route::get('shop-revenue/{shop_id}', [ShopRevenueController::class, 'shopRevenueStatistic']);
         
         // thống kê theo biểu đồ tròn (thống kê báo cáo)
         Route::get('total-reports', [TotalController::class, 'totalReports']);
