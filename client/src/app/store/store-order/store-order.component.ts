@@ -8,11 +8,10 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-store-order',
-  standalone: true,
-  imports: [CurrencyVNDPipe, CommonModule, FormsModule, RouterModule],
-  templateUrl: './store-order.component.html',
-  styleUrl: './store-order.component.css'
+    selector: 'app-store-order',
+    imports: [CurrencyVNDPipe, CommonModule, FormsModule, RouterModule],
+    templateUrl: './store-order.component.html',
+    styleUrl: './store-order.component.css'
 })
 export class StoreOrderComponent implements OnInit {
 

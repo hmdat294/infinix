@@ -12,11 +12,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NotificationService } from '../service/notification.service';
 
 @Component({
-  selector: 'app-chat',
-  standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule, EmojiModule, PickerComponent, TranslateModule],
-  templateUrl: './chat.component.html',
-  styleUrl: './chat.component.css',
+    selector: 'app-chat',
+    imports: [FormsModule, CommonModule, RouterModule, EmojiModule, PickerComponent, TranslateModule],
+    templateUrl: './chat.component.html',
+    styleUrl: './chat.component.css'
 })
 export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 

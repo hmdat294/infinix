@@ -10,11 +10,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { LeftHomeComponent } from "../left-home/left-home.component";
 
 @Component({
-  selector: 'app-right-home',
-  standalone: true,
-  imports: [RouterModule, CommonModule, FormsModule, TranslateModule, LeftHomeComponent],
-  templateUrl: './right-home.component.html',
-  styleUrl: './right-home.component.css'
+    selector: 'app-right-home',
+    imports: [RouterModule, CommonModule, FormsModule, TranslateModule, LeftHomeComponent],
+    templateUrl: './right-home.component.html',
+    styleUrl: './right-home.component.css'
 })
 export class RightHomeComponent implements OnInit, AfterViewInit {
   user: any = [];

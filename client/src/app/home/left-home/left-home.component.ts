@@ -14,11 +14,10 @@ import { CheckoutService } from '../../service/checkout.service';
 import { PaymentService } from '../../service/payment.service';
 
 @Component({
-  selector: 'app-left-home',
-  standalone: true,
-  imports: [CommonModule, RouterModule, CurrencyVNDPipe, FormsModule, TranslateModule],
-  templateUrl: './left-home.component.html',
-  styleUrl: './left-home.component.css'
+    selector: 'app-left-home',
+    imports: [CommonModule, RouterModule, CurrencyVNDPipe, FormsModule, TranslateModule],
+    templateUrl: './left-home.component.html',
+    styleUrl: './left-home.component.css'
 })
 export class LeftHomeComponent implements OnInit, AfterViewInit {
 

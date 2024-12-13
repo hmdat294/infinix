@@ -14,11 +14,10 @@ import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angula
 
 
 @Component({
-  selector: 'app-statistic',
-  standalone: true,
-  imports: [],
-  templateUrl: './statistic.component.html',
-  styleUrl: './statistic.component.css'
+    selector: 'app-statistic',
+    imports: [],
+    templateUrl: './statistic.component.html',
+    styleUrl: './statistic.component.css'
 })
 export class StatisticComponent implements OnInit, AfterViewInit {
 

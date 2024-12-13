@@ -11,11 +11,10 @@ import { TranslateModule } from '@ngx-translate/core';
 
 
 @Component({
-  selector: 'app-setting',
-  standalone: true,
-  imports: [CommonModule, FormsModule, GeneralSettingsComponent, AccountSettingsComponent, AppearanceSettingsComponent, ShopSettingsComponent, TranslateModule],
-  templateUrl: './setting.component.html',
-  styleUrl: './setting.component.css'
+    selector: 'app-setting',
+    imports: [CommonModule, FormsModule, GeneralSettingsComponent, AccountSettingsComponent, AppearanceSettingsComponent, ShopSettingsComponent, TranslateModule],
+    templateUrl: './setting.component.html',
+    styleUrl: './setting.component.css'
 })
 export class SettingComponent implements OnInit {
 

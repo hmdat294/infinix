@@ -14,22 +14,21 @@ import { RouterModule } from '@angular/router';
 import { StatisticComponent } from "./statistic/statistic.component";
 
 @Component({
-  selector: 'app-shop-settings',
-  standalone: true,
-  imports: [
-    FormsModule,
-    CommonModule,
-    CategoryComponent,
-    ProductComponent,
-    OrderComponent,
-    FeedbackComponent,
-    TranslateModule,
-    VoucherComponent,
-    RouterModule,
-    StatisticComponent
-],
-  templateUrl: './shop-settings.component.html',
-  styleUrl: './shop-settings.component.css'
+    selector: 'app-shop-settings',
+    imports: [
+        FormsModule,
+        CommonModule,
+        CategoryComponent,
+        ProductComponent,
+        OrderComponent,
+        FeedbackComponent,
+        TranslateModule,
+        VoucherComponent,
+        RouterModule,
+        StatisticComponent
+    ],
+    templateUrl: './shop-settings.component.html',
+    styleUrl: './shop-settings.component.css'
 })
 export class ShopSettingsComponent implements OnInit {
 

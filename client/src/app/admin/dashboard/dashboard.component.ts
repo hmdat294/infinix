@@ -5,11 +5,10 @@ import { NavComponent } from '../nav/nav.component';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-dashboard',
-  standalone: true,
-  imports: [NavComponent, TranslateModule],
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+    selector: 'app-dashboard',
+    imports: [NavComponent, TranslateModule],
+    templateUrl: './dashboard.component.html',
+    styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent implements OnInit {
   totalUsers: number = 0;

@@ -17,11 +17,10 @@ import { RightHomeComponent } from "../right-home/right-home.component";
 import { SettingService } from '../../service/setting.service';
 
 @Component({
-  selector: 'app-center-home',
-  standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule, EmojiModule, PickerComponent, QuillModule, TranslateModule, RightHomeComponent],
-  templateUrl: './center-home.component.html',
-  styleUrl: './center-home.component.css'
+    selector: 'app-center-home',
+    imports: [FormsModule, CommonModule, RouterModule, EmojiModule, PickerComponent, QuillModule, TranslateModule, RightHomeComponent],
+    templateUrl: './center-home.component.html',
+    styleUrl: './center-home.component.css'
 })
 export class CenterHomeComponent implements OnInit, AfterViewInit {
 

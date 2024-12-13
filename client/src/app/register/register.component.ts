@@ -7,11 +7,10 @@ import { EventService } from '../service/event.service';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-register',
-  standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule, TranslateModule],
-  templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
+    selector: 'app-register',
+    imports: [FormsModule, CommonModule, RouterModule, TranslateModule],
+    templateUrl: './register.component.html',
+    styleUrl: './register.component.css'
 })
 export class RegisterComponent {
 

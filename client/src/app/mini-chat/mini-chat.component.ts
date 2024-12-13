@@ -12,11 +12,10 @@ import { SettingService } from '../service/setting.service';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-mini-chat',
-  standalone: true,
-  imports: [RouterModule, CommonModule, FormsModule, EmojiModule, PickerComponent, TranslateModule],
-  templateUrl: './mini-chat.component.html',
-  styleUrl: './mini-chat.component.css'
+    selector: 'app-mini-chat',
+    imports: [RouterModule, CommonModule, FormsModule, EmojiModule, PickerComponent, TranslateModule],
+    templateUrl: './mini-chat.component.html',
+    styleUrl: './mini-chat.component.css'
 })
 export class MiniChatComponent implements OnInit, AfterViewChecked {
 

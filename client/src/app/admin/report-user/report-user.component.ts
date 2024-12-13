@@ -7,11 +7,10 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-report-user',
-  standalone: true,
-  imports: [NavComponent,CommonModule,RouterModule,FormsModule],
-  templateUrl: './report-user.component.html',
-  styleUrl: './report-user.component.css'
+    selector: 'app-report-user',
+    imports: [NavComponent, CommonModule, RouterModule, FormsModule],
+    templateUrl: './report-user.component.html',
+    styleUrl: './report-user.component.css'
 })
 export class ReportUserComponent {
   tabAccordion: string = '';

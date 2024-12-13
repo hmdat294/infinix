@@ -9,11 +9,10 @@ import { EventService } from '../../service/event.service';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-account-settings',
-  standalone: true,
-  imports: [CommonModule, FormsModule, TranslateModule],
-  templateUrl: './account-settings.component.html',
-  styleUrl: './account-settings.component.css'
+    selector: 'app-account-settings',
+    imports: [CommonModule, FormsModule, TranslateModule],
+    templateUrl: './account-settings.component.html',
+    styleUrl: './account-settings.component.css'
 })
 export class AccountSettingsComponent implements OnInit {
 
