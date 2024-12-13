@@ -11,17 +11,10 @@ import { ChatService } from '../../service/chat.service';
 import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { QuillModule } from 'ngx-quill';
-import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
-import Swiper from 'swiper';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/scrollbar';
-import { Navigation, Scrollbar } from 'swiper/modules';
+import { DomSanitizer } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
 import { RightHomeComponent } from "../right-home/right-home.component";
 import { SettingService } from '../../service/setting.service';
-
-Swiper.use([Navigation, Scrollbar]);
 
 @Component({
   selector: 'app-center-home',
