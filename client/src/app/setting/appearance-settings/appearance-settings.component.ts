@@ -6,11 +6,10 @@ import { SettingService } from '../../service/setting.service';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-appearance-settings',
-  standalone: true,
-  imports: [CommonModule, FormsModule, TranslateModule],
-  templateUrl: './appearance-settings.component.html',
-  styleUrl: './appearance-settings.component.css'
+    selector: 'app-appearance-settings',
+    imports: [CommonModule, FormsModule, TranslateModule],
+    templateUrl: './appearance-settings.component.html',
+    styleUrl: './appearance-settings.component.css'
 })
 export class AppearanceSettingsComponent implements OnInit {
 

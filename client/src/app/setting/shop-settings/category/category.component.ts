@@ -7,11 +7,10 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-category',
-  standalone: true,
-  imports: [FormsModule, CommonModule, TranslateModule],
-  templateUrl: './category.component.html',
-  styleUrl: './category.component.css'
+    selector: 'app-category',
+    imports: [FormsModule, CommonModule, TranslateModule],
+    templateUrl: './category.component.html',
+    styleUrl: './category.component.css'
 })
 export class CategoryComponent implements OnInit {
 

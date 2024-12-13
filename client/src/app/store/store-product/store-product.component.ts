@@ -12,11 +12,10 @@ import { PaymentService } from '../../service/payment.service';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-store-product',
-  standalone: true,
-  imports: [CommonModule, FormsModule, CurrencyVNDPipe, RouterModule, TranslateModule],
-  templateUrl: './store-product.component.html',
-  styleUrl: './store-product.component.css'
+    selector: 'app-store-product',
+    imports: [CommonModule, FormsModule, CurrencyVNDPipe, RouterModule, TranslateModule],
+    templateUrl: './store-product.component.html',
+    styleUrl: './store-product.component.css'
 })
 export class StoreProductComponent implements OnInit {
 

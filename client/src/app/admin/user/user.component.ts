@@ -5,11 +5,10 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-user',
-  standalone: true,
-  imports: [NavComponent, CommonModule,RouterModule],
-  templateUrl: './user.component.html',
-  styleUrl: './user.component.css'
+    selector: 'app-user',
+    imports: [NavComponent, CommonModule, RouterModule],
+    templateUrl: './user.component.html',
+    styleUrl: './user.component.css'
 })
 export class UserComponent implements OnInit {
   listUser: any;

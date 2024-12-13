@@ -7,11 +7,10 @@ import { SettingService } from '../../../service/setting.service';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-order',
-  standalone: true,
-  imports: [CommonModule, CurrencyVNDPipe, FormsModule],
-  templateUrl: './order.component.html',
-  styleUrl: './order.component.css'
+    selector: 'app-order',
+    imports: [CommonModule, CurrencyVNDPipe, FormsModule],
+    templateUrl: './order.component.html',
+    styleUrl: './order.component.css'
 })
 export class OrderComponent implements OnInit {
 

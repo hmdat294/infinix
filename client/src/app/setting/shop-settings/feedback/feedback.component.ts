@@ -5,11 +5,10 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-feedback',
-  standalone: true,
-  imports: [CommonModule, RouterModule],
-  templateUrl: './feedback.component.html',
-  styleUrl: './feedback.component.css'
+    selector: 'app-feedback',
+    imports: [CommonModule, RouterModule],
+    templateUrl: './feedback.component.html',
+    styleUrl: './feedback.component.css'
 })
 export class FeedbackComponent implements OnInit {
 

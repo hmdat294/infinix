@@ -8,11 +8,10 @@ import { FormsModule } from '@angular/forms';
 import { SettingService } from '../../service/setting.service';
 
 @Component({
-  selector: 'app-report',
-  standalone: true,
-  imports: [NavComponent,CommonModule,RouterModule,FormsModule],
-  templateUrl: './report.component.html',
-  styleUrl: './report.component.css'
+    selector: 'app-report',
+    imports: [NavComponent, CommonModule, RouterModule, FormsModule],
+    templateUrl: './report.component.html',
+    styleUrl: './report.component.css'
 })
 export class ReportComponent {
   tabAccordion: string = '';

@@ -20,11 +20,10 @@ import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { PaymentService } from '../service/payment.service';
 
 @Component({
-  selector: 'app-friend-profile',
-  standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule, EmojiModule, QuillModule, TranslateModule, CurrencyVNDPipe, PickerComponent],
-  templateUrl: './friend-profile.component.html',
-  styleUrl: './friend-profile.component.css'
+    selector: 'app-friend-profile',
+    imports: [FormsModule, CommonModule, RouterModule, EmojiModule, QuillModule, TranslateModule, CurrencyVNDPipe, PickerComponent],
+    templateUrl: './friend-profile.component.html',
+    styleUrl: './friend-profile.component.css'
 })
 export class FriendProfileComponent implements OnInit {
 

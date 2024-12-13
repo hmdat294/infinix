@@ -4,11 +4,10 @@ import { AdminService } from '../../service/admin.service';
 import { NavComponent } from '../nav/nav.component';
 
 @Component({
-  selector: 'app-dashboard',
-  standalone: true,
-  imports: [NavComponent],
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+    selector: 'app-dashboard',
+    imports: [NavComponent],
+    templateUrl: './dashboard.component.html',
+    styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent implements OnInit {
   totalUsers: number = 0;

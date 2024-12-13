@@ -14,11 +14,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { SettingService } from '../service/setting.service';
 
 @Component({
-  selector: 'app-header',
-  standalone: true,
-  imports: [RouterModule, CommonModule, FormsModule, MiniChatComponent, CurrencyVNDPipe, TranslateModule],
-  templateUrl: './header.component.html',
-  styleUrl: './header.component.css'
+    selector: 'app-header',
+    imports: [RouterModule, CommonModule, FormsModule, MiniChatComponent, CurrencyVNDPipe, TranslateModule],
+    templateUrl: './header.component.html',
+    styleUrl: './header.component.css'
 })
 export class HeaderComponent implements OnInit {
 

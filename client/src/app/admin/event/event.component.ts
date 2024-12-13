@@ -7,11 +7,10 @@ import { AdminService } from '../../service/admin.service';
 import { SettingService } from '../../service/setting.service';
 
 @Component({
-  selector: 'app-event',
-  standalone: true,
-  imports: [NavComponent, CommonModule],
-  templateUrl: './event.component.html',
-  styleUrl: './event.component.css'
+    selector: 'app-event',
+    imports: [NavComponent, CommonModule],
+    templateUrl: './event.component.html',
+    styleUrl: './event.component.css'
 })
 
 export class EventComponent implements OnInit {

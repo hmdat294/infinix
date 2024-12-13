@@ -16,11 +16,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { LeftProfileComponent } from "../left-profile/left-profile.component";
 
 @Component({
-  selector: 'app-center-profile',
-  standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule, EmojiModule, PickerComponent, QuillModule, TranslateModule, LeftProfileComponent],
-  templateUrl: './center-profile.component.html',
-  styleUrl: './center-profile.component.css'
+    selector: 'app-center-profile',
+    imports: [FormsModule, CommonModule, RouterModule, EmojiModule, PickerComponent, QuillModule, TranslateModule, LeftProfileComponent],
+    templateUrl: './center-profile.component.html',
+    styleUrl: './center-profile.component.css'
 })
 export class CenterProfileComponent implements OnInit, AfterViewInit {
 

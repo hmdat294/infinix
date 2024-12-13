@@ -8,11 +8,10 @@ import { FormsModule } from '@angular/forms';
 import { SettingService } from '../../service/setting.service';
 
 @Component({
-  selector: 'app-report-post',
-  standalone: true,
-  imports: [NavComponent,CommonModule, RouterModule, FormsModule],
-  templateUrl: './report-post.component.html',
-  styleUrl: './report-post.component.css'
+    selector: 'app-report-post',
+    imports: [NavComponent, CommonModule, RouterModule, FormsModule],
+    templateUrl: './report-post.component.html',
+    styleUrl: './report-post.component.css'
 })
 export class ReportpostComponent {
   listReport: any;

@@ -7,11 +7,10 @@ import { SettingService } from '../../../service/setting.service';
 import { CurrencyVNDPipe } from '../../../currency-vnd.pipe';
 
 @Component({
-  selector: 'app-voucher',
-  standalone: true,
-  imports: [FormsModule, CommonModule, CurrencyVNDPipe],
-  templateUrl: './voucher.component.html',
-  styleUrl: './voucher.component.css'
+    selector: 'app-voucher',
+    imports: [FormsModule, CommonModule, CurrencyVNDPipe],
+    templateUrl: './voucher.component.html',
+    styleUrl: './voucher.component.css'
 })
 export class VoucherComponent implements OnInit {
 

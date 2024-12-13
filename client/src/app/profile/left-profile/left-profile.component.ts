@@ -7,11 +7,10 @@ import { PostService } from '../../service/post.service';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-left-profile',
-  standalone: true,
-  imports: [CommonModule, RouterModule, TranslateModule],
-  templateUrl: './left-profile.component.html',
-  styleUrl: './left-profile.component.css'
+    selector: 'app-left-profile',
+    imports: [CommonModule, RouterModule, TranslateModule],
+    templateUrl: './left-profile.component.html',
+    styleUrl: './left-profile.component.css'
 })
 export class LeftProfileComponent implements OnInit {
 

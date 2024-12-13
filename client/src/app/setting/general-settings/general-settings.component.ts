@@ -8,11 +8,10 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-general-settings',
-  standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, TranslateModule],
-  templateUrl: './general-settings.component.html',
-  styleUrl: './general-settings.component.css'
+    selector: 'app-general-settings',
+    imports: [CommonModule, FormsModule, RouterModule, TranslateModule],
+    templateUrl: './general-settings.component.html',
+    styleUrl: './general-settings.component.css'
 })
 export class GeneralSettingsComponent implements OnInit {
 
