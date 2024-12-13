@@ -546,6 +546,9 @@
                 "cancel_button": "Hủy",
                 "submit_delete": "Xóa"
             },
+            "statistic": {
+                "title": "Thống kê"
+            },
             "category": {
                 "title": "Danh mục",
                 "index": "STT",

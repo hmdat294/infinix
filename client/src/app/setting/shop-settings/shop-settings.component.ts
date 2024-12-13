@@ -11,6 +11,7 @@ import { FeedbackComponent } from "./feedback/feedback.component";
 import { TranslateModule } from '@ngx-translate/core';
 import { VoucherComponent } from "./voucher/voucher.component";
 import { RouterModule } from '@angular/router';
+import { StatisticComponent } from "./statistic/statistic.component";
 
 @Component({
   selector: 'app-shop-settings',
@@ -24,8 +25,9 @@ import { RouterModule } from '@angular/router';
     FeedbackComponent,
     TranslateModule,
     VoucherComponent,
-    RouterModule
-  ],
+    RouterModule,
+    StatisticComponent
+],
   templateUrl: './shop-settings.component.html',
   styleUrl: './shop-settings.component.css'
 })
@@ -33,7 +35,7 @@ export class ShopSettingsComponent implements OnInit {
 
   spaceCheck: any = /^\s*$/;
   tabAccordion: string = '';
-  tab_shop: string = 'tab_category';
+  tab_shop: string = 'tab_statistic';
   user: any;
   shop: any;
   products: any;

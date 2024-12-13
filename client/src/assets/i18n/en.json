@@ -517,6 +517,9 @@
                 "cancel_button": "Cancel",
                 "submit_delete": "Delete"
             },
+            "statistic": {
+                "title": "Statistic"
+            },
             "category": {
                 "title": "Category",
                 "index": "No.",
