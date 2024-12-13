@@ -8,10 +8,10 @@ import { AuthService } from '../../../service/auth.service';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-    selector: 'app-product',
-    imports: [CurrencyVNDPipe, FormsModule, CommonModule, TranslateModule],
-    templateUrl: './product.component.html',
-    styleUrl: './product.component.css'
+  selector: 'app-product',
+  imports: [CurrencyVNDPipe, FormsModule, CommonModule, TranslateModule],
+  templateUrl: './product.component.html',
+  styleUrl: './product.component.css'
 })
 export class ProductComponent implements OnInit {
 

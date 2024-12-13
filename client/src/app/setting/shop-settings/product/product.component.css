@@ -6,3 +6,70 @@ td {
 .opacity-5 {
     opacity: 0.5;
 }
+
+.show_quantity {
+    display: none;
+}
+
+.show_action {
+    display: none;
+}
+
+.dialog_prod {
+    width: 800px;
+}
+
+.dialog_del_prod {
+    width: 440px;
+}
+
+.h_dialog_prod{
+    max-height: 70vh;
+}
+
+@media (max-width: 1200px) {
+
+    .show_quantity {
+        display: block;
+    }
+
+    .hide_quantity {
+        display: none;
+    }
+}
+
+@media (max-width: 1000px) {
+
+    .show_action {
+        display: flex;
+    }
+
+    .hide_action {
+        display: none;
+    }
+}
+
+@media (max-width: 840px) {
+
+    .dialog_prod {
+        width: calc(100vw - 40px);
+    }
+}
+
+@media (max-width: 600px) {
+
+    .hide_stt {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .dialog_del_prod {
+        width: calc(100vw - 40px);
+    }
+
+    .h_dialog_prod {
+        max-height: 60vh;
+    }
+}

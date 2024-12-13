@@ -22,12 +22,12 @@
                             <a [routerLink]="['/friend-profile', shop?.user_id]"
                                 class="w-fill button-standard p-5 cursor-pointer">
                                 <i class="me-5 icon-size-16 icon icon-ic_fluent_person_16_regular"></i>
-                                Đến trang cá nhân
+                                {{ 'shop.go_to_profile' | translate }}
                             </a>
                             <button type="button" class="w-fill button-accent p-5 cursor-pointer"
                                 (click)="createChat(shop?.user_id)">
                                 <i class="me-5 icon-size-16 icon icon-ic_fluent_chat_16_regular"></i>
-                                Nhắn tin
+                                {{ 'shop.message' | translate }}
                             </button>
                         </div>
                     </div>
@@ -35,13 +35,16 @@
                     <div class="w-fill-column-6 in-tablet-w-fill in-mobile-w-fill layout-horizontal gap-20">
 
                         <div class="w-fill layout-vertical gap-20">
-                            <p class="w-fill text-primary text-body border-bottom pb-5">Danh mục:
+                            <p class="w-fill text-primary text-body border-bottom pb-5">
+                                {{ 'shop._category' | translate }}:
                                 <span class="text-body-strong">{{shop?.category_count}}</span>
                             </p>
-                            <p class="w-fill text-primary text-body border-bottom pb-5">Sản phẩm:
+                            <p class="w-fill text-primary text-body border-bottom pb-5">
+                                {{ 'shop._product' | translate }}:
                                 <span class="text-body-strong">{{shop?.product_count}}</span>
                             </p>
-                            <p class="w-fill text-primary text-body border-bottom pb-5">Sản phẩm đã bán:
+                            <p class="w-fill text-primary text-body border-bottom pb-5">
+                                {{ 'shop.products_sold' | translate }}:
                                 <span class="text-body-strong">{{shop?.total_products_sold}}</span>
                             </p>
                         </div>
@@ -49,7 +52,7 @@
                         <div class="w-fill-column-7 layout-vertical gap-20">
                             <div
                                 class="w-fill text-primary text-body border-bottom pb-5 layout-horizontal gap-5 align-center-left">
-                                Đánh giá:
+                                {{ 'shop.feedback' | translate }}:
                                 <div class="layout-horizontal gap-5" *ngIf="shop?.average_rating > 0">
                                     <p class="text-primary text-caption">
                                         {{roundToNearest(shop?.average_rating) || 0}}/5</p>
@@ -63,12 +66,14 @@
                                     </div>
                                 </div>
                                 <p *ngIf="shop?.average_rating == 0 || shop?.average_rating == null"
-                                    class="text-body-strong text-primary">Chưa có đánh giá</p>
+                                    class="text-body-strong text-primary">{{ 'shop.no_reviews_yet' | translate }}</p>
                             </div>
-                            <p class="w-fill text-primary text-body border-bottom pb-5">Bắt đầu hoạt động:
+                            <p class="w-fill text-primary text-body border-bottom pb-5">
+                                {{ 'shop.get_started' | translate }}:
                                 <span class="text-body-strong">{{shop?.created_at | date:'dd/MM/yyyy'}}</span>
                             </p>
-                            <p class="w-fill text-primary text-body border-bottom pb-5">Địa chỉ:
+                            <p class="w-fill text-primary text-body border-bottom pb-5">
+                                {{ 'shop.address' | translate }}:
                                 <span class="text-body-strong">{{shop?.address}}</span>
                             </p>
                         </div>
@@ -83,25 +88,28 @@
                         <div class="position-absolute top-0 right-0 w-fill text-right">
                             <span class="text-caption p-5"
                                 style="border-radius: 0 0 0 10px; background-color: #C42B1C; color: white;">
-                                {{calculateDays(voucher.valid_until)}} ngày
+                                {{calculateDays(voucher.valid_until)}} {{ 'shop.day' | translate }}
                             </span>
                         </div>
                         <div class="w-fill layout-vertical text-body text-system-success gap-5 p-10">
-                            <p class="text-caption">Mã giảm giá: <span class="text-body-strong"
+                            <p class="text-caption">{{ 'shop.voucher' | translate }}: <span class="text-body-strong"
                                     style="text-transform: uppercase;">{{voucher.code}}</span>
                             </p>
                             <p class="text-caption">
                                 {{ getVoucherDescription(
                                 voucher.discount,
-                                voucher.apply_to_products.length > 0 ? 'sản phẩm' : 'đơn hàng',
+                                voucher.apply_to_products.length > 0 ? ('shop.product' | translate) :
+                                ('shop.order' | translate),
                                 voucher.min_price | currencyVND,
                                 voucher.max_discount | currencyVND
                                 ) }}
                             </p>
                         </div>
                         <div class="w-hug layout-vertical gap-5 align-bottom-right p-10">
-                            <button type="button" class="button-accent py-5 px-10 cursor-pointer"
-                                (click)="saveVoucher(voucher.code)">Lưu</button>
+                            <button type="button" class="button-accent py-5 px-10 cursor-pointer button-icon-only"
+                                (click)="saveVoucher(voucher.code)" [disabled]="voucher.is_saved">
+                                {{voucher.is_saved?('shop.saved_voucher' | translate) :
+                                ('shop.save_voucher' | translate)}} </button>
                         </div>
                     </div>
 
@@ -112,34 +120,35 @@
                         <button type="button" class="list-item tab-shop text-primary w-hug"
                             [class]="tab_shop == 'tab_all'?'tab-shop-active':''" [disabled]="tab_shop == 'tab_all'"
                             (click)="tabShop('tab_all')">
-                            Tất cả
+                            {{ 'shop.all' | translate }}
                         </button>
                         <button type="button" class="list-item tab-shop text-primary w-hug"
                             [class]="tab_shop == 'tab_best_seller'?'tab-shop-active':''"
                             [disabled]="tab_shop == 'tab_best_seller'" (click)="tabShop('tab_best_seller')">
-                            Bán chạy
+                            {{ 'shop.best_saler' | translate }}
                         </button>
                         <button type="button" class="list-item tab-shop text-primary w-hug"
                             [class]="tab_shop == 'tab_discount'?'tab-shop-active':''"
                             [disabled]="tab_shop == 'tab_discount'" (click)="tabShop('tab_discount')">
-                            Giảm sâu
+                            {{ 'shop.super_sale' | translate }}
                         </button>
                         <button type="button" class="list-item tab-shop text-primary w-hug"
                             [class]="tab_shop == 'tab_reduction'?'tab-shop-active':''"
                             [disabled]="tab_shop == 'tab_reduction'" (click)="tabShop('tab_reduction')">
-                            Giá giảm
+                            {{ 'shop.price_reduction' | translate }}
                         </button>
                         <button type="button" class="list-item tab-shop text-primary w-hug"
                             [class]="tab_shop == 'tab_increase'?'tab-shop-active':''"
                             [disabled]="tab_shop == 'tab_increase'" (click)="tabShop('tab_increase')">
-                            Giá tăng
+                            {{ 'shop.price_increase' | translate }}
                         </button>
                     </div>
 
                     <div class="select_cate">
                         <select class="control text-primary" (change)="sortProductByCategory()" name="category_id"
                             [(ngModel)]="category_id">
-                            <option class="gradient-background" [value]="0">Tất cả danh mục</option>
+                            <option class="gradient-background" [value]="0">{{ 'shop.all_category' | translate }}
+                            </option>
                             <option class="gradient-background" *ngFor="let cate of shop?.categories" [value]="cate.id">
                                 {{ cate.name }}
                             </option>

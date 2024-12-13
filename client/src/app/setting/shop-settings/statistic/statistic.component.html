@@ -1,5 +1,19 @@
-<div class="border border-card-default card-background-default rounded-bottom-6 pt-10 pb-20 px-20">
-    
-    <canvas #chart7></canvas>
-    
+<div class="border border-card-default card-background-default rounded-bottom-6 p-20">
+
+    <div class="layout-vertical gap-20">
+        <div class="card-background-default rounded-6 border p-10">
+            <apx-chart [series]="chartOptions_1.series" [chart]="chartOptions_1.chart" [colors]="chartOptions_1.colors"
+                [title]="chartOptions_1.title" [dataLabels]="chartOptions_1.dataLabels" [stroke]="chartOptions_1.stroke"
+                [xaxis]="chartOptions_1.xaxis" [tooltip]="chartOptions_1.tooltip">
+            </apx-chart>
+        </div>
+
+        <div class="card-background-default rounded-6 border p-10">
+            <apx-chart [series]="chartOptions_2.series" [chart]="chartOptions_2.chart" [colors]="chartOptions_2.colors"
+                [plotOptions]="chartOptions_2.plotOptions" [dataLabels]="chartOptions_2.dataLabels"
+                [xaxis]="chartOptions_2.xaxis">
+            </apx-chart>
+        </div>
+    </div>
+
 </div>

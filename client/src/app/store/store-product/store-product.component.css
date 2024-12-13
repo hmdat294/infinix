@@ -1,3 +1,16 @@
+::ng-deep pagination-controls .ngx-pagination .current{
+    border-radius: 5px !important;
+    background-color: var(--accent-default) !important;
+}
+
+::ng-deep pagination-controls .ngx-pagination a{
+    color: var(--text-primary) !important;
+}
+
+::ng-deep pagination-controls .ngx-pagination a:hover{
+    background-color: var(--subtle-secondary) !important;
+}
+
 .rating .icon.active {
     color: rgb(255, 255, 0);
 }

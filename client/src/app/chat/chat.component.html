@@ -48,10 +48,16 @@
                                         {{(friend?.is_group == 1) ? friend.name :
                                         friend?.users[0].profile.display_name}}
                                     </p>
-                                    <p class="text-secondary text-caption w-fill" *ngIf="friend?.messages.length > 0">
-                                        <b *ngIf="friend?.messages[friend.messages.length-1].user_id == user?.id">Bạn:</b>
+                                    <p *ngIf="friend?.messages.length > 0 && friend?.messages[friend.messages.length-1].is_recalled == 0"
+                                        class="text-secondary text-caption w-fill">
+                                        <b
+                                            *ngIf="friend?.messages[friend.messages.length-1].user_id == user?.id">Bạn:</b>
                                         {{shortenTextByWords(friend?.messages[friend.messages.length-1].content,
                                         longText || 8)}}
+                                    </p>
+                                    <p *ngIf="friend?.messages.length > 0 && friend?.messages[friend.messages.length-1].is_recalled == 1"
+                                        class="text-secondary text-caption w-fill">
+                                        <i>*{{'chat.message.recalled' | translate}}</i>
                                     </p>
                                 </div>
                             </div>

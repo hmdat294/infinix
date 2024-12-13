@@ -34,7 +34,7 @@ export class ShopSettingsComponent implements OnInit {
 
   spaceCheck: any = /^\s*$/;
   tabAccordion: string = '';
-  tab_shop: string = 'tab_statistic';
+  tab_shop: string = 'tab_voucher';
   user: any;
   shop: any;
   products: any;
