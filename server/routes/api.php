@@ -66,7 +66,10 @@ Route::middleware(['guest'])->group(function () {
     Route::post('callback', [OrderController::class, 'callback']);
 });
 
+Route::get('query-order/{external_order_id}', [OrderController::class, 'test_query_order']);
+
 Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(function () {
+
 
     Route::get('shop-request', [ShopRequestController::class, 'index']);
     Route::post('shop-request', [ShopRequestController::class,'store']);
