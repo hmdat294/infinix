@@ -14,11 +14,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
     selector: 'app-store-product',
-<<<<<<< HEAD
-    imports: [CommonModule, FormsModule, CurrencyVNDPipe, RouterModule, TranslateModule],
-=======
     imports: [CommonModule, FormsModule, CurrencyVNDPipe, RouterModule, TranslateModule, NgxPaginationModule],
->>>>>>> b0e67cc97da34a3ab9c7b52bf9515dda01b4970b
     templateUrl: './store-product.component.html',
     styleUrl: './store-product.component.css'
 })

@@ -10,11 +10,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-checkout',
-<<<<<<< HEAD
-    imports: [CurrencyVNDPipe, CommonModule, FormsModule],
-=======
     imports: [CurrencyVNDPipe, CommonModule, FormsModule, TranslateModule],
->>>>>>> b0e67cc97da34a3ab9c7b52bf9515dda01b4970b
     templateUrl: './checkout.component.html',
     styleUrl: './checkout.component.css'
 })

@@ -11,20 +11,12 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^19.0.4",
-<<<<<<< HEAD
-    "@angular/cdk": "^18.2.10",
-=======
     "@angular/cdk": "^18.2.0",
->>>>>>> b0e67cc97da34a3ab9c7b52bf9515dda01b4970b
     "@angular/common": "^19.0.4",
     "@angular/compiler": "^19.0.4",
     "@angular/core": "^19.0.4",
     "@angular/forms": "^19.0.4",
-<<<<<<< HEAD
-    "@angular/material": "^18.2.10",
-=======
     "@angular/material": "^18.2.0",
->>>>>>> b0e67cc97da34a3ab9c7b52bf9515dda01b4970b
     "@angular/platform-browser": "^19.0.4",
     "@angular/platform-browser-dynamic": "^19.0.4",
     "@angular/router": "^19.0.4",
@@ -36,10 +28,7 @@
     "moment": "^2.30.1",
     "ng-apexcharts": "^1.15.0",
     "ng-speech-recognition": "^2.0.1",
-<<<<<<< HEAD
-=======
     "ngx-pagination": "^6.0.3",
->>>>>>> b0e67cc97da34a3ab9c7b52bf9515dda01b4970b
     "ngx-quill": "^27.0.0",
     "peerjs": "^1.5.4",
     "pusher-js": "^8.4.0-rc2",

@@ -14,17 +14,10 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
-<<<<<<< HEAD
-    selector: 'app-shop',
-    imports: [CommonModule, FormsModule, CurrencyVNDPipe, RouterModule, TranslateModule],
-    templateUrl: './shop.component.html',
-    styleUrl: './shop.component.css'
-=======
   selector: 'app-shop',
   imports: [CommonModule, FormsModule, CurrencyVNDPipe, RouterModule, TranslateModule, NgxPaginationModule],
   templateUrl: './shop.component.html',
   styleUrl: './shop.component.css'
->>>>>>> b0e67cc97da34a3ab9c7b52bf9515dda01b4970b
 })
 export class ShopComponent implements OnInit {
 

@@ -6,11 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-dashboard',
-<<<<<<< HEAD
-    imports: [NavComponent],
-=======
     imports: [NavComponent, TranslateModule],
->>>>>>> b0e67cc97da34a3ab9c7b52bf9515dda01b4970b
     templateUrl: './dashboard.component.html',
     styleUrl: './dashboard.component.css'
 })

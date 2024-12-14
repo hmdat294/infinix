@@ -24,12 +24,8 @@ import { StatisticComponent } from "./statistic/statistic.component";
         FeedbackComponent,
         TranslateModule,
         VoucherComponent,
-<<<<<<< HEAD
-        RouterModule
-=======
         RouterModule,
         StatisticComponent
->>>>>>> b0e67cc97da34a3ab9c7b52bf9515dda01b4970b
     ],
     templateUrl: './shop-settings.component.html',
     styleUrl: './shop-settings.component.css'
