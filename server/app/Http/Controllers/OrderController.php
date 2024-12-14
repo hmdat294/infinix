@@ -173,4 +173,14 @@ class OrderController extends Controller
 
         return OrderResource::collection($orders);
     }
+
+    public function cancel(Request $request, $id)
+    {
+        $order_group = OrderGroup::findOrFail($id);
+
+        $order_group->update(['status' => 'cancelled']);
+        $order_group->orders()->update(['status' => 'cancelled']);
+
+        return new OrderGroupResource($order_group);
+    }
 }
