@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\OrderGroup;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -16,14 +17,15 @@ class ZaloPayService
         $this->config = config('zalopay');
     }
 
-    public function createOrder($order_id, $amount, $description)
+    public function create_order($external_order_id, $amount, $description)
     {
 
         $embeddata = '{"redirecturl": "http://localhost:4200/store/?tab=tab_order"}';
+
         $order = [
             "app_id" => $this->config["app_id"],
             "app_time" => round(microtime(true) * 1000),
-            "app_trans_id" => date('ymd') . '_' . $order_id,
+            "app_trans_id" => $external_order_id,
             "app_user" => "Infinix",
             "item" => json_encode([]),
             "embed_data" => $embeddata,
@@ -57,11 +59,12 @@ class ZaloPayService
         return $result;
     }
 
-    public function queryOrder($appTransId)
+    // app_trans_id = external_order_id
+    public function query_order($external_order_id)
     {
         $data = [
             'app_id' => $this->config['app_id'],
-            'app_trans_id' => $appTransId,
+            'app_trans_id' => $external_order_id,
         ];
 
         $data['mac'] = hash_hmac('sha256', implode('|', [
@@ -69,8 +72,23 @@ class ZaloPayService
             $data['app_trans_id']
         ]), $this->config['key1']);
 
-        $response = Http::post($this->config['endpoint_query'], $data);
+        $context = stream_context_create([
+            "http" => [
+                "header" => "Content-type: application/x-www-form-urlencoded\r\n",
+                "method" => "POST",
+                "content" => http_build_query($data)
+            ]
+        ]);
+        
+        $resp = file_get_contents($this->config["endpoint_query"], false, $context);
+        $result = json_decode($resp, true);
 
-        return $response->json();
+        return $result;
+    }
+
+    public function refund($order_id, $description)
+    {
+        $order_group = OrderGroup::find($order_id);
+
     }
 }

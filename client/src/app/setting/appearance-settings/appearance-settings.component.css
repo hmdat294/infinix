@@ -1,9 +1,0 @@
-.rotate_icon_0{
-    transition: 0.3s;
-    transform: rotate(0deg);
-}
-
-.rotate_icon_180{
-    transition: 0.3s;
-    transform: rotate(180deg);
-}

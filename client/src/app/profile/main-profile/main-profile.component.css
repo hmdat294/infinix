@@ -1,9 +1,0 @@
-section>article {
-    margin-top: 50px;
-}
-
-@media (max-width: 480px) {
-    section>article {
-        margin-top: 90px;
-    }
-}
