@@ -36,9 +36,9 @@
         <div class="position-absolute top-0 start-0" (click)="showDiaLogVoucher()"
             style="width: 100%; height: 100vh; z-index: 1; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px);">
         </div>
-        <div class="dialog-panel position-absolute top-50 start-50 translate-middle" style="z-index: 2;">
-            <div class="layout-vertical p-20 gap-20 rounded-8 solid-background-base border border-card-default"
-                style="width: 1000px;">
+        <div class="dialog-panel position-absolute top-50 start-50 translate-middle overflow-scroll-vertical" style="z-index: 2;">
+            <div
+                class="layout-vertical p-20 gap-20 rounded-8 solid-background-base border border-card-default dialog_voucher">
 
                 <button type="button" class="button-subtle button-icon-only w-hug position-absolute"
                     (click)="showDiaLogVoucher()" style="right: 20px; top: 20px; z-index: 1;">
@@ -49,10 +49,10 @@
                     <p class="text-subtitle text-primary text-center">{{title_voucher}} mã giảm giá</p>
                 </div>
 
-                <div class="layout-vertical overflow-hidden">
-                    <div class="layout-horizontal gap-20">
-                        <div class="w-fill-column-6 border border-card-default rounded-6 overflow-scroll-vertical card-background-default"
-                            style="height: 445px;">
+                <div class="overflow-hidden">
+                    <div class="layout-horizontal in-tablet-layout-vertical in-mobile-layout-vertical gap-20">
+                        <div
+                            class="w-fill-column-6 in-tablet-w-fill in-mobile-w-fill border border-card-default rounded-6 overflow-scroll-vertical card-background-default h_list_prod">
                             <div class="w-fill layout-horizontal my-10 gap-20 px-10">
                                 <div class="control search-control w-fill">
                                     <input type="search" name="keyword" [(ngModel)]="keyword" (input)="searchProduct()"
@@ -113,167 +113,162 @@
                             </table>
                         </div>
 
-                        <div class="w-fill-column-6 layout-vertical gap-25">
+                        <div class="layout-wrap w-fill-column-6 in-tablet-w-fill in-mobile-w-fill gap-20">
 
-                            <div class="w-fill layout-vertical gap-5">
+                            <div class="w-fill-column-12 in-tablet-w-fill-column-8 in-mobile-w-fill layout-vertical gap-5">
                                 <p class="text-body text-primary">Mã giảm giá:</p>
                                 <div class="w-fill control text-control">
                                     <input type="text" spellcheck="false" name="code" [(ngModel)]="code" required>
                                 </div>
                             </div>
 
-                            <div class="w-fill layout-horizontal gap-20">
-                                <div class="w-fill-column-6 layout-vertical gap-5">
-                                    <p class="text-body text-primary">Giảm giá (%):</p>
-                                    <div class="w-fill control number-control">
-                                        <input type="number" min="0" spellcheck="false" name="discount"
-                                            [(ngModel)]="discount" required>
-                                        <button type="button" class="input-button increase-number-button"
-                                            (click)="_discount('add')">
-                                            <i class="icon-size-16 icon icon-ic_fluent_chevron_up_16_regular"></i>
-                                        </button>
-                                        <button type="button" class="input-button decrease-number-button"
-                                            (click)="_discount('reduce')">
-                                            <i class="icon-size-16 icon icon-ic_fluent_chevron_down_16_regular"></i>
-                                        </button>
-                                    </div>
-                                    <div *ngIf="discount < 0 || discount > 100"
-                                        class="text-caption position-absolute top-100 mt-5 text-system-critical">
-                                        Giá trị tối thiểu là 0 và tối đa 100.
-                                    </div>
+                            <div class="w-fill-column-6 in-tablet-w-fill-column-4 in-mobile-w-fill-column-6 layout-vertical gap-5">
+                                <p class="text-body text-primary">Giảm giá (%):</p>
+                                <div class="w-fill control number-control">
+                                    <input type="number" min="0" spellcheck="false" name="discount"
+                                        [(ngModel)]="discount" required>
+                                    <button type="button" class="input-button increase-number-button"
+                                        (click)="_discount('add')">
+                                        <i class="icon-size-16 icon icon-ic_fluent_chevron_up_16_regular"></i>
+                                    </button>
+                                    <button type="button" class="input-button decrease-number-button"
+                                        (click)="_discount('reduce')">
+                                        <i class="icon-size-16 icon icon-ic_fluent_chevron_down_16_regular"></i>
+                                    </button>
                                 </div>
-
-                                <div class="w-fill-column-6 layout-vertical gap-5">
-                                    <p class="text-body text-primary">Giảm tối đa (đ):</p>
-                                    <div class="w-fill control number-control">
-                                        <input type="number" min="0" spellcheck="false" name="max_discount"
-                                            [(ngModel)]="max_discount" required>
-                                        <button type="button" class="input-button increase-number-button"
-                                            (click)="_max_discount('add')">
-                                            <i class="icon-size-16 icon icon-ic_fluent_chevron_up_16_regular"></i>
-                                        </button>
-                                        <button type="button" class="input-button decrease-number-button"
-                                            (click)="_max_discount('reduce')">
-                                            <i class="icon-size-16 icon icon-ic_fluent_chevron_down_16_regular"></i>
-                                        </button>
-                                    </div>
-                                    <div *ngIf="max_discount < 0"
-                                        class="text-caption position-absolute top-100 mt-5 text-system-critical">
-                                        Giá trị tối thiểu là 0.
-                                    </div>
+                                <div *ngIf="discount < 0 || discount > 100"
+                                    class="text-caption position-absolute top-100 mt-5 text-system-critical">
+                                    Giá trị tối thiểu là 0 và tối đa 100.
                                 </div>
                             </div>
 
-                            <div class="w-fill layout-horizontal gap-20">
-                                <div class="w-fill-column-6 layout-vertical gap-5">
-                                    <p class="text-body text-primary">Yêu cầu tối thiểu (đ):</p>
-                                    <div class="w-fill control number-control">
-                                        <input type="number" min="0" spellcheck="false" name="min_price"
-                                            [(ngModel)]="min_price" required>
-                                        <button type="button" class="input-button increase-number-button"
-                                            (click)="_min_price('add')">
-                                            <i class="icon-size-16 icon icon-ic_fluent_chevron_up_16_regular"></i>
-                                        </button>
-                                        <button type="button" class="input-button decrease-number-button"
-                                            (click)="_min_price('reduce')">
-                                            <i class="icon-size-16 icon icon-ic_fluent_chevron_down_16_regular"></i>
-                                        </button>
-                                    </div>
-                                    <div *ngIf="min_price < 0"
-                                        class="text-caption position-absolute top-100 mt-5 text-system-critical">
-                                        Giá trị tối thiểu là 0.
-                                    </div>
+                            <div class="w-fill-column-6 in-tablet-w-fill-column-4 in-mobile-w-fill-column-6 layout-vertical gap-5">
+                                <p class="text-body text-primary">Giảm tối đa (đ):</p>
+                                <div class="w-fill control number-control">
+                                    <input type="number" min="0" spellcheck="false" name="max_discount"
+                                        [(ngModel)]="max_discount" required>
+                                    <button type="button" class="input-button increase-number-button"
+                                        (click)="_max_discount('add')">
+                                        <i class="icon-size-16 icon icon-ic_fluent_chevron_up_16_regular"></i>
+                                    </button>
+                                    <button type="button" class="input-button decrease-number-button"
+                                        (click)="_max_discount('reduce')">
+                                        <i class="icon-size-16 icon icon-ic_fluent_chevron_down_16_regular"></i>
+                                    </button>
                                 </div>
-
-                                <div class="w-fill-column-6 layout-vertical gap-5">
-                                    <p class="text-body text-primary">Lượt sử dụng:</p>
-                                    <div class="w-fill control number-control">
-                                        <input type="number" min="0" spellcheck="false" name="usage_limit"
-                                            [(ngModel)]="usage_limit" required>
-                                        <button type="button" class="input-button increase-number-button"
-                                            (click)="_usage_limit('add')">
-                                            <i class="icon-size-16 icon icon-ic_fluent_chevron_up_16_regular"></i>
-                                        </button>
-                                        <button type="button" class="input-button decrease-number-button"
-                                            (click)="_usage_limit('reduce')">
-                                            <i class="icon-size-16 icon icon-ic_fluent_chevron_down_16_regular"></i>
-                                        </button>
-                                    </div>
-                                    <div *ngIf="usage_limit < -1"
-                                        class="text-caption position-absolute top-100 mt-5 text-system-critical">
-                                        Giá trị tối thiểu là -1.
-                                    </div>
-                                    <div *ngIf="usage_limit == -1"
-                                        class="text-caption position-absolute top-100 mt-5 text-system-success">
-                                        Lượt sử dụng không giới hạn.
-                                    </div>
+                                <div *ngIf="max_discount < 0"
+                                    class="text-caption position-absolute top-100 mt-5 text-system-critical">
+                                    Giá trị tối thiểu là 0.
                                 </div>
                             </div>
 
-                            <div class="w-fill layout-horizontal gap-20">
-                                <div class="w-fill-column-6 layout-vertical gap-5">
-                                    <p class="text-body text-primary">Ngày bắt đầu:</p>
-                                    <div class="w-fill control text-control">
-                                        <input type="date" spellcheck="false" name="valid_from" [(ngModel)]="valid_from"
-                                            required>
-                                    </div>
-                                </div>
 
-                                <div class="w-fill-column-6 layout-vertical gap-5">
-                                    <p class="text-body text-primary">Số lượng:</p>
-                                    <div class="w-fill control number-control">
-                                        <input type="number" min="0" spellcheck="false" name="stock" [(ngModel)]="stock"
-                                            required>
-                                        <button type="button" class="input-button increase-number-button"
-                                            (click)="_stock('add')">
-                                            <i class="icon-size-16 icon icon-ic_fluent_chevron_up_16_regular"></i>
-                                        </button>
-                                        <button type="button" class="input-button decrease-number-button"
-                                            (click)="_stock('reduce')">
-                                            <i class="icon-size-16 icon icon-ic_fluent_chevron_down_16_regular"></i>
-                                        </button>
-                                    </div>
-                                    <div *ngIf="stock < -1"
-                                        class="text-caption position-absolute top-100 mt-5 text-system-critical">
-                                        Giá trị tối thiểu là -1.
-                                    </div>
-                                    <div *ngIf="stock == -1"
-                                        class="text-caption position-absolute top-100 mt-5 text-system-success">
-                                        Số lượng không giới hạn.
-                                    </div>
+                            <div class="w-fill-column-6 in-tablet-w-fill-column-4 in-mobile-w-fill-column-6 layout-vertical gap-5">
+                                <p class="text-body text-primary">Yêu cầu tối thiểu (đ):</p>
+                                <div class="w-fill control number-control">
+                                    <input type="number" min="0" spellcheck="false" name="min_price"
+                                        [(ngModel)]="min_price" required>
+                                    <button type="button" class="input-button increase-number-button"
+                                        (click)="_min_price('add')">
+                                        <i class="icon-size-16 icon icon-ic_fluent_chevron_up_16_regular"></i>
+                                    </button>
+                                    <button type="button" class="input-button decrease-number-button"
+                                        (click)="_min_price('reduce')">
+                                        <i class="icon-size-16 icon icon-ic_fluent_chevron_down_16_regular"></i>
+                                    </button>
+                                </div>
+                                <div *ngIf="min_price < 0"
+                                    class="text-caption position-absolute top-100 mt-5 text-system-critical">
+                                    Giá trị tối thiểu là 0.
                                 </div>
                             </div>
 
-                            <div class="w-fill layout-horizontal gap-20">
-                                <div class="w-fill-column-6 layout-vertical gap-5">
-                                    <p class="text-body text-primary">Ngày kết thúc</p>
-                                    <div class="w-fill control text-control">
-                                        <input type="date" spellcheck="false" name="valid_until"
-                                            [(ngModel)]="valid_until" required>
-                                    </div>
+                            <div class="w-fill-column-6 in-tablet-w-fill-column-4 in-mobile-w-fill-column-6 layout-vertical gap-5">
+                                <p class="text-body text-primary">Lượt sử dụng:</p>
+                                <div class="w-fill control number-control">
+                                    <input type="number" min="0" spellcheck="false" name="usage_limit"
+                                        [(ngModel)]="usage_limit" required>
+                                    <button type="button" class="input-button increase-number-button"
+                                        (click)="_usage_limit('add')">
+                                        <i class="icon-size-16 icon icon-ic_fluent_chevron_up_16_regular"></i>
+                                    </button>
+                                    <button type="button" class="input-button decrease-number-button"
+                                        (click)="_usage_limit('reduce')">
+                                        <i class="icon-size-16 icon icon-ic_fluent_chevron_down_16_regular"></i>
+                                    </button>
                                 </div>
-
-                                <div class="w-fill-column-6 layout-horizontal gap-20 align-bottom-right">
-                                    <div class="layout-horizontal gap-20 align-center-left py-5">
-                                        <label class="label-radio-control">
-                                            <input class="radio-control" type="radio" name="is_active" value="0"
-                                                [(ngModel)]="is_active">
-                                            <span class="text-body text-primary">
-                                                Ẩn
-                                            </span>
-                                        </label>
-                                        <label class="label-radio-control">
-                                            <input class="radio-control" type="radio" name="is_active" value="1"
-                                                [(ngModel)]="is_active">
-                                            <span class="text-body text-primary">
-                                                Hiện
-                                            </span>
-                                        </label>
-                                    </div>
+                                <div *ngIf="usage_limit < -1"
+                                    class="text-caption position-absolute top-100 mt-5 text-system-critical">
+                                    Giá trị tối thiểu là -1.
+                                </div>
+                                <div *ngIf="usage_limit == -1"
+                                    class="text-caption position-absolute top-100 mt-5 text-system-success">
+                                    Lượt sử dụng không giới hạn.
                                 </div>
                             </div>
 
-                            <div class="layout-horizontal align-center-right">
+
+                            <div class="w-fill-column-6 in-tablet-w-fill-column-4 in-mobile-w-fill-column-6 layout-vertical gap-5">
+                                <p class="text-body text-primary">Ngày bắt đầu:</p>
+                                <div class="w-fill control text-control">
+                                    <input type="date" spellcheck="false" name="valid_from" [(ngModel)]="valid_from"
+                                        required>
+                                </div>
+                            </div>
+
+                            <div class="w-fill-column-6 in-tablet-w-fill-column-4 in-mobile-w-fill-column-6 layout-vertical gap-5">
+                                <p class="text-body text-primary">Số lượng:</p>
+                                <div class="w-fill control number-control">
+                                    <input type="number" min="0" spellcheck="false" name="stock" [(ngModel)]="stock"
+                                        required>
+                                    <button type="button" class="input-button increase-number-button"
+                                        (click)="_stock('add')">
+                                        <i class="icon-size-16 icon icon-ic_fluent_chevron_up_16_regular"></i>
+                                    </button>
+                                    <button type="button" class="input-button decrease-number-button"
+                                        (click)="_stock('reduce')">
+                                        <i class="icon-size-16 icon icon-ic_fluent_chevron_down_16_regular"></i>
+                                    </button>
+                                </div>
+                                <div *ngIf="stock < -1"
+                                    class="text-caption position-absolute top-100 mt-5 text-system-critical">
+                                    Giá trị tối thiểu là -1.
+                                </div>
+                                <div *ngIf="stock == -1"
+                                    class="text-caption position-absolute top-100 mt-5 text-system-success">
+                                    Số lượng không giới hạn.
+                                </div>
+                            </div>
+
+
+                            <div class="w-fill-column-6 in-tablet-w-fill-column-4 in-mobile-w-fill-column-6 layout-vertical gap-5">
+                                <p class="text-body text-primary">Ngày kết thúc</p>
+                                <div class="w-fill control text-control">
+                                    <input type="date" spellcheck="false" name="valid_until" [(ngModel)]="valid_until"
+                                        required>
+                                </div>
+                            </div>
+
+                            <div class="w-fill-column-6 in-tablet-w-fill-column-4 in-mobile-w-fill-column-6 layout-horizontal gap-20 align-bottom-right in-tablet-align-center-left">
+                                <div class="layout-horizontal gap-20 align-center-left py-5">
+                                    <label class="label-radio-control">
+                                        <input class="radio-control" type="radio" name="is_active" value="0"
+                                            [(ngModel)]="is_active">
+                                        <span class="text-body text-primary">
+                                            Ẩn
+                                        </span>
+                                    </label>
+                                    <label class="label-radio-control">
+                                        <input class="radio-control" type="radio" name="is_active" value="1"
+                                            [(ngModel)]="is_active">
+                                        <span class="text-body text-primary">
+                                            Hiện
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="w-fill-column-12 in-tablet-w-fill-column-8 layout-horizontal align-center-right">
                                 <button type="button" class="button-accent button-text-only w-hug"
                                     (click)="createVoucher()">
                                     {{title_voucher}}

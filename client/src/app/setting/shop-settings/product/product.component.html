@@ -22,16 +22,16 @@
     </div>
     <table class="text-primary text-center w-fill">
         <tr class="text-body-strong">
-            <th style="width: 50px;">{{ 'setting.shop_settings.product.index' | translate }}</th>
+            <th class="hide_stt" style="width: 50px;">{{ 'setting.shop_settings.product.index' | translate }}</th>
             <th>{{ 'setting.shop_settings.product.image' | translate }}</th>
             <th>{{ 'setting.shop_settings.product.name' | translate }}</th>
-            <th>{{ 'setting.shop_settings.product.stock' | translate }}</th>
+            <th class="hide_quantity">{{ 'setting.shop_settings.product.stock' | translate }}</th>
             <th>{{ 'setting.shop_settings.product.price' | translate }}</th>
-            <th style="width: 90px;">#</th>
+            <th class="hide_action" style="width: 90px;">#</th>
         </tr>
         <tr class="border-top border-card-default" *ngFor="let product of products; let i = index"
             [class]="product.is_active == 0 || product.category_id == null?'text-disabled':''">
-            <td>{{i+1}}</td>
+            <td class="hide_stt">{{i+1}}</td>
             <td>
                 <img [src]="product.images[0]?.image" alt="" style="height: 50px; width: 50px;"
                     class="object-fit-cover rounded-4"
@@ -44,16 +44,30 @@
                 <p class="text-body">
                     - {{ shortenTextByWords(product.description, 5) }}
                 </p>
+                <p class="text-body show_quantity">
+                    - {{ 'setting.shop_settings.product.stock' | translate }}: {{ product.stock }}
+                </p>
             </td>
-            <td class="text-body">{{ product.stock }}</td>
+            <td class="text-body hide_quantity">{{ product.stock }}</td>
             <td>
                 <p *ngIf="product.discount > 0" class="text-caption"><del>{{ product.price | currencyVND
                         }}</del></p>
                 <p class="text-body-strong">
                     {{ product.price-((product.price*product.discount)/100) | currencyVND }}
                 </p>
+
+                <div class="layout-horizontal align-center-center gap-10 my-10 show_action">
+                    <button type="button" class="button-standard button-icon-only"
+                        (click)="showDiaLogUpdateProduct(product)">
+                        <i class="icon-size-16 icon icon-ic_fluent_edit_16_filled"></i>
+                    </button>
+                    <button type="button" class="button-standard button-icon-only"
+                        (click)="showDiaLogDeleteProduct(product.id)">
+                        <i class="icon-size-16 icon icon-ic_fluent_delete_16_filled"></i>
+                    </button>
+                </div>
             </td>
-            <td class="layout-horizontal align-center-right gap-10 my-10">
+            <td class="layout-horizontal align-center-right gap-10 my-10 hide_action">
                 <button type="button" class="button-standard button-icon-only"
                     (click)="showDiaLogUpdateProduct(product)">
                     <i class="icon-size-16 icon icon-ic_fluent_edit_16_filled"></i>
@@ -81,8 +95,8 @@
             style="width: 100%; height: 100vh; z-index: 1; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px);">
         </div>
         <div class="dialog-panel position-absolute top-50 start-50 translate-middle" style="z-index: 2;">
-            <div class="layout-vertical p-20 gap-20 rounded-8 solid-background-base border border-card-default"
-                style="width: 800px;">
+            <div
+                class="layout-vertical p-20 gap-20 rounded-8 solid-background-base border border-card-default dialog_prod">
 
                 <button type="button" class="button-subtle button-icon-only w-hug position-absolute"
                     (click)="showDiaLogCreateProduct()" style="right: 20px; top: 20px; z-index: 1;">
@@ -94,14 +108,15 @@
                         'setting.shop_settings.product.create_anh_update.create_title' | translate }}</p>
                 </div>
 
-                <div class="layout-vertical overflow-scroll-vertical" style="max-height: 70vh;">
+                <div class="layout-vertical overflow-scroll-vertical h_dialog_prod">
 
                     <form class="layout-vertical gap-15 w-fill" enctype="multipart/form-data" #frm_product="ngForm"
                         (submit)="createProduct(frm_product.value)">
 
-                        <div class="layout-horizontal gap-20 align-center-space-between">
+                        <div class="layout-horizontal in-mobile-layout-wrap gap-20 align-center-space-between">
 
-                            <div class="w-fill-column-6 layout-vertical gap-5">
+                            <div
+                                class="w-fill-column-6 in-tablet-w-fill-column-4 in-mobile-w-fill layout-vertical gap-5">
                                 <p class="text-body text-primary">{{
                                     'setting.shop_settings.product.create_anh_update.name' | translate }}</p>
                                 <div class="control text-control w-fill">
@@ -110,7 +125,8 @@
                                 </div>
                             </div>
 
-                            <div class="w-fill-column-3 layout-vertical gap-5">
+                            <div
+                                class="w-fill-column-3 in-tablet-w-fill-column-4 in-mobile-w-fill-column-6 layout-vertical gap-5">
                                 <p class="text-body text-primary">{{
                                     'setting.shop_settings.product.create_anh_update.stock' | translate }}</p>
                                 <div class="control number-control w-fill">
@@ -131,7 +147,8 @@
                                 </div>
                             </div>
 
-                            <div class="w-fill-column-3 layout-vertical gap-5">
+                            <div
+                                class="w-fill-column-3 in-tablet-w-fill-column-4 in-mobile-w-fill-column-6 layout-vertical gap-5">
                                 <p class="text-body text-primary">{{
                                     'setting.shop_settings.product.create_anh_update.category' | translate }}</p>
                                 <select class="control w-fill text-primary" name="category_id_product"
@@ -145,9 +162,10 @@
 
                         </div>
 
-                        <div class="w-fill layout-horizontal gap-20">
+                        <div class="w-fill layout-horizontal in-mobile-layout-wrap gap-20">
 
-                            <div class="w-fill-column-6 layout-vertical gap-5">
+                            <div
+                                class="w-fill-column-6 in-tablet-w-fill-column-4 in-mobile-w-fill layout-vertical gap-5">
                                 <p class="text-body text-primary">{{
                                     'setting.shop_settings.product.create_anh_update.description' | translate }}</p>
                                 <textarea style="min-height: 90px;" class="control text-area-control w-fill"
@@ -155,12 +173,14 @@
                                     [(ngModel)]="description_product" required></textarea>
                             </div>
 
-                            <div class="w-fill-column-6 layout-vertical" style="justify-content: space-between;">
+                            <div class="w-fill-column-6 in-tablet-w-fill-column-8 in-mobile-w-fill layout-vertical in-mobile-gap-20"
+                                style="justify-content: space-between;">
                                 <div class="w-fill layout-horizontal gap-20">
 
                                     <div class="w-fill-column-6 layout-vertical gap-5">
                                         <p class="text-body text-primary">{{
-                                            'setting.shop_settings.product.create_anh_update.price' | translate }}</p>
+                                            'setting.shop_settings.product.create_anh_update.price' | translate }} (đ)
+                                        </p>
                                         <div class="control number-control w-fill">
                                             <input type="number" min="0" spellcheck="false" name="price_product" ngModel
                                                 [(ngModel)]="price_product" required>
@@ -183,6 +203,7 @@
                                     <div class="w-fill-column-6 layout-vertical gap-5">
                                         <p class="text-body text-primary">{{
                                             'setting.shop_settings.product.create_anh_update.discount' | translate }}
+                                            (%)
                                         </p>
                                         <div class="control number-control w-fill">
                                             <input type="number" min="0" max="100" spellcheck="false"
@@ -274,8 +295,8 @@
             style="width: 100%; height: 100vh; z-index: 1; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px);">
         </div>
         <div class="dialog-panel position-absolute top-50 start-50 translate-middle" style="z-index: 2;">
-            <div class="layout-vertical p-20 gap-20 rounded-8 solid-background-base border border-card-default"
-                style="width: 800px;">
+            <div
+                class="layout-vertical p-20 gap-20 rounded-8 solid-background-base border border-card-default dialog_prod">
 
                 <button type="button" class="button-subtle button-icon-only w-hug position-absolute"
                     (click)="showDiaLogUpdateProduct(null)" style="right: 20px; top: 20px; z-index: 1;">
@@ -287,14 +308,15 @@
                         'setting.shop_settings.product.create_anh_update.update_title' | translate }}</p>
                 </div>
 
-                <div class="layout-vertical overflow-scroll-vertical" style="max-height: 70vh;">
+                <div class="layout-vertical overflow-scroll-vertical h_dialog_prod">
 
                     <form class="layout-vertical gap-15 w-fill" enctype="multipart/form-data"
                         #frm_product_update="ngForm" (submit)="updateProduct(frm_product_update.value)">
 
-                        <div class="layout-horizontal gap-20 align-center-space-between">
+                        <div class="layout-horizontal in-mobile-layout-wrap gap-20 align-center-space-between">
 
-                            <div class="w-fill-column-6 layout-vertical gap-5">
+                            <div
+                                class="w-fill-column-6 in-tablet-w-fill-column-4 in-mobile-w-fill layout-vertical gap-5">
                                 <p class="text-body text-primary">{{
                                     'setting.shop_settings.product.create_anh_update.name' | translate }}</p>
                                 <div class="control text-control w-fill">
@@ -303,7 +325,8 @@
                                 </div>
                             </div>
 
-                            <div class="w-fill-column-3 layout-vertical gap-5">
+                            <div
+                                class="w-fill-column-3 in-tablet-w-fill-column-4 in-mobile-w-fill-column-6 layout-vertical gap-5">
                                 <p class="text-body text-primary">{{
                                     'setting.shop_settings.product.create_anh_update.stock' | translate }}</p>
                                 <div class="control number-control w-fill">
@@ -324,7 +347,8 @@
                                 </div>
                             </div>
 
-                            <div class="w-fill-column-3 layout-vertical gap-5">
+                            <div
+                                class="w-fill-column-3 in-tablet-w-fill-column-4 in-mobile-w-fill-column-6 layout-vertical gap-5">
                                 <p class="text-body text-primary">{{
                                     'setting.shop_settings.product.create_anh_update.category' | translate }}</p>
                                 <select class="control w-fill text-primary" name="category_id_product_update"
@@ -341,9 +365,10 @@
 
                         </div>
 
-                        <div class="w-fill layout-horizontal gap-20">
+                        <div class="w-fill layout-horizontal in-mobile-layout-wrap gap-20">
 
-                            <div class="w-fill-column-6 layout-vertical gap-5">
+                            <div
+                                class="w-fill-column-6 in-tablet-w-fill-column-4 in-mobile-w-fill layout-vertical gap-5">
                                 <p class="text-body text-primary">{{
                                     'setting.shop_settings.product.create_anh_update.description' | translate }}</p>
                                 <textarea style="min-height: 90px;" class="control text-area-control w-fill"
@@ -351,12 +376,14 @@
                                     [(ngModel)]="description_product_update" required></textarea>
                             </div>
 
-                            <div class="w-fill-column-6 layout-vertical" style="justify-content: space-between;">
+                            <div class="w-fill-column-6 in-tablet-w-fill-column-8 in-mobile-w-fill layout-vertical in-mobile-gap-20"
+                                style="justify-content: space-between;">
                                 <div class="w-fill layout-horizontal gap-20">
 
                                     <div class="w-fill-column-6 layout-vertical gap-5">
                                         <p class="text-body text-primary">{{
-                                            'setting.shop_settings.product.create_anh_update.price' | translate }}</p>
+                                            'setting.shop_settings.product.create_anh_update.price' | translate }} (đ)
+                                        </p>
                                         <div class="control number-control w-fill">
                                             <input type="number" min="0" spellcheck="false" name="price_product_update"
                                                 ngModel [(ngModel)]="price_product_update" required>
@@ -379,6 +406,7 @@
                                     <div class="w-fill-column-6 layout-vertical gap-5">
                                         <p class="text-body text-primary">{{
                                             'setting.shop_settings.product.create_anh_update.discount' | translate }}
+                                            (%)
                                         </p>
                                         <div class="control number-control w-fill">
                                             <input type="number" min="0" max="100" spellcheck="false"
@@ -471,8 +499,8 @@
             style="width: 100%; height: 100vh; z-index: 1; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px);">
         </div>
         <div class="dialog-panel position-absolute top-50 start-50 translate-middle" style="z-index: 2;">
-            <div class="layout-vertical p-20 gap-20 rounded-8 solid-background-base border border-card-default"
-                style="width: 400px;">
+            <div
+                class="layout-vertical p-20 gap-20 rounded-8 solid-background-base border border-card-default dialog_del_prod">
 
                 <button type="button" class="button-subtle button-icon-only w-hug position-absolute"
                     (click)="showDiaLogDeleteProduct(0)" style="right: 20px; top: 20px; z-index: 1;">

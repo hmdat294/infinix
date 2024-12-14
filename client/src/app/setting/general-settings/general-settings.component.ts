@@ -63,6 +63,23 @@ export class GeneralSettingsComponent implements OnInit {
     this.translate.use(this.lang);
   }
 
+  isAgeValid(): boolean {
+    if (!this.date_of_birth) {
+      return false;
+    }
+    const dob = new Date(this.date_of_birth);
+    const today = new Date();
+    const age = today.getFullYear() - dob.getFullYear();
+    const monthDiff = today.getMonth() - dob.getMonth();
+    const dayDiff = today.getDate() - dob.getDate();
+
+    // Kiểm tra chính xác tuổi
+    if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+      return age - 1 >= 16;
+    }
+    return age >= 16;
+  }
+
   report_id: number = 0;
   viewReport(id: number) {
     this.report_id = id;

@@ -1,12 +1,19 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationService {
+
+  private sharedNotiChat = new BehaviorSubject<any>('Default Value');
+  sharedNotiChat$ = this.sharedNotiChat.asObservable();
+
+  updateNotiChat(newValue: any) {
+    this.sharedNotiChat.next(newValue);
+  }
 
   constructor(
     private http: HttpClient,

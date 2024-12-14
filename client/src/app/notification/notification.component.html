@@ -11,10 +11,12 @@
                         <div class="layout-horizontal gap-10">
                             <button type="button"
                                 class="button-{{is_read_notification == 'all'?'accent':'standard'}} button-text-only"
-                                (click)="filterNotification('all')">{{ 'notification.all_notification' | translate }}</button>
+                                (click)="filterNotification('all')">{{ 'notification.all_notification' | translate
+                                }}</button>
                             <button type="button"
                                 class="button-{{is_read_notification == 'unread'?'accent':'standard'}} button-text-only"
-                                (click)="filterNotification('unread')">{{ 'notification.unread_notification' | translate }}</button>
+                                (click)="filterNotification('unread')">{{ 'notification.unread_notification' | translate
+                                }}</button>
                         </div>
                     </div>
                 </div>
@@ -34,13 +36,19 @@
                                 class="rounded-circle object-fit-cover" style="width: 35px; height: 35px;">
                             <div *ngIf="noti.is_read == 0" class="list-item layout-vertical gap-5 w-fill"
                                 (click)="updateNotification(noti.id)">
-                                <p class="text-body text-primary">{{noti.content}}</p>
+                                <p class="text-body text-primary layout-horizontal gap-5">
+                                    <span [innerHTML]="noti_icon[noti.action_type]"></span>
+                                    {{noti.target_user.profile.display_name +' '+
+                                    ('notification.content.'+noti.action_type | translate)}}</p>
                                 <p class="text-secondary text-caption">{{noti.created_at_time}} -
                                     {{noti.created_at_date}}
                                 </p>
                             </div>
                             <div *ngIf="noti.is_read != 0" class="list-item layout-vertical gap-5 w-fill">
-                                <p class="text-body text-primary">{{noti.content}}</p>
+                                <p class="text-body text-primary layout-horizontal gap-5">
+                                    <span [innerHTML]="noti_icon[noti.action_type]"></span>
+                                    {{noti.target_user.profile.display_name +' '+
+                                    ('notification.content.'+noti.action_type | translate)}}</p>
                                 <p class="text-secondary text-caption">{{noti.created_at_time}} -
                                     {{noti.created_at_date}}
                                 </p>

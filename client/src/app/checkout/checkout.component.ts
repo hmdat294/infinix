@@ -6,11 +6,15 @@ import { AuthService } from '../service/auth.service';
 import { FormsModule } from '@angular/forms';
 import { PaymentService } from '../service/payment.service';
 import { ShopService } from '../service/shop.service';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-checkout',
+<<<<<<< HEAD
     imports: [CurrencyVNDPipe, CommonModule, FormsModule],
+=======
+    imports: [CurrencyVNDPipe, CommonModule, FormsModule, TranslateModule],
+>>>>>>> b0e67cc97da34a3ab9c7b52bf9515dda01b4970b
     templateUrl: './checkout.component.html',
     styleUrl: './checkout.component.css'
 })
@@ -86,6 +90,7 @@ export class CheckoutComponent implements OnInit {
   useVoucher(code: string) {
     this.applied_voucher = code;
     this.addVoucher();
+    this.viewVoucher = false;
   }
 
   calculateEndDays(end_date: Date) {

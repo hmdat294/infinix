@@ -25,6 +25,7 @@ export class HeaderComponent implements OnInit {
   keyword: string = '';
   currentRoute: string | undefined;
   conversation: any[] = [];
+  notificationChat: any = [];
   notification: any = [];
   notificationFilter: any = [];
   is_read_notification: string = 'all';
@@ -81,22 +82,36 @@ export class HeaderComponent implements OnInit {
     this.notificationService.getNotification().subscribe(
       (data) => {
 
-        this.notification = data.data;
-        // console.log(this.notification);
+        this.notification = data.data.filter((item: any) => item.conversation_id == null);
+        this.notificationChat = data.data.filter((item: any) => item.conversation_id != null);
+        // console.log(this.notificationChat);
+
+        this.notificationService.updateNotiChat(this.notificationChat);
+
         this.notificationFilter = [...this.notification];
         this.eventService.bindEvent('App\\Events\\NotificationEvent', (data: any) => {
           // console.log('Notification event received:', data);
 
-          this.notification.unshift(data.data);
+          this.notificationService.updateNotiChat(this.notificationChat);
+
+          this.notification.unshift(data.data.filter((item: any) => item.conversation_id == null));
+          this.notificationChat.unshift(data.data.filter((item: any) => item.conversation_id != null));
           this.notificationFilter = [...this.notification];
         });
 
       });
 
+    // this.notificationService.getNotification().subscribe(
+    //   (data) => {
+    //     this.notification = data.data.filter((item: any) => item.conversation_id == null);
+    //     console.log(this.notification);
+    //     this.notificationFilter = [...this.notification];
+    //   });
+
     this.shopService.getCart().subscribe(
       (data) => {
         this.cart = data.data;
-        console.log(data.data);
+        // console.log(cart);
         this.groupShop();
       });
 
@@ -112,6 +127,22 @@ export class HeaderComponent implements OnInit {
           this.shopService.updateCart(response.data);
         });
     });
+  }
+
+  noti_icon: any = {
+    'user_like_post': '<i class="text-accent-default icon-size-20 icon icon-ic_fluent_thumb_like_20_filled"></i>',
+    'user_comment_post': '<i class="text-accent-default icon-size-20 icon icon-ic_fluent_chat_20_filled"></i>',
+    'user_share_post': '<i class="text-accent-default icon-size-20 icon icon-ic_fluent_share_20_filled"></i>',
+    'user_follow': '<i class="text-accent-default icon-size-20 icon icon-ic_fluent_person_heart_20_filled"></i>',
+    'user_send_friend_request': '<i class="text-accent-default icon-size-20 icon icon-ic_fluent_person_add_20_filled"></i>',
+    'user_accept_friend_request': '<i class="text-accent-default icon-size-20 icon icon-ic_fluent_person_available_20_filled"></i>',
+    'user_send_conversation_invitation': '<i class="text-accent-default icon-size-20 icon icon-ic_fluent_chat_add_20_filled"></i>',
+    'user_accept_conversation_invitation': '<i class="text-accent-default icon-size-20 icon icon-ic_fluent_chat_20_filled"></i>',
+    'user_create_post': '<i class="text-accent-default icon-size-20 icon icon-ic_fluent_content_view_20_filled"></i>',
+    'user_send_message': '<i class="text-accent-default icon-size-20 icon icon-ic_fluent_chat_20_filled"></i>',
+    'user_recall_message': '<i class="text-accent-default icon-size-20 icon icon-ic_fluent_chat_dismiss_20_filled"></i>',
+    'user_pin_message': '<i class="text-accent-default icon-size-20 icon icon-ic_fluent_pin_20_filled"></i>',
+    'user_reply_message': '<i class="text-accent-default icon-size-20 icon icon-ic_fluent_chat_arrow_back_20_filled"></i>'
   }
 
   getCheckedProducts() {

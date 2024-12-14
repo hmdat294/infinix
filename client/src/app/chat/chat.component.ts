@@ -9,6 +9,7 @@ import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { SettingService } from '../service/setting.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { NotificationService } from '../service/notification.service';
 
 @Component({
     selector: 'app-chat',
@@ -67,14 +68,15 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   keyword: string = '';
   friendsSearch: any = [];
   friendsFilter: any = [];
+  countNotification: any = [];
 
   constructor(
     private el: ElementRef,
-    private renderer: Renderer2,
     private chatService: ChatService,
     private authService: AuthService,
     private eventService: EventService,
-    private settingService: SettingService
+    private settingService: SettingService,
+    private notificationService: NotificationService,
   ) { }
 
   @ViewChild('scrollBox') private scrollBox!: ElementRef;
@@ -88,6 +90,16 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
         this.listUser = response.data;
       });
 
+    this.notificationService.sharedNotiChat$.subscribe((value) => {
+      if (Array.isArray(value)) {
+        this.countNotification = value.reduce((acc: any, curr: any) => {
+          const id = curr.conversation_id;
+          acc[id] = (acc[id] || 0) + 1;
+          return acc;
+        }, {});
+      }
+    });
+
     this.authService.getUser(0).subscribe(
       (response) => {
         this.user = response.data;
@@ -100,7 +112,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
               ...item,
               users: item.users.filter((user: any) => user.id !== this.user?.id)
             }))
-            // console.log(this.friends);
+            console.log(this.friends);
 
             if (this.friends.length > 0) {
               this.MessageUser(this.friends[0]);
@@ -118,9 +130,13 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
             this.eventService.bindEvent('App\\Events\\UserSendMessageEvent', (data: any) => {
               this.isScrollingToElement = false;
-              // console.log('Message event:', data);
-              if (this.conversation?.id == data.data?.conversation_id)
-                this.conversation.messages.push(data.data);
+              console.log('Message event:', data);
+
+              // if (this.conversation?.id == data.data?.conversation_id)
+              // this.conversation.messages.push(data.data);
+
+              const conversation = this.friends.find((conv: any) => conv.id == data.data?.conversation_id)
+              conversation.messages.push(data.data);
 
               if (this.user.id !== data.data.user_id) {
 
@@ -171,9 +187,14 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
   tab_3: boolean = true;
   widthChat: number = 0;
 
+  longText: number = 0;
+  @ViewChild('elementText', { static: false }) elementText!: ElementRef;
+
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.updateClassTab(event.target.innerWidth);
+    this.longText = Math.round(this.elementText.nativeElement.offsetWidth / 50);
+    this.longText = this.longText > 8 ? 8 : this.longText == 0 ? 6 : this.longText;
   }
 
   updateClassTab(width: number) {

@@ -7,3 +7,21 @@
 .table-info-bill td {
     padding: 10px 20px;
 }
+
+.show_code {
+    display: none;
+}
+
+@media (max-width: 700px) {
+    .hide_code {
+        display: none;
+    }
+
+    .show_code {
+        display: flex;
+    }
+
+    .resp_gap_20{
+        gap: 20px;
+    }
+}

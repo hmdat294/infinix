@@ -11,12 +11,20 @@ import { CheckoutService } from '../service/checkout.service';
 import { AuthService } from '../service/auth.service';
 import { PaymentService } from '../service/payment.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
+<<<<<<< HEAD
     selector: 'app-shop',
     imports: [CommonModule, FormsModule, CurrencyVNDPipe, RouterModule, TranslateModule],
     templateUrl: './shop.component.html',
     styleUrl: './shop.component.css'
+=======
+  selector: 'app-shop',
+  imports: [CommonModule, FormsModule, CurrencyVNDPipe, RouterModule, TranslateModule, NgxPaginationModule],
+  templateUrl: './shop.component.html',
+  styleUrl: './shop.component.css'
+>>>>>>> b0e67cc97da34a3ab9c7b52bf9515dda01b4970b
 })
 export class ShopComponent implements OnInit {
 
@@ -33,6 +41,7 @@ export class ShopComponent implements OnInit {
   feedbacks: any = [];
   cart: any = [];
   vouchers: any = [];
+  currentPage = 1;
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -78,6 +87,9 @@ export class ShopComponent implements OnInit {
             currentDate <= validUntil
           );
         }).slice(0, 3);
+
+        console.log(this.vouchers);
+
       });
     });
 
@@ -123,6 +135,8 @@ export class ShopComponent implements OnInit {
     this.shopService.saveVoucher(code).subscribe(
       (res) => {
         console.log(res);
+        const voucher = this.vouchers.find((item: any) => item.code == code);
+        voucher.is_saved = !voucher.is_saved;
       });
   }
 

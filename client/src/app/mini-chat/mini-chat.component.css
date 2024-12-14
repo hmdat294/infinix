@@ -1,4 +1,3 @@
-
 .box-chat {
     display: flex;
     flex-direction: column;
@@ -21,7 +20,7 @@
     max-height: 200px;
 }
 
-.border-focus{
+.border-focus {
     outline: 3px solid rgb(0, 0, 0, 0.9);
     outline-offset: 3px;
 }
@@ -95,4 +94,14 @@
 .layout-6>div:last-child {
     grid-column-start: 1;
     grid-column-end: 3;
+}
+
+.mini_box {
+    width: 390px;
+}
+
+@media (max-width: 480px) {
+    .mini_box {
+        width: calc(100vw - 90px);
+    }
 }

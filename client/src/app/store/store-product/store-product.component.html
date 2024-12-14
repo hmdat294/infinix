@@ -1,4 +1,4 @@
-<div class="layout-vertical card-background-default border border-card-default rounded-8 mb-10">
+<div class="layout-vertical card-background-default border border-card-default rounded-8 mb-10 h-hug">
 
     <div class="layout-horizontal align-center-space-between px-20 py-15">
         <p class="text-primary text-subtitle">Cửa hàng</p>
@@ -20,7 +20,7 @@
     <div class="layout-wrap gap-20 p-20 border-top border-card-default w-fill">
 
         <div class="border rounded-6 layout-vertical w-fill-column-4 in-tablet-w-fill-column-6 in-mobile-w-fill-column-6 overflow-hidden card-background-default"
-            *ngFor="let product of listProduct">
+            *ngFor="let product of listProduct | paginate: { itemsPerPage: 6, currentPage: currentPage }">
             <div class="position-absolute top-0 w-fill text-right" style="z-index: 5;">
                 <span *ngIf="product.discount>0" class="text-caption p-5"
                     style="border-radius: 0 0 0 10px; background-color: #C42B1C; color: white;">
@@ -200,7 +200,7 @@
 
                                     <div class="layout-horizontal align-center-space-between gap-20 my-10">
                                         <img [src]="product.shop_logo" style="width: 35px; height: 35px;"
-                                            class="rounded-circle" alt="">
+                                            class="rounded-circle object-fit-cover" alt="">
                                         <div class="w-fill">
                                             <p class="text-primary text-body-strong">{{product.shop_name}}</p>
                                             <p class="text-primary text-caption">{{product.shop_description}}</p>
@@ -298,4 +298,10 @@
             </div>
         </div>
     </div>
+
+    <div class="layout-horizontal align-center-center p-10">
+        <pagination-controls (pageChange)="currentPage = $event" previousLabel=""
+            nextLabel=""></pagination-controls>
+    </div>
+
 </div>

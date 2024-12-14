@@ -85,6 +85,12 @@
                 class="button-subtle button-icon-only {{(currentRoute == 'chat')?'text-accent-default':'text-secondary'}}">
                 <i *ngIf="(currentRoute == 'chat')" class="icon-size-24 icon icon-ic_fluent_chat_24_filled"></i>
                 <i *ngIf="(currentRoute != 'chat')" class="icon-size-24 icon icon-ic_fluent_chat_24_regular"></i>
+
+                <p *ngIf="notificationChat?.length > 0"
+                    class="position-absolute rounded-circle top-0 end-0 text-on-accent-primary layout align-center-center"
+                    style="background-color: #C42B1C; width: 13px; height: 13px; font-size: 10px; margin-right: 5px;">
+                    <span>{{notificationChat?.length}}</span>
+                </p>
             </a>
 
             <a [routerLink]="['/setting']"
@@ -137,13 +143,21 @@
                             class="rounded-circle object-fit-cover" style="width: 35px; height: 35px;">
                         <div *ngIf="noti.is_read == 0" class="list-item layout-vertical gap-5 w-fill"
                             (click)="updateNotification(noti.id)">
-                            <p class="text-body text-primary">{{noti.content}}</p>
-                            <p class="text-secondary text-caption">{{noti.created_at_time}} - {{noti.created_at_date}}
+                            <p class="text-body text-primary layout-horizontal gap-5">
+                                <span [innerHTML]="noti_icon[noti.action_type]"></span>
+                                {{noti.target_user.profile.display_name +' '+
+                                ('notification.content.'+noti.action_type | translate)}}</p>
+                            <p class="text-secondary text-caption">{{noti.created_at_time}} -
+                                {{noti.created_at_date}}
                             </p>
                         </div>
                         <div *ngIf="noti.is_read != 0" class="list-item layout-vertical gap-5 w-fill">
-                            <p class="text-body text-primary">{{noti.content}}</p>
-                            <p class="text-secondary text-caption">{{noti.created_at_time}} - {{noti.created_at_date}}
+                            <p class="text-body text-primary layout-horizontal gap-5">
+                                <span [innerHTML]="noti_icon[noti.action_type]"></span>
+                                {{noti.target_user.profile.display_name +' '+
+                                ('notification.content.'+noti.action_type | translate)}}</p>
+                            <p class="text-secondary text-caption">{{noti.created_at_time}} -
+                                {{noti.created_at_date}}
                             </p>
                         </div>
                         <button type="button" class="button-standard button-icon-only"

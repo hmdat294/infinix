@@ -1,8 +1,8 @@
 <section class="gradient-background layout-vertical" style="height: 100vh;">
 
     <article class="layout-horizontal gap-20 px-20 w-fill h-fill overflow-hidden">
-        <div
-            class="{{(tab_1)?'display-flex':'display-none'}} w-fill-column-3 in-tablet-w-fill-column-4 in-mobile-w-fill layout-vertical gap-20 py-20 overflow-scroll-vertical">
+        <div class="{{(tab_1)?'display-flex':'display-none'}} w-fill-column-3 in-tablet-w-fill-column-4 in-mobile-w-fill layout-vertical gap-20 py-20 overflow-scroll-vertical"
+            #elementText>
             <div class="layout-vertical card-background-default border border-card-default rounded-8"
                 style="height: calc(100vh - 85px);">
                 <div class="w-fill layout-horizontal align-center-space-between px-20 py-15">
@@ -35,18 +35,39 @@
 
                 <div class="overflow-scroll-vertical">
                     <div class="border-top" *ngFor="let friend of friends">
-                        <button type="button" class="button-subtle w-fill gap-15 px-20 py-15"
-                            (click)="MessageUser(friend)" style="cursor: pointer;">
-                            <img [src]="
-                                (friend?.is_group == 1) ? friend.image : friend?.users[0].profile.profile_photo
-                            " alt="" style="width: 35px; height: 35px;"
-                                class="rounded-circle border border-card-default object-fit-cover">
-                            <p class="text-secondary text-body-strong w-fill layout">
-                                {{
-                                (friend?.is_group == 1) ? friend.name : friend?.users[0].profile.display_name
-                                }}
+                        <a class="list-item layout-horizontal align-center-space-between gap-10 w-fill"
+                            style="padding: 15px 20px;" (click)="MessageUser(friend)"
+                            [class]="friend?.id == conversation?.id ? 'active' : ''">
+                            <div class="layout-horizontal align-center-left gap-10 w-fill">
+                                <img [src]="(friend?.is_group == 1) ? friend.image : friend?.users[0].profile.profile_photo"
+                                    style="width: 35px; height: 35px;"
+                                    class="rounded-circle border border-card-default object-fit-cover">
+
+                                <div>
+                                    <p class="text-secondary text-body-strong w-fill">
+                                        {{(friend?.is_group == 1) ? friend.name :
+                                        friend?.users[0].profile.display_name}}
+                                    </p>
+                                    <p *ngIf="friend?.messages.length > 0 && friend?.messages[friend.messages.length-1].is_recalled == 0"
+                                        class="text-secondary text-caption w-fill">
+                                        <b
+                                            *ngIf="friend?.messages[friend.messages.length-1].user_id == user?.id">Bạn:</b>
+                                        {{shortenTextByWords(friend?.messages[friend.messages.length-1].content,
+                                        longText || 8)}}
+                                    </p>
+                                    <p *ngIf="friend?.messages.length > 0 && friend?.messages[friend.messages.length-1].is_recalled == 1"
+                                        class="text-secondary text-caption w-fill">
+                                        <i>*{{'chat.message.recalled' | translate}}</i>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <p *ngIf="countNotification[friend?.id] > 0"
+                                class="layout align-center-center text-caption text-on-accent-primary rounded-circle"
+                                style="background-color: #C42B1C; width: 18px; height: 17px; font-size: 12px; padding-right: 1px;">
+                                <span>{{countNotification[friend?.id]}}</span>
                             </p>
-                        </button>
+                        </a>
                     </div>
                 </div>
 
@@ -517,7 +538,7 @@
                         </div>
 
                         <div class="w-fill layout align-top-right" *ngIf="(user.id == msg.user_id)">
-                            <div class="mess-hover layout-horizontal gap-15 p-20">
+                            <div class="mess-hover layout-horizontal align-center-right gap-15 p-20">
                                 <div style="position: relative;">
                                     <p class="text-primary text-body mb-5 text-right">
                                         {{msg.user.profile.display_name}}
@@ -719,7 +740,7 @@
                         </div>
 
                         <div class="w-fill layout align-top-left" *ngIf="(user.id != msg.user_id)">
-                            <div class="mess-hover layout-horizontal gap-15 p-20">
+                            <div class="mess-hover layout-horizontal align-center-left gap-15 p-20">
                                 <img [src]="msg.user.profile.profile_photo"
                                     class="rounded-circle border border-card-default object-fit-cover" alt=""
                                     style="width: 35px; height: 35px;">

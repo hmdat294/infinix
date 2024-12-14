@@ -1,35 +1,46 @@
-<div class="border border-card-default card-background-default rounded-bottom-6 pt-10 pb-20 px-20">
-    <table class="text-primary text-center w-fill" *ngIf="feedbacks.length > 0">
-        <tr class="text-body-strong">
+<div class="border border-card-default card-background-default rounded-bottom-6 p-10">
+    <div class="text-primary text-center w-fill layout-vertical gap-10" *ngIf="feedbacks.length > 0">
+        <!-- <tr class="text-body-strong">
             <th style="width: 50px;">STT</th>
-            <th>Người đánh giá</th>
+            <th>Tên</th>
             <th>Nội dung</th>
-            <th>Số sao</th>
             <th>Thời gian</th>
-        </tr>
+            <th>Sản phẩm</th>
+        </tr> -->
         <!-- for -->
-        <tr class="border-top border-card-default" *ngFor="let feedback of feedbacks; let i = index;">
-            <td>{{i+1}}</td>
-            <td>
-                <a [routerLink]="['/friend-profile', feedback.user_id]"
-                    class="layout-horizontal align-center-center gap-5 link">
-                    <img [src]="feedback.user.profile_photo" alt=""
-                        class="object-fit-cover rounded-circle border-card-default" width="30px" height="30px">
-                    <p class="text-body-strong">{{feedback.user.display_name}}</p>
-                </a>
-            </td>
-            <td class="text-body">{{feedback.content}}</td>
-            <td class="text-body">
-                <div class="layout-horizontal align-center-center rating" style="font-size: 1em;">
-                    <i *ngFor="let star of stars; let i = index" [class.active]="i < feedback.rating" [ngClass]="{
-                        'icon-ic_fluent_star_12_filled': i < feedback.rating,
-                        'icon-ic_fluent_star_12_regular': i >= feedback.rating
-                    }" class="icon-size-12 icon"></i>
+        <div class="border-card-default layout-horizontal align-center-space-between gap-10 card-background-default p-10 rounded-6"
+            *ngFor="let feedback of feedbacks; let i = index;">
+            <div class="layout-vertical align-top-space-between gap-20 h-fill">
+                <div>
+                    <a [routerLink]="['/friend-profile', feedback.user_id]"
+                        class="layout-horizontal align-center-left gap-10 link">
+                        <img [src]="feedback.user.profile_photo" alt=""
+                            class="object-fit-cover rounded-circle border-card-default" width="30px" height="30px">
+                        <p class="text-body-strong">{{feedback.user.display_name}}</p>
+                    </a>
                 </div>
-            </td>
-            <td class="text-body">{{feedback.created_at | date:'dd/MM/yyyy'}}</td>
-        </tr>
-    </table>
+                <div class="layout-horizontal align-center-left gap-10">
+                    <img class="object-fit-cover rounded-4" [src]="feedback.product.images[0].image" alt="" width="70px"
+                        height="70px">
+                    <p class="text-body text-left">{{feedback.product.name}}</p>
+                </div>
+            </div>
+            <div class="layout-vertical align-bottom-space-between gap-20 h-fill">
+                <div class="layout-horizontal align-center-right rating" style="font-size: 1em;">
+                    <i *ngFor="let star of stars; let i = index" [class.active]="i < feedback.rating" [ngClass]="{
+                                'icon-ic_fluent_star_12_filled': i < feedback.rating,
+                                'icon-ic_fluent_star_12_regular': i >= feedback.rating
+                            }" class="icon-size-12 icon"></i>
+                </div>
+                <div>
+                    <div class="text-caption text-right">{{feedback.created_at | date:'dd/MM/yyyy'}}</div>
+                    <p class="text-body p-10 border rounded-4 card-background-default text-justify">
+                        {{feedback.content}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div *ngIf="feedbacks.length == 0" class="w-fill pt-10">
         <p

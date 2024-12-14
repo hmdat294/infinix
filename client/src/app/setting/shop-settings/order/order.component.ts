@@ -25,8 +25,8 @@ export class OrderComponent implements OnInit {
   order_status: any = {
     'pending': 'Chờ xử lý',
     'received': 'Đã nhận đơn',
-    'delivered': 'Đã giao hàng',
     'delivering': 'Đang giao',
+    'delivered': 'Đã giao hàng',
     'canceled': 'Đã hủy'
   }
 
