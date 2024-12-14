@@ -66,7 +66,6 @@ Route::middleware(['guest'])->group(function () {
     Route::post('callback', [OrderController::class, 'callback']);
 });
 
-Route::get('query-order/{external_order_id}', [OrderController::class, 'test_query_order']);
 
 Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(function () {
 
@@ -123,6 +122,7 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
     // Route::get('order/{id}', [OrderController::class, 'show']);
     Route::post('order/{id}', [OrderController::class, 'update']);
     Route::post('cancel-order/{id}', [OrderController::class, 'cancel']);
+    Route::post('refund-order/{id}', [OrderController::class, 'refund']);
     // Route::delete('order/{id}', [OrderController::class, 'destroy']);
 
     

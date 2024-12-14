@@ -69,7 +69,8 @@ class ZaloPayService
 
         $data['mac'] = hash_hmac('sha256', implode('|', [
             $data['app_id'],
-            $data['app_trans_id']
+            $data['app_trans_id'],
+            $this->config['key1']
         ]), $this->config['key1']);
 
         $context = stream_context_create([
@@ -86,9 +87,38 @@ class ZaloPayService
         return $result;
     }
 
-    public function refund($order_id, $description)
+    public function refund($external_order_id, $description)
     {
-        $order_group = OrderGroup::find($order_id);
+        $order_group = OrderGroup::where('external_order_id', $external_order_id)->first();
 
+        $timestamp = round(microtime(true) * 1000);
+        $uid = "$timestamp".rand(111,999);
+
+        $query_order = $this->query_order($external_order_id);
+        $params = [
+            "app_id" => $this->config["app_id"],
+            "m_refund_id" => date("ymd")."_".$this->config["app_id"]."_".$uid,
+            "timestamp" => $timestamp,
+            "zp_trans_id" => $query_order['zp_trans_id'],
+            "amount" => $order_group->total,
+            "description" => $description
+          ];
+          
+          $data = $params["app_id"]."|".$params["zp_trans_id"]."|".$params["amount"]
+            ."|".$params["description"]."|".$params["timestamp"];
+          $params["mac"] = hash_hmac("sha256", $data, $this->config["key1"]);
+          
+          $context = stream_context_create([
+            "http" => [
+              "header" => "Content-type: application/x-www-form-urlencoded\r\n",
+              "method" => "POST",
+              "content" => http_build_query($params)
+            ]
+          ]);
+          
+          $resp = file_get_contents($this->config["endpoint_refund_order"], false, $context);
+          $result = json_decode($resp, true);
+
+          return $result;
     }
 }

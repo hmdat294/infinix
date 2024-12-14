@@ -184,9 +184,21 @@ class OrderController extends Controller
         return new OrderGroupResource($order_group);
     }
 
-    public function test_query_order(Request $request, $external_order_id)
+    // public function test_query_order(Request $request, $external_order_id)
+    // {
+    //     $response = $this->zalopayService->query_order($external_order_id);
+    //     return response()->json($response);
+    // }
+
+    public function refund(Request $request, $order_id)
     {
-        $response = $this->zalopayService->query_order($external_order_id);
-        return response()->json($response);
+        $order_group = OrderGroup::find($order_id);
+
+        $response = $this->zalopayService->refund($order_group->external_order_id, "Hoàn tiền đơn hàng #$order_group->external_order_id");
+        if ($response['return_code'] == 1 || $response['return_code'] == 3) {
+            $order_group->payment_status = 'refunded';
+            $order_group->save();
+            return response()->json(['success' => true]);
+        }
     }
 }
