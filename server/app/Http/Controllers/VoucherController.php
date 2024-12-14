@@ -47,8 +47,8 @@ class VoucherController extends Controller
 
         if ($request->has('code'))
         {
-            if (Voucher::where('code', $request->code)->exists()) {
-                return response()->json(['message' => 'Voucher code already exists']);
+            if (!Voucher::where('code', $request->code)->exists()) {
+                return response()->json(['message' => 'Voucher code not found']);
             }
         }
 

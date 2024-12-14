@@ -41,7 +41,7 @@ class OrderController extends Controller
         $request_data = json_decode($request->input('order'));
         $order_group_data = [
             'user_id' => $request->user()->id,
-            'external_order_id' => uniqid(),
+            'external_order_id' => date('ymd') . '_' . uniqid(),
             'payment_method' => $request_data->payment_method,
             'address' => $request_data->user->address,
             'phone_number' => $request_data->user->phone_number,
@@ -120,7 +120,7 @@ class OrderController extends Controller
     public function create_zalopay_order($external_order_id, $total)
     {
         $description = "Thanh toán đơn hàng #$external_order_id";
-        $response = $this->zalopayService->createOrder($external_order_id, $total, $description);
+        $response = $this->zalopayService->create_order($external_order_id, $total, $description);
         if ($response['return_code'] == 1) {
             return response()->json(['order_url' => $response['order_url'], 'success' => true]);
         }
@@ -172,5 +172,37 @@ class OrderController extends Controller
         $orders = Order::where('shop_id', $shop_id)->orderBy('created_at', 'desc')->get();
 
         return OrderResource::collection($orders);
+    }
+
+    public function cancel(Request $request, $id)
+    {
+        $order_group = OrderGroup::findOrFail($id);
+
+        $order_group->orders()->update(['status' => 'cancelled']);
+
+        if ($order_group->payment_method == 'zalopay')
+        {
+            $this->refund($request, $id);
+        }
+
+        return new OrderGroupResource($order_group);
+    }
+
+    // public function test_query_order(Request $request, $external_order_id)
+    // {
+    //     $response = $this->zalopayService->query_order($external_order_id);
+    //     return response()->json($response);
+    // }
+
+    public function refund(Request $request, $order_id)
+    {
+        $order_group = OrderGroup::find($order_id);
+
+        $response = $this->zalopayService->refund($order_group->external_order_id, "Hoàn tiền đơn hàng #$order_group->external_order_id");
+        if ($response['return_code'] == 1 || $response['return_code'] == 3) {
+            $order_group->payment_status = 'refunded';
+            $order_group->save();
+            return response()->json(['success' => true]);
+        }
     }
 }
