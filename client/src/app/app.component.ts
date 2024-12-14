@@ -10,10 +10,10 @@ import { EventService } from './service/event.service';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-    selector: 'app-root',
-    imports: [RouterOutlet, HeaderComponent, CommonModule, HeaderDefaultComponent, HeaderAdminComponent],
-    templateUrl: './app.component.html',
-    styleUrl: './app.component.css'
+  selector: 'app-root',
+  imports: [RouterOutlet, HeaderComponent, CommonModule, HeaderDefaultComponent, HeaderAdminComponent],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
   isLoggedIn: boolean = false;
