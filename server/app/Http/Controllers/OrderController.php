@@ -178,8 +178,12 @@ class OrderController extends Controller
     {
         $order_group = OrderGroup::findOrFail($id);
 
-        $order_group->update(['status' => 'cancelled']);
         $order_group->orders()->update(['status' => 'cancelled']);
+
+        if ($order_group->payment_method == 'zalopay')
+        {
+            $this->refund($request, $id);
+        }
 
         return new OrderGroupResource($order_group);
     }
