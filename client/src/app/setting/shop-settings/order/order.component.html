@@ -32,25 +32,26 @@
     </div>
 
     <div class="text-body text-primary text-center w-fill" *ngIf="orders.length > 0">
-        <div class="w-fill layout-horizontal align-center-space-around text-body-strong p-10">
-            <div class="hide_code" style="width: 100px;">Mã</div>
+        <div class="w-fill layout-horizontal align-center-space-between text-body-strong p-10">
+            <div class="hide_code" style="width: 150px;">Mã</div>
             <div style="width: 70px;">Hình ảnh</div>
             <div style="width: 70px;">Ngày đặt</div>
-            <div style="width: 120px;">Trạng thái</div>
+            <div style="width: 130px;">Trạng thái</div>
         </div>
         <div class="w-fill layout-vertical border-top border-card-default" *ngFor="let order of orders; let i = index;">
-            <div class="w-fill layout-horizontal align-center-space-around rounded-8 cursor-pointer"
+            <div class="w-fill layout-horizontal align-center-space-between rounded-8 cursor-pointer"
                 style="padding: 7px 11px;"
                 [class]="tabAccordion == 'order_detail_'+i?'card-background-default':'list-item'"
                 (click)="tabChild('order_detail_'+i)">
-                <div class="hide_code" style="text-transform: uppercase;">{{order.external_order_id}}
+                <div class="hide_code" style="text-transform: uppercase; width: 150px;">
+                    {{order.external_order_id}}
                 </div>
                 <div>
                     <img class="object-fit-cover rounded-4" [src]="order.products[0]?.images[0].image" height="70px"
                         width="70px">
                 </div>
                 <div>{{order.created_at | date:'dd/MM/yyyy'}}</div>
-                <div style="width: 120px;">
+                <div style="width: 130px;">
                     <select class="control w-fill text-body" [class]="order_color[order.status]"
                         [(ngModel)]="order.status" (click)="$event.stopPropagation()"
                         (change)="updateStatusOrder(order.status, order.id)" name="status">

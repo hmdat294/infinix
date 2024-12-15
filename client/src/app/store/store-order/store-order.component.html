@@ -28,7 +28,7 @@
                 <div class="w-fill-column-3">Hình ảnh</div>
                 <div class="layout-horizontal w-fill align-center-space-between gap-20">
                     <div style="width: 70px;">Ngày đặt</div>
-                    <div style="width: 60px;">Tổng</div>
+                    <div style="width: 80px;">Tổng</div>
                     <div style="width: 80px;">Trạng thái</div>
                 </div>
             </div>
@@ -47,11 +47,13 @@
                     <div class="layout-vertical w-fill gap-5">
                         <div class="layout-horizontal align-center-space-between gap-20">
                             <div style="width: 70px;">{{order.created_at | date:'dd/MM/yyyy'}}</div>
-                            <div style="width: 60px;" class="text-body-strong">{{order.total | currencyVND}}</div>
-                            <div style="width: 80px;" class="text-body" style="width: 80px;">{{order.payment_status}}
+                            <div style="width: 80px;" class="text-body-strong">{{order.total | currencyVND}}</div>
+                            <div style="width: 80px;" class="text-body" [class]="payment_color[order.payment_status]"
+                                style="width: 80px;">{{payment_status[order.payment_status]}}
                             </div>
                         </div>
-                        <div class="w-fill layout-horizontal align-center-space-between show_code p-10 rounded-4 border">
+                        <div
+                            class="w-fill layout-horizontal align-center-space-between show_code p-10 rounded-4 border">
                             <p class="text-body-strong">Mã:</p>
                             <p style="text-transform: uppercase;">
                                 {{order.external_order_id}}</p>
@@ -145,13 +147,10 @@
                             </tr>
                         </table>
                         <div class="w-fill p-10">
-                            <button *ngIf="order.payment_method == 'cash'" type="button"
+                            <button type="button"
+                                (click)="refundOrder(order.id, order.payment_method == 'cash' ? 'cancel-order' : 'refund-order')"
                                 class="button-standard button-text-only w-fill">
-                                Hủy đơn
-                            </button>
-                            <button *ngIf="order.payment_method == 'zalopay'" type="button"
-                                class="button-standard button-text-only w-fill">
-                                Yêu cầu hoàn tiền
+                                {{order.payment_method == 'cash'?'Hủy đơn':'Yêu cầu hoàn tiền'}}
                             </button>
                         </div>
                     </div>
