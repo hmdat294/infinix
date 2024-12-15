@@ -1,9 +1,9 @@
 <div class="layout-vertical card-background-default border border-card-default rounded-8 mb-10">
 
     <div class="layout-horizontal align-center-space-between px-20 py-15">
-        <p class="text-primary text-subtitle">Đơn hàng</p>
+        <p class="text-primary text-subtitle w-hug">Đơn hàng</p>
 
-        <div class="layout-horizontal gap-20 w-fill-column-6">
+        <div class="layout-horizontal gap-20 w-fill-column-6 in-tablet-w-fill-column-8 in-mobile-w-fill-column-8">
             <div class="w-fill-column-6 layout-vertical gap-5">
                 <p class="text-caption text-primary">Từ ngày</p>
                 <div class="control date-control w-fill">
@@ -20,47 +20,52 @@
     </div>
 
     <div
-        class="layout-vertical gap-20 px-20 in-mobile-px-5 pb-10 border-top border-card-default w-fill overflow-scroll-vertical in-mobile-overflow-hidden">
+        class="layout-vertical gap-20 px-20 in-mobile-px-5 pb-20 border-top border-card-default w-fill overflow-scroll-vertical in-mobile-overflow-hidden">
 
         <div class="text-body text-primary text-center w-fill" *ngIf="orders.length > 0">
-            <div class="w-fill gap-20 layout-horizontal align-center-center text-body-strong p-10">
-                <div class="w-fill-column-3 hide_code">Mã</div>
-                <div class="w-fill-column-2 w_name">
-                    <span class="hide_code">Hình ảnh</span>
-                    <span class="show_code">Sản phẩm</span>
+            <div class="w-fill layout-horizontal align-center-space-between text-body-strong p-10 resp_gap_20">
+                <div class="hide_code w-fill-column-3">Mã</div>
+                <div class="w-fill-column-3">Hình ảnh</div>
+                <div class="layout-horizontal w-fill align-center-space-between gap-20">
+                    <div style="width: 70px;">Ngày đặt</div>
+                    <div style="width: 80px;">Tổng</div>
+                    <div style="width: 80px;">Trạng thái</div>
                 </div>
-                <div class="w-fill hide_code">Tên</div>
-                <div class="w-fill-column-2 w_date">Ngày đặt</div>
-                <div class="w-fill-column-2">Tổng</div>
             </div>
             <div class="w-fill layout-vertical border-top border-card-default"
                 *ngFor="let order of orders; let i = index;">
-                <div class="w-fill gap-20 in-mobile-gap-10 layout-horizontal align-center-center rounded-8 cursor-pointer"
+                <div class="w-fill layout-horizontal align-center-space-between rounded-8 cursor-pointer resp_gap_20"
                     style="padding: 7px 11px;"
                     [class]="tabAccordion == 'order_detail_'+i?'card-background-default':'list-item'"
                     (click)="tabChild('order_detail_'+i)">
-                    <div class="w-fill-column-3 hide_code" style="text-transform: uppercase;">
+                    <div class="hide_code w-fill-column-3" style="text-transform: uppercase;">
                         {{order.external_order_id}}</div>
-                    <div class="w-fill-column-2 w_name layout-horizontal gap-5">
+                    <div class="w-fill-column-3">
                         <img class="object-fit-cover rounded-4" [src]="order.orders[0].products[0]?.images[0].image"
-                            height="70px" alt>
-                        <div class="show_code my-10">
-                            <p class="text-body-strong text-left">{{order.orders[0].products[0]?.name}}</p>
-                            <p class="text-left" style="text-transform: uppercase;">{{order.external_order_id}}</p>
+                            height="70px" width="70px" alt>
+                    </div>
+                    <div class="layout-vertical w-fill gap-5">
+                        <div class="layout-horizontal align-center-space-between gap-20">
+                            <div style="width: 70px;">{{order.created_at | date:'dd/MM/yyyy'}}</div>
+                            <div style="width: 80px;" class="text-body-strong">{{order.total | currencyVND}}</div>
+                            <div style="width: 80px;" class="text-body" [class]="payment_color[order.payment_status]"
+                                style="width: 80px;">{{payment_status[order.payment_status]}}
+                            </div>
+                        </div>
+                        <div
+                            class="w-fill layout-horizontal align-center-space-between show_code p-10 rounded-4 border">
+                            <p class="text-body-strong">Mã:</p>
+                            <p style="text-transform: uppercase;">
+                                {{order.external_order_id}}</p>
                         </div>
                     </div>
-                    <div class="w-fill hide_code text-body-strong">
-                        {{order.orders[0].products[0]?.name}}
-                    </div>
-                    <div class="w-fill-column-2 w_date">{{order.created_at | date:'dd/MM/yyyy'}}</div>
-                    <div class="w-fill-column-2 text-body-strong">{{order.total | currencyVND}}</div>
                 </div>
                 <div
                     class="accordion-panel order_detail_{{i}} w-fill layout-horizontal in-tablet-layout-vertical in-mobile-layout-vertical gap-10 in-tablet-gap-0 in-mobile-gap-0">
 
                     <div class="layout-vertical w-fill mt-10 h-hug">
 
-                        <div class="layout-vertical border rounded-8 p-10 mb-10 in-tablet-mb-5 in-mobile-mb-5 card-background-default"
+                        <div class="layout-vertical border rounded-8 p-10 in-tablet-mb-5 in-mobile-mb-5 card-background-default"
                             *ngFor="let shop of order.orders"><!-- for -->
                             <div class="border rounded-6">
                                 <div class="layout-horizontal align-center-space-between p-10 border-bottom">
@@ -101,7 +106,8 @@
                                                     * product.quantity | currencyVND}}</span></p>
                                         </div>
                                     </div>
-                                    <div class="layout-horizontal gap-10" *ngIf="product.can_review && shop?.status == 'delivered'">
+                                    <div class="layout-horizontal gap-10"
+                                        *ngIf="product.can_review && shop?.status == 'delivered'">
                                         <button type="button" class="button-accent button-text-only w-fill"
                                             (click)="viewDialogFeedback(product, order.id)">
                                             Đánh giá
@@ -141,13 +147,10 @@
                             </tr>
                         </table>
                         <div class="w-fill p-10">
-                            <button *ngIf="order.payment_method == 'cash'" type="button"
+                            <button type="button"
+                                (click)="refundOrder(order.id, order.payment_method == 'cash' ? 'cancel-order' : 'refund-order')"
                                 class="button-standard button-text-only w-fill">
-                                Hủy đơn
-                            </button>
-                            <button *ngIf="order.payment_method == 'zalopay'" type="button"
-                                class="button-standard button-text-only w-fill">
-                                Yêu cầu hoàn tiền
+                                {{order.payment_method == 'cash'?'Hủy đơn':'Yêu cầu hoàn tiền'}}
                             </button>
                         </div>
                     </div>

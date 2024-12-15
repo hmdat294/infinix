@@ -2,3 +2,14 @@ th,
 td {
     padding: 10px;
 }
+
+.dialog_cate{
+    width: 440px;
+}
+
+@media (max-width: 480px) {
+
+    .dialog_cate {
+        width: calc(100vw - 40px);
+    }
+}

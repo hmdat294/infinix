@@ -38,14 +38,10 @@
     }
 
     .show_code {
-        display: block;
+        display: flex;
     }
 
-    .w_name {
-        width: 50% !important;
-    }
-
-    .w_date {
-        width: 80px;
+    .resp_gap_20{
+        gap: 20px;
     }
 }

@@ -14,10 +14,10 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
-    selector: 'app-shop',
-    imports: [CommonModule, FormsModule, CurrencyVNDPipe, RouterModule, TranslateModule, NgxPaginationModule],
-    templateUrl: './shop.component.html',
-    styleUrl: './shop.component.css'
+  selector: 'app-shop',
+  imports: [CommonModule, FormsModule, CurrencyVNDPipe, RouterModule, TranslateModule, NgxPaginationModule],
+  templateUrl: './shop.component.html',
+  styleUrl: './shop.component.css'
 })
 export class ShopComponent implements OnInit {
 
@@ -80,6 +80,9 @@ export class ShopComponent implements OnInit {
             currentDate <= validUntil
           );
         }).slice(0, 3);
+
+        console.log(this.vouchers);
+
       });
     });
 
@@ -125,6 +128,8 @@ export class ShopComponent implements OnInit {
     this.shopService.saveVoucher(code).subscribe(
       (res) => {
         console.log(res);
+        const voucher = this.vouchers.find((item: any) => item.code == code);
+        voucher.is_saved = !voucher.is_saved;
       });
   }
 
