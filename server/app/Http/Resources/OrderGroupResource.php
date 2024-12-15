@@ -17,6 +17,8 @@ class OrderGroupResource extends JsonResource
         $data = parent::toArray($request);
         $data['applied_voucher'] = new VoucherResource($this->voucher);
         $data['orders'] = OrderResource::collection($this->orders);
+        $data['can_refund'] = $this->payment_status === 'paid' && $this->orders()->where('status', '!=', 'pending')->doesntExist();
+        $data['can_cancel'] = $this->orders()->where('status', '!=', 'pending')->doesntExist();
 
         return $data;
     }
