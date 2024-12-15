@@ -59,7 +59,7 @@ class MessageController extends Controller
         }
 
         event(new UserSendMessageEvent($request->user()->id, $message->id, $message->content));
-        $this->sendNotification($request->user()->id, $request->conversation_id, 'send');
+        $this->sendNotification($request->user()->id, $request->conversation_id, 'send', $request);
         return new MessageResource($message);
     }
 
@@ -143,11 +143,16 @@ class MessageController extends Controller
         return new MessageResource($message);
     }
 
-    public function sendNotification($user_id, $conversation_id, $type)
+    public function sendNotification($user_id, $conversation_id, $type, $request)
     {
         $conversation = Conversation::find($conversation_id);
         $display_name = User::find($user_id)->profile->display_name;
         foreach ($conversation->users as $user) {
+
+            if ($request->user()->id == $user->id) {
+                continue;
+            }
+
             $notification_data = [
                 'user_id' => $user->id,
                 'target_user_id' => $user_id,
