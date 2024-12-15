@@ -18,9 +18,7 @@ class PermissionsTableSeeder extends Seeder
             // Account
             ['name' => 'can_login', 'description' => 'Can login'],
             // Create content
-            ['name' => 'can_create_post', 'description' => 'Can create post'],
-            ['name' => 'can_comment', 'description' => 'Can create post'],
-            ['name' => 'can_send_message', 'description' => 'Can create post'],
+            ['name' => 'can_create_content', 'description' => 'Can create content'],
             // Admin
             ['name' => 'can_access_dashboard', 'description' => 'Can access dashboard'],
         ];
