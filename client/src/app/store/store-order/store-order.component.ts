@@ -8,10 +8,10 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 @Component({
-    selector: 'app-store-order',
-    imports: [CurrencyVNDPipe, CommonModule, FormsModule, RouterModule],
-    templateUrl: './store-order.component.html',
-    styleUrl: './store-order.component.css'
+  selector: 'app-store-order',
+  imports: [CurrencyVNDPipe, CommonModule, FormsModule, RouterModule],
+  templateUrl: './store-order.component.html',
+  styleUrl: './store-order.component.css'
 })
 export class StoreOrderComponent implements OnInit {
 
@@ -40,6 +40,18 @@ export class StoreOrderComponent implements OnInit {
   payment_methood: any = {
     'cash': 'Trả tiền mặt khi nhận hàng',
     'zalopay': 'Thanh toán qua ZaloPay',
+  }
+
+  payment_status: any = {
+    'pending': 'Chưa thanh toán',
+    'paid': 'Đã thanh toán',
+    'refunded': 'Đã hoàn tiền'
+  }
+
+  payment_color: any = {
+    'pending': 'text-system-caution',
+    'paid': 'text-system-success',
+    'refunded': 'text-system-critical'
   }
 
   constructor(
@@ -119,6 +131,13 @@ export class StoreOrderComponent implements OnInit {
       });
     } else this.orders = [...this.filteredData];
 
+  }
+
+  refundOrder(order_id: number, payment_methood: string) {
+    this.paymentService.refundOrder(order_id, payment_methood).subscribe(
+      (data: any) => {
+        console.log(data);
+      });
   }
 
 

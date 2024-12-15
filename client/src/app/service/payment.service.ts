@@ -43,6 +43,11 @@ export class PaymentService {
     return this.http.get(`${this.apiUrl}/shop/${shop_id}/orders`, { headers });
   }
 
+  refundOrder(order_id: number, payment_methood: string): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.post(`${this.apiUrl}/${payment_methood}/${order_id}`, {}, { headers });
+  }
+
   //feedback
   getFeedbackByProduct(product_id: number): Observable<any> {
     const headers = this.authService.getToken();
