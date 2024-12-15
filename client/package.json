@@ -28,7 +28,7 @@
     "moment": "^2.30.1",
     "ng-speech-recognition": "^2.0.1",
     "ngx-pagination": "^6.0.3",
-    "ngx-quill": "^25.3.3",
+    "ngx-quill": "^27.0.0",
     "peerjs": "^1.5.4",
     "pusher-js": "^8.4.0-rc2",
     "qs": "^6.13.1",
