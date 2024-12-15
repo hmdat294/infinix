@@ -42,6 +42,7 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ShopRequestController;
 use App\Http\Controllers\ZaloPayController;
 use App\Http\Controllers\VoucherController;
+use App\Http\Controllers\PunishmentController;
 
 
 Route::middleware(['guest'])->group(function () {
@@ -69,6 +70,7 @@ Route::middleware(['guest'])->group(function () {
 
 Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(function () {
 
+    Route::post('punishment', [PunishmentController::class, 'store']);
 
     Route::get('shop-request', [ShopRequestController::class, 'index']);
     Route::post('shop-request', [ShopRequestController::class,'store']);
