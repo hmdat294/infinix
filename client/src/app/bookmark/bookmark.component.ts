@@ -7,11 +7,10 @@ import { ChatService } from '../service/chat.service';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-bookmark',
-  standalone: true,
-  imports: [CommonModule, RouterModule, TranslateModule],
-  templateUrl: './bookmark.component.html',
-  styleUrl: './bookmark.component.css'
+    selector: 'app-bookmark',
+    imports: [CommonModule, RouterModule, TranslateModule],
+    templateUrl: './bookmark.component.html',
+    styleUrl: './bookmark.component.css'
 })
 export class BookmarkComponent implements OnInit {
 

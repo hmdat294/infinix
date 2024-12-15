@@ -4,11 +4,10 @@ import { CenterProfileComponent } from "../center-profile/center-profile.compone
 import { RightHomeComponent } from "../../home/right-home/right-home.component";
 
 @Component({
-  selector: 'app-main-profile',
-  standalone: true,
-  imports: [LeftProfileComponent, CenterProfileComponent, RightHomeComponent],
-  templateUrl: './main-profile.component.html',
-  styleUrl: './main-profile.component.css'
+    selector: 'app-main-profile',
+    imports: [LeftProfileComponent, CenterProfileComponent, RightHomeComponent],
+    templateUrl: './main-profile.component.html',
+    styleUrl: './main-profile.component.css'
 })
 export class MainProfileComponent {
 

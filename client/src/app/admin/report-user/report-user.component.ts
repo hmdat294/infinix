@@ -8,11 +8,10 @@ import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
-  selector: 'app-report-user',
-  standalone: true,
-  imports: [NavComponent,CommonModule,RouterModule,FormsModule, NgxPaginationModule],
-  templateUrl: './report-user.component.html',
-  styleUrl: './report-user.component.css'
+    selector: 'app-report-user',
+    imports: [NavComponent, CommonModule, RouterModule, FormsModule, NgxPaginationModule],
+    templateUrl: './report-user.component.html',
+    styleUrl: './report-user.component.css'
 })
 export class ReportUserComponent {
   tabAccordion: string = '';

@@ -9,11 +9,10 @@ import { ShopService } from '../service/shop.service';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-checkout',
-  standalone: true,
-  imports: [CurrencyVNDPipe, CommonModule, FormsModule],
-  templateUrl: './checkout.component.html',
-  styleUrl: './checkout.component.css'
+    selector: 'app-checkout',
+    imports: [CurrencyVNDPipe, CommonModule, FormsModule],
+    templateUrl: './checkout.component.html',
+    styleUrl: './checkout.component.css'
 })
 export class CheckoutComponent implements OnInit {
   product_order: any = [1];

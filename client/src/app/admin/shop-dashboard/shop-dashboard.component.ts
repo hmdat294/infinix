@@ -11,11 +11,10 @@ import { RouterModule } from '@angular/router';
 import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
-  selector: 'app-shop-dashboard',
-  standalone: true,
-  imports: [NavComponent,CommonModule, FormsModule, RouterModule,NgxPaginationModule],
-  templateUrl: './shop-dashboard.component.html',
-  styleUrl: './shop-dashboard.component.css'
+    selector: 'app-shop-dashboard',
+    imports: [NavComponent, CommonModule, FormsModule, RouterModule, NgxPaginationModule],
+    templateUrl: './shop-dashboard.component.html',
+    styleUrl: './shop-dashboard.component.css'
 })
 export class ShopDashboardComponent implements OnInit{
   totalShop: number = 0;

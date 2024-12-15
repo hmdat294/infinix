@@ -10,11 +10,10 @@ import { NgxPaginationModule } from 'ngx-pagination';
 
 
 @Component({
-  selector: 'app-report',
-  standalone: true,
-  imports: [NavComponent, CommonModule, RouterModule, FormsModule, NgxPaginationModule],
-  templateUrl: './report.component.html',
-  styleUrls: ['./report.component.css'] // Sửa thành `styleUrls`
+    selector: 'app-report',
+    imports: [NavComponent, CommonModule, RouterModule, FormsModule, NgxPaginationModule],
+    templateUrl: './report.component.html',
+    styleUrls: ['./report.component.css'] // Sửa thành `styleUrls`
 })
 export class ReportComponent {
   tabAccordion: string = '';

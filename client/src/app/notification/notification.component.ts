@@ -4,11 +4,10 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-notification',
-  standalone: true,
-  imports: [CommonModule, TranslateModule],
-  templateUrl: './notification.component.html',
-  styleUrl: './notification.component.css'
+    selector: 'app-notification',
+    imports: [CommonModule, TranslateModule],
+    templateUrl: './notification.component.html',
+    styleUrl: './notification.component.css'
 })
 export class NotificationComponent implements OnInit {
 

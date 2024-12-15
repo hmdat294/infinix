@@ -13,11 +13,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
-  selector: 'app-store-product',
-  standalone: true,
-  imports: [CommonModule, FormsModule, CurrencyVNDPipe, RouterModule, TranslateModule, NgxPaginationModule],
-  templateUrl: './store-product.component.html',
-  styleUrl: './store-product.component.css'
+    selector: 'app-store-product',
+    imports: [CommonModule, FormsModule, CurrencyVNDPipe, RouterModule, TranslateModule, NgxPaginationModule],
+    templateUrl: './store-product.component.html',
+    styleUrl: './store-product.component.css'
 })
 export class StoreProductComponent implements OnInit {
 

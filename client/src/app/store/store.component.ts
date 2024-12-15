@@ -5,11 +5,10 @@ import { StoreOrderComponent } from "./store-order/store-order.component";
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-store',
-  standalone: true,
-  imports: [CommonModule, StoreProductComponent, StoreOrderComponent],
-  templateUrl: './store.component.html',
-  styleUrl: './store.component.css'
+    selector: 'app-store',
+    imports: [CommonModule, StoreProductComponent, StoreOrderComponent],
+    templateUrl: './store.component.html',
+    styleUrl: './store.component.css'
 })
 export class StoreComponent implements OnInit {
 

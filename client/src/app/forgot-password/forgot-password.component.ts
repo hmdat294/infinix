@@ -6,11 +6,10 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-forgot-password',
-  standalone: true,
-  imports: [FormsModule, RouterModule, CommonModule, TranslateModule],
-  templateUrl: './forgot-password.component.html',
-  styleUrl: './forgot-password.component.css'
+    selector: 'app-forgot-password',
+    imports: [FormsModule, RouterModule, CommonModule, TranslateModule],
+    templateUrl: './forgot-password.component.html',
+    styleUrl: './forgot-password.component.css'
 })
 export class ForgotPasswordComponent {
 

@@ -8,11 +8,10 @@ import { SettingService } from '../../service/setting.service';
 import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
-  selector: 'app-event',
-  standalone: true,
-  imports: [NavComponent, CommonModule, RouterModule, FormsModule, NgxPaginationModule],
-  templateUrl: './event.component.html',
-  styleUrls: ['./event.component.css'],
+    selector: 'app-event',
+    imports: [NavComponent, CommonModule, RouterModule, FormsModule, NgxPaginationModule],
+    templateUrl: './event.component.html',
+    styleUrls: ['./event.component.css']
 })
 export class EventComponent implements OnInit {
   listUser: any[] = [];

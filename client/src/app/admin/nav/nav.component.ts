@@ -4,11 +4,10 @@ import { Router, RouterModule } from '@angular/router';
 import { ChatService } from '../../service/chat.service';
 
 @Component({
-  selector: 'app-nav',
-  standalone: true,
-  imports: [RouterModule],
-  templateUrl: './nav.component.html',
-  styleUrl: './nav.component.css'
+    selector: 'app-nav',
+    imports: [RouterModule],
+    templateUrl: './nav.component.html',
+    styleUrl: './nav.component.css'
 })
 export class NavComponent implements OnInit {
 

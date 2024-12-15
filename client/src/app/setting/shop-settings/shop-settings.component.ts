@@ -13,21 +13,20 @@ import { VoucherComponent } from "./voucher/voucher.component";
 import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-shop-settings',
-  standalone: true,
-  imports: [
-    FormsModule,
-    CommonModule,
-    CategoryComponent,
-    ProductComponent,
-    OrderComponent,
-    FeedbackComponent,
-    TranslateModule,
-    VoucherComponent,
-    RouterModule
-  ],
-  templateUrl: './shop-settings.component.html',
-  styleUrl: './shop-settings.component.css'
+    selector: 'app-shop-settings',
+    imports: [
+        FormsModule,
+        CommonModule,
+        CategoryComponent,
+        ProductComponent,
+        OrderComponent,
+        FeedbackComponent,
+        TranslateModule,
+        VoucherComponent,
+        RouterModule
+    ],
+    templateUrl: './shop-settings.component.html',
+    styleUrl: './shop-settings.component.css'
 })
 export class ShopSettingsComponent implements OnInit {
 

@@ -9,11 +9,10 @@ import { SettingService } from '../../service/setting.service';
 import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
-  selector: 'app-report-post',
-  standalone: true,
-  imports: [NavComponent,CommonModule, RouterModule, FormsModule, NgxPaginationModule],
-  templateUrl: './report-post.component.html',
-  styleUrl: './report-post.component.css'
+    selector: 'app-report-post',
+    imports: [NavComponent, CommonModule, RouterModule, FormsModule, NgxPaginationModule],
+    templateUrl: './report-post.component.html',
+    styleUrl: './report-post.component.css'
 })
 export class ReportpostComponent {
   tabAccordion: string = '';

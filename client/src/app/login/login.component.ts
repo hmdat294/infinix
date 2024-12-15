@@ -7,11 +7,10 @@ import { EventService } from '../service/event.service';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule, TranslateModule],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+    selector: 'app-login',
+    imports: [FormsModule, CommonModule, RouterModule, TranslateModule],
+    templateUrl: './login.component.html',
+    styleUrl: './login.component.css'
 })
 export class LoginComponent {
 
