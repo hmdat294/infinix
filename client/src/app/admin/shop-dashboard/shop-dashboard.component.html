@@ -101,7 +101,7 @@
                         nextLabel=""></pagination-controls> </div>
                 </div>
             </div>
-            <div class="w-fill layout-vertical border-top border-card-default" *ngFor="let item of listShop | paginate: { itemsPerPage: 2, currentPage: currentPage }; let i = index ">
+            <div class="w-fill layout-vertical border-top border-card-default" *ngFor="let item of listShop | paginate: { itemsPerPage: 2, currentPage: currentPage }; let i = index " >
                 <div class="w-fill gap-20 in-mobile-gap-10 layout-horizontal align-center-center rounded-8 cursor-pointer"
                     style="padding: 7px 11px;"
                     [class]="tabAccordion == 'shop_detail_'+i?'card-background-default':'list-item'"

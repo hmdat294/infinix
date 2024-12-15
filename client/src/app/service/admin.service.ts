@@ -116,6 +116,12 @@ getRevenus(): Observable<any> {
   const headers = this.authService.getToken();
   return this.http.get(`${this.apiUrl}/statistics/revenue`, { headers });
 }
+
+
+postshop(id: number, is_active: string): Observable<any> {
+  const headers = this.authService.getToken();
+  return this.http.post(`${this.apiUrl}/shop/${id}`,{is_active}, { headers });
+}
   
   
   

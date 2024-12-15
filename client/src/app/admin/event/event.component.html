@@ -98,97 +98,87 @@
                         <div class="w-fill layout-horizontal align-center-space-between">
                             <div class="w-fill-column-3">Tên cửa hàng</div>
                             <div class="w-fill-column-2">Tên người dùng</div>
-                            <div class="w-fill-column-2">Mô tả sản phẩm  </div>
+                            <div class="w-fill-column-3">Mô tả sản phẩm  </div>
                             <div class="w-fill-column-2">Trạng thái</div>
-                            <div class="w-fill-column-3">Hành động</div>
+                            <div class="w-fill-column-2">Hành động</div>
                             
                         </div>
                     </div>
-                    <div class>
+                    <div   *ngFor="let item of listShop | paginate: { itemsPerPage: 2, currentPage: currentPage }; let i = index">
 
                         <div
-                            class="layout-horizontal gap-20  w-fill align-center-space-between text-center p-20">
+                            class="layout-horizontal   w-fill align-center-space-between text-center p-20">
                             <div><input type="checkbox"></div>
-                            <div class="layout-horizontal w-fill align-center-space-between" *ngFor="let item of filteredReports | paginate: { itemsPerPage: 1, currentPage: currentPage }; let i = index ">
-                                <div class="w-fill-column-3 align-center-center layout-horizontal gap-10"><img class="rounded-circle" width="50px"
-                                        src="assets/image/hinh.jpg" alt> <div>Shop PHP</div></div>
-                                <div class="w-fill-column-2">Shop PHP</div>
-                                <div class="w-fill-column-2">Mỹ phẩm chất lượng nhập khẩu ....</div>
-                                <div class="status-select-container">
-                                    <select 
-                                      [(ngModel)]="item.status" 
-                                      (change)="updateStatus(item)" 
-                                      class="status-select"
-                                      [class.text-red]="item.status === 'pending'"
-                                      [class.text-green]="item.status === 'resolved'">
-                                      <option value="pending">Chưa giải quyết</option>
-                                      <option value="resolved">Đã giải quyết</option>
-                                    </select>
-                                  </div>
-                                  
-                                <div
-                                    class="layout-horizontal align-center-center gap-20  w-fill-column-3">
-                                    <a
-                                        class="button-subtle button-icon-only text-accent-default"
-                                        (click)="tabChild('show_chitiet')">
-                                        <i
-                                            class="icon-size-24 icon icon-ic_fluent_settings_24_filled"></i>
-                                    </a>
+                            <div class="layout-horizontal w-fill align-center-space-around " style="gap: 15px;"
+                                  >
+                                <div class="w-fill-column-3 align-center-center layout-horizontal gap-10">
+                                    <img class="rounded-circle" width="50px" [src]="item.logo" alt> 
+                                    <div>{{ item.name }}</div>
+                                </div>
 
-                                    <a 
-                                        class="button-subtle button-icon-only text-accent-default">
-                                        <i
-                                            class="icon-size-24 icon icon-ic_fluent_info_24_filled" (click)="openDialog(item)"></i>
-                                    </a>
-                                    <div>
-                                        <!-- Nút mở bảng -->
-                                       
+                                <div class="w-fill-column-2">{{ item.user.profile.display_name }}</div>
+                                <div class="w-fill-column-3">{{ shortenTextByWords(item.description, 7) }}</div>
+
+                                <!-- Trạng thái của item -->
+                                <div class="status-select-container">
+                                    <span 
+                                      [ngClass]="{
+                                        'text-green': item.is_active === '1',
+                                        'text-red': item.is_active === '0'
+                                      }">
+                                      {{ item.is_active === '1' ? 'Đã giải quyết' : 'Chưa giải quyết' }}
+                                    </span>
+                                  </div>
+
+                        <div class="layout-horizontal align-center-center gap-20 w-fill-column-2">
+                            <!-- Nút thao tác -->
+                            <a class="button-subtle button-icon-only text-accent-default" (click)="tabChild('show_chitiet_'+i)">
+                            <i class="icon-size-24 icon icon-ic_fluent_settings_24_filled"></i>
+                            </a>
+
+                            <a class="button-subtle button-icon-only text-accent-default">
+                            <i class="icon-size-24 icon icon-ic_fluent_info_24_filled" (click)="openDialog(item)"></i>
+                            </a>
+
+                            <!-- Hộp thoại xác nhận -->
+                            <div class="position-fixed top-0 start-0"
+                                [ngClass]="{'display-block': isDialogVisible, 'display-none': !isDialogVisible}"
+                                style="width: 100%; height: 100vh; z-index: 30;">
+                            <div class="position-fixed top-0 start-0"
+                                style="width: 100%; height: 100vh; z-index: 20; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px);">
+                                <div class="dialog-panel position-absolute top-50 start-50 translate-middle">
+                                <form>
+                                    <div class="layout-vertical accept-sell rounded-8" style="width: 350px; padding: 10px; background-color: #ffffff;">
+                                    <div class="text-subtitle accent-text-tertiary border-bottom">Xác nhận đăng ký</div>
                                     
-                                        <!-- Bảng xác nhận -->
-                                        <div
-                                            class="position-fixed top-0 start-0"
-                                            [ngClass]="{'display-block': isDialogVisible, 'display-none': !isDialogVisible}"
-                                            style="width: 100%; height: 100vh; z-index: 30;">
-                                            <div class="position-fixed top-0 start-0"
-                                                style="width: 100%; height: 100vh; z-index: 20; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px);">
-                                                <div class="dialog-panel position-absolute top-50 start-50 translate-middle">
-                                                    <form>
-                                                        <div class="layout-vertical accept-sell rounded-8" style="width: 350px; padding: 10px; background-color: #ffffff;">
-                                                            <div class="text-subtitle accent-text-tertiary border-bottom">Xác nhận đăng ký</div>
-                                                            
-                                                            <div class="checkbox layout-vertical align-top-left">
-                                                                <label>
-                                                                    <input type="checkbox"> Shop bạn còn thiếu vài thứ
-                                                                </label>
-                                                                <label>
-                                                                    <input type="checkbox"> Shop bạn chưa đủ tiêu chuẩn
-                                                                </label>
-                                                                <label>
-                                                                    <input type="checkbox"> Shop bạn không được duyệt
-                                                                </label>
-                                                            </div>
-                                    
-                                                            <div class="layout-vertical align-top-left gap-10">
-                                                                <label>Ghi chú:</label>
-                                                                <textarea rows="5" cols="40"></textarea>
-                                                            </div>
-                                    
-                                                            <div class="button-acp layout-horizontal align-center-space-between">
-                                                                <button type="button" class="button-accent" (click)="approve()">Duyệt</button>
-                                                                <button type="button" class="button-accent" (click)="reject()">Không Duyệt</button>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div class="checkbox layout-vertical align-top-left">
+                                        <label><input type="checkbox"> Shop bạn còn thiếu vài thứ</label>
+                                        <label><input type="checkbox"> Shop bạn chưa đủ tiêu chuẩn</label>
+                                        <label><input type="checkbox"> Shop bạn không được duyệt</label>
                                     </div>
-                                    
+
+                                    <div class="layout-vertical align-top-left gap-10">
+                                        <label>Ghi chú:</label>
+                                        <textarea rows="5" cols="40"></textarea>
+                                    </div>
+
+                                    <div class="button-acp layout-horizontal align-center-space-between">
+                                        <button type="button" class="button-accent" (click)="approve()">Duyệt</button>
+                                        <button type="button" class="button-accent" (click)="reject()">Không Duyệt</button>
+                                        <button type="button" class="button-close" (click)="closeDialog()">Đóng</button>
+                                    </div>
+                                    </div>
+                                </form>
                                 </div>
                             </div>
+                            </div>
+
+                    </div>
+                    </div>
+
                         </div>
                         <div
-                            class="accordion-panel open layout-horizontal show_chitiet w-fill ">
+                            class="accordion-panel open layout-horizontal show_chitiet_{{i}} w-fill ">
                             <div class="layout-horizontal w-fill h-hug">
 
                                 <div

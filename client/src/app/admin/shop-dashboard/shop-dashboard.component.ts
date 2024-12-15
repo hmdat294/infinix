@@ -33,17 +33,11 @@ export class ShopDashboardComponent implements OnInit{
     this.adminService.getShop().subscribe(
       (response) => {
         console.log(response);
-        
-        this.totalShop = response.data.length; // Tính tổng số lượng shop
+        const shops=response.data.filter((shop:any)=>shop.is_active==1);
+        this.totalShop = shops.length; // Tính tổng số lượng shop
         console.log('Total shops:', this.totalShop);
-      },
-      (error) => {
-        console.error('Error fetching shops:', error);
-      }
-    );
-    this.adminService.getShop().subscribe(
-      (response) => {
-        this.listShop = response.data; // Lưu danh sách cửa hàng
+     
+        this.listShop = shops; // Lưu danh sách cửa hàng
         console.log('List shops:', this.listShop);
     
         // Duyệt qua mỗi cửa hàng và gọi API lấy thông tin user theo userId
