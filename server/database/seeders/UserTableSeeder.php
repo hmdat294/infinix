@@ -29,7 +29,12 @@ class UserTableSeeder extends Seeder
             ]);
 
             $user->permissions()->attach(PermissionModel::where('name', '!=', 'can_access_dashboard')->pluck('id')->toArray());
-
+            PermissionModel::create([
+                'user_id'=> $user->id,
+                'permission_id' => PermissionModel::where('name', 'can_access_dashboard')->first()->id,
+                'is_active' => false,
+                'enable_at' => null,
+            ]);
         }
 
         $admin = UserModel::create([
