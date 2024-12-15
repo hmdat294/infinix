@@ -7,7 +7,6 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-  isAdmin: boolean = false;
 
   constructor(
     private router: Router,
@@ -22,9 +21,12 @@ export class AuthGuard implements CanActivate {
           this.authService.getUser(0).subscribe(
             (response) => {
 
-              this.isAdmin = !!response.data.permissions[4];
+              console.log(response.data.permissions);
 
-              if (!this.isAdmin && (state.url.startsWith('/admin'))) {
+
+              const isAdmin = this.authService.checkPermissions('can_access_dashboard', response.data.permissions);
+
+              if (!isAdmin && state.url.startsWith('/admin')) {
                 this.router.navigate(['/']);
                 observer.next(false);
                 observer.complete();
@@ -61,7 +63,8 @@ export class AuthGuard implements CanActivate {
               observer.complete();
             }
           );
-        } else {
+        }
+        else {
           if (
             state.url !== '/landing-page' &&
             state.url !== '/login' &&
