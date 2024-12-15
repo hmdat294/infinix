@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User as UserModel;
 use App\Models\Profile as ProfileModel;
 use App\Models\Permission as PermissionModel;
+use App\Models\UserPermission;
 
 class UserTableSeeder extends Seeder
 {
@@ -29,7 +30,12 @@ class UserTableSeeder extends Seeder
             ]);
 
             $user->permissions()->attach(PermissionModel::where('name', '!=', 'can_access_dashboard')->pluck('id')->toArray());
-
+            UserPermission::create([
+                'user_id'=> $user->id,
+                'permission_id' => PermissionModel::where('name', 'can_access_dashboard')->first()->id,
+                'is_active' => false,
+                'enable_at' => null,
+            ]);
         }
 
         $admin = UserModel::create([
