@@ -71,6 +71,9 @@ Route::middleware(['guest'])->group(function () {
 Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(function () {
 
     Route::post('punishment', [PunishmentController::class, 'store']);
+    Route::post('notification/update_all', [NotificationController::class, 'update_all']);
+    Route::post('notification/destroy_all', [NotificationController::class, 'destroy_all']);
+
 
     Route::get('shop-request', [ShopRequestController::class, 'index']);
     Route::post('shop-request', [ShopRequestController::class,'store']);
