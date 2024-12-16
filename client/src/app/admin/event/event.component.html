@@ -8,8 +8,15 @@
             style="padding:0 20px;">
             <div class="layout-horizontal gap-10  "
                 style="padding: 10px;">
+               
                 <!-- search -->
-                <div class="search-dropdown-control">
+                <label for="filterStatus">Lọc trạng thái:</label>
+                <select class="dropdown-menu" [(ngModel)]="filterStatus" (change)="filterReports()">
+                  <option value="all" class="list-item">Tất cả</option>
+                  <option value="pending" class="list-item">Chưa giải quyết</option>
+                  <option value="resolved" class="list-item">Đã giải quyết</option>
+                </select>
+                <!-- <div class="search-dropdown-control">
                     <div class="control search-control">
                         <input type="search"
                             placeholder="placeholder"
@@ -36,9 +43,9 @@
                             <div class="text-body">Item 3</div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!-- fillter -->
-                <div class="layout-horizontal gap-10">
+                <!-- <div class="layout-horizontal gap-10">
                     <a href="#"
                         class="button-standard button-text-with-icon gap-10">
                         <i
@@ -59,15 +66,17 @@
                     </a>
                     <a href="#"
                         class="button-standard button-text-only gap-10">
-                        <!-- <i
-                                class="icon-size-16 icon icon-ic_fluent_person_24_regular"></i> -->
+                        <i
+                                class="icon-size-16 icon icon-ic_fluent_person_24_regular"></i>
                         See All
                     </a>
-                </div>
+                </div> -->
 
             </div>
             <div class="me-25">
-                <div class="pagination layout-horizontal">
+                <pagination-controls (pageChange)="currentPage = $event" previousLabel=""
+                nextLabel=""></pagination-controls>
+                <!-- <div class="pagination layout-horizontal" >
                     <button
                         class="pagination-item button-subtle button-icon-only text-accent-default"><i
                             class="icon-size-24 icon icon-ic_fluent_caret_left_24_filled"></i></button>
@@ -84,7 +93,7 @@
                     <button
                         class="pagination-item button-subtle button-icon-only text-accent-default"><i
                             class="icon-size-24 icon icon-ic_fluent_caret_right_24_filled"></i></button>
-                </div>
+                </div> -->
             </div>
         </div>
         <div style="padding: 20px;">
@@ -104,7 +113,7 @@
                             
                         </div>
                     </div>
-                    <div   *ngFor="let item of listShop | paginate: { itemsPerPage: 2, currentPage: currentPage }; let i = index">
+                    <div   *ngFor="let item of listShop | paginate: { itemsPerPage: 5, currentPage: currentPage }; let i = index">
 
                         <div
                             class="layout-horizontal   w-fill align-center-space-between text-center p-20">
@@ -126,6 +135,7 @@
                                         'text-green': item.is_active === '1',
                                         'text-red': item.is_active === '0'
                                       }">
+                                      
                                       {{ item.is_active === '1' ? 'Đã giải quyết' : 'Chưa giải quyết' }}
                                     </span>
                                   </div>
@@ -156,17 +166,18 @@
                                         <label><input type="checkbox"> Shop bạn chưa đủ tiêu chuẩn</label>
                                         <label><input type="checkbox"> Shop bạn không được duyệt</label>
                                     </div>
-
+                                    
                                     <div class="layout-vertical align-top-left gap-10">
                                         <label>Ghi chú:</label>
                                         <textarea rows="5" cols="40"></textarea>
                                     </div>
-
+                                    
                                     <div class="button-acp layout-horizontal align-center-space-between">
                                         <button type="button" class="button-accent" (click)="approve()">Duyệt</button>
                                         <button type="button" class="button-accent" (click)="reject()">Không Duyệt</button>
                                         <button type="button" class="button-close" (click)="closeDialog()">Đóng</button>
                                     </div>
+                                    
                                     </div>
                                 </form>
                                 </div>
@@ -177,32 +188,31 @@
                     </div>
 
                         </div>
-                        <div
+                        <div  
                             class="accordion-panel open layout-horizontal show_chitiet_{{i}} w-fill ">
                             <div class="layout-horizontal w-fill h-hug">
 
-                                <div
+                                <div  
                                     class="p-15 layout-horizontal align-center-space-between w-fill">
                                     
-                                    <div
+                                    <div 
                                         class="sender layout-vertical gap-10 w-fill-column-4">
-                                        <p class="text-title">Text title</p>
+                                        <p class="text-title">Cửa Hàng</p>
                                         <div
                                             class="checkout layout-vertical m-25">
                                             <div
                                                 class="layout-horizontal align-center-space-between gap-10 border  rounded-top-8">
                                                 <div
-                                                    class="text-body-strong">Name:
+                                                    class="text-body-strong">Tên:
                                                 </div>
-                                                <div>User1 </div>
+                                                <div>{{ item.name }} </div>
                                             </div>
                                           
                                             <div
                                                 class="layout-horizontal align-center-space-between gap-10 border ">
                                                 <div
-                                                    class="text-body-strong">Phone
-                                                    number: </div>
-                                                <div> 0000000000</div>
+                                                    class="text-body-strong">Số điện thoại: </div>
+                                                <div> {{item.phone_number}}</div>
                                             </div>
 
                                             <div
@@ -224,13 +234,13 @@
                                                 <div
                                                     class="text-body-strong">Địa
                                                     chỉ: </div>
-                                                <div>61 An DUong</div>
+                                                <div>{{item.address}}</div>
                                             </div>
 
                                         </div>
 
                                     </div>
-                                    <div
+                                    <div  
                                         class="sender layout-vertical gap-10 w-fill-column-4">
                                         <div
                                             class="checkout layout-vertical m-25">
@@ -240,7 +250,7 @@
                                                     tả cửa hàng: </div>
                                                 <textarea rows="6" cols="50"
                                                     name="storeDescription"
-                                                    id="storeDescription">Cửa hàng chuyên cung cấp mỹ phẩm cao cấp, đảm bảo chất lượng và uy tín. Địa điểm lý tưởng để bạn tìm thấy những sản phẩm làm đẹp phù hợp nhất với nhu cầu của mình.</textarea>
+                                                    id="storeDescription">{{item.description}}</textarea>
                                             </div>
 
                                             <!-- <div
@@ -256,23 +266,22 @@
                                     </div>
                                     <div
                                         class="sender layout-vertical gap-10 w-fill-column-4">
-                                        <p class="text-title">Text title</p>
+                                        <p class="text-title">Người dùng</p>
                                         <div
                                             class="checkout layout-vertical m-25">
                                             <div
                                                 class="layout-horizontal align-center-space-between gap-10 border  rounded-top-8">
                                                 <div
-                                                    class="text-body-strong">Name:
+                                                    class="text-body-strong">Tên:
                                                 </div>
-                                                <div>User1 </div>
+                                                <div>{{ item.user.profile.display_name }}</div>
                                             </div>
                                           
                                             <div
                                                 class="layout-horizontal align-center-space-between gap-10 border ">
                                                 <div
-                                                    class="text-body-strong">Phone
-                                                    number: </div>
-                                                <div> 0000000000</div>
+                                                    class="text-body-strong">Số điện thoại: </div>
+                                                <div> {{item.phone_number}}</div>
                                             </div>
 
                                             <div
@@ -294,7 +303,7 @@
                                                 <div
                                                     class="text-body-strong">Địa
                                                     chỉ: </div>
-                                                <div>61 An DUong</div>
+                                                <div>{{item.address}}</div>
                                             </div>
 
                                         </div>

@@ -6,6 +6,7 @@ import { PaymentService } from '../../service/payment.service';
 import { ShopService } from '../../service/shop.service';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { ApexOptions } from 'apexcharts';
 
 @Component({
   selector: 'app-store-order',
