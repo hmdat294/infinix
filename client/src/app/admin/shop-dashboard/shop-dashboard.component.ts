@@ -21,6 +21,7 @@ export class ShopDashboardComponent implements OnInit{
   listShop: any[] = [];
   listUser: any[] = [];
   Cumulative_Revenue:any[]=[];
+  isDialogVisible = false;
   tabAccordion: string = '';
   constructor(private adminService: AdminService, 
     private settingService: SettingService,
@@ -132,5 +133,10 @@ export class ShopDashboardComponent implements OnInit{
 
   tabChild(tab: string) {
     this.tabAccordion = this.settingService.tabChild(this.tabAccordion, tab, this.el);
+  }
+  openDialog(): void {
+    
+    this.isDialogVisible = !this.isDialogVisible;
+    
   }
 }

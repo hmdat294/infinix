@@ -61,9 +61,9 @@ export class EventComponent implements OnInit {
       }
     );
   }
-  openDialog(item: any): void {
-    this.currentItem = item;
-    this.isDialogVisible = true;
+  openDialog(): void {
+    
+    this.isDialogVisible = !this.isDialogVisible;
     
   }
   approve(): void {
