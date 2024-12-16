@@ -4,23 +4,30 @@ import { AdminService } from '../../service/admin.service';
 import { NavComponent } from '../nav/nav.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { ApexOptions } from 'apexcharts';
+import { NgApexchartsModule } from 'ng-apexcharts';
+import moment from 'moment';
 
 @Component({
-    selector: 'app-dashboard',
-    imports: [NavComponent, TranslateModule],
-    templateUrl: './dashboard.component.html',
-    styleUrl: './dashboard.component.css'
+  selector: 'app-dashboard',
+  imports: [NavComponent, TranslateModule, NgApexchartsModule],
+  templateUrl: './dashboard.component.html',
+  styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent implements OnInit {
   totalUsers: number = 0;
   totalPosts: number = 0;
   totalReports: number = 0;
   totalConversations: number = 0;
-  
+  chart2: any;
+  chart13: any;
+
   listUser: any;
-  Conversations_Growth: any;
+  Conversations_Growth: any[] = [];;
+  Conversations_Growth_Date: any[] = [];;
+  User_Growth_Date: any[] = [];
   User_Growth: any[] = []; // Khởi tạo mảng rỗng cho User_Growth
   Post_Growth: any[] = []; // Khởi tạo mảng rỗng cho Post_Growth
+  Post_Growth_Date: any[] = []; // Khởi tạo mảng rỗng cho Post_Growth
   totalPost: any;
   totalReport: any;
 
@@ -41,6 +48,127 @@ export class DashboardComponent implements OnInit {
     // }, error => {
     //   console.error('Lỗi khi lấy dữ liệu:', error);
     // });
+    this.adminService.getUserGrowthData().subscribe(
+      (response) => {
+        console.log(response);
+        response.forEach((user: any) => {
+          this.User_Growth.push(user.cumulative_total); // Lưu trữ dữ liệu từ API
+          this.User_Growth_Date.push(user.date);
+
+        });
+        this.adminService.getPostGrowthData().subscribe(postGrowthData => {
+
+          postGrowthData.forEach((item: any) => {
+            this.Post_Growth.push(item.cumulative_total); // Lưu trữ dữ liệu từ API
+            this.Post_Growth_Date.push(item.date);
+
+
+          });
+          this.adminService.getConversationsGrowthData().subscribe(data => {
+            data.forEach((user: any) => {
+              this.Conversations_Growth.push(user.cumulative_total); // Lưu trữ dữ liệu từ API
+              this.Conversations_Growth_Date.push(user.date);
+
+
+            });
+          });
+
+        });
+        const longestDates = this.User_Growth_Date.length >= this.Post_Growth_Date.length
+          ? (this.User_Growth_Date.length >= this.Conversations_Growth_Date.length ? this.User_Growth_Date : this.Conversations_Growth_Date)
+          : (this.User_Growth_Date.length >= this.Conversations_Growth_Date.length ? this.Post_Growth_Date : this.Conversations_Growth_Date);
+
+        // Lưu trữ dữ liệu từ API
+        console.log(this.User_Growth_Date);
+        console.log(this.User_Growth);
+        console.log(this.Post_Growth);
+        console.log(this.Post_Growth_Date);
+        console.log(this.Conversations_Growth);
+        console.log(this.Conversations_Growth_Date);
+
+        this.chart2 = {
+          chart: {
+            foreColor: '#9ba7b2',
+            height: 460,
+            type: 'line',
+            zoom: { enabled: false },
+            dropShadow: { enabled: true, top: 3, left: 2, blur: 4, opacity: 0.1 }
+          },
+          stroke: { width: 5, curve: 'smooth' },
+          colors: ["#5283FF", '#F1C40F', '#FF4C92', "#17a00e"],
+          series: [{
+            name: "Người dùng",
+            data: this.User_Growth  // Sử dụng userData từ API
+          },
+          {
+            name: "Bài viết",
+            data: this.Post_Growth // Sử dụng userData từ API
+          },
+          {
+            name: "Cuộc trò chuyện",
+            data: this.Conversations_Growth // Sử dụng userData từ API
+          }
+          ],
+          xaxis: {
+            type: 'datetime',
+            categories: longestDates,
+          },
+          title: {
+            text: 'Growth statistics',
+            offsetY: 0,
+            offsetX: 20
+          },
+          markers: {
+            size: 5,
+            strokeColors: "#fff",
+            strokeWidth: 1,
+            hover: {
+              size: 7
+            }
+          },
+        }
+
+      }
+
+    );
+   
+    
+    this.adminService.getReports().subscribe((response: any) => {
+      const reportData = Array.isArray(response.data) ? response.data : [];
+
+      const userReports = reportData.filter((item: any) => item.type === 'user').length;
+      const postReports = reportData.filter((item: any) => item.type === 'post').length;
+      const commentReports = reportData.filter((item: any) => item.type === 'comment').length;
+      const messageReports = reportData.filter((item: any) => item.type === 'message').length;
+      console.log('Data passed to :', userReports, postReports, commentReports, messageReports);
+
+      
+      this.chart13 = {
+        series: [userReports, postReports, commentReports, messageReports],
+      chart: {
+        foreColor: '#9ba7b2',
+        height: 240,
+        type: 'donut',
+        dropShadow: { enabled: true, top: 3, left: 2, blur: 4, opacity: 0.1 }
+      },
+      colors: ["#ffc107", "#0d6efd", "#17a00e", "#f41127"],
+      title: {
+        text: 'Trạng thái báo cáo',
+        offsetY: 0,
+        offsetX: 0
+      },
+      labels: ['Báo cáo Người dùng', 'Báo cáo bình luận', 'Báo cáo bài viết', 'Báo cáo nhóm'],
+      legend: {
+        position: 'bottom',
+        formatter: function (val: string, opts: any) {
+          return val;
+        }
+      },
+      }
+    });
+
+
+
 
     this.adminService.getTotalUser().subscribe(
       (response) => {
@@ -78,263 +206,46 @@ export class DashboardComponent implements OnInit {
         console.error('Lỗi khi gọi API:', error);
       }
     );
-    this.fetchDataAndRenderChart();
-    this.fetchReportDataAndRenderDonutChart();
-    this.loadDonutChartData();
+
 
   }
 
-  
 
-  fetchDataAndRenderChart(): void {
-    this.adminService.getUserGrowthData().subscribe(userGrowthData => {
-      this.User_Growth = userGrowthData;
 
-      this.adminService.getPostGrowthData().subscribe(postGrowthData => {
-        this.Post_Growth = postGrowthData;
-          this.adminService.getConversationsGrowthData().subscribe(data => {
-            this.Conversations_Growth = data;
-          // Sau khi có dữ liệu từ cả hai API, gọi hàm để vẽ biểu đồ
-          this.renderChart();
-        });
-      });
-    });
-  }
+ 
 
-  renderChart(): void {
-    const userTotals = this.User_Growth.map((item: any) => item.cumulative_total);
-    const userDates = this.User_Growth.map((item: any) => item.date);
 
-    const postTotals = this.Post_Growth.map((item: any) => item.cumulative_total);
-    const postDates = this.Post_Growth.map((item: any) => item.date);
 
-    const conversationsTotals = this.Conversations_Growth.map((item: any) => item.cumulative_total);
-    const conversationsDates = this.Conversations_Growth.map((item: any) => item.date);
-    console.log('show growth:', userTotals, conversationsTotals, postTotals);
-    
-    const longestDates = userDates.length >= postDates.length 
-    ? (userDates.length >= conversationsDates.length ? userDates : conversationsDates) 
-    : (postDates.length >= conversationsDates.length ? postDates : conversationsDates);
-    
-    const chartOptions: ApexOptions = {
+
+  //shop
+  renderDonutChart(seriesData: number[]): void {
+    // Kiểm tra dữ liệu trước khi render biểu đồ
+    console.log('Dữ liệu được xử lí', seriesData);
+
+    const donutChartOptions: ApexOptions = {
+      series: seriesData,
       chart: {
         foreColor: '#9ba7b2',
-        height: 460,
-        type: 'line',
-        zoom: { enabled: false },
+        height: 240,
+        type: 'donut',
         dropShadow: { enabled: true, top: 3, left: 2, blur: 4, opacity: 0.1 }
       },
-      stroke: { width: 5, curve: 'smooth' },
-      colors: ["#5283FF", '#F1C40F', '#FF4C92', "#17a00e"],
-      series: [{
-        name: "Người dùng",
-        data: userTotals  // Sử dụng userData từ API
-      },
-      {
-        name: "Bài viết",
-        data: postTotals  // Sử dụng userData từ API
-      },
-      {
-        name: "Cuộc trò chuyện",
-        data: conversationsTotals // Sử dụng userData từ API
-      }
-      ],
-      xaxis: {
-        type: 'datetime',
-        categories: longestDates,
-      },
+      colors: ["#28a745", "#ffc107", "#dc3545", "#007bff"], // Tùy chỉnh màu sắc
       title: {
-        text: 'Growth statistics',
+        text: 'Trạng Thái Shop',
         offsetY: 0,
-        offsetX: 20
+        offsetX: 0
       },
-      markers: {
-        size: 5,
-        strokeColors: "#fff",
-        strokeWidth: 1,
-        hover: {
-          size: 7
-        }
+      labels: ['Shop Đã Duyệt', 'Shop Chờ Duyệt', 'Shop Bị Từ Chối', 'Shop Đang Xem Xét'], // Thay đổi nhãn
+      legend: {
+        position: 'bottom',
+        formatter: (val: string) => val,
       },
     };
 
-    // const chart = new ApexCharts(document.querySelector('#chart2'), chartOptions);
-    // chart.render();
+    const donutChart = new ApexCharts(document.querySelector('#chart9'), donutChartOptions);
+    donutChart.render();
   }
 
 
-
-  loadDonutChartData(): void {
-    Promise.all([
-      this.adminService.getTotalPostBookmarks().toPromise(),
-      this.adminService.getTotalPostComments().toPromise(),
-      this.adminService.getTotalPostLikes().toPromise(),
-      this.adminService.getTotalPostShares().toPromise()
-    ]).then((responses) => {
-      const series = (responses as Array<{ data: number } | undefined>).map((response) => response ? response.data : 0);
-      console.log('dữ liệu được xử lí:', series);
-      // this.renderDonutChart(series);
-      this.renderDonutChart([50, 20, 10, 5]);
-    }).catch(error => {
-      console.error('Lỗi khi gọi API:', error);
-    });
-  }
-
-
- renderDonutChart(seriesData: number[]): void {
-  // Kiểm tra dữ liệu trước khi render biểu đồ
-  console.log('Dữ liệu được xử lí', seriesData);
-
-  // const donutChartOptions: ApexOptions = {
-  //   series: seriesData,
-  //   chart: {
-  //     foreColor: '#9ba7b2',
-  //     height: 240,
-  //     type: 'donut',
-  //     dropShadow: { enabled: true, top: 3, left: 2, blur: 4, opacity: 0.1 }
-  //   },
-  //   colors: ["#28a745", "#ffc107", "#dc3545", "#007bff"], // Tùy chỉnh màu sắc
-  //   title: {
-  //     text: 'Trạng Thái Shop',
-  //     offsetY: 0,
-  //     offsetX: 0
-  //   },
-  //   labels: ['Shop Đã Duyệt', 'Shop Chờ Duyệt', 'Shop Bị Từ Chối', 'Shop Đang Xem Xét'], // Thay đổi nhãn
-  //   legend: {
-  //     position: 'bottom',
-  //     formatter: (val: string) => val,
-  //   },
-  // };
-
-  // const donutChart = new ApexCharts(document.querySelector('#chart9'), donutChartOptions);
-  // donutChart.render();
-}
-
-
-
-  fetchReportDataAndRenderDonutChart(): void {
-    this.adminService.getReports().subscribe((response: any) => {
-      const reportData = Array.isArray(response.data) ? response.data : [];
-
-      const userReports = reportData.filter((item: any) => item.type === 'user').length;
-      const postReports = reportData.filter((item: any) => item.type === 'post').length;
-      const commentReports = reportData.filter((item: any) => item.type === 'comment').length;
-      const messageReports = reportData.filter((item: any) => item.type === 'message').length;
-      console.log('Data passed to :', userReports, postReports, commentReports, messageReports);
-
-      this.renderRadialBarChart(userReports, postReports, commentReports, messageReports);
-    }, error => {
-      console.error("Error fetching report data:", error);
-    });
-  }
-  renderRadialBarChart(userReports: number, postReports: number, commentReports: number, messageReports: number): void {
-    // const donutChartOptions: ApexOptions = {
-    //   series: [userReports, postReports, commentReports, messageReports],
-    //   chart: {
-    //     foreColor: '#9ba7b2',
-    //     height: 240,
-    //     type: 'donut',
-    //     dropShadow: { enabled: true, top: 3, left: 2, blur: 4, opacity: 0.1 }
-    //   },
-    //   colors: ["#ffc107", "#0d6efd", "#17a00e", "#f41127"],
-    //   title: {
-    //     text: 'Trạng thái báo cáo',
-    //     offsetY: 0,
-    //     offsetX: 0
-    //   },
-    //   labels: ['Báo cáo Người dùng', 'Báo cáo bình luận', 'Báo cáo bài viết', 'Báo cáo nhóm'],
-    //   legend: {
-    //     position: 'bottom',
-    //     formatter: function (val: string, opts: any) {
-    //       return val;
-    //     }
-    //   },
-    // };
-
-    // const donutChart = new ApexCharts(document.querySelector('#chart13'), donutChartOptions);
-    // donutChart.render();
-  }
-
-
-
-  // renderRadialBarChart(): void {
-  //   const radialBarOptions: ApexOptions = {
-  //     series: [44, 55, 67, 83],
-  //     chart: {
-  //       height: 350,
-  //       type: 'radialBar',
-  //       dropShadow: { enabled: true, top: 3, left: 2, blur: 4, opacity: 0.1 }
-  //     },
-  //     plotOptions: {
-  //       radialBar: {
-  //         dataLabels: {
-  //           total: {
-  //             show: true,
-  //             label: 'Tổng quan',
-  //           }
-  //         }
-  //       }
-  //     },
-  //     colors: ["#17a00e", "#f41127", "#0d6efd", "#ffc107"],
-  //     labels: ['User report', 'Comment report', 'Post report', 'Post report'],
-  //     title: {
-  //       text: 'Growth statistics',
-  //       offsetY: 0,
-  //       offsetX: 0
-  //     },
-  //     legend: {
-  //       position: 'bottom',
-  //       formatter: function(val: string, opts: any) {
-  //         return val;
-  //       }
-  //     }, 
-  //   };
-
-  //   const radialBarChart = new ApexCharts(document.querySelector('#chart13'), radialBarOptions);
-  //   radialBarChart.render();
-  // }
-
-
-  renderLineChart1(): void {
-    const ConversationsTotals = this.Conversations_Growth.map((item: any) => item.total);
-    const ConversationsDates = this.Conversations_Growth.map((item: any) => item.date);
-    // const lineChart1Options: ApexOptions = {
-    //   chart: {
-    //     height: 460,
-    //     type: 'line',
-    //     zoom: { enabled: false },
-    //     dropShadow: { enabled: true, top: 3, left: 2, blur: 4, opacity: 0.1 }
-    //   },
-    //   stroke: { width: 5, curve: 'smooth' },
-    //   colors: ["#f41127"],
-    //   series: [{
-    //     name: 'Conversations',
-    //     data: ConversationsTotals
-    //   }],
-    //   xaxis: {
-    //     type: 'datetime',
-    //     categories: ConversationsDates,
-    //   },
-    //   title: {
-    //     text: 'Line Chart'
-    //   },
-    //   markers: {
-    //     size: 5,
-    //     colors: ["#f41127"],
-    //     strokeColors: "#fff",
-    //     strokeWidth: 2,
-    //     hover: {
-    //       size: 7,
-    //     }
-    //   },
-    //   yaxis: {
-    //     title: {
-    //       text: 'Engagement',
-    //     },
-    //   }
-    // };
-
-    // const lineChart1 = new ApexCharts(document.querySelector('#chart1'), lineChart1Options);
-    // lineChart1.render();
-  }
 }
