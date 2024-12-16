@@ -18,4 +18,14 @@ class OrderStatisticsController extends Controller
     
     return response()->json(['data' => $statistics]);
     }
+
+    public function byShop(Request $request, $shop_id)
+    {
+        $statistics = Order::select('status', DB::raw('count(*) as total'))
+        ->where('shop_id', $shop_id)
+        ->groupBy('status')
+        ->get();
+
+        return response()->json(['data' => $statistics]);
+    }
 }

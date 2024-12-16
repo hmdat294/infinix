@@ -323,5 +323,6 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
         
         Route::get('report', [ReportStatisticsController::class, 'index']);
         Route::get('order', [OrderStatisticsController::class,'index']);
+        Route::get('order-by-shop/{shop_id}', [OrderStatisticsController::class,'byShop']);
     });
 });
