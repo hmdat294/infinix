@@ -9,11 +9,18 @@
         <form class="layout-vertical gap-10 w-fill" enctype="multipart/form-data" #value="ngForm"
             (submit)="post(value.value)">
 
-            <quill-editor [(ngModel)]="content" name="content" ngModel [modules]="editorModules"></quill-editor>
+            <quill-editor [(ngModel)]="content" name="content" ngModel [modules]="editorModules"
+                [disabled]="isCreateContent"></quill-editor>
+
+            <p *ngIf="isCreateContent" class="validation-message validation-critical text-caption text-system-critical">
+                <i class="icon-size-16 icon icon-ic_fluent_dismiss_circle_16_filled"></i>
+                <span>{{messageNotCreateContent}}</span>
+            </p>
 
             <div *ngIf="previewPostImages.length > 0" class="p-10 position-relative border rounded-6">
                 <div class="layout-wrap gap-20">
-                    <div *ngFor="let preview of previewPostImages; let i = index" class="w-fill-column-4 in-tablet-w-fill-column-6 in-mobile-w-fill-column-6">
+                    <div *ngFor="let preview of previewPostImages; let i = index"
+                        class="w-fill-column-4 in-tablet-w-fill-column-6 in-mobile-w-fill-column-6">
                         <ng-container *ngIf="preview.type === 'image/webp'">
                             <img [src]="preview.path" alt="Image preview" width="100%" class="rounded-4">
                         </ng-container>
@@ -57,31 +64,33 @@
             <div class="layout-horizontal w-fill">
                 <div class="layout horizontal w-fill gap-10">
                     <input class="display-none" type="file" [ngModel]="filePost" name="filePost"
-                        (change)="onFilePostSelected($event)" accept="image/*,video/*" id="post_media_input" multiple>
+                        [disabled]="isCreateContent" (change)="onFilePostSelected($event)" accept="image/*,video/*"
+                        id="post_media_input" multiple>
                     <label for="post_media_input"
                         class="layout align-center-center border-none subtle-transparent text-accent-default">
                         <i class="icon-size-20 icon icon-ic_fluent_image_20_regular"></i>
                     </label>
 
                     <button type="button" class="border-none subtle-transparent text-accent-default"
-                        (click)="toggleEmojiPicker()">
+                        (click)="toggleEmojiPicker()" [disabled]="isCreateContent">
                         <i *ngIf="showEmojiPicker" class="icon-size-20 icon icon-ic_fluent_emoji_20_filled"></i>
                         <i *ngIf="!showEmojiPicker" class="icon-size-20 icon icon-ic_fluent_emoji_20_regular"></i>
                     </button>
 
-                    <button type="button" class="border-none subtle-transparent text-accent-default">
+                    <button type="button" class="border-none subtle-transparent text-accent-default"
+                        [disabled]="isCreateContent">
                         <i class="icon-size-20 icon icon-ic_fluent_attach_20_regular"></i>
                     </button>
 
                     <button type="button" class="border-none subtle-transparent text-accent-default"
-                        (click)="showPolls()">
+                        (click)="showPolls()" [disabled]="isCreateContent">
                         <i *ngIf="showPoll" class='icon-size-20 icon icon-ic_fluent_data_histogram_20_filled'></i>
                         <i *ngIf="!showPoll" class='icon-size-20 icon icon-ic_fluent_data_histogram_20_regular'></i>
                     </button>
 
                 </div>
                 <button type="submit" class="button-accent button-text-with-icon"
-                    [disabled]="spaceCheck.test(value.value.content)">
+                    [disabled]="spaceCheck.test(value.value.content) || isCreateContent">
                     {{ 'home.center_home.post_button' | translate }}
                     <i class="icon-size-16 icon icon-ic_fluent_send_16_filled"></i>
                 </button>
@@ -196,7 +205,8 @@
                 <div *ngIf="previewUpdatePostImages.length > 0"
                     class="p-10 position-relative border rounded-6 overflow-scroll-vertical" style="height: 300px;">
                     <div class="layout-wrap gap-20">
-                        <div *ngFor="let preview of previewUpdatePostImages; let i = index" class="w-fill-column-4 in-tablet-w-fill-column-6 in-mobile-w-fill-column-6">
+                        <div *ngFor="let preview of previewUpdatePostImages; let i = index"
+                            class="w-fill-column-4 in-tablet-w-fill-column-6 in-mobile-w-fill-column-6">
                             <ng-container *ngIf="preview.type === 'image/webp'">
                                 <img [src]="preview.path" alt="Image preview" width="100%" class="rounded-4">
                             </ng-container>
@@ -234,7 +244,7 @@
 
                     </div>
                     <button type="submit" class="button-accent button-text-with-icon"
-                        [disabled]="spaceCheck.test(valueUpdate.value.content)">
+                        [disabled]="spaceCheck.test(valueUpdate.value.contentUpdate)">
                         {{ 'home.center_home.update_post.update_button' | translate }}
                         <i class="icon-size-16 icon icon-ic_fluent_send_16_filled"></i>
                     </button>
@@ -255,17 +265,17 @@
             class="layout-vertical p-20 gap-20 rounded-8 acrylic-background-default blur-acrylic border border-card-default w-hug h-hug">
 
             <div class="pb-20 pt-5 border-bottom">
-                <p class="text-subtitle text-primary text-center">{{ 'home.center_home.detele_post.title' | translate }}
+                <p class="text-subtitle text-primary text-center">{{ 'home.center_home.delete_post.title' | translate }}
                 </p>
             </div>
 
-            <p class="text-body text-primary text-center">{{ 'home.center_home.detele_post.message' | translate }}</p>
+            <p class="text-body text-primary text-center">{{ 'home.center_home.delete_post.message' | translate }}</p>
 
             <div class="layout-horizontal gap-20 w-fill">
                 <button type="button" class="button-standard button-text-only" (click)="setDeleteId(0)">{{
-                    'home.center_home.detele_post.cancel_button' | translate }}</button>
+                    'home.center_home.delete_post.cancel_button' | translate }}</button>
                 <button type="button" class="button-accent button-text-only" (click)="deletePost()">{{
-                    'home.center_home.detele_post.delete_button' | translate }}</button>
+                    'home.center_home.delete_post.delete_button' | translate }}</button>
             </div>
 
         </div>
@@ -404,8 +414,7 @@
 
                 <div
                     class="solid-background-senary w-fill h-fill in-tablet-h-hug in-mobile-h-hug rounded-8 overflow-hidden layout-horizontal in-tablet-layout-vertical in-mobile-layout-vertical border border-card-default">
-                    <div class="w-fill-column-6 h-fill in-tablet-w-fill in-mobile-w-fill"
-                        *ngIf="post.medias.length>0">
+                    <div class="w-fill-column-6 h-fill in-tablet-w-fill in-mobile-w-fill" *ngIf="post.medias.length>0">
 
                         <div class="layout w-fill h-fill {{(post.medias.length>0) ? 'display-flex' : 'display-none'}}">
                             <div class="carousel w-fill h-fill rounded-4">
@@ -606,6 +615,12 @@
                             </div>
                         </div>
 
+                        <p *ngIf="isCreateContent"
+                            class="px-10 validation-message validation-critical text-caption text-system-critical">
+                            <i class="icon-size-16 icon icon-ic_fluent_dismiss_circle_16_filled"></i>
+                            <span>{{messageNotCreateContent}}</span>
+                        </p>
+
                         <emoji-mart *ngIf="showEmojiPickerComment" [i18n]="vietnameseI18n"
                             [style]="{ position: 'absolute', bottom: '0', right: 'calc(100% + 20px)', background: '#363636' }"
                             (emojiSelect)="addEmojiComment($event)"></emoji-mart>
@@ -634,9 +649,9 @@
                                         </div>
                                     </div>
 
-                                    <textarea class="control text-area-control w-fill"
-                                        name="content" ngModel [(ngModel)]="contentCommentInput" id="comment-input"
-                                        spellcheck="false" style="max-height: 110px;">
+                                    <textarea class="control text-area-control w-fill" name="content" ngModel
+                                        [(ngModel)]="contentCommentInput" id="comment-input" spellcheck="false"
+                                        style="max-height: 110px;">
                                     </textarea>
                                     <input type="hidden" name="post_id" ngModel [(ngModel)]="post.id">
                                     <input type="hidden" name="user_id" ngModel [(ngModel)]="post.profile.user_id">
@@ -663,7 +678,8 @@
                                                 <i class="icon-size-20 icon icon-ic_fluent_mic_20_regular"></i>
                                             </button>
                                         </div>
-                                        <button type="submit" class="button-accent button-text-with-icon">
+                                        <button type="submit" class="button-accent button-text-with-icon"
+                                            [disabled]="isCreateContent">
                                             {{ 'home.center_home.send_comment' | translate }}
                                             <i class="icon-size-16 icon icon-ic_fluent_send_16_filled"></i>
                                         </button>

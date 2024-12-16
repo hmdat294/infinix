@@ -7,8 +7,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class AuthService {
 
-  private apiUrl = 'http://localhost:8000/api';
-
   public auth_token_source = new BehaviorSubject<string>(this.getAuthTokenFromStorage());
   token$ = this.auth_token_source.asObservable();
   auth_token: string = '';
@@ -45,6 +43,14 @@ export class AuthService {
   getToken(): HttpHeaders {
     return new HttpHeaders({ 'Authorization': `Bearer ${this.auth_token}` });
   }
+
+  checkPermissions(requiredPermissions: string, permissions: any): boolean {
+    return permissions.some(
+      (perm: any) => perm.name === requiredPermissions && perm.pivot.is_active === 1
+    )
+  }
+
+  private apiUrl = 'http://localhost:8000/api';
 
   getUser(id: number): Observable<any> {
     const headers = this.getToken();
@@ -173,8 +179,8 @@ export class AuthService {
   }
 
 
- 
-  
+
+
 }
 
 

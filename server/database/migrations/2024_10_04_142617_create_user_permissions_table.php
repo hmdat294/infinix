@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('permission_id')->constrained()->onDelete('cascade');
             $table->boolean('is_active')->default(true);
-            $table->timestamp('expires_at')->nullable();
+            $table->timestamp('enable_at')->nullable();
             $table->timestamps();
         });
     }
