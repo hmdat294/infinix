@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../../service/admin.service';
 import { NavComponent } from '../nav/nav.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { ApexOptions } from 'apexcharts';
 
 @Component({
     selector: 'app-dashboard',
@@ -15,6 +16,7 @@ export class DashboardComponent implements OnInit {
   totalPosts: number = 0;
   totalReports: number = 0;
   totalConversations: number = 0;
+  chart2:any;
   
   listUser: any;
   Conversations_Growth: any;
@@ -27,19 +29,23 @@ export class DashboardComponent implements OnInit {
 
 
   ngOnInit(): void {
-    // this.renderChart();
+    this.chart2 = {
+      
+    }
+    
+    this.renderChart();
 
     // this.renderDonutChart();
     // this.renderRadialBarChart();
-    // this.renderLineChart1();
-    // this.adminService.getConversationsGrowthData().subscribe(data => {
-    //   this.Conversations_Growth = data;  // Lưu trữ dữ liệu từ API
-    //   this.renderLineChart1();
-    //   console.log(this.Conversations_Growth);
-    //   // Vẽ biểu đồ sau khi có dữ liệu
-    // }, error => {
-    //   console.error('Lỗi khi lấy dữ liệu:', error);
-    // });
+    this.renderLineChart1();
+    this.adminService.getConversationsGrowthData().subscribe(data => {
+      this.Conversations_Growth = data;  // Lưu trữ dữ liệu từ API
+      this.renderLineChart1();
+      console.log(this.Conversations_Growth);
+      // Vẽ biểu đồ sau khi có dữ liệu
+    }, error => {
+      console.error('Lỗi khi lấy dữ liệu:', error);
+    });
 
     this.adminService.getTotalUser().subscribe(
       (response) => {
@@ -157,8 +163,8 @@ export class DashboardComponent implements OnInit {
       },
     };
 
-    // const chart = new ApexCharts(document.querySelector('#chart2'), chartOptions);
-    // chart.render();
+    const chart = new ApexCharts(document.querySelector('#chart2'), chartOptions);
+    chart.render();
   }
 
 

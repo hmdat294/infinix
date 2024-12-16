@@ -48,3 +48,124 @@ article{
 
 
   
+
+  .checkbox {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.checkbox label {
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+}
+
+.checkbox input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+.layout-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+textarea {
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 8px;
+    font-size: 14px;
+    resize: none;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.button-acp {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+button.button-accent {
+    background-color: #007bff;
+    color: #fff;
+}
+
+button.button-accent:hover {
+    background-color: #0056b3;
+}
+
+button.button-close {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+button.button-close:hover {
+    background-color: #a71d2a;
+}
+
+button:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+
+
+.status-select {
+    
+    font-size: 14px;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-align: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Trạng thái "Đã giải quyết" */
+.status-select.text-green {
+    
+    color: #fff;
+    background-color: #28a745; /* Màu xanh lá */
+    border: 1px solid #218838; /* Viền xanh đậm */
+}
+
+.status-select.text-green:hover {
+    background-color: #218838; /* Đậm hơn khi hover */
+    border-color: #1e7e34;
+}
+
+/* Trạng thái "Chưa giải quyết" */
+.status-select.text-red {
+    color: #fff;
+    background-color: #dc3545; /* Màu đỏ */
+    border: 1px solid #c82333; /* Viền đỏ đậm */
+}
+
+.status-select.text-red:hover {
+    background-color: #c82333; /* Đậm hơn khi hover */
+    border-color: #bd2130;
+}
