@@ -51,6 +51,17 @@ class NotificationController extends Controller
         }
     }
 
+    public function update_by_conversation(Request $request)
+    {
+        $conversation_id = $request->get('conversation_id');
+        $user = $request->user();
+        $notifications = $user->notifications()->where('conversation_id', $conversation_id)->get();
+        foreach ($notifications as $notification) {
+            $notification->is_read = true;
+            $notification->save();
+        }
+    }
+
     public function destroy(string $id)
     {
         $notification = NotificationModel::find($id);
@@ -65,6 +76,16 @@ class NotificationController extends Controller
     {
         $user = $request->user();
         $notifications = $user->notifications()->get();
+        foreach ($notifications as $notification) {
+            $notification->delete();
+        }
+    }
+
+    public function destroy_by_conversation(Request $request)
+    {
+        $conversation_id = $request->get('conversation_id');
+        $user = $request->user();
+        $notifications = $user->notifications()->where('conversation_id', $conversation_id)->get();
         foreach ($notifications as $notification) {
             $notification->delete();
         }
