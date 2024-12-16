@@ -43,7 +43,8 @@ use App\Http\Controllers\ShopRequestController;
 use App\Http\Controllers\ZaloPayController;
 use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\PunishmentController;
-
+use App\Http\Controllers\Statistics\OrderStatisticsController;
+use App\Http\Controllers\Statistics\ReportStatisticsController;
 
 Route::middleware(['guest'])->group(function () {
 
@@ -72,7 +73,9 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
 
     Route::post('punishment', [PunishmentController::class, 'store']);
     Route::post('notification/update_all', [NotificationController::class, 'update_all']);
-    Route::post('notification/destroy_all', [NotificationController::class, 'destroy_all']);
+    Route::delete('notification/destroy_all', [NotificationController::class, 'destroy_all']);
+    Route::post('notification/update_by_conversation', [NotificationController::class, 'update_by_conversation']);
+    Route::delete('notification/destroy_by_conversation', [NotificationController::class, 'destroy_by_conversation']);
 
 
     Route::get('shop-request', [ShopRequestController::class, 'index']);
@@ -318,5 +321,8 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
         // thống kê theo biểu đồ tròn (thống kê báo cáo)
         Route::get('total-reports', [TotalController::class, 'totalReports']);
         
+        Route::get('report', [ReportStatisticsController::class, 'index']);
+        Route::get('order', [OrderStatisticsController::class,'index']);
+        Route::get('order-by-shop/{shop_id}', [OrderStatisticsController::class,'byShop']);
     });
 });

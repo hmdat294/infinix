@@ -15,7 +15,8 @@ class ShopRevenueController extends Controller
         $to = $request->get('to');
     
         $query = DB::table('orders')
-            ->join('order_details', 'orders.id', '=', 'order_details.order_id');
+            ->join('order_details', 'orders.id', '=', 'order_details.order_id')
+            ->where('orders.status', 'delivered');
     
         if ($from && $to) {
             $query->whereBetween('orders.created_at', [$from, $to]);
@@ -77,6 +78,7 @@ class ShopRevenueController extends Controller
 
         $query = DB::table('orders')
             ->join('order_details', 'orders.id', '=', 'order_details.order_id')
+            ->where('orders.status', 'delivered')
             ->where('orders.shop_id', $shopId);
 
         if ($from && $to) {
