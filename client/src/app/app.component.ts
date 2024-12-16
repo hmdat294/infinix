@@ -35,13 +35,17 @@ export class AppComponent implements OnInit {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.authService.token$.subscribe(auth_token => {
-          this.isLoggedIn = !!auth_token;
 
-          if (this.isLoggedIn) {
+          if (!!auth_token) {
             this.authService.getUser(0).subscribe(
               (response) => {
-                this.user = response.data;
+
+                this.isLoggedIn = this.authService.checkPermissions('can_login', response.data.permissions);
+                this.isAdmin = this.authService.checkPermissions('can_access_dashboard', response.data.permissions);
+
+                if (this.isLoggedIn) this.user = response.data;
               });
+
           }
         });
       }

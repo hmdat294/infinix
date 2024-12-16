@@ -7,16 +7,16 @@ import { EventService } from '../service/event.service';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-    selector: 'app-register',
-    imports: [FormsModule, CommonModule, RouterModule, TranslateModule],
-    templateUrl: './register.component.html',
-    styleUrl: './register.component.css'
+  selector: 'app-register',
+  imports: [FormsModule, CommonModule, RouterModule, TranslateModule],
+  templateUrl: './register.component.html',
+  styleUrl: './register.component.css'
 })
 export class RegisterComponent {
 
   error: string = '';
   constructor(
-    private authService: AuthService, 
+    private authService: AuthService,
     private router: Router
   ) { }
 
@@ -32,15 +32,9 @@ export class RegisterComponent {
 
     this.authService.register(value.value).subscribe(
       (response) => {
-        // console.log(response);
         if (response.token) {
           this.authService.updateAuthToken(response.token);
-
-          this.authService.getUser(0).subscribe(
-            (response) => {
-              if (response.data.permissions[4]) this.router.navigate(['/admin']);
-              else this.router.navigate(['/']);
-            });
+          this.router.navigate(['/'])
         }
       }
     );
