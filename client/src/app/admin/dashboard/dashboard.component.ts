@@ -37,7 +37,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     // this.renderChart();
 
-    // this.renderDonutChart();
+
     // this.renderRadialBarChart();
     // this.renderLineChart1();
     // this.adminService.getConversationsGrowthData().subscribe(data => {
