@@ -107,8 +107,8 @@
                         </div>
                         <div class="layout-horizontal align-center-space-between p-10">
                             <p class="text-body-strong">Trạng thái thanh toán:</p>
-                            <p class="text-body-strong text-right">
-                                {{order.payment_status}}</p>
+                            <p class="text-body-strong text-right" [class]="payment_color[order.payment_status]">
+                                {{payment_status[order.payment_status]}}</p>
                         </div>
                         <div class="layout-horizontal align-center-space-between p-10">
                             <p class="text-body-strong">Tổng tiền:</p>

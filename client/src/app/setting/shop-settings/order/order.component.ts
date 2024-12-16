@@ -45,6 +45,18 @@ export class OrderComponent implements OnInit {
     'zalopay': 'Thanh toán qua ZaloPay',
   }
 
+  payment_status: any = {
+    'pending': 'Chưa thanh toán',
+    'paid': 'Đã thanh toán',
+    'refunded': 'Đã hoàn tiền'
+  }
+
+  payment_color: any = {
+    'pending': 'text-system-caution',
+    'paid': 'text-system-success',
+    'refunded': 'text-system-critical'
+  }
+
   constructor(
     private authService: AuthService,
     private paymentService: PaymentService,
