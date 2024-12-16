@@ -54,6 +54,8 @@ export class CheckoutComponent implements OnInit {
         this.authService.getUser(0).subscribe(
           (data) => {
             this.currentUser = data.data;
+            console.log(this.currentUser);
+            
           });
 
         this.cart = JSON.parse(decodeURIComponent(escape(atob(params['data']))));

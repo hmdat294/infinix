@@ -26,7 +26,7 @@ export class StoreOrderComponent implements OnInit {
     'received': 'Đã nhận đơn',
     'delivered': 'Đã giao hàng',
     'delivering': 'Đang giao',
-    'canceled': 'Đã hủy'
+    'cancelled': 'Đã hủy'
   }
 
   order_color: any = {
@@ -34,7 +34,7 @@ export class StoreOrderComponent implements OnInit {
     'received': 'text-system-attention',
     'delivered': 'text-system-success',
     'delivering': 'text-system-attention',
-    'canceled': 'text-system-critical'
+    'cancelled': 'text-system-critical'
   }
 
   payment_methood: any = {
@@ -45,13 +45,15 @@ export class StoreOrderComponent implements OnInit {
   payment_status: any = {
     'pending': 'Chưa thanh toán',
     'paid': 'Đã thanh toán',
-    'refunded': 'Đã hoàn tiền'
+    'refunded': 'Đã hoàn tiền',
+    'cancelled': 'Đã hủy'
   }
 
   payment_color: any = {
     'pending': 'text-system-caution',
     'paid': 'text-system-success',
-    'refunded': 'text-system-critical'
+    'refunded': 'text-system-critical',
+    'cancelled': 'text-system-critical'
   }
 
   constructor(

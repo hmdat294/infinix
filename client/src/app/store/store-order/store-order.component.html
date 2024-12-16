@@ -146,7 +146,7 @@
                                 <td>{{order.voucher_discount_price | currencyVND}}</td>
                             </tr>
                         </table>
-                        <div class="w-fill p-10">
+                        <div class="w-fill p-10" *ngIf="order.can_cancel || order.can_refund">
                             <button type="button"
                                 (click)="refundOrder(order.id, order.payment_method == 'cash' ? 'cancel-order' : 'refund-order')"
                                 class="button-standard button-text-only w-fill">
