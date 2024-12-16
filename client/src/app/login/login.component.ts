@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { EventService } from '../service/event.service';
 import { TranslateModule } from '@ngx-translate/core';
+import moment from 'moment';
 
 @Component({
   selector: 'app-login',
@@ -31,25 +32,33 @@ export class LoginComponent {
         console.log(response);
         if (response.token) {
 
-          // const requiredPermissions = ['can_login', 'can_create_post', 'can_comment', 'can_send_message', 'can_access_dashboard'];
-
+          this.authService.updateAuthToken(response.token);
 
           this.authService.getUser(0).subscribe(
             (response) => {
 
+              console.log(response.data);
+
               const isLogin = this.authService.checkPermissions('can_login', response.data.permissions);
               const isAdmin = this.authService.checkPermissions('can_access_dashboard', response.data.permissions);
-              
-              if (isLogin) {
-                this.authService.updateAuthToken(response.token);
 
+              if (isLogin) {
                 if (isAdmin) this.router.navigate(['/admin']);
                 else this.router.navigate(['/']);
-                
-              } else this.error = 'Tài khoản đã bị khóa, gửi hỗ trợ để biết thêm thông tin!';
+              }
+              else {
+
+                const canLoginPermission = response.data.permissions.find(
+                  (permission: any) => permission.name === "can_login"
+                );
+
+                const enableAt = canLoginPermission?.pivot?.enable_at || null;
+
+                this.error = 'Tài khoản đã bị khóa đến ' + moment(enableAt).format('HH:mm:ss [ngày] DD/MM/YYYY');
+                this.authService.removeAuthToken();
+              }
 
             });
-
         } else this.error = response.message;
       }
     );

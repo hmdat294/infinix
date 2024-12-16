@@ -13,6 +13,8 @@ export class AuthGuard implements CanActivate {
     private authService: AuthService
   ) { }
 
+  is_reload: boolean = true;
+
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Observable<boolean> {
 
     return new Observable<boolean>((observer) => {
@@ -21,8 +23,17 @@ export class AuthGuard implements CanActivate {
           this.authService.getUser(0).subscribe(
             (response) => {
 
-              console.log(response.data.permissions);
+              const isLogin = this.authService.checkPermissions('can_login', response.data.permissions);
 
+              if (!isLogin) {
+                this.authService.removeAuthToken();
+                this.is_reload = false;
+                observer.next(false);
+                observer.complete();
+                return;
+              }
+
+              this.is_reload = true;
 
               const isAdmin = this.authService.checkPermissions('can_access_dashboard', response.data.permissions);
 
@@ -32,6 +43,7 @@ export class AuthGuard implements CanActivate {
                 observer.complete();
                 return;
               }
+
               if (
                 state.url === '/landing-page' ||
                 state.url === '/login' ||
@@ -53,7 +65,6 @@ export class AuthGuard implements CanActivate {
               } else {
                 return true;
               }
-
             },
             (error) => {
               localStorage.removeItem('auth_token');
@@ -61,8 +72,7 @@ export class AuthGuard implements CanActivate {
               this.router.navigate(['/landing-page']);
               observer.next(false);
               observer.complete();
-            }
-          );
+            });
         }
         else {
           if (
@@ -71,7 +81,10 @@ export class AuthGuard implements CanActivate {
             state.url !== '/register' &&
             state.url !== '/forgot-password'
           ) {
-            this.router.navigate(['/landing-page']);
+            if (this.is_reload) {
+              this.router.navigate(['/landing-page']);
+            }
+
             observer.next(false);
           } else {
             observer.next(true);

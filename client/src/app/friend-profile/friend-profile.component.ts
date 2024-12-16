@@ -20,10 +20,10 @@ import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { PaymentService } from '../service/payment.service';
 
 @Component({
-    selector: 'app-friend-profile',
-    imports: [FormsModule, CommonModule, RouterModule, EmojiModule, QuillModule, TranslateModule, CurrencyVNDPipe, PickerComponent],
-    templateUrl: './friend-profile.component.html',
-    styleUrl: './friend-profile.component.css'
+  selector: 'app-friend-profile',
+  imports: [FormsModule, CommonModule, RouterModule, EmojiModule, QuillModule, TranslateModule, CurrencyVNDPipe, PickerComponent],
+  templateUrl: './friend-profile.component.html',
+  styleUrl: './friend-profile.component.css'
 })
 export class FriendProfileComponent implements OnInit {
 
@@ -58,7 +58,9 @@ export class FriendProfileComponent implements OnInit {
   content_feedback: string = '';
   feedbacks: any = [];
   cart: any = [];
-
+  isCreateContent: boolean = false;
+  messageNotCreateContent: string = '';
+  
   constructor(
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef,
@@ -86,6 +88,18 @@ export class FriendProfileComponent implements OnInit {
         this.authService.getUser(0).subscribe(
           (data) => {
             this.currentUser = data.data;
+
+            this.isCreateContent = !this.authService.checkPermissions('can_create_content', this.currentUser.permissions);
+
+            if (this.isCreateContent) {
+              const canCreateContentPermission = this.currentUser.permissions.find(
+                (permission: any) => permission.name === "can_create_content"
+              );
+
+              const enableAt = canCreateContentPermission?.pivot?.enable_at || null;
+
+              this.messageNotCreateContent = 'Tài khoản của bạn không thể đăng bài và bình luận đến ' + moment(enableAt).format('HH:mm:ss [ngày] DD/MM/YYYY');
+            }
           });
 
         this.authService.getUser(user_id).subscribe(
@@ -221,7 +235,7 @@ export class FriendProfileComponent implements OnInit {
   roundToNearest(value: number): number {
     return Math.round(value * Math.pow(10, 2)) / Math.pow(10, 2);
   }
-  
+
   addQuantity() {
     this.quantity++;
   }
