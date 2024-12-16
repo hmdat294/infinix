@@ -17,7 +17,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class AppComponent implements OnInit {
   isLoggedIn: boolean = false;
-  isAdmin: boolean = false;
+  is_route_admin: boolean = false;
   user: any;
 
   constructor(
@@ -32,31 +32,23 @@ export class AppComponent implements OnInit {
     this.renderer.setAttribute(document.documentElement, 'data-theme', localStorage.getItem('theme') || '');
     this.translate.setDefaultLang(localStorage.getItem('language') || 'vi');
 
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        this.authService.token$.subscribe(auth_token => {
+    this.authService.token$.subscribe(auth_token => {
 
-          if (!!auth_token) {
-            this.authService.getUser(0).subscribe(
-              (response) => {
+      if (!!auth_token) {
+        this.authService.getUser(0).subscribe(
+          (response) => {
+            this.isLoggedIn = this.authService.checkPermissions('can_login', response.data.permissions);
+            if (this.isLoggedIn) this.user = response.data;
+          });
 
-                this.isLoggedIn = this.authService.checkPermissions('can_login', response.data.permissions);
-                this.isAdmin = this.authService.checkPermissions('can_access_dashboard', response.data.permissions);
-
-                if (this.isLoggedIn) this.user = response.data;
-              });
-
-          }
-        });
+        this.router.events.pipe(
+          filter((event: any) => event instanceof NavigationEnd)
+        ).subscribe(
+          (event: any) =>
+            this.is_route_admin = !!(event.urlAfterRedirects.split('/')[1] == 'admin')
+        );
       }
     });
-
-    this.router.events.pipe(
-      filter((event: any) => event instanceof NavigationEnd)
-    ).subscribe(
-      (event: any) =>
-        this.isAdmin = !!(event.urlAfterRedirects.split('/')[1] == 'admin')
-    );
 
   }
 
