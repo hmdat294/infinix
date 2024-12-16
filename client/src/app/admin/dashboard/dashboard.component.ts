@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../../service/admin.service';
 import { NavComponent } from '../nav/nav.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { ApexOptions } from 'apexcharts';
 
 @Component({
     selector: 'app-dashboard',
