@@ -36,4 +36,16 @@ export class NotificationService {
     const headers = this.authService.getToken();
     return this.http.delete(`${this.apiUrl}/notification/${notification_id}`, { headers });
   }
+
+  updateNotificationChat(conversation_id: number): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.post(`${this.apiUrl}/notification/update_by_conversation/${conversation_id}`, {}, { headers });
+  }
+
+  deleteNotificationChat(conversation_id: number): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.delete(`${this.apiUrl}/notification/destroy_by_conversation/${conversation_id}`, { headers });
+  }
+
+
 }

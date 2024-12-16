@@ -143,6 +143,11 @@ export class CheckoutComponent implements OnInit {
           return;
         }
 
+        if (voucher.use_count >= voucher.usage_limit) {
+          this.message_voucher = 'Bạn đã hết lượt sử dụng mã này.';
+          return;
+        }
+
         if (voucher.apply_to_products.length > 0) {
           this.cart.shops = this.cart.shops.map((shop: any) => {
             return {

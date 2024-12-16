@@ -135,10 +135,21 @@ export class StoreOrderComponent implements OnInit {
 
   }
 
-  refundOrder(order_id: number, payment_methood: string) {
-    this.paymentService.refundOrder(order_id, payment_methood).subscribe(
+  id_refund_order: number = 0;
+  payment_methood_refund_order: string = '';
+
+  showDiaLogRefundOrder(order_id: number, payment_methood: string = '') {
+    this.id_refund_order = order_id;
+    this.payment_methood_refund_order = payment_methood;
+  }
+
+  refundOrder() {
+    this.paymentService.refundOrder(this.id_refund_order, this.payment_methood_refund_order).subscribe(
       (data: any) => {
         console.log(data);
+        const order = this.orders.find((order: any) => order.id == this.id_refund_order);
+        order.can_cancel = false;
+        this.showDiaLogRefundOrder(0);
       });
   }
 
