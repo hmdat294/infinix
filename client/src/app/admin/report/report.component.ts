@@ -1,4 +1,4 @@
-import { Component, ElementRef } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef } from '@angular/core';
 import { NavComponent } from "../nav/nav.component";
 import { AdminService } from '../../service/admin.service';
 import { CommonModule } from '@angular/common';
@@ -25,7 +25,8 @@ export class ReportComponent {
   constructor(
     private adminService: AdminService,
     private settingService: SettingService,
-    private el: ElementRef
+    private el: ElementRef,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -54,19 +55,26 @@ export class ReportComponent {
     event.preventDefault(); // Ngăn reload trang
     this.filteredReports[index].isExpanded = !this.filteredReports[index].isExpanded;
   }
-
   updateStatus(item: any): void {
     this.adminService.updateReportStatus(item.id, item.status).subscribe(
       (response) => {
         console.log('Trạng thái đã được cập nhật:', response);
-        this.filterReports(); // Cập nhật danh sách lọc sau khi thay đổi
+  
+        // Loại bỏ báo cáo đã giải quyết
+        if (item.status === 'resolved') {
+          this.filteredReports = this.filteredReports.filter(
+            (report) => report.id !== item.id
+          );
+        }
+  
+        this.cdr.detectChanges(); // Buộc cập nhật giao diện
       },
       (error) => {
         console.error('Lỗi khi cập nhật trạng thái:', error);
       }
     );
   }
-
+  
   filterReports(): void {
     if (this.filterStatus === 'all') {
       this.filteredReports = [...this.listReport];
