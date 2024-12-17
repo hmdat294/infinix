@@ -56,6 +56,4 @@ export class NotificationService {
     const headers = this.authService.getToken();
     return this.http.delete(`${this.apiUrl}/notification/destroy_by_conversation/${conversation_id}`, { headers });
   }
-
-
 }

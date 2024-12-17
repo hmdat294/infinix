@@ -12,10 +12,10 @@ import { SettingService } from '../service/setting.service';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-    selector: 'app-mini-chat',
-    imports: [RouterModule, CommonModule, FormsModule, EmojiModule, PickerComponent, TranslateModule],
-    templateUrl: './mini-chat.component.html',
-    styleUrl: './mini-chat.component.css'
+  selector: 'app-mini-chat',
+  imports: [RouterModule, CommonModule, FormsModule, EmojiModule, PickerComponent, TranslateModule],
+  templateUrl: './mini-chat.component.html',
+  styleUrl: './mini-chat.component.css'
 })
 export class MiniChatComponent implements OnInit, AfterViewChecked {
 
@@ -154,7 +154,9 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
   getMiniChat(conversation_id: number) {
     this.showBoxMiniChat = true;
     this.isScrollingToElement = false;
-    this.chat = this.filteredConversations.find((item: any) => item.id == conversation_id);
+
+    if (this.chat.id != conversation_id)
+      this.chat = this.filteredConversations.find((item: any) => item.id == conversation_id);
   }
 
   showChatBubble() {

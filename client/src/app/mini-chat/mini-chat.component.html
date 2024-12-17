@@ -1,13 +1,13 @@
-<div class="position-fixed layout-vertical align-center-center" style="z-index: 20; bottom: 10px; right: 10px;">
+<div class="position-fixed layout-vertical align-center-center gap-5" style="z-index: 20; bottom: 10px; right: 10px;">
 
     <div class="{{showChat?'display-block':'display-none'}}">
-        <div class="chat-bubble" *ngFor="let item of filteredConversations">
-            <img class="border border-card-default rounded-circle cursor-pointer object-fit-cover"
+        <div *ngFor="let item of filteredConversations" class="chat-bubble mt-5" [class]="(item.id == chat?.id && showBoxMiniChat) ? 'bubble_active':''" style="width: 50px; height: 50px;">
+            <img class="border border-card-default rounded-circle cursor-pointer object-fit-cover w-fill h-fill"
                 (click)="getMiniChat(item.id)" [src]="
             (item?.is_group == 1) ? item.image :
             (item?.users[0].id == user?.id) ? item?.users[1]?.profile.profile_photo :
             item?.users[0]?.profile.profile_photo
-            " alt="" style="width: 50px; height: 50px;">
+            " alt="">
             <!-- <button type="button"
             class="p-5 border-none button-standard cursor-pointer position-absolute top-0 start-100 translate-middle"
             style="border-radius: 999px !important; display: none;">
@@ -155,7 +155,8 @@
                                 (click)="scrollToElement(msg_pin.id)">
                                 <!-- <i class="icon-size-24 icon icon-ic_fluent_pin_24_filled"></i> -->
                                 <p class="layout-vertical">
-                                    <span class="text-body-strong text-primary">{{ 'mini_chat.pin.title' | translate }}</span>
+                                    <span class="text-body-strong text-primary">{{ 'mini_chat.pin.title' | translate
+                                        }}</span>
                                     <span class="text-body text-secondary">{{msg_pin.content}}</span>
                                 </p>
                             </button>
@@ -181,7 +182,8 @@
                         <div
                             class="solid-background-senary rounded-6 p-10 gap-10 layout-vertical border border-card-default">
                             <div class="border-bottom pb-10 layout-horizontal align-center-space-between">
-                                <p class="text-subtitle text-primary">{{ 'mini_chat.popup.title_detail' | translate }}</p>
+                                <p class="text-subtitle text-primary">{{ 'mini_chat.popup.title_detail' | translate }}
+                                </p>
                                 <button type="button" class="button-subtle button-icon-only"
                                     (click)="toggleDialogChat(0)">
                                     <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
@@ -237,7 +239,8 @@
                                                                 style="border-right: 3px solid #005FB8E6;">
 
                                                                 <p class="px-10 py-5 my-5 text-secondary">
-                                                                    <i>*{{ 'mini_chat.message.recalled' | translate }}</i>
+                                                                    <i>*{{ 'mini_chat.message.recalled' | translate
+                                                                        }}</i>
                                                                 </p>
 
                                                             </div>
@@ -335,7 +338,8 @@
                                                                 style="border-left: 3px solid #0000001F;">
 
                                                                 <p class="px-10 py-5 my-5 text-secondary">
-                                                                    <i>*{{ 'mini_chat.message.recalled' | translate }}</i>
+                                                                    <i>*{{ 'mini_chat.message.recalled' | translate
+                                                                        }}</i>
                                                                 </p>
 
                                                             </div>
@@ -408,7 +412,8 @@
                                 <i class="icon-size-16 icon icon-ic_fluent_arrow_forward_16_filled"></i>
                                 <p class="text-body-strong text-primary">
                                     {{msg.user.profile.display_name}}
-                                    <span class="text-body text-secondary">{{ 'mini_chat.message.share_post' | translate }}</span>
+                                    <span class="text-body text-secondary">{{ 'mini_chat.message.share_post' | translate
+                                        }}</span>
                                 </p>
                             </div>
                             <div class="layout align-top-right" *ngIf="msg.is_recalled == 0">
@@ -567,7 +572,8 @@
                                 <i class="icon-size-16 icon icon-ic_fluent_arrow_forward_16_filled"></i>
                                 <p class="text-body-strong text-primary">
                                     {{msg.user.profile.display_name}}
-                                    <span class="text-body text-secondary">{{ 'mini_chat.message.share_post' | translate }}</span>
+                                    <span class="text-body text-secondary">{{ 'mini_chat.message.share_post' | translate
+                                        }}</span>
                                 </p>
                             </div>
                             <div class="layout align-top-left" *ngIf="msg.is_recalled == 0">

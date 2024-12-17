@@ -504,9 +504,9 @@
                                     </button>
                                 </div>
                             </div>
-                            <div *ngIf="getCommentByPostId(post.id)" class="layout-vertical w-fill h-fill">
+                            <div *ngIf="commentByPostId[post.id]" class="layout-vertical w-fill h-fill">
 
-                                <div *ngFor="let item of getCommentByPostId(post.id)">
+                                <div *ngFor="let item of commentByPostId[post.id]">
                                     <div *ngIf="item.user.id == currentUser.id"
                                         class="layout-horizontal align-center-center w-fill h-hug p-10 gap-15">
 
@@ -518,7 +518,8 @@
                                                 class="post-menu position-absolute start-100 top-0">
                                                 <div
                                                     class="layout-vertical mx-15 gap-5 p-5 solid-background-base border border-card-default rounded-8">
-                                                    <div class="list-item layout-horizontal gap-10 align-center-left">
+                                                    <div class="list-item layout-horizontal gap-10 align-center-left"
+                                                        (click)="deleteComment(item.id, post.id)">
                                                         <i
                                                             class="icon-size-20 accent-text-primary icon icon-ic_fluent_pin_20_regular"></i>
                                                         <p class="text-body text-primary">{{
