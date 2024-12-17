@@ -3,10 +3,16 @@ import { NavComponent } from '../nav/nav.component';
 import { AdminService } from '../../service/admin.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
     selector: 'app-user',
-    imports: [NavComponent, CommonModule, RouterModule],
+    imports: [NavComponent,
+      CommonModule,
+      RouterModule,
+      FormsModule,
+      NgxPaginationModule,],
     templateUrl: './user.component.html',
     styleUrl: './user.component.css'
 })
@@ -25,4 +31,6 @@ export class UserComponent implements OnInit {
       }
     );
   }
+
+  currentPage =1;
 }

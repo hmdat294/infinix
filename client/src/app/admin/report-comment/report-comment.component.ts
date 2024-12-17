@@ -1,4 +1,4 @@
-import { Component, ElementRef } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef } from '@angular/core';
 import { AdminService } from '../../service/admin.service';
 import { NavComponent } from '../nav/nav.component';
 import { CommonModule } from '@angular/common';
@@ -23,7 +23,10 @@ export class ReportCommentComponent {
   filterStatus: string = 'all';
   constructor(private adminService: AdminService,
     private settingService: SettingService,
-    private el: ElementRef) { }
+    private el: ElementRef,
+    private cdr: ChangeDetectorRef
+    ) { }
+    
   
 
  
@@ -38,6 +41,7 @@ export class ReportCommentComponent {
           .filter((item: any) => item.type === 'comment')
           .map((item: any) => ({ ...item, isExpanded: false }));
         this.filteredReports = [...this.listReport];
+        this.sortReportsByStatus();
         console.log(this.listReport);
       },
       (error) => {
@@ -74,12 +78,29 @@ export class ReportCommentComponent {
     const words = text.split(' ');
     return words.length > maxWords ? words.slice(0, maxWords).join(' ') + '...' : text;
   }
-
+  sortReportsByStatus(): void {
+    this.filteredReports.sort((a, b) => {
+      if (a.status === 'pending' && b.status !== 'pending') return -1; // "Chưa giải quyết" lên trên
+      if (a.status !== 'pending' && b.status === 'pending') return 1;  // "Đã giải quyết" xuống dưới
+      return 0; // Giữ nguyên thứ tự nếu trạng thái giống nhau
+    });
+  }
 
   updateStatus(item: any): void {
     this.adminService.updateReportStatus(item.id, item.status).subscribe(
       (response) => {
         console.log('Trạng thái đã được cập nhật:', response);
+  
+        // Loại bỏ báo cáo đã giải quyết
+        // if (item.status === 'resolved') {
+        //   this.filteredReports = this.filteredReports.filter(
+        //     (report) => report.id !== item.id
+        //   );
+        // }
+
+        this.sortReportsByStatus(); // Sắp xếp lại sau khi trạng thái thay đổi
+  
+        this.cdr.detectChanges(); // Buộc cập nhật giao diện
       },
       (error) => {
         console.error('Lỗi khi cập nhật trạng thái:', error);

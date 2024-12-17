@@ -34,6 +34,7 @@ export class ReportComponent {
       (response) => {
         this.listReport = response.data;
         this.filteredReports = [...this.listReport]; // Khởi tạo danh sách lọc
+        this.sortReportsByStatus();
         console.log(this.listReport);
       },
       (error) => {
@@ -61,11 +62,13 @@ export class ReportComponent {
         console.log('Trạng thái đã được cập nhật:', response);
   
         // Loại bỏ báo cáo đã giải quyết
-        if (item.status === 'resolved') {
-          this.filteredReports = this.filteredReports.filter(
-            (report) => report.id !== item.id
-          );
-        }
+        // if (item.status === 'resolved') {
+        //   this.filteredReports = this.filteredReports.filter(
+        //     (report) => report.id !== item.id
+        //   );
+        // }
+
+        this.sortReportsByStatus(); // Sắp xếp lại sau khi trạng thái thay đổi
   
         this.cdr.detectChanges(); // Buộc cập nhật giao diện
       },
@@ -74,8 +77,18 @@ export class ReportComponent {
       }
     );
   }
+
+  sortReportsByStatus(): void {
+    this.filteredReports.sort((a, b) => {
+      if (a.status === 'pending' && b.status !== 'pending') return -1; // "Chưa giải quyết" lên trên
+      if (a.status !== 'pending' && b.status === 'pending') return 1;  // "Đã giải quyết" xuống dưới
+      return 0; // Giữ nguyên thứ tự nếu trạng thái giống nhau
+    });
+  }
+  
   
   filterReports(): void {
+    
     if (this.filterStatus === 'all') {
       this.filteredReports = [...this.listReport];
     } else {
@@ -83,5 +96,6 @@ export class ReportComponent {
         (item) => item.status === this.filterStatus
       );
     }
+    this.sortReportsByStatus();
   }
 }

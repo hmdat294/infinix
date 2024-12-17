@@ -7,7 +7,7 @@
                 <!-- search -->
                 <div class="layout-horizontal gap-10  ">
                     <label for="filterStatus">Lọc trạng thái:</label>
-                    <select  class= "dropdown-menu"  [(ngModel)]="filterStatus" (change)="filterReports()">
+                    <select  class= "dropdown-menu button-standard button-text-with-icon gap-10"  [(ngModel)]="filterStatus" (change)="filterReports()">
                       <option value="all" class="list-item"><div class="text-body">Tất cả</div></option>
                       <option value="pending" class="list-item"> <div class="text-body">Chưa giải quyết</div></option>
                       <option value="resolved" class="list-item"><div class="text-body">Đã giải quyết</div></option>
@@ -50,8 +50,10 @@
             </div>
         </div>
         <div style="padding: 20px;">
+            
             <div class="table-container solid-background-senary p-10 rounded-8 text-primary ">
                 <table class="table w-fill text-center">
+                 
                     <thead>
                         <tr class>
                             <th><input type="checkbox"></th>

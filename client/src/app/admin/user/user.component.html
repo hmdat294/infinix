@@ -33,17 +33,8 @@
 
             </div>
             <div class="me-25">
-                <div class="pagination layout-horizontal">
-                    <button class="pagination-item button-subtle button-icon-only text-accent-default"><i
-                            class="icon-size-24 icon icon-ic_fluent_caret_left_24_filled"></i></button>
-                    <button class="pagination-item button-subtle button-icon-only text-accent-default">1</button>
-                    <button class="pagination-item button-subtle button-icon-only text-accent-default">2</button>
-                    <button class="pagination-item button-subtle button-icon-only text-accent-default">3</button>
-                    <button class="pagination-item button-subtle button-icon-only text-accent-default">4</button>
-                    <button class="pagination-item button-subtle button-icon-only text-accent-default">5</button>
-                    <button class="pagination-item button-subtle button-icon-only text-accent-default"><i
-                            class="icon-size-24 icon icon-ic_fluent_caret_right_24_filled"></i></button>
-                </div>
+                <pagination-controls (pageChange)="currentPage = $event" previousLabel=""
+                nextLabel=""></pagination-controls>
             </div>
         </div>
         <div class>
@@ -51,25 +42,27 @@
                 <table class="table w-fill text-center">
                     <thead>
                         <tr>
-                            <th class="text-body-strong py-10"><input class="checkbox-control" type="checkbox"></th>
-                            <th class="text-body-strong">Avatar</th>
-                            <th class="text-body-strong">Username</th>
+                           
+                            <th class="text-body-strong">Hình đại diện</th>
+                            <th class="text-body-strong">Tên người dùng</th>
                             <th class="text-body-strong">Email</th>
-                            <th class="text-body-strong">Phone number</th>
-                            <th class="text-body-strong">Registration date</th>
-                            <th class="text-body-strong">Actions</th>
+                            <th class="text-body-strong">Số điện thoại</th>
+                            <th class="text-body-strong">Ngày đăng ký</th>
+                            <!-- <th class="text-body-strong"></th> -->
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="border-top" *ngFor="let item of listUser">
-                            <td class="text-body"><input class="checkbox-control" type="checkbox"></td>
+                        <tr class="border-top" *ngFor="let item of listUser   | paginate : { itemsPerPage: 5, currentPage: currentPage };
+                        let i = index">
+                            
                             <td class="text-body py-10"><img src="assets/image/avatar.png" alt="Avatar" class="avatar">
                             </td>
                             <td class="text-body">{{item.profile.display_name}}</td>
                             <td class="text-body">{{item.email}}</td>
-                            <td class="text-body">{{item.phone_number}}</td>
-                            <td class="text-body">{{item.created_at}}</td>
-                            <td class="text-body">
+                            <td class="text-body">{{ item.phone_number ? item.phone_number : '...' }}</td>
+                            <td class="text-body">{{ item.last_activity | date: 'dd/MM/yyyy' }}</td>
+
+                            <!-- <td class="text-body">
                                 <div class="layout-horizontal gap-10 align-center-center ">
                                     <a href="#" class="button-standard button-icon-only text-accent-default">
                                         <i class="icon-size-24 icon icon-ic_fluent_settings_24_filled"></i>
@@ -78,7 +71,7 @@
                                         <i class="icon-size-24 icon icon-ic_fluent_info_24_filled"></i>
                                     </a>
                                 </div>
-                            </td>
+                            </td> -->
                         </tr>
                     </tbody>
                 </table>
