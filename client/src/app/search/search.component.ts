@@ -187,7 +187,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
           this.eventService.bindEventPost('App\\Events\\UserCommentPostEvent', (data: any) => {
             this.valueSearchPosts.find(item => item.id === data.data.post.id).comments_count = data.comments_count;
-            this.getCommentByPostId(data.data.post.id).unshift(data.data);
+            this.commentByPostId[data.data.post.id].unshift(data.data);
             // console.log('Comment event:', data);
           });
 
@@ -324,9 +324,9 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
   //show post
 
-  getCommentByPostId(postId: number) {
-    return this.commentByPostId[postId];
-  }
+  // getCommentByPostId(postId: number) {
+  //   return this.commentByPostId[postId];
+  // }
 
 
   getPathImg(img: any) {
@@ -351,6 +351,17 @@ export class SearchComponent implements OnInit, AfterViewInit {
         // console.log(response);
         this.contentCommentInput = '';
         this.removeCommentImage();
+      }
+    )
+  }
+  
+  deleteComment(comment_id: number, post_id: number) {
+
+    this.postService.deleteComment(comment_id).subscribe(
+      (response) => {
+        console.log(response);
+
+        this.commentByPostId[post_id] = this.commentByPostId[post_id].filter((comment: any) => comment.id != comment_id);
       }
     )
   }

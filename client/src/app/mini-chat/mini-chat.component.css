@@ -1,3 +1,9 @@
+.bubble_active{
+    border: 2px solid var(--accent-default);
+    border-radius: 100px;
+    padding: 1px;
+}
+
 .box-chat {
     display: flex;
     flex-direction: column;

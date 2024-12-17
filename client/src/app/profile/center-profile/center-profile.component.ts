@@ -194,7 +194,7 @@ export class CenterProfileComponent implements OnInit, AfterViewInit {
 
           this.eventService.bindEventPost('App\\Events\\UserCommentPostEvent', (data: any) => {
             this.listPost.find(item => item.id === data.data.post.id).comments_count = data.comments_count;
-            this.getCommentByPostId(data.data.post.id).unshift(data.data);
+            this.commentByPostId[data.data.post.id].unshift(data.data);
             // console.log('Comment event:', data);
           });
 
@@ -211,9 +211,9 @@ export class CenterProfileComponent implements OnInit, AfterViewInit {
   }
 
 
-  getCommentByPostId(post_id: number) {
-    return this.commentByPostId[post_id];
-  }
+  // getCommentByPostId(post_id: number) {
+  //   return this.commentByPostId[post_id];
+  // }
 
   getPathImg(img: any) {
     return { 'path': img.path, 'type': img.type };
@@ -436,6 +436,17 @@ export class CenterProfileComponent implements OnInit, AfterViewInit {
         // console.log(response);
         this.contentCommentInput = '';
         this.removeCommentImage();
+      }
+    )
+  }
+
+  deleteComment(comment_id: number, post_id: number) {
+
+    this.postService.deleteComment(comment_id).subscribe(
+      (response) => {
+        console.log(response);
+
+        this.commentByPostId[post_id] = this.commentByPostId[post_id].filter((comment: any) => comment.id != comment_id);
       }
     )
   }
