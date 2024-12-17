@@ -177,6 +177,8 @@ class OrderController extends Controller
     public function cancel(Request $request, $id)
     {
         $order_group = OrderGroup::findOrFail($id);
+        $order_group->payment_status = 'cancelled';
+        $order_group->save();
 
         $order_group->orders()->update(['status' => 'cancelled']);
 

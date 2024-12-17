@@ -20,7 +20,7 @@
     color: var(--system-critical);
 }
 
-.control {
+.control, .control-group {
     width: 200px;
     height: 32px;
     min-height: 32px;
@@ -36,28 +36,55 @@
     border-right: 1px inset var(--control-stroke-default);
     overflow: hidden;
     outline: none;
+    position: relative;
 }
 
-.control:not(.disabled):hover {
+.control::after, .control-group::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 1px; 
+    z-index: 1;
+    background: var(--accent-default);
+    transform: translateX(-50%);
+  }
+
+.control:not(.disabled):focus-within::after, .control-group:not(.disabled):focus-within::after {
+    width: 100%;
+    left: 0;
+    transform: translateX(0);
+    transition: all 0.3s ease-out;
+}
+
+.control-group {
+    gap: 10px;
+    padding: 3px 10px 3px 10px;
+}
+.control-group > .icon,  .control-group-text{
+    color: var(--text-secondary);
+}
+
+.control:not(.disabled):hover, .control-group:not(.disabled):hover {
     background-color: var(--control-hover);
 }
 
-.control:focus-within {
+.control:focus-within, .control-group:focus-within {
     background-color: var(--control-input-active);
-    border-bottom: 1px inset var(--accent-default);
 }
 
-.control.disabled {
+.control.disabled, .control-group.disabled {
     background-color: var(--control-disabled);
     border: 1px inset var(--control-stroke-default);
     color: var(--text-disabled);
 }
 
-.control.disabled > input:disabled {
+.control.disabled > input:disabled, .control-group.disabled > input:disabled {
     color: var(--text-disabled);
 }
 
-.control > input {
+.control > input, .control-group > input {
     font-family: var(--font-family);
     padding: 0px;
     font-size: 14px;
@@ -72,11 +99,11 @@
     width: 100%;
 }
 
-.control > input::placeholder {
+.control > input::placeholder, .control-group > input::placeholder {
     color: var(--text-secondary);
 }
 
-.control > .input-button {
+.control > .input-button, .control-group > .input-button {
     cursor: pointer;
     padding: 4px;
     border-radius: 4px;
@@ -86,12 +113,12 @@
     color: var(--text-secondary);
 }
 
-.control > .input-button:hover {
+.control > .input-button:hover, .control-group > .input-button:hover {
     background-color: var(--subtle-secondary);
     box-shadow: inset 0px 0px 1px var(--subtle-secondary);
 }
 
-.control > .input-button.active {
+.control > .input-button.active, .control-group > .input-button.active {
     background-color: var(--accent-default);
     color: var(--text-on-accent-primary);
     border: 1px inset var(--control-stroke-on-accent-default);
@@ -218,6 +245,9 @@ textarea {
     resize: none;
     padding: 3px 3px 3px 10px !important;
     color: var(--text-primary);
+}
+textarea:focus-within {
+    border-bottom: 1px inset var(--accent-default);
 }
 
 .checkbox-control {

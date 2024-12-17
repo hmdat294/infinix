@@ -22,7 +22,7 @@
                 <div class="solid-background-senary rounded-6 px-15 py-10 border">
                     <div class="layout-horizontal align-center-space-between">
                         <div>
-                            <h5 class="text-subtitle accent-text-primary">100</h5>
+                            <h5 class="text-subtitle accent-text-primary">{{totalRevenue}}</h5>
                             <p class="text-body text-secondary">Tổng doanh thu</p>
                         </div>
                         <div class="system-success p-5 rounded-pill">
@@ -114,8 +114,10 @@
                     </div>
                     <div class="layout-vertical w-fill gap-20">
 
-                        <div class=" layout-horizontal text-body-strong align-top-left">
-                          <div class="w-fill-column-2">{{item.name}}</div> 
+                        <div class="layout-horizontal align-center-center gap-10 w-hug">
+                            <a [routerLink]="['/shop/',item?.id]"
+                                class="text-body link">{{item.name}}</a>
+                            
                         </div>
                         <div class="layout-vertical w-fill">
                             <div class="layout-horizontal gap-20 w-fill">
@@ -125,7 +127,7 @@
 
                             </div>
                             <div class="layout-horizontal gap-20  w-fill">
-                                <div class="text-body-strong w-fill-column-2">11.5M</div>
+                                <div class="text-body-strong w-fill-column-2">{{item.shop.revenue.cumulative_revenue}}</div>
                                 <div class="text-body-strong w-fill-column-2">1.5M</div>
                                 <div class="text-body-strong w-fill-column-2">1.5k</div>
 
@@ -142,13 +144,10 @@
                         <div class="layout-vertical border rounded-8 p-10 mb-10 in-tablet-mb-5 in-mobile-mb-5 card-background-default"
                             ><!-- for -->
                             <div class="border rounded-6">
-                                <div class="layout-horizontal align-center-space-between p-10 border-bottom">
-                                    <p class="text-body-strong">Tên cửa hàng:</p>
-                                    <div class="layout-horizontal align-center-center gap-10 w-hug">
-                                        <a [routerLink]="['/shop']"
-                                            class="text-body link">{{item.name}}</a>
-                                        
-                                    </div>
+                                
+                                <div class="layout-horizontal align-center-space-between p-10">
+                                    <p class="text-body-strong">Số điện thoại:</p>
+                                    <p class="text-body">{{item.phone_number}}</p>
                                 </div>
                                 <div class="layout-horizontal align-center-space-between p-10 border-bottom">
                                     <p class="text-body-strong">Trạng thái:</p>
@@ -159,7 +158,7 @@
                                     </p>
                                     <p 
                                       *ngIf="item.is_active === 0" 
-                                      class="text-body text-system-critical">
+                                      class="text-body text-system-critical ">
                                       Không hoạt động
                                     </p>
                                   </div>
@@ -171,6 +170,10 @@
                                 <div class="layout-horizontal align-center-space-between p-10">
                                     <p class="text-body-strong">Địa chỉ:</p>
                                     <p class="text-body">{{item.address}} </p>
+                                </div>
+                                <div class="layout-horizontal align-center-space-between p-10">
+                                    <p class="text-body-strong">Ngày tạo cửa hàng:</p>
+                                    <p class="text-body">{{item.created_at| date: 'dd/MM/yyyy'}} </p>
                                 </div>
                             </div>
                             <div class="layout-vertical gap-10">
@@ -211,37 +214,71 @@
                     <div
                         class="w-fill">
                         <div class="w-fill h-hug layout-vertical border rounded-8 my-10 in-tablet-mt-5 in-mobile-mt-5 card-background-default">
-                            <table class="w-fill text-left table-info-bill">
-                                <tr class="border-bottom">
-                                    <th class="h-hug text-body-strong">Họ và tên:</th>
-                                    <td>{{item.user.profile.display_name}}</td>
-                                </tr>
-                                <tr class="border-bottom">
-                                    <th class="h-hug text-body-strong">Số điện thoại:</th>
-                                    <td>{{item.phone_number}}</td>
-                                </tr>
-                                <tr class="border-bottom">
-                                    <th class="h-hug text-body-strong">Email:</th>
-                                    <td>{{item.user.email}}</td>
-                                </tr>
-                                <tr class="border-bottom">
-                                    <th class="h-hug text-body-strong">Địa chỉ:</th>
-                                    <td>{{item.address}}</td>
-                                </tr>
-                                <tr class="border-bottom">
-                                    <th class="h-hug text-body-strong">Ngày tạo cửa hàng:</th>
-                                    <td>{{item.created_at}}</td>
-                                </tr>
-                                <tr class="border-bottom">
-                                    <th class="h-hug text-body-strong">Ngân hàng:</th>
-                                    <td>{{item.bank_name}}</td>
-                                </tr>
-                                <tr class="border-bottom">
-                                    <th class="h-hug text-body-strong">Số tài khoản:</th>
-                                    <td>{{item.bank_account_number}}</td>
-                                </tr>
-                            </table>
-                            
+                            <div class="text-body-strong">Danh sách hóa đơn</div>
+                            <div class="layout-vertical w-fill gap-20">
+                                <div class="layout-horizontal gap-20 my-10 border-bottom pb-10">
+                                    <div class="w-fill-column-2  layout-horizontal gap-5 align-center-center">
+                                        <img class="object-fit-cover  h-24 rounded-circle" width="70px" height="70px"
+                                        [src]="item.logo" alt>
+                                        
+                                    </div>
+                                    <div class="layout-vertical w-fill-column-8 gap-10 ">
+
+                                        <div class="layout-horizontal align-center-center gap-10 w-hug">
+                                            <a [routerLink]="['/shop/',item?.id]"
+                                                class="text-body-strong text-primary link">{{item.name}}</a>
+                                            
+                                        </div>
+                                        <div class="layout-vertical w-fill align-center-center">
+                                            <div class="layout-horizontal gap-10 w-fill">
+                                                <div class="text-caption w-fill-column-4 accent-text-disabled">Tổng tiền</div>
+                                                <div class="text-caption w-fill-column-4 accent-text-disabled">Hoàn trả</div>
+                                                <div class="text-caption w-fill-column-4 accent-text-disabled">Trạng thái</div>
+                
+                                            </div>
+                                            <div class="layout-horizontal gap-10  w-fill">
+                                                <div class="text-body-strong w-fill-column-4">150k</div>
+                                                <div class="text-body-strong w-fill-column-4">142.5k</div>
+                                                <div class="text-body-strong text-system-critical w-fill-column-4">Chưa chuyển tiền</div>
+                
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="layout-vertical w-fill-column-2 align-center-center p-10">
+                                        <button class="solid-background-secondary w-fill p-5 rounded-pill border">
+                                            <i class="text-system-success icon-size-20 icon icon-ic_fluent_money_hand_20_regular"(click)="openDialog()"></i>
+                                        </button>
+                                    </div>
+                                    <div class="position-fixed top-0 start-0"
+                                        [ngClass]="{'display-block': isDialogVisible, 'display-none': !isDialogVisible}"
+                                        style="width: 100%; height: 100vh; z-index: 30;">
+                                        <!-- Background Overlay -->
+                                        <div class="position-fixed top-0 start-0"
+                                            style="width: 100%; height: 100vh; z-index: 20; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px);">
+                                        </div>
+
+                                        <!-- Dialog Content -->
+                                        <div class="dialog-panel position-absolute top-50 start-50 translate-middle"
+                                            style="width: 400px; z-index: 50; background-color: #fff; border-radius: 8px; padding: 20px; box-shadow: 0px 4px 10px rgba(0,0,0,0.2);">
+                                            <div class="layout-vertical gap-20">
+                                                <!-- Title -->
+                                                <div class="text-title accent-text-primary">Xác nhận hành động</div>
+
+                                                <!-- Message -->
+                                                <p class="text-body">Bạn có chắc chắn muốn thực hiện hành động này không?</p>
+
+                                                <!-- Buttons -->
+                                                <div class="layout-horizontal align-center-space-between">
+                                                    <button type="button" class="button button-accent" >Xác nhận</button>
+                                                    <button type="button" class="button button-secondary" (click)="openDialog()" >Không xác nhận</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

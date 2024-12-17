@@ -27,7 +27,7 @@ export class StoreOrderComponent implements OnInit {
     'received': 'Đã nhận đơn',
     'delivered': 'Đã giao hàng',
     'delivering': 'Đang giao',
-    'canceled': 'Đã hủy'
+    'cancelled': 'Đã hủy'
   }
 
   order_color: any = {
@@ -35,7 +35,7 @@ export class StoreOrderComponent implements OnInit {
     'received': 'text-system-attention',
     'delivered': 'text-system-success',
     'delivering': 'text-system-attention',
-    'canceled': 'text-system-critical'
+    'cancelled': 'text-system-critical'
   }
 
   payment_methood: any = {
@@ -46,13 +46,15 @@ export class StoreOrderComponent implements OnInit {
   payment_status: any = {
     'pending': 'Chưa thanh toán',
     'paid': 'Đã thanh toán',
-    'refunded': 'Đã hoàn tiền'
+    'refunded': 'Đã hoàn tiền',
+    'cancelled': 'Đã hủy'
   }
 
   payment_color: any = {
     'pending': 'text-system-caution',
     'paid': 'text-system-success',
-    'refunded': 'text-system-critical'
+    'refunded': 'text-system-critical',
+    'cancelled': 'text-system-critical'
   }
 
   constructor(
@@ -134,10 +136,21 @@ export class StoreOrderComponent implements OnInit {
 
   }
 
-  refundOrder(order_id: number, payment_methood: string) {
-    this.paymentService.refundOrder(order_id, payment_methood).subscribe(
+  id_refund_order: number = 0;
+  payment_methood_refund_order: string = '';
+
+  showDiaLogRefundOrder(order_id: number, payment_methood: string = '') {
+    this.id_refund_order = order_id;
+    this.payment_methood_refund_order = payment_methood;
+  }
+
+  refundOrder() {
+    this.paymentService.refundOrder(this.id_refund_order, this.payment_methood_refund_order).subscribe(
       (data: any) => {
         console.log(data);
+        const order = this.orders.find((order: any) => order.id == this.id_refund_order);
+        order.can_cancel = false;
+        this.showDiaLogRefundOrder(0);
       });
   }
 

@@ -54,6 +54,8 @@ export class CheckoutComponent implements OnInit {
         this.authService.getUser(0).subscribe(
           (data) => {
             this.currentUser = data.data;
+            console.log(this.currentUser);
+            
           });
 
         this.cart = JSON.parse(decodeURIComponent(escape(atob(params['data']))));
@@ -138,6 +140,11 @@ export class CheckoutComponent implements OnInit {
 
         if ((voucher.apply_to_products.length > 0 && !hasProductId) || !hasShopId || this.cart.total < voucher.min_price) {
           this.message_voucher = 'Chưa đủ điều kiện dùng mã này.';
+          return;
+        }
+
+        if (voucher.use_count >= voucher.usage_limit) {
+          this.message_voucher = 'Bạn đã hết lượt sử dụng mã này.';
           return;
         }
 

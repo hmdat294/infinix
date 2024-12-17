@@ -133,6 +133,6 @@ class User extends Authenticatable
 
     public function vouchers()
     {
-        return $this->belongsToMany(Voucher::class, 'voucher_users', 'user_id', 'voucher_id');
+        return $this->belongsToMany(Voucher::class, 'voucher_users', 'user_id', 'voucher_id')->withPivot('is_used', 'use_count', 'is_saved');
     }
 }

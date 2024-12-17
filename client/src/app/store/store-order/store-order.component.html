@@ -146,9 +146,9 @@
                                 <td>{{order.voucher_discount_price | currencyVND}}</td>
                             </tr>
                         </table>
-                        <div class="w-fill p-10">
+                        <div class="w-fill p-10" *ngIf="order.can_cancel">
                             <button type="button"
-                                (click)="refundOrder(order.id, order.payment_method == 'cash' ? 'cancel-order' : 'refund-order')"
+                                (click)="showDiaLogRefundOrder(order.id, order.payment_method == 'cash' ? 'cancel-order' : 'refund-order')"
                                 class="button-standard button-text-only w-fill">
                                 {{order.payment_method == 'cash'?'Hủy đơn':'Yêu cầu hoàn tiền'}}
                             </button>
@@ -221,6 +221,45 @@
                     <div class="w-fill layout-horizontal align-center-right">
                         <button type="button" class="button-accent button-text-only" (click)="feedbackProduct()">
                             Gửi đánh giá
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="position-fixed top-0 start-0" *ngIf="id_refund_order != 0"
+        style="width: 100%; height: 100vh; z-index: 20;">
+        <div class="position-absolute top-0 start-0" (click)="showDiaLogRefundOrder(0)"
+            style="width: 100%; height: 100vh; z-index: 1; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px);">
+        </div>
+        <div class="dialog-panel position-absolute top-50 start-50 translate-middle" style="z-index: 2;">
+            <div class="layout-vertical p-20 gap-20 rounded-8 solid-background-base border border-card-default"
+                style="width: 400px;">
+
+                <button type="button" class="button-subtle button-icon-only w-hug position-absolute"
+                    (click)="showDiaLogRefundOrder(0)" style="right: 20px; top: 20px; z-index: 1;">
+                    <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_filled"></i>
+                </button>
+
+                <div class="pb-20 pt-5 border-bottom">
+                    <p class="text-subtitle text-primary text-center"> {{payment_methood_refund_order ==
+                        'cancel-order'?'Hủy đơn':'Hoàn tiền'}}</p>
+                </div>
+
+                <p class="text-body text-primary text-center mb-10">Chắc chắn
+                    "<span class="text-body-strong">
+                        {{payment_methood_refund_order == 'cancel-order' ? 'hủy' : 'hoàn tiền'}}
+                    </span>" đơn hàng này?</p>
+
+                <div class="layout-vertical overflow-hidden">
+                    <div class="layout-horizontal gap-20">
+                        <button type="button" class="button-standard button-text-only w-fill"
+                            (click)="showDiaLogRefundOrder(0)">
+                            Hủy
+                        </button>
+                        <button type="button" class="button-accent button-text-only w-fill" (click)="refundOrder()">
+                            {{payment_methood_refund_order == 'cancel-order'?'Hủy đơn':'Hoàn tiền'}}
                         </button>
                     </div>
                 </div>
