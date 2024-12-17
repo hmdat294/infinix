@@ -40,7 +40,7 @@ class SearchController extends Controller
         }
 
         $users = $users->get();
-
+        Log::info('response: ' . $users);
         return UserResource::collection($users);
     }
 

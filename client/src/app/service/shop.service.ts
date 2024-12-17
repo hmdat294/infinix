@@ -19,6 +19,17 @@ export class ShopService {
 
   private apiUrl = 'http://localhost:8000/api';
 
+  //statistics
+  getStatisticShop(shop_id: number): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.get(`${this.apiUrl}/statistics/shop-revenue/${shop_id}`, { headers });
+  }
+  
+  getStatisticOrder(shop_id: number): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.get(`${this.apiUrl}/statistics/order-by-shop/${shop_id}`, { headers });
+  }
+
   //shop
   getListShop(): Observable<any> {
     const headers = this.authService.getToken();

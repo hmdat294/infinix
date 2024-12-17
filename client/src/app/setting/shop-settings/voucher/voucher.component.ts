@@ -7,10 +7,10 @@ import { SettingService } from '../../../service/setting.service';
 import { CurrencyVNDPipe } from '../../../currency-vnd.pipe';
 
 @Component({
-    selector: 'app-voucher',
-    imports: [FormsModule, CommonModule, CurrencyVNDPipe],
-    templateUrl: './voucher.component.html',
-    styleUrl: './voucher.component.css'
+  selector: 'app-voucher',
+  imports: [FormsModule, CommonModule, CurrencyVNDPipe],
+  templateUrl: './voucher.component.html',
+  styleUrl: './voucher.component.css'
 })
 export class VoucherComponent implements OnInit {
 
@@ -30,6 +30,7 @@ export class VoucherComponent implements OnInit {
   stock: number = 0;
   is_active: string = '0';
   apply_to_products: any = [];
+  error: string = '';
 
   constructor(
     private settingService: SettingService,
@@ -64,18 +65,6 @@ export class VoucherComponent implements OnInit {
         }
       });
   }
-
-  // shop_id, 
-  // code (mã), 
-  // discount (giảm giá), 
-  // max_discount (số tiền được giảm tối đa), 
-  // min_price (số tiền yêu cầu tối thiểu), 
-  // usage_limit (lượt sử dụng tối đa,đặt thành -1 nếu muốn sử dụng không giới hạn), 
-  // valid_from (ngày có hiệu lực), 
-  // valid_until (ngày hết hiệu lực), 
-  // stock (số lượng, đặt thành -1 nếu muốn không giới hạn số lượng), 
-  // is_active (avtive voucher), 
-  // apply_to_products (mảng các id của sản phẩm)
 
   _discount(method: string) {
     if (method == 'add' && this.discount < 100) this.discount++;
@@ -162,8 +151,10 @@ export class VoucherComponent implements OnInit {
 
 
   createVoucher() {
-    if (!this.code || !this.valid_from || !this.valid_until)
+    if (!this.code || !this.valid_from || !this.valid_until) {
+      this.error = 'Chưa nhập đủ thông tin!';
       return;
+    }
 
     const data = {
       'shop_id': this.user.shop_id,
@@ -184,20 +175,29 @@ export class VoucherComponent implements OnInit {
         (response: any) => {
           console.log(response);
 
-          const voucher = this.vouchers.find((item: any) => item.id == this.id_update_voucher);
-          Object.assign(voucher, response.data);
+          if (response.data) {
+            const voucher = this.vouchers.find((item: any) => item.id == this.id_update_voucher);
+            Object.assign(voucher, response.data);
 
-          this.is_dialog_voucher = false;
-          this.resetValue();
+            this.is_dialog_voucher = false;
+            this.resetValue();
+          }
+          else this.error = 'Mã giảm giá đã tồn tại!'
+
         });
     }
     else {
       this.shopService.postVoucher(data).subscribe(
         (response: any) => {
           console.log(response);
-          this.vouchers.push(response.data);
-          this.is_dialog_voucher = false;
-          this.resetValue();
+
+          if (response.data) {
+            this.vouchers.push(response.data);
+            this.is_dialog_voucher = false;
+            this.resetValue();
+          }
+          else this.error = 'Mã giảm giá đã tồn tại!'
+
         });
     }
   }
