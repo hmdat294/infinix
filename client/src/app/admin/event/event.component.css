@@ -135,37 +135,4 @@ button:focus {
 
 
 
-.status-select {
-    
-    font-size: 14px;
-    font-weight: bold;
-    padding: 5px 10px;
-    border-radius: 5px;
-    text-align: center;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
 
-/* Trạng thái "Đã giải quyết" */
-.status-select.text-green {
-    
-    color: #fff;
-    background-color: #28a745; /* Màu xanh lá */
-    border: 1px solid #218838; /* Viền xanh đậm */
-}
-
-.status-select.text-green:hover {
-    background-color: #218838; /* Đậm hơn khi hover */
-    border-color: #1e7e34;
-}
-
-/* Trạng thái "Chưa giải quyết" */
-.status-select.text-red {
-    color: #fff;
-    background-color: #dc3545; /* Màu đỏ */
-    border: 1px solid #c82333; /* Viền đỏ đậm */
-}
-
-.status-select.text-red:hover {
-    background-color: #c82333; /* Đậm hơn khi hover */
-    border-color: #bd2130;
-}

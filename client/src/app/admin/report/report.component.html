@@ -64,7 +64,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let item of filteredReports | paginate: { itemsPerPage: 2, currentPage: currentPage }; let i = index ">
+                        <tr *ngFor="let item of filteredReports | paginate: { itemsPerPage: 10, currentPage: currentPage }; let i = index ">
                           <td><input type="checkbox"></td>
                           <td>{{item.user.profile.display_name}}</td>
                           <td>{{item.sender.profile.display_name}}</td>
@@ -96,10 +96,10 @@
                                 [class.icon-ic_fluent_settings_24_filled]="!item.isExpanded"
                                 [class.icon-ic_fluent_dismiss_16_regular]="item.isExpanded"></i>
                             </a>
-                            <a href="#" 
+                            <!-- <a href="#" 
                                class="button-subtle button-icon-only text-accent-default">
                               <i class="icon-size-24 icon icon-ic_fluent_info_24_filled"></i>
-                            </a>
+                            </a> -->
                           </td>
                         </tr>
                     </tbody>
