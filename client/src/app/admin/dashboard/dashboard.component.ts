@@ -20,6 +20,7 @@ export class DashboardComponent implements OnInit {
   totalConversations: number = 0;
   chart2: any;
   chart13: any;
+  chart9: any;
 
   listUser: any;
   Conversations_Growth: any[] = [];;
@@ -167,7 +168,39 @@ export class DashboardComponent implements OnInit {
       }
     });
 
+    this.adminService.getShop().subscribe((response: any) => {
+      const ShopData = Array.isArray(response.data) ? response.data : [];
+      const ShopApproved = ShopData.filter((item: any) => item.is_active === 1).length;
+      const ShopDApproved = ShopData.filter((item: any) => item.is_active === 0).length;
+      
+      console.log('Data passed to :', ShopApproved,ShopDApproved);
 
+      
+      this.chart9 = {
+        series: [ShopApproved, ShopDApproved],
+      chart: {
+        foreColor: '#9ba7b2',
+        height: 240,
+        type: 'donut',
+        dropShadow: { enabled: true, top: 3, left: 2, blur: 4, opacity: 0.1 }
+      },
+      colors: ["#17a00e",  "#f41127"],
+      title: {
+        text: 'Trạng thái báo cáo',
+        offsetY: 0,
+        offsetX: 0
+      },
+      labels: ['Shop Đã Duyệt', 'Shop Chờ Duyệt'],
+      legend: {
+        position: 'bottom',
+        formatter: function (val: string, opts: any) {
+          return val;
+        }
+      },
+      }
+    });
+
+    
 
 
     this.adminService.getTotalUser().subscribe(
@@ -208,44 +241,14 @@ export class DashboardComponent implements OnInit {
     );
 
 
+
+
   }
 
 
 
  
 
-
-
-
-  //shop
-  renderDonutChart(seriesData: number[]): void {
-    // Kiểm tra dữ liệu trước khi render biểu đồ
-    console.log('Dữ liệu được xử lí', seriesData);
-
-    const donutChartOptions: ApexOptions = {
-      series: seriesData,
-      chart: {
-        foreColor: '#9ba7b2',
-        height: 240,
-        type: 'donut',
-        dropShadow: { enabled: true, top: 3, left: 2, blur: 4, opacity: 0.1 }
-      },
-      colors: ["#28a745", "#ffc107", "#dc3545", "#007bff"], // Tùy chỉnh màu sắc
-      title: {
-        text: 'Trạng Thái Shop',
-        offsetY: 0,
-        offsetX: 0
-      },
-      labels: ['Shop Đã Duyệt', 'Shop Chờ Duyệt', 'Shop Bị Từ Chối', 'Shop Đang Xem Xét'], // Thay đổi nhãn
-      legend: {
-        position: 'bottom',
-        formatter: (val: string) => val,
-      },
-    };
-
-    const donutChart = new ApexCharts(document.querySelector('#chart9'), donutChartOptions);
-    donutChart.render();
-  }
 
 
 }
