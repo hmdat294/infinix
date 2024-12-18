@@ -26,21 +26,21 @@
       class="layout-horizontal align-center-space-between mt-20"
       style="padding: 0 20px"
     >
-      <div class="layout-horizontal gap-10" style="padding: 10px">
+      <div class="layout-horizontal gap-10 " style="padding: 10px">
         <!-- search -->
         <label for="filterStatus">Lọc trạng thái:</label>
         <select
-          class="dropdown-menu"
+          class="dropdown-menu button-standard button-text-with-icon gap-10"
           [(ngModel)]="filterStatus"
-          (change)="filterReports()"
+          (change)="filtershops()"
         >
           <option value="all" class="list-item">
             <div class="text-body">Tất cả</div>
           </option>
-          <option value="pending" class="list-item">
+          <option value="0" class="list-item">
             <div class="text-body">Chưa giải quyết</div>
           </option>
-          <option value="resolved" class="list-item">
+          <option value="1" class="list-item">
             <div class="text-body">Đã giải quyết</div>
           </option>
         </select>
@@ -154,7 +154,7 @@
           </div>
           <div
             *ngFor="
-              let item of listShop
+              let item of filteredshops
                 | paginate : { itemsPerPage: 5, currentPage: currentPage };
               let i = index
             "

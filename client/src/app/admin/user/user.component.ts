@@ -3,15 +3,18 @@ import { NavComponent } from '../nav/nav.component';
 import { AdminService } from '../../service/admin.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { NgApexchartsModule } from 'ng-apexcharts';
-import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule } from '@angular/forms';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
-  selector: 'app-user',
-  imports: [NavComponent, CommonModule, RouterModule, NgApexchartsModule, NgxPaginationModule, FormsModule],
-  templateUrl: './user.component.html',
-  styleUrl: './user.component.css'
+    selector: 'app-user',
+    imports: [NavComponent,
+      CommonModule,
+      RouterModule,
+      FormsModule,
+      NgxPaginationModule,],
+    templateUrl: './user.component.html',
+    styleUrl: './user.component.css'
 })
 export class UserComponent implements OnInit {
   listUser: any[] = [];

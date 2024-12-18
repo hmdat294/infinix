@@ -25,6 +25,7 @@ export class EventComponent implements OnInit {
   reportService: any;
   listReport: any[] = [];
   filteredReports: any[] = [];
+  filteredshops: any[] = [];
   filterStatus: string = 'all';
   currentPage = 1;
   shopid: number = 0;
@@ -45,7 +46,7 @@ export class EventComponent implements OnInit {
         this.listShop = response.data; // Lưu danh sách cửa hàng
         console.log('List shops:', this.listShop);
 
-       
+        this.filtershops();
       },
       (error) => {
         console.error('Error fetching shops:', error);
@@ -83,12 +84,13 @@ export class EventComponent implements OnInit {
 
  
 
-  filterReports(): void {
+  filtershops(): void {
     if (this.filterStatus === 'all') {
-      this.filteredReports = [...this.listReport];
+      this.filteredshops = [...this.listShop]; // Hiển thị tất cả
     } else {
-      this.filteredReports = this.listReport.filter(
-        (report) => report.status === this.filterStatus // Sử dụng status để lọc thay vì is_active
+      const status = parseInt(this.filterStatus, 10); // Chuyển filterStatus thành number
+      this.filteredshops = this.listShop.filter(
+        (shop) => shop.is_active === status
       );
     }
   }

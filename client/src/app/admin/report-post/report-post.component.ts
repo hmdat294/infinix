@@ -1,4 +1,4 @@
-import { Component, ElementRef } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef } from '@angular/core';
 import { NavComponent } from "../nav/nav.component";
 import { AdminService } from '../../service/admin.service';
 import { CommonModule } from '@angular/common';
@@ -22,7 +22,8 @@ export class ReportpostComponent {
   filterStatus: string = 'all';
   constructor(private adminService: AdminService,
     private settingService: SettingService,
-    private el: ElementRef
+    private el: ElementRef,
+    private cdr: ChangeDetectorRef
   ) { }
   
 
@@ -39,6 +40,7 @@ export class ReportpostComponent {
           .filter((item: any) => item.type === 'post')
           .map((item: any) => ({ ...item, isExpanded: false }));
         this.filteredReports = [...this.listReport];
+        this.sortReportsByStatus(); 
         console.log(this.listReport);
       },
       (error) => {
@@ -56,6 +58,7 @@ export class ReportpostComponent {
         (item) => item.status === this.filterStatus
       );
     }
+    this.sortReportsByStatus();
   }
 
   deleteReport(reportId: number): void {
@@ -80,11 +83,30 @@ export class ReportpostComponent {
     this.adminService.updateReportStatus(item.id, item.status).subscribe(
       (response) => {
         console.log('Trạng thái đã được cập nhật:', response);
+  
+        // Loại bỏ báo cáo đã giải quyết
+        // if (item.status === 'resolved') {
+        //   this.filteredReports = this.filteredReports.filter(
+        //     (report) => report.id !== item.id
+        //   );
+        // }
+
+        this.sortReportsByStatus(); // Sắp xếp lại sau khi trạng thái thay đổi
+  
+        this.cdr.detectChanges(); // Buộc cập nhật giao diện
       },
       (error) => {
         console.error('Lỗi khi cập nhật trạng thái:', error);
       }
     );
+  }
+
+  sortReportsByStatus(): void {
+    this.filteredReports.sort((a, b) => {
+      if (a.status === 'pending' && b.status !== 'pending') return -1; // "Chưa giải quyết" lên trên
+      if (a.status !== 'pending' && b.status === 'pending') return 1;  // "Đã giải quyết" xuống dưới
+      return 0; // Giữ nguyên thứ tự nếu trạng thái giống nhau
+    });
   }
 
   toggleDetails(index: number, event: Event): void {
