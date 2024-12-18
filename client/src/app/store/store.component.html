@@ -11,13 +11,13 @@
                     <div class="list-item w-fill" [class]="tab_shop == 'tab_product'?'active':''"
                         (click)="tabShop('tab_product')">
                         <p class="text-secondary text-body-strong w-fill p-10 in-mobile-py-5 in-mobile-text-center">
-                            Cửa hàng
+                            {{ 'store.tab_product' | translate }}
                         </p>
                     </div>
                     <div class="list-item w-fill" [class]="tab_shop == 'tab_order'?'active':''"
                         (click)="tabShop('tab_order')">
                         <p class="text-secondary text-body-strong w-fill p-10 in-mobile-py-5 in-mobile-text-center">
-                            Đơn hàng
+                            {{ 'store.tab_order' | translate }}
                         </p>
                     </div>
                 </div>

@@ -49,6 +49,8 @@ export class GeneralSettingsComponent implements OnInit {
         this.listUserReport = response.data.filter((item: any) => item.type == "user");
         this.listCommentReport = response.data.filter((item: any) => item.type == "comment");
 
+        console.log(this.listPostReport);
+        
       })
 
     this.authService.getUserBlock().subscribe(
@@ -112,6 +114,12 @@ export class GeneralSettingsComponent implements OnInit {
   shortenTextByWords(text: string, maxWords: number): string {
     const words = text.split(' ');
     return words.length > maxWords ? words.slice(0, maxWords).join(' ') + '...' : text;
+  }
+  
+  stripHtmlTags(content: string): string {
+    const div = document.createElement('div');
+    div.innerHTML = content;
+    return div.textContent || div.innerText || '';
   }
 
   tabChild(tab: string) {

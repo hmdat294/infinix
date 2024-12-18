@@ -1,17 +1,17 @@
 <div class="layout-vertical card-background-default border border-card-default rounded-8 mb-10">
 
     <div class="layout-horizontal align-center-space-between px-20 py-15">
-        <p class="text-primary text-subtitle w-hug">Đơn hàng</p>
+        <p class="text-primary text-subtitle w-hug">{{ 'store.tab_order' | translate }}</p>
 
         <div class="layout-horizontal gap-20 w-fill-column-6 in-tablet-w-fill-column-8 in-mobile-w-fill-column-8">
             <div class="w-fill-column-6 layout-vertical gap-5">
-                <p class="text-caption text-primary">Từ ngày</p>
+                <p class="text-caption text-primary">{{ 'store.store_order.start_date' | translate }}</p>
                 <div class="control date-control w-fill">
                     <input type="date" name="startDate" [(ngModel)]="startDate" (change)="filterOrders()">
                 </div>
             </div>
             <div class="w-fill-column-6 layout-vertical gap-5">
-                <p class="text-caption text-primary">Đến ngày</p>
+                <p class="text-caption text-primary">{{ 'store.store_order.end_date' | translate }}</p>
                 <div class="control date-control w-fill">
                     <input type="date" name="endDate" [(ngModel)]="endDate" (change)="filterOrders()">
                 </div>
@@ -24,12 +24,12 @@
 
         <div class="text-body text-primary text-center w-fill" *ngIf="orders.length > 0">
             <div class="w-fill layout-horizontal align-center-space-between text-body-strong p-10 resp_gap_20">
-                <div class="hide_code w-fill-column-3">Mã</div>
-                <div class="w-fill-column-3">Hình ảnh</div>
+                <div class="hide_code w-fill-column-3">{{ 'store.store_order.start_date' | translate }}</div>
+                <div class="w-fill-column-3">{{ 'store.store_order.image' | translate }}</div>
                 <div class="layout-horizontal w-fill align-center-space-between gap-20">
-                    <div style="width: 70px;">Ngày đặt</div>
-                    <div style="width: 80px;">Tổng</div>
-                    <div style="width: 80px;">Trạng thái</div>
+                    <div style="width: 70px;">{{ 'store.store_order.date' | translate }}</div>
+                    <div style="width: 80px;">{{ 'store.store_order.total' | translate }}</div>
+                    <div style="width: 80px;">{{ 'store.store_order.status' | translate }}</div>
                 </div>
             </div>
             <div class="w-fill layout-vertical border-top border-card-default"
@@ -49,12 +49,14 @@
                             <div style="width: 70px;">{{order.created_at | date:'dd/MM/yyyy'}}</div>
                             <div style="width: 80px;" class="text-body-strong">{{order.total | currencyVND}}</div>
                             <div style="width: 80px;" class="text-body" [class]="payment_color[order.payment_status]"
-                                style="width: 80px;">{{payment_status[order.payment_status]}}
+                                style="width: 80px;">
+                                <!-- {{payment_status[order.payment_status]}}  -->
+                                {{ 'store.store_order.payment_status.'+order.payment_status | translate }}
                             </div>
                         </div>
                         <div
                             class="w-fill layout-horizontal align-center-space-between show_code p-10 rounded-4 border">
-                            <p class="text-body-strong">Mã:</p>
+                            <p class="text-body-strong">{{ 'store.store_order.code' | translate }}:</p>
                             <p style="text-transform: uppercase;">
                                 {{order.external_order_id}}</p>
                         </div>
@@ -69,7 +71,7 @@
                             *ngFor="let shop of order.orders"><!-- for -->
                             <div class="border rounded-6">
                                 <div class="layout-horizontal align-center-space-between p-10 border-bottom">
-                                    <p class="text-body-strong">Cửa hàng:</p>
+                                    <p class="text-body-strong">{{ 'store.store_order.shop' | translate }}:</p>
                                     <div class="layout-horizontal align-center-center gap-10 w-hug">
                                         <a [routerLink]="['/shop', shop?.shop_id]"
                                             class="text-body link">{{shop?.shop_name}}</a>
@@ -78,12 +80,14 @@
                                     </div>
                                 </div>
                                 <div class="layout-horizontal align-center-space-between p-10 border-bottom">
-                                    <p class="text-body-strong">Trạng thái:</p>
+                                    <p class="text-body-strong">{{ 'store.store_order.status' | translate }}:</p>
                                     <p class="text-body" [class]="order_color[shop?.status]">
-                                        {{order_status[shop?.status]}}</p>
+                                        <!-- {{order_status[shop?.status]}} -->
+                                        {{ 'store.store_order.order_status.'+shop?.status | translate }}
+                                    </p>
                                 </div>
                                 <div class="layout-horizontal align-center-space-between p-10">
-                                    <p class="text-body-strong">Ghi chú:</p>
+                                    <p class="text-body-strong">{{ 'store.store_order.note' | translate }}:</p>
                                     <p class="text-body">{{shop.note}}</p>
                                 </div>
                             </div>
@@ -96,12 +100,15 @@
                                         </div>
                                         <div class="w-fill-column-8 layout-vertical gap-10">
                                             <p class="text-body-strong text-right">{{product.name}}</p>
-                                            <p class="layout-horizontal align-center-space-between">Giá: <span
+                                            <p class="layout-horizontal align-center-space-between">{{
+                                                'store.store_order.price' | translate }}: <span
                                                     class="text-body-strong">{{product.price-((product.price*product.discount)/100)
                                                     | currencyVND}}</span></p>
-                                            <p class="layout-horizontal align-center-space-between">Số lượng: <span
+                                            <p class="layout-horizontal align-center-space-between">{{
+                                                'store.store_order.quantity' | translate }}: <span
                                                     class="text-body-strong">{{product.quantity}}</span> </p>
-                                            <p class="layout-horizontal align-center-space-between">Tổng tiền: <span
+                                            <p class="layout-horizontal align-center-space-between">{{
+                                                'store.store_order.total' | translate }}: <span
                                                     class="text-body-strong">{{(product.price-((product.price*product.discount)/100))
                                                     * product.quantity | currencyVND}}</span></p>
                                         </div>
@@ -110,7 +117,7 @@
                                         *ngIf="product.can_review && shop?.status == 'delivered'">
                                         <button type="button" class="button-accent button-text-only w-fill"
                                             (click)="viewDialogFeedback(product, order.id)">
-                                            Đánh giá
+                                            {{ 'store.store_order.feedback' | translate }}
                                         </button>
                                     </div>
                                 </div>
@@ -122,27 +129,33 @@
                         class="w-fill h-hug layout-vertical border rounded-8 my-10 in-tablet-mt-5 in-mobile-mt-5 card-background-default">
                         <table class="w-fill text-left table-info-bill">
                             <tr class="border-bottom">
-                                <th class="h-hug text-body-strong">Họ và tên:</th>
+                                <th class="h-hug text-body-strong">{{ 'store.store_order.fullname' | translate }}:</th>
                                 <td>{{order.fullname}}</td>
                             </tr>
                             <tr class="border-bottom">
-                                <th class="h-hug text-body-strong">Số điện thoại:</th>
+                                <th class="h-hug text-body-strong">{{ 'store.store_order.phone_number' | translate }}:
+                                </th>
                                 <td>{{order.phone_number}}</td>
                             </tr>
                             <tr class="border-bottom">
-                                <th class="h-hug text-body-strong">Email:</th>
+                                <th class="h-hug text-body-strong">{{ 'store.store_order.email' | translate }}:</th>
                                 <td>{{order.email}}</td>
                             </tr>
                             <tr class="border-bottom">
-                                <th class="h-hug text-body-strong">Địa chỉ:</th>
+                                <th class="h-hug text-body-strong">{{ 'store.store_order.address' | translate }}:</th>
                                 <td>{{order.address}}</td>
                             </tr>
                             <tr class="border-bottom">
-                                <th class="h-hug text-body-strong">Phương thức thanh toán:</th>
-                                <td>{{payment_methood[order.payment_method]}}</td>
+                                <th class="h-hug text-body-strong">{{ 'store.store_order.payment_method' | translate }}:
+                                </th>
+                                <td>
+                                    <!-- {{payment_methood[order.payment_method]}} -->
+                                    {{ 'store.store_order.payment_methood.'+order.payment_method | translate }}
+                                </td>
                             </tr>
                             <tr class="border-bottom">
-                                <th class="h-hug text-body-strong">Giảm giá:</th>
+                                <th class="h-hug text-body-strong">{{ 'store.store_order.discount_price' | translate }}:
+                                </th>
                                 <td>{{order.voucher_discount_price | currencyVND}}</td>
                             </tr>
                         </table>
@@ -150,7 +163,8 @@
                             <button type="button"
                                 (click)="showDiaLogRefundOrder(order.id, order.payment_method == 'cash' ? 'cancel-order' : 'refund-order')"
                                 class="button-standard button-text-only w-fill">
-                                {{order.payment_method == 'cash'?'Hủy đơn':'Yêu cầu hoàn tiền'}}
+                                {{order.payment_method == 'cash'?('store.store_order.cancel_order' | translate) :
+                                ('store.store_order.request_a_refund' | translate)}}
                             </button>
                         </div>
                     </div>
@@ -160,7 +174,7 @@
 
         <div *ngIf="orders.length == 0"
             class="w-fill py-20 card-background-default border border-card-default rounded-8 mt-20">
-            <p class="text-body text-secondary text-center">Bạn chưa có đơn hàng nào!</p>
+            <p class="text-body text-secondary text-center">{{ 'store.store_order.no_orders_yet' | translate }}!</p>
         </div>
     </div>
 
@@ -179,7 +193,9 @@
                 </button>
 
                 <div class="pb-20 pt-5 border-bottom">
-                    <p class="text-subtitle text-primary text-center">Đánh giá sản phẩm</p>
+                    <p class="text-subtitle text-primary text-center">{{ 'store.store_order.feedback_product' |
+                        translate
+                        }}</p>
                 </div>
 
                 <div class="layout-vertical gap-20 overflow-hidden dialog_feedback">
@@ -191,19 +207,20 @@
                         </div>
                         <div class="w-fill-column-8 layout-vertical gap-10">
                             <p class="text-body-strong text-right">{{product_feedback.name}}</p>
-                            <p class="layout-horizontal align-center-space-between">Giá: <span
-                                    class="text-body-strong">{{product_feedback.price | currencyVND}}</span></p>
-                            <p class="layout-horizontal align-center-space-between">Số lượng: <span
-                                    class="text-body-strong">{{product_feedback.quantity}}</span> </p>
-                            <p class="layout-horizontal align-center-space-between">Tổng tiền: <span
-                                    class="text-body-strong">{{product_feedback.price *
+                            <p class="layout-horizontal align-center-space-between">{{ 'store.store_order.price' |
+                                translate }}: <span class="text-body-strong">{{product_feedback.price |
+                                    currencyVND}}</span></p>
+                            <p class="layout-horizontal align-center-space-between">{{ 'store.store_order.quantity' |
+                                translate }}: <span class="text-body-strong">{{product_feedback.quantity}}</span> </p>
+                            <p class="layout-horizontal align-center-space-between">{{ 'store.store_order.total' |
+                                translate }}: <span class="text-body-strong">{{product_feedback.price *
                                     product_feedback.quantity | currencyVND}}</span></p>
                         </div>
                     </div>
 
                     <div class="w-fill layout-horizontal align-center-space-between">
 
-                        <p class="text-subtitle text-primary">Đánh giá</p>
+                        <p class="text-subtitle text-primary">{{ 'store.store_order.feedback' | translate }}</p>
 
                         <div class="layout-horizontal align-center-center rating" style="font-size: 2em;">
                             <i *ngFor="let star of stars; let i = index" [class.active]="i < currentRating" [ngClass]="{
@@ -220,7 +237,7 @@
 
                     <div class="w-fill layout-horizontal align-center-right">
                         <button type="button" class="button-accent button-text-only" (click)="feedbackProduct()">
-                            Gửi đánh giá
+                            {{ 'store.store_order.send_feedback' | translate }}
                         </button>
                     </div>
                 </div>
@@ -244,22 +261,28 @@
 
                 <div class="pb-20 pt-5 border-bottom">
                     <p class="text-subtitle text-primary text-center"> {{payment_methood_refund_order ==
-                        'cancel-order'?'Hủy đơn':'Hoàn tiền'}}</p>
+                        'cancel-order' ? ('store.store_order.cancel_order' |
+                        translate) : ('store.store_order.request_a_refund' | translate)}}</p>
                 </div>
 
-                <p class="text-body text-primary text-center mb-10">Chắc chắn
-                    "<span class="text-body-strong">
-                        {{payment_methood_refund_order == 'cancel-order' ? 'hủy' : 'hoàn tiền'}}
-                    </span>" đơn hàng này?</p>
+                <p *ngIf="payment_methood_refund_order == 'cancel-order'"
+                    class="text-body text-primary text-center mb-10"
+                    [innerHTML]="'store.store_order.sure_cancel' | translate">
+                </p>
+                <p *ngIf="payment_methood_refund_order != 'cancel-order'"
+                    class="text-body text-primary text-center mb-10"
+                    [innerHTML]="'store.store_order.sure_refund' | translate">
+                </p>
 
                 <div class="layout-vertical overflow-hidden">
                     <div class="layout-horizontal gap-20">
                         <button type="button" class="button-standard button-text-only w-fill"
                             (click)="showDiaLogRefundOrder(0)">
-                            Hủy
+                            {{ 'store.store_order.cancel' | translate }}
                         </button>
                         <button type="button" class="button-accent button-text-only w-fill" (click)="refundOrder()">
-                            {{payment_methood_refund_order == 'cancel-order'?'Hủy đơn':'Hoàn tiền'}}
+                            {{payment_methood_refund_order == 'cancel-order' ? ('store.store_order.cancel_order' |
+                            translate) : ('store.store_order.request_a_refund' | translate)}}
                         </button>
                     </div>
                 </div>

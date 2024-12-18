@@ -86,12 +86,15 @@ export class EventComponent implements OnInit {
 
   filtershops(): void {
     if (this.filterStatus === 'all') {
-      this.filteredshops = [...this.listShop]; // Hiển thị tất cả
+      // Hiển thị tất cả cửa hàng
+      this.filteredshops = [...this.listShop];
     } else {
-      const status = parseInt(this.filterStatus, 10); // Chuyển filterStatus thành number
+      // Chuyển đổi filterStatus thành số nếu không phải 'all'
+      const status = this.filterStatus === '1' ? 1 : 0;
       this.filteredshops = this.listShop.filter(
         (shop) => shop.is_active === status
       );
     }
   }
+  
 }

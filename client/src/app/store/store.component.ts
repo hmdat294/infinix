@@ -3,12 +3,13 @@ import { Component, OnInit } from '@angular/core';
 import { StoreProductComponent } from "./store-product/store-product.component";
 import { StoreOrderComponent } from "./store-order/store-order.component";
 import { ActivatedRoute } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-    selector: 'app-store',
-    imports: [CommonModule, StoreProductComponent, StoreOrderComponent],
-    templateUrl: './store.component.html',
-    styleUrl: './store.component.css'
+  selector: 'app-store',
+  imports: [CommonModule, StoreProductComponent, StoreOrderComponent, TranslateModule],
+  templateUrl: './store.component.html',
+  styleUrl: './store.component.css'
 })
 export class StoreComponent implements OnInit {
 
