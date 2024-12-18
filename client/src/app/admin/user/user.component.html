@@ -7,25 +7,19 @@
             <div class>
                 <div class="search-dropdown-control">
                     <div class="control search-control">
-                        <input type="search" placeholder="placeholder" spellcheck="false">
-                        <button type="button" class="input-button clear-content-button">
+                        <input type="search" placeholder="placeholder" spellcheck="false" type="search" 
+                        placeholder="Tìm kiếm theo ID hoặc tên user" 
+                        [(ngModel)]="searchTerm" 
+                        (input)="search()" 
+                        class="form-control">
+                        <button type="button" class="input-button clear-content-button" (click)="clearSearch()">
                             <i class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
                         </button>
-                        <button type="button" class="input-button search-button">
+                        <button type="button" class="input-button search-button" (click)="search()">
                             <i class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
                         </button>
                     </div>
-                    <div class="dropdown-menu">
-                        <div class="list-item">
-                            <div class="text-body">Item 1</div>
-                        </div>
-                        <div class="list-item">
-                            <div class="text-body">Item 2</div>
-                        </div>
-                        <div class="list-item">
-                            <div class="text-body">Item 3</div>
-                        </div>
-                    </div>
+                    
                 </div>
                 <div class="fillter">
 
@@ -34,15 +28,8 @@
             </div>
             <div class="me-25">
                 <div class="pagination layout-horizontal">
-                    <button class="pagination-item button-subtle button-icon-only text-accent-default"><i
-                            class="icon-size-24 icon icon-ic_fluent_caret_left_24_filled"></i></button>
-                    <button class="pagination-item button-subtle button-icon-only text-accent-default">1</button>
-                    <button class="pagination-item button-subtle button-icon-only text-accent-default">2</button>
-                    <button class="pagination-item button-subtle button-icon-only text-accent-default">3</button>
-                    <button class="pagination-item button-subtle button-icon-only text-accent-default">4</button>
-                    <button class="pagination-item button-subtle button-icon-only text-accent-default">5</button>
-                    <button class="pagination-item button-subtle button-icon-only text-accent-default"><i
-                            class="icon-size-24 icon icon-ic_fluent_caret_right_24_filled"></i></button>
+                    <pagination-controls (pageChange)="currentPage = $event" previousLabel=""
+                        nextLabel=""></pagination-controls>
                 </div>
             </div>
         </div>
@@ -61,7 +48,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="border-top" *ngFor="let item of listUser">
+                        <tr class="border-top" *ngFor="let item of filteredUsers | paginate: { itemsPerPage: 10, currentPage: currentPage };">
                             <td class="text-body"><input class="checkbox-control" type="checkbox"></td>
                             <td class="text-body py-10"><img src="assets/image/avatar.png" alt="Avatar" class="avatar">
                             </td>

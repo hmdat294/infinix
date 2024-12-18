@@ -131,7 +131,15 @@ postshop(id: number, is_active: string): Observable<any> {
   const headers = this.authService.getToken();
   return this.http.post(`${this.apiUrl}/shop/${id}`,{is_active}, { headers });
 }
-  
+getShopId(id: number, is_active: string): Observable<any> {
+  const headers = this.authService.getToken();
+  return this.http.post(`${this.apiUrl}/shop/${id}`, { headers });
+}
+
+getListProductByShop(shop_id: number): Observable<any> {
+  const headers = this.authService.getToken();
+  return this.http.get(`${this.apiUrl}/shop/${shop_id}/products`, { headers });
+}
   
   
 }
