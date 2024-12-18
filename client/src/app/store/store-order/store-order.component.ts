@@ -6,10 +6,11 @@ import { PaymentService } from '../../service/payment.service';
 import { ShopService } from '../../service/shop.service';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-store-order',
-  imports: [CurrencyVNDPipe, CommonModule, FormsModule, RouterModule],
+  imports: [CurrencyVNDPipe, CommonModule, FormsModule, RouterModule, TranslateModule],
   templateUrl: './store-order.component.html',
   styleUrl: './store-order.component.css'
 })
@@ -21,13 +22,13 @@ export class StoreOrderComponent implements OnInit {
   endDate: string = '';
   filteredData: any = [];
 
-  order_status: any = {
-    'pending': 'Chờ xử lý',
-    'received': 'Đã nhận đơn',
-    'delivered': 'Đã giao hàng',
-    'delivering': 'Đang giao',
-    'cancelled': 'Đã hủy'
-  }
+  // order_status: any = {
+  //   'pending': 'Chờ xử lý',
+  //   'received': 'Đã nhận đơn',
+  //   'delivered': 'Đã giao hàng',
+  //   'delivering': 'Đang giao',
+  //   'cancelled': 'Đã hủy'
+  // }
 
   order_color: any = {
     'pending': 'text-system-caution',
@@ -37,17 +38,17 @@ export class StoreOrderComponent implements OnInit {
     'cancelled': 'text-system-critical'
   }
 
-  payment_methood: any = {
-    'cash': 'Trả tiền mặt khi nhận hàng',
-    'zalopay': 'Thanh toán qua ZaloPay',
-  }
+  // payment_methood: any = {
+  //   'cash': 'Trả tiền mặt khi nhận hàng',
+  //   'zalopay': 'Thanh toán qua ZaloPay',
+  // }
 
-  payment_status: any = {
-    'pending': 'Chưa thanh toán',
-    'paid': 'Đã thanh toán',
-    'refunded': 'Đã hoàn tiền',
-    'cancelled': 'Đã hủy'
-  }
+  // payment_status: any = {
+  //   'pending': 'Chưa thanh toán',
+  //   'paid': 'Đã thanh toán',
+  //   'refunded': 'Đã hoàn tiền',
+  //   'cancelled': 'Đã hủy'
+  // }
 
   payment_color: any = {
     'pending': 'text-system-caution',

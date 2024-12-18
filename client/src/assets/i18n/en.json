@@ -678,7 +678,27 @@
             "request_a_refund": "Request a refund",
             "no_orders_yet": "You have not received any orders yet!",
             "feedback_product": "Feedback product",
-            "send_feedback": "Send feedback"
+            "send_feedback": "Send feedback",
+            "cancel": "Cancel",
+            "sure_cancel": "Are you sure you want to '<span class='text-body-strong'>cancel</span>' this order?",
+            "sure_refund": "Are you sure you want to '<span class='text-body-strong'>refund</span>' this order?",
+            "order_status": {
+                "pending": "Pending",
+                "received": "Order received",
+                "delivered": "Delivered",
+                "delivering": "Delivering",
+                "cancelled": "Cancelled"
+            },
+            "payment_methood": {
+                "cash": "Cash on delivery",
+                "zalopay": "Pay via ZaloPay"
+            },
+            "payment_status": {
+                "pending": "Pending",
+                "paid": "Paid",
+                "refunded": "Refunded",
+                "cancelled": "Cancelled"
+            }
         }
     },
     "product_detail": {
