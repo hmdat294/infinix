@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, NgZone } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
@@ -11,7 +12,7 @@ export class AuthService {
   token$ = this.auth_token_source.asObservable();
   auth_token: string = '';
 
-  constructor(private zone: NgZone, private http: HttpClient) {
+  constructor(private zone: NgZone, private http: HttpClient, private cookieService: CookieService) {
 
     window.addEventListener('storage', (event) => {
       if (event.key === 'auth_token') {
@@ -22,21 +23,29 @@ export class AuthService {
       }
     });
 
-    this.token$.subscribe(auth_token => this.auth_token = auth_token);
+    this.token$.subscribe(auth_token => {
+      console.log(auth_token);
+      
+      this.auth_token = auth_token
+    });
   }
 
   updateAuthToken(token: string) {
     this.auth_token_source.next(token);
-    localStorage.setItem('auth_token', token);
+    // localStorage.setItem('auth_token', token);
+    this.cookieService.set('auth_token', token, 7, '/', 'localhost', true, 'Strict');
+
   }
 
   removeAuthToken() {
-    localStorage.removeItem('auth_token');
+    // localStorage.removeItem('auth_token');
+    this.cookieService.delete('auth_token');
     this.auth_token_source.next('');
   }
 
   private getAuthTokenFromStorage(): string {
-    const token = localStorage.getItem('auth_token');
+    // const token = localStorage.getItem('auth_token');
+    const token = this.cookieService.get('auth_token');
     return token ? token : '';
   }
 
