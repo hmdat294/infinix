@@ -45,6 +45,7 @@ use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\PunishmentController;
 use App\Http\Controllers\Statistics\OrderStatisticsController;
 use App\Http\Controllers\Statistics\ReportStatisticsController;
+use App\Http\Controllers\Statistics\ShopStatisticsController;
 
 Route::middleware(['guest'])->group(function () {
 
@@ -76,12 +77,6 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
     Route::delete('notification/destroy_all', [NotificationController::class, 'destroy_all']);
     Route::post('notification/update_by_conversation/{id}', [NotificationController::class, 'update_by_conversation']);
     Route::delete('notification/destroy_by_conversation/{id}', [NotificationController::class, 'destroy_by_conversation']);
-
-
-    Route::get('shop-request', [ShopRequestController::class, 'index']);
-    Route::post('shop-request', [ShopRequestController::class,'store']);
-    Route::get('shop-request/{id}', [ShopRequestController::class, 'show']);
-    Route::delete('shop-request/{id}', [ShopRequestController::class, 'destroy']);
 
     Route::get('voucher/bycode/{code}', [VoucherController::class, 'byCode']);
     Route::post('voucher/save', [VoucherController::class,'saveCode']);
@@ -324,5 +319,6 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
         Route::get('report', [ReportStatisticsController::class, 'index']);
         Route::get('order', [OrderStatisticsController::class,'index']);
         Route::get('order-by-shop/{shop_id}', [OrderStatisticsController::class,'byShop']);
+        Route::get('shop', [ShopStatisticsController::class,'index']);
     });
 });

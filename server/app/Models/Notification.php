@@ -53,4 +53,9 @@ class Notification extends Model
     {
         return $this->belongsTo(ConversationInvitation::class, 'conversation_invitation_id');
     }
+
+    public function shop()
+    {
+        return $this->belongsTo(Shop::class, 'shop_id');
+    }
 }
