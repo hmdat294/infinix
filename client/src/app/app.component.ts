@@ -48,6 +48,7 @@ export class AppComponent implements OnInit {
             this.is_route_admin = !!(event.urlAfterRedirects.split('/')[1] == 'admin')
         );
       }
+      else this.isLoggedIn = false;
     });
 
   }

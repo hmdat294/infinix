@@ -24,7 +24,7 @@ export class AdminService {
     const headers = this.authService.getToken();
     return this.http.get(`${this.apiUrl}/post/${id > 0 ? id : ''}`, { headers });
   }
- 
+
   getConversationsGrowthData(): Observable<any> {
     const headers = this.authService.getToken();
     return this.http.get(`${this.apiUrl}/statistics/conversations-growth`, { headers });
@@ -33,8 +33,8 @@ export class AdminService {
     const headers = this.authService.getToken();
     return this.http.get(`${this.apiUrl}/report`, { headers });
   }
-  
-  
+
+
 
   getConversationsGrowth(): Observable<any> {
     const headers = this.authService.getToken();
@@ -94,7 +94,7 @@ export class AdminService {
     const headers = this.authService.getToken();
     return this.http.get(`${this.apiUrl}/statistics/posts-growth`, { headers });
   }
-  
+
   getTotalUsers(): Observable<{ data: number }> {
     return this.http.get<{ data: number }>('api_endpoint_here');
   }
@@ -103,10 +103,6 @@ export class AdminService {
     return this.http.post(`${this.apiUrl}/report/${id}`, { 'status':status }, { headers });
  }
 
-deleteReport(id: number): Observable<any> {
-  const headers = this.authService.getToken();
-  return this.http.delete(`${this.apiUrl}/report/${id}`, { headers });
-}
 
 getShop(): Observable<any> {
   const headers = this.authService.getToken();

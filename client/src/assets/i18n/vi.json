@@ -646,8 +646,8 @@
         "buy_now": "Mua ngay",
         "payment": "Thanh toán",
         "day": "ngày",
-        "product":"sản phẩm",
-        "order":"đơn hàng",
+        "product": "sản phẩm",
+        "order": "đơn hàng",
         "voucher_description": "Giảm {{discount}}% áp dụng cho {{apply_to_products}} trên {{min_price}} và giảm tối đa {{max_discount}}",
         "used": "Đã dùng",
         "use": "Sử dụng",
@@ -665,8 +665,8 @@
         "address": "Địa chỉ",
         "day": "ngày",
         "voucher": "Mã giảm giá",
-        "product":"product",
-        "order":"order",
+        "product": "product",
+        "order": "order",
         "voucher_description": "Giảm {{discount}}% áp dụng cho {{apply_to_products}} trên {{min_price}} và giảm tối đa {{max_discount}}",
         "save_voucher": "Lưu",
         "saved_voucher": "Đã lưu",
@@ -707,7 +707,27 @@
             "request_a_refund": "Yêu cầu hoàn tiền",
             "no_orders_yet": "Bạn chưa có đơn hàng nào",
             "feedback_product": "Đánh giá sản phẩm",
-            "send_feedback": "Gửi đánh giá"
+            "send_feedback": "Gửi đánh giá",
+            "cancel": "Hủy",
+            "sure_cancel": "Chắc chắn '<span class='text-body-strong'>hủy</span>' đơn hàng này?",
+            "sure_refund": "Chắc chắn '<span class='text-body-strong'>hoàn tiền</span>' đơn hàng này?",
+            "order_status": {
+                "pending": "Chờ xử lý",
+                "received": "Đã nhận đơn",
+                "delivered": "Đã giao hàng",
+                "delivering": "Đang giao",
+                "cancelled": "Đã hủy"
+            },
+            "payment_methood": {
+                "cash": "Trả tiền mặt khi nhận hàng",
+                "zalopay": "Thanh toán qua ZaloPay"
+            },
+            "payment_status": {
+                "pending": "Chưa thanh toán",
+                "paid": "Đã thanh toán",
+                "refunded": "Đã hoàn tiền",
+                "cancelled": "Đã hủy"
+            }
         }
     },
     "product_detail": {

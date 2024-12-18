@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { AuthService } from './service/auth.service';
 import { Observable } from 'rxjs';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,8 @@ export class AuthGuard implements CanActivate {
 
   constructor(
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private cookieService: CookieService
   ) { }
 
   is_reload: boolean = true;
@@ -67,7 +69,8 @@ export class AuthGuard implements CanActivate {
               }
             },
             (error) => {
-              localStorage.removeItem('auth_token');
+              // localStorage.removeItem('auth_token');
+              this.cookieService.delete('auth_token');
               localStorage.removeItem('conversation');
               this.router.navigate(['/landing-page']);
               observer.next(false);

@@ -34,7 +34,7 @@ export class ShopSettingsComponent implements OnInit {
 
   spaceCheck: any = /^\s*$/;
   tabAccordion: string = '';
-  tab_shop: string = 'tab_voucher';
+  tab_shop: string = 'tab_statistic';
   user: any;
   shop: any;
   products: any;
@@ -58,14 +58,14 @@ export class ShopSettingsComponent implements OnInit {
     this.authService.getUser(0).subscribe(
       (res) => {
         this.user = res.data;
-        console.log(this.user);
+        // console.log(this.user);
         
         if (this.user.shop_id > 0) {
 
           this.shopService.getShop(this.user.shop_id).subscribe(
             (res) => {
               this.shop = res.data;
-              console.log(this.shop);
+              // console.log(this.shop);
               
               const arrAddress = this.shop.address?.split(" | ");
 
