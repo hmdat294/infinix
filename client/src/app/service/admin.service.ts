@@ -100,8 +100,8 @@ export class AdminService {
   }
   updateReportStatus(id: number, status: string): Observable<any> {
     const headers = this.authService.getToken();  
-    return this.http.post(`${this.apiUrl}/report/${id}`, { status }, { headers });
-}
+    return this.http.post(`${this.apiUrl}/report/${id}`, { 'status':status }, { headers });
+ }
 
 deleteReport(id: number): Observable<any> {
   const headers = this.authService.getToken();
@@ -127,6 +127,13 @@ postshop(id: number, is_active: string): Observable<any> {
   const headers = this.authService.getToken();
   return this.http.post(`${this.apiUrl}/shop/${id}`,{is_active}, { headers });
 }
+
+
+createOrUpdatePunishment( data: any): Observable<any> {
+  const headers = this.authService.getToken();
+  return this.http.post(`${this.apiUrl}/punishment`, data, { headers });
+}
+
   
   
   

@@ -1,140 +1,30 @@
 <section class="gradient-background layout-horizontal" style="height: 100vh">
   <app-nav class="h-fill"></app-nav>
 
-<<<<<<< HEAD
     <article class="py-20 m-20 w-fill overflow-scroll-vertical ">
         <div
-            class="layout-horizontal  align-center-space-between mt-20  "
+            class="layout-horizontal align-center-space-between mt-20  "
             style="padding:0 20px;">
             <div class="layout-horizontal gap-10  "
                 style="padding: 10px;">
 
-                <!-- search -->
+                <!-- search --> 
                 <label for="filterStatus">Lọc trạng thái:</label>
                 <select class="dropdown-menu" [(ngModel)]="filterStatus"
-                    (change)="filterReports()">
+                    (change)="filtershops()">
                     <option value="all" class="list-item">Tất cả</option>
-                    <option value="pending" class="list-item">Chưa giải
+                    <option value="0" class="list-item">Chưa giải
                         quyết</option>
-                    <option value="resolved" class="list-item">Đã giải
+                    <option value="1" class="list-item">Đã giải
                         quyết</option>
                 </select>
-                <!-- <div class="search-dropdown-control">
-=======
-  <article class="py-20 m-20 w-fill overflow-scroll-vertical">
-    <div
-      class="layout-horizontal align-center-space-between mt-20"
-      style="padding: 0 20px"
-    >
-      <div class="layout-horizontal gap-10 " style="padding: 10px">
-        <!-- search -->
-        <label for="filterStatus">Lọc trạng thái:</label>
-        <select
-          class="dropdown-menu button-standard button-text-with-icon gap-10"
-          [(ngModel)]="filterStatus"
-          (change)="filtershops()"
-        >
-          <option value="all" class="list-item">
-            <div class="text-body">Tất cả</div>
-          </option>
-          <option value="0" class="list-item">
-            <div class="text-body">Chưa giải quyết</div>
-          </option>
-          <option value="1" class="list-item">
-            <div class="text-body">Đã giải quyết</div>
-          </option>
-        </select>
-        <!-- <div class="search-dropdown-control">
->>>>>>> 0c13c0109af8cdf40bf9f9d9fcc0afcb79b4e550
-                    <div class="control search-control">
-                        <input type="search"
-                            placeholder="placeholder"
-                            spellcheck="false">
-                        <button type="button"
-                            class="input-button clear-content-button">
-                            <i
-                                class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
-                        </button>
-                        <button type="button"
-                            class="input-button search-button">
-                            <i
-                                class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
-                        </button>
-                    </div>
-                    <div class="dropdown-menu">
-                        <div class="list-item">
-                            <div class="text-body">Item 1</div>
-                        </div>
-                        <div class="list-item">
-                            <div class="text-body">Item 2</div>
-                        </div>
-                        <div class="list-item">
-                            <div class="text-body">Item 3</div>
-                        </div>
-                    </div>
-                </div> -->
-        <!-- fillter -->
-        <!-- <div class="layout-horizontal gap-10">
-                    <a href="#"
-                        class="button-standard button-text-with-icon gap-10">
-                        <i
-                            class="icon-size-16 icon icon-ic_fluent_document_one_page_multiple_16_regular"></i>
-                        Post
-                    </a>
-                    <a href="#"
-                        class="button-standard button-text-with-icon gap-10">
-                        <i
-                            class="icon-size-20 icon icon-ic_fluent_check_20_regular"></i>
-                        Comment
-                    </a>
-                    <a href="#"
-                        class="button-standard button-text-with-icon gap-10">
-                        <i
-                            class="icon-size-16 icon icon-ic_fluent_person_16_regular"></i>
-                        User
-                    </a>
-                    <a href="#"
-                        class="button-standard button-text-only gap-10">
-                        <i
-                                class="icon-size-16 icon icon-ic_fluent_person_24_regular"></i>
-                        See All
-                    </a>
-                </div> -->
-<<<<<<< HEAD
-
+           
             </div>
             <div class="me-25">
                 <pagination-controls (pageChange)="currentPage = $event"
                     previousLabel
                     nextLabel></pagination-controls>
-                <!-- <div class="pagination layout-horizontal" >
-=======
-      </div>
-      <div class="me-25">
-        <pagination-controls
-          (pageChange)="currentPage = $event"
-          previousLabel
-          nextLabel
-        ></pagination-controls>
-        <!-- <div class="pagination layout-horizontal" >
->>>>>>> 0c13c0109af8cdf40bf9f9d9fcc0afcb79b4e550
-                    <button
-                        class="pagination-item button-subtle button-icon-only text-accent-default"><i
-                            class="icon-size-24 icon icon-ic_fluent_caret_left_24_filled"></i></button>
-                    <button
-                        class="pagination-item button-subtle button-icon-only text-accent-default">1</button>
-                    <button
-                        class="pagination-item button-subtle button-icon-only text-accent-default">2</button>
-                    <button
-                        class="pagination-item button-subtle button-icon-only text-accent-default">3</button>
-                    <button
-                        class="pagination-item button-subtle button-icon-only text-accent-default">4</button>
-                    <button
-                        class="pagination-item button-subtle button-icon-only text-accent-default">5</button>
-                    <button
-                        class="pagination-item button-subtle button-icon-only text-accent-default"><i
-                            class="icon-size-24 icon icon-ic_fluent_caret_right_24_filled"></i></button>
-                </div> -->
+               
       </div>
     </div>
     <div style="padding: 20px">
@@ -143,7 +33,7 @@
           <div
             class="layout-horizontal align-center-space-between text-center text-subtitle p-20"
           >
-            <div><input type="checkbox" /></div>
+         
             <div class="w-fill layout-horizontal align-center-space-between">
               <div class="w-fill-column-3">Tên cửa hàng</div>
               <div class="w-fill-column-2">Tên người dùng</div>
@@ -162,7 +52,7 @@
             <div
               class="layout-horizontal w-fill align-center-space-between text-center p-20"
             >
-              <div><input type="checkbox" /></div>
+             
               <div
                 class="layout-horizontal w-fill align-center-space-around"
                 style="gap: 15px"
@@ -173,6 +63,7 @@
                   <img
                     class="rounded-circle"
                     width="50px"
+                    height="50px"
                     [src]="item.logo"
                     alt
                   />
@@ -192,14 +83,6 @@
 
                 <!-- Trạng thái của item -->
                 <div class="status-select-container w-fill-column-2">
-                  <!-- <span class="status-select"
-                                      [ngClass]="{
-                                        'text-green': item.is_active === '1',
-                                        'text-red': item.is_active === '0'
-                                      }">
-                                      {{ item.is_active === '1' ? 'Đã giải quyết' : 'Chưa giải quyết' }}
-                                    </span> -->
-
                   <p *ngIf="item.is_active == 1"
                     class="text-body text-system-success" >
                     <span> Đang hoạt động</span>
