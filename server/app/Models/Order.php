@@ -17,7 +17,8 @@ class Order extends Model
         'order_group_id',
         'total',
         'note',
-        'status'
+        'status',
+        'admin_paid',
     ];
 
     public function user()

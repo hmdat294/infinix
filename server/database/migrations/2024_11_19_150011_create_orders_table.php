@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('total');
             $table->string('note')->nullable();
             $table->string('status')->default('pending');
-
+            $table->boolean('admin_paid')->default(false);
             $table->timestamps();
         });
     }

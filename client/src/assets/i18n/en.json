@@ -446,7 +446,8 @@
             "theme_title": "Theme",
             "theme_description": "Choose your favorite theme",
             "theme_light": "Light",
-            "theme_dark": "Dark"
+            "theme_dark": "Dark",
+            "theme_turquoise": "Turquoise"
         },
         "general_settings": {
             "user_infomation": {

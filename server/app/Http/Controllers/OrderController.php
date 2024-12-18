@@ -162,7 +162,7 @@ class OrderController extends Controller
     {
         $order = Order::findOrFail($id);
 
-        $order->update($request->only(['status']));
+        $order->update($request->only(['status', 'admin_paid']));
         if ($request->status == 'cancelled') {
             $order->products()->each(function ($product) {
                 $product->stock += $product->pivot->quantity;
@@ -224,4 +224,5 @@ class OrderController extends Controller
             return response()->json(['success' => true]);
         }
     }
+
 }

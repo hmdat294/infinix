@@ -21,6 +21,7 @@ export class SettingComponent implements OnInit {
   tabSetting: string = 'shop-settings';
   profile_photo: string = '';
   display_name: string = '';
+  email: string = '';
 
   constructor(
     private authService: AuthService,
@@ -34,6 +35,7 @@ export class SettingComponent implements OnInit {
 
         this.profile_photo = response.data?.profile.profile_photo;
         this.display_name = response.data?.profile.display_name;
+        this.email = response.data?.email;
       });
 
     this.settingService.sharedValue$.subscribe((newValue) => {

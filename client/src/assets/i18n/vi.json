@@ -475,7 +475,8 @@
             "theme_title": "Chủ đề",
             "theme_description": "Chọn chủ đề để thay đổi giao diện",
             "theme_light": "Sáng",
-            "theme_dark": "Tối"
+            "theme_dark": "Tối",
+            "theme_turquoise": "Sáng - Lục lam"
         },
         "general_settings": {
             "user_infomation": {
