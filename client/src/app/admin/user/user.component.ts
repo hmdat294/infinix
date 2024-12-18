@@ -7,14 +7,14 @@ import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
-    selector: 'app-user',
-    imports: [NavComponent,
-      CommonModule,
-      RouterModule,
-      FormsModule,
-      NgxPaginationModule,],
-    templateUrl: './user.component.html',
-    styleUrl: './user.component.css'
+  selector: 'app-user',
+  imports: [NavComponent,
+    CommonModule,
+    RouterModule,
+    FormsModule,
+    NgxPaginationModule,],
+  templateUrl: './user.component.html',
+  styleUrl: './user.component.css'
 })
 export class UserComponent implements OnInit {
   listUser: any[] = [];
@@ -30,6 +30,8 @@ export class UserComponent implements OnInit {
       (response) => {
         // Gán dữ liệu vào listUser
         this.listUser = response.data;
+
+        console.log(response.data);
         this.filteredUsers = [...this.listUser];
       },
       (error) => {
@@ -38,8 +40,8 @@ export class UserComponent implements OnInit {
     );
   }
 
-   // Tìm kiếm hoặc hiển thị lại danh sách gốc
-   search(): void {
+  // Tìm kiếm hoặc hiển thị lại danh sách gốc
+  search(): void {
     if (!this.searchTerm.trim()) {
       this.filteredUsers = [...this.listUser]; // Hiển thị lại toàn bộ khi xóa tìm kiếm
     } else {
@@ -54,7 +56,8 @@ export class UserComponent implements OnInit {
     // Kiểm tra dữ liệu trước khi lọc
     if (this.listUser && this.listUser.length) {
       this.filteredUsers = this.listUser.filter(user =>
-        user.name.toLowerCase().includes(term) || user.id.toString().includes(term)
+
+        user.profile.display_name.toLowerCase().includes(term) || user.id.toString().includes(term)
       );
     }
   }

@@ -27,15 +27,10 @@
 
             </div>
             <div class="me-25">
-<<<<<<< HEAD
                 <div class="pagination layout-horizontal">
                     <pagination-controls (pageChange)="currentPage = $event" previousLabel=""
                         nextLabel=""></pagination-controls>
                 </div>
-=======
-                <pagination-controls (pageChange)="currentPage = $event" previousLabel=""
-                nextLabel=""></pagination-controls>
->>>>>>> 63c480c479640994eee5f0accf822e6aacb5ccbb
             </div>
         </div>
         <div class>
@@ -59,7 +54,7 @@
                             </td>
                             <td class="text-body">{{item.profile.display_name}}</td>
                             <td class="text-body">{{item.email}}</td>
-                            <td class="text-body">{{ item.phone_number ? item.phone_number : '...' }}</td>
+                            <td class="text-body">{{ item.phone_number   }}</td>
                             <td class="text-body">{{ item.last_activity | date: 'dd/MM/yyyy' }}</td>
 
                             <!-- <td class="text-body">
