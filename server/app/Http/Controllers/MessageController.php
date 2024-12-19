@@ -35,7 +35,7 @@ class MessageController extends Controller
     {
         $conversation = ConversationModel::find($request->conversation_id);
 
-        $message_data = $request->only(['reply_to_message_id', 'content', 'link']);
+        $message_data = $request->only(['reply_to_message_id', 'content', 'link', 'is_call']);
         $message_data['user_id'] = $request->user()->id;
 
         $message = $conversation->messages()->create($message_data);

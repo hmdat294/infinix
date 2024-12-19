@@ -160,6 +160,22 @@ class OrderController extends Controller
 
         if ($request->has('status')) {
             $order->status = $request->status;
+
+            if ($request->status == 'cancelled') {
+                $order_group = $order->group;
+                $is_all_cancelled = true;
+                foreach ($order_group->orders as $a_order) {
+                    if ($a_order->status != 'cancelled') {
+                        $is_all_cancelled = false;
+                        break;
+                    }
+                }
+
+                if ($is_all_cancelled) {
+                    $order_group->payment_status = 'cancelled';
+                    $order_group->save();
+                }
+            }
         }
         if ($request->has('admin_paid')) {
             $order->admin_paid = $request->admin_paid;
@@ -227,4 +243,5 @@ class OrderController extends Controller
         }
     }
 
+    
 }

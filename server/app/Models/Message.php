@@ -13,10 +13,12 @@ class Message extends Model
 
     protected $fillable = [
         'conversation_id',
+        'reply_to_message_id',
         'user_id',
         'link',
-        'reply_to_message_id',
         'is_recalled',
+        'is_edited',
+        'is_call',
         'content'
     ];
 

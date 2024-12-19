@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('link')->nullable()->default(null);
             $table->boolean('is_recalled')->default(false);
             $table->boolean('is_edited')->default(false);
+            $table->boolean('is_call')->default(false);
             $table->text('content')->nullable()->default(null);
             $table->timestamps();
         });
