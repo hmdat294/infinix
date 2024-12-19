@@ -10,6 +10,7 @@ import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { SettingService } from '../service/setting.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { PeerService } from '../service/peer.service';
 
 @Component({
   selector: 'app-mini-chat',
@@ -53,6 +54,7 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
     private eventService: EventService,
     private chatService: ChatService,
     private settingService: SettingService,
+    private peerService: PeerService
   ) { }
 
   ngOnInit(): void {
@@ -143,6 +145,44 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
           });
       });
   }
+
+
+
+  remotePeerId: string = '';
+
+  async makeCall() {
+    this.remotePeerId = 'infinix-user-' + this.chat.users[0].id;
+    // console.log(this.remotePeerId);
+
+    if (this.remotePeerId) {
+
+      this.peerService.updateCalling(true);
+
+      const callOptions = {
+        userId: this.user.id,
+        conversationId: this.chat.id,
+        userName: this.user.profile.display_name,
+        userImage: this.user.profile.profile_photo,
+      };
+      
+      this.peerService.updateUserTemp({
+        userName: this.chat.users[0].profile.display_name,
+        userImage: this.chat.users[0].profile.profile_photo,
+      });
+
+      this.peerService.updateInfo(null);
+
+      this.showChatBubble();
+
+      this.peerService.makeCall(this.remotePeerId, callOptions);
+    }
+  }
+
+
+
+
+
+
 
   deleteMiniChat(conversation_id: number) {
     this.conversation = this.conversation.filter(id => id !== conversation_id);

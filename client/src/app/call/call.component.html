@@ -1,4 +1,107 @@
-<section class="gradient-background layout-vertical" style="height: 100vh;">
+<!-- <div class="position-fixed top-0 start-0" [class]="(isCalling) ? 'display-block' : 'display-none'"
+    style="width: 100%; height: 100vh; z-index: 20; background-color: rgba(0, 0, 0, 0.3);">
+    <div class="dialog-panel position-absolute top-50 start-50 translate-middle">
+
+        <div style="width: 700px; height: 500px;"
+            class="gradient-background rounded-8 overflow-hidden layout-horizontal border border-card-default">
+
+            <div class="w-fill h-fill">
+
+                <div class="w-fill h-fill">
+                    <video #remoteVideo autoplay class="w-fill h-fill"
+                        style="background-color: rgb(30, 30, 30);"></video>
+
+                    <div *ngIf="!statusCamera"
+                        class="position-absolute top-50 start-50 translate-middle layout-vertical align-center-center gap-10">
+                        <img *ngIf="incomingUserImage" [src]="incomingUserImage" style="width: 70px; height: 70px;"
+                            class="object-fit-cover rounded-circle" alt="">
+                        <p class="text-body-strong" style="color: white;">{{incomingUserName || ''}}
+                        </p>
+                    </div>
+
+                    <div *ngIf="!incomingUserImage"
+                        class="position-absolute top-50 start-50 translate-middle layout-vertical align-center-center gap-10">
+                        <div class="p-10 rounded-circle cursor-pointer"
+                            style="transform: scale(3);">
+                            <div class="dots-loading">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="!statusMicro" style="color:white; position: absolute; top: 20px; left: 20px;">
+                        <i class="icon-size-20 icon icon-ic_fluent_mic_off_20_filled"></i>
+                    </div>
+
+
+                    <div style="position: absolute; left: 50%; bottom: 20px; transform: translateX(-50%);"
+                        class="layout-horizontal gap-15">
+                        <button *ngIf="isMicOn" (click)="toggleMicrophone()" class="p-10 rounded-circle cursor-pointer"
+                            style="border: none; color:white; background-color: rgb(70, 70, 255); box-shadow: 0 0 5px rgb(70, 70, 255);;">
+                            <i class=" icon-size-20 icon icon-ic_fluent_mic_20_filled"></i>
+                        </button>
+                        <button *ngIf="!isMicOn" (click)="toggleMicrophone()" class="p-10 rounded-circle cursor-pointer"
+                            style="border: none; color:white; background-color: gray; box-shadow: 0 0 5px gray;;">
+                            <i class="icon-size-20 icon icon-ic_fluent_mic_off_20_filled"></i>
+                        </button>
+                        <button *ngIf="isCameraOn" (click)="toggleCamera()" class="p-10 rounded-circle cursor-pointer"
+                            style="border: none; color:white; background-color: rgb(70, 70, 255); box-shadow: 0 0 5px rgb(70, 70, 255);">
+                            <i class="icon-size-20 icon icon-ic_fluent_camera_20_filled "></i>
+                        </button>
+                        <button *ngIf="!isCameraOn" (click)="toggleCamera()" class="p-10 rounded-circle cursor-pointer"
+                            style="border: none; color:white; background-color: gray; box-shadow: 0 0 5px gray;">
+                            <i class="icon-size-20 icon icon-ic_fluent_camera_off_20_filled"></i>
+                        </button>
+                        <button (click)="hangup()" class="p-10 rounded-circle cursor-pointer"
+                            style="border: none; color:white; background-color: rgb(255, 30, 30); box-shadow: 0 0 5px rgb(255, 30, 30);;">
+                            <i class="icon-size-20 icon icon-ic_fluent_call_end_20_filled"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div style="width: 150px; height: 100px; position: absolute; right: 20px; top: 20px;">
+                    <video #localVideo autoplay muted class="w-fill h-fill rounded-6 border"
+                        style="background-color: rgb(30, 30, 30);"></video>
+
+                    <div *ngIf="!isCameraOn"
+                        class="position-absolute top-50 start-50 translate-middle layout-vertical align-center-center gap-5">
+                        <img [src]="profile_photo" style="width: 30px; height: 30px;"
+                            class="object-fit-cover rounded-circle" alt="">
+                        <p style="color: white;" class="text-body-strong">{{display_name}}</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="isIncomingCall"
+    class="incoming-call rounded-6 overflow-hidden layout-horizontal align-center-space-between p-10"
+    style="width: 300px; position: fixed; top: 60px; right: 20px; z-index: 20; background-color: rgb(30, 30, 30);">
+    <div class="layout-horizontal align-center-left gap-10">
+        <img [src]="incomingUserImage" style="width: 35px; height: 35px;" class="object-fit-cover rounded-circle"
+            alt="">
+        <p style="color: white;" class="text-body-strong">{{incomingUserName}}</p>
+    </div>
+
+    <div class="layout-horizontal align-center-right gap-10">
+        <button (click)="rejectCall()" class="p-10 rounded-circle cursor-pointer"
+            style="border: none; color:white; background-color: rgb(255, 30, 30); box-shadow: 0 0 5px rgb(255, 30, 30);;">
+            <i class="icon-size-16 icon icon-ic_fluent_call_end_16_filled"></i>
+        </button>
+        <button (click)="acceptCall()" class="p-10 rounded-circle cursor-pointer"
+            style="border: none; color:white; background-color: rgb(70, 70, 255); box-shadow: 0 0 5px rgb(70, 70, 255);">
+            <i class="icon-size-16 icon icon-ic_fluent_camera_16_filled "></i>
+        </button>
+    </div>
+</div>
+
+
+
+<section class="gradient-background layout-vertical">
     <article class="layout-horizontal gap-20 px-20 w-fill h-fill overflow-hidden">
         <div>
 
@@ -36,12 +139,14 @@
                 <div class="layout-horizontal gap-20">
                     <div>
                         <h3>Local Video</h3>
-                        <video #localVideo autoplay muted width="300px"></video>
+                        <video #localVideo autoplay muted width="300px"
+                            style="background-color: rgb(76, 76, 76);"></video>
                     </div>
 
                     <div>
                         <h3>Remote Video</h3>
-                        <video #remoteVideo autoplay width="300px"></video>
+                        <video #remoteVideo autoplay width="300px"
+                            style="background-color: rgb(255, 150, 150);"></video>
                     </div>
                 </div>
             </div>
@@ -49,4 +154,4 @@
 
         </div>
     </article>
-</section>
+</section> -->

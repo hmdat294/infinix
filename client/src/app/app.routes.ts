@@ -35,7 +35,6 @@ export const routes: Routes = [
     { path: 'friend-profile/:user_id', component: FriendProfileComponent, canActivate: [AuthGuard] },
     { path: 'friend-profile/:user_id/:post_id', component: FriendProfileComponent, canActivate: [AuthGuard] },
     { path: 'bookmark', component: BookmarkComponent, canActivate: [AuthGuard] },
-    { path: 'call', component: CallComponent, canActivate: [AuthGuard] },
 
     { path: 'shop/:shop_id', component: ShopComponent, canActivate: [AuthGuard] },
     { path: 'store', component: StoreComponent, canActivate: [AuthGuard] },

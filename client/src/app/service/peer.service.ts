@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import Peer, { DataConnection, MediaConnection } from 'peerjs';
 import { BehaviorSubject } from 'rxjs';
-import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PeerService {
+
+  data_post: any = {};
 
   public peer: Peer;
   private currentCall: MediaConnection | null = null;
@@ -15,20 +16,50 @@ export class PeerService {
   public userPeerId$ = new BehaviorSubject<string | null>(null);
   public localStream$ = new BehaviorSubject<MediaStream | null>(null);
   public remoteStream$ = new BehaviorSubject<MediaStream | null>(null);
-  private userInfomation = new BehaviorSubject<any>('Default Value');
+
+  private userInfomation = new BehaviorSubject<any>(null);
   userInfomation$ = this.userInfomation.asObservable();
+
+  private userTemp = new BehaviorSubject<any>(null);
+  userTemp$ = this.userTemp.asObservable();
+
+  private statusCamera = new BehaviorSubject<any>('Default Value');
+  statusCamera$ = this.statusCamera.asObservable();
+
+  private statusMicro = new BehaviorSubject<any>('Default Value');
+  statusMicro$ = this.statusMicro.asObservable();
+
+  private statusCalling = new BehaviorSubject<any>(false);
+  statusCalling$ = this.statusCalling.asObservable();
+
+  private timeOut = new BehaviorSubject<any>(null);
+  timeOut$ = this.timeOut.asObservable();
 
   updateInfo(newValue: any) {
     this.userInfomation.next(newValue);
   }
+  updateUserTemp(newValue: any) {
+    this.userTemp.next(newValue);
+  }
+  updateStatusCamera(newValue: any) {
+    this.statusCamera.next(newValue);
+  }
+  updateStatusMicro(newValue: any) {
+    this.statusMicro.next(newValue);
+  }
+  updateCalling(newValue: any) {
+    this.statusCalling.next(newValue);
+  }
+  updateTimeOut(newValue: any) {
+    this.timeOut.next(newValue);
+  }
 
-  constructor(private authService: AuthService) {
-    this.peer = new Peer('infinix-user-' + Math.floor(Math.random() * 1000));
+  constructor() {
 
-    // this.authService.getUser(0).subscribe(
-    //   (user) => {
-    //     this.peer = new Peer('infinix-user-' + user.data.id);
-    //   });
+    this.timeOut$.subscribe((value) => this.data_post.second = value);
+
+    const peedId = localStorage.getItem('user_code');
+    this.peer = new Peer(String(peedId));
 
     this.peer.on('open', id => {
       this.userPeerId$.next(id);
@@ -50,6 +81,7 @@ export class PeerService {
   // Thiết lập kết nối dữ liệu
   public setupDataConnection(connection: DataConnection) {
     this.currentDataConnection = connection;
+    this.sendSignal('START_CALL');
 
     // Xử lý tín hiệu nhận được
     connection.on('data', (message: any) => {
@@ -58,25 +90,42 @@ export class PeerService {
 
     // Xử lý ngắt kết nối
     connection.on('close', () => {
+
+      if (this.data_post.second) { 
+        console.log(this.data_post);
+      }
+        
       console.log('Kết nối đã bị ngắt.');
-      this.currentDataConnection = null;
+      this.updateInfo(null);
+      this.updateTimeOut(null);
+      this.endCall();
     });
   }
 
   public handleIncomingMessage(message: any) {
     switch (message.type) {
+      case 'START_CALL':
+        console.log('Đối phương đã chấp nhận cuộc gọi.');
+        this.userTemp$.subscribe((user) => {
+          this.updateInfo(user);
+        });
+        break;
       case 'TOGGLE_CAMERA':
-        console.log('Đối phương đã tắt/mở camera:', message.value);
+        // console.log('Đối phương đã tắt/mở camera:', message.value);
+        this.updateStatusCamera(message.value);
         break;
       case 'TOGGLE_MIC':
-        console.log('Đối phương đã tắt/mở mic:', message.value);
+        // console.log('Đối phương đã tắt/mở mic:', message.value);
+        this.updateStatusMicro(message.value);
         break;
       case 'END_CALL':
         console.log('Đối phương đã kết thúc cuộc gọi.');
+        this.updateInfo(null);
         this.endCall();
         break;
-      case 'NOTIFICATION':
-        console.log('Thông báo từ đối phương:', message.value);
+      case 'TIME_OUT':
+        // console.log('Thời gian gọi:', message.value);
+        this.updateTimeOut(message.value);
         break;
       default:
         this.updateInfo(message);
@@ -87,13 +136,6 @@ export class PeerService {
   sendSignal(type: string, value: any = null) {
     if (this.currentDataConnection) {
       this.currentDataConnection.send({ type, value });
-    }
-  }
-
-  sendCallRejectedNotification() {
-    if (this.currentDataConnection) {
-      this.sendSignal('CALL_REJECTED');
-      console.log('Đã gửi tín hiệu từ chối cuộc gọi');
     }
   }
 
@@ -121,6 +163,7 @@ export class PeerService {
   }
 
   endCall() {
+
     if (this.currentCall) {
       this.currentCall.close();
       this.currentCall = null;
@@ -159,7 +202,6 @@ export class PeerService {
 
   // Phương thức từ chối cuộc gọi
   rejectCall(call: MediaConnection) {
-
     // Đóng kết nối cuộc gọi
     this.endCall();  // Tắt cả hai bên và stream
     call.close();
@@ -201,6 +243,13 @@ export class PeerService {
       });
     });
 
+    this.data_post = {
+      'userId': callOptions.userId,
+      'conversationId': callOptions.conversationId,
+    };
+
+    this.updateStatusCamera(true);
+    this.updateStatusMicro(true);
 
     // Lắng nghe cuộc gọi
     call.on('stream', (remoteStream: MediaStream) => {
