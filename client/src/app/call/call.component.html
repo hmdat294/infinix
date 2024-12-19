@@ -1,14 +1,8 @@
-<app-header style="z-index: 50;" *ngIf="isLoggedIn && !is_route_admin"></app-header>
-<app-header-admin style="z-index: 49;" *ngIf="isLoggedIn && is_route_admin"></app-header-admin>
-<app-header-default style="z-index: 48;" *ngIf="!isLoggedIn"></app-header-default>
-
-<router-outlet />
-
-<div class="position-fixed top-0 start-0" [class]="(isCalling) ? 'display-block' : 'display-none'"
+<!-- <div class="position-fixed top-0 start-0" [class]="(isCalling) ? 'display-block' : 'display-none'"
     style="width: 100%; height: 100vh; z-index: 20; background-color: rgba(0, 0, 0, 0.3);">
     <div class="dialog-panel position-absolute top-50 start-50 translate-middle">
 
-        <div style="width: 665px; height: 500px;"
+        <div style="width: 700px; height: 500px;"
             class="gradient-background rounded-8 overflow-hidden layout-horizontal border border-card-default">
 
             <div class="w-fill h-fill">
@@ -21,14 +15,14 @@
                         class="position-absolute top-50 start-50 translate-middle layout-vertical align-center-center gap-10">
                         <img *ngIf="incomingUserImage" [src]="incomingUserImage" style="width: 70px; height: 70px;"
                             class="object-fit-cover rounded-circle" alt="">
-                        <p *ngIf="incomingUserName" class="text-body-strong" style="color: white;">{{incomingUserName ||
-                            ''}}
+                        <p class="text-body-strong" style="color: white;">{{incomingUserName || ''}}
                         </p>
                     </div>
 
-                    <div *ngIf="!userInfo"
+                    <div *ngIf="!incomingUserImage"
                         class="position-absolute top-50 start-50 translate-middle layout-vertical align-center-center gap-10">
-                        <div class="p-10 rounded-circle cursor-pointer" style="transform: scale(3);">
+                        <div class="p-10 rounded-circle cursor-pointer"
+                            style="transform: scale(3);">
                             <div class="dots-loading">
                                 <span></span>
                                 <span></span>
@@ -36,13 +30,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <div *ngIf="userInfo" style="position: absolute; right: 20px; bottom: 20px;">
-                        <p style="color: white;" class="text-subtitle">
-                            {{ convertToMinutes(callDuration) }}
-                        </p>
-                    </div>
-
 
                     <div *ngIf="!statusMicro" style="color:white; position: absolute; top: 20px; left: 20px;">
                         <i class="icon-size-20 icon icon-ic_fluent_mic_off_20_filled"></i>
@@ -74,7 +61,7 @@
                     </div>
                 </div>
 
-                <div style="width: 130px; height: 100px; position: absolute; right: 20px; top: 20px;">
+                <div style="width: 150px; height: 100px; position: absolute; right: 20px; top: 20px;">
                     <video #localVideo autoplay muted class="w-fill h-fill rounded-6 border"
                         style="background-color: rgb(30, 30, 30);"></video>
 
@@ -111,3 +98,60 @@
         </button>
     </div>
 </div>
+
+
+
+<section class="gradient-background layout-vertical">
+    <article class="layout-horizontal gap-20 px-20 w-fill h-fill overflow-hidden">
+        <div>
+
+            <div class="layout-vertical gap-20">
+                <h1>PeerJS Video Call</h1>
+                <p>Your Peer ID: {{ userPeerId }}</p>
+
+                <div>
+                    <label>Remote Peer ID: </label>
+                    <input [(ngModel)]="remotePeerId" placeholder="Enter remote Peer ID" />
+                    <button (click)="makeCall()">Call</button>
+                    <button (click)="hangup()">Hang Up</button>
+                </div>
+
+                <div>
+                    <button (click)="toggleCamera()">
+                        {{ isCameraOn ? 'Turn On Camera' : 'Turn Off Camera' }}
+                    </button>
+                    <button (click)="toggleMicrophone()">
+                        {{ isMicOn ? 'Mute' : 'Unmute' }}
+                    </button>
+                </div>
+
+                <div *ngIf="isIncomingCall" class="incoming-call">
+                    <p>Cuộc gọi đến từ: {{ incomingUserName }}</p>
+                    <img *ngIf="incomingUserImage" [src]="incomingUserImage" alt="User Image" />
+                    <button (click)="acceptCall()">Chấp nhận</button>
+                    <button (click)="rejectCall()">Từ chối</button>
+                </div>
+
+                <div *ngIf="!isIncomingCall && !isCalling" class="no-call">
+                    <p>Không có cuộc gọi</p>
+                </div>
+
+                <div class="layout-horizontal gap-20">
+                    <div>
+                        <h3>Local Video</h3>
+                        <video #localVideo autoplay muted width="300px"
+                            style="background-color: rgb(76, 76, 76);"></video>
+                    </div>
+
+                    <div>
+                        <h3>Remote Video</h3>
+                        <video #remoteVideo autoplay width="300px"
+                            style="background-color: rgb(255, 150, 150);"></video>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </article>
+</section> -->

@@ -10,6 +10,7 @@ import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { SettingService } from '../service/setting.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { NotificationService } from '../service/notification.service';
+import { PeerService } from '../service/peer.service';
 
 @Component({
   selector: 'app-chat',
@@ -77,6 +78,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     private eventService: EventService,
     private settingService: SettingService,
     private notificationService: NotificationService,
+    private peerService: PeerService
   ) { }
 
   @ViewChild('scrollBox') private scrollBox!: ElementRef;
@@ -181,6 +183,43 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     this.updateClassTab(window.innerWidth);
 
   }
+
+
+  
+  
+  remotePeerId: string = '';
+
+  async makeCall() {
+    this.remotePeerId = 'infinix-user-' + this.conversation.users[0].id;
+    console.log(this.remotePeerId);
+
+    if (this.remotePeerId) {
+
+      this.peerService.updateCalling(true);
+
+      const callOptions = {
+        userId: this.user.id,
+        conversationId: this.conversation.id,
+        userName: this.user.profile.display_name,
+        userImage: this.user.profile.profile_photo,
+      };
+
+      this.peerService.updateUserTemp({
+        userName: this.conversation.users[0].profile.display_name,
+        userImage: this.conversation.users[0].profile.profile_photo,
+      });
+
+      this.peerService.updateInfo(null);
+
+      this.peerService.makeCall(this.remotePeerId, callOptions);
+    }
+  }
+
+
+
+
+
+
 
   tab_1: boolean = true;
   tab_2: boolean = false;

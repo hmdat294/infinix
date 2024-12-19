@@ -11,12 +11,13 @@
                         (click)="tabChild('theme')">
                         <i class="icon-size-20 icon text-primary icon-ic_fluent_sparkle_20_regular"></i>
                         <div class="layout-vertical w-fill">
-                            <p class="text-body text-primary">{{ 'setting.appearance_settings.theme_title' | translate }}</p>
-                            <p class="text-caption text-secondary">{{ 'setting.appearance_settings.theme_description' | translate }}</p>
+                            <p class="text-body text-primary">{{ 'setting.appearance_settings.theme_title' | translate
+                                }}</p>
+                            <p class="text-caption text-secondary">{{ 'setting.appearance_settings.theme_description' |
+                                translate }}</p>
                         </div>
                         <button type="button" class="button-subtle button-icon-only">
-                            <span
-                                [class]="tabAccordion == 'theme' ? 'rotate_icon_180' : 'rotate_icon_0'">
+                            <span [class]="tabAccordion == 'theme' ? 'rotate_icon_180' : 'rotate_icon_0'">
                                 <i class="icon-size-20 icon open-icon icon-ic_fluent_chevron_down_20_filled"></i>
                             </span>
                         </button>
@@ -47,7 +48,8 @@
                                     <div class="w-fill layout-horizontal align-center-left gap-10">
                                         <input class="radio-control" type="radio" name="option"
                                             (change)='selectTheme("light")' [checked]="theme === 'light'">
-                                        <span class="text-primary">{{ 'setting.appearance_settings.theme_light' | translate }}</span>
+                                        <span class="text-primary">{{ 'setting.appearance_settings.theme_light' |
+                                            translate }}</span>
                                     </div>
                                 </label>
                             </div>
@@ -75,12 +77,29 @@
                                     <div class="w-fill layout-horizontal align-center-left gap-10">
                                         <input class="radio-control" type="radio" name="option"
                                             (change)='selectTheme("dark")' [checked]="theme === 'dark'">
-                                        <span class="text-primary">{{ 'setting.appearance_settings.theme_dark' | translate }}</span>
+                                        <span class="text-primary">{{ 'setting.appearance_settings.theme_dark' |
+                                            translate }}</span>
                                     </div>
                                 </label>
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="layout-vertical w-fill gap-5">
+            <p class="text-body-strong text-primary">Âm thanh</p>
+
+            <div class="border border-card-default card-background-default rounded-6">
+                <div class="layout-horizontal gap-15 p-15 align-center-center">
+                    <i class="icon-size-20 icon text-primary icon-ic_fluent_music_note_2_20_regular"></i>
+                    <div class="layout-vertical w-fill">
+                        <p class="text-body text-primary">Nhạc chuông</p>
+                        <p class="text-caption text-secondary">Tùy chỉnh nhạc chuông cuộc gọi</p>
+                    </div>
+                    <select name="sound" [(ngModel)]="sound" (change)="switchSound()" class="control text-primary">
+                        <option *ngFor="let item of listSounds" class="gradient-background" [value]="item.filename">{{item.name}}</option>
+                    </select>
                 </div>
             </div>
         </div>

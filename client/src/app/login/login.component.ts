@@ -38,6 +38,7 @@ export class LoginComponent {
             (response) => {
 
               console.log(response.data);
+              localStorage.setItem('user_code', 'infinix-user-' + response.data.id);
 
               const isLogin = this.authService.checkPermissions('can_login', response.data.permissions);
               const isAdmin = this.authService.checkPermissions('can_access_dashboard', response.data.permissions);

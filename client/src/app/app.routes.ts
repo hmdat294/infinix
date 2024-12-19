@@ -23,6 +23,7 @@ import { EventComponent } from './admin/event/event.component';
 import { ReportpostComponent } from './admin/report-post/report-post.component';
 import { ReportUserComponent } from './admin/report-user/report-user.component';
 import { ShopDashboardComponent } from './admin/shop-dashboard/shop-dashboard.component';
+import { CallComponent } from './call/call.component';
 
 
 export const routes: Routes = [
