@@ -50,7 +50,7 @@ export class ShopDashboardComponent implements OnInit {
     this.renderChart();
     this.adminService.getShop().subscribe(
       (response) => {
-        this.listShop = response.data; // Lưu danh sách cửa hàng
+        this.listShop = response.data.filter((item: any) => item.is_active === 1); // Lưu danh sách cửa hàng
         this.totalShop = response.data.length;
         console.log('List shops:', this.listShop);
         const idShop = this.listShop.map(item => item.id);
