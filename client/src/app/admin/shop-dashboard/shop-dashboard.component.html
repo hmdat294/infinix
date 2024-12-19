@@ -35,8 +35,8 @@
                 <div class="solid-background-senary rounded-6 px-15 py-10 border">
                     <div class="layout-horizontal align-center-space-between">
                         <div>
-                            <h5 class="text-subtitle accent-text-primary">100</h5>
-                            <p class="text-body text-secondary">Tổng lợi nhuận</p>
+                            <h5 class="text-subtitle accent-text-primary">{{totalProfit}}</h5>
+                            <p class="text-body text-secondary">Tổng lợi nhuận của các cửa hàng</p>
                         </div>
                         <div class="solid-background-secondary p-5 rounded-pill">
                             <i class="text-system-success icon-size-20 icon icon-ic_fluent_money_hand_20_regular"></i>
@@ -110,7 +110,7 @@
                         nextLabel=""></pagination-controls> </div>
                 </div>
             </div>
-            <div class="w-fill layout-vertical border-top border-card-default" *ngFor="let item of listShop | paginate: { itemsPerPage: 5, currentPage: currentPage }; let i = index " >
+            <div class="w-fill layout-vertical border-top border-card-default" *ngFor="let item of listShop  | paginate: { itemsPerPage: 5, currentPage: currentPage }; let i = index " >
                 <div class="w-fill gap-20 in-mobile-gap-10 layout-horizontal align-center-center rounded-8 cursor-pointer"
                     style="padding: 7px 11px;"
                     [class]="tabAccordion == 'shop_detail_'+i?'card-background-default':'list-item'"
@@ -132,13 +132,11 @@
                         <div class="layout-vertical w-fill">
                             <div class="layout-horizontal gap-20 w-fill">
                                 <div class="text-caption w-fill-column-2 accent-text-disabled">Doanh thu</div>
-                                <div class="text-caption w-fill-column-2 accent-text-disabled">Tiền hoa hồng</div>
                                 <div class="text-caption w-fill-column-2 accent-text-disabled">Sản phẩm đã bán</div>
 
                             </div>
                             <div class="layout-horizontal gap-20  w-fill">
-                                <div class="text-body-strong w-fill-column-2">111M</div>
-                                <div class="text-body-strong w-fill-column-2">1.5M</div>
+                                <div class="text-body-strong w-fill-column-2">11m</div>
                                 <div class="text-body-strong w-fill-column-2">{{item.total_products_sold    }}</div>
 
                             </div>

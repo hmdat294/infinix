@@ -21,6 +21,7 @@ export class ShopDashboardComponent implements OnInit {
   totalShop: number = 0;
   user: any;
   totalRevenue: string = '';
+  totalProfit: string = '';
   listShop: any[] = [];
   listProduct: any[] = [];
   listUser: any[] = [];
@@ -66,6 +67,7 @@ export class ShopDashboardComponent implements OnInit {
         if (response && response.length > 0) {
           const lastItem = response[response.length - 1];
           this.totalRevenue = this.formatCurrency(lastItem.cumulative_revenue);
+          this.totalProfit = this.formatCurrency(lastItem.cumulative_revenue *0.05);
           console.log(this.totalRevenue); // Kiểm tra kết quả
         } else {
           console.log('Không có dữ liệu từ API');
