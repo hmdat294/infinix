@@ -121,7 +121,7 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
     Route::post('cart/update-product', [CartController::class, 'updateProduct']);
 
     Route::get('order', [OrderController::class,'index']);
-    Route::get('all-order', [OrderController::class,'all']);
+    Route::get('all-order', [OrderController::class,'all_orders']);
     Route::post('order', [OrderController::class, 'store']);
     Route::get('order/{id}', [OrderController::class, 'show']);
     Route::post('order/{id}', [OrderController::class, 'update']);
