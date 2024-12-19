@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import moment from 'moment';
 import Peer, { DataConnection, MediaConnection } from 'peerjs';
 import { BehaviorSubject } from 'rxjs';
 
@@ -91,10 +92,12 @@ export class PeerService {
     // Xử lý ngắt kết nối
     connection.on('close', () => {
 
-      if (this.data_post.second) { 
+      //dữ liệu gửi đi
+      if (this.data_post.second) {
+        this.data_post.second = moment.utc(this.data_post.second * 1000).format("mm:ss");
         console.log(this.data_post);
       }
-        
+
       console.log('Kết nối đã bị ngắt.');
       this.updateInfo(null);
       this.updateTimeOut(null);
