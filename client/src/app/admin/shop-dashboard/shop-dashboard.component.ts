@@ -174,6 +174,7 @@ export class ShopDashboardComponent implements OnInit {
       console.log(this.listProduct);
 
     });
+    
     // Xử lý logic khác nếu cần
   }
 
