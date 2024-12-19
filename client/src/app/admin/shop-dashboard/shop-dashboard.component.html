@@ -70,18 +70,21 @@
             <div class=" w-fill-column-3 solid-background-senary rounded-6 p-15">
                 <div class="layout-vertical m-10">
                     <div class="w-fill layout-horizontal align-bottom-space-between pb-10">
-                        <div class="text-subtitle">Cửa hàng hàng đầu</div>
+                        <div class="text-subtitle">Top cửa hàng</div>
                         <div class="text-body accent-text-tertiary"><a href="" class="accent-text-tertiary">Xem thêm</a> </div>
                     </div>
-                    <div class="w-fill layout-horizontal align-bottom-space-between p-20 border rounded-6">
-                        <div class="layout-vertical">
-                            <div class="text-body-large">Shop1</div>
-                            <div class="text-body-strong">Doanh thu: 11.5M</div>
-                            <div class="text-caption accent-text-disabled">6k2 Sản phẩm đã bán</div>
-                        </div>
-                        <div class="">
-                            <img class="object-fit-cover w-full h-24 rounded-circle" width="50px"
-                                src="assets/image/hinh.jpg" alt>
+                    <div class="w-fill layout-vertical" *ngFor="let item of ShopRevenus">
+
+                        <div class="w-fill layout-horizontal align-bottom-space-between p-20 border rounded-6">
+                            <div class="layout-vertical">
+                                <div class="text-body-large">{{item.name}}</div>
+                                <div class="text-body-strong">Doanh thu: {{formatCurrency(item.total_revenue)}}</div>
+                                <div class="text-caption accent-text-disabled">{{item.total_quantity_sold}} Sản phẩm đã bán</div>
+                            </div>
+                            <div class="rounded-circle w-hug">
+                                <img class="object-fit-cover w-full h-24 rounded-circle" width="50px"
+                                    [src]="item.logo" alt>
+                            </div>
                         </div>
                     </div>
                 </div>
