@@ -12,16 +12,16 @@ import { PeerService } from './service/peer.service';
 import moment from 'moment';
 
 @Component({
-    selector: 'app-root',
-    imports: [RouterOutlet, HeaderComponent, CommonModule, HeaderDefaultComponent, HeaderAdminComponent],
-    templateUrl: './app.component.html',
-    styleUrl: './app.component.css'
+  selector: 'app-root',
+  imports: [RouterOutlet, HeaderComponent, CommonModule, HeaderDefaultComponent, HeaderAdminComponent],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
+
   isLoggedIn: boolean = false;
   is_route_admin: boolean = false;
   user: any;
-
 
   userPeerId: string | null = null;
   remotePeerId: string = '';
@@ -45,7 +45,7 @@ export class AppComponent implements OnInit {
   ringtone: HTMLAudioElement | null = null;
 
   callTimer: any;
-  callDuration: number = 0; // Thời gian cuộc gọi (giây)
+  callDuration: number = 0;
 
   constructor(
     private router: Router,
@@ -88,20 +88,14 @@ export class AppComponent implements OnInit {
         this.profile_photo = user.data.profile.profile_photo;
       });
 
-    this.peerService.userPeerId$.subscribe(id => {
-      this.userPeerId = id;
-    });
+    this.peerService.userPeerId$.subscribe(id => this.userPeerId = id);
 
     this.peerService.peer.on('call', (call: any) => {
       this.isIncomingCall = true;
       this.incomingPeerId = call.peer;
-
-      // Lưu cuộc gọi
       this.incomingCall = call;
 
       const sound = localStorage.getItem('sound') || 'airport-call-157168';
-
-      // Phát nhạc chuông
       this.ringtone = new Audio(`assets/sounds/${sound}.mp3`);
       this.ringtone.loop = true; // Lặp lại nhạc chuông
       this.ringtone.play().catch((error: any) => {
@@ -114,21 +108,12 @@ export class AppComponent implements OnInit {
         }
       }, 15000);
 
-      // Khi người nhận bắt máy
-      call.on('stream', (remoteStream: any) => {
-        this.startCallTimer();
-      });
-
-      // Khi kết thúc cuộc gọi
-      call.on('close', () => {
-        this.stopCallTimer();
-      });
-
+      call.on('stream', (remoteStream: any) => this.startCallTimer());
+      call.on('close', () => this.stopCallTimer());
     });
 
     this.peerService.userInfomation$.subscribe((user) => {
       this.userInfo = user;
-      // console.log(!this.userInfo, this.userInfo);
 
       this.timeout = setTimeout(() => {
         if (!this.userInfo) {
@@ -141,13 +126,9 @@ export class AppComponent implements OnInit {
     });
 
     this.peerService.statusCamera$.subscribe((status) => this.statusCamera = status);
-
     this.peerService.statusMicro$.subscribe((status) => this.statusMicro = status);
-
     this.peerService.statusCalling$.subscribe((status) => this.isCalling = status);
-
     this.peerService.timeOut$.subscribe((value) => this.callDuration = value);
-
   }
 
 
@@ -180,92 +161,73 @@ export class AppComponent implements OnInit {
 
   private clearCallTimeout() {
     if (this.timeout) {
-      clearTimeout(this.timeout); // Xóa timeout
-      this.timeout = null; // Reset biến timeout
+      clearTimeout(this.timeout);
+      this.timeout = null;
     }
   }
 
-  // Hàm bắt đầu bộ đếm thời gian cuộc gọi
   private startCallTimer() {
-    this.callDuration = 0; // Reset thời gian về 0
-    this.stopCallTimer(); // Dừng bộ đếm trước khi khởi tạo mới (tránh lỗi lặp)
+    this.callDuration = 0;
+    this.stopCallTimer();
     this.callTimer = setInterval(() => {
       this.callDuration++;
-      // console.log(this.callDuration);
-
       this.peerService.sendSignal('TIME_OUT', this.callDuration);
-    }, 1000); // Tăng 1 giây mỗi lần
+    }, 1000);
   }
 
-  // Hàm dừng bộ đếm thời gian cuộc gọi
   private stopCallTimer() {
     if (this.callTimer) {
       clearInterval(this.callTimer);
-      this.callTimer = null; // Reset biến bộ đếm
+      this.callTimer = null;
     }
   }
 
   hangup() {
     if (this.ringtone) {
       this.ringtone.pause();
-      this.ringtone.currentTime = 0; // Đặt lại thời gian phát
-      this.ringtone = null; // Xóa biến để tránh rò rỉ bộ nhớ
+      this.ringtone.currentTime = 0;
+      this.ringtone = null;
     }
-
-    this.stopCallTimer();
 
     this.isCameraOn = true;
     this.isMicOn = true;
-
     this.isCalling = false;
     this.peerService.endCall();
-
+    this.stopCallTimer();
     this.clearCallTimeout();
   }
 
-  // Chấp nhận cuộc gọi
   acceptCall() {
     if (this.ringtone) {
       this.ringtone.pause();
-      this.ringtone.currentTime = 0; // Đặt lại thời gian phát
-      this.ringtone = null; // Xóa biến để tránh rò rỉ bộ nhớ
+      this.ringtone.currentTime = 0;
+      this.ringtone = null;
     }
 
     this.clearCallTimeout();
-
     this.isCalling = true;
-
     this.statusCamera = true;
     this.statusMicro = true;
-
-    this.isIncomingCall = false;  // Ẩn giao diện cuộc gọi đến
+    this.isIncomingCall = false;
     if (this.incomingCall) {
       this.peerService.acceptCall(this.incomingCall);
 
-      // Thiết lập kết nối dữ liệu khi nhận cuộc gọi
-      const connection = this.peerService.peer.connect(this.incomingPeerId);  // Tạo kết nối dữ liệu đến người gọi
-      connection.on('open', () => {
-        console.log('Kết nối dữ liệu đã mở.');
-        this.peerService.setupDataConnection(connection);  // Lưu kết nối dữ liệu để gửi tín hiệu
-      });
+      const connection = this.peerService.peer.connect(this.incomingPeerId);
+      connection.on('open', () => this.peerService.setupDataConnection(connection));
     }
   }
 
   rejectCall() {
     if (this.ringtone) {
       this.ringtone.pause();
-      this.ringtone.currentTime = 0; // Đặt lại thời gian phát
-      this.ringtone = null; // Xóa biến để tránh rò rỉ bộ nhớ
+      this.ringtone.currentTime = 0;
+      this.ringtone = null;
     }
 
     this.isCameraOn = true;
     this.isMicOn = true;
-
-    this.isIncomingCall = false;  // Ẩn giao diện cuộc gọi đến
-    if (this.incomingCall) {
-      // Đóng kết nối cuộc gọi
-      this.peerService.rejectCall(this.incomingCall);
-    }
+    this.isIncomingCall = false;
+    if (this.incomingCall) this.peerService.rejectCall(this.incomingCall);
   }
 
   @HostListener('window:mousemove')
@@ -273,9 +235,7 @@ export class AppComponent implements OnInit {
   @HostListener('window:scroll')
   @HostListener('window:click')
   handleUserActivity() {
-    if (this.isLoggedIn) {
-      this.eventService.resetIdleTimer();
-    }
+    if (this.isLoggedIn) this.eventService.resetIdleTimer();
   }
 
   @HostListener('window:beforeunload', ['$event'])
@@ -290,7 +250,6 @@ export class AppComponent implements OnInit {
       $event.returnValue = '';
     }
   }
-
 
   convertToMinutes(seconds: number): string {
     return moment.utc(seconds * 1000).format("mm:ss");

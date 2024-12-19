@@ -40,3 +40,33 @@
         opacity: 1;
     }
 }
+
+.w_media_video {
+    width: 665px;
+}
+
+.w_media_request {
+    top: 60px;
+    width: 300px;
+}
+
+@media (max-width: 745px) {
+
+    .w_media_video {
+        width: calc(100vw - 80px);
+    }
+}
+
+@media (max-width: 480px) {
+
+    .w_media_request {
+        top: 110px
+    }
+}
+
+@media (max-width: 340px) {
+
+    .w_media_request {
+        width: calc(100vw - 40px);
+    }
+}

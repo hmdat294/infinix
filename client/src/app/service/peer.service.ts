@@ -56,40 +56,20 @@ export class PeerService {
   }
 
   constructor() {
-
     this.timeOut$.subscribe((value) => this.data_post.second = value);
-
     const peedId = localStorage.getItem('user_code');
     this.peer = new Peer(String(peedId));
 
-    this.peer.on('open', id => {
-      this.userPeerId$.next(id);
-    });
-
-    this.peer.on('call', async (call: MediaConnection) => {
-      console.log('Cuộc gọi đến từ:', call.peer);
-
-      // Chờ người dùng chấp nhận cuộc gọi
-      this.remoteStream$.next(null);
-    });
-
-    // Lắng nghe yêu cầu kết nối dữ liệu
-    this.peer.on('connection', (connection: DataConnection) => {
-      this.setupDataConnection(connection); // Thiết lập kết nối dữ liệu
-    });
+    this.peer.on('open', id => this.userPeerId$.next(id));
+    this.peer.on('call', async (call: MediaConnection) => this.remoteStream$.next(null));
+    this.peer.on('connection', (connection: DataConnection) => this.setupDataConnection(connection));
   }
 
-  // Thiết lập kết nối dữ liệu
   public setupDataConnection(connection: DataConnection) {
     this.currentDataConnection = connection;
     this.sendSignal('START_CALL');
 
-    // Xử lý tín hiệu nhận được
-    connection.on('data', (message: any) => {
-      this.handleIncomingMessage(message);
-    });
-
-    // Xử lý ngắt kết nối
+    connection.on('data', (message: any) => this.handleIncomingMessage(message));
     connection.on('close', () => {
 
       //dữ liệu gửi đi
@@ -109,25 +89,19 @@ export class PeerService {
     switch (message.type) {
       case 'START_CALL':
         console.log('Đối phương đã chấp nhận cuộc gọi.');
-        this.userTemp$.subscribe((user) => {
-          this.updateInfo(user);
-        });
+        this.userTemp$.subscribe((user) => this.updateInfo(user));
         break;
       case 'TOGGLE_CAMERA':
-        // console.log('Đối phương đã tắt/mở camera:', message.value);
         this.updateStatusCamera(message.value);
         break;
       case 'TOGGLE_MIC':
-        // console.log('Đối phương đã tắt/mở mic:', message.value);
         this.updateStatusMicro(message.value);
         break;
       case 'END_CALL':
-        console.log('Đối phương đã kết thúc cuộc gọi.');
         this.updateInfo(null);
         this.endCall();
         break;
       case 'TIME_OUT':
-        // console.log('Thời gian gọi:', message.value);
         this.updateTimeOut(message.value);
         break;
       default:
@@ -135,13 +109,9 @@ export class PeerService {
     }
   }
 
-  // Gửi tín hiệu đến đối phương
   sendSignal(type: string, value: any = null) {
-    if (this.currentDataConnection) {
-      this.currentDataConnection.send({ type, value });
-    }
+    if (this.currentDataConnection) this.currentDataConnection.send({ type, value });
   }
-
 
   toggleCamera(enabled: boolean) {
     const localStream = this.localStream$.value;
@@ -149,7 +119,7 @@ export class PeerService {
       const videoTrack = localStream.getVideoTracks()[0];
       if (videoTrack) {
         videoTrack.enabled = enabled;
-        this.sendSignal('TOGGLE_CAMERA', enabled); // Gửi tín hiệu camera
+        this.sendSignal('TOGGLE_CAMERA', enabled);
       }
     }
   }
@@ -160,19 +130,18 @@ export class PeerService {
       const audioTrack = localStream.getAudioTracks()[0];
       if (audioTrack) {
         audioTrack.enabled = enabled;
-        this.sendSignal('TOGGLE_MIC', enabled); // Gửi tín hiệu micro
+        this.sendSignal('TOGGLE_MIC', enabled);
       }
     }
   }
 
   endCall() {
-
     if (this.currentCall) {
       this.currentCall.close();
       this.currentCall = null;
     }
     if (this.currentDataConnection) {
-      this.sendSignal('END_CALL'); // Gửi tín hiệu kết thúc cuộc gọi
+      this.sendSignal('END_CALL');
       this.currentDataConnection.close();
       this.currentDataConnection = null;
     }
@@ -183,35 +152,25 @@ export class PeerService {
 
   private stopLocalStream() {
     const localStream = this.localStream$.value;
-    if (localStream) {
-      localStream.getTracks().forEach(track => track.stop());
-    }
+    if (localStream) localStream.getTracks().forEach(track => track.stop());
   }
 
   async acceptCall(call: MediaConnection) {
     const localStream = await this.getLocalStream();
-    call.answer(localStream); // Trả lời cuộc gọi
+    call.answer(localStream);
     this.currentCall = call;
 
-    call.on('stream', (remoteStream: MediaStream) => {
-      this.remoteStream$.next(remoteStream);  // Gửi stream từ xa tới component
-    });
-
-    call.on('close', () => {
-      this.endCall();
-    });
-
+    call.on('stream', (remoteStream: MediaStream) => this.remoteStream$.next(remoteStream));
+    call.on('close', () => this.endCall());
   }
 
-  // Phương thức từ chối cuộc gọi
   rejectCall(call: MediaConnection) {
-    // Đóng kết nối cuộc gọi
-    this.endCall();  // Tắt cả hai bên và stream
+    this.endCall();
     call.close();
   }
 
   async getLocalStream(): Promise<MediaStream> {
-    if (this.localStream$.value) return this.localStream$.value; // Nếu stream đã có, trả về luôn
+    if (this.localStream$.value) return this.localStream$.value;
 
     const localStream = new MediaStream();
     try {
@@ -239,10 +198,9 @@ export class PeerService {
     const dataConnection = this.peer.connect(remotePeerId, { reliable: true });
 
     dataConnection.on('open', () => {
-      // Gửi tên và hình ảnh người gọi sau khi kết nối dữ liệu mở
       dataConnection.send({
-        userName: callOptions.userName,  // Thay thế bằng tên người gọi thực tế
-        userImage: callOptions.userImage  // Thay thế bằng hình ảnh người gọi thực tế
+        userName: callOptions.userName,
+        userImage: callOptions.userImage
       });
     });
 
@@ -254,15 +212,8 @@ export class PeerService {
     this.updateStatusCamera(true);
     this.updateStatusMicro(true);
 
-    // Lắng nghe cuộc gọi
-    call.on('stream', (remoteStream: MediaStream) => {
-      this.remoteStream$.next(remoteStream);
-    });
-
-    // Lắng nghe khi cuộc gọi kết thúc
-    call.on('close', () => {
-      this.endCall();
-    });
+    call.on('stream', (remoteStream: MediaStream) => this.remoteStream$.next(remoteStream));
+    call.on('close', () => this.endCall());
   }
 
   isCallActive(): boolean {

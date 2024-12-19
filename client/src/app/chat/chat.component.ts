@@ -191,7 +191,6 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
   async makeCall() {
     this.remotePeerId = 'infinix-user-' + this.conversation.users[0].id;
-    console.log(this.remotePeerId);
 
     if (this.remotePeerId) {
 
@@ -210,7 +209,6 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
       });
 
       this.peerService.updateInfo(null);
-
       this.peerService.makeCall(this.remotePeerId, callOptions);
     }
   }

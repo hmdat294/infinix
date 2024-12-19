@@ -152,7 +152,6 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
 
   async makeCall() {
     this.remotePeerId = 'infinix-user-' + this.chat.users[0].id;
-    // console.log(this.remotePeerId);
 
     if (this.remotePeerId) {
 
@@ -171,10 +170,8 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
       });
 
       this.peerService.updateInfo(null);
-
-      this.showChatBubble();
-
       this.peerService.makeCall(this.remotePeerId, callOptions);
+      this.showChatBubble();
     }
   }
 
