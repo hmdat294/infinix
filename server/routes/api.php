@@ -306,6 +306,8 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
         Route::get('total-interactions', [TotalController::class, 'totalInteractions']);
 
         Route::get('total-sold-products', [TotalController::class, 'totalSoldProducts']);
+        Route::get('total-revenue', [TotalController::class, 'totalRevenue']);
+
 
         // thống kê theo biểu đồ tăng trưởng (thống kê tăng trưởng)
         Route::get('users-growth', [GrowthStatisticsController::class, 'usersGrowthStatistics']);
