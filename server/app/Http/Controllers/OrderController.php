@@ -98,10 +98,6 @@ class OrderController extends Controller
                     ]
                 ]);
 
-                $detail_product = Product::find($product->id);
-                $detail_product->stock -= $product->pivot->quantity;
-                $detail_product->save();
-
                 if ($request->user()->cart()->exists()) {
                     $request->user()->cart->products()->detach($product->id);
                 }
@@ -162,7 +158,13 @@ class OrderController extends Controller
     {
         $order = Order::findOrFail($id);
 
-        $order->update($request->only(['status', 'admin_paid']));
+        if ($request->has('status')) {
+            $order->status = $request->status;
+        }
+        if ($request->has('admin_paid')) {
+            $order->admin_paid = $request->admin_paid;
+        }
+        $order->save();
         if ($request->status == 'cancelled') {
             $order->products()->each(function ($product) {
                 $product->stock += $product->pivot->quantity;
