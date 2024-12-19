@@ -67,8 +67,8 @@ class Shop extends Model
 
     public function getTotalRevenueAttribute()
     {
-        $totalRevenue = DB::table('order_details')
-            ->join('orders', 'order_details.order_id', '=', 'orders.id')
+        $totalRevenue = DB::table('orders')
+            ->join('order_details', 'order_details.order_id', '=', 'orders.id')
             ->where('orders.status', 'delivered')
             ->where('orders.admin_paid', true)
             ->where('orders.shop_id', $this->id)
