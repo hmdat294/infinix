@@ -14,10 +14,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { SettingService } from '../service/setting.service';
 
 @Component({
-    selector: 'app-header',
-    imports: [RouterModule, CommonModule, FormsModule, MiniChatComponent, CurrencyVNDPipe, TranslateModule],
-    templateUrl: './header.component.html',
-    styleUrl: './header.component.css'
+  selector: 'app-header',
+  imports: [RouterModule, CommonModule, FormsModule, MiniChatComponent, CurrencyVNDPipe, TranslateModule],
+  templateUrl: './header.component.html',
+  styleUrl: './header.component.css'
 })
 export class HeaderComponent implements OnInit {
 
@@ -84,19 +84,24 @@ export class HeaderComponent implements OnInit {
 
         this.notification = data.data.filter((item: any) => item.conversation_id == null);
         this.notificationChat = data.data.filter((item: any) => item.conversation_id != null);
-        // console.log(this.notificationChat);
+        console.log(this.notification);
+        console.log(this.notificationChat);
 
         this.notificationService.updateNotiChat(this.notificationChat);
 
         this.notificationFilter = [...this.notification];
         this.eventService.bindEvent('App\\Events\\NotificationEvent', (data: any) => {
-          // console.log('Notification event received:', data);
+          console.log('Notification event received:', data);
 
-          this.notificationService.updateNotiChat(this.notificationChat);
+          if (data.data.conversation_id == null) {
+            this.notification.unshift(data.data);
+            this.notificationFilter = [...this.notification];
+          }
+          else {
+            this.notificationChat.unshift(data.data);
+            this.notificationService.updateNotiChat(this.notificationChat);
+          }
 
-          this.notification.unshift(data.data.filter((item: any) => item.conversation_id == null));
-          this.notificationChat.unshift(data.data.filter((item: any) => item.conversation_id != null));
-          this.notificationFilter = [...this.notification];
         });
 
       });
@@ -142,7 +147,8 @@ export class HeaderComponent implements OnInit {
     'user_send_message': '<i class="text-accent-default icon-size-20 icon icon-ic_fluent_chat_20_filled"></i>',
     'user_recall_message': '<i class="text-accent-default icon-size-20 icon icon-ic_fluent_chat_dismiss_20_filled"></i>',
     'user_pin_message': '<i class="text-accent-default icon-size-20 icon icon-ic_fluent_pin_20_filled"></i>',
-    'user_reply_message': '<i class="text-accent-default icon-size-20 icon icon-ic_fluent_chat_arrow_back_20_filled"></i>'
+    'user_reply_message': '<i class="text-accent-default icon-size-20 icon icon-ic_fluent_chat_arrow_back_20_filled"></i>',
+    'shop_active': '<i class="text-accent-default icon-size-20 icon icon-ic_fluent_cart_20_regular"></i>'
   }
 
   getCheckedProducts() {

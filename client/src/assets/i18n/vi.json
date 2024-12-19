@@ -347,9 +347,10 @@
             "user_accept_conversation_invitation": "đã chấp nhận lời mời vào nhóm",
             "user_create_post": "đã thêm bài viết mới",
             "user_send_message": "đã gửi tin nhắn cho bạn",
-            "user_recall_message": "đã thu hồi tin nhắnnhắn",
+            "user_recall_message": "đã thu hồi tin nhắn",
             "user_pin_message": "đã gim tin nhắn",
-            "user_reply_message": "đã phản hồi tin nhắnnhắn"
+            "user_reply_message": "đã phản hồi tin nhắn",
+            "shop_active": "đã kích hoạt cửa hàng"
         }
     },
     "profile": {

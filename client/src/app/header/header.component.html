@@ -139,7 +139,7 @@
 
                     <!-- Nội dung thông báo -->
                     <div class="noti-hover layout-horizontal gap-10 w-fill align-center-space-between ps-20 py-10">
-                        <img [src]="noti.target_user.profile.profile_photo" alt=""
+                        <img [src]="noti.target_user.profile?.profile_photo" alt=""
                             class="rounded-circle object-fit-cover" style="width: 35px; height: 35px;">
                         <div *ngIf="noti.is_read == 0" class="list-item layout-vertical gap-5 w-fill"
                             (click)="updateNotification(noti.id)">

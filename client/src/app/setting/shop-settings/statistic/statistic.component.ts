@@ -95,6 +95,14 @@ export class StatisticComponent implements OnInit {
 
             });
 
+
+          this.shopService.getStatisticOrder(this.user.shop_id).subscribe(
+            (response) => {
+              console.log(response);
+
+            }
+          )
+
         }
       });
 

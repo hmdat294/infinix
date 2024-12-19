@@ -4,10 +4,10 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
-    selector: 'app-notification',
-    imports: [CommonModule, TranslateModule],
-    templateUrl: './notification.component.html',
-    styleUrl: './notification.component.css'
+  selector: 'app-notification',
+  imports: [CommonModule, TranslateModule],
+  templateUrl: './notification.component.html',
+  styleUrl: './notification.component.css'
 })
 export class NotificationComponent implements OnInit {
 
@@ -44,7 +44,8 @@ export class NotificationComponent implements OnInit {
     'user_send_message': '<i class="text-accent-default icon-size-20 icon icon-ic_fluent_chat_20_filled"></i>',
     'user_recall_message': '<i class="text-accent-default icon-size-20 icon icon-ic_fluent_chat_dismiss_20_filled"></i>',
     'user_pin_message': '<i class="text-accent-default icon-size-20 icon icon-ic_fluent_pin_20_filled"></i>',
-    'user_reply_message': '<i class="text-accent-default icon-size-20 icon icon-ic_fluent_chat_arrow_back_20_filled"></i>'
+    'user_reply_message': '<i class="text-accent-default icon-size-20 icon icon-ic_fluent_chat_arrow_back_20_filled"></i>',
+    'shop_active': '<i class="text-accent-default icon-size-20 icon icon-ic_fluent_cart_20_regular"></i>'
   }
 
   filterNotification(action: string) {

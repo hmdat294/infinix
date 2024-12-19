@@ -128,6 +128,7 @@
                         <p class="text-caption text-secondary">Tùy chỉnh nhạc chuông cuộc gọi</p>
                     </div>
                     <select name="sound" [(ngModel)]="sound" (change)="switchSound()" class="control text-primary">
+                        <option class="gradient-background" [value]="0" selected>Tắt âm</option>
                         <option *ngFor="let item of listSounds" class="gradient-background" [value]="item.filename">{{item.name}}</option>
                     </select>
                 </div>

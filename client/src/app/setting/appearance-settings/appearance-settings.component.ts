@@ -78,7 +78,10 @@ export class AppearanceSettingsComponent implements OnInit {
   ];
 
   switchSound() {
-    localStorage.setItem('sound', this.sound);
+    if (this.sound == '0')
+      localStorage.removeItem('sound');
+    else
+      localStorage.setItem('sound', this.sound);
   }
 
 }

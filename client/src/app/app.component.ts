@@ -95,12 +95,14 @@ export class AppComponent implements OnInit {
       this.incomingPeerId = call.peer;
       this.incomingCall = call;
 
-      const sound = localStorage.getItem('sound') || 'airport-call-157168';
-      this.ringtone = new Audio(`assets/sounds/${sound}.mp3`);
-      this.ringtone.loop = true; // Lặp lại nhạc chuông
-      this.ringtone.play().catch((error: any) => {
-        console.error('Không thể phát nhạc chuông:', error);
-      });
+      const sound = localStorage.getItem('sound') || null;
+      if (sound) {
+        this.ringtone = new Audio(`assets/sounds/${sound}.mp3`);
+        this.ringtone.loop = true;
+        this.ringtone.play().catch((error: any) => {
+          console.error('Không thể phát nhạc chuông:', error);
+        });
+      }
 
       this.timeout = setTimeout(() => {
         if (this.isIncomingCall) {
