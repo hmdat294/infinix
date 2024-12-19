@@ -11,7 +11,7 @@ class Notification extends Model
 
     protected $table = 'notifications';
 
-    protected $fillable = ['user_id', 'target_user_id', 'message_id', 'post_id', 'comment_id', 'conversation_id', 'friend_request_id', 'conversation_invitation_id', 'content', 'action_type', 'is_read'];
+    protected $fillable = ['user_id', 'target_user_id', 'message_id', 'post_id', 'comment_id', 'conversation_id', 'friend_request_id', 'conversation_invitation_id', 'shop_id', 'content', 'action_type', 'is_read'];
 
 
     public function user()
