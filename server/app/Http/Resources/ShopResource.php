@@ -15,6 +15,7 @@ class ShopResource extends JsonResource
     public function toArray(Request $request): array
     {
         $data = parent::toArray($request);
+        $data['total_revenue'] = $this->total_revenue;
         $data['average_rating'] = $this->products->avg('average_rating');
         $data['total_products_sold'] = $this->total_products_sold;
         $data['categories'] = CategoryResource::collection($this->categories);
