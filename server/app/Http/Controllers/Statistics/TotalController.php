@@ -12,6 +12,7 @@ use App\Models\PostComment as PostCommentModel;
 use App\Models\PostShare as PostShareModel;
 use App\Models\PostBookmark as PostBookmarkModel;
 use App\Models\Report as ReportModel;
+use App\Models\Shop;
 use Illuminate\Support\Facades\DB;
 
 class TotalController extends Controller
@@ -89,4 +90,13 @@ class TotalController extends Controller
         return response()->json(['data' => $total]);
     }
     
+    public function totalRevenue()
+    {
+        $shops = Shop::all();
+        $totalRevenue = 0;
+
+        foreach ($shops as $shop) {
+            $totalRevenue += $shop->total_revenue;
+        }
+    }
 }

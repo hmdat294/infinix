@@ -14,15 +14,17 @@ class ShopStatisticsController extends Controller
             ->leftJoin('order_details', 'orders.id', '=', 'order_details.order_id')
             ->select(
                 'shops.id',
+                'shops.name',
+                'shops.logo',
                 DB::raw('SUM(order_details.quantity * order_details.price) * 0.95 as total_revenue'),
                 DB::raw('SUM(order_details.quantity) as total_quantity_sold'),
                 DB::raw('COUNT(orders.id) as total_orders_delivered')
             )
             ->where('orders.status', 'delivered')
             ->where('orders.admin_paid', true)
-            ->groupBy('shops.id')
+            ->groupBy('shops.id', 'shops.name', 'shops.logo')
             ->get();
-
+    
         return response()->json(['data' => $statistics]);
     }
 }

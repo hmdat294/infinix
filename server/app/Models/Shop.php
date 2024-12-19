@@ -64,4 +64,16 @@ class Shop extends Model
     {
         return $this->hasMany(Voucher::class);
     }
+
+    public function getTotalRevenueAttribute()
+    {
+        $totalRevenue = DB::table('orders')
+            ->join('order_details', 'order_details.order_id', '=', 'orders.id')
+            ->where('orders.status', 'delivered')
+            ->where('orders.admin_paid', true)
+            ->where('orders.shop_id', $this->id)
+            ->sum(DB::raw('order_details.quantity * order_details.price'));
+    
+        return $totalRevenue * 0.95;
+    }
 }
