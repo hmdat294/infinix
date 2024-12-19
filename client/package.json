@@ -23,6 +23,7 @@
     "@ctrl/ngx-emoji-mart": "^9.2.0",
     "@ngx-translate/core": "^16.0.3",
     "@ngx-translate/http-loader": "^16.0.0",
+    "@types/peerjs": "^1.1.0",
     "apexcharts": "^4.2.0",
     "emoji-button": "^2.2.2",
     "moment": "^2.30.1",
@@ -39,6 +40,7 @@
     "sweetalert2": "^11.14.5",
     "swiper": "^11.1.15",
     "tslib": "^2.3.0",
+    "ws": "^8.18.0",
     "zone.js": "~0.15.0"
   },
   "devDependencies": {

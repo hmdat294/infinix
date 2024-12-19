@@ -1,0 +1,52 @@
+<section class="gradient-background layout-vertical" style="height: 100vh;">
+    <article class="layout-horizontal gap-20 px-20 w-fill h-fill overflow-hidden">
+        <div>
+
+            <div class="layout-vertical gap-20">
+                <h1>PeerJS Video Call</h1>
+                <p>Your Peer ID: {{ userPeerId }}</p>
+
+                <div>
+                    <label>Remote Peer ID: </label>
+                    <input [(ngModel)]="remotePeerId" placeholder="Enter remote Peer ID" />
+                    <button (click)="makeCall()">Call</button>
+                    <button (click)="hangup()">Hang Up</button>
+                </div>
+
+                <div>
+                    <button (click)="toggleCamera()">
+                        {{ isCameraOn ? 'Turn On Camera' : 'Turn Off Camera' }}
+                    </button>
+                    <button (click)="toggleMicrophone()">
+                        {{ isMicOn ? 'Mute' : 'Unmute' }}
+                    </button>
+                </div>
+
+                <div *ngIf="isIncomingCall" class="incoming-call">
+                    <p>Cuộc gọi đến từ: {{ incomingUserName }}</p>
+                    <img *ngIf="incomingUserImage" [src]="incomingUserImage" alt="User Image" />
+                    <button (click)="acceptCall()">Chấp nhận</button>
+                    <button (click)="rejectCall()">Từ chối</button>
+                </div>
+
+                <div *ngIf="!isIncomingCall && !isCalling" class="no-call">
+                    <p>Không có cuộc gọi</p>
+                </div>
+
+                <div class="layout-horizontal gap-20">
+                    <div>
+                        <h3>Local Video</h3>
+                        <video #localVideo autoplay muted width="300px"></video>
+                    </div>
+
+                    <div>
+                        <h3>Remote Video</h3>
+                        <video #remoteVideo autoplay width="300px"></video>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </article>
+</section>

@@ -21,6 +21,7 @@ import { StoreComponent } from './store/store.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { EventComponent } from './admin/event/event.component';
 import { ReportpostComponent } from './admin/report-post/report-post.component';
+import { CallComponent } from './call/call.component';
 
 
 export const routes: Routes = [
@@ -34,6 +35,7 @@ export const routes: Routes = [
     { path: 'friend-profile/:user_id', component: FriendProfileComponent, canActivate: [AuthGuard] },
     { path: 'friend-profile/:user_id/:post_id', component: FriendProfileComponent, canActivate: [AuthGuard] },
     { path: 'bookmark', component: BookmarkComponent, canActivate: [AuthGuard] },
+    { path: 'call', component: CallComponent, canActivate: [AuthGuard] },
 
     { path: 'shop/:shop_id', component: ShopComponent, canActivate: [AuthGuard] },
     { path: 'store', component: StoreComponent, canActivate: [AuthGuard] },
