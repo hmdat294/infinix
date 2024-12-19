@@ -8,7 +8,7 @@ class="layout-horizontal in-mobile-layout-vertical w-fill gap-20 align-center-ce
             <div class="w-hug show-in-mobile show-in-tablet">
                 <img src="assets/image/Logo.png" alt="">
             </div>
-            <div class="search-dropdown-control w-fill">
+            <!-- <div class="search-dropdown-control w-fill">
 
                 <div class="control search-control">
                     <input type="search" name="search" placeholder="Tìm kiếm" spellcheck="false" required>
@@ -26,14 +26,14 @@ class="layout-horizontal in-mobile-layout-vertical w-fill gap-20 align-center-ce
                         <button type="submit" class="button-accent w-hug py-5 px-10">Thêm</button>
                     </form>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
     <div class="w-fill-column-4 in-mobile-w-fill pe-25">
         <div class="layout-horizontal gap-20 align-center-right in-mobile-align-center-space-evenly">
             <div class="user layout-horizontal align-center-center gap-10">
                 <div class="rounded-circle w-hug">
-                    <img src="assets/image/avatar.png" alt>
+                    <img class="rounded-circle " [src]="user?.profile.profile_photo" width="40px" alt>
                 </div>
                 <div class="text-body layout-vertical w-hug ">
                     <p class="text-body-strong w-fill text-primary">{{user?.profile.display_name}}</p>

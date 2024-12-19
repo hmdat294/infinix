@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ShopResource;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use App\Models\Shop as ShopModel;
+use App\Events\NotificationEvent;
 
 use function Psy\sh;
 
@@ -54,6 +56,18 @@ class ShopController extends Controller
 
         if ($request->hasFile('logo')) {
             $shop_data['logo'] = asset('storage/' . $request->file('logo')->store('uploads', 'public'));
+        }
+
+        if ($request->has('is_active')) {
+            if ($shop->is_active == false && $request->is_active == true) {
+                $notification = Notification::create([
+                    'user_id' => $shop->user_id,
+                    'action_type' => 'shop_active',
+                    'target_user_id' => $request->user()->id,
+                    'shop_id' => $shop->id
+                ]);
+                event(new NotificationEvent($notification));
+            }
         }
 
         $shop->update($shop_data);

@@ -16,6 +16,10 @@ export class AdminService {
     return this.http.get(`${this.apiUrl}/user`, { headers });
   }
 
+  getUserId(id: number = 0): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.get(`${this.apiUrl}/user/${id > 0 ? id : ''}`, { headers });
+  }
   getPost(id: number = 0): Observable<any> {
     const headers = this.authService.getToken();
     return this.http.get(`${this.apiUrl}/post/${id > 0 ? id : ''}`, { headers });
@@ -95,20 +99,47 @@ export class AdminService {
     return this.http.get<{ data: number }>('api_endpoint_here');
   }
   updateReportStatus(id: number, status: string): Observable<any> {
-    const headers = this.authService.getToken();
-    return this.http.post(`${this.apiUrl}/report/${id}`, { status }, { headers });
-  }
-
-  deleteReport(id: number): Observable<any> {
-    const headers = this.authService.getToken();
-    return this.http.delete(`${this.apiUrl}/report/${id}`, { headers });
-  }
-
-  getShop(): Observable<any> {
-    const headers = this.authService.getToken();
-    return this.http.get(`${this.apiUrl}/shop`, { headers });
-  }
+    const headers = this.authService.getToken();  
+    return this.http.post(`${this.apiUrl}/report/${id}`, { 'status':status }, { headers });
+ }
 
 
+getShop(): Observable<any> {
+  const headers = this.authService.getToken();
+  return this.http.get(`${this.apiUrl}/shop`, { headers });
+}
+getRevenus(): Observable<any> {
+  const headers = this.authService.getToken();
+  return this.http.get(`${this.apiUrl}/statistics/revenue`, { headers });
+}
 
+getShopRevenus(id: number = 0): Observable<any> {
+  const headers = this.authService.getToken();
+  return this.http.get(`${this.apiUrl}/statistics/shop-revenue/${id > 0 ? id : ''}`, { headers });
+}
+
+
+postshop(id: number, is_active: string): Observable<any> {
+  const headers = this.authService.getToken();
+  return this.http.post(`${this.apiUrl}/shop/${id}`,{is_active}, { headers });
+}
+getShopId(id: number, is_active: string): Observable<any> {
+  const headers = this.authService.getToken();
+  return this.http.post(`${this.apiUrl}/shop/${id}`, { headers });
+}
+
+getListProductByShop(shop_id: number): Observable<any> {
+  const headers = this.authService.getToken();
+  return this.http.get(`${this.apiUrl}/shop/${shop_id}/products`, { headers });
+}
+
+
+createOrUpdatePunishment( data: any): Observable<any> {
+  const headers = this.authService.getToken();
+  return this.http.post(`${this.apiUrl}/punishment`, data, { headers });
+}
+
+  
+  
+  
 }
