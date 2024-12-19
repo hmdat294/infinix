@@ -48,15 +48,6 @@ class User extends Authenticatable
 
     public function permissions()
     {
-        $user_permissions = UserPermission::where('user_id', $this->user_id)->get();
-        foreach ($user_permissions as $user_permission) {
-            if ($user_permission->enable_at < now()) {
-                $user_permission->is_active = true;
-                $user_permission->enable_at = null;
-                $user_permission->save();
-            }
-        }
-
         return $this->belongsToMany(Permission::class, 'user_permissions', 'user_id', 'permission_id')->withPivot('is_active', 'enable_at');
     }
 

@@ -1,16 +1,56 @@
 {
     "admin": {
-        "dashboard_title": "Thống kê",
-        "user_title": "Thống kê",
-        "content_title": "Thống kê",
-        "report_title": "Thống kê",
+        "dashboard_title": "Bảng điều khiển",
+        "user_title": "Thống kê người dùng",
+        "shop_title": "Thống kê cửa hàng",
+        "report_title": "Thống kê báo cáo",
+        "event_title": "Duyệt cửa hàng",
         "dashboard": {
             "total_user": "Tổng số người dùng",
             "total_post": "Tổng số bài viết",
             "total_report": "Tổng số tố cáo"
         },
+        
+        "shop_dashboard": {
+            "total_shop": "Tổng số cửa hàng",
+            "total_revenue": "Tổng doanh thu",
+            "total_profit": "Tổng lợi nhuận",
+            "shop":"Cửa hàng",
+            "phone_number": "Số điện thoại",
+            "active":"Trạng thái",
+            "shop-description":"Mô tả",
+            "address": "Địa chỉ",
+            "created_at": "Ngày tạo cửa hàng",
+            "product": "Sản phẩm",
+            "see_more":"Xem thêm",
+            "image":"Hình ảnh",
+            "name": "Tên",
+            "price": "Giá sản phẩm",
+            "refunds":"Hoàn trả",
+            "quantity":"Số lượng",
+            "total_sold":"Số lượt bán",
+            "list_invoices":"Danh sách hóa đơn",
+            "total_amount":"Tổng tiền"
+
+        },
         "user": {
-            "avata": "Ảnh đại diện"
+            "avata": "Ảnh đại diện",
+            "user_name": "Tên người dùng",
+            "phone_number": "Số điện thoại",
+            "created_at":"Ngày đăng ký",
+            "search":"ID hoặc Tên"
+        },
+        "report":{
+            "report_user":"Báo cáo người dùng",
+            "user_name":"Tên người dùng",
+            "report_content":"Nội dung báo cáo",
+            "status":"Trạng thái",
+            "created_at":"Ngày báo cáo",
+            "actions":"Hành động",
+            "post_title":"Bài viết",
+            "comment_title":"Bình luận",
+            "user_title":"Người dùng",
+            "all":"Tất cả"
         }
     },
     "bookmark": {
@@ -475,7 +515,8 @@
             "theme_title": "Chủ đề",
             "theme_description": "Chọn chủ đề để thay đổi giao diện",
             "theme_light": "Sáng",
-            "theme_dark": "Tối"
+            "theme_dark": "Tối",
+            "theme_turquoise": "Sáng - Lục lam"
         },
         "general_settings": {
             "user_infomation": {

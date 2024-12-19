@@ -25,6 +25,7 @@
 
                     <div class="accordion-panel open layout-vertical theme">
                         <div class="p-15 gap-15 layout-horizontal">
+
                             <div class="layout-vertical gap-10" style="width: 150px;">
                                 <label class="layout-vertical label-radio-control">
                                     <div class="layout-vertical w-fill p-20 gap-20 solid-background-base border border-card-default rounded-4 align-bottom-right"
@@ -79,6 +80,35 @@
                                             (change)='selectTheme("dark")' [checked]="theme === 'dark'">
                                         <span class="text-primary">{{ 'setting.appearance_settings.theme_dark' |
                                             translate }}</span>
+                                    </div>
+                                </label>
+                            </div>
+
+                            
+                            <div class="layout-vertical gap-10" style="width: 150px;">
+                                <label class="layout-vertical label-radio-control">
+                                    <div class="layout-vertical w-fill p-20 gap-20 solid-background-base border border-card-default rounded-4 align-bottom-right"
+                                        data-theme="turquoise">
+                                        <div class="layout-vertical gap-10 w-fill">
+                                            <div class="w-fill rounded-4"
+                                                style="height: 3px; background-color: var(--text-secondary);">
+                                            </div>
+                                            <div class="w-fill rounded-4"
+                                                style="height: 3px; background-color: var(--text-secondary);">
+                                            </div>
+                                            <div class="w-fill rounded-4"
+                                                style="height: 3px; background-color: var(--text-secondary);">
+                                            </div>
+                                            <div class="w-fill rounded-4"
+                                                style="height: 3px; background-color: var(--text-secondary);">
+                                            </div>
+                                        </div>
+                                        <div class="accent-default rounded-4" style="width: 30px; height: 20px;"></div>
+                                    </div>
+                                    <div class="w-fill layout-horizontal align-center-left gap-10">
+                                        <input class="radio-control" type="radio" name="option"
+                                            (change)='selectTheme("turquoise")' [checked]="theme === 'turquoise'">
+                                        <span class="text-primary">{{ 'setting.appearance_settings.theme_turquoise' | translate }}</span>
                                     </div>
                                 </label>
                             </div>
