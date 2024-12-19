@@ -59,22 +59,14 @@ export class ReportComponent {
   updateStatus(item: any): void {
     this.adminService.updateReportStatus(item.id, item.status).subscribe(
       (response) => {
-        console.log('Trạng thái đã được cập nhật:', response);
+        
   
-        // Loại bỏ báo cáo đã giải quyết
-        // if (item.status === 'resolved') {
-        //   this.filteredReports = this.filteredReports.filter(
-        //     (report) => report.id !== item.id
-        //   );
-        // }
 
         this.sortReportsByStatus(); // Sắp xếp lại sau khi trạng thái thay đổi
   
         this.cdr.detectChanges(); // Buộc cập nhật giao diện
       },
-      (error) => {
-        console.error('Lỗi khi cập nhật trạng thái:', error);
-      }
+      
     );
   }
 

@@ -18,13 +18,7 @@ article{
 .table-container{
     padding: 20px;
 }
-.checkout{
-    margin-top: 20px;
-}
-.checkout>div{
-    padding: 10px;
 
-}
 .accept-sell>div{
     padding: 10px 0px;
     margin-bottom: 10px;
@@ -44,6 +38,9 @@ article{
   .display-none {
     display: none;
   }
+  
+
+
   
 
 

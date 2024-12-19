@@ -115,7 +115,7 @@ export class DashboardComponent implements OnInit {
             categories: longestDates,
           },
           title: {
-            text: 'Growth statistics',
+            text: 'Thống kê',
             offsetY: 0,
             offsetX: 20
           },
@@ -186,11 +186,11 @@ export class DashboardComponent implements OnInit {
       },
       colors: ["#17a00e",  "#f41127"],
       title: {
-        text: 'Trạng thái báo cáo',
+        text: 'Trạng thái  cửa hàng',
         offsetY: 0,
         offsetX: 0
       },
-      labels: ['Shop Đã Duyệt', 'Shop Chờ Duyệt'],
+      labels: ['Cửa Hàng Đã Duyệt', 'Cừa Hàng Chờ Duyệt'],
       legend: {
         position: 'bottom',
         formatter: function (val: string, opts: any) {

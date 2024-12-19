@@ -45,7 +45,7 @@ export class ShopDashboardComponent implements OnInit {
 
     this.adminService.getShop().subscribe(
       (response) => {
-        this.listShop = response.data.filter((item: any) => item.is_active === 1); // Lưu danh sách cửa hàng
+        this.listShop = response.data.filter((item: any) => item.is_active === 1);
         this.totalShop = response.data.length;
         console.log('List shops:', this.listShop);
         const idShop = this.listShop.map(item => item.id);
@@ -115,7 +115,7 @@ export class ShopDashboardComponent implements OnInit {
                 categories: this.Cumulative_Revenue_Date,
               },
               title: {
-                text: 'Thống kê tăng trưởng doanh thu',
+                text: 'Thống kê cửa hàng',
                 offsetY: 0,
                 offsetX: 20
               },

@@ -61,7 +61,18 @@ export class ReportpostComponent {
     this.sortReportsByStatus();
   }
 
-
+  // deleteReport(reportId: number): void {
+  //   this.adminService.deleteReport(reportId).subscribe(
+  //     (response) => {
+  //       console.log('Báo cáo đã được xóa:', response);
+  //       // Cập nhật danh sách báo cáo sau khi xóa
+  //       this.listReport = this.listReport.filter((report: any) => report.id !== reportId);
+  //     },
+  //     (error) => {
+  //       console.error('Lỗi khi xóa báo cáo:', error);
+  //     }
+  //   );
+  // }
   shortenTextByWords(text: string, maxWords: number): string {
     const words = text.split(' ');
     return words.length > maxWords ? words.slice(0, maxWords).join(' ') + '...' : text;

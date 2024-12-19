@@ -3,22 +3,20 @@
 
     <article class="py-20 m-20 w-fill overflow-scroll-vertical ">
         <div
-            class="layout-horizontal align-center-space-between mt-20  "
-            style="padding:0 20px;">
-            <div class="layout-horizontal gap-10  "
-                style="padding: 10px;">
+            class="layout-horizontal  align-center-space-between mt-20 p-20">
+            <div class="layout-horizontal gap-10  "style="padding: 10px;">
 
                 <!-- search --> 
-                <label for="filterStatus">Lọc trạng thái:</label>
-                <select class="dropdown-menu" [(ngModel)]="filterStatus"
-                    (change)="filtershops()">
-                    <option value="all" class="list-item">Tất cả</option>
-                    <option value="0" class="list-item">Chưa giải
-                        quyết</option>
-                    <option value="1" class="list-item">Đã giải
-                        quyết</option>
-                </select>
-           
+                <div class="layout-horizontal gap-10  ">
+                  <label for="filterStatus">Lọc trạng thái:</label>
+                  <select  class= "dropdown-menu button-standard button-text-with-icon gap-10"  [(ngModel)]="filterStatus" (change)="filtershops()">
+                    <option value="all" class="list-item"><div class="text-body">Tất cả</div></option>
+                    <option value="0" class="list-item"> <div class="text-body">Không  hoạt động</div></option>
+                    <option value="1" class="list-item"><div class="text-body">Đang hoạt động</div></option>
+                  </select>
+                  
+                </div>
+               
             </div>
             <div class="me-25">
                 <pagination-controls (pageChange)="currentPage = $event"
@@ -34,13 +32,13 @@
             class="layout-horizontal align-center-space-between text-center text-subtitle p-20"
           >
          
-            <div class="w-fill layout-horizontal align-center-space-between">
-              <div class="w-fill-column-3">Tên cửa hàng</div>
-              <div class="w-fill-column-2">Tên người dùng</div>
-              <div class="w-fill-column-3">Mô tả sản phẩm</div>
-              <div class="w-fill-column-2">Trạng thái</div>
-              <div class="w-fill-column-2">Hành động</div>
-            </div>
+            <tr class="w-fill layout-horizontal align-center-space-between">
+              <th class="w-fill-column-3">Tên cửa hàng</th>
+              <th class="w-fill-column-2">Tên người dùng</th>
+              <th class="w-fill-column-3">Mô tả sản phẩm</th>
+              <th class="w-fill-column-2">Trạng thái</th>
+              <th class="w-fill-column-2">Hành động</th>
+            </tr>
           </div>
           <div
             *ngFor="
@@ -53,12 +51,10 @@
               class="layout-horizontal w-fill align-center-space-between text-center p-20"
             >
              
-              <div
-                class="layout-horizontal w-fill align-center-space-around"
+              <div   class="layout-horizontal w-fill align-center-space-around"
                 style="gap: 15px"
               >
-                <div
-                  class="w-fill-column-3 align-center-center layout-horizontal gap-10"
+                <td  class="w-fill-column-3 align-center-left layout-horizontal gap-10"
                 >
                   <img
                     class="rounded-circle"
@@ -68,21 +64,21 @@
                     alt
                   />
                   <div>{{ item.name }}</div>
-                </div>
+                </td>
 
-                <div class="w-fill-column-2">
+                <td class="w-fill-column-2 align-center-left">
                     <a [routerLink]="['/friend-profile', item.user_id]"
                     class="w-fill button-standard p-5 cursor-pointer">
                     <i class="me-5 icon-size-16 icon icon-ic_fluent_person_16_regular"></i>
                     Đến trang cá nhân
                 </a>
-                </div>
-                <div class="w-fill-column-3">
-                  {{ shortenTextByWords(item.description, 7) }}
-                </div>
+                </td>
+                <td class="w-fill-column-3 align-center-left">
+                  {{ shortenTextByWords(item.description, 5) }}
+                </td>
 
                 <!-- Trạng thái của item -->
-                <div class="status-select-container w-fill-column-2">
+                <td class="status-select-container w-fill-column-2 align-center-left">
                   <p *ngIf="item.is_active == 1"
                     class="text-body text-system-success" >
                     <span> Đang hoạt động</span>
@@ -91,10 +87,9 @@
                     class="text-body text-system-critical" >
                     <span> Không hoạt động</span>
                   </p>
-                </div>
+                </td>
 
-                <div
-                  class="layout-horizontal align-center-center gap-20 w-fill-column-2"
+                <td class="layout-horizontal align-center-center gap-20 w-fill-column-2 align-center-left"
                 >
                   <!-- Nút thao tác -->
                   <a
@@ -108,18 +103,15 @@
 
                   <a class="button-subtle button-icon-only text-accent-default">
                     <i
-                      class="icon-size-24 icon icon-ic_fluent_info_24_filled"
-                      (click)="openDialog()"
+                      class="icon icon-ic_fluent_triangle_down_24_filled"
+                      (click)="openDialog(item.id)"
                     ></i>
                   </a>
 
                   <!-- Hộp thoại xác nhận -->
                   <div
                     class="position-fixed top-0 start-0"
-                    [ngClass]="{
-                      'display-block': isDialogVisible,
-                      'display-none': !isDialogVisible
-                    }"
+                    [ngClass]="isDialogVisible == item.id?'display-block':'display-none'"
                     style="width: 100%; height: 100vh; z-index: 30"
                   >
                     <div
@@ -135,7 +127,9 @@
                       <div
                         class="dialog-panel position-absolute top-50 start-50 translate-middle"
                       >
-                        <form>
+                        <!-- <form>
+
+
                           <div
                             class="layout-vertical accept-sell rounded-8"
                             style="
@@ -192,23 +186,76 @@
                               <button
                                 type="button"
                                 class="button-close"
-                                (click)="openDialog()"
+                                (click)="openDialog(0)"
+                              >
+                                Đóng
+                              </button>
+                            </div>
+                          </div>
+                        </form> -->
+                     
+                        <form>
+                          <div
+                            class="layout-vertical accept-sell rounded-8"
+                            style="
+                              width: 400px;
+                              padding: 10px;
+                              background-color: #ffffff;
+                            "
+                          >
+                            <div class="text-subtitle accent-text-tertiary border-bottom">
+                              Xác nhận đăng ký
+                            </div>
+                        
+                            <!-- Nội dung hiển thị dựa trên trạng thái -->
+                            <div *ngIf="item.is_active === '0'; else approvedText" class="text-body">
+                              Bạn có muốn duyệt trang này?
+                            </div>
+                            <ng-template #approvedText>
+                              <div class="text-body">
+                                Trang này đã được duyệt.
+                              </div>
+                            </ng-template>
+                        
+                            <div
+                              class="button-acp layout-horizontal align-center-space-between"
+                            >
+                              <button
+                              
+                                type="button"
+                                class="button-accent"
+                                (click)="changIsActiveShop(item.id, '1')"
+                                [disabled]="item.is_active === '1'"
+                              >
+                                Duyệt
+                              </button>
+                              <button
+                                type="button"
+                                class="button-accent"
+                                (click)="changIsActiveShop(item.id, '0')"
+                                [disabled]="item.is_active === '0'"
+                              >
+                                Không Duyệt
+                              </button>
+                              <button
+                                type="button"
+                                class="button-close"
+                                (click)="openDialog(0)"
                               >
                                 Đóng
                               </button>
                             </div>
                           </div>
                         </form>
+                        
                       </div>
                     </div>
                   </div>
-                </div>
+                </td>
               </div>
             </div>
             <div
-              class="accordion-panel open layout-horizontal show_chitiet_{{
-                i
-              }} w-fill "
+              class="accordion-panel open layout-horizontal show_chitiet_{{i}} w-fill "
             >
               <div class="layout-horizontal w-fill h-hug">
                 <div
@@ -234,14 +281,23 @@
                       <div
                         class="layout-horizontal align-center-space-between gap-10 border"
                       >
-                        <div class="text-body-strong">STK:</div>
-                        <div>22599</div>
+                        <div class="text-body-strong">Ngày đăng kí:</div>
+                        <div>{{ item.created_at | date:'dd/MM/yyyy' }}</div>
                       </div>
                       <div
                         class="layout-horizontal align-center-space-between gap-10 border"
                       >
-                        <div class="text-body-strong">Ngân hàng:</div>
-                        <div>ACB</div>
+                        <div class="text-body-strong">Trạng thái:</div>
+                        <div class="layout-horizontal align-center-space-between gap-10 border">
+                          <p *ngIf="item.is_active == 1"
+                            class="text-body text-system-success" >
+                            <span> Đang hoạt động</span>
+                          </p>
+                          <p *ngIf="item.is_active == 0"
+                            class="text-body text-system-critical" >
+                            <span> Không hoạt động</span>
+                          </p>
+                        </div>
                       </div>
                       <div
                         class="layout-horizontal align-center-space-between gap-10 border rounded-bottom-8"
@@ -262,57 +318,14 @@
                           cols="50"
                           name="storeDescription"
                           id="storeDescription"
+                          readonly
                           >{{ item.description }}</textarea
                         >
                       </div>
 
-                      <!-- <div
-                                                class="layout-horizontal align-center-space-between gap-10 border rounded-top-8">
-                                                <div class="text-body-strong">Mô
-                                                    tả sản phẩm: </div>
-                                                <textarea rows="6" cols="50"
-                                                    name="productDescription"
-                                                    id="productDescription">Kem dưỡng da cao cấp với chiết xuất từ thiên nhiên, giúp cung cấp độ ẩm sâu, làm mềm da và cải thiện độ đàn hồi. Phù hợp cho mọi loại da, đặc biệt là da khô và nhạy cảm. Không chứa hóa chất độc hại, an toàn cho da.</textarea>
-                                            </div> -->
                     </div>
                   </div>
-                  <!-- <div class="sender layout-vertical gap-10 w-fill-column-4">
-                    <p class="text-title">Người dùng</p>
-                    <div class="checkout layout-vertical m-25">
-                      <div
-                        class="layout-horizontal align-center-space-between gap-10 border rounded-top-8"
-                      >
-                        <div class="text-body-strong">Tên:</div>
-                        <div>{{ item.user?.profile.display_name }}</div>
-                      </div>
-
-                      <div
-                        class="layout-horizontal align-center-space-between gap-10 border"
-                      >
-                        <div class="text-body-strong">Số điện thoại:</div>
-                        <div>{{ item.phone_number }}</div>
-                      </div>
-
-                      <div
-                        class="layout-horizontal align-center-space-between gap-10 border"
-                      >
-                        <div class="text-body-strong">STK:</div>
-                        <div>22599</div>
-                      </div>
-                      <div
-                        class="layout-horizontal align-center-space-between gap-10 border"
-                      >
-                        <div class="text-body-strong">Ngân hàng:</div>
-                        <div>ACB</div>
-                      </div>
-                      <div
-                        class="layout-horizontal align-center-space-between gap-10 border rounded-bottom-8"
-                      >
-                        <div class="text-body-strong">Địa chỉ:</div>
-                        <div>{{ item.address }}</div>
-                      </div>
-                    </div>
-                  </div> -->
+             
                 </div>
               </div>
             </div>

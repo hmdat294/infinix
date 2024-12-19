@@ -219,7 +219,7 @@ export class ReportUserComponent {
       : text;
   }
 
-  
+
   updateStatus(item: any): void {
     this.adminService.updateReportStatus(item.id, item.status).subscribe(
       (response) => {
