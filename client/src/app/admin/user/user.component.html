@@ -26,7 +26,7 @@
                 </div>
 
             </div>
-            <div class="me-25">
+            <div class="me-25" *ngIf="filteredUsers.length>10">
                 <div class="pagination layout-horizontal">
                     <pagination-controls (pageChange)="currentPage = $event" previousLabel=""
                         nextLabel=""></pagination-controls>
@@ -39,25 +39,25 @@
                     <thead>
                         <tr>
                            
-                            <th class="text-body-strong">Hình đại diện</th>
-                            <th class="text-body-strong">Tên người dùng</th>
-                            <th class="text-body-strong">Email</th>
-                            <th class="text-body-strong">Số điện thoại</th>
-                            <th class="text-body-strong">Ngày đăng ký</th>
-                            <!-- <th class="text-body-strong"></th> -->
+                            <th class="text-primary">Hình đại diện</th>
+                            <th class="text-primary">Tên người dùng</th>
+                            <th class="text-primary">Email</th>
+                            <th class="text-primary">Số điện thoại</th>
+                            <th class="text-primary">Ngày đăng ký</th>
+                            <!-- <th class="text-primary"></th> -->
                         </tr>
                     </thead>
                     <tbody>
                         <tr class="border-top" *ngFor="let item of filteredUsers | paginate: { itemsPerPage: 10, currentPage: currentPage };">
                           
-                            <td class="text-body py-10"> <img class="rounded-circle " [src]="item?.profile.profile_photo" width="40px" alt>
+                            <td class="text-primary py-10"> <img class="rounded-circle " [src]="item?.profile.profile_photo" width="40px" alt>
                             </td>
-                            <td class="text-body">{{item.profile.display_name}}</td>
-                            <td class="text-body">{{item.email}}</td>
-                            <td class="text-body">{{ item.phone_number || '...'   }}</td>
-                            <td class="text-body">{{ item.last_activity | date: 'dd/MM/yyyy' }}</td>
+                            <td class="text-primary">{{item.profile.display_name}}</td>
+                            <td class="text-primary">{{item.email}}</td>
+                            <td class="text-primary">{{ item.phone_number || '...'   }}</td>
+                            <td class="text-primary">{{ item.last_activity | date: 'dd/MM/yyyy' }}</td>
 
-                            <!-- <td class="text-body">
+                            <!-- <td class="text-primary">
                                 <div class="layout-horizontal gap-10 align-center-center ">
                                     <a href="#" class="button-standard button-icon-only text-accent-default">
                                         <i class="icon-size-24 icon icon-ic_fluent_settings_24_filled"></i>
