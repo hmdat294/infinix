@@ -26,6 +26,8 @@ export class ShopDashboardComponent implements OnInit {
   listProduct: any[] = [];
   listUser: any[] = [];
   ShopRevenus: any[] = [];
+  allOrder: any[] = [];
+  allOrderbyID: any[] = [];
   ShopId: number = 0;
   shop: any;
   products: any;
@@ -92,6 +94,12 @@ export class ShopDashboardComponent implements OnInit {
 
     }
     ),
+
+    this.adminService.getAllOrder().subscribe(res => {
+      this.allOrder = res.data.filter((order: any) => order.admin_paid === 0);
+      console.log("All Order", this.allOrder);
+
+    });
 
 
 
@@ -174,6 +182,11 @@ export class ShopDashboardComponent implements OnInit {
       this.listProduct = res.data.sort((a: any, b: any) => b.total_sold - a.total_sold) // Sắp xếp giảm dần
         .slice(0, 3);
       console.log(this.listProduct);
+
+    });
+    this.adminService.getAllOrderById(id).subscribe(res => {
+      this.allOrderbyID = res.data.filter((order: any) => order.admin_paid === 0).slice(0, 3);
+      console.log("All Order", this.allOrderbyID);
 
     });
     
