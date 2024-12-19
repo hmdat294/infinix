@@ -131,10 +131,7 @@ export class ShopDashboardComponent implements OnInit {
                 name: "Tổng doanh thu",
                 data: this.Cumulative_Revenue   // Sử dụng userData từ API
               },
-              {
-                name: "Tổng lợi nhuận",
-                data: [14, 22, 35, 40] // Sử dụng userData từ API
-              }
+              
             ],
             xaxis: {
               type: 'datetime',

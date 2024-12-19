@@ -4,14 +4,14 @@
     <article class="py-20 m-20 w-fill overflow-scroll-vertical">
 
         <div class="mb-20 layout-horizontal gap-20 w-fill">
-            <div class="w-fill-column-4">
+            <div class="w-fill-column-6">
                 <div
                     class="solid-background-senary rounded-6 px-15 py-10 border">
                     <div class="layout-horizontal align-center-space-between">
                         <div>
                             <h5
                                 class="text-subtitle accent-text-primary">{{totalShop}}</h5>
-                            <p class="text-body text-secondary">Tổng số cửa
+                            <p class="text-body text-primary">Tổng số cửa
                                 hàng</p>
                         </div>
                         <div class="system-caution p-5 rounded-pill">
@@ -22,14 +22,14 @@
                 </div>
             </div>
 
-            <div class="w-fill-column-4">
+            <div class="w-fill-column-6">
                 <div
                     class="solid-background-senary rounded-6 px-15 py-10 border">
                     <div class="layout-horizontal align-center-space-between">
                         <div>
                             <h5
                                 class="text-subtitle accent-text-primary">{{totalRevenue}}</h5>
-                            <p class="text-body text-secondary">Tổng doanh
+                            <p class="text-body text-primary">Tổng doanh
                                 thu</p>
                         </div>
                         <div class="system-success p-5 rounded-pill">
@@ -39,44 +39,9 @@
                     </div>
                 </div>
             </div>
-            <div class="w-fill-column-4">
-                <div
-                    class="solid-background-senary rounded-6 px-15 py-10 border">
-                    <div class="layout-horizontal align-center-space-between">
-                        <div>
-                            <h5
-                                class="text-subtitle accent-text-primary">{{totalProfit}}</h5>
-                            <p class="text-body text-secondary">Tổng lợi nhuận
-                                của các cửa hàng</p>
-                        </div>
-                        <div
-                            class="solid-background-secondary p-5 rounded-pill">
-                            <i
-                                class="text-system-success icon-size-20 icon icon-ic_fluent_money_hand_20_regular"></i>
-                        </div>
-                    </div>
+           
 
-                </div>
-            </div>
-
-            <!-- <div class="w-fill-column-3">
-                <div
-                    class="solid-background-senary rounded-6 px-15 py-10 border">
-                    <div class="layout-horizontal align-center-space-between">
-                        <div>
-                            <h5
-                                class="text-subtitle accent-text-primary">{{totalConversations}}</h5>
-                            <p class="text-body text-secondary">Total number of
-                                Conversations</p>
-                        </div>
-                        <div
-                            class="solid-background-secondary p-5 rounded-pill">
-                            <i
-                                class="accent-text-primary icon-size-20 icon icon-ic_fluent_person_20_filled"></i>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
+           
         </div>
 
         <div class="layout-horizontal gap-20 mb-20">
@@ -85,8 +50,8 @@
                 <div class="layout-vertical m-10">
                     <div
                         class="w-fill layout-horizontal align-bottom-space-between pb-10">
-                        <div class="text-subtitle">Top cửa hàng</div>
-                        <div class="text-body accent-text-tertiary"><a href
+                        <div class="text-subtitle text-primary">Top cửa hàng</div>
+                        <div class="text-body accent-text-primary"><a href
                                 class="accent-text-tertiary">Xem thêm</a> </div>
                     </div>
                     <div class="w-fill layout-vertical"
@@ -95,11 +60,11 @@
                         <div
                             class="w-fill layout-horizontal align-bottom-space-between p-20 border rounded-6">
                             <div class="layout-vertical">
-                                <div class="text-body-large">{{item.name}}</div>
-                                <div class="text-body-strong">Doanh thu:
+                                <div class="text-body-large text-primary">{{item.name}}</div>
+                                <div class="text-body-strong text-primary">Doanh thu:
                                     {{formatCurrency(item.total_revenue)}}</div>
                                 <div
-                                    class="text-caption accent-text-disabled">{{item.total_quantity_sold}}
+                                    class="text-caption text-secondary">{{item.total_quantity_sold}}
                                     Sản phẩm đã bán</div>
                             </div>
                             <div class="rounded-circle w-hug">
@@ -131,7 +96,7 @@
                         class="w-fill gap-20 layout-horizontal align-center-center text-body-strong p-10">
                         <div
                             class="w-fill layout-horizontal align-bottom-space-between pb-10">
-                            <div class="text-subtitle">Cửa hàng</div>
+                            <div class="text-subtitle text-primary">Cửa hàng</div>
                             <div class="text-body accent-text-tertiary">
                                 <pagination-controls
                                     (pageChange)="currentPage = $event"
@@ -162,26 +127,26 @@
                                 <div
                                     class="layout-horizontal align-center-center gap-10 w-hug">
                                     <a [routerLink]="['/shop/',item?.id]"
-                                        class="text-body link">{{item.name}}</a>
+                                        class="text-body text-primary link">{{item.name}}</a>
 
                                 </div>
                                 <div class="layout-vertical w-fill">
                                     <div
                                         class="layout-horizontal gap-20 w-fill">
                                         <div
-                                            class="text-caption w-fill-column-2 accent-text-disabled">Doanh
+                                            class="text-caption w-fill-column-2 text-secondary">Doanh
                                             thu</div>
                                         <div
-                                            class="text-caption w-fill-column-2 accent-text-disabled">Sản
+                                            class="text-caption w-fill-column-2 text-secondary">Sản
                                             phẩm đã bán</div>
 
                                     </div>
                                     <div
                                         class="layout-horizontal gap-20  w-fill">
                                         <div
-                                            class="text-body-strong w-fill-column-2">{{formatCurrency(item.total_revenue)}}</div>
+                                            class="text-body-strong w-fill-column-2 text-primary ">{{formatCurrency(item.total_revenue)}}</div>
                                         <div
-                                            class="text-body-strong w-fill-column-2">{{item.total_products_sold
+                                            class="text-body-strong w-fill-column-2 text-primary">{{item.total_products_sold
                                             }}</div>
 
                                     </div>
@@ -201,14 +166,14 @@
 
                                         <div
                                             class="layout-horizontal align-center-space-between p-10">
-                                            <p class="text-body-strong">Số điện
+                                            <p class="text-body-strong text-primary">Số điện
                                                 thoại:</p>
                                             <p
-                                                class="text-body">{{item.phone_number}}</p>
+                                                class="text-body text-primary">{{item.phone_number}}</p>
                                         </div>
                                         <div
                                             class="layout-horizontal align-center-space-between p-10 border-bottom">
-                                            <p class="text-body-strong">Trạng
+                                            <p class="text-body-strong text-primary">Trạng
                                                 thái:</p>
                                             <p
                                                 *ngIf="item.is_active === 1"
@@ -224,59 +189,59 @@
 
                                         <div
                                             class="layout-horizontal align-center-space-between p-10">
-                                            <p class="text-body-strong">Mô
+                                            <p class="text-body-strong text-primary">Mô
                                                 tả:</p>
                                             <p
-                                                class="text-body">{{item.description}}</p>
+                                                class="text-body text-primary">{{item.description}}</p>
                                         </div>
                                         <div
                                             class="layout-horizontal align-center-space-between p-10">
-                                            <p class="text-body-strong">Địa
+                                            <p class="text-body-strong text-primary">Địa
                                                 chỉ:</p>
                                             <p
-                                                class="text-body">{{item.address}}
+                                                class="text-body text-primary">{{item.address}}
                                             </p>
                                         </div>
                                         <div
                                             class="layout-horizontal align-center-space-between p-10">
-                                            <p class="text-body-strong">Ngày tạo
+                                            <p class="text-body-strong text-primary">Ngày tạo
                                                 cửa hàng:</p>
                                             <p
-                                                class="text-body">{{item.created_at|
+                                                class="text-body text-primary">{{item.created_at|
                                                 date: 'dd/MM/yyyy'}} </p>
                                         </div>
                                     </div>
                                     <div class="layout-vertical gap-10">
                                         <div
                                             class="w-fill layout-horizontal align-bottom-space-between p-10">
-                                            <div class="text-body-strong">Sản
+                                            <div class="text-body-strong text-primary">Sản
                                                 phẩm</div>
                                             <div
-                                                class="text-body accent-text-tertiary"><a
+                                                class="text-body accent-text-primary"><a
                                                     href
-                                                    class="accent-text-tertiary">Xem
+                                                    class="accent-text-primary">Xem
                                                     thêm</a> </div>
                                         </div>
                                         <div>
                                             <div
                                                 class="layout-horizontal gap-20 my-10 border-bottom pb-10">
                                                 <div
-                                                    class="layout-horizontal align-center-space-between text-center w-fill-column-2">
+                                                    class="layout-horizontal align-center-space-between text-center text-primary w-fill-column-2">
                                                     hình
                                                 </div>
                                                 <p
-                                                    class="layout-horizontal align-center-space-between text-center w-fill-column-3">Tên</p>
+                                                    class="layout-horizontal align-center-space-between text-center text-primary w-fill-column-3">Tên</p>
                                                 <p
-                                                    class="layout-horizontal align-center-space-between text-center w-fill-column-2">Thanh
+                                                    class="layout-horizontal align-center-space-between text-center text-primary w-fill-column-2">Thanh
                                                     toán</p>
                                                 <p
-                                                    class="layout-horizontal align-center-space-between text-center w-fill-column-2">Hoàn
+                                                    class="layout-horizontal align-center-space-between text-center text-primary w-fill-column-2">Hoàn
                                                     trả</p>
                                                 <p
-                                                    class="layout-horizontal align-center-space-between text-center w-fill-column-1">Số
+                                                    class="layout-horizontal align-center-space-between text-center text-primary w-fill-column-1">Số
                                                     lượng </p>
                                                 <p
-                                                    class="layout-horizontal align-center-space-between text-center w-fill-column-2">Số
+                                                    class="layout-horizontal align-center-space-between text-center text-primary w-fill-column-2">Số
                                                     lượt bán</p>
 
                                             </div>
@@ -295,18 +260,18 @@
                                                             alt>
                                                     </div>
                                                     <p
-                                                        class="layout-horizontal align-center-space-between text-center w-fill-column-3">{{item.name}}</p>
+                                                        class="layout-horizontal align-center-space-between text-primary text-center w-fill-column-3">{{item.name}}</p>
                                                     <p
-                                                        class="layout-horizontal align-center-space-between text-center w-fill-column-2">{{item.price}}
+                                                        class="layout-horizontal align-center-space-between text-primary text-center w-fill-column-2">{{item.price}}
                                                     </p>
                                                     <p
-                                                        class="layout-horizontal align-center-space-between text-center w-fill-column-2">{{item.price
+                                                        class="layout-horizontal align-center-space-between text-primary text-center w-fill-column-2">{{item.price
                                                         -(item.price * 0.05
                                                         )}}</p>
                                                     <p
-                                                        class="layout-horizontal align-center-space-between text-center w-fill-column-1">{{item.stock}}</p>
+                                                        class="layout-horizontal align-center-space-between text-primary text-center w-fill-column-1">{{item.stock}}</p>
                                                     <p
-                                                        class="layout-horizontal align-center-space-between text-center w-fill-column-2">{{item.total_sold}}</p>
+                                                        class="layout-horizontal align-center-space-between text-primary text-center w-fill-column-2">{{item.total_sold}}</p>
                                                 </div>
 
                                             </div>
@@ -322,11 +287,11 @@
                                     class="w-fill h-hug layout-vertical border rounded-8 my-10 in-tablet-mt-5 in-mobile-mt-5 card-background-default">
                                     <div
                                             class="w-fill layout-horizontal align-bottom-space-between p-10">
-                                            <div class="text-body-strong">Danh sách hóa đơn</div>
+                                            <div class="text-body-strong text-primary">Danh sách hóa đơn</div>
                                             <div
                                                 class="text-body accent-text-tertiary"><a
                                                     href
-                                                    class="accent-text-tertiary">Xem
+                                                    class="accent-text-primary">Xem
                                                     thêm</a> </div>
                                         </div>
                                     <div class="layout-vertical w-fill gap-20 "
@@ -342,7 +307,7 @@
 
                                             </div>
                                             <div
-                                                class="layout-vertical w-fill-column-8 gap-10 ">
+                                                class="layout-vertical w-fill-column-10 gap-10 ">
 
                                                 <div
                                                     class="layout-horizontal text-primary align-center-center gap-10 w-hug">
@@ -355,38 +320,38 @@
                                                     <div
                                                         class="layout-horizontal gap-10 w-fill">
                                                         <div
-                                                            class="text-caption w-fill-column-4 accent-text-disabled">Tổng
+                                                            class="text-caption w-fill-column-4 text-secondary">Tổng
                                                             tiền</div>
                                                         <div
-                                                            class="text-caption w-fill-column-4 accent-text-disabled">Hoàn
+                                                            class="text-caption w-fill-column-4 text-secondary">Hoàn
                                                             trả</div>
                                                         <div
-                                                            class="text-caption w-fill-column-4 accent-text-disabled">Trạng
+                                                            class="text-caption w-fill-column-4 text-secondary">Trạng
                                                             thái</div>
 
                                                     </div>
                                                     <div
                                                         class="layout-horizontal gap-10  w-fill">
                                                         <div
-                                                            class="text-body-strong w-fill-column-4">{{formatCurrency(item.total)}}</div>
+                                                            class="text-body-strong text-primary w-fill-column-4">{{formatCurrency(item.total)}}</div>
                                                         <div
-                                                            class="text-body-strong w-fill-column-4">{{formatCurrency(item.total- (item.total * 0.05))}}</div>
+                                                            class="text-body-strong text-primary w-fill-column-4">{{formatCurrency(item.total- (item.total * 0.05))}}</div>
                                                         <div
                                                             *ngIf="item.admin_paid === 1"
                                                             class="text-body w-fill-column-4 text-system-success">
-                                                            Đã thanh toán
+                                                            Đã hoàn tiền
                                                         </div>
                                                         <div
                                                             *ngIf="item.admin_paid === 0"
                                                             class="text-body w-fill-column-4 text-system-critical ">
-                                                            Chưa thanh toán
+                                                            Chưa hoàn tiền
                                                         </div>
 
                                                     </div>
 
                                                 </div>
                                             </div>
-                                            <div
+                                            <!-- <div
                                                 class="layout-vertical w-fill-column-2 align-center-center p-10">
                                                 <button
                                                     class="solid-background-secondary w-fill p-5 rounded-pill border">
@@ -398,31 +363,24 @@
                                             <div
                                                 class="position-fixed top-0 start-0"
                                                 [ngClass]="{'display-block': isDialogVisible, 'display-none': !isDialogVisible}"
-                                                style="width: 100%; height: 100vh; z-index: 30;">
-                                                <!-- Background Overlay -->
+                                                style="width: 100%; height: 100vh; z-index: 30;"> 
                                                 <div
                                                     class="position-fixed top-0 start-0"
                                                     style="width: 100%; height: 100vh; z-index: 20; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px);">
-                                                </div>
-
-                                                <!-- Dialog Content -->
+                                                </div> 
                                                 <div
                                                     class="dialog-panel position-absolute top-50 start-50 translate-middle"
                                                     style="width: 400px; z-index: 50; background-color: #fff; border-radius: 8px; padding: 20px; box-shadow: 0px 4px 10px rgba(0,0,0,0.2);">
                                                     <div
-                                                        class="layout-vertical gap-20">
-                                                        <!-- Title -->
+                                                        class="layout-vertical gap-20"> 
                                                         <div
                                                             class="text-title accent-text-primary">Xác
-                                                            nhận hành động</div>
-
-                                                        <!-- Message -->
-                                                        <p class="text-body">Bạn
+                                                            nhận hành động</div> 
+                                                        <p class="text-body ">Bạn
                                                             có chắc chắn muốn
                                                             thực hiện hành động
                                                             này không?</p>
 
-                                                        <!-- Buttons -->
                                                         <div
                                                             class="layout-horizontal align-center-space-between">
                                                             <button
@@ -438,7 +396,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> -->
 
                                         </div>
                                     </div>

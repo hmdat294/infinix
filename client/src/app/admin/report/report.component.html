@@ -7,10 +7,10 @@
                 <!-- search -->
                 <div class="layout-horizontal gap-10  ">
                     <label class="text-primary" for="filterStatus ">Lọc trạng thái:</label>
-                    <select  class= "button-standard button-text-with-icon gap-10"  [(ngModel)]="filterStatus" (change)="filterReports()">
-                      <option value="all" class="  gradient-background list-item text-primary"><div class="text-primary">Tất cả</div></option>
-                      <option value="pending" class="list-item text-primary gradient-background"> <div class="text-primary">Chưa giải quyết</div></option>
-                      <option value="resolved" class="list-item text-primary gradient-background"><div class="text-primary">Đã giải quyết</div></option>
+                    <select  class= "text-primary control"  [(ngModel)]="filterStatus" (change)="filterReports()">
+                      <option value="all" class="  gradient-background list-item text-primary">Tất cả</option>
+                      <option value="pending" class=" list-item text-primary gradient-background"> Chưa giải quyết</option>
+                      <option value="resolved" class="list-item text-primary gradient-background">Đã giải quyết</option>
                     </select>
                     
                   </div>
