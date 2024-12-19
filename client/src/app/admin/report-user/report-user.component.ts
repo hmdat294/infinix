@@ -219,20 +219,20 @@ export class ReportUserComponent {
       : text;
   }
 
-  deleteReport(reportId: number): void {
-    this.adminService.deleteReport(reportId).subscribe(
-      (response) => {
-        console.log('Báo cáo đã được xóa:', response);
-        // Cập nhật danh sách báo cáo sau khi xóa
-        this.listReport = this.listReport.filter(
-          (report: any) => report.id !== reportId
-        );
-      },
-      (error) => {
-        console.error('Lỗi khi xóa báo cáo:', error);
-      }
-    );
-  }
+  // deleteReport(reportId: number): void {
+  //   this.adminService.deleteReport(reportId).subscribe(
+  //     (response) => {
+  //       console.log('Báo cáo đã được xóa:', response);
+  //       // Cập nhật danh sách báo cáo sau khi xóa
+  //       this.listReport = this.listReport.filter(
+  //         (report: any) => report.id !== reportId
+  //       );
+  //     },
+  //     (error) => {
+  //       console.error('Lỗi khi xóa báo cáo:', error);
+  //     }
+  //   );
+  // }
   updateStatus(item: any): void {
     this.adminService.updateReportStatus(item.id, item.status).subscribe(
       (response) => {

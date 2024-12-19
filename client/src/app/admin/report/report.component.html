@@ -86,7 +86,7 @@
                                 </select>
                             </div>
                           </td>
-                          <td>{{item.created_at_date}}</td>
+                          <td>{{item.created_at_date | date: 'dd/MM/yyyy' }}</td>
                           <td class="layout-horizontal gap-20 w-fill">
                             <a href="#" 
                                class="button-subtle button-icon-only text-accent-default"

@@ -49,12 +49,12 @@
                     </thead>
                     <tbody>
                         <tr class="border-top" *ngFor="let item of filteredUsers | paginate: { itemsPerPage: 10, currentPage: currentPage };">
-                            <td class="text-body"><input class="checkbox-control" type="checkbox"></td>
-                            <td class="text-body py-10"><img src="assets/image/avatar.png" alt="Avatar" class="avatar">
+                          
+                            <td class="text-body py-10"> <img class="rounded-circle " [src]="item?.profile.profile_photo" width="40px" alt>
                             </td>
                             <td class="text-body">{{item.profile.display_name}}</td>
                             <td class="text-body">{{item.email}}</td>
-                            <td class="text-body">{{ item.phone_number   }}</td>
+                            <td class="text-body">{{ item.phone_number || '...'   }}</td>
                             <td class="text-body">{{ item.last_activity | date: 'dd/MM/yyyy' }}</td>
 
                             <!-- <td class="text-body">
