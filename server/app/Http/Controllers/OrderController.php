@@ -243,5 +243,18 @@ class OrderController extends Controller
         }
     }
 
+    public function all_orders(Request $request)
+    {
+        $orders = Order::orderBy('created_at', 'desc')->get();
+
+        return OrderResource::collection($orders);
+    }
+
+    public function show(Request $request, $id)
+    {
+        $order = Order::findOrFail($id);
+
+        return new OrderResource($order);
+    }
     
 }
