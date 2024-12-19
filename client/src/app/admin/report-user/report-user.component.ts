@@ -25,7 +25,7 @@ export class ReportUserComponent {
   reportService: any;
   listReport: any[] = [];
   filteredReports: any[] = [];
-  isDialogVisible = false;
+  isDialogVisible: number = 0;
   filterStatus: string = 'all';
   constructor(
     private adminService: AdminService,
@@ -41,7 +41,7 @@ export class ReportUserComponent {
           (item: any) => item.type === 'user'
         );
         this.filteredReports = [...this.listReport];
-        this.sortReportsByStatus();
+        // this.sortReportsByStatus();
         console.log(this.listReport);
       },
       (error) => {
@@ -58,7 +58,7 @@ export class ReportUserComponent {
         (item) => item.status === this.filterStatus
       );
     }
-    this.sortReportsByStatus();
+    // this.sortReportsByStatus();
   }
 
   // changeIsActiveShop(reportId: number, status: string): void {
@@ -133,15 +133,18 @@ export class ReportUserComponent {
       user_id: user_id,
       permissions: this.selectedPermissions, // Mảng permissions
     };
-    
-    this.adminService.createOrUpdatePunishment(data).subscribe((response) => {
-      console.log(response);
+    console.log(data);
+      
+      this.adminService.createOrUpdatePunishment(data).subscribe((response) => {
+        console.log(response);
 
-      this.adminService.updateReportStatus(report_id, report_status).subscribe(
-        (response) => {
-          console.log('Trạng thái đã được cập nhật:', response);
-        })
-    });
+        this.adminService.updateReportStatus(report_id, report_status).subscribe(
+         
+          (response) => {
+            this.openDialog(0)
+            console.log('Trạng thái đã được cập nhật:', response);
+          })
+      });
   }
 
   onBanDurationChange(event: Event, reportId: number): void {
@@ -192,7 +195,7 @@ export class ReportUserComponent {
         const report = this.listReport.find((report) => report.id === item.id);
         if (report) {
           report.status = updatedStatus;
-          this.sortReportsByStatus(); // Cập nhật thứ tự nếu cần
+          // this.sortReportsByStatus(); // Cập nhật thứ tự nếu cần
         }
       },
       (error) => {
@@ -201,8 +204,8 @@ export class ReportUserComponent {
     );
   }
 
-  openDialog(): void {
-    this.isDialogVisible = !this.isDialogVisible;
+  openDialog(report_id:number): void {
+    this.isDialogVisible = report_id;
   }
   currentPage = 1;
   tabChild(tab: string) {
@@ -219,7 +222,7 @@ export class ReportUserComponent {
       : text;
   }
 
-
+  
   updateStatus(item: any): void {
     this.adminService.updateReportStatus(item.id, item.status).subscribe(
       (response) => {

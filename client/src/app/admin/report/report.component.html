@@ -6,11 +6,11 @@
             <div class="layout-horizontal gap-10 " style="padding: 10px;">
                 <!-- search -->
                 <div class="layout-horizontal gap-10  ">
-                    <label for="filterStatus">Lọc trạng thái:</label>
-                    <select  class= "dropdown-menu button-standard button-text-with-icon gap-10"  [(ngModel)]="filterStatus" (change)="filterReports()">
-                      <option value="all" class="list-item"><div class="text-body">Tất cả</div></option>
-                      <option value="pending" class="list-item"> <div class="text-body">Chưa giải quyết</div></option>
-                      <option value="resolved" class="list-item"><div class="text-body">Đã giải quyết</div></option>
+                    <label class="text-primary" for="filterStatus ">Lọc trạng thái:</label>
+                    <select  class= "button-standard button-text-with-icon gap-10"  [(ngModel)]="filterStatus" (change)="filterReports()">
+                      <option value="all" class="  gradient-background list-item text-primary"><div class="text-primary">Tất cả</div></option>
+                      <option value="pending" class="list-item text-primary gradient-background"> <div class="text-primary">Chưa giải quyết</div></option>
+                      <option value="resolved" class="list-item text-primary gradient-background"><div class="text-primary">Đã giải quyết</div></option>
                     </select>
                     
                   </div>
@@ -43,7 +43,7 @@
                 </div>
 
             </div>
-            <div class="me-25">
+            <div class="me-25" *ngIf="filteredReports.length>10">
                 <pagination-controls (pageChange)="currentPage = $event" previousLabel=""
                 nextLabel=""></pagination-controls>
             </div>
