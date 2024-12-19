@@ -7,9 +7,12 @@
                 <p class="text-subtitle text-primary hide-in-mobile">{{ 'setting.setting_title' | translate }}</p>
 
                 <div class="layout-horizontal gap-10 align-center-center border rounded-6 p-10 card-background-default in-mobile-w-fill">
-                    <img style="width: 35px; height: 35px;"
+                    <img style="width: 40px; height: 40px;"
                         class="border border-card-default rounded-circle object-fit-cover" [src]="profile_photo" alt="">
-                    <p class="text-body-strong text-primary">{{display_name}}</p>
+                    <div class="layout-vertical w-fill">
+                        <p class="text-body-strong text-primary">{{display_name}}</p>
+                        <p class="text-body text-secondary">{{email}}</p>
+                    </div>
                 </div>
 
                 <div class="layout-vertical in-mobile-layout-horizontal gap-10 w-fill">

@@ -16,7 +16,8 @@ class ShopRevenueController extends Controller
     
         $query = DB::table('orders')
             ->join('order_details', 'orders.id', '=', 'order_details.order_id')
-            ->where('orders.status', 'delivered');
+            ->where('orders.status', 'delivered')
+            ->where('orders.admin_paid', true);
     
         if ($from && $to) {
             $query->whereBetween('orders.created_at', [$from, $to]);
@@ -50,7 +51,8 @@ class ShopRevenueController extends Controller
     
         $cumulativeRevenue = 0;
         $statistics = $statistics->map(function ($item) use (&$cumulativeRevenue, $type) {
-            $cumulativeRevenue += $item->revenue;
+            $adjustedRevenue = $item->revenue * 0.95; 
+            $cumulativeRevenue += $adjustedRevenue;
     
             if ($type === 'date') {
                 $formattedDate = $item->date;
@@ -62,7 +64,7 @@ class ShopRevenueController extends Controller
     
             return [
                 'date' => $formattedDate,
-                'revenue' => $item->revenue,
+                'revenue' => $adjustedRevenue,
                 'cumulative_revenue' => $cumulativeRevenue,
             ];
         });
@@ -79,7 +81,8 @@ class ShopRevenueController extends Controller
         $query = DB::table('orders')
             ->join('order_details', 'orders.id', '=', 'order_details.order_id')
             ->where('orders.status', 'delivered')
-            ->where('orders.shop_id', $shopId);
+            ->where('orders.shop_id', $shopId)
+            ->where('orders.admin_paid', true);
 
         if ($from && $to) {
             $query->whereBetween('orders.created_at', [$from, $to]);
@@ -113,7 +116,9 @@ class ShopRevenueController extends Controller
 
         $cumulativeRevenue = 0;
         $statistics = $statistics->map(function ($item) use (&$cumulativeRevenue, $type) {
-            $cumulativeRevenue += $item->revenue;
+            $adjustedRevenue = $item->revenue * 0.95; 
+            $cumulativeRevenue += $adjustedRevenue;
+
 
             if ($type === 'date') {
                 $formattedDate = $item->date;
@@ -125,7 +130,7 @@ class ShopRevenueController extends Controller
 
             return [
                 'date' => $formattedDate,
-                'revenue' => $item->revenue,
+                'revenue' => $adjustedRevenue,
                 'cumulative_revenue' => $cumulativeRevenue,
             ];
         });

@@ -162,7 +162,17 @@ class OrderController extends Controller
     {
         $order = Order::findOrFail($id);
 
-        $order->update($request->only(['status']));
+        $order->update($request->only(['status', 'admin_paid']));
+        if ($request->status == 'cancelled') {
+            $order->products()->each(function ($product) {
+                $product->stock += $product->pivot->quantity;
+                $product->save();
+            });
+            if ($order->order_group->payment_method == 'zalopay')
+            {
+                $this->refund($request, $order->order_group_id);
+            }
+        }
 
         return new OrderResource($order);
     }
@@ -181,6 +191,13 @@ class OrderController extends Controller
         $order_group->save();
 
         $order_group->orders()->update(['status' => 'cancelled']);
+
+        $order_group->orders->each(function ($order) {
+            $order->products()->each(function ($product) {
+                $product->stock += $product->pivot->quantity;
+                $product->save();
+            });
+        });
 
         if ($order_group->payment_method == 'zalopay')
         {
@@ -207,4 +224,5 @@ class OrderController extends Controller
             return response()->json(['success' => true]);
         }
     }
+
 }

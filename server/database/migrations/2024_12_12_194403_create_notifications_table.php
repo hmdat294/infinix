@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreignId('conversation_id')->nullable()->constrained('conversations')->default(null)->onDelete('cascade');
             $table->foreignId('friend_request_id')->nullable()->constrained('friend_requests')->default(null)->onDelete('cascade');
             $table->foreignId('conversation_invitation_id')->nullable()->constrained('conversation_invitations')->default(null)->onDelete('cascade');
+            $table->foreignId('shop_id')->nullable()->constrained('shops')->default(null)->onDelete('cascade');
             $table->text('content')->nullable()->default(null);
             $table->enum('action_type', [
                 'user_like_post', 'user_comment_post', 'user_share_post',
@@ -28,7 +29,8 @@ return new class extends Migration
                 'user_send_friend_request', 'user_accept_friend_request',
                 'user_send_conversation_invitation', 'user_accept_conversation_invitation',
                 'user_create_post',
-                'user_send_message', 'user_recall_message', 'user_pin_message', 'user_reply_message'
+                'user_send_message', 'user_recall_message', 'user_pin_message', 'user_reply_message',
+                'shop_active'
             ]);
             $table->boolean('is_read')->default(false);
             $table->timestamps();
