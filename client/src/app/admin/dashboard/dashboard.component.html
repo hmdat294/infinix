@@ -5,41 +5,56 @@
 
         <div class="mb-20 layout-horizontal gap-20 w-fill">
             <div class="w-fill-column-4">
-                <div class="solid-background-senary rounded-6 px-15 py-10 border">
+                <div
+                    class="solid-background-senary rounded-6 px-15 py-10 border">
                     <div class="layout-horizontal align-center-space-between">
                         <div>
-                            <h5 class="text-subtitle accent-text-primary">{{totalUsers}}</h5>
-                            <p class="text-body text-secondary">{{'admin.dashboard.total_user'|translate}}</p>
+                            <h5
+                                class="text-subtitle accent-text-primary">{{totalUsers}}</h5>
+                            <p
+                                class="text-body text-primary">{{'admin.dashboard.total_user'|translate}}</p>
                         </div>
-                        <div class="solid-background-secondary p-5 rounded-pill">
-                            <i class="accent-text-primary icon-size-20 icon icon-ic_fluent_person_20_filled"></i>
+                        <div
+                            class="solid-background-secondary p-5 rounded-pill">
+                            <i
+                                class="accent-text-primary icon-size-20 icon icon-ic_fluent_person_20_filled"></i>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="w-fill-column-4">
-                <div class="solid-background-senary rounded-6 px-15 py-10 border">
+                <div
+                    class="solid-background-senary rounded-6 px-15 py-10 border">
                     <div class="layout-horizontal align-center-space-between">
                         <div>
-                            <h5 class="text-subtitle accent-text-primary">{{totalPost}}</h5>
-                            <p class="text-body text-secondary">Tổng số bài viết</p>
+                            <h5
+                                class="text-subtitle accent-text-primary">{{totalPost}}</h5>
+                            <p class="text-body text-primary">Tổng số bài
+                                viết</p>
                         </div>
-                        <div class="solid-background-secondary p-5 rounded-pill">
-                            <i class="accent-text-primary icon-size-20 icon icon-ic_fluent_person_20_filled"></i>
+                        <div
+                            class="solid-background-secondary p-5 rounded-pill">
+                            <i
+                                class="accent-text-primary icon-size-20 icon icon-ic_fluent_textbox_20_filled"></i>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="w-fill-column-4">
-                <div class="solid-background-senary rounded-6 px-15 py-10 border">
+                <div
+                    class="solid-background-senary rounded-6 px-15 py-10 border">
                     <div class="layout-horizontal align-center-space-between">
                         <div>
-                            <h5 class="text-subtitle accent-text-primary">{{totalReport}}</h5>
-                            <p class="text-body text-secondary">Tổng số tố cáo</p>
+                            <h5
+                                class="text-subtitle accent-text-primary">{{totalReport}}</h5>
+                            <p class="text-body text-primary">Tổng số tố
+                                cáo</p>
                         </div>
-                        <div class="solid-background-secondary p-5 rounded-pill">
-                            <i class="accent-text-primary icon-size-20 icon icon-ic_fluent_person_20_filled"></i>
+                        <div
+                            class="solid-background-secondary p-5 rounded-pill">
+                            <i
+                                class="accent-text-primary icon-size-20 icon icon-ic_fluent_chat_warning_20_filled"></i>
                         </div>
                     </div>
 
@@ -67,15 +82,33 @@
         </div>
 
         <div class="layout-horizontal gap-20 mb-20">
-            <div id="chart2" class="w-fill-column-12 solid-background-senary rounded-6 p-15"></div>
+
+            <div id="chart2"
+                class="w-fill-column-12 solid-background-senary rounded-6 p-15">
+                <apx-chart [chart]="chart2?.chart" [stroke]="chart2?.stroke"
+                    [colors]="chart2?.colors" [series]="chart2?.series"
+                    [xaxis]="chart2?.xaxis" [title]="chart2?.title"
+                    [markers]="chart2?.markers">
+                </apx-chart>
+            </div>
 
         </div>
         <div class="layout-horizontal gap-20">
             <div id="chart13"
                 class="w-fill-column-6 solid-background-senary rounded-6 p-15 layout-vertical align-center-center">
+                <apx-chart class="w-fill" [series]="chart13?.series" [chart]="chart13?.chart"
+                    [colors]="chart13?.colors"
+                    [title]="chart13?.title" [labels]="chart13?.labels"
+                    [legend]="chart13?.legend">
+                </apx-chart>
             </div>
             <div id="chart9"
                 class="w-fill-column-6 solid-background-senary rounded-6 p-15 layout-vertical align-center-center">
+                <apx-chart class="w-fill" [series]="chart9?.series" [chart]="chart9?.chart"
+                    [colors]="chart9?.colors"
+                    [title]="chart9?.title" [labels]="chart9?.labels"
+                    [legend]="chart9?.legend">
+                </apx-chart>
             </div>
             <!-- <div id="chart1"
                 class="w-fill-column-8 solid-background-senary rounded-6 p-15"></div> -->

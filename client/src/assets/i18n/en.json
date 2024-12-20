@@ -281,7 +281,23 @@
     "notification": {
         "title": "Notification",
         "all_notification": "All",
-        "unread_notification": "Unread"
+        "unread_notification": "Unread",
+        "content": {
+            "user_like_post": "liked your post",
+            "user_comment_post": "commented your post",
+            "user_share_post": "shared your post",
+            "user_follow": "followed you",
+            "user_send_friend_request": "sent a friend request",
+            "user_accept_friend_request": "accepted a friend request",
+            "user_send_conversation_invitation": "sent a group invitation",
+            "user_accept_conversation_invitation": "accepted a group invitation",
+            "user_create_post": "added a new post",
+            "user_send_message": "sent a message to you",
+            "user_recall_message": "recalled message",
+            "user_pin_message": "pinned message",
+            "user_reply_message": "replied message",
+            "shop_active": "shop activated"
+        }
     },
     "profile": {
         "center_profile": {
@@ -618,8 +634,8 @@
         "buy_now": "Boy now",
         "payment": "Pay",
         "day": "Day",
-        "product":"product",
-        "order":"order",
+        "product": "product",
+        "order": "order",
         "voucher_description": "{{discount}}% off up to {{max_discount}}, applicable to {{apply_to_products}}, minimum bill {{min_price}}.",
         "used": "Used",
         "use": "Use",
@@ -637,8 +653,8 @@
         "address": "Address",
         "day": "Day",
         "voucher": "Voucher",
-        "product":"product",
-        "order":"order",
+        "product": "product",
+        "order": "order",
         "voucher_description": "{{discount}}% off up to {{max_discount}}, applicable to {{apply_to_products}}, minimum bill {{min_price}}.",
         "save_voucher": "Save",
         "saved_voucher": "Saved",
@@ -679,7 +695,27 @@
             "request_a_refund": "Request a refund",
             "no_orders_yet": "You have not received any orders yet!",
             "feedback_product": "Feedback product",
-            "send_feedback": "Send feedback"
+            "send_feedback": "Send feedback",
+            "cancel": "Cancel",
+            "sure_cancel": "Are you sure you want to '<span class='text-body-strong'>cancel</span>' this order?",
+            "sure_refund": "Are you sure you want to '<span class='text-body-strong'>refund</span>' this order?",
+            "order_status": {
+                "pending": "Pending",
+                "received": "Order received",
+                "delivered": "Delivered",
+                "delivering": "Delivering",
+                "cancelled": "Cancelled"
+            },
+            "payment_methood": {
+                "cash": "Cash on delivery",
+                "zalopay": "Pay via ZaloPay"
+            },
+            "payment_status": {
+                "pending": "Pending",
+                "paid": "Paid",
+                "refunded": "Refunded",
+                "cancelled": "Cancelled"
+            }
         }
     },
     "product_detail": {

@@ -209,11 +209,6 @@
                     </div>
 
                     <div class="accordion-panel open layout-vertical profile_photo">
-                        <!-- <div
-                            class="p-15 layout-horizontal align-center-space-between border-bottom border-card-default">
-                            <p class="text-body text-primary">Chụp ảnh</p>
-                            <button class="button-standard button-text-only">Mở máy ảnh</button>
-                        </div> -->
                         <div class="p-15 layout-horizontal align-center-space-between">
                             <p class="text-body text-primary">{{ 'setting.general_settings.page_profile.select_photo' |
                                 translate }}</p>
@@ -248,11 +243,6 @@
                     </div>
 
                     <div class="accordion-panel open layout-vertical cover_photo">
-                        <!-- <div
-                            class="p-15 layout-horizontal align-center-space-between border-bottom border-card-default">
-                            <p class="text-body text-primary">Chụp ảnh</p>
-                            <button class="button-standard button-text-only">Mở máy ảnh</button>
-                        </div> -->
                         <div class="p-15 layout-horizontal align-center-space-between">
                             <p class="text-body text-primary">{{ 'setting.general_settings.page_profile.select_photo' |
                                 translate }}</p>
@@ -404,8 +394,8 @@
                                     class="w-fill">
                                     <p class="text-secondary text-body-strong">
                                         {{report.post.profile.display_name}}</p>
-                                    <p class="text-secondary text-body">
-                                        {{shortenTextByWords(report.post.content, 7)}}
+                                    <p class="text-secondary text-body"
+                                        [innerHTML]="shortenTextByWords(stripHtmlTags(report.post.content), 7)">
                                     </p>
                                 </a>
                                 <button type="button" class="button-standard button-text-with-icon"
@@ -444,7 +434,7 @@
                                                 {{ 'setting.general_settings.block_and_report.report.content' |
                                                 translate }}
                                             </p>
-                                            <p class="text-body text-primary">{{report.content}}</p>
+                                            <p class="text-body text-primary" [innerHTML]="report.content"></p>
                                         </div>
 
                                         <div class="layout-horizontal gap-5">
@@ -461,7 +451,10 @@
                                                 {{ 'setting.general_settings.block_and_report.report.status' | translate
                                                 }}
                                             </p>
-                                            <p class="text-body text-primary">Đã gửi</p>
+                                            <p class="text-body"
+                                                [class]="report.status == 'pending'?'text-system-caution':'text-system-success'">
+                                                {{report.status == 'pending'?'Đã gửi':'Đã xử lý'}}
+                                            </p>
                                         </div>
 
                                         <div class="layout-vertical gap-5">
@@ -471,10 +464,19 @@
                                             </p>
                                             <div class="border rounded-6 px-15 py-10 layout-horizontal gap-10 w-fill">
                                                 <div *ngIf="report.post.post_type == 'with_media'">
-                                                    <div *ngFor="let image of report.post.medias"
-                                                        class="layout-vertical">
-                                                        <img [src]="image.path" alt="" style="width: 150px;"
-                                                            class="rounded-4 my-5">
+                                                    <div class="layout-vertical">
+                                                        <ng-container
+                                                            *ngIf="report.post.medias[0].type === 'image/webp'">
+                                                            <img [src]="report.post.medias[0].path" alt="Image preview"
+                                                                width="200px" class="rounded-4">
+                                                        </ng-container>
+
+                                                        <!-- Hiển thị video -->
+                                                        <ng-container
+                                                            *ngIf="report.post.medias[0].type === 'video/mp4'">
+                                                            <video [src]="report.post.medias[0].path" controls
+                                                                width="200px" class="rounded-4"></video>
+                                                        </ng-container>
                                                     </div>
                                                 </div>
                                                 <div class="layout-vertical gap-10">
@@ -566,7 +568,7 @@
                                                 {{ 'setting.general_settings.block_and_report.report.content' |
                                                 translate }}
                                             </p>
-                                            <p class="text-body text-primary">{{report.content}}</p>
+                                            <p class="text-body text-primary" [innerHTML]="report.content"></p>
                                         </div>
 
                                         <div class="layout-horizontal gap-5">
@@ -583,7 +585,10 @@
                                                 {{ 'setting.general_settings.block_and_report.report.status' | translate
                                                 }}
                                             </p>
-                                            <p class="text-body text-primary">Đã gửi</p>
+                                            <p class="text-body"
+                                                [class]="report.status == 'pending'?'text-system-caution':'text-system-success'">
+                                                {{report.status == 'pending'?'Đã gửi':'Đã xử lý'}}
+                                            </p>
                                         </div>
 
                                         <div class="layout-vertical gap-5">
@@ -642,8 +647,8 @@
                                 <a class="w-fill">
                                     <p class="text-secondary text-body-strong">
                                         {{report.comment.user.profile.display_name}}</p>
-                                    <p class="text-secondary text-body">
-                                        {{shortenTextByWords(report.comment.content, 7)}}
+                                    <p class="text-secondary text-body"
+                                        [innerHTML]="shortenTextByWords(stripHtmlTags(report.post.content), 7)">
                                     </p>
                                 </a>
                                 <button type="button" class="button-standard button-text-with-icon"
@@ -682,7 +687,7 @@
                                                 {{ 'setting.general_settings.block_and_report.report.content' |
                                                 translate }}
                                             </p>
-                                            <p class="text-body text-primary">{{report.content}}</p>
+                                            <p class="text-body text-primary" [innerHTML]="report.content"></p>
                                         </div>
 
                                         <div class="layout-horizontal gap-5">
@@ -699,7 +704,10 @@
                                                 {{ 'setting.general_settings.block_and_report.report.status' | translate
                                                 }}
                                             </p>
-                                            <p class="text-body text-primary">Đã gửi</p>
+                                            <p class="text-body"
+                                                [class]="report.status == 'pending'?'text-system-caution':'text-system-success'">
+                                                {{report.status == 'pending'?'Đã gửi':'Đã xử lý'}}
+                                            </p>
                                         </div>
 
                                         <div class="layout-vertical gap-5">

@@ -9,10 +9,10 @@ import { EventService } from '../../service/event.service';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-    selector: 'app-account-settings',
-    imports: [CommonModule, FormsModule, TranslateModule],
-    templateUrl: './account-settings.component.html',
-    styleUrl: './account-settings.component.css'
+  selector: 'app-account-settings',
+  imports: [CommonModule, FormsModule, TranslateModule],
+  templateUrl: './account-settings.component.html',
+  styleUrl: './account-settings.component.css'
 })
 export class AccountSettingsComponent implements OnInit {
 
@@ -166,6 +166,7 @@ export class AccountSettingsComponent implements OnInit {
 
         this.authService.removeAuthToken();
         this.chatService.removeConversation();
+        localStorage.removeItem('user_code');
 
         this.router.navigate(['/landing-page']);
       },

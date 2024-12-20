@@ -2,18 +2,18 @@
 
     <div class="layout-vertical gap-20">
         <div class="card-background-default rounded-6 border p-10">
-            <apx-chart [series]="chartOptions_1.series" [chart]="chartOptions_1.chart" [colors]="chartOptions_1.colors"
-                [title]="chartOptions_1.title" [dataLabels]="chartOptions_1.dataLabels" [stroke]="chartOptions_1.stroke"
-                [xaxis]="chartOptions_1.xaxis" [tooltip]="chartOptions_1.tooltip">
+            <apx-chart *ngIf="chartOptions_1.chart" [series]="chartOptions_1.series" [chart]="chartOptions_1.chart"
+                [colors]="chartOptions_1.colors" [title]="chartOptions_1.title" [dataLabels]="chartOptions_1.dataLabels"
+                [stroke]="chartOptions_1.stroke" [xaxis]="chartOptions_1.xaxis" [tooltip]="chartOptions_1.tooltip">
             </apx-chart>
         </div>
 
-        <div class="card-background-default rounded-6 border p-10">
-            <apx-chart [series]="chartOptions_2.series" [chart]="chartOptions_2.chart" [colors]="chartOptions_2.colors"
+        <!-- <div class="card-background-default rounded-6 border p-10">
+            <apx-chart *ngIf="chartOptions_2.chart" [series]="chartOptions_2.series" [chart]="chartOptions_2.chart" [colors]="chartOptions_2.colors"
                 [plotOptions]="chartOptions_2.plotOptions" [dataLabels]="chartOptions_2.dataLabels"
                 [xaxis]="chartOptions_2.xaxis">
             </apx-chart>
-        </div>
+        </div> -->
     </div>
 
 </div>

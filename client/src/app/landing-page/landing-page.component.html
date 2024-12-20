@@ -1,4 +1,4 @@
-<section class="gradient-background layout-vertical h-hug overflow-hidden">
+<section class="gradient-background layout-vertical align-center-left h-hug overflow-hidden">
 
     <img style="right: 29px; top: 510px;" src="assets/image/3d-glassy-burst-of-cards-with-rounded-corners 1.png" alt=""
         class="position-absolute moving moving-delay-1">
@@ -19,16 +19,22 @@
     <img style="left: 1180px; top: 1270px;" src="assets/image/3d-glassy-two-deformed-thin-lenses 1.png" alt=""
         class="position-absolute moving moving-delay-3">
     <!-- Article -->
-    <article class="layout-vertical" style="gap: 150px; padding: 150px;">
+    <article class="layout-vertical w-fill-column-10 in-tablet-w-fill in-mobile-w-fill p-10  in-mobile-px-20"
+        style="gap: 150px;">
         <div class="layout-vertical w-fill">
-            <div class="layout-vertical gap-25">
+            <div class="layout-vertical" style="gap: 40px;">
 
-                <div class="text-wrapper">
+                <div class="text-wrapper hide-in-tablet hide-in-mobile">
                     <p class="gradient-text text-title-large">{{ 'landing_page.title' | translate }}</p>
                     <p class="text-border text-title-large">{{ 'landing_page.title' | translate }}</p>
                 </div>
 
-                <p class="text-secondary text-body-large" style="width: 600px;">
+                <div class="text-wrapper hide-in-desktop show-in-tablet show-in-mobile">
+                    <p class="gradient-text text-title">{{ 'landing_page.title' | translate }}</p>
+                    <p class="text-border text-title">{{ 'landing_page.title' | translate }}</p>
+                </div>
+
+                <p class="text-secondary text-body-large w-fill-column-8 in-tablet-w-fill-column-10 in-mobile-w-fill">
                     {{ 'landing_page.description' | translate }}
                 </p>
 
@@ -38,9 +44,8 @@
                 </button>
             </div>
         </div>
-        <div class="layout-horizontal w-fill acrylic-background-default blur-acrylic rounded-8"
-            style="gap: 35px; padding: 35px;">
-            <div class="layout-vertical gap-20 p-20 w-fill rounded-8 card-background-default">
+        <div class="layout-wrap w-fill acrylic-background-default blur-acrylic rounded-8 gap-20 p-20">
+            <div class="layout-vertical gap-20 p-20 w-fill-column-3 in-tablet-w-fill-column-6 in-mobile-w-fill rounded-8 card-background-default">
                 <div style="width: 70px; height: 70px;">
                     <img class="h-fill rotate rotate-delay-1" src="assets/image/landing-page-connect.png" alt="">
                 </div>
@@ -52,7 +57,7 @@
                 </div>
             </div>
 
-            <div class="layout-vertical gap-20 p-20 w-fill rounded-8 card-background-default">
+            <div class="layout-vertical gap-20 p-20 w-fill-column-3 in-tablet-w-fill-column-6 in-mobile-w-fill rounded-8 card-background-default">
                 <div style="width: 70px; height: 70px;">
                     <img class="h-fill rotate rotate-delay-2" src="assets/image/landing-page-share.png" alt="">
                 </div>
@@ -64,7 +69,7 @@
                 </div>
             </div>
 
-            <div class="layout-vertical gap-20 p-20 w-fill rounded-8 card-background-default">
+            <div class="layout-vertical gap-20 p-20 w-fill-column-3 in-tablet-w-fill-column-6 in-mobile-w-fill rounded-8 card-background-default">
                 <div style="width: 70px; height: 70px;">
                     <img class="h-fill rotate rotate-delay-3" src="assets/image/landing-page-explore.png" alt="">
                 </div>
@@ -76,7 +81,7 @@
                 </div>
             </div>
 
-            <div class="layout-vertical gap-20 p-20 w-fill rounded-8 card-background-default">
+            <div class="layout-vertical gap-20 p-20 w-fill-column-3 in-tablet-w-fill-column-6 in-mobile-w-fill rounded-8 card-background-default">
                 <div style="width: 70px; height: 70px;">
                     <img class="h-fill rotate rotate-delay-4" src="assets/image/landing-page-interact.png" alt="">
                 </div>
@@ -90,16 +95,16 @@
         </div>
 
 
-        <div class="layout-vertical w-fill acrylic-background-default blur-acrylic rounded-8 align-center-center"
-            style="gap: 35px; padding: 35px;">
+        <div class="layout-vertical w-fill acrylic-background-default blur-acrylic rounded-8 align-center-center gap-20 p-20">
             <p class="text-secondary text-title">{{ 'landing_page.main_function' | translate }}</p>
             <div class="layout-vertical gap-20 w-fill">
-                <div class="layout-horizontal w-fill gap-20">
+                <div class="layout-horizontal in-mobile-layout-vertical w-fill gap-20">
                     <div
                         class="layout-horizontal gap-20 p-20 rounded-8 border border-card-default card-background-default w-fill">
                         <i class="icon-size-28 accent-text-primary icon icon-ic_fluent_chat_28_filled"></i>
                         <div class="layout-vertical gap-5 w-fill">
-                            <p class="text-primary text-body-large">{{ 'landing_page.friend_chat_title' | translate }}</p>
+                            <p class="text-primary text-body-large">{{ 'landing_page.friend_chat_title' | translate }}
+                            </p>
                             <p class="text-secondary text-body">
                                 {{ 'landing_page.friend_chat_description' | translate }}
                             </p>
@@ -109,19 +114,21 @@
                         class="layout-horizontal gap-20 p-20 rounded-8 border border-card-default card-background-default w-fill">
                         <i class="icon-size-28 accent-text-primary icon icon-ic_fluent_people_team_28_filled"></i>
                         <div class="layout-vertical gap-5 w-fill">
-                            <p class="text-primary text-body-large">{{ 'landing_page.create_group_title' | translate }}</p>
+                            <p class="text-primary text-body-large">{{ 'landing_page.create_group_title' | translate }}
+                            </p>
                             <p class="text-secondary text-body">
                                 {{ 'landing_page.create_group_description' | translate }}
                             </p>
                         </div>
                     </div>
                 </div>
-                <div class="layout-horizontal w-fill gap-20">
+                <div class="layout-horizontal in-mobile-layout-vertical w-fill gap-20">
                     <div
                         class="layout-horizontal gap-20 p-20 rounded-8 border border-card-default card-background-default w-fill">
                         <i class="icon-size-28 accent-text-primary icon icon-ic_fluent_person_28_filled"></i>
                         <div class="layout-vertical gap-5 w-fill">
-                            <p class="text-primary text-body-large">{{ 'landing_page.personalization_title' | translate }}</p>
+                            <p class="text-primary text-body-large">{{ 'landing_page.personalization_title' | translate
+                                }}</p>
                             <p class="text-secondary text-body">
                                 {{ 'landing_page.personalization_description' | translate }}
                             </p>
@@ -131,7 +138,8 @@
                         class="layout-horizontal gap-20 p-20 rounded-8 border border-card-default card-background-default w-fill">
                         <i class="icon-size-28 accent-text-primary icon icon-ic_fluent_tv_28_filled"></i>
                         <div class="layout-vertical gap-5 w-fill">
-                            <p class="text-primary text-body-large">{{ 'landing_page.customize_appearance_title' | translate }}</p>
+                            <p class="text-primary text-body-large">{{ 'landing_page.customize_appearance_title' |
+                                translate }}</p>
                             <p class="text-secondary text-body">
                                 {{ 'landing_page.customize_appearance_description' | translate }}
                             </p>

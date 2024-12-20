@@ -10,12 +10,13 @@ import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { SettingService } from '../service/setting.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { PeerService } from '../service/peer.service';
 
 @Component({
-    selector: 'app-mini-chat',
-    imports: [RouterModule, CommonModule, FormsModule, EmojiModule, PickerComponent, TranslateModule],
-    templateUrl: './mini-chat.component.html',
-    styleUrl: './mini-chat.component.css'
+  selector: 'app-mini-chat',
+  imports: [RouterModule, CommonModule, FormsModule, EmojiModule, PickerComponent, TranslateModule],
+  templateUrl: './mini-chat.component.html',
+  styleUrl: './mini-chat.component.css'
 })
 export class MiniChatComponent implements OnInit, AfterViewChecked {
 
@@ -43,7 +44,8 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
   selectedFiles: File[] = [];
   previewUrls: string[] = [];
   spaceCheck: any = /^\s*$/;
-
+  msg_demo: string = '';
+  iSshowMessage: boolean = false;
 
   @ViewChild('scrollBox') private scrollBox!: ElementRef;
 
@@ -53,6 +55,7 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
     private eventService: EventService,
     private chatService: ChatService,
     private settingService: SettingService,
+    private peerService: PeerService
   ) { }
 
   ngOnInit(): void {
@@ -112,7 +115,21 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
             this.filterListChat();
 
             this.eventService.bindEvent('App\\Events\\UserSendMessageEvent', (data: any) => {
-              // console.log('Message received:', data);
+              console.log('Message received:', data);
+
+              this.msg_demo = (data.data.is_call == 0) ?
+                `<p class="text-body-strong">${data.data.user.profile.display_name}: </p>` + this.shortenTextByWords(data.data.content, 5)
+                : 'Cuộc gọi đã kết thúc!';
+
+              this.iSshowMessage = true;
+
+              setTimeout(() => {
+                this.iSshowMessage = false;
+
+                setTimeout(() => {
+                  this.msg_demo = '';
+                }, 500);
+              }, 3000);
 
               if (this.conversation.includes(data.data.conversation_id))
                 this.conversation = this.conversation.filter(id => id !== data.data.conversation_id);
@@ -144,6 +161,41 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
       });
   }
 
+
+
+  remotePeerId: string = '';
+
+  async makeCall() {
+    this.remotePeerId = 'infinix-user-' + this.chat.users[0].id;
+
+    if (this.remotePeerId) {
+
+      this.peerService.updateCalling(true);
+
+      const callOptions = {
+        userId: this.user.id,
+        conversationId: this.chat.id,
+        userName: this.user.profile.display_name,
+        userImage: this.user.profile.profile_photo,
+      };
+
+      this.peerService.updateUserTemp({
+        userName: this.chat.users[0].profile.display_name,
+        userImage: this.chat.users[0].profile.profile_photo,
+      });
+
+      this.peerService.updateInfo(null);
+      this.peerService.makeCall(this.remotePeerId, callOptions);
+      this.showChatBubble();
+    }
+  }
+
+
+
+
+
+
+
   deleteMiniChat(conversation_id: number) {
     this.conversation = this.conversation.filter(id => id !== conversation_id);
     this.chatService.updateConversation(this.conversation);
@@ -154,7 +206,9 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
   getMiniChat(conversation_id: number) {
     this.showBoxMiniChat = true;
     this.isScrollingToElement = false;
-    this.chat = this.filteredConversations.find((item: any) => item.id == conversation_id);
+
+    if (this.chat.id != conversation_id)
+      this.chat = this.filteredConversations.find((item: any) => item.id == conversation_id);
   }
 
   showChatBubble() {

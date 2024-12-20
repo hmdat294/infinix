@@ -1,16 +1,56 @@
 {
     "admin": {
-        "dashboard_title": "Thống kê",
-        "user_title": "Thống kê",
-        "content_title": "Thống kê",
-        "report_title": "Thống kê",
+        "dashboard_title": "Bảng điều khiển",
+        "user_title": "Thống kê người dùng",
+        "shop_title": "Thống kê cửa hàng",
+        "report_title": "Thống kê báo cáo",
+        "event_title": "Duyệt cửa hàng",
         "dashboard": {
             "total_user": "Tổng số người dùng",
             "total_post": "Tổng số bài viết",
             "total_report": "Tổng số tố cáo"
         },
+        
+        "shop_dashboard": {
+            "total_shop": "Tổng số cửa hàng",
+            "total_revenue": "Tổng doanh thu",
+            "total_profit": "Tổng lợi nhuận",
+            "shop":"Cửa hàng",
+            "phone_number": "Số điện thoại",
+            "active":"Trạng thái",
+            "shop-description":"Mô tả",
+            "address": "Địa chỉ",
+            "created_at": "Ngày tạo cửa hàng",
+            "product": "Sản phẩm",
+            "see_more":"Xem thêm",
+            "image":"Hình ảnh",
+            "name": "Tên",
+            "price": "Giá sản phẩm",
+            "refunds":"Hoàn trả",
+            "quantity":"Số lượng",
+            "total_sold":"Số lượt bán",
+            "list_invoices":"Danh sách hóa đơn",
+            "total_amount":"Tổng tiền"
+
+        },
         "user": {
-            "avata": "Ảnh đại diện"
+            "avata": "Ảnh đại diện",
+            "user_name": "Tên người dùng",
+            "phone_number": "Số điện thoại",
+            "created_at":"Ngày đăng ký",
+            "search":"ID hoặc Tên"
+        },
+        "report":{
+            "report_user":"Báo cáo người dùng",
+            "user_name":"Tên người dùng",
+            "report_content":"Nội dung báo cáo",
+            "status":"Trạng thái",
+            "created_at":"Ngày báo cáo",
+            "actions":"Hành động",
+            "post_title":"Bài viết",
+            "comment_title":"Bình luận",
+            "user_title":"Người dùng",
+            "all":"Tất cả"
         }
     },
     "bookmark": {
@@ -307,9 +347,10 @@
             "user_accept_conversation_invitation": "đã chấp nhận lời mời vào nhóm",
             "user_create_post": "đã thêm bài viết mới",
             "user_send_message": "đã gửi tin nhắn cho bạn",
-            "user_recall_message": "đã thu hồi tin nhắnnhắn",
+            "user_recall_message": "đã thu hồi tin nhắn",
             "user_pin_message": "đã gim tin nhắn",
-            "user_reply_message": "đã phản hồi tin nhắnnhắn"
+            "user_reply_message": "đã phản hồi tin nhắn",
+            "shop_active": "đã kích hoạt cửa hàng"
         }
     },
     "profile": {
@@ -647,8 +688,8 @@
         "buy_now": "Mua ngay",
         "payment": "Thanh toán",
         "day": "ngày",
-        "product":"sản phẩm",
-        "order":"đơn hàng",
+        "product": "sản phẩm",
+        "order": "đơn hàng",
         "voucher_description": "Giảm {{discount}}% áp dụng cho {{apply_to_products}} trên {{min_price}} và giảm tối đa {{max_discount}}",
         "used": "Đã dùng",
         "use": "Sử dụng",
@@ -666,8 +707,8 @@
         "address": "Địa chỉ",
         "day": "ngày",
         "voucher": "Mã giảm giá",
-        "product":"product",
-        "order":"order",
+        "product": "product",
+        "order": "order",
         "voucher_description": "Giảm {{discount}}% áp dụng cho {{apply_to_products}} trên {{min_price}} và giảm tối đa {{max_discount}}",
         "save_voucher": "Lưu",
         "saved_voucher": "Đã lưu",
@@ -708,7 +749,27 @@
             "request_a_refund": "Yêu cầu hoàn tiền",
             "no_orders_yet": "Bạn chưa có đơn hàng nào",
             "feedback_product": "Đánh giá sản phẩm",
-            "send_feedback": "Gửi đánh giá"
+            "send_feedback": "Gửi đánh giá",
+            "cancel": "Hủy",
+            "sure_cancel": "Chắc chắn '<span class='text-body-strong'>hủy</span>' đơn hàng này?",
+            "sure_refund": "Chắc chắn '<span class='text-body-strong'>hoàn tiền</span>' đơn hàng này?",
+            "order_status": {
+                "pending": "Chờ xử lý",
+                "received": "Đã nhận đơn",
+                "delivered": "Đã giao hàng",
+                "delivering": "Đang giao",
+                "cancelled": "Đã hủy"
+            },
+            "payment_methood": {
+                "cash": "Trả tiền mặt khi nhận hàng",
+                "zalopay": "Thanh toán qua ZaloPay"
+            },
+            "payment_status": {
+                "pending": "Chưa thanh toán",
+                "paid": "Đã thanh toán",
+                "refunded": "Đã hoàn tiền",
+                "cancelled": "Đã hủy"
+            }
         }
     },
     "product_detail": {

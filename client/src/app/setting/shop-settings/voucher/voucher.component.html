@@ -36,7 +36,8 @@
         <div class="position-absolute top-0 start-0" (click)="showDiaLogVoucher()"
             style="width: 100%; height: 100vh; z-index: 1; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px);">
         </div>
-        <div class="dialog-panel position-absolute top-50 start-50 translate-middle overflow-scroll-vertical" style="z-index: 2;">
+        <div class="dialog-panel position-absolute top-50 start-50 translate-middle overflow-scroll-vertical"
+            style="z-index: 2;">
             <div
                 class="layout-vertical p-20 gap-20 rounded-8 solid-background-base border border-card-default dialog_voucher">
 
@@ -115,14 +116,23 @@
 
                         <div class="layout-wrap w-fill-column-6 in-tablet-w-fill in-mobile-w-fill gap-20">
 
-                            <div class="w-fill-column-12 in-tablet-w-fill-column-8 in-mobile-w-fill layout-vertical gap-5">
+                            <p *ngIf="error != ''"
+                                class="w-fill validation-message validation-critical text-caption text-system-critical">
+                                <i class="icon-size-16 icon icon-ic_fluent_dismiss_circle_16_filled"></i>
+                                <span>{{error}}</span>
+                            </p>
+
+                            <div
+                                class="w-fill-column-12 in-tablet-w-fill-column-8 in-mobile-w-fill layout-vertical gap-5">
                                 <p class="text-body text-primary">Mã giảm giá:</p>
                                 <div class="w-fill control text-control">
-                                    <input type="text" spellcheck="false" name="code" [(ngModel)]="code" required>
+                                    <input type="text" spellcheck="false" name="code" [(ngModel)]="code" required
+                                        (click)="error = ''">
                                 </div>
                             </div>
 
-                            <div class="w-fill-column-6 in-tablet-w-fill-column-4 in-mobile-w-fill-column-6 layout-vertical gap-5">
+                            <div
+                                class="w-fill-column-6 in-tablet-w-fill-column-4 in-mobile-w-fill-column-6 layout-vertical gap-5">
                                 <p class="text-body text-primary">Giảm giá (%):</p>
                                 <div class="w-fill control number-control">
                                     <input type="number" min="0" spellcheck="false" name="discount"
@@ -142,7 +152,8 @@
                                 </div>
                             </div>
 
-                            <div class="w-fill-column-6 in-tablet-w-fill-column-4 in-mobile-w-fill-column-6 layout-vertical gap-5">
+                            <div
+                                class="w-fill-column-6 in-tablet-w-fill-column-4 in-mobile-w-fill-column-6 layout-vertical gap-5">
                                 <p class="text-body text-primary">Giảm tối đa (đ):</p>
                                 <div class="w-fill control number-control">
                                     <input type="number" min="0" spellcheck="false" name="max_discount"
@@ -163,7 +174,8 @@
                             </div>
 
 
-                            <div class="w-fill-column-6 in-tablet-w-fill-column-4 in-mobile-w-fill-column-6 layout-vertical gap-5">
+                            <div
+                                class="w-fill-column-6 in-tablet-w-fill-column-4 in-mobile-w-fill-column-6 layout-vertical gap-5">
                                 <p class="text-body text-primary">Yêu cầu tối thiểu (đ):</p>
                                 <div class="w-fill control number-control">
                                     <input type="number" min="0" spellcheck="false" name="min_price"
@@ -183,7 +195,8 @@
                                 </div>
                             </div>
 
-                            <div class="w-fill-column-6 in-tablet-w-fill-column-4 in-mobile-w-fill-column-6 layout-vertical gap-5">
+                            <div
+                                class="w-fill-column-6 in-tablet-w-fill-column-4 in-mobile-w-fill-column-6 layout-vertical gap-5">
                                 <p class="text-body text-primary">Lượt sử dụng:</p>
                                 <div class="w-fill control number-control">
                                     <input type="number" min="0" spellcheck="false" name="usage_limit"
@@ -208,7 +221,8 @@
                             </div>
 
 
-                            <div class="w-fill-column-6 in-tablet-w-fill-column-4 in-mobile-w-fill-column-6 layout-vertical gap-5">
+                            <div
+                                class="w-fill-column-6 in-tablet-w-fill-column-4 in-mobile-w-fill-column-6 layout-vertical gap-5">
                                 <p class="text-body text-primary">Ngày bắt đầu:</p>
                                 <div class="w-fill control text-control">
                                     <input type="date" spellcheck="false" name="valid_from" [(ngModel)]="valid_from"
@@ -216,7 +230,8 @@
                                 </div>
                             </div>
 
-                            <div class="w-fill-column-6 in-tablet-w-fill-column-4 in-mobile-w-fill-column-6 layout-vertical gap-5">
+                            <div
+                                class="w-fill-column-6 in-tablet-w-fill-column-4 in-mobile-w-fill-column-6 layout-vertical gap-5">
                                 <p class="text-body text-primary">Số lượng:</p>
                                 <div class="w-fill control number-control">
                                     <input type="number" min="0" spellcheck="false" name="stock" [(ngModel)]="stock"
@@ -241,7 +256,8 @@
                             </div>
 
 
-                            <div class="w-fill-column-6 in-tablet-w-fill-column-4 in-mobile-w-fill-column-6 layout-vertical gap-5">
+                            <div
+                                class="w-fill-column-6 in-tablet-w-fill-column-4 in-mobile-w-fill-column-6 layout-vertical gap-5">
                                 <p class="text-body text-primary">Ngày kết thúc</p>
                                 <div class="w-fill control text-control">
                                     <input type="date" spellcheck="false" name="valid_until" [(ngModel)]="valid_until"
@@ -249,7 +265,8 @@
                                 </div>
                             </div>
 
-                            <div class="w-fill-column-6 in-tablet-w-fill-column-4 in-mobile-w-fill-column-6 layout-horizontal gap-20 align-bottom-right in-tablet-align-center-left">
+                            <div
+                                class="w-fill-column-6 in-tablet-w-fill-column-4 in-mobile-w-fill-column-6 layout-horizontal gap-20 align-bottom-right in-tablet-align-center-left">
                                 <div class="layout-horizontal gap-20 align-center-left py-5">
                                     <label class="label-radio-control">
                                         <input class="radio-control" type="radio" name="is_active" value="0"
@@ -268,7 +285,8 @@
                                 </div>
                             </div>
 
-                            <div class="w-fill-column-12 in-tablet-w-fill-column-8 layout-horizontal align-center-right">
+                            <div
+                                class="w-fill-column-12 in-tablet-w-fill-column-8 layout-horizontal align-center-right">
                                 <button type="button" class="button-accent button-text-only w-hug"
                                     (click)="createVoucher()">
                                     {{title_voucher}}

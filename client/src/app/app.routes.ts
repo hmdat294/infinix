@@ -21,6 +21,9 @@ import { StoreComponent } from './store/store.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { EventComponent } from './admin/event/event.component';
 import { ReportpostComponent } from './admin/report-post/report-post.component';
+import { ReportUserComponent } from './admin/report-user/report-user.component';
+import { ShopDashboardComponent } from './admin/shop-dashboard/shop-dashboard.component';
+import { CallComponent } from './call/call.component';
 
 
 export const routes: Routes = [
@@ -45,10 +48,12 @@ export const routes: Routes = [
 
     { path: 'admin', component: DashboardComponent, canActivate: [AuthGuard] },
     { path: 'admin/user', component: UserComponent, canActivate: [AuthGuard] },
-    { path: 'admin/report', component: ReportComponent, canActivate: [AuthGuard] },
-    { path: 'admin/report/post', component: ReportpostComponent, canActivate: [AuthGuard] },
     { path: 'admin/report/comment', component: ReportCommentComponent, canActivate: [AuthGuard] },
+    { path: 'admin/report/post', component: ReportpostComponent, canActivate: [AuthGuard] },
+    { path: 'admin/report/user', component: ReportUserComponent, canActivate: [AuthGuard] },
+    { path: 'admin/report', component: ReportComponent, canActivate: [AuthGuard] },
     { path: 'admin/event', component: EventComponent, canActivate: [AuthGuard] },
+    { path: 'admin/shop', component: ShopDashboardComponent, canActivate: [AuthGuard] },
 
     { path: '**', redirectTo: '', pathMatch: 'full' }
 ];

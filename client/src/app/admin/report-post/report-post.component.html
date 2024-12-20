@@ -1,216 +1,3 @@
-<section class="gradient-background layout-horizontal"
-    style="height: 100vh;">
-    <app-nav class="h-fill"></app-nav>
-
-    <article class="py-20 m-20 w-fill overflow-scroll-vertical ">
-        <div
-            class="layout-horizontal  align-center-space-between mt-20  "
-            style="padding:0 20px;">
-            <div class="layout-horizontal gap-10  "
-                style="padding: 10px;">
-                <!-- search -->
-                <div class="search-dropdown-control">
-                    <div class="control search-control">
-                        <input type="search"
-                            placeholder="placeholder"
-                            spellcheck="false">
-                        <button type="button"
-                            class="input-button clear-content-button">
-                            <i
-                                class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
-                        </button>
-                        <button type="button"
-                            class="input-button search-button">
-                            <i
-                                class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
-                        </button>
-                    </div>
-                    <div class="dropdown-menu">
-                        <div class="list-item">
-                            <div class="text-body">Item 1</div>
-                        </div>
-                        <div class="list-item">
-                            <div class="text-body">Item 2</div>
-                        </div>
-                        <div class="list-item">
-                            <div class="text-body">Item 3</div>
-                        </div>
-                    </div>
-                </div>
-                <!-- fillter -->
-                <div class="layout-horizontal gap-10">
-                    <a [routerLink]="['/admin/report/post']"
-                        class="button-standard button-text-with-icon gap-10">
-                        <i
-                            class="icon-size-16 icon icon-ic_fluent_document_one_page_multiple_16_regular"></i>
-                        Post
-                    </a>
-                    <a href="#"
-                        class="button-standard button-text-with-icon gap-10">
-                        <i
-                            class="icon-size-20 icon icon-ic_fluent_check_20_regular"></i>
-                        Comment
-                    </a>
-                    <a [routerLink]="['/admin/report/user']"
-                        class="button-standard button-text-with-icon gap-10">
-                        <i
-                            class="icon-size-16 icon icon-ic_fluent_person_16_regular"></i>
-                        User
-                    </a>
-                    <a href="#"
-                        class="button-standard button-text-only gap-10">
-                        <!-- <i
-                                class="icon-size-16 icon icon-ic_fluent_person_24_regular"></i> -->
-                        See All
-                    </a>
-                </div>
-
-            </div>
-            <div class="me-25">
-                <div class="pagination layout-horizontal">
-                    <button
-                        class="pagination-item button-subtle button-icon-only text-accent-default"><i
-                            class="icon-size-24 icon icon-ic_fluent_caret_left_24_filled"></i></button>
-                    <button
-                        class="pagination-item button-subtle button-icon-only text-accent-default">1</button>
-                    <button
-                        class="pagination-item button-subtle button-icon-only text-accent-default">2</button>
-                    <button
-                        class="pagination-item button-subtle button-icon-only text-accent-default">3</button>
-                    <button
-                        class="pagination-item button-subtle button-icon-only text-accent-default">4</button>
-                    <button
-                        class="pagination-item button-subtle button-icon-only text-accent-default">5</button>
-                    <button
-                        class="pagination-item button-subtle button-icon-only text-accent-default"><i
-                            class="icon-size-24 icon icon-ic_fluent_caret_right_24_filled"></i></button>
-                </div>
-            </div>
-        </div>
-        <div style="padding: 20px;">
-            <div
-                class="table-container solid-background-senary p-10 rounded-8 ">
-
-                <div class="w-fill layout-vertical gap-20">
-                    <div
-                        class="head   w-fill align-center-space-between  text-body-strong p-20 text-center">
-                        <div><input type="checkbox"></div>
-                        <div class="text-primary">User Report</div>
-                        <div class="text-primary">User Name</div>
-                        <div class="text-primary">Report Content</div>
-                        <div class="text-primary">Status</div>
-                        <div class="text-primary">Report date</div>
-                        <div class="text-primary">Actions</div>
-                    </div>
-                    <div class=" text-primary text-body"
-                        *ngFor="let item of listReport; let i = index;">
-
-                        <div
-                            class="report-show   w-fill align-center-space-between p-20  text-primary text-body text-center ">
-                            <div><input type="checkbox"></div>
-
-                            <div>{{item.user.profile.display_name}}</div>
-                            <div>{{item.sender.profile.display_name}}</div>
-                            <div>{{shortenTextByWords(item.content,8)}}</div>
-                            <div>{{item.status}}</div>
-                            <div>{{item.created_at_date}}</div>
-                            <div
-                                class="layout-horizontal gap-20 align-center-center  ">
-                                <a
-                                    class="button-subtle button-icon-only text-accent-default"
-                                    (click)="tabChild('show_chitiet_'+i)">
-                                    <i
-                                        class="icon-size-24 icon icon-ic_fluent_settings_24_filled"></i>
-                                </a>
-
-                                <a href="#"
-                                    class="button-subtle button-icon-only text-accent-default">
-                                    <i
-                                        class="icon-size-24 icon icon-ic_fluent_info_24_filled"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div
-                            class="accordion-panel open layout-horizontal show_chitiet_{{i}} w-fill border-top mt-5 gap-20">
-                            <div class="layout-horizontal w-fill h-hug gap-25 "
-                               >
-
-                                <div
-                                    class="p-15 layout-horizontal align-center-space-around gap-20 w-fill-column-6">
-                                    <div
-                                        class="user-report layout-vertical gap-5 ">
-                                        <div
-                                            class="text-body-strong accent-text-primary text-center">User
-                                            Report</div>
-                                        <div class="layout-horizontal gap-10">
-                                            <div class="text-body-strong">Name:
-                                            </div>
-                                            <div>{{item.user.profile.display_name}}</div>
-                                        </div>
-                                        <div class="layout-horizontal gap-10">
-                                            <div
-                                                class="text-body-strong">Email:</div>
-                                            <div> {{item.user.email}}</div>
-                                        </div>
-                                        <div class="layout-horizontal gap-10">
-                                            <div class="text-body-strong">Phone
-                                                number: </div>
-                                            <div>
-                                                {{item.user.phone_number}}</div>
-                                        </div>
-                                    </div>
-                                    <div class="sender layout-vertical gap-5">
-                                        <div
-                                            class=" text-body-strong accent-text-primary text-center">Sender</div>
-                                        <div class="layout-horizontal gap-10">
-                                            <div class="text-body-strong">Name:
-                                            </div>
-                                            <div>{{item.sender.profile.display_name}}</div>
-                                        </div>
-                                        <div class="layout-horizontal gap-10">
-                                            <div
-                                                class="text-body-strong">Email:</div>
-                                            <div> {{item.sender.email}}</div>
-                                        </div>
-                                        <div class="layout-horizontal gap-10">
-                                            <div class="text-body-strong">Phone
-                                                number: </div>
-                                            <div>
-                                                {{item.sender.phone_number}}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div
-                                    class="p-15 layout-horizontal  w-fill-column-6 align-center-space-around ">
-                                    <div class="w-fill-column-4">
-                                        <div
-                                            class="text-body-strong accent-text-primary text-center">Content
-                                            Report : </div>
-                                        <div>{{item.content}}</div>
-                                    </div>
-                                    
-                                    <div class="w-fill-column-3 layout-horizontal gap-10">
-                                        <div class="text-body-strong accent-text-primary "> Type: </div>
-                                        <div>{{item.type}}</div>
-                                    </div>
-                                    <div class="w-fill-column-3">
-                                        <button
-                                            class="button-accent button-text-only">Update</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-    </article>
-</section>
-
-
-
 <section class="gradient-background layout-horizontal" style="height: 100vh;">
     <app-nav class="h-fill"></app-nav>
 
@@ -218,82 +5,47 @@
         <div class="layout-horizontal  align-center-space-between mt-20 p-20" >
             <div class="layout-horizontal gap-10 " style="padding: 10px;">
                 <!-- search -->
-                <div class="search-dropdown-control">
-                    <div class="control search-control">
-                        <input type="search"
-                            placeholder="placeholder"
-                            spellcheck="false">
-                        <button type="button"
-                            class="input-button clear-content-button">
-                            <i
-                                class="icon-size-16 icon icon-ic_fluent_dismiss_16_regular"></i>
-                        </button>
-                        <button type="button"
-                            class="input-button search-button">
-                            <i
-                                class="icon-size-16 icon icon-ic_fluent_search_16_regular"></i>
-                        </button>
-                    </div>
-                    <div class="dropdown-menu">
-                        <div class="list-item">
-                            <div class="text-body">Item 1</div>
-                        </div>
-                        <div class="list-item">
-                            <div class="text-body">Item 2</div>
-                        </div>
-                        <div class="list-item">
-                            <div class="text-body">Item 3</div>
-                        </div>
-                    </div>
-                </div>
+                <div class="layout-horizontal gap-10  ">
+                    <label class="text-primary" for="filterStatus">Lọc trạng thái:</label>
+                    <select  class= "dropdown-menu button-standard button-text-with-icon gap-10"  [(ngModel)]="filterStatus" (change)="filterReports()">
+                      <option value="all" class="list-item"><div class="text-body">Tất cả</div></option>
+                      <option value="pending" class="list-item"> <div class="text-body">Chưa giải quyết</div></option>
+                      <option value="resolved" class="list-item"><div class="text-body">Đã giải quyết</div></option>
+                    </select>
+                    
+                  </div>
                 <!-- fillter -->
                 <div class="layout-horizontal gap-10">
                     <a [routerLink]="['/admin/report/post']"
                         class="button-standard button-text-with-icon gap-10">
                         <i
                             class="icon-size-16 icon icon-ic_fluent_document_one_page_multiple_16_regular"></i>
-                        Post
+                        Bài viết
                     </a>
                     <a [routerLink]="['/admin/report/comment']"
                         class="button-standard button-text-with-icon gap-10">
                         <i
                             class="icon-size-20 icon icon-ic_fluent_check_20_regular"></i>
-                        Comment
+                        Bình luận
                     </a>
-                    <a [routerLink]="['/admin/report']"
+                    <a [routerLink]="['/admin/report/user']"
                         class="button-standard button-text-with-icon gap-10">
                         <i
                             class="icon-size-16 icon icon-ic_fluent_person_16_regular"></i>
-                        User
+                        Người dùng
                     </a>
-                    <a href="#"
-                        class="button-standard button-text-only gap-10">
-                        <!-- <i
-                                class="icon-size-16 icon icon-ic_fluent_person_24_regular"></i> -->
-                        See All
-                    </a>
+                    <a [routerLink]="['/admin/report']"
+                    class="button-standard button-text-with-icon gap-10">
+                    
+                    Tất cả
+                </a>
+                
                 </div>
 
             </div>
-            <div class="me-25">
-                <div class="pagination layout-horizontal">
-                    <button
-                        class="pagination-item button-subtle button-icon-only text-accent-default"><i
-                            class="icon-size-24 icon icon-ic_fluent_caret_left_24_filled"></i></button>
-                    <button
-                        class="pagination-item button-subtle button-icon-only text-accent-default">1</button>
-                    <button
-                        class="pagination-item button-subtle button-icon-only text-accent-default">2</button>
-                    <button
-                        class="pagination-item button-subtle button-icon-only text-accent-default">3</button>
-                    <button
-                        class="pagination-item button-subtle button-icon-only text-accent-default">4</button>
-                    <button
-                        class="pagination-item button-subtle button-icon-only text-accent-default">5</button>
-                    <button
-                        class="pagination-item button-subtle button-icon-only text-accent-default"><i
-                            class="icon-size-24 icon icon-ic_fluent_caret_right_24_filled"></i></button>
-                </div>
+            <div class="me-25"  *ngIf="filteredReports.length>10">
+                <pagination-controls (pageChange)="currentPage = $event" previousLabel=""
+                nextLabel=""></pagination-controls>
             </div>
         </div>
         <div style="padding: 20px;">
@@ -301,20 +53,19 @@
                 <table class="table w-fill text-center">
                     <thead>
                         <tr class>
-                            <th><input type="checkbox"></th>
-                            <th>Post Report</th>
-                            <th>User Report</th>
-                            <th>Report Content</th>
-                            <th>Status</th>
-                            <th>Report date</th>
-                            <th>Actions</th>
+                        
+                            <th class="text-primary">Báo cáo người dùng</th>
+                            <th class="text-primary">Tên người dùng</th>
+                            <th class="text-primary">Nội dung báo cáo</th>
+                            <th class="text-primary">Trạng thái</th>
+                            <th class="text-primary">Ngày báo cáo</th>
+                            <th class="text-primary">Hành động</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let item of listReport; let i = index">
-                            
-                          <td><input type="checkbox"></td>
-                          <td><a class=" accent-text-primary text-body" [routerLink]="['/friend-profile', item.user_id, item.post.id]">{{shortenTextByWords(item.post.content, 5)}} </a></td>
+                        <tr *ngFor="let item of filteredReports | paginate: { itemsPerPage: 10, currentPage: currentPage }; let i = index ">
+                        
+                          <td>{{item.user.profile.display_name}}</td>
                           <td>{{item.sender.profile.display_name}}</td>
                           <td>
                             <span [ngClass]="{ 'expanded': item.isExpanded }">
@@ -329,32 +80,29 @@
                                     class="status-select"
                                     [class.text-red]="item.status === 'pending'"
                                     [class.text-green]="item.status === 'resolved'">
-                                    <option value="pending">Pending</option>
-                                    <option value="resolved">Resolved</option>
+                                    <option value="pending">Chưa giải quyết</option>
+                                    <option value="resolved">Đã giải quyết</option>
                                 </select>
                             </div>
-                        </td>
-                        
-                        
+                          </td>
                           <td>{{item.created_at_date}}</td>
                           <td class="layout-horizontal gap-20 w-fill">
                             <a href="#" 
                                class="button-subtle button-icon-only text-accent-default"
                                (click)="toggleDetails(i, $event)">
-                              <!-- Biểu tượng thay đổi dựa trên trạng thái -->
                               <i 
                                 class="icon-size-24 icon"
                                 [class.icon-ic_fluent_settings_24_filled]="!item.isExpanded"
                                 [class.icon-ic_fluent_dismiss_16_regular]="item.isExpanded"></i>
                             </a>
-                            <a href="#" 
-     class="button-subtle button-icon-only text-accent-default"
-     (click)="confirmDelete(item.id, $event)">
-    <i class="icon-size-24 icon icon-ic_fluent_info_24_filled"></i>
-  </a>
+                            <!-- <a href="#" 
+                               class="button-subtle button-icon-only text-accent-default">
+                              <i class="icon-size-24 icon icon-ic_fluent_info_24_filled"></i>
+                            </a> -->
                           </td>
                         </tr>
-                      </tbody>
+                    </tbody>
+                    
                       
                 </table>
             </div>

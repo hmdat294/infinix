@@ -1,0 +1,412 @@
+<section class="gradient-background layout-horizontal" style="height: 100vh;">
+    <app-nav class="h-fill"></app-nav>
+
+    <article class="py-20 m-20 w-fill overflow-scroll-vertical">
+
+        <div class="mb-20 layout-horizontal gap-20 w-fill">
+            <div class="w-fill-column-6">
+                <div
+                    class="solid-background-senary rounded-6 px-15 py-10 border">
+                    <div class="layout-horizontal align-center-space-between">
+                        <div>
+                            <h5
+                                class="text-subtitle accent-text-primary">{{totalShop}}</h5>
+                            <p class="text-body text-primary">Tổng số cửa
+                                hàng</p>
+                        </div>
+                        <div class="system-caution p-5 rounded-pill">
+                            <i
+                                class="text-on-accent-primary icon-size-20 icon icon-ic_fluent_cart_20_regular"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-fill-column-6">
+                <div
+                    class="solid-background-senary rounded-6 px-15 py-10 border">
+                    <div class="layout-horizontal align-center-space-between">
+                        <div>
+                            <h5
+                                class="text-subtitle accent-text-primary">{{totalRevenue}}</h5>
+                            <p class="text-body text-primary">Tổng doanh
+                                thu</p>
+                        </div>
+                        <div class="system-success p-5 rounded-pill">
+                            <i
+                                class="text-on-accent-primary icon-size-20 icon icon-ic_fluent_money_20_regular"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+
+           
+        </div>
+
+        <div class="layout-horizontal gap-20 mb-20">
+            <div
+                class=" w-fill-column-3 solid-background-senary rounded-6 p-15">
+                <div class="layout-vertical m-10">
+                    <div
+                        class="w-fill layout-horizontal align-bottom-space-between pb-10">
+                        <div class="text-subtitle text-primary">Top cửa hàng</div>
+                        <div class="text-body accent-text-primary"><a href
+                                class="accent-text-tertiary">Xem thêm</a> </div>
+                    </div>
+                    <div class="w-fill layout-vertical"
+                        *ngFor="let item of ShopRevenus">
+
+                        <div
+                            class="w-fill layout-horizontal align-bottom-space-between p-20 border rounded-6">
+                            <div class="layout-vertical">
+                                <div class="text-body-large text-primary">{{item.name}}</div>
+                                <div class="text-body-strong text-primary">Doanh thu:
+                                    {{formatCurrency(item.total_revenue)}}</div>
+                                <div
+                                    class="text-caption text-secondary">{{item.total_quantity_sold}}
+                                    Sản phẩm đã bán</div>
+                            </div>
+                            <div class="rounded-circle w-hug">
+                                <img
+                                    class="object-fit-cover w-full h-24 rounded-circle"
+                                    width="50px"
+                                    [src]="item.logo" alt>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="chart2"
+                class="w-fill-column-9 solid-background-senary rounded-6 p-15">
+                <apx-chart [chart]="chart2?.chart" [stroke]="chart2?.stroke"
+                    [colors]="chart2?.colors" [series]="chart2?.series"
+                    [xaxis]="chart2?.xaxis" [title]="chart2?.title"
+                    [markers]="chart2?.markers">
+                </apx-chart>
+            </div>
+
+        </div>
+        <div class="layout-horizontal gap-20">
+            <div
+                class="layout-vertical gap-20  in-mobile-px-5 pb-10 border-top border-card-default w-fill overflow-scroll-vertical in-mobile-overflow-hidden">
+
+                <div class="text-body text-primary text-center w-fill">
+                    <div
+                        class="w-fill gap-20 layout-horizontal align-center-center text-body-strong p-10">
+                        <div
+                            class="w-fill layout-horizontal align-bottom-space-between pb-10">
+                            <div class="text-subtitle text-primary">Cửa hàng</div>
+                            <div class="text-body accent-text-tertiary">
+                                <pagination-controls
+                                    (pageChange)="currentPage = $event"
+                                    previousLabel
+                                    nextLabel></pagination-controls> </div>
+                        </div>
+                    </div>
+                    <div
+                        class="w-fill layout-vertical border-top border-card-default"
+                        *ngFor="let item of listShop  | paginate: { itemsPerPage: 5, currentPage: currentPage }; let i = index ">
+                        <div
+                            class="w-fill gap-20 in-mobile-gap-10 layout-horizontal align-center-center rounded-8 cursor-pointer"
+                            style="padding: 7px 11px;"
+                            [class]="tabAccordion == 'shop_detail_'+i?'card-background-default':'list-item'"
+                            (click)="tabChild('shop_detail_'+i)"
+                            (click)="onItemClick(item.id)">
+
+                            <div
+                                class="w-fill-column-3  layout-horizontal gap-5 align-center-center">
+                                <img
+                                    class="object-fit-cover  h-24 rounded-circle"
+                                    width="70px" height="70px"
+                                    [src]="item.logo" alt>
+
+                            </div>
+                            <div class="layout-vertical w-fill gap-20">
+
+                                <div
+                                    class="layout-horizontal align-center-center gap-10 w-hug">
+                                    <a [routerLink]="['/shop/',item?.id]"
+                                        class="text-body text-primary link">{{item.name}}</a>
+
+                                </div>
+                                <div class="layout-vertical w-fill">
+                                    <div
+                                        class="layout-horizontal gap-20 w-fill">
+                                        <div
+                                            class="text-caption w-fill-column-2 text-secondary">Doanh
+                                            thu</div>
+                                        <div
+                                            class="text-caption w-fill-column-2 text-secondary">Sản
+                                            phẩm đã bán</div>
+
+                                    </div>
+                                    <div
+                                        class="layout-horizontal gap-20  w-fill">
+                                        <div
+                                            class="text-body-strong w-fill-column-2 text-primary ">{{formatCurrency(item.total_revenue)}}</div>
+                                        <div
+                                            class="text-body-strong w-fill-column-2 text-primary">{{item.total_products_sold
+                                            }}</div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="accordion-panel shop_detail_{{i}} w-fill layout-horizontal in-tablet-layout-vertical in-mobile-layout-vertical gap-10 in-tablet-gap-0 in-mobile-gap-0">
+
+                            <div
+                                class="layout-vertical w-fill-column-7 mt-10 h-hug">
+
+                                <div
+                                    class="layout-vertical w-fill border rounded-8 p-10 mb-10 in-tablet-mb-5 in-mobile-mb-5 card-background-default"><!-- for -->
+                                    <div class="border rounded-6">
+
+                                        <div
+                                            class="layout-horizontal align-center-space-between p-10">
+                                            <p class="text-body-strong text-primary">Số điện
+                                                thoại:</p>
+                                            <p
+                                                class="text-body text-primary">{{item.phone_number}}</p>
+                                        </div>
+                                        <div
+                                            class="layout-horizontal align-center-space-between p-10 border-bottom">
+                                            <p class="text-body-strong text-primary">Trạng
+                                                thái:</p>
+                                            <p
+                                                *ngIf="item.is_active === 1"
+                                                class="text-body text-system-success">
+                                                Đang hoạt động
+                                            </p>
+                                            <p
+                                                *ngIf="item.is_active === 0"
+                                                class="text-body text-system-critical ">
+                                                Không hoạt động
+                                            </p>
+                                        </div>
+
+                                        <div
+                                            class="layout-horizontal align-center-space-between p-10">
+                                            <p class="text-body-strong text-primary">Mô
+                                                tả:</p>
+                                            <p
+                                                class="text-body text-primary">{{item.description}}</p>
+                                        </div>
+                                        <div
+                                            class="layout-horizontal align-center-space-between p-10">
+                                            <p class="text-body-strong text-primary">Địa
+                                                chỉ:</p>
+                                            <p
+                                                class="text-body text-primary">{{item.address}}
+                                            </p>
+                                        </div>
+                                        <div
+                                            class="layout-horizontal align-center-space-between p-10">
+                                            <p class="text-body-strong text-primary">Ngày tạo
+                                                cửa hàng:</p>
+                                            <p
+                                                class="text-body text-primary">{{item.created_at|
+                                                date: 'dd/MM/yyyy'}} </p>
+                                        </div>
+                                    </div>
+                                    <div class="layout-vertical gap-10">
+                                        <div
+                                            class="w-fill layout-horizontal align-bottom-space-between p-10">
+                                            <div class="text-body-strong text-primary">Sản
+                                                phẩm</div>
+                                            <div
+                                                class="text-body accent-text-primary"><a
+                                                    href
+                                                    class="accent-text-primary">Xem
+                                                    thêm</a> </div>
+                                        </div>
+                                        <div>
+                                            <div
+                                                class="layout-horizontal gap-20 my-10 border-bottom pb-10">
+                                                <div
+                                                    class="layout-horizontal align-center-space-between text-center text-primary w-fill-column-2">
+                                                    hình
+                                                </div>
+                                                <p
+                                                    class="layout-horizontal align-center-space-between text-center text-primary w-fill-column-3">Tên</p>
+                                                <p
+                                                    class="layout-horizontal align-center-space-between text-center text-primary w-fill-column-2">Thanh
+                                                    toán</p>
+                                                <p
+                                                    class="layout-horizontal align-center-space-between text-center text-primary w-fill-column-2">Hoàn
+                                                    trả</p>
+                                                <p
+                                                    class="layout-horizontal align-center-space-between text-center text-primary w-fill-column-1">Số
+                                                    lượng </p>
+                                                <p
+                                                    class="layout-horizontal align-center-space-between text-center text-primary w-fill-column-2">Số
+                                                    lượt bán</p>
+
+                                            </div>
+                                            <div class="layout-vertical w-fill"
+                                                *ngFor="let item of listProduct  ">
+                                                <div
+                                                    class="layout-horizontal gap-20 my-10 text-center"
+                                                    style="height: auto;">
+
+                                                    <div
+                                                        class="w-fill-column-2 h-hug">
+                                                        <img
+                                                            class=" rounded-4 h-hug "
+                                                            width="70"
+                                                            [src]="item.images[0]?.image "
+                                                            alt>
+                                                    </div>
+                                                    <p
+                                                        class="layout-horizontal align-center-space-between text-primary text-center w-fill-column-3">{{item.name}}</p>
+                                                    <p
+                                                        class="layout-horizontal align-center-space-between text-primary text-center w-fill-column-2">{{item.price}}
+                                                    </p>
+                                                    <p
+                                                        class="layout-horizontal align-center-space-between text-primary text-center w-fill-column-2">{{item.price
+                                                        -(item.price * 0.05
+                                                        )}}</p>
+                                                    <p
+                                                        class="layout-horizontal align-center-space-between text-primary text-center w-fill-column-1">{{item.stock}}</p>
+                                                    <p
+                                                        class="layout-horizontal align-center-space-between text-primary text-center w-fill-column-2">{{item.total_sold}}</p>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div
+                                class="w-fill">
+                                <div
+                                    class="w-fill h-hug layout-vertical border rounded-8 my-10 in-tablet-mt-5 in-mobile-mt-5 card-background-default">
+                                    <div
+                                            class="w-fill layout-horizontal align-bottom-space-between p-10">
+                                            <div class="text-body-strong text-primary">Danh sách hóa đơn</div>
+                                            <div
+                                                class="text-body accent-text-tertiary"><a
+                                                    href
+                                                    class="accent-text-primary">Xem
+                                                    thêm</a> </div>
+                                        </div>
+                                    <div class="layout-vertical w-fill gap-20 "
+                                        *ngFor="let item of allOrderbyID">
+                                        <div
+                                            class="layout-horizontal gap-20 my-10 border-bottom pb-10">
+                                            <div
+                                                class="w-fill-column-2  layout-horizontal gap-5 align-center-center">
+                                                <img
+                                                    class="object-fit-cover  h-24 rounded-circle"
+                                                    width="70px" height="70px"
+                                                    [src]="item.shop_logo" alt>
+
+                                            </div>
+                                            <div
+                                                class="layout-vertical w-fill-column-10 gap-10 ">
+
+                                                <div
+                                                    class="layout-horizontal text-primary align-center-center gap-10 w-hug">
+
+                                                    {{item.external_order_id}}
+
+                                                </div>
+                                                <div
+                                                    class="layout-vertical w-fill align-center-center">
+                                                    <div
+                                                        class="layout-horizontal gap-10 w-fill">
+                                                        <div
+                                                            class="text-caption w-fill-column-4 text-secondary">Tổng
+                                                            tiền</div>
+                                                        <div
+                                                            class="text-caption w-fill-column-4 text-secondary">Hoàn
+                                                            trả</div>
+                                                        <div
+                                                            class="text-caption w-fill-column-4 text-secondary">Trạng
+                                                            thái</div>
+
+                                                    </div>
+                                                    <div
+                                                        class="layout-horizontal gap-10  w-fill">
+                                                        <div
+                                                            class="text-body-strong text-primary w-fill-column-4">{{formatCurrency(item.total)}}</div>
+                                                        <div
+                                                            class="text-body-strong text-primary w-fill-column-4">{{formatCurrency(item.total- (item.total * 0.05))}}</div>
+                                                        <div
+                                                            *ngIf="item.admin_paid === 1"
+                                                            class="text-body w-fill-column-4 text-system-success">
+                                                            Đã hoàn tiền
+                                                        </div>
+                                                        <div
+                                                            *ngIf="item.admin_paid === 0"
+                                                            class="text-body w-fill-column-4 text-system-critical ">
+                                                            Chưa hoàn tiền
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <!-- <div
+                                                class="layout-vertical w-fill-column-2 align-center-center p-10">
+                                                <button
+                                                    class="solid-background-secondary w-fill p-5 rounded-pill border">
+                                                    <i
+                                                        class="text-system-success icon-size-20 icon icon-ic_fluent_money_hand_20_regular"
+                                                        (click)="openDialog()"></i>
+                                                </button>
+                                            </div>
+                                            <div
+                                                class="position-fixed top-0 start-0"
+                                                [ngClass]="{'display-block': isDialogVisible, 'display-none': !isDialogVisible}"
+                                                style="width: 100%; height: 100vh; z-index: 30;"> 
+                                                <div
+                                                    class="position-fixed top-0 start-0"
+                                                    style="width: 100%; height: 100vh; z-index: 20; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px);">
+                                                </div> 
+                                                <div
+                                                    class="dialog-panel position-absolute top-50 start-50 translate-middle"
+                                                    style="width: 400px; z-index: 50; background-color: #fff; border-radius: 8px; padding: 20px; box-shadow: 0px 4px 10px rgba(0,0,0,0.2);">
+                                                    <div
+                                                        class="layout-vertical gap-20"> 
+                                                        <div
+                                                            class="text-title accent-text-primary">Xác
+                                                            nhận hành động</div> 
+                                                        <p class="text-body ">Bạn
+                                                            có chắc chắn muốn
+                                                            thực hiện hành động
+                                                            này không?</p>
+
+                                                        <div
+                                                            class="layout-horizontal align-center-space-between">
+                                                            <button
+                                                                type="button"
+                                                                class="button button-accent">Xác
+                                                                nhận</button>
+                                                            <button
+                                                                type="button"
+                                                                class="button button-secondary"
+                                                                (click)="openDialog()">Không
+                                                                xác
+                                                                nhận</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </article>
+</section>

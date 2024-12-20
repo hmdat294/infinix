@@ -17,10 +17,10 @@ import { RightHomeComponent } from "../right-home/right-home.component";
 import { SettingService } from '../../service/setting.service';
 
 @Component({
-    selector: 'app-center-home',
-    imports: [FormsModule, CommonModule, RouterModule, EmojiModule, PickerComponent, QuillModule, TranslateModule, RightHomeComponent],
-    templateUrl: './center-home.component.html',
-    styleUrl: './center-home.component.css'
+  selector: 'app-center-home',
+  imports: [FormsModule, CommonModule, RouterModule, EmojiModule, PickerComponent, QuillModule, TranslateModule, RightHomeComponent],
+  templateUrl: './center-home.component.html',
+  styleUrl: './center-home.component.css'
 })
 export class CenterHomeComponent implements OnInit, AfterViewInit {
 
@@ -47,6 +47,8 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   friendSuggestions: any;
   contentCommentInput: string = '';
   tabAccordion: string = '';
+  isCreateContent: boolean = false;
+  messageNotCreateContent: string = '';
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -65,6 +67,18 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
     this.authService.getUser(0).subscribe(
       (data) => {
         this.currentUser = data.data;
+
+        this.isCreateContent = !this.authService.checkPermissions('can_create_content', this.currentUser.permissions);
+
+        if (this.isCreateContent) {
+          const canCreateContentPermission = this.currentUser.permissions.find(
+            (permission: any) => permission.name === "can_create_content"
+          );
+
+          const enableAt = canCreateContentPermission?.pivot?.enable_at || null;
+
+          this.messageNotCreateContent = 'Tài khoản của bạn không thể đăng bài và bình luận đến ' + moment(enableAt).format('HH:mm:ss [ngày] DD/MM/YYYY');
+        }
       });
 
     this.chatService.getListChat().subscribe(
@@ -296,7 +310,7 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
 
           this.eventService.bindEventPost('App\\Events\\UserCommentPostEvent', (data: any) => {
             this.listPost.find(item => item.id === data.data.post.id).comments_count = data.comments_count;
-            this.getCommentByPostId(data.data.post.id).unshift(data.data);
+            this.commentByPostId[data.data.post.id].unshift(data.data);
             // console.log('Comment event:', data);
           });
 
@@ -313,9 +327,9 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
   }
 
 
-  getCommentByPostId(post_id: number) {
-    return this.commentByPostId[post_id];
-  }
+  // getCommentByPostId(post_id: number) {
+  //   return this.commentByPostId[post_id];
+  // }
 
   getPathImg(img: any) {
     return { 'path': img.path, 'type': img.type };
@@ -539,6 +553,17 @@ export class CenterHomeComponent implements OnInit, AfterViewInit {
         // console.log(response);
         this.contentCommentInput = '';
         this.removeCommentImage();
+      }
+    )
+  }
+
+  deleteComment(comment_id: number, post_id: number) {
+
+    this.postService.deleteComment(comment_id).subscribe(
+      (response) => {
+        console.log(response);
+
+        this.commentByPostId[post_id] = this.commentByPostId[post_id].filter((comment: any) => comment.id != comment_id);
       }
     )
   }

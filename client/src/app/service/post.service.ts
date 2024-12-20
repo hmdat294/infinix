@@ -48,6 +48,16 @@ export class PostService {
     return this.http.post(`${this.apiUrl}/comment`, value, { headers });
   }
 
+  postLikeComment(comment_id: number): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.post(`${this.apiUrl}/like-comment/`, { 'comment_id': comment_id }, { headers });
+  }
+
+  deleteComment(comment_id: number): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.delete(`${this.apiUrl}/comment/${comment_id}`, { headers });
+  }
+
   likePost(post_id: number): Observable<any> {
     const headers = this.authService.getToken();
     return this.http.post(`${this.apiUrl}/like`, { 'post_id': post_id }, { headers });
@@ -92,10 +102,4 @@ export class PostService {
     const headers = this.authService.getToken();
     return this.http.delete(`${this.apiUrl}/report/${report_id}`, { headers });
   }
-
-  postLikeComment(comment_id: number): Observable<any> {
-    const headers = this.authService.getToken();
-    return this.http.post(`${this.apiUrl}/like-comment/`, { 'comment_id': comment_id }, { headers });
-  }
-
 }

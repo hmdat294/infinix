@@ -15,10 +15,10 @@ import { QuillModule } from 'ngx-quill';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-    selector: 'app-search',
-    imports: [CommonModule, FormsModule, RouterModule, EmojiModule, QuillModule, TranslateModule],
-    templateUrl: './search.component.html',
-    styleUrl: './search.component.css'
+  selector: 'app-search',
+  imports: [CommonModule, FormsModule, RouterModule, EmojiModule, QuillModule, TranslateModule],
+  templateUrl: './search.component.html',
+  styleUrl: './search.component.css'
 })
 export class SearchComponent implements OnInit, AfterViewInit {
 
@@ -40,6 +40,8 @@ export class SearchComponent implements OnInit, AfterViewInit {
   listUser: any;
   listGroup: any;
   contentCommentInput: string = '';
+  isCreateContent: boolean = false;
+  messageNotCreateContent: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -70,6 +72,18 @@ export class SearchComponent implements OnInit, AfterViewInit {
     this.authService.getUser(0).subscribe(
       (data) => {
         this.currentUser = data.data;
+
+        this.isCreateContent = !this.authService.checkPermissions('can_create_content', this.currentUser.permissions);
+
+        if (this.isCreateContent) {
+          const canCreateContentPermission = this.currentUser.permissions.find(
+            (permission: any) => permission.name === "can_create_content"
+          );
+
+          const enableAt = canCreateContentPermission?.pivot?.enable_at || null;
+
+          this.messageNotCreateContent = 'Tài khoản của bạn không thể đăng bài và bình luận đến ' + moment(enableAt).format('HH:mm:ss [ngày] DD/MM/YYYY');
+        }
       });
   }
 
@@ -173,7 +187,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
           this.eventService.bindEventPost('App\\Events\\UserCommentPostEvent', (data: any) => {
             this.valueSearchPosts.find(item => item.id === data.data.post.id).comments_count = data.comments_count;
-            this.getCommentByPostId(data.data.post.id).unshift(data.data);
+            this.commentByPostId[data.data.post.id].unshift(data.data);
             // console.log('Comment event:', data);
           });
 
@@ -237,7 +251,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
         console.log(this.valueSearchUsers);
         console.log(this.valueSearchPosts);
-        
+
         this.tabActive = 'all';
 
         this.eventService.bindEvent('App\\Events\\FriendRequestEvent', (data: any) => {
@@ -310,9 +324,9 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
   //show post
 
-  getCommentByPostId(postId: number) {
-    return this.commentByPostId[postId];
-  }
+  // getCommentByPostId(postId: number) {
+  //   return this.commentByPostId[postId];
+  // }
 
 
   getPathImg(img: any) {
@@ -337,6 +351,17 @@ export class SearchComponent implements OnInit, AfterViewInit {
         // console.log(response);
         this.contentCommentInput = '';
         this.removeCommentImage();
+      }
+    )
+  }
+  
+  deleteComment(comment_id: number, post_id: number) {
+
+    this.postService.deleteComment(comment_id).subscribe(
+      (response) => {
+        console.log(response);
+
+        this.commentByPostId[post_id] = this.commentByPostId[post_id].filter((comment: any) => comment.id != comment_id);
       }
     )
   }

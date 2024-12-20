@@ -1,11 +1,19 @@
-<header [ngClass]="{'layer-default': isScrolled}" class="layout-horizontal w-fill align-center-space-between" style="padding: 10px 150px;">
-    <div class="layout-horizontal gap-10 align-center-left">
-        <img src="assets/image/Logo.png" alt="">
-        <p class="text-subtitle text-primary">Infinix</p>
-    </div>
-    <div class="layout-horizontal gap-10">
-        <a [routerLink]="['/landing-page']"  class="button-subtle px-20 py-10 link text-body-large">{{ 'header_default.home_title' | translate }}</a>
-        <a href="" class="button-subtle px-20 py-10 link text-body-large">{{ 'header_default.about_title' | translate }}</a>
-        <a href="" class="button-subtle px-20 py-10 link text-body-large">{{ 'header_default.contact_title' | translate }}</a>
+<header [ngClass]="{'layer-default': isScrolled}" class="layout align-center-center w-fill">
+    <div class="layout-horizontal in-mobile-layout-vertical align-center-space-between w-fill-column-10 in-tablet-w-fill in-mobile-w-fill py-10">
+        <div class="layout-horizontal w-fill gap-10 align-center-left in-tablet-px-10 in-mobile-px-20">
+            <img src="assets/image/Logo.png" alt="">
+            <p class="text-subtitle text-primary">Infinix</p>
+        </div>
+        <div class="layout-horizontal w-fill gap-10 align-center-right in-mobile-gap-0">
+            <a [routerLink]="['/landing-page']" class="button-subtle px-20 in-mobile-px-10 py-10 link text-body-large">
+                {{ 'header_default.home_title' | translate }}
+            </a>
+            <a href="" class="button-subtle px-20 in-mobile-px-10 py-10 link text-body-large">
+                {{ 'header_default.about_title' | translate }}
+            </a>
+            <a href="" class="button-subtle px-20 in-mobile-px-10 py-10 link text-body-large">
+                {{ 'header_default.contact_title' | translate }}
+            </a>
+        </div>
     </div>
 </header>

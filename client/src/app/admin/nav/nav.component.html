@@ -3,25 +3,25 @@
         <div class="h-fill">
             <div class="nav layout-vertical gap-10">
                 <a class="list-item layout-horizontal align-center-left gap-10 text-body" [routerLink]="['/admin']"><i
-                        class="ms-15 accent-text-tertiary icon-size-24 icon icon-ic_fluent_home_24_regular"></i>Dashboard</a>
+                        class="ms-15 accent-text-tertiary icon-size-24 icon icon-ic_fluent_home_24_regular"></i>Trang tổng quan</a>
                 <a class="list-item layout-horizontal align-center-left gap-10 text-body"[routerLink]="['/admin/user']"><i
-                        class="ms-15 accent-text-tertiary icon-size-24 icon icon-ic_fluent_person_24_regular"></i>User</a>
-                <a class="list-item layout-horizontal align-center-left gap-10 text-body"><i
-                        class="ms-15 accent-text-tertiary icon-size-24 icon icon-ic_fluent_content_view_28_regular"></i>Content</a>
+                        class="ms-15 accent-text-tertiary icon-size-24 icon icon-ic_fluent_person_24_regular"></i> Trang người dùng</a>
+                <a class="list-item layout-horizontal align-center-left gap-10 text-body" [routerLink]="['/admin/shop']"><i
+                        class="ms-15 accent-text-tertiary icon-size-24 icon icon-ic_fluent_content_view_28_regular"></i>Trang cửa hàng</a>
                 <a class="list-item layout-horizontal align-center-left gap-10 text-body"[routerLink]="['/admin/report']"><i
-                        class="ms-15 accent-text-tertiary icon-size-24 icon icon-ic_fluent_chat_warning_24_regular"></i>Report</a>
+                        class="ms-15 accent-text-tertiary icon-size-24 icon icon-ic_fluent_chat_warning_24_regular"></i>Trang tố cáo</a>
                 <a class="list-item layout-horizontal align-center-left gap-10 text-body"[routerLink]="['/admin/event']"><i
-                        class="ms-15 accent-text-tertiary icon-size-24 icon icon-ic_fluent_calendar_48_regular"></i>Event</a>
+                        class="ms-15 accent-text-tertiary icon-size-24 icon icon-ic_fluent_calendar_48_regular"></i>  Duyệt cửa hàng</a>
             </div>
         </div>
         <div class="h-hug layout-vertical gap-10">
             <a class="list-item layout-horizontal align-center-left gap-10 text-body" [routerLink]="['/']">
                 <i class="ms-15 accent-text-tertiary icon-size-24 icon icon-ic_fluent_home_24_regular"></i>
-                Home
+                Trang chủ
             </a>
             <a class="list-item layout-horizontal align-center-left gap-10 text-body" (click)="logout();">
                 <i class="ms-15 accent-text-tertiary icon-size-24 icon icon-ic_fluent_door_arrow_left_24_regular"></i>
-                Logout
+                Đăng xuất
             </a>
         </div>
     </div>

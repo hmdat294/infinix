@@ -6,10 +6,11 @@ import { PaymentService } from '../../service/payment.service';
 import { ShopService } from '../../service/shop.service';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-store-order',
-  imports: [CurrencyVNDPipe, CommonModule, FormsModule, RouterModule],
+  imports: [CurrencyVNDPipe, CommonModule, FormsModule, RouterModule, TranslateModule],
   templateUrl: './store-order.component.html',
   styleUrl: './store-order.component.css'
 })
@@ -21,37 +22,39 @@ export class StoreOrderComponent implements OnInit {
   endDate: string = '';
   filteredData: any = [];
 
-  order_status: any = {
-    'pending': 'Chờ xử lý',
-    'received': 'Đã nhận đơn',
-    'delivered': 'Đã giao hàng',
-    'delivering': 'Đang giao',
-    'canceled': 'Đã hủy'
-  }
+  // order_status: any = {
+  //   'pending': 'Chờ xử lý',
+  //   'received': 'Đã nhận đơn',
+  //   'delivered': 'Đã giao hàng',
+  //   'delivering': 'Đang giao',
+  //   'cancelled': 'Đã hủy'
+  // }
 
   order_color: any = {
     'pending': 'text-system-caution',
     'received': 'text-system-attention',
     'delivered': 'text-system-success',
     'delivering': 'text-system-attention',
-    'canceled': 'text-system-critical'
+    'cancelled': 'text-system-critical'
   }
 
-  payment_methood: any = {
-    'cash': 'Trả tiền mặt khi nhận hàng',
-    'zalopay': 'Thanh toán qua ZaloPay',
-  }
+  // payment_methood: any = {
+  //   'cash': 'Trả tiền mặt khi nhận hàng',
+  //   'zalopay': 'Thanh toán qua ZaloPay',
+  // }
 
-  payment_status: any = {
-    'pending': 'Chưa thanh toán',
-    'paid': 'Đã thanh toán',
-    'refunded': 'Đã hoàn tiền'
-  }
+  // payment_status: any = {
+  //   'pending': 'Chưa thanh toán',
+  //   'paid': 'Đã thanh toán',
+  //   'refunded': 'Đã hoàn tiền',
+  //   'cancelled': 'Đã hủy'
+  // }
 
   payment_color: any = {
     'pending': 'text-system-caution',
     'paid': 'text-system-success',
-    'refunded': 'text-system-critical'
+    'refunded': 'text-system-critical',
+    'cancelled': 'text-system-critical'
   }
 
   constructor(
@@ -133,10 +136,21 @@ export class StoreOrderComponent implements OnInit {
 
   }
 
-  refundOrder(order_id: number, payment_methood: string) {
-    this.paymentService.refundOrder(order_id, payment_methood).subscribe(
+  id_refund_order: number = 0;
+  payment_methood_refund_order: string = '';
+
+  showDiaLogRefundOrder(order_id: number, payment_methood: string = '') {
+    this.id_refund_order = order_id;
+    this.payment_methood_refund_order = payment_methood;
+  }
+
+  refundOrder() {
+    this.paymentService.refundOrder(this.id_refund_order, this.payment_methood_refund_order).subscribe(
       (data: any) => {
         console.log(data);
+        const order = this.orders.find((order: any) => order.id == this.id_refund_order);
+        order.can_cancel = false;
+        this.showDiaLogRefundOrder(0);
       });
   }
 

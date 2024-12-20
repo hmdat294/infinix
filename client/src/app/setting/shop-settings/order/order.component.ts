@@ -27,7 +27,7 @@ export class OrderComponent implements OnInit {
     'received': 'Đã nhận đơn',
     'delivering': 'Đang giao',
     'delivered': 'Đã giao hàng',
-    'canceled': 'Đã hủy'
+    'cancelled': 'Đã hủy'
   }
 
   orderStatusEntries = Object.entries(this.order_status);
@@ -37,12 +37,26 @@ export class OrderComponent implements OnInit {
     'received': 'text-system-attention',
     'delivered': 'text-system-success',
     'delivering': 'text-system-attention',
-    'canceled': 'text-system-critical'
+    'cancelled': 'text-system-critical'
   }
 
   payment_methood: any = {
     'cash': 'Trả tiền mặt khi nhận hàng',
     'zalopay': 'Thanh toán qua ZaloPay',
+  }
+
+  payment_status: any = {
+    'pending': 'Chưa thanh toán',
+    'paid': 'Đã thanh toán',
+    'refunded': 'Đã hoàn tiền',
+    'cancelled': 'Đã hủy'
+  }
+
+  payment_color: any = {
+    'pending': 'text-system-caution',
+    'paid': 'text-system-success',
+    'refunded': 'text-system-critical',
+    'cancelled': 'text-system-critical'
   }
 
   constructor(
@@ -64,8 +78,6 @@ export class OrderComponent implements OnInit {
             (res) => {
               this.orders = res.data;
               this.filteredData = [...this.orders];
-
-              console.log(this.orders);
             });
         }
       });
@@ -108,9 +120,6 @@ export class OrderComponent implements OnInit {
   }
 
   updateStatusOrder(status: string, order_id: number) {
-    console.log(status);
-    console.log(order_id);
-
     this.paymentService.updateOrder(status, order_id).subscribe(
       (res) => {
         console.log(res);

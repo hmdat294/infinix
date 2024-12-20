@@ -20,10 +20,10 @@ import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { PaymentService } from '../service/payment.service';
 
 @Component({
-    selector: 'app-friend-profile',
-    imports: [FormsModule, CommonModule, RouterModule, EmojiModule, QuillModule, TranslateModule, CurrencyVNDPipe, PickerComponent],
-    templateUrl: './friend-profile.component.html',
-    styleUrl: './friend-profile.component.css'
+  selector: 'app-friend-profile',
+  imports: [FormsModule, CommonModule, RouterModule, EmojiModule, QuillModule, TranslateModule, CurrencyVNDPipe, PickerComponent],
+  templateUrl: './friend-profile.component.html',
+  styleUrl: './friend-profile.component.css'
 })
 export class FriendProfileComponent implements OnInit {
 
@@ -58,6 +58,8 @@ export class FriendProfileComponent implements OnInit {
   content_feedback: string = '';
   feedbacks: any = [];
   cart: any = [];
+  isCreateContent: boolean = false;
+  messageNotCreateContent: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -86,17 +88,29 @@ export class FriendProfileComponent implements OnInit {
         this.authService.getUser(0).subscribe(
           (data) => {
             this.currentUser = data.data;
+
+            this.isCreateContent = !this.authService.checkPermissions('can_create_content', this.currentUser.permissions);
+
+            if (this.isCreateContent) {
+              const canCreateContentPermission = this.currentUser.permissions.find(
+                (permission: any) => permission.name === "can_create_content"
+              );
+
+              const enableAt = canCreateContentPermission?.pivot?.enable_at || null;
+
+              this.messageNotCreateContent = 'Tài khoản của bạn không thể đăng bài và bình luận đến ' + moment(enableAt).format('HH:mm:ss [ngày] DD/MM/YYYY');
+            }
           });
 
         this.authService.getUser(user_id).subscribe(
           (response) => {
             this.user = response.data;
-            console.log(this.user);
+            // console.log(this.user);
 
             this.shopService.getListProductByShop(this.user.shop_id).subscribe(
               (response) => {
                 this.listProduct = response.data.filter((product: any) => product.is_active == 1).slice(0, 4);
-                console.log(this.listProduct);
+                // console.log(this.listProduct);
               });
 
             this.authService.getImageByUser(this.user.id).subscribe(
@@ -221,7 +235,7 @@ export class FriendProfileComponent implements OnInit {
   roundToNearest(value: number): number {
     return Math.round(value * Math.pow(10, 2)) / Math.pow(10, 2);
   }
-  
+
   addQuantity() {
     this.quantity++;
   }
@@ -361,7 +375,7 @@ export class FriendProfileComponent implements OnInit {
 
           this.eventService.bindEventPost('App\\Events\\UserCommentPostEvent', (data: any) => {
             this.listPost.find(item => item.id === data.data.post.id).comments_count = data.comments_count;
-            this.getCommentByPostId(data.data.post.id).unshift(data.data);
+            this.commentByPostId[data.data.post.id].unshift(data.data);
             // console.log('Comment event:', data);
           });
 
@@ -494,9 +508,9 @@ export class FriendProfileComponent implements OnInit {
     return { 'path': img.path, 'type': img.type };
   }
 
-  getCommentByPostId(post_id: number) {
-    return this.commentByPostId[post_id];
-  }
+  // getCommentByPostId(post_id: number) {
+  //   return this.commentByPostId[post_id];
+  // }
 
   postComment(value: any) {
     // console.log(value);
@@ -514,6 +528,17 @@ export class FriendProfileComponent implements OnInit {
         // console.log(response);
         this.contentCommentInput = '';
         this.removeCommentImage();
+      }
+    )
+  }
+
+  deleteComment(comment_id: number, post_id: number) {
+
+    this.postService.deleteComment(comment_id).subscribe(
+      (response) => {
+        console.log(response);
+
+        this.commentByPostId[post_id] = this.commentByPostId[post_id].filter((comment: any) => comment.id != comment_id);
       }
     )
   }

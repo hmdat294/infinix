@@ -10,12 +10,13 @@ import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { SettingService } from '../service/setting.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { NotificationService } from '../service/notification.service';
+import { PeerService } from '../service/peer.service';
 
 @Component({
-    selector: 'app-chat',
-    imports: [FormsModule, CommonModule, RouterModule, EmojiModule, PickerComponent, TranslateModule],
-    templateUrl: './chat.component.html',
-    styleUrl: './chat.component.css'
+  selector: 'app-chat',
+  imports: [FormsModule, CommonModule, RouterModule, EmojiModule, PickerComponent, TranslateModule],
+  templateUrl: './chat.component.html',
+  styleUrl: './chat.component.css'
 })
 export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
@@ -77,6 +78,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     private eventService: EventService,
     private settingService: SettingService,
     private notificationService: NotificationService,
+    private peerService: PeerService
   ) { }
 
   @ViewChild('scrollBox') private scrollBox!: ElementRef;
@@ -181,6 +183,41 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
     this.updateClassTab(window.innerWidth);
 
   }
+
+
+  
+  
+  remotePeerId: string = '';
+
+  async makeCall() {
+    this.remotePeerId = 'infinix-user-' + this.conversation.users[0].id;
+
+    if (this.remotePeerId) {
+
+      this.peerService.updateCalling(true);
+
+      const callOptions = {
+        userId: this.user.id,
+        conversationId: this.conversation.id,
+        userName: this.user.profile.display_name,
+        userImage: this.user.profile.profile_photo,
+      };
+
+      this.peerService.updateUserTemp({
+        userName: this.conversation.users[0].profile.display_name,
+        userImage: this.conversation.users[0].profile.profile_photo,
+      });
+
+      this.peerService.updateInfo(null);
+      this.peerService.makeCall(this.remotePeerId, callOptions);
+    }
+  }
+
+
+
+
+
+
 
   tab_1: boolean = true;
   tab_2: boolean = false;
@@ -386,6 +423,14 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
     this.conversation = conversation;
     console.log(this.conversation);
+
+    if (this.countNotification[conversation.id] > 0) {
+      this.notificationService.deleteNotificationChat(conversation.id).subscribe(
+        (response) => {
+          console.log(response);
+          this.countNotification[conversation.id] = 0;
+        });
+    }
 
     this.isScrollingToElement = false;
     (document.querySelector('.textarea-chat') as HTMLTextAreaElement)?.focus();
