@@ -76,7 +76,8 @@ export class CheckoutComponent implements OnInit {
 
     this.shopService.getVoucherSaved().subscribe(
       (data) => {
-        this.voucherSaved = data.data.filter((voucher: any) => (voucher.usage_limit - voucher.use_count) > 0);
+        this.voucherSaved = data.data.filter((voucher: any) =>
+          voucher.usage_limit - voucher.use_count > 0 && voucher.stock > 0 && voucher.is_active != 0);
       });
   }
 

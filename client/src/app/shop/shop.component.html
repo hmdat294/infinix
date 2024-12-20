@@ -464,7 +464,7 @@
                     </div>
                 </div>
 
-                <div class="layout-horizontal align-center-center p-10">
+                <div class="layout-horizontal align-center-center p-10" *ngIf="listProduct.length > 12">
                     <pagination-controls (pageChange)="currentPage = $event" previousLabel=""
                         nextLabel=""></pagination-controls>
                 </div>
