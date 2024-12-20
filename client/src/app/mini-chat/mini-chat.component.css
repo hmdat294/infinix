@@ -1,4 +1,4 @@
-.bubble_active{
+.bubble_active {
     border: 2px solid var(--accent-default);
     border-radius: 100px;
     padding: 1px;
@@ -101,6 +101,49 @@
     grid-column-start: 1;
     grid-column-end: 3;
 }
+
+
+
+
+/* Hiển thị (fade-in) */
+.fade-in {
+    animation: fadeIn 0.5s forwards;
+}
+
+/* Ẩn (fade-out) */
+.fade-out {
+    animation: fadeOut 0.5s forwards;
+}
+
+/* Keyframes cho fade-in */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Keyframes cho fade-out */
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+}
+
+
+
+
 
 .mini_box {
     width: 390px;

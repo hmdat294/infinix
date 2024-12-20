@@ -44,7 +44,8 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
   selectedFiles: File[] = [];
   previewUrls: string[] = [];
   spaceCheck: any = /^\s*$/;
-
+  msg_demo: string = '';
+  iSshowMessage: boolean = false;
 
   @ViewChild('scrollBox') private scrollBox!: ElementRef;
 
@@ -114,7 +115,21 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
             this.filterListChat();
 
             this.eventService.bindEvent('App\\Events\\UserSendMessageEvent', (data: any) => {
-              // console.log('Message received:', data);
+              console.log('Message received:', data);
+
+              this.msg_demo = (data.data.is_call == 0) ?
+                `<p class="text-body-strong">${data.data.user.profile.display_name}: </p>` + this.shortenTextByWords(data.data.content, 5)
+                : 'Cuộc gọi đã kết thúc!';
+
+              this.iSshowMessage = true;
+
+              setTimeout(() => {
+                this.iSshowMessage = false;
+
+                setTimeout(() => {
+                  this.msg_demo = '';
+                }, 500);
+              }, 3000);
 
               if (this.conversation.includes(data.data.conversation_id))
                 this.conversation = this.conversation.filter(id => id !== data.data.conversation_id);
@@ -163,7 +178,7 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
         userName: this.user.profile.display_name,
         userImage: this.user.profile.profile_photo,
       };
-      
+
       this.peerService.updateUserTemp({
         userName: this.chat.users[0].profile.display_name,
         userImage: this.chat.users[0].profile.profile_photo,

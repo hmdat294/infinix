@@ -105,12 +105,12 @@ export class FriendProfileComponent implements OnInit {
         this.authService.getUser(user_id).subscribe(
           (response) => {
             this.user = response.data;
-            console.log(this.user);
+            // console.log(this.user);
 
             this.shopService.getListProductByShop(this.user.shop_id).subscribe(
               (response) => {
                 this.listProduct = response.data.filter((product: any) => product.is_active == 1).slice(0, 4);
-                console.log(this.listProduct);
+                // console.log(this.listProduct);
               });
 
             this.authService.getImageByUser(this.user.id).subscribe(

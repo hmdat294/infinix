@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import moment from 'moment';
 import Peer, { DataConnection, MediaConnection } from 'peerjs';
 import { BehaviorSubject } from 'rxjs';
+import { ChatService } from './chat.service';
 
 @Injectable({
   providedIn: 'root'
@@ -55,7 +56,7 @@ export class PeerService {
     this.timeOut.next(newValue);
   }
 
-  constructor() {
+  constructor(private chatService: ChatService) {
     this.timeOut$.subscribe((value) => this.data_post.second = value);
     const peedId = localStorage.getItem('user_code');
     this.peer = new Peer(String(peedId));
@@ -74,8 +75,21 @@ export class PeerService {
 
       //dữ liệu gửi đi
       if (this.data_post.second) {
-        this.data_post.second = moment.utc(this.data_post.second * 1000).format("mm:ss");
-        console.log(this.data_post);
+        this.data_post.second = moment
+          .utc(this.data_post.second * 1000)
+          .format("m [phút] s [giây]");
+
+        const formData = new FormData();
+
+        formData.append('conversation_id', this.data_post.conversationId);
+        formData.append('content', this.data_post.second);
+        formData.append('is_call', String(1));
+
+        this.chatService.sendMessage(formData).subscribe(
+          (response: any) => {
+            console.log(response);
+          }
+        );
       }
 
       console.log('Kết nối đã bị ngắt.');

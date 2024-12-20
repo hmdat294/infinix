@@ -375,15 +375,35 @@
                                                                     </div>
                                                                 </div>
 
-                                                                <a *ngIf="msg.link" [routerLink]="[ msg.link ]"
+                                                                <a *ngIf="msg.link && msg.is_call == 0"
+                                                                    [routerLink]="[ msg.link ]"
                                                                     style="white-space: pre-line;"
                                                                     class="display-block text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}"
                                                                     [innerHTML]="msg.content">
                                                                 </a>
-                                                                <p *ngIf="!msg.link" style="white-space: pre-line;"
+                                                                <p *ngIf="!msg.link && msg.is_call == 0"
+                                                                    style="white-space: pre-line;"
                                                                     class="display-block text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
                                                                     {{ msg.content }}
                                                                 </p>
+                                                                <div *ngIf="msg.is_call == 1"
+                                                                    style="white-space: pre-line;" class="text-body display-block text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}
+                                                                    layout-vertical gap-10">
+
+                                                                    <p class="mb-10 text-body-strong">Cuộc gọi thoại đi
+                                                                    </p>
+
+                                                                    <p
+                                                                        class="pb-10 layout-horizontal gap-5 align-center-left ">
+                                                                        <i
+                                                                            class="icon-size-20 icon icon-ic_fluent_camera_20_filled "></i>
+                                                                        {{ msg.content }}
+                                                                    </p>
+
+                                                                    <button type="button"
+                                                                        class="button-standard w-fill text-on-accent-primary p-5 cursor-pointer"
+                                                                        (click)="makeCall()">Gọi lại</button>
+                                                                </div>
 
                                                             </div>
                                                         </div>
@@ -489,15 +509,35 @@
                                                                     </div>
                                                                 </div>
 
-                                                                <a *ngIf="msg.link" [routerLink]="[ msg.link ]"
+                                                                <a *ngIf="msg.link  && msg.is_call == 0"
+                                                                    [routerLink]="[ msg.link ]"
                                                                     style="white-space: pre-line;"
                                                                     class="display-block text-wrap card-background-default text-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}"
                                                                     [innerHTML]="msg.content">
                                                                 </a>
-                                                                <p *ngIf="!msg.link" style="white-space: pre-line;"
+                                                                <p *ngIf="!msg.link  && msg.is_call == 0"
+                                                                    style="white-space: pre-line;"
                                                                     class="display-block text-wrap card-background-default text-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}">
                                                                     {{ msg.content }}
                                                                 </p>
+                                                                <div *ngIf="msg.is_call == 1"
+                                                                    style="white-space: pre-line;" class="text-body display-block text-wrap card-background-default text-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}
+                                                                        layout-vertical gap-10">
+
+                                                                    <p class="mb-10 text-body-strong">Cuộc gọi thoại đến
+                                                                    </p>
+
+                                                                    <p
+                                                                        class="pb-10 layout-horizontal gap-5 align-center-left ">
+                                                                        <i
+                                                                            class="icon-size-20 icon icon-ic_fluent_camera_20_filled "></i>
+                                                                        {{ msg.content }}
+                                                                    </p>
+
+                                                                    <button type="button"
+                                                                        class="button-standard w-fill text-on-accent-primary p-5 cursor-pointer"
+                                                                        (click)="makeCall()">Gọi lại</button>
+                                                                </div>
 
                                                             </div>
                                                         </div>
@@ -554,7 +594,7 @@
                                         </p>
                                     </div>
                                     <div class="layout align-top-right" *ngIf="msg.is_recalled == 0">
-                                        <div [style]="(i == conversation.messages.length - 1 && i != 0) ? 'bottom: 20px;':''"
+                                        <div *ngIf="msg.is_call == 0" [style]="(i == conversation.messages.length - 1 && i != 0) ? 'bottom: 20px;':''"
                                             class="mess-menu mess-menu-left layout-vertical mx-15 gap-5 p-5 acrylic-background-default blur-acrylic border border-card-default rounded-8">
                                             <div class="list-item layout-horizontal gap-10 align-center-left"
                                                 (click)="toggleDialogChat(msg.id)">
@@ -680,15 +720,32 @@
                                                     </div>
 
                                                     <div>
-                                                        <a *ngIf="msg.link" [routerLink]="[ msg.link ]"
-                                                            style="white-space: pre-line;"
+                                                        <a *ngIf="msg.link && msg.is_call == 0"
+                                                            [routerLink]="[ msg.link ]" style="white-space: pre-line;"
                                                             class="display-block text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10 rounded-6"
                                                             [innerHTML]="msg.content">
                                                         </a>
-                                                        <p *ngIf="!msg.link" style="white-space: pre-line;"
+                                                        <p *ngIf="!msg.link && msg.is_call == 0"
+                                                            style="white-space: pre-line;"
                                                             class="display-block text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10 rounded-6">
                                                             {{ msg.content }}
                                                         </p>
+                                                        <div *ngIf="msg.is_call == 1" style="white-space: pre-line;"
+                                                            class="text-body display-block text-wrap accent-default text-on-accent-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}
+                                                                    layout-vertical gap-10">
+
+                                                            <p class="mb-10 text-body-strong">Cuộc gọi thoại đi</p>
+
+                                                            <p class="pb-10 layout-horizontal gap-5 align-center-left ">
+                                                                <i
+                                                                    class="icon-size-20 icon icon-ic_fluent_camera_20_filled "></i>
+                                                                {{ msg.content }}
+                                                            </p>
+
+                                                            <button type="button"
+                                                                class="button-standard w-fill text-on-accent-primary p-5 cursor-pointer"
+                                                                (click)="makeCall()">Gọi lại</button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="text-tertiary text-caption layout-horizontal align-center-left mt-5 gap-5"
@@ -831,16 +888,32 @@
                                                     </div>
 
                                                     <div>
-                                                        <a *ngIf="msg.link" [routerLink]="[ msg.link ]"
-                                                            style="white-space: pre-line;"
+                                                        <a *ngIf="msg.link && msg.is_call == 0"
+                                                            [routerLink]="[ msg.link ]" style="white-space: pre-line;"
                                                             class="display-block text-wrap card-background-default text-primary border border-card-default px-15 py-10 rounded-6"
                                                             [innerHTML]="msg.content">
                                                         </a>
-                                                        <p *ngIf="!msg.link" style="white-space: pre-line;"
+                                                        <p *ngIf="!msg.link && msg.is_call == 0"
+                                                            style="white-space: pre-line;"
                                                             class="display-block text-wrap card-background-default text-primary border border-card-default px-15 py-10 rounded-6">
                                                             {{ msg.content }}
                                                         </p>
+                                                        <div *ngIf="msg.is_call == 1" style="white-space: pre-line;"
+                                                            class="text-body display-block text-wrap card-background-default text-primary border border-card-default px-15 py-10 {{(msg.medias.length>0)?'rounded-bottom-8':'rounded-8'}}
+                                                                layout-vertical gap-10">
 
+                                                            <p class="mb-10 text-body-strong">Cuộc gọi thoại đến</p>
+
+                                                            <p class="pb-10 layout-horizontal gap-5 align-center-left ">
+                                                                <i
+                                                                    class="icon-size-20 icon icon-ic_fluent_camera_20_filled "></i>
+                                                                {{ msg.content }}
+                                                            </p>
+
+                                                            <button type="button"
+                                                                class="button-standard w-fill text-on-accent-primary p-5 cursor-pointer"
+                                                                (click)="makeCall()">Gọi lại</button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="text-tertiary text-caption layout-horizontal align-center-right mt-5 gap-5"
@@ -867,7 +940,7 @@
                                             </div>
                                         </div>
 
-                                        <div [style]="(i == conversation.messages.length - 1 && i != 0) ? 'bottom: 20px;':''"
+                                        <div *ngIf="msg.is_call == 0" [style]="(i == conversation.messages.length - 1 && i != 0) ? 'bottom: 20px;':''"
                                             class="mess-menu mess-menu-right mx-15 layout-vertical mx-15 gap-5 p-5 acrylic-background-default blur-acrylic border border-card-default rounded-8">
                                             <div class="list-item layout-horizontal gap-10 align-center-left"
                                                 (click)="toggleDialogChat(msg.id)">
