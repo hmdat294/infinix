@@ -11,8 +11,7 @@
                         <div>
                             <h5
                                 class="text-subtitle accent-text-primary">{{totalShop}}</h5>
-                            <p class="text-body text-primary">Tổng số cửa
-                                hàng</p>
+                            <p class="text-body text-primary">{{'admin.shop_dashboard.total_shop'|translate}}</p>
                         </div>
                         <div class="system-caution p-5 rounded-pill">
                             <i
@@ -29,8 +28,7 @@
                         <div>
                             <h5
                                 class="text-subtitle accent-text-primary">{{totalRevenue}}</h5>
-                            <p class="text-body text-primary">Tổng doanh
-                                thu</p>
+                            <p class="text-body text-primary">{{'admin.shop_dashboard.total_revenue'|translate}}</p>
                         </div>
                         <div class="system-success p-5 rounded-pill">
                             <i
@@ -50,9 +48,9 @@
                 <div class="layout-vertical m-10">
                     <div
                         class="w-fill layout-horizontal align-bottom-space-between pb-10">
-                        <div class="text-subtitle text-primary">Top cửa hàng</div>
+                        <div class="text-subtitle text-primary">{{'admin.shop_dashboard.Top_shop'|translate}}</div>
                         <div class="text-body accent-text-primary"><a href
-                                class="accent-text-tertiary">Xem thêm</a> </div>
+                                class="accent-text-tertiary">{{'admin.shop_dashboard.see_more'|translate}}</a> </div>
                     </div>
                     <div class="w-fill layout-vertical"
                         *ngFor="let item of ShopRevenus">
@@ -61,11 +59,11 @@
                             class="w-fill layout-horizontal align-bottom-space-between p-20 border rounded-6">
                             <div class="layout-vertical">
                                 <div class="text-body-large text-primary">{{item.name}}</div>
-                                <div class="text-body-strong text-primary">Doanh thu:
+                                <div class="text-body-strong text-primary">{{'admin.shop_dashboard.Revenue'|translate}}:
                                     {{formatCurrency(item.total_revenue)}}</div>
                                 <div
                                     class="text-caption text-secondary">{{item.total_quantity_sold}}
-                                    Sản phẩm đã bán</div>
+                                    {{'admin.shop_dashboard.Product_sold'|translate}}</div>
                             </div>
                             <div class="rounded-circle w-hug">
                                 <img
@@ -96,7 +94,7 @@
                         class="w-fill gap-20 layout-horizontal align-center-center text-body-strong p-10">
                         <div
                             class="w-fill layout-horizontal align-bottom-space-between pb-10">
-                            <div class="text-subtitle text-primary">Cửa hàng</div>
+                            <div class="text-subtitle text-primary">{{'admin.shop_dashboard.shop'|translate}}</div>
                             <div class="text-body accent-text-tertiary">
                                 <pagination-controls
                                     (pageChange)="currentPage = $event"
@@ -134,11 +132,9 @@
                                     <div
                                         class="layout-horizontal gap-20 w-fill">
                                         <div
-                                            class="text-caption w-fill-column-2 text-secondary">Doanh
-                                            thu</div>
+                                            class="text-caption w-fill-column-2 text-secondary">{{'admin.shop_dashboard.Revenue'|translate}}</div>
                                         <div
-                                            class="text-caption w-fill-column-2 text-secondary">Sản
-                                            phẩm đã bán</div>
+                                            class="text-caption w-fill-column-2 text-secondary">{{'admin.shop_dashboard.Product_sold'|translate}}</div>
 
                                     </div>
                                     <div
@@ -166,46 +162,41 @@
 
                                         <div
                                             class="layout-horizontal align-center-space-between p-10">
-                                            <p class="text-body-strong text-primary">Số điện
-                                                thoại:</p>
+                                            <p class="text-body-strong text-primary">{{'admin.shop_dashboard.phone_number'|translate}}:</p>
                                             <p
                                                 class="text-body text-primary">{{item.phone_number}}</p>
                                         </div>
                                         <div
                                             class="layout-horizontal align-center-space-between p-10 border-bottom">
-                                            <p class="text-body-strong text-primary">Trạng
-                                                thái:</p>
+                                            <p class="text-body-strong text-primary">{{'admin.shop_dashboard.active'|translate}}:</p>
                                             <p
                                                 *ngIf="item.is_active === 1"
                                                 class="text-body text-system-success">
-                                                Đang hoạt động
+                                                {{'admin.shop_dashboard.is_active'|translate}}
                                             </p>
                                             <p
                                                 *ngIf="item.is_active === 0"
                                                 class="text-body text-system-critical ">
-                                                Không hoạt động
+                                                {{'admin.shop_dashboard.Inactive'|translate}}
                                             </p>
                                         </div>
 
                                         <div
                                             class="layout-horizontal align-center-space-between p-10">
-                                            <p class="text-body-strong text-primary">Mô
-                                                tả:</p>
+                                            <p class="text-body-strong text-primary">{{'admin.shop_dashboard.shop_description'|translate}}:</p>
                                             <p
                                                 class="text-body text-primary">{{item.description}}</p>
                                         </div>
                                         <div
                                             class="layout-horizontal align-center-space-between p-10">
-                                            <p class="text-body-strong text-primary">Địa
-                                                chỉ:</p>
+                                            <p class="text-body-strong text-primary">{{'admin.shop_dashboard.address'|translate}}:</p>
                                             <p
                                                 class="text-body text-primary">{{item.address}}
                                             </p>
                                         </div>
                                         <div
                                             class="layout-horizontal align-center-space-between p-10">
-                                            <p class="text-body-strong text-primary">Ngày tạo
-                                                cửa hàng:</p>
+                                            <p class="text-body-strong text-primary">{{'admin.shop_dashboard.created_at'|translate}}:</p>
                                             <p
                                                 class="text-body text-primary">{{item.created_at|
                                                 date: 'dd/MM/yyyy'}} </p>
@@ -214,35 +205,29 @@
                                     <div class="layout-vertical gap-10">
                                         <div
                                             class="w-fill layout-horizontal align-bottom-space-between p-10">
-                                            <div class="text-body-strong text-primary">Sản
-                                                phẩm</div>
+                                            <div class="text-body-strong text-primary">{{'admin.shop_dashboard.product'|translate}}</div>
                                             <div
                                                 class="text-body accent-text-primary"><a
                                                     href
-                                                    class="accent-text-primary">Xem
-                                                    thêm</a> </div>
+                                                    class="accent-text-primary">{{'admin.shop_dashboard.see_more'|translate}}</a> </div>
                                         </div>
                                         <div>
                                             <div
                                                 class="layout-horizontal gap-20 my-10 border-bottom pb-10">
                                                 <div
                                                     class="layout-horizontal align-center-space-between text-center text-primary w-fill-column-2">
-                                                    hình
+                                                    {{'admin.shop_dashboard.image'|translate}}
                                                 </div>
                                                 <p
-                                                    class="layout-horizontal align-center-space-between text-center text-primary w-fill-column-3">Tên</p>
+                                                    class="layout-horizontal align-center-space-between text-center text-primary w-fill-column-3">{{'admin.shop_dashboard.name'|translate}}</p>
                                                 <p
-                                                    class="layout-horizontal align-center-space-between text-center text-primary w-fill-column-2">Thanh
-                                                    toán</p>
+                                                    class="layout-horizontal align-center-space-between text-center text-primary w-fill-column-2">{{'admin.shop_dashboard.Pay'|translate}}</p>
                                                 <p
-                                                    class="layout-horizontal align-center-space-between text-center text-primary w-fill-column-2">Hoàn
-                                                    trả</p>
+                                                    class="layout-horizontal align-center-space-between text-center text-primary w-fill-column-2">{{'admin.shop_dashboard.refunds'|translate}}</p>
                                                 <p
-                                                    class="layout-horizontal align-center-space-between text-center text-primary w-fill-column-1">Số
-                                                    lượng </p>
+                                                    class="layout-horizontal align-center-space-between text-center text-primary w-fill-column-1">{{'admin.shop_dashboard.quantity'|translate}}</p>
                                                 <p
-                                                    class="layout-horizontal align-center-space-between text-center text-primary w-fill-column-2">Số
-                                                    lượt bán</p>
+                                                    class="layout-horizontal align-center-space-between text-center text-primary w-fill-column-2">{{'admin.shop_dashboard.total_sold'|translate}}</p>
 
                                             </div>
                                             <div class="layout-vertical w-fill"
@@ -287,12 +272,11 @@
                                     class="w-fill h-hug layout-vertical border rounded-8 my-10 in-tablet-mt-5 in-mobile-mt-5 card-background-default">
                                     <div
                                             class="w-fill layout-horizontal align-bottom-space-between p-10">
-                                            <div class="text-body-strong text-primary">Danh sách hóa đơn</div>
+                                            <div class="text-body-strong text-primary">{{'admin.shop_dashboard.list_invoices'|translate}}</div>
                                             <div
                                                 class="text-body accent-text-tertiary"><a
                                                     href
-                                                    class="accent-text-primary">Xem
-                                                    thêm</a> </div>
+                                                    class="accent-text-primary">{{'admin.shop_dashboard.see_more'|translate}}</a> </div>
                                         </div>
                                     <div class="layout-vertical w-fill gap-20 "
                                         *ngFor="let item of allOrderbyID">
@@ -320,14 +304,11 @@
                                                     <div
                                                         class="layout-horizontal gap-10 w-fill">
                                                         <div
-                                                            class="text-caption w-fill-column-4 text-secondary">Tổng
-                                                            tiền</div>
+                                                            class="text-caption w-fill-column-4 text-secondary">{{'admin.shop_dashboard.total_amount'|translate}}</div>
                                                         <div
-                                                            class="text-caption w-fill-column-4 text-secondary">Hoàn
-                                                            trả</div>
+                                                            class="text-caption w-fill-column-4 text-secondary">{{'admin.shop_dashboard.refunds'|translate}}</div>
                                                         <div
-                                                            class="text-caption w-fill-column-4 text-secondary">Trạng
-                                                            thái</div>
+                                                            class="text-caption w-fill-column-4 text-secondary">{{'admin.shop_dashboard.active'|translate}}</div>
 
                                                     </div>
                                                     <div
@@ -339,12 +320,12 @@
                                                         <div
                                                             *ngIf="item.admin_paid === 1"
                                                             class="text-body w-fill-column-4 text-system-success">
-                                                            Đã hoàn tiền
+                                                            {{'admin.shop_dashboard.Refunded'|translate}}
                                                         </div>
                                                         <div
                                                             *ngIf="item.admin_paid === 0"
                                                             class="text-body w-fill-column-4 text-system-critical ">
-                                                            Chưa hoàn tiền
+                                                            {{'admin.shop_dashboard.No_refund_yet'|translate}}
                                                         </div>
 
                                                     </div>

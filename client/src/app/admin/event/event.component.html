@@ -8,11 +8,11 @@
 
                 <!-- search --> 
                 <div class="layout-horizontal gap-10  ">
-                  <label class="text-primary" for="filterStatus">Lọc trạng thái:</label>
+                  <label class="text-primary" for="filterStatus">{{'admin.event.Filter_status'|translate}}:</label>
                   <select  class= "dropdown-menu button-standard button-text-with-icon gap-10"  [(ngModel)]="filterStatus" (change)="filtershops()">
-                    <option value="all" class="list-item text-primary gradient-background"><div class="text-primary">Tất cả</div></option>
-                    <option value="0" class="list-item text-primary gradient-background"> <div class="text-primary">Không  hoạt động</div></option>
-                    <option value="1" class="list-item text-primary gradient-background"><div class="text-primary">Đang hoạt động</div></option>
+                    <option value="all" class="list-item text-primary gradient-background"><div class="text-primary">{{'admin.event.all'|translate}}</div></option>
+                    <option value="0" class="list-item text-primary gradient-background"> <div class="text-primary">{{'admin.event.Pending'|translate}}</div></option>
+                    <option value="1" class="list-item text-primary gradient-background"><div class="text-primary">{{'admin.event.Resolved'|translate}}</div></option>
                   </select>
                   
                 </div>
@@ -33,11 +33,11 @@
           >
          
             <tr class="w-fill layout-horizontal align-center-space-between">
-              <th class="w-fill-column-3 text-primary">Tên cửa hàng</th>
-              <th class="w-fill-column-2 text-primary">Tên người dùng</th>
-              <th class="w-fill-column-3 text-primary">Mô tả sản phẩm</th>
-              <th class="w-fill-column-2 text-primary">Trạng thái</th>
-              <th class="w-fill-column-2 text-primary">Hành động</th>
+              <th class="w-fill-column-3 text-primary">{{'admin.event.shop_name'|translate}}</th>
+              <th class="w-fill-column-2 text-primary">{{'admin.event.User_name'|translate}}</th>
+              <th class="w-fill-column-3 text-primary">{{'admin.event.shop_description'|translate}}</th>
+              <th class="w-fill-column-2 text-primary">{{'admin.event.status'|translate}}</th>
+              <th class="w-fill-column-2 text-primary">{{'admin.event.actions'|translate}}</th>
             </tr>
           </div>
           <div
@@ -70,7 +70,7 @@
                     <a [routerLink]="['/friend-profile', item.user_id]"
                     class="w-fill button-standard p-5 cursor-pointer">
                     <i class="me-5 icon-size-16 icon icon-ic_fluent_person_16_regular"></i>
-                    Đến trang cá nhân
+                    {{'admin.event.Go_to_personal_page'|translate}}
                 </a>
                 </td>
                 <td class="w-fill-column-3 align-center-left text-primary">
@@ -81,11 +81,11 @@
                 <td class="status-select-container w-fill-column-2 align-center-left">
                   <p *ngIf="item.is_active == 1"
                     class="text-system-success" >
-                    <span> Đang hoạt động</span>
+                    <span>  {{'admin.event.is_active'|translate}}</span>
                   </p>
                   <p *ngIf="item.is_active == 0"
                     class="text-system-critical" >
-                    <span> Không hoạt động</span>
+                    <span> {{'admin.event.Inactive'|translate}}</span>
                   </p>
                 </td>
 
@@ -139,16 +139,16 @@
                             "
                           >
                             <div class="text-subtitle accent-text-tertiary border-bottom">
-                              Xác nhận đăng ký
+                              {{'admin.event.Confirm_registration'|translate}}
                             </div>
                         
                             <!-- Nội dung hiển thị dựa trên trạng thái -->
                             <div *ngIf="item.is_active === '0'; else approvedText" class="text-primary">
-                              Bạn có muốn duyệt trang này?
+                              {{'admin.event.Do_you_want_to_browse_this_page'|translate}}
                             </div>
                             <ng-template #approvedText>
                               <div class="text-primary">
-                                Trang này đã được duyệt.
+                                {{'admin.event.This_page_has_been_approved'|translate}}
                               </div>
                             </ng-template>
                         
@@ -162,7 +162,7 @@
                                 (click)="changIsActiveShop(item.id, '1')"
                                 [disabled]="item.is_active === '1'"
                               >
-                                Duyệt
+                              {{'admin.event.approve'|translate}}
                               </button>
                               <button
                                 type="button"
@@ -170,14 +170,14 @@
                                 (click)="changIsActiveShop(item.id, '0')"
                                 [disabled]="item.is_active === '0'"
                               >
-                                Không Duyệt
+                              {{'admin.event.reject'|translate}}
                               </button>
                               <button
                                 type="button"
                                 class="button-close"
                                 (click)="openDialog(0)"
                               >
-                                Đóng
+                              {{'admin.event.clone'|translate}}
                               </button>
                             </div>
                           </div>
@@ -197,47 +197,47 @@
                   class="p-15 layout-horizontal align-center-space-between w-fill"
                 >
                   <div class="sender layout-vertical gap-10 w-fill-column-4">
-                    <p class="text-primary">Cửa Hàng</p>
+                    <p class="text-primary">{{'admin.event.Shop'|translate}}</p>
                     <div class="checkout layout-vertical m-25">
                       <div
                         class="layout-horizontal align-center-space-between gap-10 border rounded-top-8"
                       >
-                        <div class="text-primary">Tên:</div>
+                        <div class="text-primary">{{'admin.event.Name'|translate}}:</div>
                         <div class="text-primary">{{ item.name }}</div>
                       </div>
 
                       <div
                         class="layout-horizontal align-center-space-between gap-10 border"
                       >
-                        <div class="text-primary">Số điện thoại:</div>
+                        <div class="text-primary">{{'admin.event.shop_phone'|translate}}:</div>
                         <div class="text-primary">{{ item.phone_number }}</div>
                       </div>
 
                       <div
                         class="layout-horizontal align-center-space-between gap-10 border"
                       >
-                        <div class="text-primary">Ngày đăng kí:</div>
+                        <div class="text-primary">{{'admin.event.Registration_date'|translate}}:</div>
                         <div class="text-primary">{{ item.created_at | date:'dd/MM/yyyy' }}</div>
                       </div>
                       <div
                         class="layout-horizontal align-center-space-between gap-10 border"
                       >
-                        <div class="text-primary">Trạng thái:</div>
+                        <div class="text-primary">{{'admin.event.status'|translate}}:</div>
                         <div class="layout-horizontal align-center-space-between gap-10 border">
                           <p *ngIf="item.is_active == 1"
                             class="text-system-success" >
-                            <span> Đang hoạt động</span>
+                            <span>{{'admin.event.is_active'|translate}}</span>
                           </p>
                           <p *ngIf="item.is_active == 0"
                             class=" text-system-critical" >
-                            <span> Không hoạt động</span>
+                            <span>{{'admin.event.Inactive'|translate}}</span>
                           </p>
                         </div>
                       </div>
                       <div
                         class="layout-horizontal align-center-space-between gap-10 border rounded-bottom-8"
                       >
-                        <div class="text-primary">Địa chỉ:</div>
+                        <div class="text-primary">{{'admin.event.shop_address'|translate}}:</div>
                         <div class="text-primary">{{ item.address }}</div>
                       </div>
                     </div>
@@ -247,7 +247,7 @@
                       <div
                         class="layout-horizontal align-center-space-between gap-10 border rounded-top-8"
                       >
-                        <div class="text-primary w-fill-column-2">Mô tả cửa hàng:</div>
+                        <div class="text-primary w-fill-column-2">{{'admin.event.Store_description'|translate}}:</div>
                         <textarea class="text-primary gradient-background "
                           rows="6"
                           cols="50"
