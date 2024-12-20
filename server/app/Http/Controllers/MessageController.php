@@ -19,18 +19,6 @@ use Illuminate\Support\Facades\Log;
 class MessageController extends Controller
 {
 
-    /**
-     * Tạo tin nhắn trong hội thoại
-     * 
-     * @param Request $request
-     * 
-     * @bodyParam conversation_id : Id của cuộc trò chuyện
-     * @bodyParam reply_to_message_id : Id của tin nhắn mà tin nhắn này trả lời
-     * @bodyParam content : Nội dung tin nhắn
-     * @bodyParam medias : các phương tiện đi kèm
-     * 
-     * @return MessageResource
-     */
     public function store(Request $request)
     {
         $conversation = ConversationModel::find($request->conversation_id);

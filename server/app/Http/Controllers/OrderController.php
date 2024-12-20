@@ -103,6 +103,11 @@ class OrderController extends Controller
                 }
             }
             $order->save();
+            // giảm stock của sản phẩm
+            $order->products()->each(function ($product) {
+                $product->stock -= $product->pivot->quantity;
+                $product->save();
+            });
         }
 
         switch ($request_data->payment_method) {

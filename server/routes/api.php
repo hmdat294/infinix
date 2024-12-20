@@ -45,33 +45,21 @@ use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\PunishmentController;
 use App\Http\Controllers\Statistics\OrderStatisticsController;
 use App\Http\Controllers\Statistics\ReportStatisticsController;
+use App\Http\Controllers\Statistics\ShopEstimatedRevenueController;
 use App\Http\Controllers\Statistics\ShopStatisticsController;
 
 Route::middleware(['guest'])->group(function () {
-
-    // Gửi mã xác thực email
     Route::post('verify-contact-info', [VerificationCodeController::class, 'create'])->name('create-verification-code');
     Route::post('send-verification-code', [VerificationCodeController::class, 'send'])->name('resend-verification-code');
     Route::post('verify-verification-code', [VerificationCodeController::class, 'verify'])->name('verify-verification-code');
-
-    // Đăng nhập và đăng ký
     Route::post('login', [AuthController::class, 'login'])->name('login');
     Route::post('register', [AuthController::class, 'register'])->name('register');
-
     Route::post('set-new-password', [AuthController::class, 'setNewPassword'])->name('set-new-password');
-
     Route::post('update-online-status', [UserController::class, 'updateOnlineStatus'])->name('update-online-status');
-
-    // Route::post('/zalopay/create-order', [ZaloPayController::class, 'createOrder']);
-    // Route::post('/zalopay/callback', [ZaloPayController::class, 'handleCallback']);
-
-    
     Route::post('callback', [OrderController::class, 'callback']);
 });
 
-
 Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(function () {
-
     Route::post('punishment', [PunishmentController::class, 'store']);
     Route::post('notification/update_all', [NotificationController::class, 'update_all']);
     Route::delete('notification/destroy_all', [NotificationController::class, 'destroy_all']);
@@ -315,6 +303,9 @@ Route::middleware(['auth:sanctum', UpdateUserLastActivity::class])->group(functi
         Route::get('conversations-growth', [GrowthStatisticsController::class, 'conversationsGrowthStatistics']);
         Route::get('revenue', [ShopRevenueController::class, 'revenueStatistic']);
         Route::get('shop-revenue/{shop_id}', [ShopRevenueController::class, 'shopRevenueStatistic']);
+
+        Route::get('estimated-revenue', [ShopEstimatedRevenueController::class, 'revenueStatistic']);
+        Route::get('estimated-revenue/{shop_id}', [ShopEstimatedRevenueController::class, 'shopRevenueStatistic']);
         
         // thống kê theo biểu đồ tròn (thống kê báo cáo)
         Route::get('total-reports', [TotalController::class, 'totalReports']);
