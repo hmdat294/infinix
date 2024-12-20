@@ -1,4 +1,58 @@
 {
+    "admin": {
+        "dashboard_title": "dashboard",
+        "user_title": "User statistics",
+        "shop_title": "Shop statistics",
+        "report_title": "Report statistics",
+        "event_title": "Approve shop creation request",
+        "dashboard": {
+            "total_user": "Total users",
+            "total_post": "Total posts",
+            "total_report": "Total reports"
+        },
+        
+        "shop_dashboard": {
+            "total_shop": "Total shops",
+            "total_revenue": "Total revenue",
+            "total_profit": "Total profit",
+            "shop":"Shop",
+            "phone_number": "Phone number",
+            "active":"Active status",
+            "shop-description":"Shop description",
+            "address": "Address",
+            "created_at": "Date",
+            "product": "Product",
+            "see_more":"See more",
+            "image":"Image",
+            "name": "Name",
+            "price": "Price",
+            "refunds":"Refund",
+            "quantity":"Quantity",
+            "total_sold":"Total sold products",
+            "list_invoices":"List orders",
+            "total_amount":"Total price"
+
+        },
+        "user": {
+            "avata": "Profile photo",
+            "user_name": "User name",
+            "phone_number": "Phone number",
+            "created_at":"Date",
+            "search":"ID or name"
+        },
+        "report":{
+            "report_user":"Report user",
+            "user_name":"User name",
+            "report_content":"Content",
+            "status":"Status",
+            "created_at":"Date",
+            "actions":"Action",
+            "post_title":"Post",
+            "comment_title":"Comment",
+            "user_title":"User",
+            "all":"All"
+        }
+    },
     "bookmark": {
         "title": "List of bookmarked posts",
         "view_detail_button": "View detail",
