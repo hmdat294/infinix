@@ -52,8 +52,14 @@
         </a>
 
     </div>
-    <div class="w-fill layout-horizontal align-center-space-between px-20 py-10 border-top border-card-default">
+    <div *ngIf="friends_limit?.length > 0" class="w-fill layout-horizontal align-center-space-between px-20 py-10 border-top border-card-default">
         <a (click)="friendMore()" class="link" style="cursor: pointer;">{{ 'home.right_home.more' | translate }}</a>
+    </div>
+
+    <div *ngIf="friends_limit?.length == 0" class="w-fill p-20">
+        <p
+            class="text-body text-secondary text-center p-10 card-background-default border border-card-default rounded-6">
+            {{'home.right_home.empty' | translate}}!</p>
     </div>
 </div>
 
@@ -126,9 +132,15 @@
         </div>
 
     </div>
-    <div *ngIf="!is_full_user"
+    <div *ngIf="!is_full_user && listUserLimit?.length > 0"
         class="w-fill layout-horizontal align-center-left px-20 py-10 border-top border-card-default">
         <a (click)="moreUser()" class="link" style="cursor: pointer;">{{ 'home.right_home.more' | translate }}</a>
+    </div>
+
+    <div *ngIf="listUserLimit?.length == 0" class="w-fill p-20">
+        <p
+            class="text-body text-secondary text-center p-10 card-background-default border border-card-default rounded-6">
+            {{'home.right_home.empty' | translate}}!</p>
     </div>
 </div>
 
@@ -150,9 +162,15 @@
         </div>
 
     </div>
-    <div *ngIf="!is_full_group"
+    <div *ngIf="!is_full_group && listGroupLimit?.length > 0"
         class="w-fill layout-horizontal align-center-left px-20 py-10 border-top border-card-default">
         <a (click)="moreGroup()" class="link" style="cursor: pointer;">{{ 'home.right_home.more' | translate }}</a>
+    </div>
+
+    <div *ngIf="listGroupLimit?.length == 0" class="w-fill p-20">
+        <p
+            class="text-body text-secondary text-center p-10 card-background-default border border-card-default rounded-6">
+            {{'home.right_home.empty' | translate}}!</p>
     </div>
 </div>
 

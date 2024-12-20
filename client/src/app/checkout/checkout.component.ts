@@ -9,10 +9,10 @@ import { ShopService } from '../service/shop.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
-    selector: 'app-checkout',
-    imports: [CurrencyVNDPipe, CommonModule, FormsModule, TranslateModule],
-    templateUrl: './checkout.component.html',
-    styleUrl: './checkout.component.css'
+  selector: 'app-checkout',
+  imports: [CurrencyVNDPipe, CommonModule, FormsModule, TranslateModule],
+  templateUrl: './checkout.component.html',
+  styleUrl: './checkout.component.css'
 })
 export class CheckoutComponent implements OnInit {
   product_order: any = [1];
@@ -55,7 +55,7 @@ export class CheckoutComponent implements OnInit {
           (data) => {
             this.currentUser = data.data;
             console.log(this.currentUser);
-            
+
           });
 
         this.cart = JSON.parse(decodeURIComponent(escape(atob(params['data']))));
@@ -76,8 +76,7 @@ export class CheckoutComponent implements OnInit {
 
     this.shopService.getVoucherSaved().subscribe(
       (data) => {
-        this.voucherSaved = data.data;
-        console.log(this.voucherSaved);
+        this.voucherSaved = data.data.filter((voucher: any) => (voucher.usage_limit - voucher.use_count) > 0);
       });
   }
 

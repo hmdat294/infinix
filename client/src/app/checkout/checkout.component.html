@@ -145,7 +145,8 @@
                                         </div>
                                         <table class="w-fill text-left table-info-bill" *ngIf="change_address == 2">
                                             <tr class="border-bottom">
-                                                <th class="h-hug text-body-strong">{{ 'checkout.fullname' | translate }}:
+                                                <th class="h-hug text-body-strong">{{ 'checkout.fullname' | translate
+                                                    }}:
                                                 </th>
                                                 <th>
                                                     <div class="control text-control w-fill">
@@ -319,9 +320,10 @@
                                         </span>
                                     </div>
                                     <div class="w-fill layout-vertical text-body text-system-success gap-5 p-10">
-                                        <p class="text-caption">{{ 'checkout.voucher' | translate }}: <span
-                                                class="text-body-strong"
+                                        <p class="text-caption">{{ 'checkout.voucher' | translate }}:
+                                            <span class="text-body-strong"
                                                 style="text-transform: uppercase;">{{voucher.code}}</span>
+                                            x{{voucher.usage_limit - voucher.use_count}}
                                         </p>
                                         <p class="text-caption">
                                             {{ getVoucherDescription(

@@ -10,47 +10,45 @@
             "total_post": "Tổng số bài viết",
             "total_report": "Tổng số tố cáo"
         },
-        
         "shop_dashboard": {
             "total_shop": "Tổng số cửa hàng",
             "total_revenue": "Tổng doanh thu",
             "total_profit": "Tổng lợi nhuận",
-            "shop":"Cửa hàng",
+            "shop": "Cửa hàng",
             "phone_number": "Số điện thoại",
-            "active":"Trạng thái",
-            "shop-description":"Mô tả",
+            "active": "Trạng thái",
+            "shop-description": "Mô tả",
             "address": "Địa chỉ",
             "created_at": "Ngày tạo cửa hàng",
             "product": "Sản phẩm",
-            "see_more":"Xem thêm",
-            "image":"Hình ảnh",
+            "see_more": "Xem thêm",
+            "image": "Hình ảnh",
             "name": "Tên",
             "price": "Giá sản phẩm",
-            "refunds":"Hoàn trả",
-            "quantity":"Số lượng",
-            "total_sold":"Số lượt bán",
-            "list_invoices":"Danh sách hóa đơn",
-            "total_amount":"Tổng tiền"
-
+            "refunds": "Hoàn trả",
+            "quantity": "Số lượng",
+            "total_sold": "Số lượt bán",
+            "list_invoices": "Danh sách hóa đơn",
+            "total_amount": "Tổng tiền"
         },
         "user": {
             "avata": "Ảnh đại diện",
             "user_name": "Tên người dùng",
             "phone_number": "Số điện thoại",
-            "created_at":"Ngày đăng ký",
-            "search":"ID hoặc Tên"
+            "created_at": "Ngày đăng ký",
+            "search": "ID hoặc Tên"
         },
-        "report":{
-            "report_user":"Báo cáo người dùng",
-            "user_name":"Tên người dùng",
-            "report_content":"Nội dung báo cáo",
-            "status":"Trạng thái",
-            "created_at":"Ngày báo cáo",
-            "actions":"Hành động",
-            "post_title":"Bài viết",
-            "comment_title":"Bình luận",
-            "user_title":"Người dùng",
-            "all":"Tất cả"
+        "report": {
+            "report_user": "Báo cáo người dùng",
+            "user_name": "Tên người dùng",
+            "report_content": "Nội dung báo cáo",
+            "status": "Trạng thái",
+            "created_at": "Ngày báo cáo",
+            "actions": "Hành động",
+            "post_title": "Bài viết",
+            "comment_title": "Bình luận",
+            "user_title": "Người dùng",
+            "all": "Tất cả"
         }
     },
     "bookmark": {
@@ -259,7 +257,8 @@
             "friend_request": "Lời mời kết bạn",
             "group_request": "Lời mời vào nhóm",
             "store": "Cửa hàng",
-            "more": "Xem thêm"
+            "more": "Xem thêm",
+            "empty": "Trống"
         },
         "right_home": {
             "manage_title": "Quản trị",
@@ -270,7 +269,8 @@
             "list_title": "Danh sách",
             "not_found": "Không tìm thấy",
             "contact_person": "Người liên hệ",
-            "group_title": "Nhóm"
+            "group_title": "Nhóm",
+            "empty": "Trống"
         }
     },
     "landing_page": {
@@ -758,7 +758,7 @@
                 "received": "Đã nhận đơn",
                 "delivered": "Đã giao hàng",
                 "delivering": "Đang giao",
-                "cancelled": "Đã hủy"
+                "canceled": "Đã hủy"
             },
             "payment_methood": {
                 "cash": "Trả tiền mặt khi nhận hàng",
@@ -768,7 +768,7 @@
                 "pending": "Chưa thanh toán",
                 "paid": "Đã thanh toán",
                 "refunded": "Đã hoàn tiền",
-                "cancelled": "Đã hủy"
+                "canceled": "Đã hủy"
             }
         }
     },

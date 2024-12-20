@@ -7,7 +7,8 @@
         *ngFor="let request of userRequest">
         <a [routerLink]="['/friend-profile', request.sender.profile.user_id]"
             class="layout-horizontal align-center-center gap-15 w-fill">
-            <img [src]="request.sender.profile.profile_photo" class="rounded-circle border border-card-default object-fit-cover" alt=""
+            <img [src]="request.sender.profile.profile_photo"
+                class="rounded-circle border border-card-default object-fit-cover" alt=""
                 style="width: 35px; height: 35px;">
             <p class="text-secondary text-body-strong w-fill">{{request.sender.profile.display_name}}</p>
         </a>
@@ -19,6 +20,12 @@
         <button type="button" class="button-subtle button-icon-only" (click)="acceptRequest(request.id, 'accepted')">
             <i class="icon-size-16 icon icon-ic_fluent_checkmark_16_filled"></i>
         </button>
+    </div>
+
+    <div *ngIf="userRequest.length == 0" class="w-fill p-20">
+        <p
+            class="text-body text-secondary text-center p-10 card-background-default border border-card-default rounded-6">
+            {{'home.left_home.empty' | translate}}!</p>
     </div>
 
 </div>
@@ -47,6 +54,11 @@
             (click)="acceptGroupRequest(request.id, 'accepted')">
             <i class="icon-size-16 icon icon-ic_fluent_checkmark_16_filled"></i>
         </button>
+    </div>
+    <div *ngIf="groupRequest.length == 0" class="w-fill p-20">
+        <p
+            class="text-body text-secondary text-center p-10 card-background-default border border-card-default rounded-6">
+            {{'home.left_home.empty' | translate}}!</p>
     </div>
 
 </div>
@@ -252,13 +264,15 @@
                                     </div>
 
                                     <div>
-                                        <p class="text-primary text-body-strong">{{'product_detail.detail' | translate}}</p>
+                                        <p class="text-primary text-body-strong">{{'product_detail.detail' | translate}}
+                                        </p>
                                         <p class="text-primary text-body">{{product.description}}</p>
                                     </div>
                                 </div>
 
                                 <div class="layout-vertical gap-10 border-top pt-15">
-                                    <p class="text-primary text-body-strong">{{'product_detail.feedback_product' | translate}}</p>
+                                    <p class="text-primary text-body-strong">{{'product_detail.feedback_product' |
+                                        translate}}</p>
                                     <div class="card-background-default border border-card-default rounded-6 mb-5"
                                         *ngIf="feedbacks.length > 0">
 
@@ -325,7 +339,8 @@
                                     </div>
                                     <div *ngIf="feedbacks.length == 0"
                                         class="w-fill py-20 card-background-default border border-card-default rounded-6">
-                                        <p class="text-body text-secondary text-center">{{'product_detail.no_reviews_yet' | translate}}!</p>
+                                        <p class="text-body text-secondary text-center">
+                                            {{'product_detail.no_reviews_yet' | translate}}!</p>
                                     </div>
                                 </div>
                             </div>
@@ -333,6 +348,12 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div *ngIf="listProduct.length == 0" class="w-fill">
+            <p
+                class="text-body text-secondary text-center p-10 card-background-default border border-card-default rounded-6">
+                {{'home.left_home.empty' | translate}}!</p>
         </div>
     </div>
 </div>

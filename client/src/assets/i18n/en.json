@@ -205,7 +205,8 @@
             "friend_request": "Friend request",
             "group_request": "Group request",
             "store": "Store",
-            "more": "See more"
+            "more": "See more",
+            "empty": "Empty"
         },
         "right_home": {
             "manage_title": "Manage",
@@ -216,7 +217,8 @@
             "list_title": "List",
             "not_found": "Not found",
             "contact_person": "Contact person",
-            "group_title": "Group"
+            "group_title": "Group",
+            "empty": "Empty"
         }
     },
     "landing_page": {
@@ -704,7 +706,7 @@
                 "received": "Order received",
                 "delivered": "Delivered",
                 "delivering": "Delivering",
-                "cancelled": "Cancelled"
+                "canceled": "Cancelled"
             },
             "payment_methood": {
                 "cash": "Cash on delivery",
@@ -714,7 +716,7 @@
                 "pending": "Pending",
                 "paid": "Paid",
                 "refunded": "Refunded",
-                "cancelled": "Cancelled"
+                "canceled": "Cancelled"
             }
         }
     },

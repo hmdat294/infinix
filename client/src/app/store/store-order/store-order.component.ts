@@ -22,39 +22,19 @@ export class StoreOrderComponent implements OnInit {
   endDate: string = '';
   filteredData: any = [];
 
-  // order_status: any = {
-  //   'pending': 'Chờ xử lý',
-  //   'received': 'Đã nhận đơn',
-  //   'delivered': 'Đã giao hàng',
-  //   'delivering': 'Đang giao',
-  //   'cancelled': 'Đã hủy'
-  // }
-
   order_color: any = {
     'pending': 'text-system-caution',
     'received': 'text-system-attention',
     'delivered': 'text-system-success',
     'delivering': 'text-system-attention',
-    'cancelled': 'text-system-critical'
+    'canceled': 'text-system-critical'
   }
-
-  // payment_methood: any = {
-  //   'cash': 'Trả tiền mặt khi nhận hàng',
-  //   'zalopay': 'Thanh toán qua ZaloPay',
-  // }
-
-  // payment_status: any = {
-  //   'pending': 'Chưa thanh toán',
-  //   'paid': 'Đã thanh toán',
-  //   'refunded': 'Đã hoàn tiền',
-  //   'cancelled': 'Đã hủy'
-  // }
 
   payment_color: any = {
     'pending': 'text-system-caution',
     'paid': 'text-system-success',
     'refunded': 'text-system-critical',
-    'cancelled': 'text-system-critical'
+    'canceled': 'text-system-critical'
   }
 
   constructor(
@@ -150,7 +130,9 @@ export class StoreOrderComponent implements OnInit {
         console.log(data);
         const order = this.orders.find((order: any) => order.id == this.id_refund_order);
         order.can_cancel = false;
+        order.payment_status = 'canceled';
         this.showDiaLogRefundOrder(0);
+        this.tabChild('');
       });
   }
 

@@ -52,7 +52,7 @@ export class StatisticComponent implements OnInit {
     'received': 'Đã nhận đơn',
     'delivering': 'Đang giao',
     'delivered': 'Đã giao hàng',
-    'cancelled': 'Đã hủy'
+    'canceled': 'Đã hủy'
   }
 
   order_color: any = {
@@ -60,7 +60,7 @@ export class StatisticComponent implements OnInit {
     'received': '#fbff25',
     'delivering': '#34ff25',
     'delivered': '#256aff',
-    'cancelled': '#ff2525'
+    'canceled': '#ff2525'
   }
 
   ngOnInit(): void {
