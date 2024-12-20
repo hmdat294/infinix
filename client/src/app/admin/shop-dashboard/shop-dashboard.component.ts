@@ -10,10 +10,11 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-shop-dashboard',
-  imports: [NavComponent, CommonModule, FormsModule, RouterModule, NgApexchartsModule, NgxPaginationModule],
+  imports: [NavComponent, CommonModule,TranslateModule, FormsModule, RouterModule, NgApexchartsModule, NgxPaginationModule],
   templateUrl: './shop-dashboard.component.html',
   styleUrl: './shop-dashboard.component.css'
 })

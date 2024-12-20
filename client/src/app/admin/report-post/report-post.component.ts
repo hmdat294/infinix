@@ -7,10 +7,11 @@ import { FormsModule } from '@angular/forms';
 // import Swal from 'sweetalert2';
 import { SettingService } from '../../service/setting.service';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-report-post',
-    imports: [NavComponent, CommonModule, RouterModule, FormsModule, NgxPaginationModule],
+    imports: [NavComponent, CommonModule,TranslateModule, RouterModule, FormsModule, NgxPaginationModule],
     templateUrl: './report-post.component.html',
     styleUrl: './report-post.component.css'
 })

@@ -7,11 +7,12 @@ import { Observable } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { SettingService } from '../../service/setting.service';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @Component({
     selector: 'app-report',
-    imports: [NavComponent, CommonModule, RouterModule, FormsModule, NgxPaginationModule],
+    imports: [NavComponent, CommonModule, RouterModule,TranslateModule, FormsModule, NgxPaginationModule],
     templateUrl: './report.component.html',
     styleUrls: ['./report.component.css'] // Sửa thành `styleUrls`
 })

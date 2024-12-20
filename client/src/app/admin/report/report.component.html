@@ -6,11 +6,11 @@
             <div class="layout-horizontal gap-10 " style="padding: 10px;">
                 <!-- search -->
                 <div class="layout-horizontal gap-10  ">
-                    <label class="text-primary" for="filterStatus ">Lọc trạng thái:</label>
+                    <label class="text-primary" for="filterStatus ">{{'admin.report.Filter_status'|translate}}:</label>
                     <select  class= "text-primary control"  [(ngModel)]="filterStatus" (change)="filterReports()">
-                      <option value="all" class="  gradient-background list-item text-primary">Tất cả</option>
-                      <option value="pending" class=" list-item text-primary gradient-background"> Chưa giải quyết</option>
-                      <option value="resolved" class="list-item text-primary gradient-background">Đã giải quyết</option>
+                      <option value="all" class="  gradient-background list-item text-primary">{{'admin.report.all'|translate}}</option>
+                      <option value="pending" class=" list-item text-primary gradient-background">{{'admin.report.Pending'|translate}}</option>
+                      <option value="resolved" class="list-item text-primary gradient-background">{{'admin.report.Resolved'|translate}}</option>
                     </select>
                     
                   </div>
@@ -20,24 +20,24 @@
                         class="button-standard button-text-with-icon gap-10">
                         <i
                             class="icon-size-16 icon icon-ic_fluent_document_one_page_multiple_16_regular"></i>
-                        Bài viết
+                            {{'admin.report.post_title'|translate}}
                     </a>
                     <a [routerLink]="['/admin/report/comment']"
                         class="button-standard button-text-with-icon gap-10">
                         <i
                             class="icon-size-20 icon icon-ic_fluent_check_20_regular"></i>
-                        Bình luận
+                            {{'admin.report.comment_title'|translate}}
                     </a>
                     <a [routerLink]="['/admin/report/user']"
                         class="button-standard button-text-with-icon gap-10">
                         <i
                             class="icon-size-16 icon icon-ic_fluent_person_16_regular"></i>
-                        Người dùng
+                            {{'admin.report.user_title'|translate}}
                     </a>
                     <a [routerLink]="['/admin/report']"
                     class="button-standard button-text-with-icon gap-10">
                     
-                    Tất cả
+                    {{'admin.report.all'|translate}}
                 </a>
                 
                 </div>
@@ -54,12 +54,12 @@
                     <thead>
                         <tr class>
                          
-                            <th class="text-primary">Báo cáo người dùng</th>
-                            <th class="text-primary">Tên người dùng</th>
-                            <th class="text-primary">Nội dung báo cáo</th>
-                            <th class="text-primary">Trạng thái</th>
-                            <th class="text-primary">Ngày báo cáo</th>
-                            <th class="text-primary">Hành động</th>
+                            <th class="text-primary"> {{'admin.report.report_user'|translate}}</th>
+                            <th class="text-primary"> {{'admin.report.user_name'|translate}}</th>
+                            <th class="text-primary"> {{'admin.report.report_content'|translate}}</th>
+                            <th class="text-primary"> {{'admin.report.status'|translate}}</th>
+                            <th class="text-primary"> {{'admin.report.created_at'|translate}}</th>
+                            <th class="text-primary"> {{'admin.report.actions'|translate}}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -80,8 +80,8 @@
                                     class="status-select"
                                     [class.text-red]="item.status === 'pending'"
                                     [class.text-green]="item.status === 'resolved'">
-                                    <option value="pending">Chưa giải quyết</option>
-                                    <option value="resolved">Đã giải quyết</option>
+                                    <option value="pending">{{'admin.report.Pending'|translate}}</option>
+                                    <option value="resolved">{{'admin.report.Resolved'|translate}}</option>
                                 </select>
                             </div>
                           </td>
