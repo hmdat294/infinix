@@ -248,8 +248,10 @@ class OrderController extends Controller
 
         $response = $amount == null ? $this->zalopayService->refund($order_group->external_order_id, "Hoàn tiền đơn hàng #$order_group->external_order_id") : $this->zalopayService->refund_with_amount($order_group->external_order_id, "Hoàn tiền đơn hàng #$order_group->external_order_id", $amount);
         if ($response['return_code'] == 1 || $response['return_code'] == 3) {
-            $order_group->payment_status = 'refunded';
-            $order_group->save();
+            if ($amount == null) {
+                $order_group->payment_status = 'refunded';
+                $order_group->save();
+            }
             return response()->json(['success' => true]);
         }
     }
