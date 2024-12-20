@@ -6,13 +6,14 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { SettingService } from '../../service/setting.service';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { TranslateModule } from '@ngx-translate/core';
 // import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-report-comment',
-  imports: [NavComponent, CommonModule, RouterModule, FormsModule, NgxPaginationModule],
-  templateUrl: './report-comment.component.html',
-  styleUrl: './report-comment.component.css'
+    selector: 'app-report-comment',
+    imports: [NavComponent, CommonModule,TranslateModule, RouterModule, FormsModule, NgxPaginationModule],
+    templateUrl: './report-comment.component.html',
+    styleUrl: './report-comment.component.css'
 })
 
 export class ReportCommentComponent {

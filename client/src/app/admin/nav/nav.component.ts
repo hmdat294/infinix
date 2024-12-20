@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../service/auth.service';
 import { Router, RouterModule } from '@angular/router';
 import { ChatService } from '../../service/chat.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-nav',
-    imports: [RouterModule],
+    imports: [RouterModule, TranslateModule],
     templateUrl: './nav.component.html',
     styleUrl: './nav.component.css'
 })

@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import moment from 'moment';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-report-user',
@@ -16,6 +17,7 @@ import moment from 'moment';
     RouterModule,
     FormsModule,
     NgxPaginationModule,
+    TranslateModule,
   ],
   templateUrl: './report-user.component.html',
   styleUrl: './report-user.component.css',

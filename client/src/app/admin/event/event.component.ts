@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { AdminService } from '../../service/admin.service';
 import { SettingService } from '../../service/setting.service';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-event',
@@ -15,6 +16,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     RouterModule,
     FormsModule,
     NgxPaginationModule,
+    TranslateModule,
   ],
   templateUrl: './event.component.html',
   styleUrls: ['./event.component.css'],
