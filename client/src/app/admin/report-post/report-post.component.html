@@ -6,7 +6,7 @@
             <div class="layout-horizontal gap-10 " style="padding: 10px;">
                 <!-- search -->
                 <div class="layout-horizontal gap-10  ">
-                    <label for="filterStatus">Lọc trạng thái:</label>
+                    <label class="text-primary" for="filterStatus">Lọc trạng thái:</label>
                     <select  class= "dropdown-menu button-standard button-text-with-icon gap-10"  [(ngModel)]="filterStatus" (change)="filterReports()">
                       <option value="all" class="list-item"><div class="text-body">Tất cả</div></option>
                       <option value="pending" class="list-item"> <div class="text-body">Chưa giải quyết</div></option>
@@ -43,7 +43,7 @@
                 </div>
 
             </div>
-            <div class="me-25">
+            <div class="me-25"  *ngIf="filteredReports.length>10">
                 <pagination-controls (pageChange)="currentPage = $event" previousLabel=""
                 nextLabel=""></pagination-controls>
             </div>
@@ -63,7 +63,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let item of filteredReports | paginate: { itemsPerPage: 2, currentPage: currentPage }; let i = index ">
+                        <tr *ngFor="let item of filteredReports | paginate: { itemsPerPage: 10, currentPage: currentPage }; let i = index ">
                         
                           <td>{{item.user.profile.display_name}}</td>
                           <td>{{item.sender.profile.display_name}}</td>

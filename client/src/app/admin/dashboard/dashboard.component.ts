@@ -96,7 +96,7 @@ export class DashboardComponent implements OnInit {
             dropShadow: { enabled: true, top: 3, left: 2, blur: 4, opacity: 0.1 }
           },
           stroke: { width: 5, curve: 'smooth' },
-          colors: ["#5283FF", '#F1C40F', '#FF4C92', "#17a00e"],
+          colors: ["#5283FF", '#F1C40F'],
           series: [{
             name: "Người dùng",
             data: this.User_Growth  // Sử dụng userData từ API
@@ -105,17 +105,14 @@ export class DashboardComponent implements OnInit {
             name: "Bài viết",
             data: this.Post_Growth // Sử dụng userData từ API
           },
-          {
-            name: "Cuộc trò chuyện",
-            data: this.Conversations_Growth // Sử dụng userData từ API
-          }
+          
           ],
           xaxis: {
             type: 'datetime',
             categories: longestDates,
           },
           title: {
-            text: 'Thống kê',
+            text: 'Thống kê tăng trưởng',
             offsetY: 0,
             offsetX: 20
           },

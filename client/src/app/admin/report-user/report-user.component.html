@@ -6,7 +6,7 @@
       <div class="layout-horizontal gap-10" style="padding: 10px">
         <!-- search -->
         <div class="layout-horizontal gap-10">
-          <label for="filterStatus">Lọc trạng thái:</label>
+          <label class="text-primary" for="filterStatus ">Lọc trạng thái:</label>
           <select
             class="dropdown-menu button-standard button-text-with-icon gap-10"
             [(ngModel)]="filterStatus"
@@ -57,7 +57,7 @@
           </a>
         </div>
       </div>
-      <div class="me-25">
+      <div class="me-25" *ngIf="filteredReports.length>10">
         <pagination-controls
           (pageChange)="currentPage = $event"
           previousLabel=""
@@ -85,7 +85,7 @@
             <tr
               *ngFor="
                 let item of filteredReports
-                  | paginate : { itemsPerPage: 2, currentPage: currentPage };
+                  | paginate : { itemsPerPage: 10, currentPage: currentPage };
                 let i = index
               "
             >
@@ -130,15 +130,12 @@
                 <a class="button-subtle button-icon-only text-accent-default">
                   <i
                     class="icon-size-24 icon icon-ic_fluent_info_24_filled"
-                    (click)="openDialog()"
+                    (click)="openDialog(item.id)"
                   ></i>
                 </a>
                 <div
                   class="position-fixed top-0 start-0"
-                  [ngClass]="{
-                    'display-block': isDialogVisible,
-                    'display-none': !isDialogVisible
-                  }"
+                  [class]=" isDialogVisible==item.id?'display-block':'display-none'"
                   style="width: 100%; height: 100vh; z-index: 30"
                 >
                   <div
@@ -190,7 +187,7 @@
                               type="button"
                               class="button-accent"
                               (click)="
-                                reportPunishment(item.id, item.user_id, 'resolved')
+                                reportPunishment(item.id, item.user_id, 'resolved' )
                               "
                             >
                               Duyệt
@@ -200,14 +197,14 @@
                               class="button-accent"
                               (click)="
                                 reportPunishment(item.id, item.user_id, 'resolved')
-                              "
+                              " 
                             >
                               Không Duyệt
                             </button>
                             <button
                               type="button"
                               class="button-close"
-                              (click)="openDialog()"
+                              (click)="openDialog(0)"
                             >
                               Đóng
                             </button>
