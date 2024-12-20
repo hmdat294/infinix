@@ -26,12 +26,6 @@ export class ReportpostComponent {
     private cdr: ChangeDetectorRef
   ) { }
   
-
-
-  
-
-
-  
   ngOnInit(): void {
     this.adminService.getReports().subscribe(
       (response) => {
@@ -41,7 +35,7 @@ export class ReportpostComponent {
           .map((item: any) => ({ ...item, isExpanded: false }));
         this.filteredReports = [...this.listReport];
         this.sortReportsByStatus(); 
-        console.log(this.listReport);
+        // console.log(this.listReport);
       },
       (error) => {
         console.error('Lỗi khi gọi API:', error);
@@ -61,18 +55,7 @@ export class ReportpostComponent {
     this.sortReportsByStatus();
   }
 
-  // deleteReport(reportId: number): void {
-  //   this.adminService.deleteReport(reportId).subscribe(
-  //     (response) => {
-  //       console.log('Báo cáo đã được xóa:', response);
-  //       // Cập nhật danh sách báo cáo sau khi xóa
-  //       this.listReport = this.listReport.filter((report: any) => report.id !== reportId);
-  //     },
-  //     (error) => {
-  //       console.error('Lỗi khi xóa báo cáo:', error);
-  //     }
-  //   );
-  // }
+  
   shortenTextByWords(text: string, maxWords: number): string {
     const words = text.split(' ');
     return words.length > maxWords ? words.slice(0, maxWords).join(' ') + '...' : text;
@@ -82,14 +65,7 @@ export class ReportpostComponent {
   updateStatus(item: any): void {
     this.adminService.updateReportStatus(item.id, item.status).subscribe(
       (response) => {
-        console.log('Trạng thái đã được cập nhật:', response);
-  
-        // Loại bỏ báo cáo đã giải quyết
-        // if (item.status === 'resolved') {
-        //   this.filteredReports = this.filteredReports.filter(
-        //     (report) => report.id !== item.id
-        //   );
-        // }
+        // console.log('Trạng thái đã được cập nhật:', response);
 
         this.sortReportsByStatus(); // Sắp xếp lại sau khi trạng thái thay đổi
   

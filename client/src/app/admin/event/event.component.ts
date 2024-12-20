@@ -44,7 +44,7 @@ export class EventComponent implements OnInit {
     this.adminService.getShop().subscribe(
       (response) => {
         this.listShop = response.data; // Lưu danh sách cửa hàng
-        console.log('List shops:', this.listShop);
+        // console.log('List shops:', this.listShop);
         this.sortByStatus();
         this.filtershops();
       },
@@ -58,7 +58,7 @@ export class EventComponent implements OnInit {
   }
   changIsActiveShop(shop_id: number, is_active: string): void {
     this.adminService.postshop(shop_id, is_active).subscribe((response) => {
-      console.log(is_active);
+      // console.log(is_active);
       const shop = this.listShop.find((shop: any) => shop.id == shop_id);
       shop.is_active = is_active;
       this.isDialogVisible = 0;
@@ -105,6 +105,6 @@ export class EventComponent implements OnInit {
       );
     }
 
-    console.log(this.filteredshops);
+    // console.log(this.filteredshops);
   }
 }

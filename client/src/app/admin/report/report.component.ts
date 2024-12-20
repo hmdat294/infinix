@@ -35,7 +35,7 @@ export class ReportComponent {
         this.listReport = response.data;
         this.filteredReports = [...this.listReport]; // Khởi tạo danh sách lọc
         this.sortReportsByStatus();
-        console.log(this.listReport);
+        // console.log(this.listReport);
       },
       (error) => {
         console.error('Lỗi khi gọi API:', error);

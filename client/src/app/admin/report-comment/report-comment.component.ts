@@ -9,10 +9,10 @@ import { NgxPaginationModule } from 'ngx-pagination';
 // import Swal from 'sweetalert2';
 
 @Component({
-    selector: 'app-report-comment',
-    imports: [NavComponent, CommonModule, RouterModule, FormsModule, NgxPaginationModule],
-    templateUrl: './report-comment.component.html',
-    styleUrl: './report-comment.component.css'
+  selector: 'app-report-comment',
+  imports: [NavComponent, CommonModule, RouterModule, FormsModule, NgxPaginationModule],
+  templateUrl: './report-comment.component.html',
+  styleUrl: './report-comment.component.css'
 })
 
 export class ReportCommentComponent {
@@ -25,31 +25,26 @@ export class ReportCommentComponent {
     private settingService: SettingService,
     private el: ElementRef,
     private cdr: ChangeDetectorRef
-    ) { }
-    
-  
-
- 
+  ) { }
 
 
-  
   ngOnInit(): void {
     this.adminService.getReports().subscribe(
       (response) => {
-        
+
         this.listReport = response.data
           .filter((item: any) => item.type === 'comment')
           .map((item: any) => ({ ...item, isExpanded: false }));
         this.filteredReports = [...this.listReport];
         this.sortReportsByStatus();
-        console.log(this.listReport);
+        // console.log(this.listReport);
       },
       (error) => {
-        console.error('Lỗi khi gọi API:', error);
+        // console.error('Lỗi khi gọi API:', error);
       }
     );
   }
-  currentPage =1;
+  currentPage = 1;
   filterReports(): void {
     if (this.filterStatus === 'all') {
       this.filteredReports = [...this.listReport];
@@ -58,22 +53,10 @@ export class ReportCommentComponent {
         (item) => item.status === this.filterStatus
       );
     }
-  }  tabChild(tab: string) {
+  } tabChild(tab: string) {
     this.tabAccordion = this.settingService.tabChild(this.tabAccordion, tab, this.el);
   }
 
-  // deleteReport(reportId: number): void {
-  //   this.adminService.deleteReport(reportId).subscribe(
-  //     (response) => {
-  //       console.log('Báo cáo đã được xóa:', response);
-  //       // Cập nhật danh sách báo cáo sau khi xóa
-  //       this.listReport = this.listReport.filter((report: any) => report.id !== reportId);
-  //     },
-  //     (error) => {
-  //       console.error('Lỗi khi xóa báo cáo:', error);
-  //     }
-  //   );
-  // }
   shortenTextByWords(text: string, maxWords: number): string {
     const words = text.split(' ');
     return words.length > maxWords ? words.slice(0, maxWords).join(' ') + '...' : text;
@@ -89,21 +72,13 @@ export class ReportCommentComponent {
   updateStatus(item: any): void {
     this.adminService.updateReportStatus(item.id, item.status).subscribe(
       (response) => {
-        console.log('Trạng thái đã được cập nhật:', response);
-  
-        // Loại bỏ báo cáo đã giải quyết
-        // if (item.status === 'resolved') {
-        //   this.filteredReports = this.filteredReports.filter(
-        //     (report) => report.id !== item.id
-        //   );
-        // }
 
         this.sortReportsByStatus(); // Sắp xếp lại sau khi trạng thái thay đổi
-  
+
         this.cdr.detectChanges(); // Buộc cập nhật giao diện
       },
       (error) => {
-        console.error('Lỗi khi cập nhật trạng thái:', error);
+        // console.error('Lỗi khi cập nhật trạng thái:', error);
       }
     );
   }

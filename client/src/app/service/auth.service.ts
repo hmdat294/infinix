@@ -23,11 +23,7 @@ export class AuthService {
       }
     });
 
-    this.token$.subscribe(auth_token => {
-      console.log(auth_token);
-      
-      this.auth_token = auth_token
-    });
+    this.token$.subscribe(auth_token => this.auth_token = auth_token);
   }
 
   updateAuthToken(token: string) {

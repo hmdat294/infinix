@@ -35,8 +35,8 @@ export class OrderComponent implements OnInit {
   order_color: any = {
     'pending': 'text-system-caution',
     'received': 'text-system-attention',
-    'delivered': 'text-system-success',
-    'delivering': 'text-system-attention',
+    'delivering': 'text-system-success',
+    'delivered': 'text-system-attention',
     'cancelled': 'text-system-critical'
   }
 

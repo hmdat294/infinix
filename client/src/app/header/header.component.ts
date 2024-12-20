@@ -84,8 +84,6 @@ export class HeaderComponent implements OnInit {
 
         this.notification = data.data.filter((item: any) => item.conversation_id == null);
         this.notificationChat = data.data.filter((item: any) => item.conversation_id != null);
-        console.log(this.notification);
-        console.log(this.notificationChat);
 
         this.notificationService.updateNotiChat(this.notificationChat);
 

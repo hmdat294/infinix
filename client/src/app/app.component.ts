@@ -65,6 +65,7 @@ export class AppComponent implements OnInit {
     this.authService.token$.subscribe(auth_token => {
 
       if (!!auth_token) {
+        
         this.authService.getUser(0).subscribe(
           (response) => {
             this.isLoggedIn = this.authService.checkPermissions('can_login', response.data.permissions);
@@ -77,60 +78,62 @@ export class AppComponent implements OnInit {
           (event: any) =>
             this.is_route_admin = !!(event.urlAfterRedirects.split('/')[1] == 'admin')
         );
+
+
+
+        this.authService.getUser(0).subscribe(
+          (user) => {
+            this.display_name = user.data.profile.display_name;
+            this.profile_photo = user.data.profile.profile_photo;
+          });
+
+        this.peerService.userPeerId$.subscribe(id => this.userPeerId = id);
+
+        this.peerService.peer.on('call', (call: any) => {
+          this.isIncomingCall = true;
+          this.incomingPeerId = call.peer;
+          this.incomingCall = call;
+
+          const sound = localStorage.getItem('sound') || null;
+          if (sound) {
+            this.ringtone = new Audio(`assets/sounds/${sound}.mp3`);
+            this.ringtone.loop = true;
+            this.ringtone.play().catch((error: any) => {
+              console.error('Không thể phát nhạc chuông:', error);
+            });
+          }
+
+          this.timeout = setTimeout(() => {
+            if (this.isIncomingCall) {
+              this.rejectCall()
+            }
+          }, 15000);
+
+          call.on('stream', (remoteStream: any) => this.startCallTimer());
+          call.on('close', () => this.stopCallTimer());
+        });
+
+        this.peerService.userInfomation$.subscribe((user) => {
+          this.userInfo = user;
+
+          this.timeout = setTimeout(() => {
+            if (!this.userInfo) {
+              this.hangup();
+            }
+          }, 15000);
+
+          this.incomingUserName = user?.userName;
+          this.incomingUserImage = user?.userImage;
+        });
+
+        this.peerService.statusCamera$.subscribe((status) => this.statusCamera = status);
+        this.peerService.statusMicro$.subscribe((status) => this.statusMicro = status);
+        this.peerService.statusCalling$.subscribe((status) => this.isCalling = status);
+        this.peerService.timeOut$.subscribe((value) => this.callDuration = value);
+
       }
       else this.isLoggedIn = false;
     });
-
-
-    this.authService.getUser(0).subscribe(
-      (user) => {
-        this.display_name = user.data.profile.display_name;
-        this.profile_photo = user.data.profile.profile_photo;
-      });
-
-    this.peerService.userPeerId$.subscribe(id => this.userPeerId = id);
-
-    this.peerService.peer.on('call', (call: any) => {
-      this.isIncomingCall = true;
-      this.incomingPeerId = call.peer;
-      this.incomingCall = call;
-
-      const sound = localStorage.getItem('sound') || null;
-      if (sound) {
-        this.ringtone = new Audio(`assets/sounds/${sound}.mp3`);
-        this.ringtone.loop = true;
-        this.ringtone.play().catch((error: any) => {
-          console.error('Không thể phát nhạc chuông:', error);
-        });
-      }
-
-      this.timeout = setTimeout(() => {
-        if (this.isIncomingCall) {
-          this.rejectCall()
-        }
-      }, 15000);
-
-      call.on('stream', (remoteStream: any) => this.startCallTimer());
-      call.on('close', () => this.stopCallTimer());
-    });
-
-    this.peerService.userInfomation$.subscribe((user) => {
-      this.userInfo = user;
-
-      this.timeout = setTimeout(() => {
-        if (!this.userInfo) {
-          this.hangup();
-        }
-      }, 15000);
-
-      this.incomingUserName = user?.userName;
-      this.incomingUserImage = user?.userImage;
-    });
-
-    this.peerService.statusCamera$.subscribe((status) => this.statusCamera = status);
-    this.peerService.statusMicro$.subscribe((status) => this.statusMicro = status);
-    this.peerService.statusCalling$.subscribe((status) => this.isCalling = status);
-    this.peerService.timeOut$.subscribe((value) => this.callDuration = value);
   }
 
 

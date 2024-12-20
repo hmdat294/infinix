@@ -24,6 +24,11 @@ export class ShopService {
     const headers = this.authService.getToken();
     return this.http.get(`${this.apiUrl}/statistics/shop-revenue/${shop_id}`, { headers });
   }
+
+  getStatisticEstimated(shop_id: number): Observable<any> {
+    const headers = this.authService.getToken();
+    return this.http.get(`${this.apiUrl}/statistics/estimated-revenue/${shop_id}`, { headers });
+  }
   
   getStatisticOrder(shop_id: number): Observable<any> {
     const headers = this.authService.getToken();

@@ -51,9 +51,9 @@ export class ShopDashboardComponent implements OnInit {
       (response) => {
         this.listShop = response.data.filter((item: any) => item.is_active === 1);
         this.totalShop = response.data.length;
-        console.log('List shops:', this.listShop);
+        // console.log('List shops:', this.listShop);
         const idShop = this.listShop.map(item => item.id);
-        console.log(idShop);
+        // console.log(idShop);
 
 
       },
@@ -70,9 +70,9 @@ export class ShopDashboardComponent implements OnInit {
           const lastItem = response[response.length - 1];
           this.totalRevenue = this.formatCurrency(lastItem.cumulative_revenue);
           this.totalProfit = this.formatCurrency(lastItem.cumulative_revenue *0.05);
-          console.log(this.totalRevenue); // Kiểm tra kết quả
+          // console.log(this.totalRevenue); // Kiểm tra kết quả
         } else {
-          console.log('Không có dữ liệu từ API');
+          // console.log('Không có dữ liệu từ API');
         }
       },
       (error) => {
@@ -90,14 +90,14 @@ export class ShopDashboardComponent implements OnInit {
         })
         .slice(0, 4); // Lấy 4 mục đầu tiên
 
-      console.log("Shop Revenus", this.ShopRevenus);
+      // console.log("Shop Revenus", this.ShopRevenus);
 
     }
     ),
 
     this.adminService.getAllOrder().subscribe(res => {
       this.allOrder = res.data.filter((order: any) => order.admin_paid === 0);
-      console.log("All Order", this.allOrder);
+      // console.log("All Order", this.allOrder);
 
     });
 
@@ -113,8 +113,8 @@ export class ShopDashboardComponent implements OnInit {
 
 
           });
-          console.log(this.Cumulative_Revenue);
-          console.log(this.Cumulative_Revenue_Date);
+          // console.log(this.Cumulative_Revenue);
+          // console.log(this.Cumulative_Revenue_Date);
           this.chart2 = {
             chart: {
               foreColor: '#9ba7b2',
@@ -174,16 +174,16 @@ export class ShopDashboardComponent implements OnInit {
   }
 
   onItemClick(id: number): void {
-    console.log('Selected Shop ID:', id);
+    // console.log('Selected Shop ID:', id);
     this.adminService.getListProductByShop(id).subscribe((res) => {
       this.listProduct = res.data.sort((a: any, b: any) => b.total_sold - a.total_sold) // Sắp xếp giảm dần
         .slice(0, 3);
-      console.log(this.listProduct);
+      // console.log(this.listProduct);
 
     });
     this.adminService.getAllOrderById(id).subscribe(res => {
       this.allOrderbyID = res.data.filter((order: any) => order.admin_paid === 0).slice(0, 3);
-      console.log("All Order", this.allOrderbyID);
+      // console.log("All Order", this.allOrderbyID);
 
     });
     

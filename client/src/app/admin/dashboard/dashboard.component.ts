@@ -37,21 +37,9 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     
-
-
-    // this.renderRadialBarChart();
-    // this.renderLineChart1();
-    // this.adminService.getConversationsGrowthData().subscribe(data => {
-    //   this.Conversations_Growth = data;  // Lưu trữ dữ liệu từ API
-    //   this.renderLineChart1();
-    //   console.log(this.Conversations_Growth);
-    //   // Vẽ biểu đồ sau khi có dữ liệu
-    // }, error => {
-    //   console.error('Lỗi khi lấy dữ liệu:', error);
-    // });
     this.adminService.getUserGrowthData().subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         response.forEach((user: any) => {
           this.User_Growth.push(user.cumulative_total); // Lưu trữ dữ liệu từ API
           this.User_Growth_Date.push(user.date);
@@ -78,14 +66,6 @@ export class DashboardComponent implements OnInit {
         const longestDates = this.User_Growth_Date.length >= this.Post_Growth_Date.length
           ? (this.User_Growth_Date.length >= this.Conversations_Growth_Date.length ? this.User_Growth_Date : this.Conversations_Growth_Date)
           : (this.User_Growth_Date.length >= this.Conversations_Growth_Date.length ? this.Post_Growth_Date : this.Conversations_Growth_Date);
-
-        // Lưu trữ dữ liệu từ API
-        console.log(this.User_Growth_Date);
-        console.log(this.User_Growth);
-        console.log(this.Post_Growth);
-        console.log(this.Post_Growth_Date);
-        console.log(this.Conversations_Growth);
-        console.log(this.Conversations_Growth_Date);
 
         this.chart2 = {
           chart: {
@@ -138,7 +118,7 @@ export class DashboardComponent implements OnInit {
       const postReports = reportData.filter((item: any) => item.type === 'post').length;
       const commentReports = reportData.filter((item: any) => item.type === 'comment').length;
       const messageReports = reportData.filter((item: any) => item.type === 'message').length;
-      console.log('Data passed to :', userReports, postReports, commentReports, messageReports);
+      // console.log('Data passed to :', userReports, postReports, commentReports, messageReports);
 
       
       this.chart13 = {
@@ -170,7 +150,7 @@ export class DashboardComponent implements OnInit {
       const ShopApproved = ShopData.filter((item: any) => item.is_active === 1).length;
       const ShopDApproved = ShopData.filter((item: any) => item.is_active === 0).length;
       
-      console.log('Data passed to :', ShopApproved,ShopDApproved);
+      // console.log('Data passed to :', ShopApproved,ShopDApproved);
 
       
       this.chart9 = {
@@ -203,7 +183,7 @@ export class DashboardComponent implements OnInit {
     this.adminService.getTotalUser().subscribe(
       (response) => {
         this.totalUsers = response.total_users;
-        console.log(this.totalUsers);
+        // console.log(this.totalUsers);
       },
       (error) => {
         console.error('Lỗi khi gọi API:', error);
@@ -212,7 +192,7 @@ export class DashboardComponent implements OnInit {
     this.adminService.getTotalPost().subscribe(
       (response) => {
         this.totalPost = response.total_posts;
-        console.log(this.totalPost);
+        // console.log(this.totalPost);
       },
       (error) => {
         console.error('Lỗi khi gọi API:', error);
@@ -221,7 +201,7 @@ export class DashboardComponent implements OnInit {
     this.adminService.getTotalReport().subscribe(
       (response) => {
         this.totalReport = response.data;
-        console.log(this.totalReport);
+        // console.log(this.totalReport);
       },
       (error) => {
         console.error('Lỗi khi gọi API:', error);
@@ -230,7 +210,7 @@ export class DashboardComponent implements OnInit {
     this.adminService.getTotalConversations().subscribe(
       (response) => {
         this.totalConversations = response.data;
-        console.log(this.totalConversations);
+        // console.log(this.totalConversations);
       },
       (error) => {
         console.error('Lỗi khi gọi API:', error);

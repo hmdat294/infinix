@@ -17,7 +17,7 @@ export class HeaderAdminComponent implements OnInit {
     this.authService.getUser(0).subscribe(
       (response) => {
         this.user = response.data;
-        console.log(this.user);
+        // console.log(this.user);
       });
   }
 }

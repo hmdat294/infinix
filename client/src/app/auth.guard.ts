@@ -72,6 +72,7 @@ export class AuthGuard implements CanActivate {
               // localStorage.removeItem('auth_token');
               this.cookieService.delete('auth_token');
               localStorage.removeItem('conversation');
+              localStorage.removeItem('sound');
               this.router.navigate(['/landing-page']);
               observer.next(false);
               observer.complete();

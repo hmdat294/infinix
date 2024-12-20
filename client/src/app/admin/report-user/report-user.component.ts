@@ -42,7 +42,7 @@ export class ReportUserComponent {
         );
         this.filteredReports = [...this.listReport];
         // this.sortReportsByStatus();
-        console.log(this.listReport);
+        // console.log(this.listReport);
       },
       (error) => {
         console.error('Lỗi khi gọi API:', error);
@@ -61,44 +61,6 @@ export class ReportUserComponent {
     // this.sortReportsByStatus();
   }
 
-  // changeIsActiveShop(reportId: number, status: string): void {
-  //   const report = this.listReport.find((item) => item.id === reportId);
-
-  //   if (!report) {
-  //     console.error(`Không tìm thấy báo cáo với ID: ${reportId}`);
-  //     return;
-  //   }
-
-  //   const data = {
-  //     hour: new Date().getHours(),
-  //     user_id: report.user_id,
-  //     permissions: ['can_create_content'],
-
-  //   };
-
-  //   console.log('ID:', report.user_id, 'Status:', status);
-  //   this.adminService.updateReportStatus( report.user_id, status ).subscribe(
-  //     (response) => {
-  //       console.log('Trạng thái đã được cập nhật:', response);
-  //     }
-  //   );
-
-  //   // console.log('Dữ liệu gửi khi Duyệt:', data);
-
-  //   this.adminService.createOrUpdatePunishment(data).subscribe(
-  //     (response) => {
-  //       console.log('Phản hồi API:', response);
-  //       report.status = status; // Cập nhật trạng thái báo cáo
-
-  //       this.filterReports(); // Lọc lại danh sách để áp dụng thay đổi
-  //       this.isDialogVisible = false; // Đóng dialog
-  //       this.cdr.detectChanges(); // Cập nhật giao diện
-  //     },
-  //     (error) => {
-  //       console.error('Lỗi khi gọi API:', error);
-  //     }
-  //   );
-  // }
 
   selectedPermissions: string[] = []; // Mảng lưu các giá trị đã chọn
 
@@ -133,16 +95,16 @@ export class ReportUserComponent {
       user_id: user_id,
       permissions: this.selectedPermissions, // Mảng permissions
     };
-    console.log(data);
+    // console.log(data);
       
       this.adminService.createOrUpdatePunishment(data).subscribe((response) => {
-        console.log(response);
+        // console.log(response);
 
         this.adminService.updateReportStatus(report_id, report_status).subscribe(
          
           (response) => {
             this.openDialog(0)
-            console.log('Trạng thái đã được cập nhật:', response);
+            // console.log('Trạng thái đã được cập nhật:', response);
           })
       });
   }
@@ -168,12 +130,12 @@ export class ReportUserComponent {
         ban_duration: banDuration,
       };
 
-      console.log('Dữ liệu gửi:', data);
+      // console.log('Dữ liệu gửi:', data);
 
       // Gửi yêu cầu API
       this.adminService.createOrUpdatePunishment(data).subscribe(
         (response) => {
-          console.log('Phản hồi API:', response);
+          // console.log('Phản hồi API:', response);
           report.status = 'banned'; // Cập nhật trạng thái báo cáo
           this.cdr.detectChanges(); // Cập nhật giao diện
         },
@@ -189,7 +151,7 @@ export class ReportUserComponent {
     // Gửi yêu cầu API để cập nhật trạng thái
     this.adminService.updateReportStatus(item.id, updatedStatus).subscribe(
       (response) => {
-        console.log('Trạng thái đã được cập nhật:', response);
+        // console.log('Trạng thái đã được cập nhật:', response);
 
         // Cập nhật trạng thái trên giao diện
         const report = this.listReport.find((report) => report.id === item.id);
@@ -226,7 +188,7 @@ export class ReportUserComponent {
   updateStatus(item: any): void {
     this.adminService.updateReportStatus(item.id, item.status).subscribe(
       (response) => {
-        console.log('Trạng thái đã được cập nhật:', response);
+        // console.log('Trạng thái đã được cập nhật:', response);
       },
       (error) => {
         console.error('Lỗi khi cập nhật trạng thái:', error);

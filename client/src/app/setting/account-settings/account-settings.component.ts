@@ -167,6 +167,7 @@ export class AccountSettingsComponent implements OnInit {
         this.authService.removeAuthToken();
         this.chatService.removeConversation();
         localStorage.removeItem('user_code');
+        localStorage.removeItem('sound');
 
         this.router.navigate(['/landing-page']);
       },
