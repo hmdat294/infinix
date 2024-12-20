@@ -73,7 +73,7 @@ class VoucherController extends Controller
     public function byShop(Request $request)
     {
         $shop = Shop::findOrFail($request->shop_id);
-        $vouchers = $shop->vouchers;
+        $vouchers = $shop->vouchers()->orderBy('created_at', 'desc')->get();
 
         return VoucherResource::collection($vouchers);
     }
