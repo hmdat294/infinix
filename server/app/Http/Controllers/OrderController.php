@@ -166,18 +166,24 @@ class OrderController extends Controller
         if ($request->has('status')) {
             $order->status = $request->status;
 
-            if ($request->status == 'cancelled') {
+            if ($request->status == 'canceled') {
                 $order_group = $order->group;
-                $is_all_cancelled = true;
+                $amount = $order->total;
+                $this->refund($request, $order_group->id, $amount);
+                $is_all_canceled = true;
                 foreach ($order_group->orders as $a_order) {
-                    if ($a_order->status != 'cancelled') {
-                        $is_all_cancelled = false;
+                    if ($a_order->status != 'canceled') {
+                        $is_all_canceled = false;
                         break;
                     }
                 }
 
-                if ($is_all_cancelled) {
-                    $order_group->payment_status = 'cancelled';
+                if ($is_all_canceled) {
+                    $order_group->payment_status = 'canceled';
+                    if ($order_group->payment_method == 'zalopay')
+                    {
+                        $order_group->payment_status = 'refunded';
+                    }
                     $order_group->save();
                 }
             }
@@ -186,14 +192,14 @@ class OrderController extends Controller
             $order->admin_paid = $request->admin_paid;
         }
         $order->save();
-        if ($request->status == 'cancelled') {
+        if ($request->status == 'canceled') {
             $order->products()->each(function ($product) {
                 $product->stock += $product->pivot->quantity;
                 $product->save();
             });
-            if ($order->order_group->payment_method == 'zalopay')
+            if ($order->group->payment_method == 'zalopay')
             {
-                $this->refund($request, $order->order_group_id);
+                $this->refund($request, $order->group);
             }
         }
 
@@ -210,10 +216,10 @@ class OrderController extends Controller
     public function cancel(Request $request, $id)
     {
         $order_group = OrderGroup::findOrFail($id);
-        $order_group->payment_status = 'cancelled';
+        $order_group->payment_status = 'canceled';
         $order_group->save();
 
-        $order_group->orders()->update(['status' => 'cancelled']);
+        $order_group->orders()->update(['status' => 'canceled']);
 
         $order_group->orders->each(function ($order) {
             $order->products()->each(function ($product) {
@@ -236,11 +242,11 @@ class OrderController extends Controller
     //     return response()->json($response);
     // }
 
-    public function refund(Request $request, $order_id)
+    public function refund(Request $request, $order_id, $amount = null)
     {
         $order_group = OrderGroup::find($order_id);
 
-        $response = $this->zalopayService->refund($order_group->external_order_id, "Hoàn tiền đơn hàng #$order_group->external_order_id");
+        $response = $amount == null ? $this->zalopayService->refund($order_group->external_order_id, "Hoàn tiền đơn hàng #$order_group->external_order_id") : $this->zalopayService->refund_with_amount($order_group->external_order_id, "Hoàn tiền đơn hàng #$order_group->external_order_id", $amount);
         if ($response['return_code'] == 1 || $response['return_code'] == 3) {
             $order_group->payment_status = 'refunded';
             $order_group->save();
