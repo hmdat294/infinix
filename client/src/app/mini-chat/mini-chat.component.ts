@@ -207,7 +207,7 @@ export class MiniChatComponent implements OnInit, AfterViewChecked {
     this.showBoxMiniChat = true;
     this.isScrollingToElement = false;
 
-    if (this.chat.id != conversation_id)
+    if (this.chat?.id != conversation_id)
       this.chat = this.filteredConversations.find((item: any) => item.id == conversation_id);
   }
 

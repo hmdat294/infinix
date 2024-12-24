@@ -54,11 +54,15 @@ export class CheckoutComponent implements OnInit {
         this.authService.getUser(0).subscribe(
           (data) => {
             this.currentUser = data.data;
-            console.log(this.currentUser);
-
           });
 
         this.cart = JSON.parse(decodeURIComponent(escape(atob(params['data']))));
+        this.cart.shops.forEach((shop: any) => {
+          shop.total = shop.products.reduce(
+            (sum: any, product: any) => sum + ((product.price - ((product.price * product.discount) / 100)) * product.pivot.quantity), 0
+          );
+        });
+
         console.log(this.cart);
 
         this.currentTotal = this.cart.total;
@@ -174,8 +178,21 @@ export class CheckoutComponent implements OnInit {
           });
         }
         else {
-          this.discount_voucher = (this.cart.total * voucher.discount) / 100;
-          this.discount_voucher = (this.discount_voucher > voucher.max_discount) ? voucher.max_discount : this.discount_voucher;
+          // this.discount_voucher = (this.cart.total * voucher.discount) / 100;
+          // this.discount_voucher = (this.discount_voucher > voucher.max_discount) ? voucher.max_discount : this.discount_voucher;
+
+          this.cart.shops = this.cart.shops.map((shop: any) => {
+            let voucher_discount_price = (shop.total * voucher.discount) / 100;
+            voucher_discount_price = (voucher_discount_price > voucher.max_discount) ? voucher.max_discount : voucher_discount_price;
+            return {
+              ...shop,
+              voucher_discount_price: (shop.shop_id == voucher.shop_id) ? voucher_discount_price : 0,
+            };
+          });
+
+          this.cart.shops.forEach((shop: any) => {
+            if (shop.voucher_discount_price) this.discount_voucher += shop.voucher_discount_price;
+          });
         }
 
         this.message_voucher = '';
