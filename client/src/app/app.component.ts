@@ -87,7 +87,9 @@ export class AppComponent implements OnInit {
             this.profile_photo = user.data.profile.profile_photo;
           });
 
-        this.peerService.userPeerId$.subscribe(id => this.userPeerId = id);
+        this.peerService.userPeerId$.subscribe(id => {
+          this.userPeerId = id
+        });
 
         this.peerService.peer.on('call', (call: any) => {
           this.isIncomingCall = true;

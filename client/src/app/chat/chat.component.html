@@ -50,10 +50,16 @@
                                     </p>
                                     <p *ngIf="friend?.messages.length > 0 && friend?.messages[friend.messages.length-1].is_recalled == 0"
                                         class="text-secondary text-caption w-fill">
-                                        <b
-                                            *ngIf="friend?.messages[friend.messages.length-1].user_id == user?.id">Bạn:</b>
-                                        {{shortenTextByWords(friend?.messages[friend.messages.length-1].content,
-                                        longText || 8)}}
+                                        <span *ngIf="friend?.messages[friend.messages.length-1].is_call == 0">
+                                            <b
+                                                *ngIf="friend?.messages[friend.messages.length-1].user_id == user?.id">Bạn:</b>
+                                            {{shortenTextByWords(friend?.messages[friend.messages.length-1].content,
+                                            longText || 8)}}
+                                        </span>
+                                        <span *ngIf="friend?.messages[friend.messages.length-1].is_call == 1">
+                                            <span *ngIf="friend?.messages[friend.messages.length-1].user_id == user?.id">Cuộc gọi thoại đi</span>
+                                            <span *ngIf="friend?.messages[friend.messages.length-1].user_id != user?.id">Cuộc gọi thoại đến</span>
+                                        </span>
                                     </p>
                                     <p *ngIf="friend?.messages.length > 0 && friend?.messages[friend.messages.length-1].is_recalled == 1"
                                         class="text-secondary text-caption w-fill">
@@ -594,7 +600,8 @@
                                         </p>
                                     </div>
                                     <div class="layout align-top-right" *ngIf="msg.is_recalled == 0">
-                                        <div *ngIf="msg.is_call == 0" [style]="(i == conversation.messages.length - 1 && i != 0) ? 'bottom: 20px;':''"
+                                        <div *ngIf="msg.is_call == 0"
+                                            [style]="(i == conversation.messages.length - 1 && i != 0) ? 'bottom: 20px;':''"
                                             class="mess-menu mess-menu-left layout-vertical mx-15 gap-5 p-5 acrylic-background-default blur-acrylic border border-card-default rounded-8">
                                             <div class="list-item layout-horizontal gap-10 align-center-left"
                                                 (click)="toggleDialogChat(msg.id)">
@@ -940,7 +947,8 @@
                                             </div>
                                         </div>
 
-                                        <div *ngIf="msg.is_call == 0" [style]="(i == conversation.messages.length - 1 && i != 0) ? 'bottom: 20px;':''"
+                                        <div *ngIf="msg.is_call == 0"
+                                            [style]="(i == conversation.messages.length - 1 && i != 0) ? 'bottom: 20px;':''"
                                             class="mess-menu mess-menu-right mx-15 layout-vertical mx-15 gap-5 p-5 acrylic-background-default blur-acrylic border border-card-default rounded-8">
                                             <div class="list-item layout-horizontal gap-10 align-center-left"
                                                 (click)="toggleDialogChat(msg.id)">

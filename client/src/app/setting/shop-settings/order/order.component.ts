@@ -7,10 +7,10 @@ import { SettingService } from '../../../service/setting.service';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-    selector: 'app-order',
-    imports: [CommonModule, CurrencyVNDPipe, FormsModule],
-    templateUrl: './order.component.html',
-    styleUrl: './order.component.css'
+  selector: 'app-order',
+  imports: [CommonModule, CurrencyVNDPipe, FormsModule],
+  templateUrl: './order.component.html',
+  styleUrl: './order.component.css'
 })
 export class OrderComponent implements OnInit {
 
@@ -115,8 +115,13 @@ export class OrderComponent implements OnInit {
   }
 
   filterOrderStatus(currentStatus: string) {
-    const currentIndex = this.orderStatusEntries.findIndex(status => status[0] === currentStatus);
-    return this.orderStatusEntries.slice(currentIndex);
+    let filteredStatus = [...this.orderStatusEntries];
+
+    if (currentStatus === 'delivered')
+      filteredStatus = filteredStatus.filter(status => status[0] !== 'canceled');
+
+    const currentIndex = filteredStatus.findIndex(status => status[0] === currentStatus);
+    return filteredStatus.slice(currentIndex);
   }
 
   updateStatusOrder(status: string, order_id: number) {

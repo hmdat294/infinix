@@ -61,7 +61,7 @@ export class PeerService {
     const peedId = localStorage.getItem('user_code');
     this.peer = new Peer(String(peedId));
 
-    // this.peer.on('open', id => this.userPeerId$.next(id));
+    this.peer.on('open', id => this.userPeerId$.next(id));
     this.peer.on('call', async (call: MediaConnection) => this.remoteStream$.next(null));
     this.peer.on('connection', (connection: DataConnection) => this.setupDataConnection(connection));
   }
@@ -206,6 +206,8 @@ export class PeerService {
   }
 
   async makeCall(remotePeerId: string, callOptions: any) {
+    console.log(remotePeerId);
+    
     const localStream = await this.getLocalStream();
 
     const call = this.peer.call(remotePeerId, localStream);

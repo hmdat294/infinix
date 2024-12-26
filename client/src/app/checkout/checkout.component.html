@@ -42,6 +42,20 @@
                                                     name="note" [(ngModel)]="shop.note" required
                                                     (input)="resizeTextarea($event)"></textarea>
                                             </div>
+                                            <div class="layout-horizontal align-center-space-between p-10">
+                                                <p class="text-body-strong w-fill-column-3 text-left">
+                                                    {{ 'checkout.total' | translate }}:</p>
+                                                <div class="layout-horizontal gap-5 align-center-right">
+                                                    <p class="text-caption text-right"
+                                                        *ngIf="shop.voucher_discount_price">
+                                                        - {{shop.voucher_discount_price | currencyVND}}
+                                                    </p>
+                                                    <p class="text-body-strong text-right">
+                                                        {{shop.total - (shop.voucher_discount_price || 0)
+                                                        | currencyVND}}
+                                                    </p>
+                                                </div>
+                                            </div>
                                         </div>
                                         <table class="h-hug table-product">
                                             <tr class="h-hug text-body-strong">

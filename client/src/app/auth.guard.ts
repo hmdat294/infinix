@@ -36,6 +36,7 @@ export class AuthGuard implements CanActivate {
               }
 
               this.is_reload = true;
+              localStorage.setItem('user_code', 'infinix-user-' + response.data.id);
 
               const isAdmin = this.authService.checkPermissions('can_access_dashboard', response.data.permissions);
 
