@@ -1,6 +1,14 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
+    # Chỉ cho phép các phương thức HTTP cụ thể
+    RewriteCond %{REQUEST_METHOD} ^(GET|POST|PUT|DELETE|OPTIONS|PATCH)$ [NC]
+    RewriteRule .* - [E=ALLOWED:1]
+
+    # Nếu không phải phương thức được cho phép, trả về lỗi 405 Method Not Allowed
+    RewriteCond %{ENV:ALLOWED} !=1
+    RewriteRule .* - [R=405,L]
+
     # Chuyển hướng tất cả các yêu cầu vào thư mục public/
     RewriteCond %{REQUEST_URI} !^/public/
     RewriteRule ^(.*)$ /public/$1 [L]

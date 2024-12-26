@@ -11,7 +11,6 @@ use App\Models\Product;
 use App\Models\User;
 use App\Models\Voucher;
 use App\Models\VoucherUser;
-use Illuminate\Support\Facades\Log;
 
 use App\Services\ZaloPayService;
 
@@ -29,7 +28,6 @@ class OrderController extends Controller
 
     public function index(Request $request)
     {
-        Log::info('index: ' . json_encode($request->all()));
         $order_groups = OrderGroup::where('user_id', $request->user()->id)->orderBy('created_at', 'desc')->get();
 
         return OrderGroupResource::collection($order_groups);
@@ -114,7 +112,7 @@ class OrderController extends Controller
             case 'zalopay':
                 return $this->create_zalopay_order($order_group->external_order_id, $order_group->total);
             default:
-                return response()->json(['order_url' => 'http://localhost:4200/store/?tab=tab_order', 'success' => true]);
+                return response()->json(['order_url' => 'https://infinix.rundev.click/store/?tab=tab_order', 'success' => true]);
         }
     }
 
@@ -131,13 +129,11 @@ class OrderController extends Controller
 
     public function callback(Request $request)
     {
-        Log::info('callback: ' . json_encode($request->all()));
         $data = json_decode($request->input('data'), true);
         $mac = $request->input('mac');
 
         // $calculatedMac = hash_hmac('sha256', json_encode($data), config('zalopay.key2'));
         // if ($mac !== $calculatedMac) {
-        //     Log::info('Invalid MAC');
         // }
 
         $external_order_id = explode('_', $data['app_trans_id'])[1];
@@ -146,7 +142,8 @@ class OrderController extends Controller
             return response()->json(['error' => 'Không tìm thấy đơn hàng'], 404);
         }
 
-        $order_group->update(['payment_status' => 'paid']);
+        $order_group->payment_status = 'paid';
+        $order_group->save();
 
         // $user = User::find($order_group->user_id);
 

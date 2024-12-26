@@ -49,7 +49,6 @@ class CartController extends Controller
         $product = ProductModel::find($product_id);
         $quantity = $request->input('quantity') ?? 1;
         $price = $request->input('price') ?? $product->price * (100 - $product->discount) / 100;
-        Log::info($price);
         $product = ProductModel::find($product_id);
 
         $old_quantity = $cart->products()->find($product_id)->pivot->quantity ?? 0;
@@ -94,7 +93,6 @@ class CartController extends Controller
         $product = ProductModel::find($product_id);
         $quantity = $request->input('quantity') ?? 1;
         $price = $request->input('price') ?? $product->price * (100 - $product->discount) / 100;
-        Log::info($price);
         $product = ProductModel::find($product_id);
 
         $cart->products()->syncWithoutDetaching([

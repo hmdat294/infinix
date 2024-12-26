@@ -11,7 +11,6 @@ use App\Models\User as UserModel;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use App\Events\UserConnectionEvent;
 use App\Http\Resources\PostResource;
-use Illuminate\Support\Facades\Log;
 use App\Http\Resources\ReportResource;
 use App\Events\UserBlockUserEvent;
 use App\Models\BlockedUser;
@@ -63,7 +62,6 @@ class UserController extends Controller
 
     public function update(Request $request)
     {
-        Log::info($request->all());
         $user = UserModel::find($request->user()->id);
         $user->update($request->only(['username', 'email', 'password', 'theme', 'language', 'phone_number', 'accept_stranger_message']));
         $user->profile->update($request->only(['display_name', 'biography', 'date_of_birth', 'address', 'gender']));
@@ -94,7 +92,6 @@ class UserController extends Controller
 
     public function updateOnlineStatus(Request $request)
     {
-        // Log::info($request->json()->all());
         
         $data = $request->json()->all();
 
@@ -110,7 +107,6 @@ class UserController extends Controller
     {
         $user = UserModel::find($request->user()->id);
         if (isset($user->bookmarks)) {
-            Log::info($user->bookmarks);
             return PostResource::collection($user->bookmarks);
         }
     }
@@ -188,28 +184,21 @@ class UserController extends Controller
     {
 
         $user = UserModel::find($request->user()->id);
-        Log::info("user_id: " . $user->id);
 
         $friends = $user->friendsOf->concat($request->user()->friendsOfMine);
-        Log::info("firends: " . $friends->pluck('id'));
 
         $friends_of_friend_ids = $friends->map(function ($friend) {
             return $friend->friendsOf->concat($friend->friendsOfMine);
         })->flatten()->pluck('id');
-        Log::info("friends_of_friend_ids: " . $friends_of_friend_ids);
 
         $friends_of_friend_ids = $friends_of_friend_ids->diff($friends->pluck('id'));
         $friends_of_friend_ids = $friends_of_friend_ids->diff([$user->id]);
-        Log::info("friends_of_friend_ids: " . $friends_of_friend_ids);
 
         $blocking_user_ids = $user->blockings->pluck('blocked_id');
-        Log::info("blocking_user_ids: " . $blocking_user_ids);
 
         $blocked_by_user_ids = $user->blockedBy->pluck('blocker_id');
-        Log::info("blocked_by_user_ids: " . $blocked_by_user_ids);
 
         $reporting_user_ids = $user->reportings->pluck('user_id');
-        Log::info("reporting_user_ids: " . $reporting_user_ids);
 
         $friend_suggestions = UserModel::
               whereIn('id', $friends_of_friend_ids)
@@ -225,6 +214,9 @@ class UserController extends Controller
                 whereNotIn('id', $friends->pluck('id'))
                 ->whereNotIn('id', $friend_suggestions->pluck('id'))
                 ->where('id', '<>', $user->id)
+                ->whereDoesntHave('permissions', function ($query) {
+                    $query->where('name', 'can_access_dashboard');
+                })
                 ->inRandomOrder()
                 ->limit(10 - $friend_suggestions->count())
                 ->get();
@@ -232,7 +224,6 @@ class UserController extends Controller
         
             
         $friend_suggestions = $friend_suggestions->get()->concat($more_friends);
-        Log::info("friend_suggestions: " . $friend_suggestions->pluck('id'));
         return UserResource::collection($friend_suggestions);
 
 

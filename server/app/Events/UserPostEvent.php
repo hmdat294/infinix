@@ -11,7 +11,6 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\User as UserModel;
-use Illuminate\Support\Facades\Log;
 use App\Models\Post as PostModel;
 
 use function Pest\Laravel\json;

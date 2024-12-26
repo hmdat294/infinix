@@ -10,7 +10,6 @@ use App\Models\Conversation as ConversationModel;
 use App\Models\User;
 use App\Events\UserRemoveConversationMemberEvent;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Support\Facades\Log;
 
 class ConversationController extends Controller
 {
@@ -97,7 +96,6 @@ class ConversationController extends Controller
 
     public function removeMember(Request $request)
     {
-        Log::info($request->all());
         $id = $request->input('conversation_id');
         $member_id = $request->input('user_id');
         $user_id = $request->user()->id;

@@ -7,7 +7,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use App\Models\Order;
 use App\Models\User;
 use App\Models\Review;
-use Illuminate\Support\Facades\Log;
 
 class ProductResource extends JsonResource
 {
@@ -33,13 +32,11 @@ class ProductResource extends JsonResource
             ->where('status', 'delivered')
             ->first();
 
-            Log::info('lastest order: ' . $latestOrder);
     
             $latestReview = Review::where('product_id', $this->id)
                 ->where('user_id', $user_id)
                 ->orderBy('created_at', 'desc')
                 ->first();
-            Log::info('lastest review: ' . $latestReview);
 
             if ($latestOrder)
             {

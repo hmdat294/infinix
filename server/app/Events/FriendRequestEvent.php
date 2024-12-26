@@ -12,7 +12,6 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\User as UserModel;
-use Illuminate\Support\Facades\Log;
 
 class FriendRequestEvent implements ShouldBroadcast
 {
@@ -47,7 +46,6 @@ class FriendRequestEvent implements ShouldBroadcast
 
     public function broadcastWith(): array
     {
-        Log::info('event id request:' . $this->id);
         return [
             'id' => $this->id,
             'sender' => new UserResource(UserModel::find($this->sender_id)),

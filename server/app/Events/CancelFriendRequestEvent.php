@@ -12,7 +12,6 @@ use Illuminate\Queue\SerializesModels;
 use App\Models\FriendRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User as UserModel;
-use Illuminate\Support\Facades\Log;
 
 class CancelFriendRequestEvent implements ShouldBroadcast
 {

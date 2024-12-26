@@ -11,8 +11,7 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use App\Models\User as UserModel;
-use Illuminate\Support\Facades\Log;
+use App\Models\User as UserModel; 
 
 class UserSendMessageEvent implements ShouldBroadcast
 {
@@ -48,7 +47,6 @@ class UserSendMessageEvent implements ShouldBroadcast
     public function broadcastWith()
     {
         $message = MessageModel::find($this->message_id);
-        Log::info("broadcasted");
         return [
             "data" => new MessageResource($message),
         ];

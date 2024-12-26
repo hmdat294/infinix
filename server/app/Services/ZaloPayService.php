@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Models\OrderGroup;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 
 use function Pest\Laravel\json;
 
@@ -20,7 +19,7 @@ class ZaloPayService
     public function create_order($external_order_id, $amount, $description)
     {
 
-        $embeddata = '{"redirecturl": "http://localhost:4200/store/?tab=tab_order"}';
+        $embeddata = '{"redirecturl": "https://infinix.rundev.click/store/?tab=tab_order"}';
 
         $order = [
             "app_id" => $this->config["app_id"],
