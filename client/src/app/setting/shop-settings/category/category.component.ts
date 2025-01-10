@@ -51,9 +51,28 @@ export class CategoryComponent implements OnInit {
   
   //category
   diaLogCreateCategory: boolean = false;
+  showCommitmentMessage: boolean = false;
   showDiaLogCreateCategory() {
     this.diaLogCreateCategory = !this.diaLogCreateCategory;
   }
+  // showDiaLogCreateCategory() {
+  //   console.log('Trạng thái showCommitmentMessage:', this.showCommitmentMessage);
+  //   if (!this.showCommitmentMessage) {
+  //     this.showCommitmentMessage = true;
+  //     console.log('Thông báo cam kết được mở');
+  //   } else {
+  //     this.diaLogCreateCategory = !this.diaLogCreateCategory;
+  //     this.showCommitmentMessage = false;
+  //     console.log('Dialog tạo danh mục được mở');
+  //   }
+  // }
+  
+
+  confirmCommitment() {
+    this.showCommitmentMessage = false;
+    this.diaLogCreateCategory = true; // Mở dialog tạo danh mục
+  }
+  
 
   name_category: string = '';
   createCategory() {

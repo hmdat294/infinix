@@ -127,8 +127,12 @@
                       <div
                         class="dialog-panel position-absolute top-50 start-50 translate-middle"
                       >
-                       
                      
+
+                    
+                      
+                      
+                      
                         <form>
                           <div
                             class="layout-vertical accept-sell rounded-8"
@@ -142,10 +146,11 @@
                               {{'admin.event.Confirm_registration'|translate}}
                             </div>
                         
-                            <!-- Nội dung hiển thị dựa trên trạng thái -->
+                          
                             <div *ngIf="item.is_active === '0'; else approvedText" class="text-primary">
                               {{'admin.event.Do_you_want_to_browse_this_page'|translate}}
                             </div>
+                            
                             <ng-template #approvedText>
                               <div class="text-primary">
                                 {{'admin.event.This_page_has_been_approved'|translate}}

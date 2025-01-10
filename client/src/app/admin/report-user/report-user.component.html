@@ -82,7 +82,9 @@
             </tr>
           </thead>
           <tbody>
+            
             <tr
+            
               *ngFor="
                 let item of filteredReports
                   | paginate : { itemsPerPage: 10, currentPage: currentPage };
@@ -166,7 +168,7 @@
                           {{'admin.report.Confirmation_of_accusation'|translate}}
                           </div>
 
-                          <input type="date" [(ngModel)]="date_punishment" name="date_punishment"/>
+                          <input type="date" [(ngModel)]="date_punishment" name="date_punishment"  [min]="minDate"/>
 
                           <div *ngFor="let permission of item.user.permissions">
                             <label>
@@ -175,7 +177,9 @@
                                 [value]="permission.name" 
                                 (change)="onCheckboxChange($event)"
                               />
-                              {{ permission.name }}
+                              <span>{{ 'admin.report.' + permission.name | translate }}</span>
+                            
+                              
                             </label>
                           </div>
                           
@@ -214,10 +218,7 @@
                     </div>
                   </div>
                 </div>
-                <!-- <a href="#" 
-                               class="button-subtle button-icon-only text-accent-default">
-                              <i class="icon-size-24 icon icon-ic_fluent_info_24_filled"></i>
-                            </a> -->
+                
               </td>
             </tr>
           </tbody>

@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+  import { Component, ElementRef, OnInit } from '@angular/core';
 import { AuthService } from '../../service/auth.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';

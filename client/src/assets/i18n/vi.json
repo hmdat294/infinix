@@ -47,6 +47,10 @@
             "search": "ID hoặc Tên"
         },
         "report": {
+            
+            "can_login":"Không thể đăng nhập",
+            "can_create_content":"không thể tạo nội dung",
+            "can_access_dashboard":"không thể truy cập bảng điều khiển",
             "Close": "Đóng",
             "No_Browse": " Không Duyệt",
             "Browse": "Duyệt",
@@ -64,6 +68,7 @@
             "comment_title": "Bình luận",
             "user_title": "Người dùng",
             "all": "Tất cả"
+            
         },
         "event": {
             "Store_description": "Mô tả cửa hàng",
@@ -92,7 +97,8 @@
             "reject": "Không duyệt",
             "clone": "Đóng",
             "shop_image": "Hình ảnh cửa hàng",
-            "shop_owner": "Chủ cửa hàng"
+            "shop_owner": "Chủ cửa hàng",
+            "all": "Tất cả"
         }
     },
     "bookmark": {

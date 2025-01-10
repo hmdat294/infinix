@@ -24,7 +24,8 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export class ReportUserComponent {
   tabAccordion: string = '';
-  reportService: any;
+  minDate: string;
+ 
   listReport: any[] = [];
   filteredReports: any[] = [];
   isDialogVisible: number = 0;
@@ -33,8 +34,13 @@ export class ReportUserComponent {
     private adminService: AdminService,
     private settingService: SettingService,
     private el: ElementRef,
-    private cdr: ChangeDetectorRef
-  ) {}
+    private cdr: ChangeDetectorRef,
+    
+    
+  ) {
+    const today = new Date();
+    this.minDate = today.toISOString().split('T')[0];
+  }
 
   ngOnInit(): void {
     this.adminService.getReports().subscribe(
@@ -114,7 +120,7 @@ export class ReportUserComponent {
   onBanDurationChange(event: Event, reportId: number): void {
     const checkbox = event.target as HTMLInputElement;
 
-    if (checkbox.checked) {
+    if (!checkbox.checked) {
       const banDuration = +checkbox.value; // Chuyển value sang số
 
       // Tìm báo cáo từ danh sách
