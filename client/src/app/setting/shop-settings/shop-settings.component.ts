@@ -44,6 +44,9 @@ export class ShopSettingsComponent implements OnInit {
   ward: string = '';
   detail: string = '';
 
+  isDialogOpen = false;
+  formData: any = null;
+
   constructor(
     private settingService: SettingService,
     private shopService: ShopService,
@@ -104,6 +107,26 @@ export class ShopSettingsComponent implements OnInit {
       }
     )
   }
+
+  openDialog() {
+    this.isDialogOpen = true;
+}
+
+closeDialog() {
+    this.isDialogOpen = false;
+}
+onFormSubmit(formData: any) {
+  // Lưu trữ dữ liệu form tạm thời và mở dialog
+  this.formData = formData;
+  this.openDialog();
+}
+confirmSubmit() {
+  // Xử lý khi người dùng đồng ý
+  console.log('Dữ liệu form:', this.formData);
+  this.createShop(this.formData);
+  this.closeDialog();
+}
+
 
 
   is_update_shop: boolean = true;
