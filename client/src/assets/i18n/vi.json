@@ -636,7 +636,8 @@
                 "delete_title": "Xóa cửa hàng",
                 "update_button": "Cập nhật",
                 "cancel_button": "Hủy",
-                "submit_delete": "Xóa"
+                "submit_delete": "Xóa",
+                "submit":"Xác nhận"
             },
             "statistic": {
                 "title": "Thống kê"
@@ -767,7 +768,8 @@
         "super_sale": "Giảm sâu",
         "price_reduction": "Giá giảm",
         "price_increase": "Giá tăng",
-        "all_category": "Tất cả danh mục"
+        "all_category": "Tất cả danh mục",
+        "submit":"Xác nhận"
     },
     "store": {
         "tab_product": "Cửa hàng",

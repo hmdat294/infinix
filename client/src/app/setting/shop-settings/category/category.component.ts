@@ -52,6 +52,7 @@ export class CategoryComponent implements OnInit {
   //category
   diaLogCreateCategory: boolean = false;
   showCommitmentMessage: boolean = false;
+  
   showDiaLogCreateCategory() {
     this.diaLogCreateCategory = !this.diaLogCreateCategory;
   }
